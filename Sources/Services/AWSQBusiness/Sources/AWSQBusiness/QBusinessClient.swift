@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -71,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class QBusinessClient: ClientRuntime.Client {
     public static let clientName = "QBusinessClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: QBusinessClient.QBusinessClientConfiguration
     let serviceName = "QBusiness"
@@ -377,9 +378,9 @@ extension QBusinessClient {
     ///
     /// Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources.
     ///
-    /// - Parameter AssociatePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociatePermissionInput`)
     ///
-    /// - Returns: `AssociatePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociatePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,6 +420,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociatePermissionInput, AssociatePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociatePermissionOutput>(AssociatePermissionOutput.httpOutput(from:), AssociatePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociatePermissionInput, AssociatePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociatePermissionOutput>())
@@ -450,9 +452,9 @@ extension QBusinessClient {
     ///
     /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
     ///
-    /// - Parameter BatchDeleteDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteDocumentInput`)
     ///
-    /// - Returns: `BatchDeleteDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,6 +493,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteDocumentOutput>(BatchDeleteDocumentOutput.httpOutput(from:), BatchDeleteDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteDocumentInput, BatchDeleteDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteDocumentOutput>())
@@ -531,9 +534,9 @@ extension QBusinessClient {
     ///
     /// You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
     ///
-    /// - Parameter BatchPutDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutDocumentInput`)
     ///
-    /// - Returns: `BatchPutDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -573,6 +576,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutDocumentOutput>(BatchPutDocumentOutput.httpOutput(from:), BatchPutDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutDocumentInput, BatchPutDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutDocumentOutput>())
@@ -604,9 +608,9 @@ extension QBusinessClient {
     ///
     /// Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month.
     ///
-    /// - Parameter CancelSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSubscriptionInput`)
     ///
-    /// - Returns: `CancelSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,6 +645,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelSubscriptionInput, CancelSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSubscriptionOutput>(CancelSubscriptionOutput.httpOutput(from:), CancelSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSubscriptionInput, CancelSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSubscriptionOutput>())
@@ -672,9 +677,9 @@ extension QBusinessClient {
     ///
     /// Starts or continues a streaming Amazon Q Business conversation.
     ///
-    /// - Parameter ChatInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ChatInput`)
     ///
-    /// - Returns: `ChatOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ChatOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -718,6 +723,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChatInput, ChatOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChatOutput>(ChatOutput.httpOutput(from:), ChatOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChatInput, ChatOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChatOutput>())
@@ -749,9 +755,9 @@ extension QBusinessClient {
     ///
     /// Starts or continues a non-streaming Amazon Q Business conversation.
     ///
-    /// - Parameter ChatSyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ChatSyncInput`)
     ///
-    /// - Returns: `ChatSyncOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ChatSyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -794,6 +800,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChatSyncInput, ChatSyncOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChatSyncOutput>(ChatSyncOutput.httpOutput(from:), ChatSyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChatSyncInput, ChatSyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChatSyncOutput>())
@@ -825,9 +832,9 @@ extension QBusinessClient {
     ///
     /// Verifies if a user has access permissions for a specified document and returns the actual ACL attached to the document. Resolves user access on the document via user aliases and groups when verifying user access.
     ///
-    /// - Parameter CheckDocumentAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckDocumentAccessInput`)
     ///
-    /// - Returns: `CheckDocumentAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckDocumentAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,6 +870,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CheckDocumentAccessInput, CheckDocumentAccessOutput>(CheckDocumentAccessInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckDocumentAccessOutput>(CheckDocumentAccessOutput.httpOutput(from:), CheckDocumentAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckDocumentAccessInput, CheckDocumentAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckDocumentAccessOutput>())
@@ -894,9 +902,9 @@ extension QBusinessClient {
     ///
     /// Creates a unique URL for anonymous Amazon Q Business web experience. This URL can only be used once and must be used within 5 minutes after it's generated.
     ///
-    /// - Parameter CreateAnonymousWebExperienceUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnonymousWebExperienceUrlInput`)
     ///
-    /// - Returns: `CreateAnonymousWebExperienceUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnonymousWebExperienceUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -935,6 +943,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnonymousWebExperienceUrlInput, CreateAnonymousWebExperienceUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnonymousWebExperienceUrlOutput>(CreateAnonymousWebExperienceUrlOutput.httpOutput(from:), CreateAnonymousWebExperienceUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnonymousWebExperienceUrlInput, CreateAnonymousWebExperienceUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnonymousWebExperienceUrlOutput>())
@@ -966,9 +975,9 @@ extension QBusinessClient {
     ///
     /// Creates an Amazon Q Business application. There are new tiers for Amazon Q Business. Not all features in Amazon Q Business Pro are also available in Amazon Q Business Lite. For information on what's included in Amazon Q Business Lite and what's included in Amazon Q Business Pro, see [Amazon Q Business tiers](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/tiers.html#user-sub-tiers). You must use the Amazon Q Business console to assign subscription tiers to users. An Amazon Q Apps service linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see [ Using service-linked roles for Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html). When you create an application, Amazon Q Business may securely transmit data for processing from your selected Amazon Web Services region, but within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1009,6 +1018,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -1040,9 +1050,9 @@ extension QBusinessClient {
     ///
     /// Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions.
     ///
-    /// - Parameter CreateChatResponseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChatResponseConfigurationInput`)
     ///
-    /// - Returns: `CreateChatResponseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChatResponseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1083,6 +1093,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChatResponseConfigurationInput, CreateChatResponseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChatResponseConfigurationOutput>(CreateChatResponseConfigurationOutput.httpOutput(from:), CreateChatResponseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChatResponseConfigurationInput, CreateChatResponseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChatResponseConfigurationOutput>())
@@ -1114,9 +1125,9 @@ extension QBusinessClient {
     ///
     /// Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's identity and authentication for accessing the Amazon Q Business application.
     ///
-    /// - Parameter CreateDataAccessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataAccessorInput`)
     ///
-    /// - Returns: `CreateDataAccessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataAccessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1157,6 +1168,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataAccessorInput, CreateDataAccessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataAccessorOutput>(CreateDataAccessorOutput.httpOutput(from:), CreateDataAccessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataAccessorInput, CreateDataAccessorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataAccessorOutput>())
@@ -1188,9 +1200,9 @@ extension QBusinessClient {
     ///
     /// Creates a data source connector for an Amazon Q Business application. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
     ///
-    /// - Parameter CreateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSourceInput`)
     ///
-    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1231,6 +1243,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataSourceOutput>(CreateDataSourceOutput.httpOutput(from:), CreateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataSourceOutput>())
@@ -1262,9 +1275,9 @@ extension QBusinessClient {
     ///
     /// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the [BatchPutDocument](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html) API or the [CreateDataSource](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html) API.
     ///
-    /// - Parameter CreateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIndexInput`)
     ///
-    /// - Returns: `CreateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,6 +1318,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIndexInput, CreateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIndexOutput>(CreateIndexOutput.httpOutput(from:), CreateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIndexInput, CreateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIndexOutput>())
@@ -1336,9 +1350,9 @@ extension QBusinessClient {
     ///
     /// Creates an Amazon Q Business plugin.
     ///
-    /// - Parameter CreatePluginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePluginInput`)
     ///
-    /// - Returns: `CreatePluginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePluginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,6 +1393,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePluginInput, CreatePluginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePluginOutput>(CreatePluginOutput.httpOutput(from:), CreatePluginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePluginInput, CreatePluginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePluginOutput>())
@@ -1410,9 +1425,9 @@ extension QBusinessClient {
     ///
     /// Adds a retriever to your Amazon Q Business application.
     ///
-    /// - Parameter CreateRetrieverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRetrieverInput`)
     ///
-    /// - Returns: `CreateRetrieverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRetrieverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1453,6 +1468,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRetrieverInput, CreateRetrieverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRetrieverOutput>(CreateRetrieverOutput.httpOutput(from:), CreateRetrieverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRetrieverInput, CreateRetrieverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRetrieverOutput>())
@@ -1484,9 +1500,9 @@ extension QBusinessClient {
     ///
     /// Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application. Amazon Q Business offers two subscription tiers: Q_LITE and Q_BUSINESS. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see [Amazon Q Business pricing](https://aws.amazon.com/q/business/pricing/). For an example IAM role policy for assigning subscriptions, see [Set up required permissions](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/setting-up.html#permissions) in the Amazon Q Business User Guide.
     ///
-    /// - Parameter CreateSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriptionInput`)
     ///
-    /// - Returns: `CreateSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1526,6 +1542,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubscriptionInput, CreateSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubscriptionOutput>(CreateSubscriptionOutput.httpOutput(from:), CreateSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubscriptionInput, CreateSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubscriptionOutput>())
@@ -1557,9 +1574,9 @@ extension QBusinessClient {
     ///
     /// Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application.
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1600,6 +1617,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -1631,9 +1649,9 @@ extension QBusinessClient {
     ///
     /// Creates an Amazon Q Business web experience.
     ///
-    /// - Parameter CreateWebExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWebExperienceInput`)
     ///
-    /// - Returns: `CreateWebExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWebExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1674,6 +1692,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWebExperienceInput, CreateWebExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWebExperienceOutput>(CreateWebExperienceOutput.httpOutput(from:), CreateWebExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWebExperienceInput, CreateWebExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWebExperienceOutput>())
@@ -1705,9 +1724,9 @@ extension QBusinessClient {
     ///
     /// Deletes an Amazon Q Business application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1743,6 +1762,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -1774,9 +1794,9 @@ extension QBusinessClient {
     ///
     /// Deletes an attachment associated with a specific Amazon Q Business conversation.
     ///
-    /// - Parameter DeleteAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAttachmentInput`)
     ///
-    /// - Returns: `DeleteAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1813,6 +1833,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>(DeleteAttachmentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttachmentOutput>(DeleteAttachmentOutput.httpOutput(from:), DeleteAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttachmentOutput>())
@@ -1844,9 +1865,9 @@ extension QBusinessClient {
     ///
     /// Deletes chat controls configured for an existing Amazon Q Business application.
     ///
-    /// - Parameter DeleteChatControlsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChatControlsConfigurationInput`)
     ///
-    /// - Returns: `DeleteChatControlsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChatControlsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1881,6 +1902,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChatControlsConfigurationInput, DeleteChatControlsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChatControlsConfigurationOutput>(DeleteChatControlsConfigurationOutput.httpOutput(from:), DeleteChatControlsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChatControlsConfigurationInput, DeleteChatControlsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChatControlsConfigurationOutput>())
@@ -1912,9 +1934,9 @@ extension QBusinessClient {
     ///
     /// Deletes a specified chat response configuration from an Amazon Q Business application.
     ///
-    /// - Parameter DeleteChatResponseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChatResponseConfigurationInput`)
     ///
-    /// - Returns: `DeleteChatResponseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChatResponseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1950,6 +1972,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChatResponseConfigurationInput, DeleteChatResponseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChatResponseConfigurationOutput>(DeleteChatResponseConfigurationOutput.httpOutput(from:), DeleteChatResponseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChatResponseConfigurationInput, DeleteChatResponseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChatResponseConfigurationOutput>())
@@ -1981,9 +2004,9 @@ extension QBusinessClient {
     ///
     /// Deletes an Amazon Q Business web experience conversation.
     ///
-    /// - Parameter DeleteConversationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConversationInput`)
     ///
-    /// - Returns: `DeleteConversationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConversationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,6 +2044,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteConversationInput, DeleteConversationOutput>(DeleteConversationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConversationOutput>(DeleteConversationOutput.httpOutput(from:), DeleteConversationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConversationInput, DeleteConversationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConversationOutput>())
@@ -2052,9 +2076,9 @@ extension QBusinessClient {
     ///
     /// Deletes a specified data accessor. This operation permanently removes the data accessor and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked.
     ///
-    /// - Parameter DeleteDataAccessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataAccessorInput`)
     ///
-    /// - Returns: `DeleteDataAccessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataAccessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2090,6 +2114,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataAccessorInput, DeleteDataAccessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataAccessorOutput>(DeleteDataAccessorOutput.httpOutput(from:), DeleteDataAccessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataAccessorInput, DeleteDataAccessorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataAccessorOutput>())
@@ -2121,9 +2146,9 @@ extension QBusinessClient {
     ///
     /// Deletes an Amazon Q Business data source connector. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING.
     ///
-    /// - Parameter DeleteDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSourceInput`)
     ///
-    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2159,6 +2184,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutput>(DeleteDataSourceOutput.httpOutput(from:), DeleteDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSourceOutput>())
@@ -2190,9 +2216,9 @@ extension QBusinessClient {
     ///
     /// Deletes a group so that all users and sub groups that belong to the group can no longer access documents only available to that group. For example, after deleting the group "Summer Interns", all interns who belonged to that group no longer see intern-only documents in their chat results. If you want to delete, update, or replace users or sub groups of a group, you need to use the PutGroup operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling PutGroup.
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2229,6 +2255,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteGroupInput, DeleteGroupOutput>(DeleteGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -2260,9 +2287,9 @@ extension QBusinessClient {
     ///
     /// Deletes an Amazon Q Business index.
     ///
-    /// - Parameter DeleteIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIndexInput`)
     ///
-    /// - Returns: `DeleteIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2298,6 +2325,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIndexInput, DeleteIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIndexOutput>(DeleteIndexOutput.httpOutput(from:), DeleteIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIndexInput, DeleteIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIndexOutput>())
@@ -2329,9 +2357,9 @@ extension QBusinessClient {
     ///
     /// Deletes an Amazon Q Business plugin.
     ///
-    /// - Parameter DeletePluginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePluginInput`)
     ///
-    /// - Returns: `DeletePluginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePluginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2367,6 +2395,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePluginInput, DeletePluginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePluginOutput>(DeletePluginOutput.httpOutput(from:), DeletePluginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePluginInput, DeletePluginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePluginOutput>())
@@ -2398,9 +2427,9 @@ extension QBusinessClient {
     ///
     /// Deletes the retriever used by an Amazon Q Business application.
     ///
-    /// - Parameter DeleteRetrieverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRetrieverInput`)
     ///
-    /// - Returns: `DeleteRetrieverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRetrieverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2436,6 +2465,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRetrieverInput, DeleteRetrieverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRetrieverOutput>(DeleteRetrieverOutput.httpOutput(from:), DeleteRetrieverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRetrieverInput, DeleteRetrieverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetrieverOutput>())
@@ -2467,9 +2497,9 @@ extension QBusinessClient {
     ///
     /// Deletes a user by email id.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2505,6 +2535,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -2536,9 +2567,9 @@ extension QBusinessClient {
     ///
     /// Deletes an Amazon Q Business web experience.
     ///
-    /// - Parameter DeleteWebExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebExperienceInput`)
     ///
-    /// - Returns: `DeleteWebExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2574,6 +2605,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWebExperienceInput, DeleteWebExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebExperienceOutput>(DeleteWebExperienceOutput.httpOutput(from:), DeleteWebExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebExperienceInput, DeleteWebExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebExperienceOutput>())
@@ -2605,9 +2637,9 @@ extension QBusinessClient {
     ///
     /// Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
     ///
-    /// - Parameter DisassociatePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociatePermissionInput`)
     ///
-    /// - Returns: `DisassociatePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociatePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2643,6 +2675,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociatePermissionInput, DisassociatePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociatePermissionOutput>(DisassociatePermissionOutput.httpOutput(from:), DisassociatePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociatePermissionInput, DisassociatePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociatePermissionOutput>())
@@ -2674,9 +2707,9 @@ extension QBusinessClient {
     ///
     /// Gets information about an existing Amazon Q Business application.
     ///
-    /// - Parameter GetApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApplicationInput`)
     ///
-    /// - Returns: `GetApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2711,6 +2744,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApplicationInput, GetApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApplicationOutput>(GetApplicationOutput.httpOutput(from:), GetApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApplicationInput, GetApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApplicationOutput>())
@@ -2742,9 +2776,9 @@ extension QBusinessClient {
     ///
     /// Gets information about chat controls configured for an existing Amazon Q Business application.
     ///
-    /// - Parameter GetChatControlsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChatControlsConfigurationInput`)
     ///
-    /// - Returns: `GetChatControlsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChatControlsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2780,6 +2814,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetChatControlsConfigurationInput, GetChatControlsConfigurationOutput>(GetChatControlsConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChatControlsConfigurationOutput>(GetChatControlsConfigurationOutput.httpOutput(from:), GetChatControlsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChatControlsConfigurationInput, GetChatControlsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChatControlsConfigurationOutput>())
@@ -2811,9 +2846,9 @@ extension QBusinessClient {
     ///
     /// Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata.
     ///
-    /// - Parameter GetChatResponseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChatResponseConfigurationInput`)
     ///
-    /// - Returns: `GetChatResponseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChatResponseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2848,6 +2883,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChatResponseConfigurationInput, GetChatResponseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChatResponseConfigurationOutput>(GetChatResponseConfigurationOutput.httpOutput(from:), GetChatResponseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChatResponseConfigurationInput, GetChatResponseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChatResponseConfigurationOutput>())
@@ -2879,9 +2915,9 @@ extension QBusinessClient {
     ///
     /// Retrieves information about a specified data accessor. This operation returns details about the data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the action configurations, and the timestamps for when the data accessor was created and last updated.
     ///
-    /// - Parameter GetDataAccessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataAccessorInput`)
     ///
-    /// - Returns: `GetDataAccessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataAccessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2916,6 +2952,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataAccessorInput, GetDataAccessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataAccessorOutput>(GetDataAccessorOutput.httpOutput(from:), GetDataAccessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataAccessorInput, GetDataAccessorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataAccessorOutput>())
@@ -2947,9 +2984,9 @@ extension QBusinessClient {
     ///
     /// Gets information about an existing Amazon Q Business data source connector.
     ///
-    /// - Parameter GetDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSourceInput`)
     ///
-    /// - Returns: `GetDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2984,6 +3021,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataSourceInput, GetDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataSourceOutput>(GetDataSourceOutput.httpOutput(from:), GetDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataSourceInput, GetDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataSourceOutput>())
@@ -3015,9 +3053,9 @@ extension QBusinessClient {
     ///
     /// Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL.
     ///
-    /// - Parameter GetDocumentContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentContentInput`)
     ///
-    /// - Returns: `GetDocumentContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3053,6 +3091,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDocumentContentInput, GetDocumentContentOutput>(GetDocumentContentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentContentOutput>(GetDocumentContentOutput.httpOutput(from:), GetDocumentContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentContentInput, GetDocumentContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentContentOutput>())
@@ -3084,9 +3123,9 @@ extension QBusinessClient {
     ///
     /// Describes a group by group name.
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3123,6 +3162,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetGroupInput, GetGroupOutput>(GetGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupOutput>(GetGroupOutput.httpOutput(from:), GetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupInput, GetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupOutput>())
@@ -3154,9 +3194,9 @@ extension QBusinessClient {
     ///
     /// Gets information about an existing Amazon Q Business index.
     ///
-    /// - Parameter GetIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIndexInput`)
     ///
-    /// - Returns: `GetIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3191,6 +3231,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIndexInput, GetIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIndexOutput>(GetIndexOutput.httpOutput(from:), GetIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIndexInput, GetIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIndexOutput>())
@@ -3222,9 +3263,9 @@ extension QBusinessClient {
     ///
     /// Returns the image bytes corresponding to a media object. If you have implemented your own application with the Chat and ChatSync APIs, and have enabled content extraction from visual data in Amazon Q Business, you use the GetMedia API operation to download the images so you can show them in your UI with responses. For more information, see [Extracting semantic meaning from images and visuals](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/extracting-meaning-from-images.html).
     ///
-    /// - Parameter GetMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaInput`)
     ///
-    /// - Returns: `GetMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3261,6 +3302,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMediaInput, GetMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMediaOutput>(GetMediaOutput.httpOutput(from:), GetMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMediaInput, GetMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMediaOutput>())
@@ -3292,9 +3334,9 @@ extension QBusinessClient {
     ///
     /// Gets information about an existing Amazon Q Business plugin.
     ///
-    /// - Parameter GetPluginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPluginInput`)
     ///
-    /// - Returns: `GetPluginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPluginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3329,6 +3371,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPluginInput, GetPluginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPluginOutput>(GetPluginOutput.httpOutput(from:), GetPluginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPluginInput, GetPluginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPluginOutput>())
@@ -3360,9 +3403,9 @@ extension QBusinessClient {
     ///
     /// Retrieves the current permission policy for a Amazon Q Business application. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3397,6 +3440,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(GetPolicyOutput.httpOutput(from:), GetPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
@@ -3428,9 +3472,9 @@ extension QBusinessClient {
     ///
     /// Gets information about an existing retriever used by an Amazon Q Business application.
     ///
-    /// - Parameter GetRetrieverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRetrieverInput`)
     ///
-    /// - Returns: `GetRetrieverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRetrieverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3465,6 +3509,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRetrieverInput, GetRetrieverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRetrieverOutput>(GetRetrieverOutput.httpOutput(from:), GetRetrieverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRetrieverInput, GetRetrieverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRetrieverOutput>())
@@ -3496,9 +3541,9 @@ extension QBusinessClient {
     ///
     /// Describes the universally unique identifier (UUID) associated with a local user in a data source.
     ///
-    /// - Parameter GetUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserInput`)
     ///
-    /// - Returns: `GetUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3534,6 +3579,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserOutput>(GetUserOutput.httpOutput(from:), GetUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserInput, GetUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserOutput>())
@@ -3565,9 +3611,9 @@ extension QBusinessClient {
     ///
     /// Gets information about an existing Amazon Q Business web experience.
     ///
-    /// - Parameter GetWebExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWebExperienceInput`)
     ///
-    /// - Returns: `GetWebExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWebExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3602,6 +3648,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWebExperienceInput, GetWebExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWebExperienceOutput>(GetWebExperienceOutput.httpOutput(from:), GetWebExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWebExperienceInput, GetWebExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWebExperienceOutput>())
@@ -3633,9 +3680,9 @@ extension QBusinessClient {
     ///
     /// Lists Amazon Q Business applications. Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html).
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3670,6 +3717,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationsInput, ListApplicationsOutput>(ListApplicationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -3701,9 +3749,9 @@ extension QBusinessClient {
     ///
     /// Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation.
     ///
-    /// - Parameter ListAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachmentsInput`)
     ///
-    /// - Returns: `ListAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3740,6 +3788,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(ListAttachmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachmentsOutput>(ListAttachmentsOutput.httpOutput(from:), ListAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachmentsOutput>())
@@ -3771,9 +3820,9 @@ extension QBusinessClient {
     ///
     /// Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings.
     ///
-    /// - Parameter ListChatResponseConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChatResponseConfigurationsInput`)
     ///
-    /// - Returns: `ListChatResponseConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChatResponseConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3809,6 +3858,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChatResponseConfigurationsInput, ListChatResponseConfigurationsOutput>(ListChatResponseConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChatResponseConfigurationsOutput>(ListChatResponseConfigurationsOutput.httpOutput(from:), ListChatResponseConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChatResponseConfigurationsInput, ListChatResponseConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChatResponseConfigurationsOutput>())
@@ -3840,9 +3890,9 @@ extension QBusinessClient {
     ///
     /// Lists one or more Amazon Q Business conversations.
     ///
-    /// - Parameter ListConversationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConversationsInput`)
     ///
-    /// - Returns: `ListConversationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConversationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3879,6 +3929,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConversationsInput, ListConversationsOutput>(ListConversationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConversationsOutput>(ListConversationsOutput.httpOutput(from:), ListConversationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConversationsInput, ListConversationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConversationsOutput>())
@@ -3910,9 +3961,9 @@ extension QBusinessClient {
     ///
     /// Lists the data accessors for a Amazon Q Business application. This operation returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor.
     ///
-    /// - Parameter ListDataAccessorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataAccessorsInput`)
     ///
-    /// - Returns: `ListDataAccessorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataAccessorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3948,6 +3999,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataAccessorsInput, ListDataAccessorsOutput>(ListDataAccessorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataAccessorsOutput>(ListDataAccessorsOutput.httpOutput(from:), ListDataAccessorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataAccessorsInput, ListDataAccessorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataAccessorsOutput>())
@@ -3979,9 +4031,9 @@ extension QBusinessClient {
     ///
     /// Get information about an Amazon Q Business data source connector synchronization.
     ///
-    /// - Parameter ListDataSourceSyncJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourceSyncJobsInput`)
     ///
-    /// - Returns: `ListDataSourceSyncJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourceSyncJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4018,6 +4070,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(ListDataSourceSyncJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourceSyncJobsOutput>(ListDataSourceSyncJobsOutput.httpOutput(from:), ListDataSourceSyncJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourceSyncJobsInput, ListDataSourceSyncJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourceSyncJobsOutput>())
@@ -4049,9 +4102,9 @@ extension QBusinessClient {
     ///
     /// Lists the Amazon Q Business data source connectors that you have created.
     ///
-    /// - Parameter ListDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourcesInput`)
     ///
-    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4087,6 +4140,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(ListDataSourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourcesOutput>(ListDataSourcesOutput.httpOutput(from:), ListDataSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourcesOutput>())
@@ -4118,9 +4172,9 @@ extension QBusinessClient {
     ///
     /// A list of documents attached to an index.
     ///
-    /// - Parameter ListDocumentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDocumentsInput`)
     ///
-    /// - Returns: `ListDocumentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDocumentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4156,6 +4210,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDocumentsInput, ListDocumentsOutput>(ListDocumentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDocumentsOutput>(ListDocumentsOutput.httpOutput(from:), ListDocumentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentsInput, ListDocumentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentsOutput>())
@@ -4187,9 +4242,9 @@ extension QBusinessClient {
     ///
     /// Provides a list of groups that are mapped to users.
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4226,6 +4281,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGroupsInput, ListGroupsOutput>(ListGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -4257,9 +4313,9 @@ extension QBusinessClient {
     ///
     /// Lists the Amazon Q Business indices you have created.
     ///
-    /// - Parameter ListIndicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIndicesInput`)
     ///
-    /// - Returns: `ListIndicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIndicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4295,6 +4351,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIndicesInput, ListIndicesOutput>(ListIndicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIndicesOutput>(ListIndicesOutput.httpOutput(from:), ListIndicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIndicesInput, ListIndicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIndicesOutput>())
@@ -4326,9 +4383,9 @@ extension QBusinessClient {
     ///
     /// Gets a list of messages associated with an Amazon Q Business web experience.
     ///
-    /// - Parameter ListMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMessagesInput`)
     ///
-    /// - Returns: `ListMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4365,6 +4422,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMessagesInput, ListMessagesOutput>(ListMessagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMessagesOutput>(ListMessagesOutput.httpOutput(from:), ListMessagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMessagesInput, ListMessagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMessagesOutput>())
@@ -4396,9 +4454,9 @@ extension QBusinessClient {
     ///
     /// Lists configured Amazon Q Business actions for a specific plugin in an Amazon Q Business application.
     ///
-    /// - Parameter ListPluginActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPluginActionsInput`)
     ///
-    /// - Returns: `ListPluginActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPluginActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4434,6 +4492,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPluginActionsInput, ListPluginActionsOutput>(ListPluginActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPluginActionsOutput>(ListPluginActionsOutput.httpOutput(from:), ListPluginActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPluginActionsInput, ListPluginActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPluginActionsOutput>())
@@ -4465,9 +4524,9 @@ extension QBusinessClient {
     ///
     /// Lists configured Amazon Q Business actions for any plugin type—both built-in and custom.
     ///
-    /// - Parameter ListPluginTypeActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPluginTypeActionsInput`)
     ///
-    /// - Returns: `ListPluginTypeActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPluginTypeActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4502,6 +4561,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPluginTypeActionsInput, ListPluginTypeActionsOutput>(ListPluginTypeActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPluginTypeActionsOutput>(ListPluginTypeActionsOutput.httpOutput(from:), ListPluginTypeActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPluginTypeActionsInput, ListPluginTypeActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPluginTypeActionsOutput>())
@@ -4533,9 +4593,9 @@ extension QBusinessClient {
     ///
     /// Lists metadata for all Amazon Q Business plugin types.
     ///
-    /// - Parameter ListPluginTypeMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPluginTypeMetadataInput`)
     ///
-    /// - Returns: `ListPluginTypeMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPluginTypeMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4570,6 +4630,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPluginTypeMetadataInput, ListPluginTypeMetadataOutput>(ListPluginTypeMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPluginTypeMetadataOutput>(ListPluginTypeMetadataOutput.httpOutput(from:), ListPluginTypeMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPluginTypeMetadataInput, ListPluginTypeMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPluginTypeMetadataOutput>())
@@ -4601,9 +4662,9 @@ extension QBusinessClient {
     ///
     /// Lists configured Amazon Q Business plugins.
     ///
-    /// - Parameter ListPluginsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPluginsInput`)
     ///
-    /// - Returns: `ListPluginsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPluginsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4639,6 +4700,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPluginsInput, ListPluginsOutput>(ListPluginsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPluginsOutput>(ListPluginsOutput.httpOutput(from:), ListPluginsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPluginsInput, ListPluginsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPluginsOutput>())
@@ -4670,9 +4732,9 @@ extension QBusinessClient {
     ///
     /// Lists the retriever used by an Amazon Q Business application.
     ///
-    /// - Parameter ListRetrieversInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRetrieversInput`)
     ///
-    /// - Returns: `ListRetrieversOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRetrieversOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4708,6 +4770,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRetrieversInput, ListRetrieversOutput>(ListRetrieversInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRetrieversOutput>(ListRetrieversOutput.httpOutput(from:), ListRetrieversOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRetrieversInput, ListRetrieversOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRetrieversOutput>())
@@ -4739,9 +4802,9 @@ extension QBusinessClient {
     ///
     /// Lists all subscriptions created in an Amazon Q Business application.
     ///
-    /// - Parameter ListSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionsInput`)
     ///
-    /// - Returns: `ListSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4778,6 +4841,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubscriptionsInput, ListSubscriptionsOutput>(ListSubscriptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscriptionsOutput>(ListSubscriptionsOutput.httpOutput(from:), ListSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscriptionsInput, ListSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubscriptionsOutput>())
@@ -4809,9 +4873,9 @@ extension QBusinessClient {
     ///
     /// Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4846,6 +4910,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4877,9 +4942,9 @@ extension QBusinessClient {
     ///
     /// Lists one or more Amazon Q Business Web Experiences.
     ///
-    /// - Parameter ListWebExperiencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWebExperiencesInput`)
     ///
-    /// - Returns: `ListWebExperiencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWebExperiencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4915,6 +4980,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWebExperiencesInput, ListWebExperiencesOutput>(ListWebExperiencesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWebExperiencesOutput>(ListWebExperiencesOutput.httpOutput(from:), ListWebExperiencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebExperiencesInput, ListWebExperiencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWebExperiencesOutput>())
@@ -4946,9 +5012,9 @@ extension QBusinessClient {
     ///
     /// Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
     ///
-    /// - Parameter PutFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFeedbackInput`)
     ///
-    /// - Returns: `PutFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4987,6 +5053,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFeedbackInput, PutFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFeedbackOutput>(PutFeedbackOutput.httpOutput(from:), PutFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFeedbackInput, PutFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFeedbackOutput>())
@@ -5018,9 +5085,9 @@ extension QBusinessClient {
     ///
     /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results. There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a RoleArn for Amazon Q Buisness to access the file.
     ///
-    /// - Parameter PutGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutGroupInput`)
     ///
-    /// - Returns: `PutGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5060,6 +5127,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutGroupInput, PutGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutGroupOutput>(PutGroupOutput.httpOutput(from:), PutGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutGroupInput, PutGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutGroupOutput>())
@@ -5091,9 +5159,9 @@ extension QBusinessClient {
     ///
     /// Searches for relevant content in a Amazon Q Business application based on a query. This operation takes a search query text, the Amazon Q Business application identifier, and optional filters (such as content source and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
     ///
-    /// - Parameter SearchRelevantContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchRelevantContentInput`)
     ///
-    /// - Returns: `SearchRelevantContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchRelevantContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5132,6 +5200,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchRelevantContentInput, SearchRelevantContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchRelevantContentOutput>(SearchRelevantContentOutput.httpOutput(from:), SearchRelevantContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchRelevantContentInput, SearchRelevantContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchRelevantContentOutput>())
@@ -5163,9 +5232,9 @@ extension QBusinessClient {
     ///
     /// Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a ConflictException.
     ///
-    /// - Parameter StartDataSourceSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataSourceSyncJobInput`)
     ///
-    /// - Returns: `StartDataSourceSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataSourceSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5202,6 +5271,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataSourceSyncJobOutput>(StartDataSourceSyncJobOutput.httpOutput(from:), StartDataSourceSyncJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataSourceSyncJobInput, StartDataSourceSyncJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataSourceSyncJobOutput>())
@@ -5233,9 +5303,9 @@ extension QBusinessClient {
     ///
     /// Stops an Amazon Q Business data source connector synchronization job already in progress.
     ///
-    /// - Parameter StopDataSourceSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDataSourceSyncJobInput`)
     ///
-    /// - Returns: `StopDataSourceSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDataSourceSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5271,6 +5341,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDataSourceSyncJobOutput>(StopDataSourceSyncJobOutput.httpOutput(from:), StopDataSourceSyncJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDataSourceSyncJobInput, StopDataSourceSyncJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDataSourceSyncJobOutput>())
@@ -5302,9 +5373,9 @@ extension QBusinessClient {
     ///
     /// Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5343,6 +5414,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5374,9 +5446,9 @@ extension QBusinessClient {
     ///
     /// Removes a tag from an Amazon Q Business application or a data source.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5412,6 +5484,7 @@ extension QBusinessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5443,9 +5516,9 @@ extension QBusinessClient {
     ///
     /// Updates an existing Amazon Q Business application. Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see [Cross region inference in Amazon Q Business](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/cross-region-inference.html). An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when QAppsConfiguration is enabled in the request. For more information, see [Using service-linked roles for Q Apps](https://docs.aws.amazon.com/amazonq/latest/qbusiness-ug/using-service-linked-roles-qapps.html).
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5484,6 +5557,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -5515,9 +5589,9 @@ extension QBusinessClient {
     ///
     /// Updates a set of chat controls configured for an existing Amazon Q Business application.
     ///
-    /// - Parameter UpdateChatControlsConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChatControlsConfigurationInput`)
     ///
-    /// - Returns: `UpdateChatControlsConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChatControlsConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5558,6 +5632,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChatControlsConfigurationInput, UpdateChatControlsConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChatControlsConfigurationOutput>(UpdateChatControlsConfigurationOutput.httpOutput(from:), UpdateChatControlsConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChatControlsConfigurationInput, UpdateChatControlsConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChatControlsConfigurationOutput>())
@@ -5589,9 +5664,9 @@ extension QBusinessClient {
     ///
     /// Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses.
     ///
-    /// - Parameter UpdateChatResponseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChatResponseConfigurationInput`)
     ///
-    /// - Returns: `UpdateChatResponseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChatResponseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5631,6 +5706,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChatResponseConfigurationInput, UpdateChatResponseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChatResponseConfigurationOutput>(UpdateChatResponseConfigurationOutput.httpOutput(from:), UpdateChatResponseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChatResponseConfigurationInput, UpdateChatResponseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChatResponseConfigurationOutput>())
@@ -5662,9 +5738,9 @@ extension QBusinessClient {
     ///
     /// Updates an existing data accessor. This operation allows modifying the action configurations (the allowed actions and associated filters) and the display name of the data accessor. It does not allow changing the IAM role associated with the data accessor or other core properties of the data accessor.
     ///
-    /// - Parameter UpdateDataAccessorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataAccessorInput`)
     ///
-    /// - Returns: `UpdateDataAccessorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataAccessorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5703,6 +5779,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataAccessorInput, UpdateDataAccessorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataAccessorOutput>(UpdateDataAccessorOutput.httpOutput(from:), UpdateDataAccessorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataAccessorInput, UpdateDataAccessorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataAccessorOutput>())
@@ -5734,9 +5811,9 @@ extension QBusinessClient {
     ///
     /// Updates an existing Amazon Q Business data source connector.
     ///
-    /// - Parameter UpdateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourceInput`)
     ///
-    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5775,6 +5852,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutput>(UpdateDataSourceOutput.httpOutput(from:), UpdateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSourceOutput>())
@@ -5806,9 +5884,9 @@ extension QBusinessClient {
     ///
     /// Updates an Amazon Q Business index.
     ///
-    /// - Parameter UpdateIndexInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIndexInput`)
     ///
-    /// - Returns: `UpdateIndexOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIndexOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5848,6 +5926,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIndexInput, UpdateIndexOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIndexOutput>(UpdateIndexOutput.httpOutput(from:), UpdateIndexOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIndexInput, UpdateIndexOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIndexOutput>())
@@ -5879,9 +5958,9 @@ extension QBusinessClient {
     ///
     /// Updates an Amazon Q Business plugin.
     ///
-    /// - Parameter UpdatePluginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePluginInput`)
     ///
-    /// - Returns: `UpdatePluginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePluginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5921,6 +6000,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePluginInput, UpdatePluginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePluginOutput>(UpdatePluginOutput.httpOutput(from:), UpdatePluginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePluginInput, UpdatePluginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePluginOutput>())
@@ -5952,9 +6032,9 @@ extension QBusinessClient {
     ///
     /// Updates the retriever used for your Amazon Q Business application.
     ///
-    /// - Parameter UpdateRetrieverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRetrieverInput`)
     ///
-    /// - Returns: `UpdateRetrieverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRetrieverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5994,6 +6074,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRetrieverInput, UpdateRetrieverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRetrieverOutput>(UpdateRetrieverOutput.httpOutput(from:), UpdateRetrieverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRetrieverInput, UpdateRetrieverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRetrieverOutput>())
@@ -6025,9 +6106,9 @@ extension QBusinessClient {
     ///
     /// Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see [Amazon Q Business pricing](https://aws.amazon.com/q/business/pricing/).
     ///
-    /// - Parameter UpdateSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubscriptionInput`)
     ///
-    /// - Returns: `UpdateSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6066,6 +6147,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubscriptionInput, UpdateSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubscriptionOutput>(UpdateSubscriptionOutput.httpOutput(from:), UpdateSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubscriptionInput, UpdateSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubscriptionOutput>())
@@ -6097,9 +6179,9 @@ extension QBusinessClient {
     ///
     /// Updates a information associated with a user id.
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6139,6 +6221,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())
@@ -6170,9 +6253,9 @@ extension QBusinessClient {
     ///
     /// Updates an Amazon Q Business web experience.
     ///
-    /// - Parameter UpdateWebExperienceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWebExperienceInput`)
     ///
-    /// - Returns: `UpdateWebExperienceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWebExperienceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6211,6 +6294,7 @@ extension QBusinessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWebExperienceInput, UpdateWebExperienceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWebExperienceOutput>(UpdateWebExperienceOutput.httpOutput(from:), UpdateWebExperienceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWebExperienceInput, UpdateWebExperienceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWebExperienceOutput>())

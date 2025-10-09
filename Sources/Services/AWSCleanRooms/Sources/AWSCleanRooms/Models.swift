@@ -33,6 +33,218 @@ import struct Smithy.URIQueryItem
 
 extension CleanRoomsClientTypes {
 
+    public enum AutoRefreshMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AutoRefreshMode] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum AccessBudgetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case calendarDay
+        case calendarMonth
+        case calendarWeek
+        case lifetime
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccessBudgetType] {
+            return [
+                .calendarDay,
+                .calendarMonth,
+                .calendarWeek,
+                .lifetime
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .calendarDay: return "CALENDAR_DAY"
+            case .calendarMonth: return "CALENDAR_MONTH"
+            case .calendarWeek: return "CALENDAR_WEEK"
+            case .lifetime: return "LIFETIME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Detailed information about an access budget including time bounds, budget allocation, and configuration settings.
+    public struct AccessBudgetDetails: Swift.Sendable {
+        /// Indicates whether the budget automatically refreshes for each time period specified in budgetType. Valid values are: ENABLED - The budget refreshes automatically at the start of each period. DISABLED - The budget must be refreshed manually. NULL - The value is null when budgetType is set to LIFETIME.
+        public var autoRefresh: CleanRoomsClientTypes.AutoRefreshMode?
+        /// The total budget allocation amount for this access budget.
+        /// This member is required.
+        public var budget: Swift.Int?
+        /// Specifies the time period for limiting table usage in queries and jobs. For calendar-based periods, the budget can renew if auto refresh is enabled. For lifetime budgets, the limit applies to the total usage throughout the collaboration. Valid values are: CALENDAR_DAY - Limit table usage per day. CALENDAR_WEEK - Limit table usage per week. CALENDAR_MONTH - Limit table usage per month. LIFETIME - Limit total table usage for the collaboration duration.
+        /// This member is required.
+        public var budgetType: CleanRoomsClientTypes.AccessBudgetType?
+        /// The end time for the access budget period.
+        public var endTime: Foundation.Date?
+        /// The remaining budget amount available for use within this access budget.
+        /// This member is required.
+        public var remainingBudget: Swift.Int?
+        /// The start time for the access budget period.
+        /// This member is required.
+        public var startTime: Foundation.Date?
+
+        public init(
+            autoRefresh: CleanRoomsClientTypes.AutoRefreshMode? = nil,
+            budget: Swift.Int? = nil,
+            budgetType: CleanRoomsClientTypes.AccessBudgetType? = nil,
+            endTime: Foundation.Date? = nil,
+            remainingBudget: Swift.Int? = nil,
+            startTime: Foundation.Date? = nil
+        ) {
+            self.autoRefresh = autoRefresh
+            self.budget = budget
+            self.budgetType = budgetType
+            self.endTime = endTime
+            self.remainingBudget = remainingBudget
+            self.startTime = startTime
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Controls and tracks usage limits for associated configured tables within a collaboration across queries and job. Supports both period-based budgets that can renew (daily, weekly, or monthly) and fixed lifetime budgets. Contains the resource ARN, remaining budget information, and up to two budget configurations (period-based and lifetime). By default, table usage is unlimited unless a budget is configured.
+    public struct AccessBudget: Swift.Sendable {
+        /// The total remaining budget across all budget parameters, showing the lower value between the per-period budget and lifetime budget for this access budget. For individual parameter budgets, see remainingBudget.
+        /// This member is required.
+        public var aggregateRemainingBudget: Swift.Int?
+        /// Detailed budget information including time bounds, remaining budget, and refresh settings.
+        /// This member is required.
+        public var details: [CleanRoomsClientTypes.AccessBudgetDetails]?
+        /// The Amazon Resource Name (ARN) of the access budget resource.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+
+        public init(
+            aggregateRemainingBudget: Swift.Int? = nil,
+            details: [CleanRoomsClientTypes.AccessBudgetDetails]? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.aggregateRemainingBudget = aggregateRemainingBudget
+            self.details = details
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Individual budget parameter configuration that defines specific budget allocation settings for access budgets.
+    public struct BudgetParameter: Swift.Sendable {
+        /// Whether this individual budget parameter automatically refreshes when the budget period resets.
+        public var autoRefresh: CleanRoomsClientTypes.AutoRefreshMode?
+        /// The budget allocation amount for this specific parameter.
+        /// This member is required.
+        public var budget: Swift.Int?
+        /// The type of budget parameter being configured.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.AccessBudgetType?
+
+        public init(
+            autoRefresh: CleanRoomsClientTypes.AutoRefreshMode? = nil,
+            budget: Swift.Int? = nil,
+            type: CleanRoomsClientTypes.AccessBudgetType? = nil
+        ) {
+            self.autoRefresh = autoRefresh
+            self.budget = budget
+            self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Input parameters for privacy budget templates that support access budgets functionality, enabling enhanced budget management capabilities.
+    public struct AccessBudgetsPrivacyTemplateParametersInput: Swift.Sendable {
+        /// An array of budget parameters that define the access budget configuration for the privacy template.
+        /// This member is required.
+        public var budgetParameters: [CleanRoomsClientTypes.BudgetParameter]?
+        /// The Amazon Resource Name (ARN) of the resource associated with this privacy budget template.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+
+        public init(
+            budgetParameters: [CleanRoomsClientTypes.BudgetParameter]? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.budgetParameters = budgetParameters
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Output parameters for privacy budget templates with access budgets support, containing the configured budget information.
+    public struct AccessBudgetsPrivacyTemplateParametersOutput: Swift.Sendable {
+        /// An array of budget parameters returned from the access budget configuration.
+        /// This member is required.
+        public var budgetParameters: [CleanRoomsClientTypes.BudgetParameter]?
+        /// The Amazon Resource Name (ARN) of the resource associated with this privacy budget template.
+        /// This member is required.
+        public var resourceArn: Swift.String?
+
+        public init(
+            budgetParameters: [CleanRoomsClientTypes.BudgetParameter]? = nil,
+            resourceArn: Swift.String? = nil
+        ) {
+            self.budgetParameters = budgetParameters
+            self.resourceArn = resourceArn
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    /// Update parameters for privacy budget templates with access budgets functionality, allowing modification of existing budget configurations.
+    public struct AccessBudgetsPrivacyTemplateUpdateParameters: Swift.Sendable {
+        /// Updated array of budget parameters for the access budget configuration.
+        /// This member is required.
+        public var budgetParameters: [CleanRoomsClientTypes.BudgetParameter]?
+
+        public init(
+            budgetParameters: [CleanRoomsClientTypes.BudgetParameter]? = nil
+        ) {
+            self.budgetParameters = budgetParameters
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum AccessDeniedExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case insufficientPermissions
         case sdkUnknown(Swift.String)
@@ -223,6 +435,128 @@ extension CleanRoomsClientTypes {
             self.columnName = columnName
             self.minimum = minimum
             self.type = type
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
+    public enum SupportedS3Region: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case afSouth1
+        case apEast1
+        case apEast2
+        case apNortheast1
+        case apNortheast2
+        case apNortheast3
+        case apSoutheast1
+        case apSoutheast2
+        case apSoutheast3
+        case apSoutheast4
+        case apSoutheast5
+        case apSoutheast7
+        case apSouth1
+        case apSouth2
+        case caCentral1
+        case caWest1
+        case euCentral1
+        case euCentral2
+        case euNorth1
+        case euSouth1
+        case euSouth2
+        case euWest1
+        case euWest2
+        case euWest3
+        case ilCentral1
+        case meCentral1
+        case meSouth1
+        case mxCentral1
+        case saEast1
+        case usEast1
+        case usEast2
+        case usWest1
+        case usWest2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SupportedS3Region] {
+            return [
+                .afSouth1,
+                .apEast1,
+                .apEast2,
+                .apNortheast1,
+                .apNortheast2,
+                .apNortheast3,
+                .apSoutheast1,
+                .apSoutheast2,
+                .apSoutheast3,
+                .apSoutheast4,
+                .apSoutheast5,
+                .apSoutheast7,
+                .apSouth1,
+                .apSouth2,
+                .caCentral1,
+                .caWest1,
+                .euCentral1,
+                .euCentral2,
+                .euNorth1,
+                .euSouth1,
+                .euSouth2,
+                .euWest1,
+                .euWest2,
+                .euWest3,
+                .ilCentral1,
+                .meCentral1,
+                .meSouth1,
+                .mxCentral1,
+                .saEast1,
+                .usEast1,
+                .usEast2,
+                .usWest1,
+                .usWest2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .afSouth1: return "af-south-1"
+            case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
+            case .apNortheast1: return "ap-northeast-1"
+            case .apNortheast2: return "ap-northeast-2"
+            case .apNortheast3: return "ap-northeast-3"
+            case .apSoutheast1: return "ap-southeast-1"
+            case .apSoutheast2: return "ap-southeast-2"
+            case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast4: return "ap-southeast-4"
+            case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
+            case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
+            case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
+            case .euCentral1: return "eu-central-1"
+            case .euCentral2: return "eu-central-2"
+            case .euNorth1: return "eu-north-1"
+            case .euSouth1: return "eu-south-1"
+            case .euSouth2: return "eu-south-2"
+            case .euWest1: return "eu-west-1"
+            case .euWest2: return "eu-west-2"
+            case .euWest3: return "eu-west-3"
+            case .ilCentral1: return "il-central-1"
+            case .meCentral1: return "me-central-1"
+            case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
+            case .saEast1: return "sa-east-1"
+            case .usEast1: return "us-east-1"
+            case .usEast2: return "us-east-2"
+            case .usWest1: return "us-west-1"
+            case .usWest2: return "us-west-2"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -2093,6 +2427,128 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    public enum CommercialRegion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case afSouth1
+        case apEast1
+        case apEast2
+        case apNortheast1
+        case apNortheast2
+        case apNortheast3
+        case apSoutheast1
+        case apSoutheast2
+        case apSoutheast3
+        case apSoutheast4
+        case apSoutheast5
+        case apSoutheast7
+        case apSouth1
+        case apSouth2
+        case caCentral1
+        case caWest1
+        case euCentral1
+        case euCentral2
+        case euNorth1
+        case euSouth1
+        case euSouth2
+        case euWest1
+        case euWest2
+        case euWest3
+        case ilCentral1
+        case meCentral1
+        case meSouth1
+        case mxCentral1
+        case saEast1
+        case usEast1
+        case usEast2
+        case usWest1
+        case usWest2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CommercialRegion] {
+            return [
+                .afSouth1,
+                .apEast1,
+                .apEast2,
+                .apNortheast1,
+                .apNortheast2,
+                .apNortheast3,
+                .apSoutheast1,
+                .apSoutheast2,
+                .apSoutheast3,
+                .apSoutheast4,
+                .apSoutheast5,
+                .apSoutheast7,
+                .apSouth1,
+                .apSouth2,
+                .caCentral1,
+                .caWest1,
+                .euCentral1,
+                .euCentral2,
+                .euNorth1,
+                .euSouth1,
+                .euSouth2,
+                .euWest1,
+                .euWest2,
+                .euWest3,
+                .ilCentral1,
+                .meCentral1,
+                .meSouth1,
+                .mxCentral1,
+                .saEast1,
+                .usEast1,
+                .usEast2,
+                .usWest1,
+                .usWest2
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .afSouth1: return "af-south-1"
+            case .apEast1: return "ap-east-1"
+            case .apEast2: return "ap-east-2"
+            case .apNortheast1: return "ap-northeast-1"
+            case .apNortheast2: return "ap-northeast-2"
+            case .apNortheast3: return "ap-northeast-3"
+            case .apSoutheast1: return "ap-southeast-1"
+            case .apSoutheast2: return "ap-southeast-2"
+            case .apSoutheast3: return "ap-southeast-3"
+            case .apSoutheast4: return "ap-southeast-4"
+            case .apSoutheast5: return "ap-southeast-5"
+            case .apSoutheast7: return "ap-southeast-7"
+            case .apSouth1: return "ap-south-1"
+            case .apSouth2: return "ap-south-2"
+            case .caCentral1: return "ca-central-1"
+            case .caWest1: return "ca-west-1"
+            case .euCentral1: return "eu-central-1"
+            case .euCentral2: return "eu-central-2"
+            case .euNorth1: return "eu-north-1"
+            case .euSouth1: return "eu-south-1"
+            case .euSouth2: return "eu-south-2"
+            case .euWest1: return "eu-west-1"
+            case .euWest2: return "eu-west-2"
+            case .euWest3: return "eu-west-3"
+            case .ilCentral1: return "il-central-1"
+            case .meCentral1: return "me-central-1"
+            case .meSouth1: return "me-south-1"
+            case .mxCentral1: return "mx-central-1"
+            case .saEast1: return "sa-east-1"
+            case .usEast1: return "us-east-1"
+            case .usEast2: return "us-east-2"
+            case .usWest1: return "us-west-1"
+            case .usWest2: return "us-west-2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     /// A reference to a table within Athena.
     public struct AthenaTableReference: Swift.Sendable {
         /// The database name.
@@ -2100,6 +2556,8 @@ extension CleanRoomsClientTypes {
         public var databaseName: Swift.String?
         /// The output location for the Athena table.
         public var outputLocation: Swift.String?
+        /// The Amazon Web Services Region where the Athena table is located. This parameter is required to uniquely identify and access tables across different Regions.
+        public var region: CleanRoomsClientTypes.CommercialRegion?
         /// The table reference.
         /// This member is required.
         public var tableName: Swift.String?
@@ -2110,11 +2568,13 @@ extension CleanRoomsClientTypes {
         public init(
             databaseName: Swift.String? = nil,
             outputLocation: Swift.String? = nil,
+            region: CleanRoomsClientTypes.CommercialRegion? = nil,
             tableName: Swift.String? = nil,
             workGroup: Swift.String? = nil
         ) {
             self.databaseName = databaseName
             self.outputLocation = outputLocation
+            self.region = region
             self.tableName = tableName
             self.workGroup = workGroup
         }
@@ -2693,6 +3153,8 @@ extension CleanRoomsClientTypes {
         /// The partition keys for the dataset underlying this schema.
         /// This member is required.
         public var partitionKeys: [CleanRoomsClientTypes.Column]?
+        /// The Amazon Resource Name (ARN) of the schema resource.
+        public var resourceArn: Swift.String?
         /// Details about the status of the schema. Currently, only one entry is present.
         /// This member is required.
         public var schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]?
@@ -2718,6 +3180,7 @@ extension CleanRoomsClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             partitionKeys: [CleanRoomsClientTypes.Column]? = nil,
+            resourceArn: Swift.String? = nil,
             schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]? = [],
             schemaTypeProperties: CleanRoomsClientTypes.SchemaTypeProperties? = nil,
             selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
@@ -2734,6 +3197,7 @@ extension CleanRoomsClientTypes {
             self.description = description
             self.name = name
             self.partitionKeys = partitionKeys
+            self.resourceArn = resourceArn
             self.schemaStatusDetails = schemaStatusDetails
             self.schemaTypeProperties = schemaTypeProperties
             self.selectedAnalysisMethods = selectedAnalysisMethods
@@ -3154,6 +3618,8 @@ extension CleanRoomsClientTypes {
 }
 
 public struct CreateCollaborationInput: Swift.Sendable {
+    /// The Amazon Web Services Regions where collaboration query results can be stored. When specified, results can only be written to these Regions. This parameter enables you to meet your compliance and data governance requirements, and implement regional data governance policies.
+    public var allowedResultRegions: [CleanRoomsClientTypes.SupportedS3Region]?
     /// The analytics engine. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
     public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
     /// The types of change requests that are automatically approved for this collaboration.
@@ -3188,6 +3654,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        allowedResultRegions: [CleanRoomsClientTypes.SupportedS3Region]? = nil,
         analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
         autoApprovedChangeRequestTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]? = nil,
         creatorDisplayName: Swift.String? = nil,
@@ -3202,6 +3669,7 @@ public struct CreateCollaborationInput: Swift.Sendable {
         queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.allowedResultRegions = allowedResultRegions
         self.analyticsEngine = analyticsEngine
         self.autoApprovedChangeRequestTypes = autoApprovedChangeRequestTypes
         self.creatorDisplayName = creatorDisplayName
@@ -3257,6 +3725,8 @@ extension CleanRoomsClientTypes {
 
     /// The multi-party data share environment. The collaboration contains metadata about its purpose and participants.
     public struct Collaboration: Swift.Sendable {
+        /// The Amazon Web Services Regions where collaboration query results can be stored. Returns the list of Region identifiers that were specified when the collaboration was created. This list is used to enforce regional storage policies and compliance requirements.
+        public var allowedResultRegions: [CleanRoomsClientTypes.SupportedS3Region]?
         /// The analytics engine for the collaboration. After July 16, 2025, the CLEAN_ROOMS_SQL parameter will no longer be available.
         public var analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine?
         /// The unique ARN for the collaboration.
@@ -3300,6 +3770,7 @@ extension CleanRoomsClientTypes {
         public var updateTime: Foundation.Date?
 
         public init(
+            allowedResultRegions: [CleanRoomsClientTypes.SupportedS3Region]? = nil,
             analyticsEngine: CleanRoomsClientTypes.AnalyticsEngine? = nil,
             arn: Swift.String? = nil,
             autoApprovedChangeTypes: [CleanRoomsClientTypes.AutoApprovedChangeType]? = nil,
@@ -3317,6 +3788,7 @@ extension CleanRoomsClientTypes {
             queryLogStatus: CleanRoomsClientTypes.CollaborationQueryLogStatus? = nil,
             updateTime: Foundation.Date? = nil
         ) {
+            self.allowedResultRegions = allowedResultRegions
             self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.autoApprovedChangeTypes = autoApprovedChangeTypes
@@ -4035,6 +4507,8 @@ extension CleanRoomsClientTypes {
     public enum PrivacyBudgetTemplateParametersOutput: Swift.Sendable {
         /// The epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput)
+        /// Access budget configuration returned from the privacy budget template, containing the configured access budget settings.
+        case accessbudget(CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4042,11 +4516,13 @@ extension CleanRoomsClientTypes {
 extension CleanRoomsClientTypes {
 
     public enum PrivacyBudgetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case accessBudget
         case differentialPrivacy
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PrivacyBudgetType] {
             return [
+                .accessBudget,
                 .differentialPrivacy
             ]
         }
@@ -4058,6 +4534,7 @@ extension CleanRoomsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .accessBudget: return "ACCESS_BUDGET"
             case .differentialPrivacy: return "DIFFERENTIAL_PRIVACY"
             case let .sdkUnknown(s): return s
             }
@@ -4587,6 +5064,8 @@ public struct ListCollaborationIdNamespaceAssociationsOutput: Swift.Sendable {
 }
 
 public struct ListCollaborationPrivacyBudgetsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Configured Table Association (ConfiguredTableAssociation) used to filter privacy budgets.
+    public var accessBudgetResourceArn: Swift.String?
     /// A unique identifier for one of your collaborations.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
@@ -4599,11 +5078,13 @@ public struct ListCollaborationPrivacyBudgetsInput: Swift.Sendable {
     public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
 
     public init(
+        accessBudgetResourceArn: Swift.String? = nil,
         collaborationIdentifier: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil
     ) {
+        self.accessBudgetResourceArn = accessBudgetResourceArn
         self.collaborationIdentifier = collaborationIdentifier
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -4702,6 +5183,8 @@ extension CleanRoomsClientTypes {
     public enum PrivacyBudget: Swift.Sendable {
         /// An object that specifies the epsilon parameter and the utility in terms of total aggregations, as well as the remaining aggregations available.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget)
+        /// Access budget information associated with this privacy budget.
+        case accessbudget(CleanRoomsClientTypes.AccessBudget)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5139,6 +5622,8 @@ extension CleanRoomsClientTypes {
         /// The name for the schema object.
         /// This member is required.
         public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the schema summary resource.
+        public var resourceArn: Swift.String?
         /// The selected analysis methods for the schema.
         public var selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]?
         /// The type of schema object.
@@ -5156,6 +5641,7 @@ extension CleanRoomsClientTypes {
             createTime: Foundation.Date? = nil,
             creatorAccountId: Swift.String? = nil,
             name: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
             selectedAnalysisMethods: [CleanRoomsClientTypes.SelectedAnalysisMethod]? = nil,
             type: CleanRoomsClientTypes.SchemaType? = nil,
             updateTime: Foundation.Date? = nil
@@ -5167,6 +5653,7 @@ extension CleanRoomsClientTypes {
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.name = name
+            self.resourceArn = resourceArn
             self.selectedAnalysisMethods = selectedAnalysisMethods
             self.type = type
             self.updateTime = updateTime
@@ -6051,15 +6538,19 @@ extension CleanRoomsClientTypes {
         /// The name of the database the Glue table belongs to.
         /// This member is required.
         public var databaseName: Swift.String?
+        /// The Amazon Web Services Region where the Glue table is located. This parameter is required to uniquely identify and access tables across different Regions.
+        public var region: CleanRoomsClientTypes.CommercialRegion?
         /// The name of the Glue table.
         /// This member is required.
         public var tableName: Swift.String?
 
         public init(
             databaseName: Swift.String? = nil,
+            region: CleanRoomsClientTypes.CommercialRegion? = nil,
             tableName: Swift.String? = nil
         ) {
             self.databaseName = databaseName
+            self.region = region
             self.tableName = tableName
         }
     }
@@ -8927,6 +9418,8 @@ public struct ListMembershipsOutput: Swift.Sendable {
 }
 
 public struct ListPrivacyBudgetsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the access budget resource to filter privacy budgets by.
+    public var accessBudgetResourceArn: Swift.String?
     /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     public var maxResults: Swift.Int?
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
@@ -8939,11 +9432,13 @@ public struct ListPrivacyBudgetsInput: Swift.Sendable {
     public var privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType?
 
     public init(
+        accessBudgetResourceArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         membershipIdentifier: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         privacyBudgetType: CleanRoomsClientTypes.PrivacyBudgetType? = nil
     ) {
+        self.accessBudgetResourceArn = accessBudgetResourceArn
         self.maxResults = maxResults
         self.membershipIdentifier = membershipIdentifier
         self.nextToken = nextToken
@@ -9788,13 +10283,14 @@ extension CleanRoomsClientTypes {
     public enum PrivacyBudgetTemplateParametersInput: Swift.Sendable {
         /// An object that specifies the epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersInput)
+        /// Access budget configuration for the privacy budget template input, enabling integration with access budget functionality.
+        case accessbudget(CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersInput)
         case sdkUnknown(Swift.String)
     }
 }
 
 public struct CreatePrivacyBudgetTemplateInput: Swift.Sendable {
     /// How often the privacy budget refreshes. If you plan to regularly bring new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new privacy budget for the collaboration every calendar month. Choosing this option allows arbitrary amounts of information to be revealed about rows of the data when repeatedly queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried between privacy budget refreshes.
-    /// This member is required.
     public var autoRefresh: CleanRoomsClientTypes.PrivacyBudgetTemplateAutoRefresh?
     /// A unique identifier for one of your memberships for a collaboration. The privacy budget template is created in the collaboration that this membership belongs to. Accepts a membership ID.
     /// This member is required.
@@ -10069,6 +10565,8 @@ extension CleanRoomsClientTypes {
     public enum PrivacyBudgetTemplateUpdateParameters: Swift.Sendable {
         /// An object that specifies the new values for the epsilon and noise parameters.
         case differentialprivacy(CleanRoomsClientTypes.DifferentialPrivacyTemplateUpdateParameters)
+        /// The new access budget configuration that completely replaces the existing access budget settings in the privacy budget template.
+        case accessbudget(CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateUpdateParameters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -10868,6 +11366,10 @@ extension ListCollaborationPrivacyBudgetsInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let accessBudgetResourceArn = value.accessBudgetResourceArn {
+            let accessBudgetResourceArnQueryItem = Smithy.URIQueryItem(name: "accessBudgetResourceArn".urlPercentEncoding(), value: Swift.String(accessBudgetResourceArn).urlPercentEncoding())
+            items.append(accessBudgetResourceArnQueryItem)
+        }
         return items
     }
 }
@@ -11132,6 +11634,10 @@ extension ListPrivacyBudgetsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        if let accessBudgetResourceArn = value.accessBudgetResourceArn {
+            let accessBudgetResourceArnQueryItem = Smithy.URIQueryItem(name: "accessBudgetResourceArn".urlPercentEncoding(), value: Swift.String(accessBudgetResourceArn).urlPercentEncoding())
+            items.append(accessBudgetResourceArnQueryItem)
         }
         return items
     }
@@ -11548,6 +12054,7 @@ extension CreateCollaborationInput {
 
     static func write(value: CreateCollaborationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowedResultRegions"].writeList(value.allowedResultRegions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.SupportedS3Region>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["analyticsEngine"].write(value.analyticsEngine)
         try writer["autoApprovedChangeRequestTypes"].writeList(value.autoApprovedChangeRequestTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["creatorDisplayName"].write(value.creatorDisplayName)
@@ -14773,6 +15280,7 @@ extension CleanRoomsClientTypes.Schema {
         value.updateTime = try reader["updateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.schemaStatusDetails = try reader["schemaStatusDetails"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.SchemaStatusDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
         value.schemaTypeProperties = try reader["schemaTypeProperties"].readIfPresent(with: CleanRoomsClientTypes.SchemaTypeProperties.read(from:))
         return value
     }
@@ -15336,6 +15844,7 @@ extension CleanRoomsClientTypes.Collaboration {
         value.jobLogStatus = try reader["jobLogStatus"].readIfPresent()
         value.analyticsEngine = try reader["analyticsEngine"].readIfPresent()
         value.autoApprovedChangeTypes = try reader["autoApprovedChangeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AutoApprovedChangeType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedResultRegions = try reader["allowedResultRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SupportedS3Region>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -15511,6 +16020,7 @@ extension CleanRoomsClientTypes.AthenaTableReference {
         guard let value else { return }
         try writer["databaseName"].write(value.databaseName)
         try writer["outputLocation"].write(value.outputLocation)
+        try writer["region"].write(value.region)
         try writer["tableName"].write(value.tableName)
         try writer["workGroup"].write(value.workGroup)
     }
@@ -15518,6 +16028,7 @@ extension CleanRoomsClientTypes.AthenaTableReference {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AthenaTableReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.AthenaTableReference()
+        value.region = try reader["region"].readIfPresent()
         value.workGroup = try reader["workGroup"].readIfPresent() ?? ""
         value.outputLocation = try reader["outputLocation"].readIfPresent()
         value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
@@ -15597,12 +16108,14 @@ extension CleanRoomsClientTypes.GlueTableReference {
     static func write(value: CleanRoomsClientTypes.GlueTableReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["databaseName"].write(value.databaseName)
+        try writer["region"].write(value.region)
         try writer["tableName"].write(value.tableName)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.GlueTableReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.GlueTableReference()
+        value.region = try reader["region"].readIfPresent()
         value.tableName = try reader["tableName"].readIfPresent() ?? ""
         value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
         return value
@@ -16116,9 +16629,41 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateParametersOutput {
         switch name {
             case "differentialPrivacy":
                 return .differentialprivacy(try reader["differentialPrivacy"].read(with: CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersOutput.read(from:)))
+            case "accessBudget":
+                return .accessbudget(try reader["accessBudget"].read(with: CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersOutput()
+        value.budgetParameters = try reader["budgetParameters"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.BudgetParameter.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.BudgetParameter {
+
+    static func write(value: CleanRoomsClientTypes.BudgetParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoRefresh"].write(value.autoRefresh)
+        try writer["budget"].write(value.budget)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.BudgetParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.BudgetParameter()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.budget = try reader["budget"].readIfPresent() ?? 0
+        value.autoRefresh = try reader["autoRefresh"].readIfPresent()
+        return value
     }
 }
 
@@ -16822,9 +17367,38 @@ extension CleanRoomsClientTypes.PrivacyBudget {
         switch name {
             case "differentialPrivacy":
                 return .differentialprivacy(try reader["differentialPrivacy"].read(with: CleanRoomsClientTypes.DifferentialPrivacyPrivacyBudget.read(from:)))
+            case "accessBudget":
+                return .accessbudget(try reader["accessBudget"].read(with: CleanRoomsClientTypes.AccessBudget.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension CleanRoomsClientTypes.AccessBudget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AccessBudget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AccessBudget()
+        value.resourceArn = try reader["resourceArn"].readIfPresent() ?? ""
+        value.details = try reader["details"].readListIfPresent(memberReadingClosure: CleanRoomsClientTypes.AccessBudgetDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.aggregateRemainingBudget = try reader["aggregateRemainingBudget"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CleanRoomsClientTypes.AccessBudgetDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.AccessBudgetDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CleanRoomsClientTypes.AccessBudgetDetails()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.remainingBudget = try reader["remainingBudget"].readIfPresent() ?? 0
+        value.budget = try reader["budget"].readIfPresent() ?? 0
+        value.budgetType = try reader["budgetType"].readIfPresent() ?? .sdkUnknown("")
+        value.autoRefresh = try reader["autoRefresh"].readIfPresent()
+        return value
     }
 }
 
@@ -17273,6 +17847,7 @@ extension CleanRoomsClientTypes.SchemaSummary {
         value.collaborationArn = try reader["collaborationArn"].readIfPresent() ?? ""
         value.analysisRuleTypes = try reader["analysisRuleTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.AnalysisRuleType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.analysisMethod = try reader["analysisMethod"].readIfPresent()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
         value.selectedAnalysisMethods = try reader["selectedAnalysisMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CleanRoomsClientTypes.SelectedAnalysisMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -17359,11 +17934,22 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput {
     static func write(value: CleanRoomsClientTypes.PrivacyBudgetTemplateParametersInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .accessbudget(accessbudget):
+                try writer["accessBudget"].write(accessbudget, with: CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersInput.write(value:to:))
             case let .differentialprivacy(differentialprivacy):
                 try writer["differentialPrivacy"].write(differentialprivacy, with: CleanRoomsClientTypes.DifferentialPrivacyTemplateParametersInput.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersInput {
+
+    static func write(value: CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateParametersInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["budgetParameters"].writeList(value.budgetParameters, memberWritingClosure: CleanRoomsClientTypes.BudgetParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceArn"].write(value.resourceArn)
     }
 }
 
@@ -17432,11 +18018,21 @@ extension CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters {
     static func write(value: CleanRoomsClientTypes.PrivacyBudgetTemplateUpdateParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .accessbudget(accessbudget):
+                try writer["accessBudget"].write(accessbudget, with: CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateUpdateParameters.write(value:to:))
             case let .differentialprivacy(differentialprivacy):
                 try writer["differentialPrivacy"].write(differentialprivacy, with: CleanRoomsClientTypes.DifferentialPrivacyTemplateUpdateParameters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateUpdateParameters {
+
+    static func write(value: CleanRoomsClientTypes.AccessBudgetsPrivacyTemplateUpdateParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["budgetParameters"].writeList(value.budgetParameters, memberWritingClosure: CleanRoomsClientTypes.BudgetParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

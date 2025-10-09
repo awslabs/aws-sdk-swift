@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FinspaceClient: ClientRuntime.Client {
     public static let clientName = "FinspaceClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: FinspaceClient.FinspaceClientConfiguration
     let serviceName = "finspace"
@@ -375,9 +376,9 @@ extension FinspaceClient {
     /// Create a new FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +417,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
@@ -447,9 +449,9 @@ extension FinspaceClient {
     ///
     /// Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
     ///
-    /// - Parameter CreateKxChangesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxChangesetInput`)
     ///
-    /// - Returns: `CreateKxChangesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,6 +492,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKxChangesetInput, CreateKxChangesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKxChangesetOutput>(CreateKxChangesetOutput.httpOutput(from:), CreateKxChangesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKxChangesetInput, CreateKxChangesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKxChangesetOutput>())
@@ -521,9 +524,9 @@ extension FinspaceClient {
     ///
     /// Creates a new kdb cluster.
     ///
-    /// - Parameter CreateKxClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxClusterInput`)
     ///
-    /// - Returns: `CreateKxClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -564,6 +567,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKxClusterInput, CreateKxClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKxClusterOutput>(CreateKxClusterOutput.httpOutput(from:), CreateKxClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKxClusterInput, CreateKxClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKxClusterOutput>())
@@ -595,9 +599,9 @@ extension FinspaceClient {
     ///
     /// Creates a new kdb database in the environment.
     ///
-    /// - Parameter CreateKxDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxDatabaseInput`)
     ///
-    /// - Returns: `CreateKxDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -639,6 +643,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKxDatabaseInput, CreateKxDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKxDatabaseOutput>(CreateKxDatabaseOutput.httpOutput(from:), CreateKxDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKxDatabaseInput, CreateKxDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKxDatabaseOutput>())
@@ -670,9 +675,9 @@ extension FinspaceClient {
     ///
     /// Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
     ///
-    /// - Parameter CreateKxDataviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxDataviewInput`)
     ///
-    /// - Returns: `CreateKxDataviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxDataviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,6 +719,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKxDataviewInput, CreateKxDataviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKxDataviewOutput>(CreateKxDataviewOutput.httpOutput(from:), CreateKxDataviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKxDataviewInput, CreateKxDataviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKxDataviewOutput>())
@@ -745,9 +751,9 @@ extension FinspaceClient {
     ///
     /// Creates a managed kdb environment for the account.
     ///
-    /// - Parameter CreateKxEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxEnvironmentInput`)
     ///
-    /// - Returns: `CreateKxEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,6 +794,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKxEnvironmentInput, CreateKxEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKxEnvironmentOutput>(CreateKxEnvironmentOutput.httpOutput(from:), CreateKxEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKxEnvironmentInput, CreateKxEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKxEnvironmentOutput>())
@@ -819,9 +826,9 @@ extension FinspaceClient {
     ///
     /// Creates a new scaling group.
     ///
-    /// - Parameter CreateKxScalingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxScalingGroupInput`)
     ///
-    /// - Returns: `CreateKxScalingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxScalingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -862,6 +869,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKxScalingGroupInput, CreateKxScalingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKxScalingGroupOutput>(CreateKxScalingGroupOutput.httpOutput(from:), CreateKxScalingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKxScalingGroupInput, CreateKxScalingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKxScalingGroupOutput>())
@@ -893,9 +901,9 @@ extension FinspaceClient {
     ///
     /// Creates a user in FinSpace kdb environment with an associated IAM role.
     ///
-    /// - Parameter CreateKxUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxUserInput`)
     ///
-    /// - Returns: `CreateKxUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -937,6 +945,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKxUserInput, CreateKxUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKxUserOutput>(CreateKxUserOutput.httpOutput(from:), CreateKxUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKxUserInput, CreateKxUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKxUserOutput>())
@@ -968,9 +977,9 @@ extension FinspaceClient {
     ///
     /// Creates a new volume with a specific amount of throughput and storage capacity.
     ///
-    /// - Parameter CreateKxVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKxVolumeInput`)
     ///
-    /// - Returns: `CreateKxVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKxVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1012,6 +1021,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKxVolumeInput, CreateKxVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKxVolumeOutput>(CreateKxVolumeOutput.httpOutput(from:), CreateKxVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKxVolumeInput, CreateKxVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKxVolumeOutput>())
@@ -1044,9 +1054,9 @@ extension FinspaceClient {
     /// Delete an FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,6 +1091,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -1112,9 +1123,9 @@ extension FinspaceClient {
     ///
     /// Deletes a kdb cluster.
     ///
-    /// - Parameter DeleteKxClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxClusterInput`)
     ///
-    /// - Returns: `DeleteKxClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1153,6 +1164,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteKxClusterInput, DeleteKxClusterOutput>(DeleteKxClusterInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKxClusterOutput>(DeleteKxClusterOutput.httpOutput(from:), DeleteKxClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKxClusterInput, DeleteKxClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKxClusterOutput>())
@@ -1184,9 +1196,9 @@ extension FinspaceClient {
     ///
     /// Deletes the specified nodes from a cluster.
     ///
-    /// - Parameter DeleteKxClusterNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxClusterNodeInput`)
     ///
-    /// - Returns: `DeleteKxClusterNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxClusterNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1221,6 +1233,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteKxClusterNodeInput, DeleteKxClusterNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKxClusterNodeOutput>(DeleteKxClusterNodeOutput.httpOutput(from:), DeleteKxClusterNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKxClusterNodeInput, DeleteKxClusterNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKxClusterNodeOutput>())
@@ -1252,9 +1265,9 @@ extension FinspaceClient {
     ///
     /// Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
     ///
-    /// - Parameter DeleteKxDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxDatabaseInput`)
     ///
-    /// - Returns: `DeleteKxDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1292,6 +1305,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteKxDatabaseInput, DeleteKxDatabaseOutput>(DeleteKxDatabaseInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKxDatabaseOutput>(DeleteKxDatabaseOutput.httpOutput(from:), DeleteKxDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKxDatabaseInput, DeleteKxDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKxDatabaseOutput>())
@@ -1323,9 +1337,9 @@ extension FinspaceClient {
     ///
     /// Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
     ///
-    /// - Parameter DeleteKxDataviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxDataviewInput`)
     ///
-    /// - Returns: `DeleteKxDataviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxDataviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1363,6 +1377,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteKxDataviewInput, DeleteKxDataviewOutput>(DeleteKxDataviewInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKxDataviewOutput>(DeleteKxDataviewOutput.httpOutput(from:), DeleteKxDataviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKxDataviewInput, DeleteKxDataviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKxDataviewOutput>())
@@ -1394,9 +1409,9 @@ extension FinspaceClient {
     ///
     /// Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
     ///
-    /// - Parameter DeleteKxEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxEnvironmentInput`)
     ///
-    /// - Returns: `DeleteKxEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1434,6 +1449,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteKxEnvironmentInput, DeleteKxEnvironmentOutput>(DeleteKxEnvironmentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKxEnvironmentOutput>(DeleteKxEnvironmentOutput.httpOutput(from:), DeleteKxEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKxEnvironmentInput, DeleteKxEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKxEnvironmentOutput>())
@@ -1465,9 +1481,9 @@ extension FinspaceClient {
     ///
     /// Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
     ///
-    /// - Parameter DeleteKxScalingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxScalingGroupInput`)
     ///
-    /// - Returns: `DeleteKxScalingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxScalingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1506,6 +1522,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteKxScalingGroupInput, DeleteKxScalingGroupOutput>(DeleteKxScalingGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKxScalingGroupOutput>(DeleteKxScalingGroupOutput.httpOutput(from:), DeleteKxScalingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKxScalingGroupInput, DeleteKxScalingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKxScalingGroupOutput>())
@@ -1537,9 +1554,9 @@ extension FinspaceClient {
     ///
     /// Deletes a user in the specified kdb environment.
     ///
-    /// - Parameter DeleteKxUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxUserInput`)
     ///
-    /// - Returns: `DeleteKxUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,6 +1594,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteKxUserInput, DeleteKxUserOutput>(DeleteKxUserInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKxUserOutput>(DeleteKxUserOutput.httpOutput(from:), DeleteKxUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKxUserInput, DeleteKxUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKxUserOutput>())
@@ -1608,9 +1626,9 @@ extension FinspaceClient {
     ///
     /// Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
     ///
-    /// - Parameter DeleteKxVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKxVolumeInput`)
     ///
-    /// - Returns: `DeleteKxVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKxVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1649,6 +1667,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteKxVolumeInput, DeleteKxVolumeOutput>(DeleteKxVolumeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKxVolumeOutput>(DeleteKxVolumeOutput.httpOutput(from:), DeleteKxVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKxVolumeInput, DeleteKxVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKxVolumeOutput>())
@@ -1681,9 +1700,9 @@ extension FinspaceClient {
     /// Returns the FinSpace environment object.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,6 +1736,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentOutput>(GetEnvironmentOutput.httpOutput(from:), GetEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentOutput>())
@@ -1748,9 +1768,9 @@ extension FinspaceClient {
     ///
     /// Returns information about a kdb changeset.
     ///
-    /// - Parameter GetKxChangesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxChangesetInput`)
     ///
-    /// - Returns: `GetKxChangesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1785,6 +1805,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKxChangesetInput, GetKxChangesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxChangesetOutput>(GetKxChangesetOutput.httpOutput(from:), GetKxChangesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxChangesetInput, GetKxChangesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxChangesetOutput>())
@@ -1816,9 +1837,9 @@ extension FinspaceClient {
     ///
     /// Retrieves information about a kdb cluster.
     ///
-    /// - Parameter GetKxClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxClusterInput`)
     ///
-    /// - Returns: `GetKxClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1855,6 +1876,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKxClusterInput, GetKxClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxClusterOutput>(GetKxClusterOutput.httpOutput(from:), GetKxClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxClusterInput, GetKxClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxClusterOutput>())
@@ -1886,9 +1908,9 @@ extension FinspaceClient {
     ///
     /// Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
     ///
-    /// - Parameter GetKxConnectionStringInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxConnectionStringInput`)
     ///
-    /// - Returns: `GetKxConnectionStringOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxConnectionStringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1924,6 +1946,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetKxConnectionStringInput, GetKxConnectionStringOutput>(GetKxConnectionStringInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxConnectionStringOutput>(GetKxConnectionStringOutput.httpOutput(from:), GetKxConnectionStringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxConnectionStringInput, GetKxConnectionStringOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxConnectionStringOutput>())
@@ -1955,9 +1978,9 @@ extension FinspaceClient {
     ///
     /// Returns database information for the specified environment ID.
     ///
-    /// - Parameter GetKxDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxDatabaseInput`)
     ///
-    /// - Returns: `GetKxDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1992,6 +2015,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKxDatabaseInput, GetKxDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxDatabaseOutput>(GetKxDatabaseOutput.httpOutput(from:), GetKxDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxDatabaseInput, GetKxDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxDatabaseOutput>())
@@ -2023,9 +2047,9 @@ extension FinspaceClient {
     ///
     /// Retrieves details of the dataview.
     ///
-    /// - Parameter GetKxDataviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxDataviewInput`)
     ///
-    /// - Returns: `GetKxDataviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxDataviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2060,6 +2084,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKxDataviewInput, GetKxDataviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxDataviewOutput>(GetKxDataviewOutput.httpOutput(from:), GetKxDataviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxDataviewInput, GetKxDataviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxDataviewOutput>())
@@ -2091,9 +2116,9 @@ extension FinspaceClient {
     ///
     /// Retrieves all the information for the specified kdb environment.
     ///
-    /// - Parameter GetKxEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxEnvironmentInput`)
     ///
-    /// - Returns: `GetKxEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2128,6 +2153,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKxEnvironmentInput, GetKxEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxEnvironmentOutput>(GetKxEnvironmentOutput.httpOutput(from:), GetKxEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxEnvironmentInput, GetKxEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxEnvironmentOutput>())
@@ -2159,9 +2185,9 @@ extension FinspaceClient {
     ///
     /// Retrieves details of a scaling group.
     ///
-    /// - Parameter GetKxScalingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxScalingGroupInput`)
     ///
-    /// - Returns: `GetKxScalingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxScalingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2198,6 +2224,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKxScalingGroupInput, GetKxScalingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxScalingGroupOutput>(GetKxScalingGroupOutput.httpOutput(from:), GetKxScalingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxScalingGroupInput, GetKxScalingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxScalingGroupOutput>())
@@ -2229,9 +2256,9 @@ extension FinspaceClient {
     ///
     /// Retrieves information about the specified kdb user.
     ///
-    /// - Parameter GetKxUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxUserInput`)
     ///
-    /// - Returns: `GetKxUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2266,6 +2293,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKxUserInput, GetKxUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxUserOutput>(GetKxUserOutput.httpOutput(from:), GetKxUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxUserInput, GetKxUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxUserOutput>())
@@ -2297,9 +2325,9 @@ extension FinspaceClient {
     ///
     /// Retrieves the information about the volume.
     ///
-    /// - Parameter GetKxVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKxVolumeInput`)
     ///
-    /// - Returns: `GetKxVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKxVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2336,6 +2364,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetKxVolumeInput, GetKxVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKxVolumeOutput>(GetKxVolumeOutput.httpOutput(from:), GetKxVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKxVolumeInput, GetKxVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKxVolumeOutput>())
@@ -2368,9 +2397,9 @@ extension FinspaceClient {
     /// A list of all of your FinSpace environments.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2404,6 +2433,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(ListEnvironmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -2435,9 +2465,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of all the changesets for a database.
     ///
-    /// - Parameter ListKxChangesetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxChangesetsInput`)
     ///
-    /// - Returns: `ListKxChangesetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxChangesetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2473,6 +2503,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxChangesetsInput, ListKxChangesetsOutput>(ListKxChangesetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxChangesetsOutput>(ListKxChangesetsOutput.httpOutput(from:), ListKxChangesetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxChangesetsInput, ListKxChangesetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxChangesetsOutput>())
@@ -2504,9 +2535,9 @@ extension FinspaceClient {
     ///
     /// Lists all the nodes in a kdb cluster.
     ///
-    /// - Parameter ListKxClusterNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxClusterNodesInput`)
     ///
-    /// - Returns: `ListKxClusterNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxClusterNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2543,6 +2574,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxClusterNodesInput, ListKxClusterNodesOutput>(ListKxClusterNodesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxClusterNodesOutput>(ListKxClusterNodesOutput.httpOutput(from:), ListKxClusterNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxClusterNodesInput, ListKxClusterNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxClusterNodesOutput>())
@@ -2574,9 +2606,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of clusters.
     ///
-    /// - Parameter ListKxClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxClustersInput`)
     ///
-    /// - Returns: `ListKxClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2614,6 +2646,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxClustersInput, ListKxClustersOutput>(ListKxClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxClustersOutput>(ListKxClustersOutput.httpOutput(from:), ListKxClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxClustersInput, ListKxClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxClustersOutput>())
@@ -2645,9 +2678,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of all the databases in the kdb environment.
     ///
-    /// - Parameter ListKxDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxDatabasesInput`)
     ///
-    /// - Returns: `ListKxDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2683,6 +2716,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxDatabasesInput, ListKxDatabasesOutput>(ListKxDatabasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxDatabasesOutput>(ListKxDatabasesOutput.httpOutput(from:), ListKxDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxDatabasesInput, ListKxDatabasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxDatabasesOutput>())
@@ -2714,9 +2748,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of all the dataviews in the database.
     ///
-    /// - Parameter ListKxDataviewsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxDataviewsInput`)
     ///
-    /// - Returns: `ListKxDataviewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxDataviewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2752,6 +2786,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxDataviewsInput, ListKxDataviewsOutput>(ListKxDataviewsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxDataviewsOutput>(ListKxDataviewsOutput.httpOutput(from:), ListKxDataviewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxDataviewsInput, ListKxDataviewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxDataviewsOutput>())
@@ -2783,9 +2818,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of kdb environments created in an account.
     ///
-    /// - Parameter ListKxEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxEnvironmentsInput`)
     ///
-    /// - Returns: `ListKxEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2819,6 +2854,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxEnvironmentsInput, ListKxEnvironmentsOutput>(ListKxEnvironmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxEnvironmentsOutput>(ListKxEnvironmentsOutput.httpOutput(from:), ListKxEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxEnvironmentsInput, ListKxEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxEnvironmentsOutput>())
@@ -2850,9 +2886,9 @@ extension FinspaceClient {
     ///
     /// Returns a list of scaling groups in a kdb environment.
     ///
-    /// - Parameter ListKxScalingGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxScalingGroupsInput`)
     ///
-    /// - Returns: `ListKxScalingGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxScalingGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2890,6 +2926,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxScalingGroupsInput, ListKxScalingGroupsOutput>(ListKxScalingGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxScalingGroupsOutput>(ListKxScalingGroupsOutput.httpOutput(from:), ListKxScalingGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxScalingGroupsInput, ListKxScalingGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxScalingGroupsOutput>())
@@ -2921,9 +2958,9 @@ extension FinspaceClient {
     ///
     /// Lists all the users in a kdb environment.
     ///
-    /// - Parameter ListKxUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxUsersInput`)
     ///
-    /// - Returns: `ListKxUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2959,6 +2996,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxUsersInput, ListKxUsersOutput>(ListKxUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxUsersOutput>(ListKxUsersOutput.httpOutput(from:), ListKxUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxUsersInput, ListKxUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxUsersOutput>())
@@ -2990,9 +3028,9 @@ extension FinspaceClient {
     ///
     /// Lists all the volumes in a kdb environment.
     ///
-    /// - Parameter ListKxVolumesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKxVolumesInput`)
     ///
-    /// - Returns: `ListKxVolumesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKxVolumesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3030,6 +3068,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKxVolumesInput, ListKxVolumesOutput>(ListKxVolumesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKxVolumesOutput>(ListKxVolumesOutput.httpOutput(from:), ListKxVolumesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKxVolumesInput, ListKxVolumesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKxVolumesOutput>())
@@ -3061,9 +3100,9 @@ extension FinspaceClient {
     ///
     /// A list of all tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3096,6 +3135,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3127,9 +3167,9 @@ extension FinspaceClient {
     ///
     /// Adds metadata tags to a FinSpace resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3165,6 +3205,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3196,9 +3237,9 @@ extension FinspaceClient {
     ///
     /// Removes metadata tags from a FinSpace resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3232,6 +3273,7 @@ extension FinspaceClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3264,9 +3306,9 @@ extension FinspaceClient {
     /// Update your FinSpace environment.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3304,6 +3346,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
@@ -3335,9 +3378,9 @@ extension FinspaceClient {
     ///
     /// Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster. The configuration that you want to update will override any existing configurations on the cluster.
     ///
-    /// - Parameter UpdateKxClusterCodeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxClusterCodeConfigurationInput`)
     ///
-    /// - Returns: `UpdateKxClusterCodeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxClusterCodeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3378,6 +3421,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKxClusterCodeConfigurationInput, UpdateKxClusterCodeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKxClusterCodeConfigurationOutput>(UpdateKxClusterCodeConfigurationOutput.httpOutput(from:), UpdateKxClusterCodeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKxClusterCodeConfigurationInput, UpdateKxClusterCodeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKxClusterCodeConfigurationOutput>())
@@ -3409,9 +3453,9 @@ extension FinspaceClient {
     ///
     /// Updates the databases mounted on a kdb cluster, which includes the changesetId and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a cluster without one. Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
     ///
-    /// - Parameter UpdateKxClusterDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxClusterDatabasesInput`)
     ///
-    /// - Returns: `UpdateKxClusterDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxClusterDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3452,6 +3496,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKxClusterDatabasesInput, UpdateKxClusterDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKxClusterDatabasesOutput>(UpdateKxClusterDatabasesOutput.httpOutput(from:), UpdateKxClusterDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKxClusterDatabasesInput, UpdateKxClusterDatabasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKxClusterDatabasesOutput>())
@@ -3483,9 +3528,9 @@ extension FinspaceClient {
     ///
     /// Updates information for the given kdb database.
     ///
-    /// - Parameter UpdateKxDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxDatabaseInput`)
     ///
-    /// - Returns: `UpdateKxDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3525,6 +3570,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKxDatabaseInput, UpdateKxDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKxDatabaseOutput>(UpdateKxDatabaseOutput.httpOutput(from:), UpdateKxDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKxDatabaseInput, UpdateKxDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKxDatabaseOutput>())
@@ -3556,9 +3602,9 @@ extension FinspaceClient {
     ///
     /// Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
     ///
-    /// - Parameter UpdateKxDataviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxDataviewInput`)
     ///
-    /// - Returns: `UpdateKxDataviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxDataviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3599,6 +3645,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKxDataviewInput, UpdateKxDataviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKxDataviewOutput>(UpdateKxDataviewOutput.httpOutput(from:), UpdateKxDataviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKxDataviewInput, UpdateKxDataviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKxDataviewOutput>())
@@ -3630,9 +3677,9 @@ extension FinspaceClient {
     ///
     /// Updates information for the given kdb environment.
     ///
-    /// - Parameter UpdateKxEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxEnvironmentInput`)
     ///
-    /// - Returns: `UpdateKxEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3672,6 +3719,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKxEnvironmentInput, UpdateKxEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKxEnvironmentOutput>(UpdateKxEnvironmentOutput.httpOutput(from:), UpdateKxEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKxEnvironmentInput, UpdateKxEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKxEnvironmentOutput>())
@@ -3703,9 +3751,9 @@ extension FinspaceClient {
     ///
     /// Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
     ///
-    /// - Parameter UpdateKxEnvironmentNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxEnvironmentNetworkInput`)
     ///
-    /// - Returns: `UpdateKxEnvironmentNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxEnvironmentNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3745,6 +3793,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKxEnvironmentNetworkInput, UpdateKxEnvironmentNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKxEnvironmentNetworkOutput>(UpdateKxEnvironmentNetworkOutput.httpOutput(from:), UpdateKxEnvironmentNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKxEnvironmentNetworkInput, UpdateKxEnvironmentNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKxEnvironmentNetworkOutput>())
@@ -3776,9 +3825,9 @@ extension FinspaceClient {
     ///
     /// Updates the user details. You can only update the IAM role associated with a user.
     ///
-    /// - Parameter UpdateKxUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxUserInput`)
     ///
-    /// - Returns: `UpdateKxUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3819,6 +3868,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKxUserInput, UpdateKxUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKxUserOutput>(UpdateKxUserOutput.httpOutput(from:), UpdateKxUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKxUserInput, UpdateKxUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKxUserOutput>())
@@ -3850,9 +3900,9 @@ extension FinspaceClient {
     ///
     /// Updates the throughput or capacity of a volume. During the update process, the filesystem might be unavailable for a few minutes. You can retry any operations after the update is complete.
     ///
-    /// - Parameter UpdateKxVolumeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateKxVolumeInput`)
     ///
-    /// - Returns: `UpdateKxVolumeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateKxVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3893,6 +3943,7 @@ extension FinspaceClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateKxVolumeInput, UpdateKxVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateKxVolumeOutput>(UpdateKxVolumeOutput.httpOutput(from:), UpdateKxVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateKxVolumeInput, UpdateKxVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateKxVolumeOutput>())

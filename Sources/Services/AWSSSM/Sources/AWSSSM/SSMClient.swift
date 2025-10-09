@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMClient: ClientRuntime.Client {
     public static let clientName = "SSMClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMClient.SSMClientConfiguration
     let serviceName = "SSM"
@@ -389,9 +390,9 @@ extension SSMClient {
     ///
     /// Most resources can have a maximum of 50 tags. Automations can have a maximum of 5 tags. We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters. For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide.
     ///
-    /// - Parameter AddTagsToResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddTagsToResourceInput`)
     ///
-    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -427,6 +428,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput>(AddTagsToResourceOutput.httpOutput(from:), AddTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToResourceOutput>())
@@ -461,9 +463,9 @@ extension SSMClient {
     ///
     /// Associates a related item to a Systems Manager OpsCenter OpsItem. For example, you can associate an Incident Manager incident or analysis with an OpsItem. Incident Manager and OpsCenter are tools in Amazon Web Services Systems Manager.
     ///
-    /// - Parameter AssociateOpsItemRelatedItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateOpsItemRelatedItemInput`)
     ///
-    /// - Returns: `AssociateOpsItemRelatedItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateOpsItemRelatedItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -500,6 +502,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateOpsItemRelatedItemOutput>(AssociateOpsItemRelatedItemOutput.httpOutput(from:), AssociateOpsItemRelatedItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateOpsItemRelatedItemInput, AssociateOpsItemRelatedItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateOpsItemRelatedItemOutput>())
@@ -534,9 +537,9 @@ extension SSMClient {
     ///
     /// Attempts to cancel the command specified by the Command ID. There is no guarantee that the command will be terminated and the underlying process stopped.
     ///
-    /// - Parameter CancelCommandInput :
+    /// - Parameter input: (Type: `CancelCommandInput`)
     ///
-    /// - Returns: `CancelCommandOutput` : Whether or not the command was successfully canceled. There is no guarantee that a request can be canceled.
+    /// - Returns: Whether or not the command was successfully canceled. There is no guarantee that a request can be canceled. (Type: `CancelCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,6 +582,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelCommandInput, CancelCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelCommandOutput>(CancelCommandOutput.httpOutput(from:), CancelCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelCommandInput, CancelCommandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelCommandOutput>())
@@ -613,9 +617,9 @@ extension SSMClient {
     ///
     /// Stops a maintenance window execution that is already in progress and cancels any tasks in the window that haven't already starting running. Tasks already in progress will continue to completion.
     ///
-    /// - Parameter CancelMaintenanceWindowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMaintenanceWindowExecutionInput`)
     ///
-    /// - Returns: `CancelMaintenanceWindowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMaintenanceWindowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -648,6 +652,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMaintenanceWindowExecutionOutput>(CancelMaintenanceWindowExecutionOutput.httpOutput(from:), CancelMaintenanceWindowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMaintenanceWindowExecutionInput, CancelMaintenanceWindowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMaintenanceWindowExecutionOutput>())
@@ -682,9 +687,9 @@ extension SSMClient {
     ///
     /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager tools. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises machines using Systems Manager, see [Using Amazon Web Services Systems Manager in hybrid and multicloud environments](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-hybrid-multicloud.html) in the Amazon Web Services Systems Manager User Guide. Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises servers and VMs that are configured for Systems Manager are all called managed nodes.
     ///
-    /// - Parameter CreateActivationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateActivationInput`)
     ///
-    /// - Returns: `CreateActivationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateActivationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -717,6 +722,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateActivationInput, CreateActivationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateActivationOutput>(CreateActivationOutput.httpOutput(from:), CreateActivationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateActivationInput, CreateActivationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateActivationOutput>())
@@ -751,9 +757,9 @@ extension SSMClient {
     ///
     /// A State Manager association defines the state that you want to maintain on your managed nodes. For example, an association can specify that anti-virus software must be installed and running on your managed nodes, or that certain ports must be closed. For static targets, the association specifies a schedule for when the configuration is reapplied. For dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a tool in Amazon Web Services Systems Manager applies the configuration when new managed nodes are added to the group. The association also specifies actions to take when applying the configuration. For example, an association for anti-virus software might run once a day. If the software isn't installed, then State Manager installs it. If the software is installed, but the service isn't running, then the association might instruct State Manager to start the service.
     ///
-    /// - Parameter CreateAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssociationInput`)
     ///
-    /// - Returns: `CreateAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -805,6 +811,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssociationInput, CreateAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssociationOutput>(CreateAssociationOutput.httpOutput(from:), CreateAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssociationInput, CreateAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssociationOutput>())
@@ -839,9 +846,9 @@ extension SSMClient {
     ///
     /// Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes or targets. When you associate a document with one or more managed nodes using IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent) running on the managed node processes the document and configures the node as specified. If you associate a document with a managed node that already has an associated document, the system returns the AssociationAlreadyExists exception.
     ///
-    /// - Parameter CreateAssociationBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssociationBatchInput`)
     ///
-    /// - Returns: `CreateAssociationBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssociationBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -892,6 +899,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssociationBatchOutput>(CreateAssociationBatchOutput.httpOutput(from:), CreateAssociationBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssociationBatchInput, CreateAssociationBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssociationBatchOutput>())
@@ -926,9 +934,9 @@ extension SSMClient {
     ///
     /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your managed nodes. For more information about SSM documents, including information about supported schemas, features, and syntax, see [Amazon Web Services Systems Manager Documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents.html) in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// - Parameter CreateDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDocumentInput`)
     ///
-    /// - Returns: `CreateDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -966,6 +974,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDocumentInput, CreateDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDocumentOutput>(CreateDocumentOutput.httpOutput(from:), CreateDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDocumentInput, CreateDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDocumentOutput>())
@@ -1000,9 +1009,9 @@ extension SSMClient {
     ///
     /// Creates a new maintenance window. The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM.
     ///
-    /// - Parameter CreateMaintenanceWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMaintenanceWindowInput`)
     ///
-    /// - Returns: `CreateMaintenanceWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,6 +1046,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMaintenanceWindowInput, CreateMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMaintenanceWindowOutput>(CreateMaintenanceWindowOutput.httpOutput(from:), CreateMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMaintenanceWindowInput, CreateMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMaintenanceWindowOutput>())
@@ -1071,9 +1081,9 @@ extension SSMClient {
     ///
     /// Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to create a new OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// - Parameter CreateOpsItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOpsItemInput`)
     ///
-    /// - Returns: `CreateOpsItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOpsItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,6 +1119,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOpsItemInput, CreateOpsItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOpsItemOutput>(CreateOpsItemOutput.httpOutput(from:), CreateOpsItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOpsItemInput, CreateOpsItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOpsItemOutput>())
@@ -1143,9 +1154,9 @@ extension SSMClient {
     ///
     /// If you create a new application in Application Manager, Amazon Web Services Systems Manager calls this API operation to specify information about the new application, including the application type.
     ///
-    /// - Parameter CreateOpsMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOpsMetadataInput`)
     ///
-    /// - Returns: `CreateOpsMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOpsMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1181,6 +1192,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOpsMetadataOutput>(CreateOpsMetadataOutput.httpOutput(from:), CreateOpsMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOpsMetadataInput, CreateOpsMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOpsMetadataOutput>())
@@ -1215,9 +1227,9 @@ extension SSMClient {
     ///
     /// Creates a patch baseline. For information about valid key-value pairs in PatchFilters for each supported operating system type, see [PatchFilter].
     ///
-    /// - Parameter CreatePatchBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePatchBaselineInput`)
     ///
-    /// - Returns: `CreatePatchBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePatchBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1252,6 +1264,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePatchBaselineInput, CreatePatchBaselineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePatchBaselineOutput>(CreatePatchBaselineOutput.httpOutput(from:), CreatePatchBaselineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePatchBaselineInput, CreatePatchBaselineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePatchBaselineOutput>())
@@ -1286,9 +1299,9 @@ extension SSMClient {
     ///
     /// A resource data sync helps you view data from multiple sources in a single location. Amazon Web Services Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple Amazon Web Services Regions to a single Amazon Simple Storage Service (Amazon S3) bucket. For more information, see [Creating a resource data sync for Inventory](https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-create-resource-data-sync.html) in the Amazon Web Services Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple Amazon Web Services Regions to a single Amazon S3 bucket. This type can synchronize OpsItems and OpsData from multiple Amazon Web Services accounts and Amazon Web Services Regions or EntireOrganization by using Organizations. For more information, see [Setting up Systems Manager Explorer to display data from multiple accounts and Regions](https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html) in the Amazon Web Services Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the [ListResourceDataSync]. By default, data isn't encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
     ///
-    /// - Parameter CreateResourceDataSyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceDataSyncInput`)
     ///
-    /// - Returns: `CreateResourceDataSyncOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceDataSyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1323,6 +1336,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceDataSyncOutput>(CreateResourceDataSyncOutput.httpOutput(from:), CreateResourceDataSyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceDataSyncInput, CreateResourceDataSyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceDataSyncOutput>())
@@ -1357,9 +1371,9 @@ extension SSMClient {
     ///
     /// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register additional managed nodes. Deleting an activation doesn't de-register managed nodes. You must manually de-register managed nodes.
     ///
-    /// - Parameter DeleteActivationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteActivationInput`)
     ///
-    /// - Returns: `DeleteActivationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteActivationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1394,6 +1408,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteActivationInput, DeleteActivationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteActivationOutput>(DeleteActivationOutput.httpOutput(from:), DeleteActivationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteActivationInput, DeleteActivationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteActivationOutput>())
@@ -1428,9 +1443,9 @@ extension SSMClient {
     ///
     /// Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified managed node. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from a managed node, it doesn't change the configuration of the node. To change the configuration state of a managed node after you disassociate a document, you must create a new document with the desired configuration and associate it with the node.
     ///
-    /// - Parameter DeleteAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssociationInput`)
     ///
-    /// - Returns: `DeleteAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1474,6 +1489,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAssociationInput, DeleteAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssociationOutput>(DeleteAssociationOutput.httpOutput(from:), DeleteAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssociationInput, DeleteAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssociationOutput>())
@@ -1508,9 +1524,9 @@ extension SSMClient {
     ///
     /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use [DeleteAssociation] to disassociate all managed nodes that are associated with the document.
     ///
-    /// - Parameter DeleteDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDocumentInput`)
     ///
-    /// - Returns: `DeleteDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1546,6 +1562,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDocumentInput, DeleteDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDocumentOutput>(DeleteDocumentOutput.httpOutput(from:), DeleteDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDocumentInput, DeleteDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDocumentOutput>())
@@ -1580,9 +1597,9 @@ extension SSMClient {
     ///
     /// Delete a custom inventory type or the data associated with a custom Inventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema.
     ///
-    /// - Parameter DeleteInventoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInventoryInput`)
     ///
-    /// - Returns: `DeleteInventoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInventoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1619,6 +1636,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInventoryInput, DeleteInventoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInventoryOutput>(DeleteInventoryOutput.httpOutput(from:), DeleteInventoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInventoryInput, DeleteInventoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInventoryOutput>())
@@ -1653,9 +1671,9 @@ extension SSMClient {
     ///
     /// Deletes a maintenance window.
     ///
-    /// - Parameter DeleteMaintenanceWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMaintenanceWindowInput`)
     ///
-    /// - Returns: `DeleteMaintenanceWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1687,6 +1705,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMaintenanceWindowOutput>(DeleteMaintenanceWindowOutput.httpOutput(from:), DeleteMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMaintenanceWindowInput, DeleteMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMaintenanceWindowOutput>())
@@ -1729,9 +1748,9 @@ extension SSMClient {
     ///
     /// * This operation doesn't support cross-account calls. A delegated administrator or management account can't delete OpsItems in other accounts, even if OpsCenter has been set up for cross-account administration. For more information about cross-account administration, see [Setting up OpsCenter to centrally manage OpsItems across accounts](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setting-up-cross-account.html) in the Systems Manager User Guide.
     ///
-    /// - Parameter DeleteOpsItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOpsItemInput`)
     ///
-    /// - Returns: `DeleteOpsItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOpsItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1764,6 +1783,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOpsItemInput, DeleteOpsItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOpsItemOutput>(DeleteOpsItemOutput.httpOutput(from:), DeleteOpsItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOpsItemInput, DeleteOpsItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOpsItemOutput>())
@@ -1798,9 +1818,9 @@ extension SSMClient {
     ///
     /// Delete OpsMetadata related to an application.
     ///
-    /// - Parameter DeleteOpsMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOpsMetadataInput`)
     ///
-    /// - Returns: `DeleteOpsMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOpsMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1834,6 +1854,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOpsMetadataOutput>(DeleteOpsMetadataOutput.httpOutput(from:), DeleteOpsMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOpsMetadataInput, DeleteOpsMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOpsMetadataOutput>())
@@ -1868,9 +1889,9 @@ extension SSMClient {
     ///
     /// Delete a parameter from the system. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
     ///
-    /// - Parameter DeleteParameterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteParameterInput`)
     ///
-    /// - Returns: `DeleteParameterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteParameterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1903,6 +1924,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteParameterInput, DeleteParameterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteParameterOutput>(DeleteParameterOutput.httpOutput(from:), DeleteParameterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteParameterInput, DeleteParameterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteParameterOutput>())
@@ -1937,9 +1959,9 @@ extension SSMClient {
     ///
     /// Delete a list of parameters. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
     ///
-    /// - Parameter DeleteParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteParametersInput`)
     ///
-    /// - Returns: `DeleteParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1971,6 +1993,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteParametersInput, DeleteParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteParametersOutput>(DeleteParametersOutput.httpOutput(from:), DeleteParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteParametersInput, DeleteParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteParametersOutput>())
@@ -2005,9 +2028,9 @@ extension SSMClient {
     ///
     /// Deletes a patch baseline.
     ///
-    /// - Parameter DeletePatchBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePatchBaselineInput`)
     ///
-    /// - Returns: `DeletePatchBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePatchBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2040,6 +2063,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePatchBaselineOutput>(DeletePatchBaselineOutput.httpOutput(from:), DeletePatchBaselineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePatchBaselineInput, DeletePatchBaselineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePatchBaselineOutput>())
@@ -2074,9 +2098,9 @@ extension SSMClient {
     ///
     /// Deletes a resource data sync configuration. After the configuration is deleted, changes to data on managed nodes are no longer synced to or from the target. Deleting a sync configuration doesn't delete data.
     ///
-    /// - Parameter DeleteResourceDataSyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceDataSyncInput`)
     ///
-    /// - Returns: `DeleteResourceDataSyncOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceDataSyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2110,6 +2134,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceDataSyncOutput>(DeleteResourceDataSyncOutput.httpOutput(from:), DeleteResourceDataSyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceDataSyncInput, DeleteResourceDataSyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceDataSyncOutput>())
@@ -2148,9 +2173,9 @@ extension SSMClient {
     ///
     /// * Parameter - The resource policy is used to share a parameter with other accounts using Resource Access Manager (RAM). For more information about cross-account sharing of parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html) in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2187,6 +2212,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -2221,9 +2247,9 @@ extension SSMClient {
     ///
     /// Removes the server or virtual machine from the list of registered servers. If you want to reregister an on-premises server, edge device, or VM, you must use a different Activation Code and Activation ID than used to register the machine previously. The Activation Code and Activation ID must not have already been used on the maximum number of activations specified when they were created. For more information, see [Deregistering managed nodes in a hybrid and multicloud environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/fleet-manager-deregister-hybrid-nodes.html) in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// - Parameter DeregisterManagedInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterManagedInstanceInput`)
     ///
-    /// - Returns: `DeregisterManagedInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterManagedInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2264,6 +2290,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterManagedInstanceOutput>(DeregisterManagedInstanceOutput.httpOutput(from:), DeregisterManagedInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterManagedInstanceInput, DeregisterManagedInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterManagedInstanceOutput>())
@@ -2298,9 +2325,9 @@ extension SSMClient {
     ///
     /// Removes a patch group from a patch baseline.
     ///
-    /// - Parameter DeregisterPatchBaselineForPatchGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterPatchBaselineForPatchGroupInput`)
     ///
-    /// - Returns: `DeregisterPatchBaselineForPatchGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterPatchBaselineForPatchGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2333,6 +2360,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterPatchBaselineForPatchGroupOutput>(DeregisterPatchBaselineForPatchGroupOutput.httpOutput(from:), DeregisterPatchBaselineForPatchGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterPatchBaselineForPatchGroupInput, DeregisterPatchBaselineForPatchGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterPatchBaselineForPatchGroupOutput>())
@@ -2367,9 +2395,9 @@ extension SSMClient {
     ///
     /// Removes a target from a maintenance window.
     ///
-    /// - Parameter DeregisterTargetFromMaintenanceWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTargetFromMaintenanceWindowInput`)
     ///
-    /// - Returns: `DeregisterTargetFromMaintenanceWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTargetFromMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2403,6 +2431,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTargetFromMaintenanceWindowOutput>(DeregisterTargetFromMaintenanceWindowOutput.httpOutput(from:), DeregisterTargetFromMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTargetFromMaintenanceWindowInput, DeregisterTargetFromMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTargetFromMaintenanceWindowOutput>())
@@ -2437,9 +2466,9 @@ extension SSMClient {
     ///
     /// Removes a task from a maintenance window.
     ///
-    /// - Parameter DeregisterTaskFromMaintenanceWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTaskFromMaintenanceWindowInput`)
     ///
-    /// - Returns: `DeregisterTaskFromMaintenanceWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTaskFromMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2472,6 +2501,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTaskFromMaintenanceWindowOutput>(DeregisterTaskFromMaintenanceWindowOutput.httpOutput(from:), DeregisterTaskFromMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTaskFromMaintenanceWindowInput, DeregisterTaskFromMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTaskFromMaintenanceWindowOutput>())
@@ -2506,9 +2536,9 @@ extension SSMClient {
     ///
     /// Describes details about the activation, such as the date and time the activation was created, its expiration date, the Identity and Access Management (IAM) role assigned to the managed nodes in the activation, and the number of nodes registered by using this activation.
     ///
-    /// - Parameter DescribeActivationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActivationsInput`)
     ///
-    /// - Returns: `DescribeActivationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActivationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2542,6 +2572,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeActivationsInput, DescribeActivationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActivationsOutput>(DescribeActivationsOutput.httpOutput(from:), DescribeActivationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActivationsInput, DescribeActivationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActivationsOutput>())
@@ -2576,9 +2607,9 @@ extension SSMClient {
     ///
     /// Describes the association for the specified target or managed node. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID.
     ///
-    /// - Parameter DescribeAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssociationInput`)
     ///
-    /// - Returns: `DescribeAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2622,6 +2653,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAssociationInput, DescribeAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssociationOutput>(DescribeAssociationOutput.httpOutput(from:), DescribeAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssociationInput, DescribeAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssociationOutput>())
@@ -2656,9 +2688,9 @@ extension SSMClient {
     ///
     /// Views information about a specific execution of a specific association.
     ///
-    /// - Parameter DescribeAssociationExecutionTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssociationExecutionTargetsInput`)
     ///
-    /// - Returns: `DescribeAssociationExecutionTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssociationExecutionTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2693,6 +2725,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssociationExecutionTargetsOutput>(DescribeAssociationExecutionTargetsOutput.httpOutput(from:), DescribeAssociationExecutionTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssociationExecutionTargetsInput, DescribeAssociationExecutionTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssociationExecutionTargetsOutput>())
@@ -2727,9 +2760,9 @@ extension SSMClient {
     ///
     /// Views all executions for a specific association ID.
     ///
-    /// - Parameter DescribeAssociationExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssociationExecutionsInput`)
     ///
-    /// - Returns: `DescribeAssociationExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssociationExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2763,6 +2796,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssociationExecutionsOutput>(DescribeAssociationExecutionsOutput.httpOutput(from:), DescribeAssociationExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssociationExecutionsInput, DescribeAssociationExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssociationExecutionsOutput>())
@@ -2797,9 +2831,9 @@ extension SSMClient {
     ///
     /// Provides details about all active and terminated Automation executions.
     ///
-    /// - Parameter DescribeAutomationExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAutomationExecutionsInput`)
     ///
-    /// - Returns: `DescribeAutomationExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAutomationExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2834,6 +2868,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAutomationExecutionsOutput>(DescribeAutomationExecutionsOutput.httpOutput(from:), DescribeAutomationExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutomationExecutionsInput, DescribeAutomationExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAutomationExecutionsOutput>())
@@ -2868,9 +2903,9 @@ extension SSMClient {
     ///
     /// Information about all active and terminated step executions in an Automation workflow.
     ///
-    /// - Parameter DescribeAutomationStepExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAutomationStepExecutionsInput`)
     ///
-    /// - Returns: `DescribeAutomationStepExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAutomationStepExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2906,6 +2941,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAutomationStepExecutionsOutput>(DescribeAutomationStepExecutionsOutput.httpOutput(from:), DescribeAutomationStepExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutomationStepExecutionsInput, DescribeAutomationStepExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAutomationStepExecutionsOutput>())
@@ -2940,9 +2976,9 @@ extension SSMClient {
     ///
     /// Lists all patches eligible to be included in a patch baseline. Currently, DescribeAvailablePatches supports only the Amazon Linux 1, Amazon Linux 2, and Windows Server operating systems.
     ///
-    /// - Parameter DescribeAvailablePatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAvailablePatchesInput`)
     ///
-    /// - Returns: `DescribeAvailablePatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAvailablePatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2974,6 +3010,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAvailablePatchesOutput>(DescribeAvailablePatchesOutput.httpOutput(from:), DescribeAvailablePatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAvailablePatchesInput, DescribeAvailablePatchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAvailablePatchesOutput>())
@@ -3008,9 +3045,9 @@ extension SSMClient {
     ///
     /// Describes the specified Amazon Web Services Systems Manager document (SSM document).
     ///
-    /// - Parameter DescribeDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDocumentInput`)
     ///
-    /// - Returns: `DescribeDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3044,6 +3081,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDocumentInput, DescribeDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDocumentOutput>(DescribeDocumentOutput.httpOutput(from:), DescribeDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDocumentInput, DescribeDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDocumentOutput>())
@@ -3078,9 +3116,9 @@ extension SSMClient {
     ///
     /// Describes the permissions for a Amazon Web Services Systems Manager document (SSM document). If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's Amazon Web Services account ID) or publicly (All).
     ///
-    /// - Parameter DescribeDocumentPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDocumentPermissionInput`)
     ///
-    /// - Returns: `DescribeDocumentPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDocumentPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3116,6 +3154,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDocumentPermissionOutput>(DescribeDocumentPermissionOutput.httpOutput(from:), DescribeDocumentPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDocumentPermissionInput, DescribeDocumentPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDocumentPermissionOutput>())
@@ -3150,9 +3189,9 @@ extension SSMClient {
     ///
     /// All associations for the managed nodes.
     ///
-    /// - Parameter DescribeEffectiveInstanceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEffectiveInstanceAssociationsInput`)
     ///
-    /// - Returns: `DescribeEffectiveInstanceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEffectiveInstanceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3194,6 +3233,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEffectiveInstanceAssociationsOutput>(DescribeEffectiveInstanceAssociationsOutput.httpOutput(from:), DescribeEffectiveInstanceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEffectiveInstanceAssociationsInput, DescribeEffectiveInstanceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEffectiveInstanceAssociationsOutput>())
@@ -3228,9 +3268,9 @@ extension SSMClient {
     ///
     /// Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Applies to patch baselines for Windows only.
     ///
-    /// - Parameter DescribeEffectivePatchesForPatchBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEffectivePatchesForPatchBaselineInput`)
     ///
-    /// - Returns: `DescribeEffectivePatchesForPatchBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEffectivePatchesForPatchBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3265,6 +3305,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEffectivePatchesForPatchBaselineOutput>(DescribeEffectivePatchesForPatchBaselineOutput.httpOutput(from:), DescribeEffectivePatchesForPatchBaselineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEffectivePatchesForPatchBaselineInput, DescribeEffectivePatchesForPatchBaselineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEffectivePatchesForPatchBaselineOutput>())
@@ -3299,9 +3340,9 @@ extension SSMClient {
     ///
     /// The status of the associations for the managed nodes.
     ///
-    /// - Parameter DescribeInstanceAssociationsStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceAssociationsStatusInput`)
     ///
-    /// - Returns: `DescribeInstanceAssociationsStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceAssociationsStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3343,6 +3384,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceAssociationsStatusOutput>(DescribeInstanceAssociationsStatusOutput.httpOutput(from:), DescribeInstanceAssociationsStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceAssociationsStatusInput, DescribeInstanceAssociationsStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceAssociationsStatusOutput>())
@@ -3377,9 +3419,9 @@ extension SSMClient {
     ///
     /// Provides information about one or more of your managed nodes, including the operating system platform, SSM Agent version, association status, and IP address. This operation does not return information for nodes that are either Stopped or Terminated. If you specify one or more node IDs, the operation returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error. The IamRole field returned for this API operation is the role assigned to an Amazon EC2 instance configured with a Systems Manager Quick Setup host management configuration or the role assigned to an on-premises managed node.
     ///
-    /// - Parameter DescribeInstanceInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstanceInformationInput`)
     ///
-    /// - Returns: `DescribeInstanceInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstanceInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3423,6 +3465,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstanceInformationOutput>(DescribeInstanceInformationOutput.httpOutput(from:), DescribeInstanceInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstanceInformationInput, DescribeInstanceInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstanceInformationOutput>())
@@ -3457,9 +3500,9 @@ extension SSMClient {
     ///
     /// Retrieves the high-level patch state of one or more managed nodes.
     ///
-    /// - Parameter DescribeInstancePatchStatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstancePatchStatesInput`)
     ///
-    /// - Returns: `DescribeInstancePatchStatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstancePatchStatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3492,6 +3535,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstancePatchStatesOutput>(DescribeInstancePatchStatesOutput.httpOutput(from:), DescribeInstancePatchStatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancePatchStatesInput, DescribeInstancePatchStatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancePatchStatesOutput>())
@@ -3526,9 +3570,9 @@ extension SSMClient {
     ///
     /// Retrieves the high-level patch state for the managed nodes in the specified patch group.
     ///
-    /// - Parameter DescribeInstancePatchStatesForPatchGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstancePatchStatesForPatchGroupInput`)
     ///
-    /// - Returns: `DescribeInstancePatchStatesForPatchGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstancePatchStatesForPatchGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3562,6 +3606,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstancePatchStatesForPatchGroupOutput>(DescribeInstancePatchStatesForPatchGroupOutput.httpOutput(from:), DescribeInstancePatchStatesForPatchGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancePatchStatesForPatchGroupInput, DescribeInstancePatchStatesForPatchGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancePatchStatesForPatchGroupOutput>())
@@ -3596,9 +3641,9 @@ extension SSMClient {
     ///
     /// Retrieves information about the patches on the specified managed node and their state relative to the patch baseline being used for the node.
     ///
-    /// - Parameter DescribeInstancePatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstancePatchesInput`)
     ///
-    /// - Returns: `DescribeInstancePatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstancePatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3641,6 +3686,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstancePatchesOutput>(DescribeInstancePatchesOutput.httpOutput(from:), DescribeInstancePatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancePatchesInput, DescribeInstancePatchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancePatchesOutput>())
@@ -3675,9 +3721,9 @@ extension SSMClient {
     ///
     /// An API operation used by the Systems Manager console to display information about Systems Manager managed nodes.
     ///
-    /// - Parameter DescribeInstancePropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInstancePropertiesInput`)
     ///
-    /// - Returns: `DescribeInstancePropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInstancePropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3723,6 +3769,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInstancePropertiesOutput>(DescribeInstancePropertiesOutput.httpOutput(from:), DescribeInstancePropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInstancePropertiesInput, DescribeInstancePropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInstancePropertiesOutput>())
@@ -3757,9 +3804,9 @@ extension SSMClient {
     ///
     /// Describes a specific delete inventory operation.
     ///
-    /// - Parameter DescribeInventoryDeletionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInventoryDeletionsInput`)
     ///
-    /// - Returns: `DescribeInventoryDeletionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInventoryDeletionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3793,6 +3840,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInventoryDeletionsOutput>(DescribeInventoryDeletionsOutput.httpOutput(from:), DescribeInventoryDeletionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInventoryDeletionsInput, DescribeInventoryDeletionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInventoryDeletionsOutput>())
@@ -3827,9 +3875,9 @@ extension SSMClient {
     ///
     /// Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution.
     ///
-    /// - Parameter DescribeMaintenanceWindowExecutionTaskInvocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMaintenanceWindowExecutionTaskInvocationsInput`)
     ///
-    /// - Returns: `DescribeMaintenanceWindowExecutionTaskInvocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMaintenanceWindowExecutionTaskInvocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3862,6 +3910,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsOutput>(DescribeMaintenanceWindowExecutionTaskInvocationsOutput.httpOutput(from:), DescribeMaintenanceWindowExecutionTaskInvocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsInput, DescribeMaintenanceWindowExecutionTaskInvocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowExecutionTaskInvocationsOutput>())
@@ -3896,9 +3945,9 @@ extension SSMClient {
     ///
     /// For a given maintenance window execution, lists the tasks that were run.
     ///
-    /// - Parameter DescribeMaintenanceWindowExecutionTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMaintenanceWindowExecutionTasksInput`)
     ///
-    /// - Returns: `DescribeMaintenanceWindowExecutionTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMaintenanceWindowExecutionTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3931,6 +3980,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowExecutionTasksOutput>(DescribeMaintenanceWindowExecutionTasksOutput.httpOutput(from:), DescribeMaintenanceWindowExecutionTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionTasksInput, DescribeMaintenanceWindowExecutionTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowExecutionTasksOutput>())
@@ -3965,9 +4015,9 @@ extension SSMClient {
     ///
     /// Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window.
     ///
-    /// - Parameter DescribeMaintenanceWindowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMaintenanceWindowExecutionsInput`)
     ///
-    /// - Returns: `DescribeMaintenanceWindowExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMaintenanceWindowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3999,6 +4049,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowExecutionsOutput>(DescribeMaintenanceWindowExecutionsOutput.httpOutput(from:), DescribeMaintenanceWindowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowExecutionsInput, DescribeMaintenanceWindowExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowExecutionsOutput>())
@@ -4033,9 +4084,9 @@ extension SSMClient {
     ///
     /// Retrieves information about upcoming executions of a maintenance window.
     ///
-    /// - Parameter DescribeMaintenanceWindowScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMaintenanceWindowScheduleInput`)
     ///
-    /// - Returns: `DescribeMaintenanceWindowScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMaintenanceWindowScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4068,6 +4119,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowScheduleOutput>(DescribeMaintenanceWindowScheduleOutput.httpOutput(from:), DescribeMaintenanceWindowScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowScheduleInput, DescribeMaintenanceWindowScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowScheduleOutput>())
@@ -4102,9 +4154,9 @@ extension SSMClient {
     ///
     /// Lists the targets registered with the maintenance window.
     ///
-    /// - Parameter DescribeMaintenanceWindowTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMaintenanceWindowTargetsInput`)
     ///
-    /// - Returns: `DescribeMaintenanceWindowTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMaintenanceWindowTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4137,6 +4189,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowTargetsOutput>(DescribeMaintenanceWindowTargetsOutput.httpOutput(from:), DescribeMaintenanceWindowTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowTargetsInput, DescribeMaintenanceWindowTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowTargetsOutput>())
@@ -4171,9 +4224,9 @@ extension SSMClient {
     ///
     /// Lists the tasks in a maintenance window. For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values don't affect the running of your task and can be ignored.
     ///
-    /// - Parameter DescribeMaintenanceWindowTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMaintenanceWindowTasksInput`)
     ///
-    /// - Returns: `DescribeMaintenanceWindowTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMaintenanceWindowTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4206,6 +4259,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowTasksOutput>(DescribeMaintenanceWindowTasksOutput.httpOutput(from:), DescribeMaintenanceWindowTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowTasksInput, DescribeMaintenanceWindowTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowTasksOutput>())
@@ -4240,9 +4294,9 @@ extension SSMClient {
     ///
     /// Retrieves the maintenance windows in an Amazon Web Services account.
     ///
-    /// - Parameter DescribeMaintenanceWindowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMaintenanceWindowsInput`)
     ///
-    /// - Returns: `DescribeMaintenanceWindowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMaintenanceWindowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4274,6 +4328,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowsOutput>(DescribeMaintenanceWindowsOutput.httpOutput(from:), DescribeMaintenanceWindowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowsInput, DescribeMaintenanceWindowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowsOutput>())
@@ -4308,9 +4363,9 @@ extension SSMClient {
     ///
     /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with.
     ///
-    /// - Parameter DescribeMaintenanceWindowsForTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMaintenanceWindowsForTargetInput`)
     ///
-    /// - Returns: `DescribeMaintenanceWindowsForTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMaintenanceWindowsForTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4342,6 +4397,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMaintenanceWindowsForTargetOutput>(DescribeMaintenanceWindowsForTargetOutput.httpOutput(from:), DescribeMaintenanceWindowsForTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMaintenanceWindowsForTargetInput, DescribeMaintenanceWindowsForTargetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMaintenanceWindowsForTargetOutput>())
@@ -4376,9 +4432,9 @@ extension SSMClient {
     ///
     /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// - Parameter DescribeOpsItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOpsItemsInput`)
     ///
-    /// - Returns: `DescribeOpsItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOpsItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4410,6 +4466,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOpsItemsOutput>(DescribeOpsItemsOutput.httpOutput(from:), DescribeOpsItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOpsItemsInput, DescribeOpsItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOpsItemsOutput>())
@@ -4444,9 +4501,9 @@ extension SSMClient {
     ///
     /// Lists the parameters in your Amazon Web Services account or the parameters shared with you when you enable the [Shared](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html#systemsmanager-DescribeParameters-request-Shared) option. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, DescribeParameters retrieves whatever the original key alias was referencing.
     ///
-    /// - Parameter DescribeParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeParametersInput`)
     ///
-    /// - Returns: `DescribeParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4482,6 +4539,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeParametersInput, DescribeParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeParametersOutput>(DescribeParametersOutput.httpOutput(from:), DescribeParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeParametersInput, DescribeParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeParametersOutput>())
@@ -4516,9 +4574,9 @@ extension SSMClient {
     ///
     /// Lists the patch baselines in your Amazon Web Services account.
     ///
-    /// - Parameter DescribePatchBaselinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePatchBaselinesInput`)
     ///
-    /// - Returns: `DescribePatchBaselinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePatchBaselinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4550,6 +4608,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePatchBaselinesOutput>(DescribePatchBaselinesOutput.httpOutput(from:), DescribePatchBaselinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePatchBaselinesInput, DescribePatchBaselinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePatchBaselinesOutput>())
@@ -4584,9 +4643,9 @@ extension SSMClient {
     ///
     /// Returns high-level aggregated patch compliance state information for a patch group.
     ///
-    /// - Parameter DescribePatchGroupStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePatchGroupStateInput`)
     ///
-    /// - Returns: `DescribePatchGroupStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePatchGroupStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4619,6 +4678,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePatchGroupStateOutput>(DescribePatchGroupStateOutput.httpOutput(from:), DescribePatchGroupStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePatchGroupStateInput, DescribePatchGroupStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePatchGroupStateOutput>())
@@ -4653,9 +4713,9 @@ extension SSMClient {
     ///
     /// Lists all patch groups that have been registered with patch baselines.
     ///
-    /// - Parameter DescribePatchGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePatchGroupsInput`)
     ///
-    /// - Returns: `DescribePatchGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePatchGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4687,6 +4747,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePatchGroupsOutput>(DescribePatchGroupsOutput.httpOutput(from:), DescribePatchGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePatchGroupsInput, DescribePatchGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePatchGroupsOutput>())
@@ -4721,9 +4782,9 @@ extension SSMClient {
     ///
     /// Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for operations such as [CreatePatchBaseline], [UpdatePatchBaseline], [DescribeAvailablePatches], and [DescribePatchBaselines]. The following section lists the properties that can be used in filters for each major operating system type: AMAZON_LINUX Valid properties: PRODUCT | CLASSIFICATION | SEVERITY AMAZON_LINUX_2 Valid properties: PRODUCT | CLASSIFICATION | SEVERITY AMAZON_LINUX_2023 Valid properties: PRODUCT | CLASSIFICATION | SEVERITY CENTOS Valid properties: PRODUCT | CLASSIFICATION | SEVERITY DEBIAN Valid properties: PRODUCT | PRIORITY MACOS Valid properties: PRODUCT | CLASSIFICATION ORACLE_LINUX Valid properties: PRODUCT | CLASSIFICATION | SEVERITY REDHAT_ENTERPRISE_LINUX Valid properties: PRODUCT | CLASSIFICATION | SEVERITY SUSE Valid properties: PRODUCT | CLASSIFICATION | SEVERITY UBUNTU Valid properties: PRODUCT | PRIORITY WINDOWS Valid properties: PRODUCT | PRODUCT_FAMILY | CLASSIFICATION | MSRC_SEVERITY
     ///
-    /// - Parameter DescribePatchPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePatchPropertiesInput`)
     ///
-    /// - Returns: `DescribePatchPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePatchPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4755,6 +4816,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePatchPropertiesOutput>(DescribePatchPropertiesOutput.httpOutput(from:), DescribePatchPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePatchPropertiesInput, DescribePatchPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePatchPropertiesOutput>())
@@ -4789,9 +4851,9 @@ extension SSMClient {
     ///
     /// Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days.
     ///
-    /// - Parameter DescribeSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSessionsInput`)
     ///
-    /// - Returns: `DescribeSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4825,6 +4887,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSessionsInput, DescribeSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSessionsOutput>(DescribeSessionsOutput.httpOutput(from:), DescribeSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSessionsInput, DescribeSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSessionsOutput>())
@@ -4859,9 +4922,9 @@ extension SSMClient {
     ///
     /// Deletes the association between an OpsItem and a related item. For example, this API operation can delete an Incident Manager incident from an OpsItem. Incident Manager is a tool in Amazon Web Services Systems Manager.
     ///
-    /// - Parameter DisassociateOpsItemRelatedItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateOpsItemRelatedItemInput`)
     ///
-    /// - Returns: `DisassociateOpsItemRelatedItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateOpsItemRelatedItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4897,6 +4960,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateOpsItemRelatedItemOutput>(DisassociateOpsItemRelatedItemOutput.httpOutput(from:), DisassociateOpsItemRelatedItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateOpsItemRelatedItemInput, DisassociateOpsItemRelatedItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateOpsItemRelatedItemOutput>())
@@ -4931,9 +4995,9 @@ extension SSMClient {
     ///
     /// Returns a credentials set to be used with just-in-time node access.
     ///
-    /// - Parameter GetAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessTokenInput`)
     ///
-    /// - Returns: `GetAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4969,6 +5033,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccessTokenInput, GetAccessTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessTokenOutput>(GetAccessTokenOutput.httpOutput(from:), GetAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessTokenOutput>())
@@ -5003,9 +5068,9 @@ extension SSMClient {
     ///
     /// Get detailed information about a particular Automation execution.
     ///
-    /// - Parameter GetAutomationExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutomationExecutionInput`)
     ///
-    /// - Returns: `GetAutomationExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutomationExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5038,6 +5103,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutomationExecutionOutput>(GetAutomationExecutionOutput.httpOutput(from:), GetAutomationExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutomationExecutionInput, GetAutomationExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutomationExecutionOutput>())
@@ -5072,9 +5138,9 @@ extension SSMClient {
     ///
     /// Gets the state of a Amazon Web Services Systems Manager change calendar at the current time or a specified time. If you specify a time, GetCalendarState returns the state of the calendar at that specific time, and returns the next time that the change calendar state will transition. If you don't specify a time, GetCalendarState uses the current time. Change Calendar entries have two possible states: OPEN or CLOSED. If you specify more than one calendar in a request, the command returns the status of OPEN only if all calendars in the request are open. If one or more calendars in the request are closed, the status returned is CLOSED. For more information about Change Calendar, a tool in Amazon Web Services Systems Manager, see [Amazon Web Services Systems Manager Change Calendar](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-change-calendar.html) in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// - Parameter GetCalendarStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCalendarStateInput`)
     ///
-    /// - Returns: `GetCalendarStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCalendarStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5109,6 +5175,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCalendarStateInput, GetCalendarStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCalendarStateOutput>(GetCalendarStateOutput.httpOutput(from:), GetCalendarStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCalendarStateInput, GetCalendarStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCalendarStateOutput>())
@@ -5143,9 +5210,9 @@ extension SSMClient {
     ///
     /// Returns detailed information about command execution for an invocation or plugin. The Run Command API follows an eventual consistency model, due to the distributed nature of the system supporting the API. This means that the result of an API command you run that affects your resources might not be immediately visible to all subsequent commands you run. You should keep this in mind when you carry out an API command that immediately follows a previous API command. GetCommandInvocation only gives the execution status of a plugin in a document. To get the command execution status on a specific managed node, use [ListCommandInvocations]. To get the command execution status across managed nodes, use [ListCommands].
     ///
-    /// - Parameter GetCommandInvocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCommandInvocationInput`)
     ///
-    /// - Returns: `GetCommandInvocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCommandInvocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5189,6 +5256,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCommandInvocationInput, GetCommandInvocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCommandInvocationOutput>(GetCommandInvocationOutput.httpOutput(from:), GetCommandInvocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCommandInvocationInput, GetCommandInvocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCommandInvocationOutput>())
@@ -5223,9 +5291,9 @@ extension SSMClient {
     ///
     /// Retrieves the Session Manager connection status for a managed node to determine whether it is running and ready to receive Session Manager connections.
     ///
-    /// - Parameter GetConnectionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionStatusInput`)
     ///
-    /// - Returns: `GetConnectionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5257,6 +5325,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetConnectionStatusInput, GetConnectionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionStatusOutput>(GetConnectionStatusOutput.httpOutput(from:), GetConnectionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionStatusInput, GetConnectionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionStatusOutput>())
@@ -5291,9 +5360,9 @@ extension SSMClient {
     ///
     /// Retrieves the default patch baseline. Amazon Web Services Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system. If you don't specify an operating system value, the default patch baseline for Windows is returned.
     ///
-    /// - Parameter GetDefaultPatchBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDefaultPatchBaselineInput`)
     ///
-    /// - Returns: `GetDefaultPatchBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDefaultPatchBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5325,6 +5394,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultPatchBaselineOutput>(GetDefaultPatchBaselineOutput.httpOutput(from:), GetDefaultPatchBaselineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultPatchBaselineInput, GetDefaultPatchBaselineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultPatchBaselineOutput>())
@@ -5359,9 +5429,9 @@ extension SSMClient {
     ///
     /// Retrieves the current snapshot for the patch baseline the managed node uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document). If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local Amazon Web Services credentials and the operation fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a tool in Amazon Web Services Systems Manager, with an SSM document that enables you to target a managed node with a script or command. For example, run the command using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
     ///
-    /// - Parameter GetDeployablePatchSnapshotForInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeployablePatchSnapshotForInstanceInput`)
     ///
-    /// - Returns: `GetDeployablePatchSnapshotForInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeployablePatchSnapshotForInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5395,6 +5465,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeployablePatchSnapshotForInstanceOutput>(GetDeployablePatchSnapshotForInstanceOutput.httpOutput(from:), GetDeployablePatchSnapshotForInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeployablePatchSnapshotForInstanceInput, GetDeployablePatchSnapshotForInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeployablePatchSnapshotForInstanceOutput>())
@@ -5429,9 +5500,9 @@ extension SSMClient {
     ///
     /// Gets the contents of the specified Amazon Web Services Systems Manager document (SSM document).
     ///
-    /// - Parameter GetDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDocumentInput`)
     ///
-    /// - Returns: `GetDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5465,6 +5536,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDocumentInput, GetDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentOutput>(GetDocumentOutput.httpOutput(from:), GetDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentInput, GetDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentOutput>())
@@ -5499,9 +5571,9 @@ extension SSMClient {
     ///
     /// Initiates the process of retrieving an existing preview that shows the effects that running a specified Automation runbook would have on the targeted resources.
     ///
-    /// - Parameter GetExecutionPreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExecutionPreviewInput`)
     ///
-    /// - Returns: `GetExecutionPreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExecutionPreviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5534,6 +5606,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExecutionPreviewInput, GetExecutionPreviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExecutionPreviewOutput>(GetExecutionPreviewOutput.httpOutput(from:), GetExecutionPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExecutionPreviewInput, GetExecutionPreviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExecutionPreviewOutput>())
@@ -5568,9 +5641,9 @@ extension SSMClient {
     ///
     /// Query inventory information. This includes managed node status, such as Stopped or Terminated.
     ///
-    /// - Parameter GetInventoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInventoryInput`)
     ///
-    /// - Returns: `GetInventoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInventoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5608,6 +5681,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInventoryInput, GetInventoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInventoryOutput>(GetInventoryOutput.httpOutput(from:), GetInventoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInventoryInput, GetInventoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInventoryOutput>())
@@ -5642,9 +5716,9 @@ extension SSMClient {
     ///
     /// Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type.
     ///
-    /// - Parameter GetInventorySchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInventorySchemaInput`)
     ///
-    /// - Returns: `GetInventorySchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInventorySchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5678,6 +5752,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInventorySchemaInput, GetInventorySchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInventorySchemaOutput>(GetInventorySchemaOutput.httpOutput(from:), GetInventorySchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInventorySchemaInput, GetInventorySchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInventorySchemaOutput>())
@@ -5712,9 +5787,9 @@ extension SSMClient {
     ///
     /// Retrieves a maintenance window.
     ///
-    /// - Parameter GetMaintenanceWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMaintenanceWindowInput`)
     ///
-    /// - Returns: `GetMaintenanceWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5747,6 +5822,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowOutput>(GetMaintenanceWindowOutput.httpOutput(from:), GetMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowInput, GetMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowOutput>())
@@ -5781,9 +5857,9 @@ extension SSMClient {
     ///
     /// Retrieves details about a specific a maintenance window execution.
     ///
-    /// - Parameter GetMaintenanceWindowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMaintenanceWindowExecutionInput`)
     ///
-    /// - Returns: `GetMaintenanceWindowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMaintenanceWindowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5816,6 +5892,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowExecutionOutput>(GetMaintenanceWindowExecutionOutput.httpOutput(from:), GetMaintenanceWindowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionInput, GetMaintenanceWindowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowExecutionOutput>())
@@ -5850,9 +5927,9 @@ extension SSMClient {
     ///
     /// Retrieves the details about a specific task run as part of a maintenance window execution.
     ///
-    /// - Parameter GetMaintenanceWindowExecutionTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMaintenanceWindowExecutionTaskInput`)
     ///
-    /// - Returns: `GetMaintenanceWindowExecutionTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMaintenanceWindowExecutionTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5885,6 +5962,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowExecutionTaskOutput>(GetMaintenanceWindowExecutionTaskOutput.httpOutput(from:), GetMaintenanceWindowExecutionTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionTaskInput, GetMaintenanceWindowExecutionTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowExecutionTaskOutput>())
@@ -5919,9 +5997,9 @@ extension SSMClient {
     ///
     /// Retrieves information about a specific task running on a specific target.
     ///
-    /// - Parameter GetMaintenanceWindowExecutionTaskInvocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMaintenanceWindowExecutionTaskInvocationInput`)
     ///
-    /// - Returns: `GetMaintenanceWindowExecutionTaskInvocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMaintenanceWindowExecutionTaskInvocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5954,6 +6032,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowExecutionTaskInvocationOutput>(GetMaintenanceWindowExecutionTaskInvocationOutput.httpOutput(from:), GetMaintenanceWindowExecutionTaskInvocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowExecutionTaskInvocationInput, GetMaintenanceWindowExecutionTaskInvocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowExecutionTaskInvocationOutput>())
@@ -5988,9 +6067,9 @@ extension SSMClient {
     ///
     /// Retrieves the details of a maintenance window task. For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values don't affect the running of your task and can be ignored. To retrieve a list of tasks in a maintenance window, instead use the [DescribeMaintenanceWindowTasks] command.
     ///
-    /// - Parameter GetMaintenanceWindowTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMaintenanceWindowTaskInput`)
     ///
-    /// - Returns: `GetMaintenanceWindowTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMaintenanceWindowTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6023,6 +6102,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMaintenanceWindowTaskOutput>(GetMaintenanceWindowTaskOutput.httpOutput(from:), GetMaintenanceWindowTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMaintenanceWindowTaskInput, GetMaintenanceWindowTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMaintenanceWindowTaskOutput>())
@@ -6057,9 +6137,9 @@ extension SSMClient {
     ///
     /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// - Parameter GetOpsItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOpsItemInput`)
     ///
-    /// - Returns: `GetOpsItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOpsItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6093,6 +6173,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpsItemInput, GetOpsItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOpsItemOutput>(GetOpsItemOutput.httpOutput(from:), GetOpsItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpsItemInput, GetOpsItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpsItemOutput>())
@@ -6127,9 +6208,9 @@ extension SSMClient {
     ///
     /// View operational metadata related to an application in Application Manager.
     ///
-    /// - Parameter GetOpsMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOpsMetadataInput`)
     ///
-    /// - Returns: `GetOpsMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOpsMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6163,6 +6244,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpsMetadataInput, GetOpsMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOpsMetadataOutput>(GetOpsMetadataOutput.httpOutput(from:), GetOpsMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpsMetadataInput, GetOpsMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpsMetadataOutput>())
@@ -6197,9 +6279,9 @@ extension SSMClient {
     ///
     /// View a summary of operations metadata (OpsData) based on specified filters and aggregators. OpsData can include information about Amazon Web Services Systems Manager OpsCenter operational workitems (OpsItems) as well as information about any Amazon Web Services resource or service configured to report OpsData to Amazon Web Services Systems Manager Explorer.
     ///
-    /// - Parameter GetOpsSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOpsSummaryInput`)
     ///
-    /// - Returns: `GetOpsSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOpsSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6236,6 +6318,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpsSummaryInput, GetOpsSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOpsSummaryOutput>(GetOpsSummaryOutput.httpOutput(from:), GetOpsSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpsSummaryInput, GetOpsSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpsSummaryOutput>())
@@ -6270,9 +6353,9 @@ extension SSMClient {
     ///
     /// Get information about a single parameter by specifying the parameter name. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. To get information about more than one parameter at a time, use the [GetParameters] operation.
     ///
-    /// - Parameter GetParameterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParameterInput`)
     ///
-    /// - Returns: `GetParameterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParameterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6307,6 +6390,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParameterInput, GetParameterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParameterOutput>(GetParameterOutput.httpOutput(from:), GetParameterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParameterInput, GetParameterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParameterOutput>())
@@ -6341,9 +6425,9 @@ extension SSMClient {
     ///
     /// Retrieves the history of all changes to a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error. If you change the KMS key alias for the KMS key used to encrypt a parameter, then you must also update the key alias the parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatever the original key alias was referencing.
     ///
-    /// - Parameter GetParameterHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParameterHistoryInput`)
     ///
-    /// - Returns: `GetParameterHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParameterHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6378,6 +6462,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParameterHistoryInput, GetParameterHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParameterHistoryOutput>(GetParameterHistoryOutput.httpOutput(from:), GetParameterHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParameterHistoryInput, GetParameterHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParameterHistoryOutput>())
@@ -6412,9 +6497,9 @@ extension SSMClient {
     ///
     /// Get information about one or more parameters by specifying multiple parameter names. To get information about a single parameter, you can use the [GetParameter] operation instead. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
-    /// - Parameter GetParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParametersInput`)
     ///
-    /// - Returns: `GetParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6447,6 +6532,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParametersInput, GetParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParametersOutput>(GetParametersOutput.httpOutput(from:), GetParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParametersInput, GetParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParametersOutput>())
@@ -6481,9 +6567,9 @@ extension SSMClient {
     ///
     /// Retrieve information about one or more parameters under a specified level in a hierarchy. Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
-    /// - Parameter GetParametersByPathInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetParametersByPathInput`)
     ///
-    /// - Returns: `GetParametersByPathOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetParametersByPathOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6520,6 +6606,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetParametersByPathInput, GetParametersByPathOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetParametersByPathOutput>(GetParametersByPathOutput.httpOutput(from:), GetParametersByPathOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetParametersByPathInput, GetParametersByPathOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetParametersByPathOutput>())
@@ -6554,9 +6641,9 @@ extension SSMClient {
     ///
     /// Retrieves information about a patch baseline.
     ///
-    /// - Parameter GetPatchBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPatchBaselineInput`)
     ///
-    /// - Returns: `GetPatchBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPatchBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6590,6 +6677,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPatchBaselineInput, GetPatchBaselineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPatchBaselineOutput>(GetPatchBaselineOutput.httpOutput(from:), GetPatchBaselineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPatchBaselineInput, GetPatchBaselineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPatchBaselineOutput>())
@@ -6624,9 +6712,9 @@ extension SSMClient {
     ///
     /// Retrieves the patch baseline that should be used for the specified patch group.
     ///
-    /// - Parameter GetPatchBaselineForPatchGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPatchBaselineForPatchGroupInput`)
     ///
-    /// - Returns: `GetPatchBaselineForPatchGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPatchBaselineForPatchGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6658,6 +6746,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPatchBaselineForPatchGroupOutput>(GetPatchBaselineForPatchGroupOutput.httpOutput(from:), GetPatchBaselineForPatchGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPatchBaselineForPatchGroupInput, GetPatchBaselineForPatchGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPatchBaselineForPatchGroupOutput>())
@@ -6692,9 +6781,9 @@ extension SSMClient {
     ///
     /// Returns an array of the Policy object.
     ///
-    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePoliciesInput`)
     ///
-    /// - Returns: `GetResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6728,6 +6817,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePoliciesOutput>(GetResourcePoliciesOutput.httpOutput(from:), GetResourcePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePoliciesOutput>())
@@ -6762,9 +6852,9 @@ extension SSMClient {
     ///
     /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of false. This means the user can't use this feature unless they change the setting to true and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the [UpdateServiceSetting] API operation to change the default setting. Or use the [ResetServiceSetting] to change the value back to the original value defined by the Amazon Web Services service team. Query the current service setting for the Amazon Web Services account.
     ///
-    /// - Parameter GetServiceSettingInput : The request body of the GetServiceSetting API operation.
+    /// - Parameter input: The request body of the GetServiceSetting API operation. (Type: `GetServiceSettingInput`)
     ///
-    /// - Returns: `GetServiceSettingOutput` : The query result body of the GetServiceSetting API operation.
+    /// - Returns: The query result body of the GetServiceSetting API operation. (Type: `GetServiceSettingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6797,6 +6887,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceSettingInput, GetServiceSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSettingOutput>(GetServiceSettingOutput.httpOutput(from:), GetServiceSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSettingInput, GetServiceSettingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceSettingOutput>())
@@ -6849,9 +6940,9 @@ extension SSMClient {
     ///
     /// * Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
-    /// - Parameter LabelParameterVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `LabelParameterVersionInput`)
     ///
-    /// - Returns: `LabelParameterVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `LabelParameterVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6887,6 +6978,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<LabelParameterVersionInput, LabelParameterVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<LabelParameterVersionOutput>(LabelParameterVersionOutput.httpOutput(from:), LabelParameterVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LabelParameterVersionInput, LabelParameterVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<LabelParameterVersionOutput>())
@@ -6921,9 +7013,9 @@ extension SSMClient {
     ///
     /// Retrieves all versions of an association for a specific association ID.
     ///
-    /// - Parameter ListAssociationVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociationVersionsInput`)
     ///
-    /// - Returns: `ListAssociationVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6957,6 +7049,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociationVersionsOutput>(ListAssociationVersionsOutput.httpOutput(from:), ListAssociationVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociationVersionsInput, ListAssociationVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociationVersionsOutput>())
@@ -6991,9 +7084,9 @@ extension SSMClient {
     ///
     /// Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or managed node by specifying a filter. State Manager is a tool in Amazon Web Services Systems Manager.
     ///
-    /// - Parameter ListAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociationsInput`)
     ///
-    /// - Returns: `ListAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7026,6 +7119,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociationsInput, ListAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociationsOutput>(ListAssociationsOutput.httpOutput(from:), ListAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociationsInput, ListAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociationsOutput>())
@@ -7060,9 +7154,9 @@ extension SSMClient {
     ///
     /// An invocation is copy of a command sent to a specific managed node. A command can apply to one or more managed nodes. A command invocation applies to one managed node. For example, if a user runs SendCommand against three managed nodes, then a command invocation is created for each requested managed node ID. ListCommandInvocations provide status about command execution.
     ///
-    /// - Parameter ListCommandInvocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommandInvocationsInput`)
     ///
-    /// - Returns: `ListCommandInvocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommandInvocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7106,6 +7200,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommandInvocationsOutput>(ListCommandInvocationsOutput.httpOutput(from:), ListCommandInvocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandInvocationsInput, ListCommandInvocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommandInvocationsOutput>())
@@ -7140,9 +7235,9 @@ extension SSMClient {
     ///
     /// Lists the commands requested by users of the Amazon Web Services account.
     ///
-    /// - Parameter ListCommandsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCommandsInput`)
     ///
-    /// - Returns: `ListCommandsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCommandsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7186,6 +7281,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCommandsInput, ListCommandsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCommandsOutput>(ListCommandsOutput.httpOutput(from:), ListCommandsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCommandsInput, ListCommandsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCommandsOutput>())
@@ -7220,9 +7316,9 @@ extension SSMClient {
     ///
     /// For a specified resource ID, this API operation returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter.
     ///
-    /// - Parameter ListComplianceItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComplianceItemsInput`)
     ///
-    /// - Returns: `ListComplianceItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComplianceItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7258,6 +7354,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComplianceItemsInput, ListComplianceItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComplianceItemsOutput>(ListComplianceItemsOutput.httpOutput(from:), ListComplianceItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComplianceItemsInput, ListComplianceItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComplianceItemsOutput>())
@@ -7292,9 +7389,9 @@ extension SSMClient {
     ///
     /// Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify.
     ///
-    /// - Parameter ListComplianceSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComplianceSummariesInput`)
     ///
-    /// - Returns: `ListComplianceSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComplianceSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7328,6 +7425,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComplianceSummariesOutput>(ListComplianceSummariesOutput.httpOutput(from:), ListComplianceSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComplianceSummariesInput, ListComplianceSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComplianceSummariesOutput>())
@@ -7362,9 +7460,9 @@ extension SSMClient {
     ///
     /// Information about approval reviews for a version of a change template in Change Manager.
     ///
-    /// - Parameter ListDocumentMetadataHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDocumentMetadataHistoryInput`)
     ///
-    /// - Returns: `ListDocumentMetadataHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDocumentMetadataHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7399,6 +7497,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDocumentMetadataHistoryOutput>(ListDocumentMetadataHistoryOutput.httpOutput(from:), ListDocumentMetadataHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentMetadataHistoryInput, ListDocumentMetadataHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentMetadataHistoryOutput>())
@@ -7433,9 +7532,9 @@ extension SSMClient {
     ///
     /// List all versions for a document.
     ///
-    /// - Parameter ListDocumentVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDocumentVersionsInput`)
     ///
-    /// - Returns: `ListDocumentVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDocumentVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7469,6 +7568,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDocumentVersionsOutput>(ListDocumentVersionsOutput.httpOutput(from:), ListDocumentVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentVersionsInput, ListDocumentVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentVersionsOutput>())
@@ -7503,9 +7603,9 @@ extension SSMClient {
     ///
     /// Returns all Systems Manager (SSM) documents in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results of this request by using a filter.
     ///
-    /// - Parameter ListDocumentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDocumentsInput`)
     ///
-    /// - Returns: `ListDocumentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDocumentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7539,6 +7639,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDocumentsInput, ListDocumentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDocumentsOutput>(ListDocumentsOutput.httpOutput(from:), ListDocumentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDocumentsInput, ListDocumentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDocumentsOutput>())
@@ -7573,9 +7674,9 @@ extension SSMClient {
     ///
     /// A list of inventory items returned by the request.
     ///
-    /// - Parameter ListInventoryEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInventoryEntriesInput`)
     ///
-    /// - Returns: `ListInventoryEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInventoryEntriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7619,6 +7720,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInventoryEntriesOutput>(ListInventoryEntriesOutput.httpOutput(from:), ListInventoryEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInventoryEntriesInput, ListInventoryEntriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInventoryEntriesOutput>())
@@ -7653,9 +7755,9 @@ extension SSMClient {
     ///
     /// Takes in filters and returns a list of managed nodes matching the filter criteria.
     ///
-    /// - Parameter ListNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodesInput`)
     ///
-    /// - Returns: `ListNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7691,6 +7793,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNodesInput, ListNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNodesOutput>(ListNodesOutput.httpOutput(from:), ListNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodesInput, ListNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodesOutput>())
@@ -7725,9 +7828,9 @@ extension SSMClient {
     ///
     /// Generates a summary of managed instance/node metadata based on the filters and aggregators you specify. Results are grouped by the input aggregator you specify.
     ///
-    /// - Parameter ListNodesSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodesSummaryInput`)
     ///
-    /// - Returns: `ListNodesSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodesSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7764,6 +7867,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNodesSummaryInput, ListNodesSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNodesSummaryOutput>(ListNodesSummaryOutput.httpOutput(from:), ListNodesSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodesSummaryInput, ListNodesSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodesSummaryOutput>())
@@ -7798,9 +7902,9 @@ extension SSMClient {
     ///
     /// Returns a list of all OpsItem events in the current Amazon Web Services Region and Amazon Web Services account. You can limit the results to events associated with specific OpsItems by specifying a filter.
     ///
-    /// - Parameter ListOpsItemEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpsItemEventsInput`)
     ///
-    /// - Returns: `ListOpsItemEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOpsItemEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7835,6 +7939,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpsItemEventsOutput>(ListOpsItemEventsOutput.httpOutput(from:), ListOpsItemEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpsItemEventsInput, ListOpsItemEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpsItemEventsOutput>())
@@ -7869,9 +7974,9 @@ extension SSMClient {
     ///
     /// Lists all related-item resources associated with a Systems Manager OpsCenter OpsItem. OpsCenter is a tool in Amazon Web Services Systems Manager.
     ///
-    /// - Parameter ListOpsItemRelatedItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpsItemRelatedItemsInput`)
     ///
-    /// - Returns: `ListOpsItemRelatedItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOpsItemRelatedItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7904,6 +8009,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpsItemRelatedItemsOutput>(ListOpsItemRelatedItemsOutput.httpOutput(from:), ListOpsItemRelatedItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpsItemRelatedItemsInput, ListOpsItemRelatedItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpsItemRelatedItemsOutput>())
@@ -7938,9 +8044,9 @@ extension SSMClient {
     ///
     /// Amazon Web Services Systems Manager calls this API operation when displaying all Application Manager OpsMetadata objects or blobs.
     ///
-    /// - Parameter ListOpsMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpsMetadataInput`)
     ///
-    /// - Returns: `ListOpsMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOpsMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7973,6 +8079,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOpsMetadataInput, ListOpsMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpsMetadataOutput>(ListOpsMetadataOutput.httpOutput(from:), ListOpsMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpsMetadataInput, ListOpsMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpsMetadataOutput>())
@@ -8007,9 +8114,9 @@ extension SSMClient {
     ///
     /// Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify.
     ///
-    /// - Parameter ListResourceComplianceSummariesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceComplianceSummariesInput`)
     ///
-    /// - Returns: `ListResourceComplianceSummariesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceComplianceSummariesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8043,6 +8150,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceComplianceSummariesOutput>(ListResourceComplianceSummariesOutput.httpOutput(from:), ListResourceComplianceSummariesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceComplianceSummariesInput, ListResourceComplianceSummariesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceComplianceSummariesOutput>())
@@ -8077,9 +8185,9 @@ extension SSMClient {
     ///
     /// Lists your resource data sync configurations. Includes information about the last time a sync attempted to start, the last sync status, and the last time a sync successfully completed. The number of sync configurations might be too large to return using a single call to ListResourceDataSync. You can limit the number of sync configurations returned by using the MaxResults parameter. To determine whether there are more sync configurations to list, check the value of NextToken in the output. If there are more sync configurations to list, you can request them by specifying the NextToken returned in the call to the parameter of a subsequent call.
     ///
-    /// - Parameter ListResourceDataSyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceDataSyncInput`)
     ///
-    /// - Returns: `ListResourceDataSyncOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceDataSyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8113,6 +8221,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceDataSyncOutput>(ListResourceDataSyncOutput.httpOutput(from:), ListResourceDataSyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceDataSyncInput, ListResourceDataSyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceDataSyncOutput>())
@@ -8147,9 +8256,9 @@ extension SSMClient {
     ///
     /// Returns a list of the tags assigned to the specified resource. For information about the ID format for each supported resource type, see [AddTagsToResource].
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8183,6 +8292,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -8217,9 +8327,9 @@ extension SSMClient {
     ///
     /// Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately. If you share a document privately, you must specify the Amazon Web Services user IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID.
     ///
-    /// - Parameter ModifyDocumentPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDocumentPermissionInput`)
     ///
-    /// - Returns: `ModifyDocumentPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDocumentPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8255,6 +8365,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDocumentPermissionOutput>(ModifyDocumentPermissionOutput.httpOutput(from:), ModifyDocumentPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDocumentPermissionInput, ModifyDocumentPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDocumentPermissionOutput>())
@@ -8319,9 +8430,9 @@ extension SSMClient {
     ///
     /// * InstalledTime: The time the association, patch, or custom compliance item was applied to the resource. Specify the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
     ///
-    /// - Parameter PutComplianceItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutComplianceItemsInput`)
     ///
-    /// - Returns: `PutComplianceItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutComplianceItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8359,6 +8470,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutComplianceItemsInput, PutComplianceItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutComplianceItemsOutput>(PutComplianceItemsOutput.httpOutput(from:), PutComplianceItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutComplianceItemsInput, PutComplianceItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutComplianceItemsOutput>())
@@ -8393,9 +8505,9 @@ extension SSMClient {
     ///
     /// Bulk update custom inventory items on one or more managed nodes. The request adds an inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
     ///
-    /// - Parameter PutInventoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInventoryInput`)
     ///
-    /// - Returns: `PutInventoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInventoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8446,6 +8558,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInventoryInput, PutInventoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInventoryOutput>(PutInventoryOutput.httpOutput(from:), PutInventoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInventoryInput, PutInventoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInventoryOutput>())
@@ -8480,9 +8593,9 @@ extension SSMClient {
     ///
     /// Create or update a parameter in Parameter Store.
     ///
-    /// - Parameter PutParameterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutParameterInput`)
     ///
-    /// - Returns: `PutParameterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutParameterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8528,6 +8641,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutParameterInput, PutParameterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutParameterOutput>(PutParameterOutput.httpOutput(from:), PutParameterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutParameterInput, PutParameterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutParameterOutput>())
@@ -8566,9 +8680,9 @@ extension SSMClient {
     ///
     /// * Parameter - The resource policy is used to share a parameter with other accounts using Resource Access Manager (RAM). To share a parameter, it must be in the advanced parameter tier. For information about parameter tiers, see [Managing parameter tiers](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html). For information about changing an existing standard parameter to an advanced parameter, see [Changing a standard parameter to an advanced parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html#parameter-store-advanced-parameters-enabling). To share a SecureString parameter, it must be encrypted with a customer managed key, and you must share the key separately through Key Management Service. Amazon Web Services managed keys cannot be shared. Parameters encrypted with the default Amazon Web Services managed key can be updated to use a customer managed key instead. For KMS key definitions, see [KMS concepts](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html) in the Key Management Service Developer Guide. While you can share a parameter using the Systems Manager PutResourcePolicy operation, we recommend using Resource Access Manager (RAM) instead. This is because using PutResourcePolicy requires the extra step of promoting the parameter to a standard RAM Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) API operation. Otherwise, the parameter won't be returned by the Systems Manager [DescribeParameters](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html) API operation using the --shared option. For more information, see [Sharing a parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html#share) in the Amazon Web Services Systems Manager User Guide
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8606,6 +8720,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -8640,9 +8755,9 @@ extension SSMClient {
     ///
     /// Defines the default patch baseline for the relevant operating system. To reset the Amazon Web Services-predefined patch baseline as the default, specify the full patch baseline Amazon Resource Name (ARN) as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed.
     ///
-    /// - Parameter RegisterDefaultPatchBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterDefaultPatchBaselineInput`)
     ///
-    /// - Returns: `RegisterDefaultPatchBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterDefaultPatchBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8676,6 +8791,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterDefaultPatchBaselineOutput>(RegisterDefaultPatchBaselineOutput.httpOutput(from:), RegisterDefaultPatchBaselineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterDefaultPatchBaselineInput, RegisterDefaultPatchBaselineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterDefaultPatchBaselineOutput>())
@@ -8710,9 +8826,9 @@ extension SSMClient {
     ///
     /// Registers a patch baseline for a patch group.
     ///
-    /// - Parameter RegisterPatchBaselineForPatchGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterPatchBaselineForPatchGroupInput`)
     ///
-    /// - Returns: `RegisterPatchBaselineForPatchGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterPatchBaselineForPatchGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8748,6 +8864,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterPatchBaselineForPatchGroupOutput>(RegisterPatchBaselineForPatchGroupOutput.httpOutput(from:), RegisterPatchBaselineForPatchGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterPatchBaselineForPatchGroupInput, RegisterPatchBaselineForPatchGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterPatchBaselineForPatchGroupOutput>())
@@ -8782,9 +8899,9 @@ extension SSMClient {
     ///
     /// Registers a target with a maintenance window.
     ///
-    /// - Parameter RegisterTargetWithMaintenanceWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTargetWithMaintenanceWindowInput`)
     ///
-    /// - Returns: `RegisterTargetWithMaintenanceWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTargetWithMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8820,6 +8937,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTargetWithMaintenanceWindowInput, RegisterTargetWithMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTargetWithMaintenanceWindowOutput>(RegisterTargetWithMaintenanceWindowOutput.httpOutput(from:), RegisterTargetWithMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTargetWithMaintenanceWindowInput, RegisterTargetWithMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTargetWithMaintenanceWindowOutput>())
@@ -8854,9 +8972,9 @@ extension SSMClient {
     ///
     /// Adds a new task to a maintenance window.
     ///
-    /// - Parameter RegisterTaskWithMaintenanceWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTaskWithMaintenanceWindowInput`)
     ///
-    /// - Returns: `RegisterTaskWithMaintenanceWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTaskWithMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8893,6 +9011,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTaskWithMaintenanceWindowInput, RegisterTaskWithMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTaskWithMaintenanceWindowOutput>(RegisterTaskWithMaintenanceWindowOutput.httpOutput(from:), RegisterTaskWithMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTaskWithMaintenanceWindowInput, RegisterTaskWithMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTaskWithMaintenanceWindowOutput>())
@@ -8927,9 +9046,9 @@ extension SSMClient {
     ///
     /// Removes tag keys from the specified resource.
     ///
-    /// - Parameter RemoveTagsFromResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8964,6 +9083,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput>(RemoveTagsFromResourceOutput.httpOutput(from:), RemoveTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromResourceOutput>())
@@ -8998,9 +9118,9 @@ extension SSMClient {
     ///
     /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the [GetServiceSetting] API operation to view the current value. Use the [UpdateServiceSetting] API operation to change the default setting. Reset the service setting for the account to the default value as provisioned by the Amazon Web Services service team.
     ///
-    /// - Parameter ResetServiceSettingInput : The request body of the ResetServiceSetting API operation.
+    /// - Parameter input: The request body of the ResetServiceSetting API operation. (Type: `ResetServiceSettingInput`)
     ///
-    /// - Returns: `ResetServiceSettingOutput` : The result body of the ResetServiceSetting API operation.
+    /// - Returns: The result body of the ResetServiceSetting API operation. (Type: `ResetServiceSettingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9034,6 +9154,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetServiceSettingInput, ResetServiceSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetServiceSettingOutput>(ResetServiceSettingOutput.httpOutput(from:), ResetServiceSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetServiceSettingInput, ResetServiceSettingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetServiceSettingOutput>())
@@ -9068,9 +9189,9 @@ extension SSMClient {
     ///
     /// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions. This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It isn't intended for any other use.
     ///
-    /// - Parameter ResumeSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResumeSessionInput`)
     ///
-    /// - Returns: `ResumeSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9103,6 +9224,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeSessionInput, ResumeSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeSessionOutput>(ResumeSessionOutput.httpOutput(from:), ResumeSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeSessionInput, ResumeSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeSessionOutput>())
@@ -9137,9 +9259,9 @@ extension SSMClient {
     ///
     /// Sends a signal to an Automation execution to change the current behavior or status of the execution.
     ///
-    /// - Parameter SendAutomationSignalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendAutomationSignalInput`)
     ///
-    /// - Returns: `SendAutomationSignalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendAutomationSignalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9174,6 +9296,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendAutomationSignalInput, SendAutomationSignalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendAutomationSignalOutput>(SendAutomationSignalOutput.httpOutput(from:), SendAutomationSignalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendAutomationSignalInput, SendAutomationSignalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendAutomationSignalOutput>())
@@ -9208,9 +9331,9 @@ extension SSMClient {
     ///
     /// Runs commands on one or more managed nodes.
     ///
-    /// - Parameter SendCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendCommandInput`)
     ///
-    /// - Returns: `SendCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9260,6 +9383,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendCommandInput, SendCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendCommandOutput>(SendCommandOutput.httpOutput(from:), SendCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendCommandInput, SendCommandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendCommandOutput>())
@@ -9294,9 +9418,9 @@ extension SSMClient {
     ///
     /// Starts the workflow for just-in-time node access sessions.
     ///
-    /// - Parameter StartAccessRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAccessRequestInput`)
     ///
-    /// - Returns: `StartAccessRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAccessRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9333,6 +9457,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAccessRequestInput, StartAccessRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAccessRequestOutput>(StartAccessRequestOutput.httpOutput(from:), StartAccessRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAccessRequestInput, StartAccessRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAccessRequestOutput>())
@@ -9367,9 +9492,9 @@ extension SSMClient {
     ///
     /// Runs an association immediately and only one time. This operation can be helpful when troubleshooting associations.
     ///
-    /// - Parameter StartAssociationsOnceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAssociationsOnceInput`)
     ///
-    /// - Returns: `StartAssociationsOnceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAssociationsOnceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9402,6 +9527,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAssociationsOnceOutput>(StartAssociationsOnceOutput.httpOutput(from:), StartAssociationsOnceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAssociationsOnceInput, StartAssociationsOnceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAssociationsOnceOutput>())
@@ -9436,9 +9562,9 @@ extension SSMClient {
     ///
     /// Initiates execution of an Automation runbook.
     ///
-    /// - Parameter StartAutomationExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAutomationExecutionInput`)
     ///
-    /// - Returns: `StartAutomationExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAutomationExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9476,6 +9602,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAutomationExecutionOutput>(StartAutomationExecutionOutput.httpOutput(from:), StartAutomationExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAutomationExecutionInput, StartAutomationExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAutomationExecutionOutput>())
@@ -9510,9 +9637,9 @@ extension SSMClient {
     ///
     /// Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
     ///
-    /// - Parameter StartChangeRequestExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartChangeRequestExecutionInput`)
     ///
-    /// - Returns: `StartChangeRequestExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartChangeRequestExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9550,6 +9677,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartChangeRequestExecutionOutput>(StartChangeRequestExecutionOutput.httpOutput(from:), StartChangeRequestExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartChangeRequestExecutionInput, StartChangeRequestExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartChangeRequestExecutionOutput>())
@@ -9584,9 +9712,9 @@ extension SSMClient {
     ///
     /// Initiates the process of creating a preview showing the effects that running a specified Automation runbook would have on the targeted resources.
     ///
-    /// - Parameter StartExecutionPreviewInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartExecutionPreviewInput`)
     ///
-    /// - Returns: `StartExecutionPreviewOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartExecutionPreviewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9619,6 +9747,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExecutionPreviewInput, StartExecutionPreviewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExecutionPreviewOutput>(StartExecutionPreviewOutput.httpOutput(from:), StartExecutionPreviewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExecutionPreviewInput, StartExecutionPreviewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExecutionPreviewOutput>())
@@ -9653,9 +9782,9 @@ extension SSMClient {
     ///
     /// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs. Amazon Web Services CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see [Install the Session Manager plugin for the Amazon Web Services CLI](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html) in the Amazon Web Services Systems Manager User Guide. Amazon Web Services Tools for PowerShell usage: Start-SSMSession isn't currently supported by Amazon Web Services Tools for PowerShell on Windows local machines.
     ///
-    /// - Parameter StartSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSessionInput`)
     ///
-    /// - Returns: `StartSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9689,6 +9818,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSessionInput, StartSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSessionOutput>(StartSessionOutput.httpOutput(from:), StartSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSessionInput, StartSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSessionOutput>())
@@ -9723,9 +9853,9 @@ extension SSMClient {
     ///
     /// Stop an Automation that is currently running.
     ///
-    /// - Parameter StopAutomationExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAutomationExecutionInput`)
     ///
-    /// - Returns: `StopAutomationExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAutomationExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9759,6 +9889,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAutomationExecutionOutput>(StopAutomationExecutionOutput.httpOutput(from:), StopAutomationExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAutomationExecutionInput, StopAutomationExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAutomationExecutionOutput>())
@@ -9793,9 +9924,9 @@ extension SSMClient {
     ///
     /// Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the managed node. A terminated session can't be resumed.
     ///
-    /// - Parameter TerminateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateSessionInput`)
     ///
-    /// - Returns: `TerminateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9827,6 +9958,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateSessionInput, TerminateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateSessionOutput>(TerminateSessionOutput.httpOutput(from:), TerminateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateSessionInput, TerminateSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateSessionOutput>())
@@ -9861,9 +9993,9 @@ extension SSMClient {
     ///
     /// Remove a label or labels from a parameter. Parameter names can't contain spaces. The service removes any spaces specified for the beginning or end of a parameter name. If the specified name for a parameter contains spaces between characters, the request fails with a ValidationException error.
     ///
-    /// - Parameter UnlabelParameterVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnlabelParameterVersionInput`)
     ///
-    /// - Returns: `UnlabelParameterVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnlabelParameterVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9898,6 +10030,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnlabelParameterVersionOutput>(UnlabelParameterVersionOutput.httpOutput(from:), UnlabelParameterVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnlabelParameterVersionInput, UnlabelParameterVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnlabelParameterVersionOutput>())
@@ -9932,9 +10065,9 @@ extension SSMClient {
     ///
     /// Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you call UpdateAssociation, the system removes all optional parameters from the request and overwrites the association with null values for those parameters. This is by design. You must specify all optional parameters in the call, even if you are not changing the parameters. This includes the Name parameter. Before calling this API action, we recommend that you call the [DescribeAssociation] API operation and make a note of all optional parameters required for your UpdateAssociation call. In order to call this API operation, a user, group, or role must be granted permission to call the [DescribeAssociation] API operation. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User: isn't authorized to perform: ssm:DescribeAssociation on resource:  When you update an association, the association immediately runs against the specified targets. You can add the ApplyOnlyAtCronInterval parameter to run the association during the next schedule run.
     ///
-    /// - Parameter UpdateAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssociationInput`)
     ///
-    /// - Returns: `UpdateAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9978,6 +10111,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssociationInput, UpdateAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssociationOutput>(UpdateAssociationOutput.httpOutput(from:), UpdateAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssociationInput, UpdateAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssociationOutput>())
@@ -10012,9 +10146,9 @@ extension SSMClient {
     ///
     /// Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified managed node. UpdateAssociationStatus is primarily used by the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your associations and is only used for associations created with the InstanceId legacy parameter.
     ///
-    /// - Parameter UpdateAssociationStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssociationStatusInput`)
     ///
-    /// - Returns: `UpdateAssociationStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssociationStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10059,6 +10193,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssociationStatusOutput>(UpdateAssociationStatusOutput.httpOutput(from:), UpdateAssociationStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssociationStatusInput, UpdateAssociationStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssociationStatusOutput>())
@@ -10093,9 +10228,9 @@ extension SSMClient {
     ///
     /// Updates one or more values for an SSM document.
     ///
-    /// - Parameter UpdateDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDocumentInput`)
     ///
-    /// - Returns: `UpdateDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10136,6 +10271,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentInput, UpdateDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDocumentOutput>(UpdateDocumentOutput.httpOutput(from:), UpdateDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentInput, UpdateDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentOutput>())
@@ -10170,9 +10306,9 @@ extension SSMClient {
     ///
     /// Set the default version of a document. If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.
     ///
-    /// - Parameter UpdateDocumentDefaultVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDocumentDefaultVersionInput`)
     ///
-    /// - Returns: `UpdateDocumentDefaultVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDocumentDefaultVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10207,6 +10343,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDocumentDefaultVersionOutput>(UpdateDocumentDefaultVersionOutput.httpOutput(from:), UpdateDocumentDefaultVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentDefaultVersionInput, UpdateDocumentDefaultVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentDefaultVersionOutput>())
@@ -10241,9 +10378,9 @@ extension SSMClient {
     ///
     /// Updates information related to approval reviews for a specific version of a change template in Change Manager.
     ///
-    /// - Parameter UpdateDocumentMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDocumentMetadataInput`)
     ///
-    /// - Returns: `UpdateDocumentMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDocumentMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10279,6 +10416,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDocumentMetadataOutput>(UpdateDocumentMetadataOutput.httpOutput(from:), UpdateDocumentMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentMetadataInput, UpdateDocumentMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentMetadataOutput>())
@@ -10313,9 +10451,9 @@ extension SSMClient {
     ///
     /// Updates an existing maintenance window. Only specified parameters are modified. The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM.
     ///
-    /// - Parameter UpdateMaintenanceWindowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMaintenanceWindowInput`)
     ///
-    /// - Returns: `UpdateMaintenanceWindowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMaintenanceWindowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10348,6 +10486,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMaintenanceWindowOutput>(UpdateMaintenanceWindowOutput.httpOutput(from:), UpdateMaintenanceWindowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowInput, UpdateMaintenanceWindowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMaintenanceWindowOutput>())
@@ -10397,9 +10536,9 @@ extension SSMClient {
     ///
     /// If a parameter is null, then the corresponding field isn't modified.
     ///
-    /// - Parameter UpdateMaintenanceWindowTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMaintenanceWindowTargetInput`)
     ///
-    /// - Returns: `UpdateMaintenanceWindowTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMaintenanceWindowTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10432,6 +10571,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMaintenanceWindowTargetOutput>(UpdateMaintenanceWindowTargetOutput.httpOutput(from:), UpdateMaintenanceWindowTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowTargetInput, UpdateMaintenanceWindowTargetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMaintenanceWindowTargetOutput>())
@@ -10481,9 +10621,9 @@ extension SSMClient {
     ///
     /// One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. If the value for a parameter in UpdateMaintenanceWindowTask is null, then the corresponding field isn't modified. If you set Replace to true, then all fields required by the [RegisterTaskWithMaintenanceWindow] operation are required for this request. Optional fields that aren't specified are set to null. When you update a maintenance window task that has options specified in TaskInvocationParameters, you must provide again all the TaskInvocationParameters values that you want to retain. The values you don't specify again are removed. For example, suppose that when you registered a Run Command task, you specified TaskInvocationParameters values for Comment, NotificationConfig, and OutputS3BucketName. If you update the maintenance window task and specify only a different OutputS3BucketName value, the values for Comment and NotificationConfig are removed.
     ///
-    /// - Parameter UpdateMaintenanceWindowTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMaintenanceWindowTaskInput`)
     ///
-    /// - Returns: `UpdateMaintenanceWindowTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMaintenanceWindowTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10516,6 +10656,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMaintenanceWindowTaskOutput>(UpdateMaintenanceWindowTaskOutput.httpOutput(from:), UpdateMaintenanceWindowTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMaintenanceWindowTaskInput, UpdateMaintenanceWindowTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMaintenanceWindowTaskOutput>())
@@ -10550,9 +10691,9 @@ extension SSMClient {
     ///
     /// Changes the Identity and Access Management (IAM) role that is assigned to the on-premises server, edge device, or virtual machines (VM). IAM roles are first assigned to these hybrid nodes during the activation process. For more information, see [CreateActivation].
     ///
-    /// - Parameter UpdateManagedInstanceRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateManagedInstanceRoleInput`)
     ///
-    /// - Returns: `UpdateManagedInstanceRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateManagedInstanceRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10593,6 +10734,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateManagedInstanceRoleOutput>(UpdateManagedInstanceRoleOutput.httpOutput(from:), UpdateManagedInstanceRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateManagedInstanceRoleInput, UpdateManagedInstanceRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateManagedInstanceRoleOutput>())
@@ -10627,9 +10769,9 @@ extension SSMClient {
     ///
     /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// - Parameter UpdateOpsItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOpsItemInput`)
     ///
-    /// - Returns: `UpdateOpsItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOpsItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10667,6 +10809,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOpsItemInput, UpdateOpsItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOpsItemOutput>(UpdateOpsItemOutput.httpOutput(from:), UpdateOpsItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOpsItemInput, UpdateOpsItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOpsItemOutput>())
@@ -10701,9 +10844,9 @@ extension SSMClient {
     ///
     /// Amazon Web Services Systems Manager calls this API operation when you edit OpsMetadata in Application Manager.
     ///
-    /// - Parameter UpdateOpsMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOpsMetadataInput`)
     ///
-    /// - Returns: `UpdateOpsMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOpsMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10739,6 +10882,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOpsMetadataOutput>(UpdateOpsMetadataOutput.httpOutput(from:), UpdateOpsMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOpsMetadataInput, UpdateOpsMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOpsMetadataOutput>())
@@ -10773,9 +10917,9 @@ extension SSMClient {
     ///
     /// Modifies an existing patch baseline. Fields not specified in the request are left unchanged. For information about valid key-value pairs in PatchFilters for each supported operating system type, see [PatchFilter].
     ///
-    /// - Parameter UpdatePatchBaselineInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePatchBaselineInput`)
     ///
-    /// - Returns: `UpdatePatchBaselineOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePatchBaselineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10808,6 +10952,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePatchBaselineOutput>(UpdatePatchBaselineOutput.httpOutput(from:), UpdatePatchBaselineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePatchBaselineInput, UpdatePatchBaselineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePatchBaselineOutput>())
@@ -10842,9 +10987,9 @@ extension SSMClient {
     ///
     /// Update a resource data sync. After you create a resource data sync for a Region, you can't change the account options for that sync. For example, if you create a sync in the us-east-2 (Ohio) Region and you choose the Include only the current account option, you can't edit that sync later and choose the Include all accounts from my Organizations configuration option. Instead, you must delete the first resource data sync, and create a new one. This API operation only supports a resource data sync that was created with a SyncFromSource SyncType.
     ///
-    /// - Parameter UpdateResourceDataSyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceDataSyncInput`)
     ///
-    /// - Returns: `UpdateResourceDataSyncOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceDataSyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10879,6 +11024,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceDataSyncOutput>(UpdateResourceDataSyncOutput.httpOutput(from:), UpdateResourceDataSyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceDataSyncInput, UpdateResourceDataSyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceDataSyncOutput>())
@@ -10913,9 +11059,9 @@ extension SSMClient {
     ///
     /// ServiceSetting is an account-level setting for an Amazon Web Services service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an Amazon Web Services service charges money to the account based on feature or service usage, then the Amazon Web Services service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. Amazon Web Services services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the [GetServiceSetting] API operation to view the current value. Or, use the [ResetServiceSetting] to change the value back to the original value defined by the Amazon Web Services service team. Update the service setting for the account.
     ///
-    /// - Parameter UpdateServiceSettingInput : The request body of the UpdateServiceSetting API operation.
+    /// - Parameter input: The request body of the UpdateServiceSetting API operation. (Type: `UpdateServiceSettingInput`)
     ///
-    /// - Returns: `UpdateServiceSettingOutput` : The result body of the UpdateServiceSetting API operation.
+    /// - Returns: The result body of the UpdateServiceSetting API operation. (Type: `UpdateServiceSettingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10949,6 +11095,7 @@ extension SSMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSettingOutput>(UpdateServiceSettingOutput.httpOutput(from:), UpdateServiceSettingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSettingInput, UpdateServiceSettingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceSettingOutput>())

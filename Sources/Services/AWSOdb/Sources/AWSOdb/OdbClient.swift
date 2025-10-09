@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OdbClient: ClientRuntime.Client {
     public static let clientName = "OdbClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: OdbClient.OdbClientConfiguration
     let serviceName = "odb"
@@ -373,9 +374,9 @@ extension OdbClient {
     ///
     /// Registers the Amazon Web Services Marketplace token for your Amazon Web Services account to activate your Oracle Database@Amazon Web Services subscription.
     ///
-    /// - Parameter AcceptMarketplaceRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptMarketplaceRegistrationInput`)
     ///
-    /// - Returns: `AcceptMarketplaceRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptMarketplaceRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +412,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptMarketplaceRegistrationOutput>(AcceptMarketplaceRegistrationOutput.httpOutput(from:), AcceptMarketplaceRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptMarketplaceRegistrationInput, AcceptMarketplaceRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptMarketplaceRegistrationOutput>())
@@ -445,9 +447,9 @@ extension OdbClient {
     ///
     /// Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
     ///
-    /// - Parameter CreateCloudAutonomousVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudAutonomousVmClusterInput`)
     ///
-    /// - Returns: `CreateCloudAutonomousVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudAutonomousVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,6 +488,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudAutonomousVmClusterOutput>(CreateCloudAutonomousVmClusterOutput.httpOutput(from:), CreateCloudAutonomousVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudAutonomousVmClusterInput, CreateCloudAutonomousVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudAutonomousVmClusterOutput>())
@@ -520,9 +523,9 @@ extension OdbClient {
     ///
     /// Creates an Exadata infrastructure.
     ///
-    /// - Parameter CreateCloudExadataInfrastructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudExadataInfrastructureInput`)
     ///
-    /// - Returns: `CreateCloudExadataInfrastructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudExadataInfrastructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +563,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudExadataInfrastructureOutput>(CreateCloudExadataInfrastructureOutput.httpOutput(from:), CreateCloudExadataInfrastructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudExadataInfrastructureInput, CreateCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudExadataInfrastructureOutput>())
@@ -594,9 +598,9 @@ extension OdbClient {
     ///
     /// Creates a VM cluster on the specified Exadata infrastructure.
     ///
-    /// - Parameter CreateCloudVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudVmClusterInput`)
     ///
-    /// - Returns: `CreateCloudVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,6 +639,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudVmClusterOutput>(CreateCloudVmClusterOutput.httpOutput(from:), CreateCloudVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudVmClusterInput, CreateCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudVmClusterOutput>())
@@ -669,9 +674,9 @@ extension OdbClient {
     ///
     /// Creates an ODB network.
     ///
-    /// - Parameter CreateOdbNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOdbNetworkInput`)
     ///
-    /// - Returns: `CreateOdbNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOdbNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -709,6 +714,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOdbNetworkOutput>(CreateOdbNetworkOutput.httpOutput(from:), CreateOdbNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOdbNetworkInput, CreateOdbNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOdbNetworkOutput>())
@@ -743,9 +749,9 @@ extension OdbClient {
     ///
     /// Creates a peering connection between an ODB network and either another ODB network or a customer-owned VPC. A peering connection enables private connectivity between the networks for application-tier communication.
     ///
-    /// - Parameter CreateOdbPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOdbPeeringConnectionInput`)
     ///
-    /// - Returns: `CreateOdbPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOdbPeeringConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -783,6 +789,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOdbPeeringConnectionOutput>(CreateOdbPeeringConnectionOutput.httpOutput(from:), CreateOdbPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOdbPeeringConnectionInput, CreateOdbPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOdbPeeringConnectionOutput>())
@@ -817,9 +824,9 @@ extension OdbClient {
     ///
     /// Deletes an Autonomous VM cluster.
     ///
-    /// - Parameter DeleteCloudAutonomousVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudAutonomousVmClusterInput`)
     ///
-    /// - Returns: `DeleteCloudAutonomousVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudAutonomousVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,6 +862,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudAutonomousVmClusterOutput>(DeleteCloudAutonomousVmClusterOutput.httpOutput(from:), DeleteCloudAutonomousVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudAutonomousVmClusterInput, DeleteCloudAutonomousVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCloudAutonomousVmClusterOutput>())
@@ -889,9 +897,9 @@ extension OdbClient {
     ///
     /// Deletes the specified Exadata infrastructure. Before you use this operation, make sure to delete all of the VM clusters that are hosted on this Exadata infrastructure.
     ///
-    /// - Parameter DeleteCloudExadataInfrastructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudExadataInfrastructureInput`)
     ///
-    /// - Returns: `DeleteCloudExadataInfrastructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudExadataInfrastructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -928,6 +936,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudExadataInfrastructureOutput>(DeleteCloudExadataInfrastructureOutput.httpOutput(from:), DeleteCloudExadataInfrastructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudExadataInfrastructureInput, DeleteCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCloudExadataInfrastructureOutput>())
@@ -962,9 +971,9 @@ extension OdbClient {
     ///
     /// Deletes the specified VM cluster.
     ///
-    /// - Parameter DeleteCloudVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudVmClusterInput`)
     ///
-    /// - Returns: `DeleteCloudVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1000,6 +1009,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudVmClusterOutput>(DeleteCloudVmClusterOutput.httpOutput(from:), DeleteCloudVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudVmClusterInput, DeleteCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCloudVmClusterOutput>())
@@ -1034,9 +1044,9 @@ extension OdbClient {
     ///
     /// Deletes the specified ODB network.
     ///
-    /// - Parameter DeleteOdbNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOdbNetworkInput`)
     ///
-    /// - Returns: `DeleteOdbNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOdbNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1072,6 +1082,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOdbNetworkOutput>(DeleteOdbNetworkOutput.httpOutput(from:), DeleteOdbNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOdbNetworkInput, DeleteOdbNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOdbNetworkOutput>())
@@ -1106,9 +1117,9 @@ extension OdbClient {
     ///
     /// Deletes an ODB peering connection. When you delete an ODB peering connection, the underlying VPC peering connection is also deleted.
     ///
-    /// - Parameter DeleteOdbPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOdbPeeringConnectionInput`)
     ///
-    /// - Returns: `DeleteOdbPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOdbPeeringConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1144,6 +1155,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOdbPeeringConnectionOutput>(DeleteOdbPeeringConnectionOutput.httpOutput(from:), DeleteOdbPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOdbPeeringConnectionInput, DeleteOdbPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOdbPeeringConnectionOutput>())
@@ -1178,9 +1190,9 @@ extension OdbClient {
     ///
     /// Gets information about a specific Autonomous VM cluster.
     ///
-    /// - Parameter GetCloudAutonomousVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudAutonomousVmClusterInput`)
     ///
-    /// - Returns: `GetCloudAutonomousVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudAutonomousVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,6 +1228,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudAutonomousVmClusterOutput>(GetCloudAutonomousVmClusterOutput.httpOutput(from:), GetCloudAutonomousVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudAutonomousVmClusterInput, GetCloudAutonomousVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudAutonomousVmClusterOutput>())
@@ -1250,9 +1263,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified Exadata infrastructure.
     ///
-    /// - Parameter GetCloudExadataInfrastructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudExadataInfrastructureInput`)
     ///
-    /// - Returns: `GetCloudExadataInfrastructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudExadataInfrastructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1288,6 +1301,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudExadataInfrastructureOutput>(GetCloudExadataInfrastructureOutput.httpOutput(from:), GetCloudExadataInfrastructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudExadataInfrastructureInput, GetCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudExadataInfrastructureOutput>())
@@ -1322,9 +1336,9 @@ extension OdbClient {
     ///
     /// Retrieves information about unallocated resources in a specified Cloud Exadata Infrastructure.
     ///
-    /// - Parameter GetCloudExadataInfrastructureUnallocatedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudExadataInfrastructureUnallocatedResourcesInput`)
     ///
-    /// - Returns: `GetCloudExadataInfrastructureUnallocatedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudExadataInfrastructureUnallocatedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,6 +1374,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesOutput>(GetCloudExadataInfrastructureUnallocatedResourcesOutput.httpOutput(from:), GetCloudExadataInfrastructureUnallocatedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesInput, GetCloudExadataInfrastructureUnallocatedResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudExadataInfrastructureUnallocatedResourcesOutput>())
@@ -1394,9 +1409,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified VM cluster.
     ///
-    /// - Parameter GetCloudVmClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudVmClusterInput`)
     ///
-    /// - Returns: `GetCloudVmClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudVmClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1432,6 +1447,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudVmClusterOutput>(GetCloudVmClusterOutput.httpOutput(from:), GetCloudVmClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudVmClusterInput, GetCloudVmClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudVmClusterOutput>())
@@ -1466,9 +1482,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified DB node.
     ///
-    /// - Parameter GetDbNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbNodeInput`)
     ///
-    /// - Returns: `GetDbNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1504,6 +1520,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDbNodeInput, GetDbNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDbNodeOutput>(GetDbNodeOutput.httpOutput(from:), GetDbNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDbNodeInput, GetDbNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDbNodeOutput>())
@@ -1538,9 +1555,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified database server.
     ///
-    /// - Parameter GetDbServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDbServerInput`)
     ///
-    /// - Returns: `GetDbServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDbServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1576,6 +1593,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDbServerInput, GetDbServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDbServerOutput>(GetDbServerOutput.httpOutput(from:), GetDbServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDbServerInput, GetDbServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDbServerOutput>())
@@ -1610,9 +1628,9 @@ extension OdbClient {
     ///
     /// Returns the tenancy activation link and onboarding status for your Amazon Web Services account.
     ///
-    /// - Parameter GetOciOnboardingStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOciOnboardingStatusInput`)
     ///
-    /// - Returns: `GetOciOnboardingStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOciOnboardingStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1647,6 +1665,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOciOnboardingStatusOutput>(GetOciOnboardingStatusOutput.httpOutput(from:), GetOciOnboardingStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOciOnboardingStatusInput, GetOciOnboardingStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOciOnboardingStatusOutput>())
@@ -1681,9 +1700,9 @@ extension OdbClient {
     ///
     /// Returns information about the specified ODB network.
     ///
-    /// - Parameter GetOdbNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOdbNetworkInput`)
     ///
-    /// - Returns: `GetOdbNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOdbNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1719,6 +1738,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOdbNetworkOutput>(GetOdbNetworkOutput.httpOutput(from:), GetOdbNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOdbNetworkInput, GetOdbNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOdbNetworkOutput>())
@@ -1753,9 +1773,9 @@ extension OdbClient {
     ///
     /// Retrieves information about an ODB peering connection.
     ///
-    /// - Parameter GetOdbPeeringConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOdbPeeringConnectionInput`)
     ///
-    /// - Returns: `GetOdbPeeringConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOdbPeeringConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1791,6 +1811,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOdbPeeringConnectionOutput>(GetOdbPeeringConnectionOutput.httpOutput(from:), GetOdbPeeringConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOdbPeeringConnectionInput, GetOdbPeeringConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOdbPeeringConnectionOutput>())
@@ -1825,9 +1846,9 @@ extension OdbClient {
     ///
     /// Initializes the ODB service for the first time in an account.
     ///
-    /// - Parameter InitializeServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitializeServiceInput`)
     ///
-    /// - Returns: `InitializeServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitializeServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1862,6 +1883,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitializeServiceInput, InitializeServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitializeServiceOutput>(InitializeServiceOutput.httpOutput(from:), InitializeServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitializeServiceInput, InitializeServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitializeServiceOutput>())
@@ -1896,9 +1918,9 @@ extension OdbClient {
     ///
     /// Lists all Autonomous VMs in an Autonomous VM cluster.
     ///
-    /// - Parameter ListAutonomousVirtualMachinesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAutonomousVirtualMachinesInput`)
     ///
-    /// - Returns: `ListAutonomousVirtualMachinesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAutonomousVirtualMachinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1934,6 +1956,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAutonomousVirtualMachinesOutput>(ListAutonomousVirtualMachinesOutput.httpOutput(from:), ListAutonomousVirtualMachinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAutonomousVirtualMachinesInput, ListAutonomousVirtualMachinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAutonomousVirtualMachinesOutput>())
@@ -1968,9 +1991,9 @@ extension OdbClient {
     ///
     /// Lists all Autonomous VM clusters in a specified Cloud Exadata infrastructure.
     ///
-    /// - Parameter ListCloudAutonomousVmClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCloudAutonomousVmClustersInput`)
     ///
-    /// - Returns: `ListCloudAutonomousVmClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCloudAutonomousVmClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2006,6 +2029,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudAutonomousVmClustersOutput>(ListCloudAutonomousVmClustersOutput.httpOutput(from:), ListCloudAutonomousVmClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudAutonomousVmClustersInput, ListCloudAutonomousVmClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCloudAutonomousVmClustersOutput>())
@@ -2040,9 +2064,9 @@ extension OdbClient {
     ///
     /// Returns information about the Exadata infrastructures owned by your Amazon Web Services account.
     ///
-    /// - Parameter ListCloudExadataInfrastructuresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCloudExadataInfrastructuresInput`)
     ///
-    /// - Returns: `ListCloudExadataInfrastructuresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCloudExadataInfrastructuresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2077,6 +2101,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudExadataInfrastructuresOutput>(ListCloudExadataInfrastructuresOutput.httpOutput(from:), ListCloudExadataInfrastructuresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudExadataInfrastructuresInput, ListCloudExadataInfrastructuresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCloudExadataInfrastructuresOutput>())
@@ -2111,9 +2136,9 @@ extension OdbClient {
     ///
     /// Returns information about the VM clusters owned by your Amazon Web Services account or only the ones on the specified Exadata infrastructure.
     ///
-    /// - Parameter ListCloudVmClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCloudVmClustersInput`)
     ///
-    /// - Returns: `ListCloudVmClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCloudVmClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2149,6 +2174,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudVmClustersOutput>(ListCloudVmClustersOutput.httpOutput(from:), ListCloudVmClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudVmClustersInput, ListCloudVmClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCloudVmClustersOutput>())
@@ -2183,9 +2209,9 @@ extension OdbClient {
     ///
     /// Returns information about the DB nodes for the specified VM cluster.
     ///
-    /// - Parameter ListDbNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbNodesInput`)
     ///
-    /// - Returns: `ListDbNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2221,6 +2247,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbNodesInput, ListDbNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbNodesOutput>(ListDbNodesOutput.httpOutput(from:), ListDbNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbNodesInput, ListDbNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbNodesOutput>())
@@ -2255,9 +2282,9 @@ extension OdbClient {
     ///
     /// Returns information about the database servers that belong to the specified Exadata infrastructure.
     ///
-    /// - Parameter ListDbServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbServersInput`)
     ///
-    /// - Returns: `ListDbServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2293,6 +2320,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbServersInput, ListDbServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbServersOutput>(ListDbServersOutput.httpOutput(from:), ListDbServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbServersInput, ListDbServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbServersOutput>())
@@ -2327,9 +2355,9 @@ extension OdbClient {
     ///
     /// Returns information about the shapes that are available for an Exadata infrastructure.
     ///
-    /// - Parameter ListDbSystemShapesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDbSystemShapesInput`)
     ///
-    /// - Returns: `ListDbSystemShapesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDbSystemShapesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2364,6 +2392,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDbSystemShapesOutput>(ListDbSystemShapesOutput.httpOutput(from:), ListDbSystemShapesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDbSystemShapesInput, ListDbSystemShapesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDbSystemShapesOutput>())
@@ -2398,9 +2427,9 @@ extension OdbClient {
     ///
     /// Returns information about Oracle Grid Infrastructure (GI) software versions that are available for a VM cluster for the specified shape.
     ///
-    /// - Parameter ListGiVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGiVersionsInput`)
     ///
-    /// - Returns: `ListGiVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGiVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2435,6 +2464,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGiVersionsInput, ListGiVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGiVersionsOutput>(ListGiVersionsOutput.httpOutput(from:), ListGiVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGiVersionsInput, ListGiVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGiVersionsOutput>())
@@ -2469,9 +2499,9 @@ extension OdbClient {
     ///
     /// Returns information about the ODB networks owned by your Amazon Web Services account.
     ///
-    /// - Parameter ListOdbNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOdbNetworksInput`)
     ///
-    /// - Returns: `ListOdbNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOdbNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2506,6 +2536,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOdbNetworksOutput>(ListOdbNetworksOutput.httpOutput(from:), ListOdbNetworksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOdbNetworksInput, ListOdbNetworksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOdbNetworksOutput>())
@@ -2540,9 +2571,9 @@ extension OdbClient {
     ///
     /// Lists all ODB peering connections or those associated with a specific ODB network.
     ///
-    /// - Parameter ListOdbPeeringConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOdbPeeringConnectionsInput`)
     ///
-    /// - Returns: `ListOdbPeeringConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOdbPeeringConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2578,6 +2609,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOdbPeeringConnectionsOutput>(ListOdbPeeringConnectionsOutput.httpOutput(from:), ListOdbPeeringConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOdbPeeringConnectionsInput, ListOdbPeeringConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOdbPeeringConnectionsOutput>())
@@ -2612,9 +2644,9 @@ extension OdbClient {
     ///
     /// Returns information about the system versions that are available for a VM cluster for the specified giVersion and shape.
     ///
-    /// - Parameter ListSystemVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSystemVersionsInput`)
     ///
-    /// - Returns: `ListSystemVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSystemVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2650,6 +2682,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSystemVersionsOutput>(ListSystemVersionsOutput.httpOutput(from:), ListSystemVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSystemVersionsInput, ListSystemVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSystemVersionsOutput>())
@@ -2684,9 +2717,9 @@ extension OdbClient {
     ///
     /// Returns information about the tags applied to this resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2718,6 +2751,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2752,9 +2786,9 @@ extension OdbClient {
     ///
     /// Reboots the specified DB node in a VM cluster.
     ///
-    /// - Parameter RebootDbNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootDbNodeInput`)
     ///
-    /// - Returns: `RebootDbNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootDbNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2790,6 +2824,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootDbNodeInput, RebootDbNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootDbNodeOutput>(RebootDbNodeOutput.httpOutput(from:), RebootDbNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootDbNodeInput, RebootDbNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootDbNodeOutput>())
@@ -2824,9 +2859,9 @@ extension OdbClient {
     ///
     /// Starts the specified DB node in a VM cluster.
     ///
-    /// - Parameter StartDbNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDbNodeInput`)
     ///
-    /// - Returns: `StartDbNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDbNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2862,6 +2897,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDbNodeInput, StartDbNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDbNodeOutput>(StartDbNodeOutput.httpOutput(from:), StartDbNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDbNodeInput, StartDbNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDbNodeOutput>())
@@ -2896,9 +2932,9 @@ extension OdbClient {
     ///
     /// Stops the specified DB node in a VM cluster.
     ///
-    /// - Parameter StopDbNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDbNodeInput`)
     ///
-    /// - Returns: `StopDbNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDbNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2934,6 +2970,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDbNodeInput, StopDbNodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDbNodeOutput>(StopDbNodeOutput.httpOutput(from:), StopDbNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDbNodeInput, StopDbNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDbNodeOutput>())
@@ -2968,9 +3005,9 @@ extension OdbClient {
     ///
     /// Applies tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3003,6 +3040,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3037,9 +3075,9 @@ extension OdbClient {
     ///
     /// Removes tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3071,6 +3109,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3105,9 +3144,9 @@ extension OdbClient {
     ///
     /// Updates the properties of an Exadata infrastructure resource.
     ///
-    /// - Parameter UpdateCloudExadataInfrastructureInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCloudExadataInfrastructureInput`)
     ///
-    /// - Returns: `UpdateCloudExadataInfrastructureOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCloudExadataInfrastructureOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3144,6 +3183,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCloudExadataInfrastructureOutput>(UpdateCloudExadataInfrastructureOutput.httpOutput(from:), UpdateCloudExadataInfrastructureOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudExadataInfrastructureInput, UpdateCloudExadataInfrastructureOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudExadataInfrastructureOutput>())
@@ -3178,9 +3218,9 @@ extension OdbClient {
     ///
     /// Updates properties of a specified ODB network.
     ///
-    /// - Parameter UpdateOdbNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOdbNetworkInput`)
     ///
-    /// - Returns: `UpdateOdbNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOdbNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3217,6 +3257,7 @@ extension OdbClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOdbNetworkOutput>(UpdateOdbNetworkOutput.httpOutput(from:), UpdateOdbNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOdbNetworkInput, UpdateOdbNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOdbNetworkOutput>())

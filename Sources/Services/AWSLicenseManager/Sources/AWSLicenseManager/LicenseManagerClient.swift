@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerClient.LicenseManagerClientConfiguration
     let serviceName = "License Manager"
@@ -373,9 +374,9 @@ extension LicenseManagerClient {
     ///
     /// Accepts the specified grant.
     ///
-    /// - Parameter AcceptGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptGrantInput`)
     ///
-    /// - Returns: `AcceptGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptGrantInput, AcceptGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptGrantOutput>(AcceptGrantOutput.httpOutput(from:), AcceptGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptGrantInput, AcceptGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptGrantOutput>())
@@ -447,9 +449,9 @@ extension LicenseManagerClient {
     ///
     /// Checks in the specified license. Check in a license when it is no longer in use.
     ///
-    /// - Parameter CheckInLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckInLicenseInput`)
     ///
-    /// - Returns: `CheckInLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckInLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +490,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckInLicenseInput, CheckInLicenseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckInLicenseOutput>(CheckInLicenseOutput.httpOutput(from:), CheckInLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckInLicenseInput, CheckInLicenseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckInLicenseOutput>())
@@ -522,9 +525,9 @@ extension LicenseManagerClient {
     ///
     /// Checks out the specified license for offline use.
     ///
-    /// - Parameter CheckoutBorrowLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckoutBorrowLicenseInput`)
     ///
-    /// - Returns: `CheckoutBorrowLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckoutBorrowLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,6 +569,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckoutBorrowLicenseOutput>(CheckoutBorrowLicenseOutput.httpOutput(from:), CheckoutBorrowLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckoutBorrowLicenseInput, CheckoutBorrowLicenseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckoutBorrowLicenseOutput>())
@@ -600,9 +604,9 @@ extension LicenseManagerClient {
     ///
     /// Checks out the specified license. If the account that created the license is the same that is performing the check out, you must specify the account as the beneficiary.
     ///
-    /// - Parameter CheckoutLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CheckoutLicenseInput`)
     ///
-    /// - Returns: `CheckoutLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CheckoutLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,6 +647,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CheckoutLicenseOutput>(CheckoutLicenseOutput.httpOutput(from:), CheckoutLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CheckoutLicenseInput, CheckoutLicenseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CheckoutLicenseOutput>())
@@ -677,9 +682,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a grant for the specified license. A grant shares the use of license entitlements with a specific Amazon Web Services account, an organization, or an organizational unit (OU). For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     ///
-    /// - Parameter CreateGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGrantInput`)
     ///
-    /// - Returns: `CreateGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -717,6 +722,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGrantInput, CreateGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGrantOutput>(CreateGrantOutput.httpOutput(from:), CreateGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGrantInput, CreateGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGrantOutput>())
@@ -751,9 +757,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a new version of the specified grant. For more information, see [Granted licenses in License Manager](https://docs.aws.amazon.com/license-manager/latest/userguide/granted-licenses.html) in the License Manager User Guide.
     ///
-    /// - Parameter CreateGrantVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGrantVersionInput`)
     ///
-    /// - Returns: `CreateGrantVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGrantVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -791,6 +797,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGrantVersionOutput>(CreateGrantVersionOutput.httpOutput(from:), CreateGrantVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGrantVersionInput, CreateGrantVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGrantVersionOutput>())
@@ -825,9 +832,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a license.
     ///
-    /// - Parameter CreateLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseInput`)
     ///
-    /// - Returns: `CreateLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -865,6 +872,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseInput, CreateLicenseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseOutput>(CreateLicenseOutput.httpOutput(from:), CreateLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseInput, CreateLicenseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseOutput>())
@@ -899,9 +907,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.
     ///
-    /// - Parameter CreateLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseConfigurationInput`)
     ///
-    /// - Returns: `CreateLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -938,6 +946,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseConfigurationOutput>(CreateLicenseConfigurationOutput.httpOutput(from:), CreateLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseConfigurationInput, CreateLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseConfigurationOutput>())
@@ -972,9 +981,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a new license conversion task.
     ///
-    /// - Parameter CreateLicenseConversionTaskForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseConversionTaskForResourceInput`)
     ///
-    /// - Returns: `CreateLicenseConversionTaskForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseConversionTaskForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1011,6 +1020,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseConversionTaskForResourceOutput>(CreateLicenseConversionTaskForResourceOutput.httpOutput(from:), CreateLicenseConversionTaskForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseConversionTaskForResourceInput, CreateLicenseConversionTaskForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseConversionTaskForResourceOutput>())
@@ -1045,9 +1055,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a report generator.
     ///
-    /// - Parameter CreateLicenseManagerReportGeneratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseManagerReportGeneratorInput`)
     ///
-    /// - Returns: `CreateLicenseManagerReportGeneratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseManagerReportGeneratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1086,6 +1096,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseManagerReportGeneratorOutput>(CreateLicenseManagerReportGeneratorOutput.httpOutput(from:), CreateLicenseManagerReportGeneratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseManagerReportGeneratorInput, CreateLicenseManagerReportGeneratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseManagerReportGeneratorOutput>())
@@ -1120,9 +1131,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a new version of the specified license.
     ///
-    /// - Parameter CreateLicenseVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseVersionInput`)
     ///
-    /// - Returns: `CreateLicenseVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1161,6 +1172,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseVersionOutput>(CreateLicenseVersionOutput.httpOutput(from:), CreateLicenseVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseVersionInput, CreateLicenseVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseVersionOutput>())
@@ -1195,9 +1207,9 @@ extension LicenseManagerClient {
     ///
     /// Creates a long-lived token. A refresh token is a JWT token used to get an access token. With an access token, you can call AssumeRoleWithWebIdentity to get role credentials that you can use to call License Manager to manage the specified license.
     ///
-    /// - Parameter CreateTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTokenInput`)
     ///
-    /// - Returns: `CreateTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1236,6 +1248,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTokenInput, CreateTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTokenOutput>(CreateTokenOutput.httpOutput(from:), CreateTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTokenInput, CreateTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTokenOutput>())
@@ -1270,9 +1283,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified grant.
     ///
-    /// - Parameter DeleteGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGrantInput`)
     ///
-    /// - Returns: `DeleteGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,6 +1323,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGrantInput, DeleteGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGrantOutput>(DeleteGrantOutput.httpOutput(from:), DeleteGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGrantInput, DeleteGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGrantOutput>())
@@ -1344,9 +1358,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified license.
     ///
-    /// - Parameter DeleteLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseInput`)
     ///
-    /// - Returns: `DeleteLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1385,6 +1399,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseInput, DeleteLicenseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseOutput>(DeleteLicenseOutput.httpOutput(from:), DeleteLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseInput, DeleteLicenseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLicenseOutput>())
@@ -1419,9 +1434,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified license configuration. You cannot delete a license configuration that is in use.
     ///
-    /// - Parameter DeleteLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseConfigurationInput`)
     ///
-    /// - Returns: `DeleteLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1457,6 +1472,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseConfigurationOutput>(DeleteLicenseConfigurationOutput.httpOutput(from:), DeleteLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseConfigurationInput, DeleteLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLicenseConfigurationOutput>())
@@ -1491,9 +1507,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified report generator. This action deletes the report generator, which stops it from generating future reports. The action cannot be reversed. It has no effect on the previous reports from this generator.
     ///
-    /// - Parameter DeleteLicenseManagerReportGeneratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseManagerReportGeneratorInput`)
     ///
-    /// - Returns: `DeleteLicenseManagerReportGeneratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseManagerReportGeneratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1532,6 +1548,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseManagerReportGeneratorOutput>(DeleteLicenseManagerReportGeneratorOutput.httpOutput(from:), DeleteLicenseManagerReportGeneratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseManagerReportGeneratorInput, DeleteLicenseManagerReportGeneratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLicenseManagerReportGeneratorOutput>())
@@ -1566,9 +1583,9 @@ extension LicenseManagerClient {
     ///
     /// Deletes the specified token. Must be called in the license home Region.
     ///
-    /// - Parameter DeleteTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTokenInput`)
     ///
-    /// - Returns: `DeleteTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1606,6 +1623,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTokenInput, DeleteTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTokenOutput>(DeleteTokenOutput.httpOutput(from:), DeleteTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTokenInput, DeleteTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTokenOutput>())
@@ -1640,9 +1658,9 @@ extension LicenseManagerClient {
     ///
     /// Extends the expiration date for license consumption.
     ///
-    /// - Parameter ExtendLicenseConsumptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExtendLicenseConsumptionInput`)
     ///
-    /// - Returns: `ExtendLicenseConsumptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExtendLicenseConsumptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1680,6 +1698,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExtendLicenseConsumptionOutput>(ExtendLicenseConsumptionOutput.httpOutput(from:), ExtendLicenseConsumptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExtendLicenseConsumptionInput, ExtendLicenseConsumptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExtendLicenseConsumptionOutput>())
@@ -1714,9 +1733,9 @@ extension LicenseManagerClient {
     ///
     /// Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens are valid for one hour.
     ///
-    /// - Parameter GetAccessTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessTokenInput`)
     ///
-    /// - Returns: `GetAccessTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,6 +1771,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccessTokenInput, GetAccessTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessTokenOutput>(GetAccessTokenOutput.httpOutput(from:), GetAccessTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessTokenInput, GetAccessTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessTokenOutput>())
@@ -1786,9 +1806,9 @@ extension LicenseManagerClient {
     ///
     /// Gets detailed information about the specified grant.
     ///
-    /// - Parameter GetGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGrantInput`)
     ///
-    /// - Returns: `GetGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1826,6 +1846,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGrantInput, GetGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGrantOutput>(GetGrantOutput.httpOutput(from:), GetGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGrantInput, GetGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGrantOutput>())
@@ -1860,9 +1881,9 @@ extension LicenseManagerClient {
     ///
     /// Gets detailed information about the specified license.
     ///
-    /// - Parameter GetLicenseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseInput`)
     ///
-    /// - Returns: `GetLicenseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1899,6 +1920,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseInput, GetLicenseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseOutput>(GetLicenseOutput.httpOutput(from:), GetLicenseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseInput, GetLicenseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLicenseOutput>())
@@ -1933,9 +1955,9 @@ extension LicenseManagerClient {
     ///
     /// Gets detailed information about the specified license configuration.
     ///
-    /// - Parameter GetLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseConfigurationInput`)
     ///
-    /// - Returns: `GetLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1971,6 +1993,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseConfigurationOutput>(GetLicenseConfigurationOutput.httpOutput(from:), GetLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseConfigurationInput, GetLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLicenseConfigurationOutput>())
@@ -2005,9 +2028,9 @@ extension LicenseManagerClient {
     ///
     /// Gets information about the specified license type conversion task.
     ///
-    /// - Parameter GetLicenseConversionTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseConversionTaskInput`)
     ///
-    /// - Returns: `GetLicenseConversionTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseConversionTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2043,6 +2066,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseConversionTaskOutput>(GetLicenseConversionTaskOutput.httpOutput(from:), GetLicenseConversionTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseConversionTaskInput, GetLicenseConversionTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLicenseConversionTaskOutput>())
@@ -2077,9 +2101,9 @@ extension LicenseManagerClient {
     ///
     /// Gets information about the specified report generator.
     ///
-    /// - Parameter GetLicenseManagerReportGeneratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseManagerReportGeneratorInput`)
     ///
-    /// - Returns: `GetLicenseManagerReportGeneratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseManagerReportGeneratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2118,6 +2142,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseManagerReportGeneratorOutput>(GetLicenseManagerReportGeneratorOutput.httpOutput(from:), GetLicenseManagerReportGeneratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseManagerReportGeneratorInput, GetLicenseManagerReportGeneratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLicenseManagerReportGeneratorOutput>())
@@ -2152,9 +2177,9 @@ extension LicenseManagerClient {
     ///
     /// Gets detailed information about the usage of the specified license.
     ///
-    /// - Parameter GetLicenseUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseUsageInput`)
     ///
-    /// - Returns: `GetLicenseUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2191,6 +2216,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseUsageOutput>(GetLicenseUsageOutput.httpOutput(from:), GetLicenseUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseUsageInput, GetLicenseUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLicenseUsageOutput>())
@@ -2225,9 +2251,9 @@ extension LicenseManagerClient {
     ///
     /// Gets the License Manager settings for the current Region.
     ///
-    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceSettingsInput`)
     ///
-    /// - Returns: `GetServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,6 +2288,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceSettingsOutput>(GetServiceSettingsOutput.httpOutput(from:), GetServiceSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceSettingsInput, GetServiceSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceSettingsOutput>())
@@ -2296,9 +2323,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration. For example, an AMI or a stopped instance might not consume a license (depending on the license rules).
     ///
-    /// - Parameter ListAssociationsForLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociationsForLicenseConfigurationInput`)
     ///
-    /// - Returns: `ListAssociationsForLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociationsForLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2335,6 +2362,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociationsForLicenseConfigurationOutput>(ListAssociationsForLicenseConfigurationOutput.httpOutput(from:), ListAssociationsForLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociationsForLicenseConfigurationInput, ListAssociationsForLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociationsForLicenseConfigurationOutput>())
@@ -2369,9 +2397,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the grants distributed for the specified license.
     ///
-    /// - Parameter ListDistributedGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDistributedGrantsInput`)
     ///
-    /// - Returns: `ListDistributedGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDistributedGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2409,6 +2437,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDistributedGrantsOutput>(ListDistributedGrantsOutput.httpOutput(from:), ListDistributedGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDistributedGrantsInput, ListDistributedGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDistributedGrantsOutput>())
@@ -2443,9 +2472,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the license configuration operations that failed.
     ///
-    /// - Parameter ListFailuresForLicenseConfigurationOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFailuresForLicenseConfigurationOperationsInput`)
     ///
-    /// - Returns: `ListFailuresForLicenseConfigurationOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFailuresForLicenseConfigurationOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2481,6 +2510,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFailuresForLicenseConfigurationOperationsOutput>(ListFailuresForLicenseConfigurationOperationsOutput.httpOutput(from:), ListFailuresForLicenseConfigurationOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFailuresForLicenseConfigurationOperationsInput, ListFailuresForLicenseConfigurationOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFailuresForLicenseConfigurationOperationsOutput>())
@@ -2515,9 +2545,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the license configurations for your account.
     ///
-    /// - Parameter ListLicenseConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseConfigurationsInput`)
     ///
-    /// - Returns: `ListLicenseConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2554,6 +2584,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseConfigurationsOutput>(ListLicenseConfigurationsOutput.httpOutput(from:), ListLicenseConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseConfigurationsInput, ListLicenseConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseConfigurationsOutput>())
@@ -2588,9 +2619,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the license type conversion tasks for your account.
     ///
-    /// - Parameter ListLicenseConversionTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseConversionTasksInput`)
     ///
-    /// - Returns: `ListLicenseConversionTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseConversionTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2626,6 +2657,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseConversionTasksOutput>(ListLicenseConversionTasksOutput.httpOutput(from:), ListLicenseConversionTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseConversionTasksInput, ListLicenseConversionTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseConversionTasksOutput>())
@@ -2660,9 +2692,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the report generators for your account.
     ///
-    /// - Parameter ListLicenseManagerReportGeneratorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseManagerReportGeneratorsInput`)
     ///
-    /// - Returns: `ListLicenseManagerReportGeneratorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseManagerReportGeneratorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2701,6 +2733,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseManagerReportGeneratorsOutput>(ListLicenseManagerReportGeneratorsOutput.httpOutput(from:), ListLicenseManagerReportGeneratorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseManagerReportGeneratorsInput, ListLicenseManagerReportGeneratorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseManagerReportGeneratorsOutput>())
@@ -2735,9 +2768,9 @@ extension LicenseManagerClient {
     ///
     /// Describes the license configurations for the specified resource.
     ///
-    /// - Parameter ListLicenseSpecificationsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseSpecificationsForResourceInput`)
     ///
-    /// - Returns: `ListLicenseSpecificationsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseSpecificationsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2773,6 +2806,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseSpecificationsForResourceOutput>(ListLicenseSpecificationsForResourceOutput.httpOutput(from:), ListLicenseSpecificationsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseSpecificationsForResourceInput, ListLicenseSpecificationsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseSpecificationsForResourceOutput>())
@@ -2807,9 +2841,9 @@ extension LicenseManagerClient {
     ///
     /// Lists all versions of the specified license.
     ///
-    /// - Parameter ListLicenseVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseVersionsInput`)
     ///
-    /// - Returns: `ListLicenseVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2845,6 +2879,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseVersionsOutput>(ListLicenseVersionsOutput.httpOutput(from:), ListLicenseVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseVersionsInput, ListLicenseVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseVersionsOutput>())
@@ -2879,9 +2914,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the licenses for your account.
     ///
-    /// - Parameter ListLicensesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicensesInput`)
     ///
-    /// - Returns: `ListLicensesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicensesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2918,6 +2953,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLicensesInput, ListLicensesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicensesOutput>(ListLicensesOutput.httpOutput(from:), ListLicensesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicensesInput, ListLicensesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicensesOutput>())
@@ -2952,9 +2988,9 @@ extension LicenseManagerClient {
     ///
     /// Lists grants that are received. Received grants are grants created while specifying the recipient as this Amazon Web Services account, your organization, or an organizational unit (OU) to which this member account belongs.
     ///
-    /// - Parameter ListReceivedGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedGrantsInput`)
     ///
-    /// - Returns: `ListReceivedGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2992,6 +3028,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedGrantsOutput>(ListReceivedGrantsOutput.httpOutput(from:), ListReceivedGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedGrantsInput, ListReceivedGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReceivedGrantsOutput>())
@@ -3026,9 +3063,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the grants received for all accounts in the organization.
     ///
-    /// - Parameter ListReceivedGrantsForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedGrantsForOrganizationInput`)
     ///
-    /// - Returns: `ListReceivedGrantsForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedGrantsForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3066,6 +3103,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedGrantsForOrganizationOutput>(ListReceivedGrantsForOrganizationOutput.httpOutput(from:), ListReceivedGrantsForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedGrantsForOrganizationInput, ListReceivedGrantsForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReceivedGrantsForOrganizationOutput>())
@@ -3100,9 +3138,9 @@ extension LicenseManagerClient {
     ///
     /// Lists received licenses.
     ///
-    /// - Parameter ListReceivedLicensesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedLicensesInput`)
     ///
-    /// - Returns: `ListReceivedLicensesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedLicensesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3140,6 +3178,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedLicensesOutput>(ListReceivedLicensesOutput.httpOutput(from:), ListReceivedLicensesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedLicensesInput, ListReceivedLicensesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReceivedLicensesOutput>())
@@ -3174,9 +3213,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the licenses received for all accounts in the organization.
     ///
-    /// - Parameter ListReceivedLicensesForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedLicensesForOrganizationInput`)
     ///
-    /// - Returns: `ListReceivedLicensesForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedLicensesForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3214,6 +3253,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedLicensesForOrganizationOutput>(ListReceivedLicensesForOrganizationOutput.httpOutput(from:), ListReceivedLicensesForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedLicensesForOrganizationInput, ListReceivedLicensesForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReceivedLicensesForOrganizationOutput>())
@@ -3248,9 +3288,9 @@ extension LicenseManagerClient {
     ///
     /// Lists resources managed using Systems Manager inventory.
     ///
-    /// - Parameter ListResourceInventoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceInventoryInput`)
     ///
-    /// - Returns: `ListResourceInventoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceInventoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3288,6 +3328,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceInventoryOutput>(ListResourceInventoryOutput.httpOutput(from:), ListResourceInventoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceInventoryInput, ListResourceInventoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceInventoryOutput>())
@@ -3322,9 +3363,9 @@ extension LicenseManagerClient {
     ///
     /// Lists the tags for the specified resource. For more information about tagging support in License Manager, see the [TagResource](https://docs.aws.amazon.com/license-manager/latest/APIReference/API_TagResource.html) operation.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3360,6 +3401,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3394,9 +3436,9 @@ extension LicenseManagerClient {
     ///
     /// Lists your tokens.
     ///
-    /// - Parameter ListTokensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTokensInput`)
     ///
-    /// - Returns: `ListTokensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTokensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3432,6 +3474,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTokensInput, ListTokensOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTokensOutput>(ListTokensOutput.httpOutput(from:), ListTokensOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTokensInput, ListTokensOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTokensOutput>())
@@ -3466,9 +3509,9 @@ extension LicenseManagerClient {
     ///
     /// Lists all license usage records for a license configuration, displaying license consumption details by resource at a selected point in time. Use this action to audit the current license consumption for any license inventory and configuration.
     ///
-    /// - Parameter ListUsageForLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsageForLicenseConfigurationInput`)
     ///
-    /// - Returns: `ListUsageForLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsageForLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3505,6 +3548,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsageForLicenseConfigurationOutput>(ListUsageForLicenseConfigurationOutput.httpOutput(from:), ListUsageForLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsageForLicenseConfigurationInput, ListUsageForLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsageForLicenseConfigurationOutput>())
@@ -3539,9 +3583,9 @@ extension LicenseManagerClient {
     ///
     /// Rejects the specified grant.
     ///
-    /// - Parameter RejectGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectGrantInput`)
     ///
-    /// - Returns: `RejectGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3579,6 +3623,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectGrantInput, RejectGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectGrantOutput>(RejectGrantOutput.httpOutput(from:), RejectGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectGrantInput, RejectGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectGrantOutput>())
@@ -3621,9 +3666,9 @@ extension LicenseManagerClient {
     ///
     /// * Report generators
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3659,6 +3704,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3693,9 +3739,9 @@ extension LicenseManagerClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3731,6 +3777,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3765,9 +3812,9 @@ extension LicenseManagerClient {
     ///
     /// Modifies the attributes of an existing license configuration.
     ///
-    /// - Parameter UpdateLicenseConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLicenseConfigurationInput`)
     ///
-    /// - Returns: `UpdateLicenseConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLicenseConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3805,6 +3852,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseConfigurationOutput>(UpdateLicenseConfigurationOutput.httpOutput(from:), UpdateLicenseConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseConfigurationInput, UpdateLicenseConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLicenseConfigurationOutput>())
@@ -3839,9 +3887,9 @@ extension LicenseManagerClient {
     ///
     /// Updates a report generator. After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
     ///
-    /// - Parameter UpdateLicenseManagerReportGeneratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLicenseManagerReportGeneratorInput`)
     ///
-    /// - Returns: `UpdateLicenseManagerReportGeneratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLicenseManagerReportGeneratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3880,6 +3928,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseManagerReportGeneratorOutput>(UpdateLicenseManagerReportGeneratorOutput.httpOutput(from:), UpdateLicenseManagerReportGeneratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseManagerReportGeneratorInput, UpdateLicenseManagerReportGeneratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLicenseManagerReportGeneratorOutput>())
@@ -3914,9 +3963,9 @@ extension LicenseManagerClient {
     ///
     /// Adds or removes the specified license configurations for the specified Amazon Web Services resource. You can update the license specifications of AMIs, instances, and hosts. You cannot update the license specifications for launch templates and CloudFormation templates, as they send license configurations to the operation that creates the resource.
     ///
-    /// - Parameter UpdateLicenseSpecificationsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLicenseSpecificationsForResourceInput`)
     ///
-    /// - Returns: `UpdateLicenseSpecificationsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLicenseSpecificationsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3955,6 +4004,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLicenseSpecificationsForResourceOutput>(UpdateLicenseSpecificationsForResourceOutput.httpOutput(from:), UpdateLicenseSpecificationsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLicenseSpecificationsForResourceInput, UpdateLicenseSpecificationsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLicenseSpecificationsForResourceOutput>())
@@ -3989,9 +4039,9 @@ extension LicenseManagerClient {
     ///
     /// Updates License Manager settings for the current Region.
     ///
-    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceSettingsInput`)
     ///
-    /// - Returns: `UpdateServiceSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4027,6 +4077,7 @@ extension LicenseManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceSettingsOutput>(UpdateServiceSettingsOutput.httpOutput(from:), UpdateServiceSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceSettingsInput, UpdateServiceSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceSettingsOutput>())

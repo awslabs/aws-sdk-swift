@@ -175,3 +175,38 @@ extension PaginatorSequence where OperationStackInput == ListServicesInput, Oper
         return try await self.asyncCompactMap { item in item.serviceSummaries }
     }
 }
+extension ApplicationSignalsClient {
+    /// Paginate over `[ListServiceStatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServiceStatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServiceStatesOutput`
+    public func listServiceStatesPaginated(input: ListServiceStatesInput) -> ClientRuntime.PaginatorSequence<ListServiceStatesInput, ListServiceStatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListServiceStatesInput, ListServiceStatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listServiceStates(input:))
+    }
+}
+
+extension ListServiceStatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServiceStatesInput {
+        return ListServiceStatesInput(
+            attributeFilters: self.attributeFilters,
+            awsAccountId: self.awsAccountId,
+            endTime: self.endTime,
+            includeLinkedAccounts: self.includeLinkedAccounts,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListServiceStatesInput, OperationStackOutput == ListServiceStatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listServiceStatesPaginated`
+    /// to access the nested member `[ApplicationSignalsClientTypes.ServiceState]`
+    /// - Returns: `[ApplicationSignalsClientTypes.ServiceState]`
+    public func serviceStates() async throws -> [ApplicationSignalsClientTypes.ServiceState] {
+        return try await self.asyncCompactMap { item in item.serviceStates }
+    }
+}

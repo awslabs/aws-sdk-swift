@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NeptunedataClient: ClientRuntime.Client {
     public static let clientName = "NeptunedataClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: NeptunedataClient.NeptunedataClientConfiguration
     let serviceName = "neptunedata"
@@ -375,9 +376,9 @@ extension NeptunedataClient {
     ///
     /// Cancels a Gremlin query. See [Gremlin query cancellation](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status-cancel.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelquery) IAM action in that cluster.
     ///
-    /// - Parameter CancelGremlinQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelGremlinQueryInput`)
     ///
-    /// - Returns: `CancelGremlinQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelGremlinQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -421,6 +422,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelGremlinQueryInput, CancelGremlinQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelGremlinQueryOutput>(CancelGremlinQueryOutput.httpOutput(from:), CancelGremlinQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelGremlinQueryInput, CancelGremlinQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelGremlinQueryOutput>())
@@ -452,9 +454,9 @@ extension NeptunedataClient {
     ///
     /// Cancels a specified load job. This is an HTTP DELETE request. See [Neptune Loader Get-Status API](https://docs.aws.amazon.com/neptune/latest/userguide/load-api-reference-status.htm) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelLoaderJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelloaderjob) IAM action in that cluster..
     ///
-    /// - Parameter CancelLoaderJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelLoaderJobInput`)
     ///
-    /// - Returns: `CancelLoaderJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelLoaderJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,6 +499,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelLoaderJobInput, CancelLoaderJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelLoaderJobOutput>(CancelLoaderJobOutput.httpOutput(from:), CancelLoaderJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelLoaderJobInput, CancelLoaderJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelLoaderJobOutput>())
@@ -528,9 +531,9 @@ extension NeptunedataClient {
     ///
     /// Cancels a Neptune ML data processing job. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLDataProcessingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmldataprocessingjob) IAM action in that cluster.
     ///
-    /// - Parameter CancelMLDataProcessingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMLDataProcessingJobInput`)
     ///
-    /// - Returns: `CancelMLDataProcessingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMLDataProcessingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -572,6 +575,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutput>(CancelMLDataProcessingJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMLDataProcessingJobOutput>(CancelMLDataProcessingJobOutput.httpOutput(from:), CancelMLDataProcessingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMLDataProcessingJobInput, CancelMLDataProcessingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMLDataProcessingJobOutput>())
@@ -603,9 +607,9 @@ extension NeptunedataClient {
     ///
     /// Cancels a Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLModelTrainingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmlmodeltrainingjob) IAM action in that cluster.
     ///
-    /// - Parameter CancelMLModelTrainingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMLModelTrainingJobInput`)
     ///
-    /// - Returns: `CancelMLModelTrainingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMLModelTrainingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -647,6 +651,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutput>(CancelMLModelTrainingJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMLModelTrainingJobOutput>(CancelMLModelTrainingJobOutput.httpOutput(from:), CancelMLModelTrainingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMLModelTrainingJobInput, CancelMLModelTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMLModelTrainingJobOutput>())
@@ -678,9 +683,9 @@ extension NeptunedataClient {
     ///
     /// Cancels a specified model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelMLModelTransformJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelmlmodeltransformjob) IAM action in that cluster.
     ///
-    /// - Parameter CancelMLModelTransformJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMLModelTransformJobInput`)
     ///
-    /// - Returns: `CancelMLModelTransformJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMLModelTransformJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -722,6 +727,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutput>(CancelMLModelTransformJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMLModelTransformJobOutput>(CancelMLModelTransformJobOutput.httpOutput(from:), CancelMLModelTransformJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMLModelTransformJobInput, CancelMLModelTransformJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMLModelTransformJobOutput>())
@@ -753,9 +759,9 @@ extension NeptunedataClient {
     ///
     /// Cancels a specified openCypher query. See [Neptune openCypher status endpoint](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-status.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CancelQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#cancelquery) IAM action in that cluster.
     ///
-    /// - Parameter CancelOpenCypherQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelOpenCypherQueryInput`)
     ///
-    /// - Returns: `CancelOpenCypherQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelOpenCypherQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -801,6 +807,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutput>(CancelOpenCypherQueryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelOpenCypherQueryOutput>(CancelOpenCypherQueryOutput.httpOutput(from:), CancelOpenCypherQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelOpenCypherQueryInput, CancelOpenCypherQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelOpenCypherQueryOutput>())
@@ -832,9 +839,9 @@ extension NeptunedataClient {
     ///
     /// Creates a new Neptune ML inference endpoint that lets you query one specific model that the model-training process constructed. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:CreateMLEndpoint](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#createmlendpoint) IAM action in that cluster.
     ///
-    /// - Parameter CreateMLEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMLEndpointInput`)
     ///
-    /// - Returns: `CreateMLEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMLEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -878,6 +885,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMLEndpointInput, CreateMLEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMLEndpointOutput>(CreateMLEndpointOutput.httpOutput(from:), CreateMLEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMLEndpointInput, CreateMLEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMLEndpointOutput>())
@@ -909,9 +917,9 @@ extension NeptunedataClient {
     ///
     /// Cancels the creation of a Neptune ML inference endpoint. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteMLEndpoint](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletemlendpoint) IAM action in that cluster.
     ///
-    /// - Parameter DeleteMLEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMLEndpointInput`)
     ///
-    /// - Returns: `DeleteMLEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMLEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -953,6 +961,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteMLEndpointInput, DeleteMLEndpointOutput>(DeleteMLEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMLEndpointOutput>(DeleteMLEndpointOutput.httpOutput(from:), DeleteMLEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMLEndpointInput, DeleteMLEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMLEndpointOutput>())
@@ -984,9 +993,9 @@ extension NeptunedataClient {
     ///
     /// Deletes statistics for Gremlin and openCypher (property graph) data. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletestatistics) IAM action in that cluster.
     ///
-    /// - Parameter DeletePropertygraphStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePropertygraphStatisticsInput`)
     ///
-    /// - Returns: `DeletePropertygraphStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePropertygraphStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1029,6 +1038,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePropertygraphStatisticsInput, DeletePropertygraphStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePropertygraphStatisticsOutput>(DeletePropertygraphStatisticsOutput.httpOutput(from:), DeletePropertygraphStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePropertygraphStatisticsInput, DeletePropertygraphStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePropertygraphStatisticsOutput>())
@@ -1060,9 +1070,9 @@ extension NeptunedataClient {
     ///
     /// Deletes SPARQL statistics When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:DeleteStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#deletestatistics) IAM action in that cluster.
     ///
-    /// - Parameter DeleteSparqlStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSparqlStatisticsInput`)
     ///
-    /// - Returns: `DeleteSparqlStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSparqlStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1105,6 +1115,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSparqlStatisticsInput, DeleteSparqlStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSparqlStatisticsOutput>(DeleteSparqlStatisticsOutput.httpOutput(from:), DeleteSparqlStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSparqlStatisticsInput, DeleteSparqlStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSparqlStatisticsOutput>())
@@ -1136,9 +1147,9 @@ extension NeptunedataClient {
     ///
     /// The fast reset REST API lets you reset a Neptune graph quicky and easily, removing all of its data. Neptune fast reset is a two-step process. First you call ExecuteFastReset with action set to initiateDatabaseReset. This returns a UUID token which you then include when calling ExecuteFastReset again with action set to performDatabaseReset. See [Empty an Amazon Neptune DB cluster using the fast reset API](https://docs.aws.amazon.com/neptune/latest/userguide/manage-console-fast-reset.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ResetDatabase](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#resetdatabase) IAM action in that cluster.
     ///
-    /// - Parameter ExecuteFastResetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteFastResetInput`)
     ///
-    /// - Returns: `ExecuteFastResetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteFastResetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1184,6 +1195,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteFastResetInput, ExecuteFastResetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteFastResetOutput>(ExecuteFastResetOutput.httpOutput(from:), ExecuteFastResetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteFastResetInput, ExecuteFastResetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteFastResetOutput>())
@@ -1224,9 +1236,9 @@ extension NeptunedataClient {
     ///
     /// Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter ExecuteGremlinExplainQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteGremlinExplainQueryInput`)
     ///
-    /// - Returns: `ExecuteGremlinExplainQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteGremlinExplainQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1279,6 +1291,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteGremlinExplainQueryOutput>(ExecuteGremlinExplainQueryOutput.httpOutput(from:), ExecuteGremlinExplainQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteGremlinExplainQueryInput, ExecuteGremlinExplainQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteGremlinExplainQueryOutput>())
@@ -1310,9 +1323,9 @@ extension NeptunedataClient {
     ///
     /// Executes a Gremlin Profile query, which runs a specified traversal, collects various metrics about the run, and produces a profile report as output. See [Gremlin profile API in Neptune](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-profile-api.html) for details. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter ExecuteGremlinProfileQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteGremlinProfileQueryInput`)
     ///
-    /// - Returns: `ExecuteGremlinProfileQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteGremlinProfileQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1365,6 +1378,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteGremlinProfileQueryOutput>(ExecuteGremlinProfileQueryOutput.httpOutput(from:), ExecuteGremlinProfileQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteGremlinProfileQueryInput, ExecuteGremlinProfileQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteGremlinProfileQueryOutput>())
@@ -1405,9 +1419,9 @@ extension NeptunedataClient {
     ///
     /// Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter ExecuteGremlinQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteGremlinQueryInput`)
     ///
-    /// - Returns: `ExecuteGremlinQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteGremlinQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1461,6 +1475,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteGremlinQueryOutput>(ExecuteGremlinQueryOutput.httpOutput(from:), ExecuteGremlinQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteGremlinQueryInput, ExecuteGremlinQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteGremlinQueryOutput>())
@@ -1492,9 +1507,9 @@ extension NeptunedataClient {
     ///
     /// Executes an openCypher explain request. See [The openCypher explain feature](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-explain.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ReadDataViaQuery](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#readdataviaquery) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of openCypher queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter ExecuteOpenCypherExplainQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteOpenCypherExplainQueryInput`)
     ///
-    /// - Returns: `ExecuteOpenCypherExplainQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteOpenCypherExplainQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,6 +1563,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteOpenCypherExplainQueryOutput>(ExecuteOpenCypherExplainQueryOutput.httpOutput(from:), ExecuteOpenCypherExplainQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteOpenCypherExplainQueryInput, ExecuteOpenCypherExplainQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteOpenCypherExplainQueryOutput>())
@@ -1588,9 +1604,9 @@ extension NeptunedataClient {
     ///
     /// Note also that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of openCypher queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter ExecuteOpenCypherQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteOpenCypherQueryInput`)
     ///
-    /// - Returns: `ExecuteOpenCypherQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteOpenCypherQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1644,6 +1660,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteOpenCypherQueryOutput>(ExecuteOpenCypherQueryOutput.httpOutput(from:), ExecuteOpenCypherQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteOpenCypherQueryInput, ExecuteOpenCypherQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteOpenCypherQueryOutput>())
@@ -1675,9 +1692,9 @@ extension NeptunedataClient {
     ///
     /// Retrieves the status of the graph database on the host. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetEngineStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getenginestatus) IAM action in that cluster.
     ///
-    /// - Parameter GetEngineStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEngineStatusInput`)
     ///
-    /// - Returns: `GetEngineStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEngineStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1715,6 +1732,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEngineStatusInput, GetEngineStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEngineStatusOutput>(GetEngineStatusOutput.httpOutput(from:), GetEngineStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEngineStatusInput, GetEngineStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEngineStatusOutput>())
@@ -1746,9 +1764,9 @@ extension NeptunedataClient {
     ///
     /// Gets the status of a specified Gremlin query. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter GetGremlinQueryStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGremlinQueryStatusInput`)
     ///
-    /// - Returns: `GetGremlinQueryStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGremlinQueryStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1794,6 +1812,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGremlinQueryStatusInput, GetGremlinQueryStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGremlinQueryStatusOutput>(GetGremlinQueryStatusOutput.httpOutput(from:), GetGremlinQueryStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGremlinQueryStatusInput, GetGremlinQueryStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGremlinQueryStatusOutput>())
@@ -1825,9 +1844,9 @@ extension NeptunedataClient {
     ///
     /// Gets status information about a specified load job. Neptune keeps track of the most recent 1,024 bulk load jobs, and stores the last 10,000 error details per job. See [Neptune Loader Get-Status API](https://docs.aws.amazon.com/neptune/latest/userguide/load-api-reference-status.htm) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetLoaderJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getloaderjobstatus) IAM action in that cluster..
     ///
-    /// - Parameter GetLoaderJobStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoaderJobStatusInput`)
     ///
-    /// - Returns: `GetLoaderJobStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoaderJobStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1871,6 +1890,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLoaderJobStatusInput, GetLoaderJobStatusOutput>(GetLoaderJobStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoaderJobStatusOutput>(GetLoaderJobStatusOutput.httpOutput(from:), GetLoaderJobStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoaderJobStatusInput, GetLoaderJobStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoaderJobStatusOutput>())
@@ -1902,9 +1922,9 @@ extension NeptunedataClient {
     ///
     /// Retrieves information about a specified data processing job. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:neptune-db:GetMLDataProcessingJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmldataprocessingjobstatus) IAM action in that cluster.
     ///
-    /// - Parameter GetMLDataProcessingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLDataProcessingJobInput`)
     ///
-    /// - Returns: `GetMLDataProcessingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLDataProcessingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1946,6 +1966,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutput>(GetMLDataProcessingJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLDataProcessingJobOutput>(GetMLDataProcessingJobOutput.httpOutput(from:), GetMLDataProcessingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLDataProcessingJobInput, GetMLDataProcessingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLDataProcessingJobOutput>())
@@ -1977,9 +1998,9 @@ extension NeptunedataClient {
     ///
     /// Retrieves details about an inference endpoint. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLEndpointStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlendpointstatus) IAM action in that cluster.
     ///
-    /// - Parameter GetMLEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLEndpointInput`)
     ///
-    /// - Returns: `GetMLEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,6 +2042,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMLEndpointInput, GetMLEndpointOutput>(GetMLEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLEndpointOutput>(GetMLEndpointOutput.httpOutput(from:), GetMLEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLEndpointInput, GetMLEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLEndpointOutput>())
@@ -2052,9 +2074,9 @@ extension NeptunedataClient {
     ///
     /// Retrieves information about a Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLModelTrainingJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlmodeltrainingjobstatus) IAM action in that cluster.
     ///
-    /// - Parameter GetMLModelTrainingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLModelTrainingJobInput`)
     ///
-    /// - Returns: `GetMLModelTrainingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLModelTrainingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2096,6 +2118,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutput>(GetMLModelTrainingJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLModelTrainingJobOutput>(GetMLModelTrainingJobOutput.httpOutput(from:), GetMLModelTrainingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLModelTrainingJobInput, GetMLModelTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLModelTrainingJobOutput>())
@@ -2127,9 +2150,9 @@ extension NeptunedataClient {
     ///
     /// Gets information about a specified model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetMLModelTransformJobStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getmlmodeltransformjobstatus) IAM action in that cluster.
     ///
-    /// - Parameter GetMLModelTransformJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLModelTransformJobInput`)
     ///
-    /// - Returns: `GetMLModelTransformJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLModelTransformJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2171,6 +2194,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetMLModelTransformJobInput, GetMLModelTransformJobOutput>(GetMLModelTransformJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLModelTransformJobOutput>(GetMLModelTransformJobOutput.httpOutput(from:), GetMLModelTransformJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLModelTransformJobInput, GetMLModelTransformJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLModelTransformJobOutput>())
@@ -2202,9 +2226,9 @@ extension NeptunedataClient {
     ///
     /// Retrieves the status of a specified openCypher query. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of openCypher queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter GetOpenCypherQueryStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOpenCypherQueryStatusInput`)
     ///
-    /// - Returns: `GetOpenCypherQueryStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOpenCypherQueryStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2251,6 +2275,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOpenCypherQueryStatusInput, GetOpenCypherQueryStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOpenCypherQueryStatusOutput>(GetOpenCypherQueryStatusOutput.httpOutput(from:), GetOpenCypherQueryStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpenCypherQueryStatusInput, GetOpenCypherQueryStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpenCypherQueryStatusOutput>())
@@ -2282,9 +2307,9 @@ extension NeptunedataClient {
     ///
     /// Gets property graph statistics (Gremlin and openCypher). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStatisticsStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstatisticsstatus) IAM action in that cluster.
     ///
-    /// - Parameter GetPropertygraphStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPropertygraphStatisticsInput`)
     ///
-    /// - Returns: `GetPropertygraphStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPropertygraphStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2327,6 +2352,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPropertygraphStatisticsInput, GetPropertygraphStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPropertygraphStatisticsOutput>(GetPropertygraphStatisticsOutput.httpOutput(from:), GetPropertygraphStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPropertygraphStatisticsInput, GetPropertygraphStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPropertygraphStatisticsOutput>())
@@ -2365,9 +2391,9 @@ extension NeptunedataClient {
     ///
     /// See [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter GetPropertygraphStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPropertygraphStreamInput`)
     ///
-    /// - Returns: `GetPropertygraphStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPropertygraphStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2411,6 +2437,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutput>(GetPropertygraphStreamInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPropertygraphStreamOutput>(GetPropertygraphStreamOutput.httpOutput(from:), GetPropertygraphStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPropertygraphStreamInput, GetPropertygraphStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPropertygraphStreamOutput>())
@@ -2442,9 +2469,9 @@ extension NeptunedataClient {
     ///
     /// Gets a graph summary for a property graph. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetGraphSummary](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getgraphsummary) IAM action in that cluster.
     ///
-    /// - Parameter GetPropertygraphSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPropertygraphSummaryInput`)
     ///
-    /// - Returns: `GetPropertygraphSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPropertygraphSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2488,6 +2515,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutput>(GetPropertygraphSummaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPropertygraphSummaryOutput>(GetPropertygraphSummaryOutput.httpOutput(from:), GetPropertygraphSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPropertygraphSummaryInput, GetPropertygraphSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPropertygraphSummaryOutput>())
@@ -2519,9 +2547,9 @@ extension NeptunedataClient {
     ///
     /// Gets a graph summary for an RDF graph. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetGraphSummary](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getgraphsummary) IAM action in that cluster.
     ///
-    /// - Parameter GetRDFGraphSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRDFGraphSummaryInput`)
     ///
-    /// - Returns: `GetRDFGraphSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRDFGraphSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2565,6 +2593,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutput>(GetRDFGraphSummaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRDFGraphSummaryOutput>(GetRDFGraphSummaryOutput.httpOutput(from:), GetRDFGraphSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRDFGraphSummaryInput, GetRDFGraphSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRDFGraphSummaryOutput>())
@@ -2596,9 +2625,9 @@ extension NeptunedataClient {
     ///
     /// Gets RDF statistics (SPARQL).
     ///
-    /// - Parameter GetSparqlStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSparqlStatisticsInput`)
     ///
-    /// - Returns: `GetSparqlStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSparqlStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2641,6 +2670,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSparqlStatisticsInput, GetSparqlStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSparqlStatisticsOutput>(GetSparqlStatisticsOutput.httpOutput(from:), GetSparqlStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSparqlStatisticsInput, GetSparqlStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSparqlStatisticsOutput>())
@@ -2672,9 +2702,9 @@ extension NeptunedataClient {
     ///
     /// Gets a stream for an RDF graph. With the Neptune Streams feature, you can generate a complete sequence of change-log entries that record every change made to your graph data as it happens. GetSparqlStream lets you collect these change-log entries for an RDF graph. The Neptune streams feature needs to be enabled on your Neptune DBcluster. To enable streams, set the [neptune_streams](https://docs.aws.amazon.com/neptune/latest/userguide/parameters.html#parameters-db-cluster-parameters-neptune_streams) DB cluster parameter to 1. See [Capturing graph changes in real time using Neptune streams](https://docs.aws.amazon.com/neptune/latest/userguide/streams.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetStreamRecords](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getstreamrecords) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Sparql](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of SPARQL queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter GetSparqlStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSparqlStreamInput`)
     ///
-    /// - Returns: `GetSparqlStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSparqlStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2718,6 +2748,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSparqlStreamInput, GetSparqlStreamOutput>(GetSparqlStreamInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSparqlStreamOutput>(GetSparqlStreamOutput.httpOutput(from:), GetSparqlStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSparqlStreamInput, GetSparqlStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSparqlStreamOutput>())
@@ -2749,9 +2780,9 @@ extension NeptunedataClient {
     ///
     /// Lists active Gremlin queries. See [Gremlin query status API](https://docs.aws.amazon.com/neptune/latest/userguide/gremlin-api-status.html) for details about the output. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:Gremlin](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter ListGremlinQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGremlinQueriesInput`)
     ///
-    /// - Returns: `ListGremlinQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGremlinQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2798,6 +2829,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGremlinQueriesInput, ListGremlinQueriesOutput>(ListGremlinQueriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGremlinQueriesOutput>(ListGremlinQueriesOutput.httpOutput(from:), ListGremlinQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGremlinQueriesInput, ListGremlinQueriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGremlinQueriesOutput>())
@@ -2829,9 +2861,9 @@ extension NeptunedataClient {
     ///
     /// Retrieves a list of the loadIds for all active loader jobs. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListLoaderJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listloaderjobs) IAM action in that cluster..
     ///
-    /// - Parameter ListLoaderJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLoaderJobsInput`)
     ///
-    /// - Returns: `ListLoaderJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLoaderJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2874,6 +2906,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLoaderJobsInput, ListLoaderJobsOutput>(ListLoaderJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLoaderJobsOutput>(ListLoaderJobsOutput.httpOutput(from:), ListLoaderJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLoaderJobsInput, ListLoaderJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLoaderJobsOutput>())
@@ -2905,9 +2938,9 @@ extension NeptunedataClient {
     ///
     /// Returns a list of Neptune ML data processing jobs. See [Listing active data-processing jobs using the Neptune ML dataprocessing command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html#machine-learning-api-dataprocessing-list-jobs). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLDataProcessingJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmldataprocessingjobs) IAM action in that cluster.
     ///
-    /// - Parameter ListMLDataProcessingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMLDataProcessingJobsInput`)
     ///
-    /// - Returns: `ListMLDataProcessingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMLDataProcessingJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2949,6 +2982,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutput>(ListMLDataProcessingJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMLDataProcessingJobsOutput>(ListMLDataProcessingJobsOutput.httpOutput(from:), ListMLDataProcessingJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMLDataProcessingJobsInput, ListMLDataProcessingJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMLDataProcessingJobsOutput>())
@@ -2980,9 +3014,9 @@ extension NeptunedataClient {
     ///
     /// Lists existing inference endpoints. See [Managing inference endpoints using the endpoints command](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-endpoints.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLEndpoints](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmlendpoints) IAM action in that cluster.
     ///
-    /// - Parameter ListMLEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMLEndpointsInput`)
     ///
-    /// - Returns: `ListMLEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMLEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3024,6 +3058,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMLEndpointsInput, ListMLEndpointsOutput>(ListMLEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMLEndpointsOutput>(ListMLEndpointsOutput.httpOutput(from:), ListMLEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMLEndpointsInput, ListMLEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMLEndpointsOutput>())
@@ -3055,9 +3090,9 @@ extension NeptunedataClient {
     ///
     /// Lists Neptune ML model-training jobs. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:neptune-db:ListMLModelTrainingJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#neptune-db:listmlmodeltrainingjobs) IAM action in that cluster.
     ///
-    /// - Parameter ListMLModelTrainingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMLModelTrainingJobsInput`)
     ///
-    /// - Returns: `ListMLModelTrainingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMLModelTrainingJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3099,6 +3134,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutput>(ListMLModelTrainingJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMLModelTrainingJobsOutput>(ListMLModelTrainingJobsOutput.httpOutput(from:), ListMLModelTrainingJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMLModelTrainingJobsInput, ListMLModelTrainingJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMLModelTrainingJobsOutput>())
@@ -3130,9 +3166,9 @@ extension NeptunedataClient {
     ///
     /// Returns a list of model transform job IDs. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ListMLModelTransformJobs](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#listmlmodeltransformjobs) IAM action in that cluster.
     ///
-    /// - Parameter ListMLModelTransformJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMLModelTransformJobsInput`)
     ///
-    /// - Returns: `ListMLModelTransformJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMLModelTransformJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3174,6 +3210,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutput>(ListMLModelTransformJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMLModelTransformJobsOutput>(ListMLModelTransformJobsOutput.httpOutput(from:), ListMLModelTransformJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMLModelTransformJobsInput, ListMLModelTransformJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMLModelTransformJobsOutput>())
@@ -3205,9 +3242,9 @@ extension NeptunedataClient {
     ///
     /// Lists active openCypher queries. See [Neptune openCypher status endpoint](https://docs.aws.amazon.com/neptune/latest/userguide/access-graph-opencypher-status.html) for more information. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:GetQueryStatus](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#getquerystatus) IAM action in that cluster. Note that the [neptune-db:QueryLanguage:OpenCypher](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html#iam-neptune-condition-keys) IAM condition key can be used in the policy document to restrict the use of openCypher queries (see [Condition keys available in Neptune IAM data-access policy statements](https://docs.aws.amazon.com/neptune/latest/userguide/iam-data-condition-keys.html)).
     ///
-    /// - Parameter ListOpenCypherQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOpenCypherQueriesInput`)
     ///
-    /// - Returns: `ListOpenCypherQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOpenCypherQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3255,6 +3292,7 @@ extension NeptunedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutput>(ListOpenCypherQueriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOpenCypherQueriesOutput>(ListOpenCypherQueriesOutput.httpOutput(from:), ListOpenCypherQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOpenCypherQueriesInput, ListOpenCypherQueriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOpenCypherQueriesOutput>())
@@ -3286,9 +3324,9 @@ extension NeptunedataClient {
     ///
     /// Manages the generation and use of property graph statistics. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ManageStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#managestatistics) IAM action in that cluster.
     ///
-    /// - Parameter ManagePropertygraphStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ManagePropertygraphStatisticsInput`)
     ///
-    /// - Returns: `ManagePropertygraphStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ManagePropertygraphStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3334,6 +3372,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ManagePropertygraphStatisticsOutput>(ManagePropertygraphStatisticsOutput.httpOutput(from:), ManagePropertygraphStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ManagePropertygraphStatisticsInput, ManagePropertygraphStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ManagePropertygraphStatisticsOutput>())
@@ -3365,9 +3404,9 @@ extension NeptunedataClient {
     ///
     /// Manages the generation and use of RDF graph statistics. When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:ManageStatistics](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#managestatistics) IAM action in that cluster.
     ///
-    /// - Parameter ManageSparqlStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ManageSparqlStatisticsInput`)
     ///
-    /// - Returns: `ManageSparqlStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ManageSparqlStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3413,6 +3452,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ManageSparqlStatisticsOutput>(ManageSparqlStatisticsOutput.httpOutput(from:), ManageSparqlStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ManageSparqlStatisticsInput, ManageSparqlStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ManageSparqlStatisticsOutput>())
@@ -3444,9 +3484,9 @@ extension NeptunedataClient {
     ///
     /// Starts a Neptune bulk loader job to load data from an Amazon S3 bucket into a Neptune DB instance. See [Using the Amazon Neptune Bulk Loader to Ingest Data](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartLoaderJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startloaderjob) IAM action in that cluster.
     ///
-    /// - Parameter StartLoaderJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartLoaderJobInput`)
     ///
-    /// - Returns: `StartLoaderJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartLoaderJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3493,6 +3533,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartLoaderJobInput, StartLoaderJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartLoaderJobOutput>(StartLoaderJobOutput.httpOutput(from:), StartLoaderJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartLoaderJobInput, StartLoaderJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartLoaderJobOutput>())
@@ -3524,9 +3565,9 @@ extension NeptunedataClient {
     ///
     /// Creates a new Neptune ML data processing job for processing the graph data exported from Neptune for training. See [The ]dataprocessing command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-dataprocessing.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelDataProcessingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeldataprocessingjob) IAM action in that cluster.
     ///
-    /// - Parameter StartMLDataProcessingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMLDataProcessingJobInput`)
     ///
-    /// - Returns: `StartMLDataProcessingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMLDataProcessingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3570,6 +3611,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMLDataProcessingJobOutput>(StartMLDataProcessingJobOutput.httpOutput(from:), StartMLDataProcessingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMLDataProcessingJobInput, StartMLDataProcessingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMLDataProcessingJobOutput>())
@@ -3601,9 +3643,9 @@ extension NeptunedataClient {
     ///
     /// Creates a new Neptune ML model training job. See [Model training using the ]modeltraining command(https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-api-modeltraining.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelTrainingJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeltrainingjob) IAM action in that cluster.
     ///
-    /// - Parameter StartMLModelTrainingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMLModelTrainingJobInput`)
     ///
-    /// - Returns: `StartMLModelTrainingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMLModelTrainingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3647,6 +3689,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMLModelTrainingJobOutput>(StartMLModelTrainingJobOutput.httpOutput(from:), StartMLModelTrainingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMLModelTrainingJobInput, StartMLModelTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMLModelTrainingJobOutput>())
@@ -3678,9 +3721,9 @@ extension NeptunedataClient {
     ///
     /// Creates a new model transform job. See [Use a trained model to generate new model artifacts](https://docs.aws.amazon.com/neptune/latest/userguide/machine-learning-model-transform.html). When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the [neptune-db:StartMLModelTransformJob](https://docs.aws.amazon.com/neptune/latest/userguide/iam-dp-actions.html#startmlmodeltransformjob) IAM action in that cluster.
     ///
-    /// - Parameter StartMLModelTransformJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMLModelTransformJobInput`)
     ///
-    /// - Returns: `StartMLModelTransformJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMLModelTransformJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3724,6 +3767,7 @@ extension NeptunedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMLModelTransformJobOutput>(StartMLModelTransformJobOutput.httpOutput(from:), StartMLModelTransformJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMLModelTransformJobInput, StartMLModelTransformJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMLModelTransformJobOutput>())

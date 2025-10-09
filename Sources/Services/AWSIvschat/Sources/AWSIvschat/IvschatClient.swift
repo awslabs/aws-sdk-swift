@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IvschatClient: ClientRuntime.Client {
     public static let clientName = "IvschatClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IvschatClient.IvschatClientConfiguration
     let serviceName = "ivschat"
@@ -373,9 +374,9 @@ extension IvschatClient {
     ///
     /// Creates an encrypted token that is used by a chat participant to establish an individual WebSocket chat connection to a room. When the token is used to connect to chat, the connection is valid for the session duration specified in the request. The token becomes invalid at the token-expiration timestamp included in the response. Use the capabilities field to permit an end user to send messages or moderate a room. The attributes field securely attaches structured data to the chat session; the data is included within each message sent by the end user and received by other participants in the room. Common use cases for attributes include passing end-user profile data like an icon, display name, colors, badges, and other display features. Encryption keys are owned by Amazon IVS Chat and never used directly by your application.
     ///
-    /// - Parameter CreateChatTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChatTokenInput`)
     ///
-    /// - Returns: `CreateChatTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChatTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChatTokenInput, CreateChatTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChatTokenOutput>(CreateChatTokenOutput.httpOutput(from:), CreateChatTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChatTokenInput, CreateChatTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChatTokenOutput>())
@@ -443,9 +445,9 @@ extension IvschatClient {
     ///
     /// Creates a logging configuration that allows clients to store and record sent messages.
     ///
-    /// - Parameter CreateLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLoggingConfigurationInput`)
     ///
-    /// - Returns: `CreateLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +486,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoggingConfigurationInput, CreateLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoggingConfigurationOutput>(CreateLoggingConfigurationOutput.httpOutput(from:), CreateLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoggingConfigurationInput, CreateLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoggingConfigurationOutput>())
@@ -515,9 +518,9 @@ extension IvschatClient {
     ///
     /// Creates a room that allows clients to connect and pass messages.
     ///
-    /// - Parameter CreateRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRoomInput`)
     ///
-    /// - Returns: `CreateRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,6 +559,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRoomInput, CreateRoomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRoomOutput>(CreateRoomOutput.httpOutput(from:), CreateRoomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRoomInput, CreateRoomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRoomOutput>())
@@ -587,9 +591,9 @@ extension IvschatClient {
     ///
     /// Deletes the specified logging configuration.
     ///
-    /// - Parameter DeleteLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLoggingConfigurationInput`)
     ///
-    /// - Returns: `DeleteLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +631,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoggingConfigurationOutput>(DeleteLoggingConfigurationOutput.httpOutput(from:), DeleteLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoggingConfigurationInput, DeleteLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoggingConfigurationOutput>())
@@ -658,9 +663,9 @@ extension IvschatClient {
     ///
     /// Sends an event to a specific room which directs clients to delete a specific message; that is, unrender it from view and delete it from the client’s chat history. This event’s EventName is aws:DELETE_MESSAGE. This replicates the [ DeleteMessage](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-deletemessage-publish.html) WebSocket operation in the Amazon IVS Chat Messaging API.
     ///
-    /// - Parameter DeleteMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMessageInput`)
     ///
-    /// - Returns: `DeleteMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +703,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMessageInput, DeleteMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMessageOutput>(DeleteMessageOutput.httpOutput(from:), DeleteMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMessageInput, DeleteMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMessageOutput>())
@@ -729,9 +735,9 @@ extension IvschatClient {
     ///
     /// Deletes the specified room.
     ///
-    /// - Parameter DeleteRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRoomInput`)
     ///
-    /// - Returns: `DeleteRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,6 +774,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRoomInput, DeleteRoomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRoomOutput>(DeleteRoomOutput.httpOutput(from:), DeleteRoomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRoomInput, DeleteRoomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRoomOutput>())
@@ -799,9 +806,9 @@ extension IvschatClient {
     ///
     /// Disconnects all connections using a specified user ID from a room. This replicates the [ DisconnectUser](https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-disconnectuser-publish.html) WebSocket operation in the Amazon IVS Chat Messaging API.
     ///
-    /// - Parameter DisconnectUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisconnectUserInput`)
     ///
-    /// - Returns: `DisconnectUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisconnectUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,6 +846,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisconnectUserInput, DisconnectUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisconnectUserOutput>(DisconnectUserOutput.httpOutput(from:), DisconnectUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisconnectUserInput, DisconnectUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisconnectUserOutput>())
@@ -870,9 +878,9 @@ extension IvschatClient {
     ///
     /// Gets the specified logging configuration.
     ///
-    /// - Parameter GetLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggingConfigurationInput`)
     ///
-    /// - Returns: `GetLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,6 +916,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoggingConfigurationOutput>(GetLoggingConfigurationOutput.httpOutput(from:), GetLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoggingConfigurationInput, GetLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoggingConfigurationOutput>())
@@ -939,9 +948,9 @@ extension IvschatClient {
     ///
     /// Gets the specified room.
     ///
-    /// - Parameter GetRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoomInput`)
     ///
-    /// - Returns: `GetRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,6 +986,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRoomInput, GetRoomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoomOutput>(GetRoomOutput.httpOutput(from:), GetRoomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoomInput, GetRoomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoomOutput>())
@@ -1008,9 +1018,9 @@ extension IvschatClient {
     ///
     /// Gets summary information about all your logging configurations in the AWS region where the API request is processed.
     ///
-    /// - Parameter ListLoggingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLoggingConfigurationsInput`)
     ///
-    /// - Returns: `ListLoggingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLoggingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1045,6 +1055,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLoggingConfigurationsOutput>(ListLoggingConfigurationsOutput.httpOutput(from:), ListLoggingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLoggingConfigurationsInput, ListLoggingConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLoggingConfigurationsOutput>())
@@ -1076,9 +1087,9 @@ extension IvschatClient {
     ///
     /// Gets summary information about all your rooms in the AWS region where the API request is processed. Results are sorted in descending order of updateTime.
     ///
-    /// - Parameter ListRoomsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRoomsInput`)
     ///
-    /// - Returns: `ListRoomsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRoomsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1114,6 +1125,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRoomsInput, ListRoomsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRoomsOutput>(ListRoomsOutput.httpOutput(from:), ListRoomsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRoomsInput, ListRoomsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRoomsOutput>())
@@ -1145,9 +1157,9 @@ extension IvschatClient {
     ///
     /// Gets information about AWS tags for the specified ARN.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1180,6 +1192,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1211,9 +1224,9 @@ extension IvschatClient {
     ///
     /// Sends an event to a room. Use this within your application’s business logic to send events to clients of a room; e.g., to notify clients to change the way the chat UI is rendered.
     ///
-    /// - Parameter SendEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendEventInput`)
     ///
-    /// - Returns: `SendEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1251,6 +1264,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendEventInput, SendEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendEventOutput>(SendEventOutput.httpOutput(from:), SendEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendEventInput, SendEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendEventOutput>())
@@ -1282,9 +1296,9 @@ extension IvschatClient {
     ///
     /// Adds or updates tags for the AWS resource with the specified ARN.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1320,6 +1334,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1351,9 +1366,9 @@ extension IvschatClient {
     ///
     /// Removes tags from the resource with the specified ARN.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1387,6 +1402,7 @@ extension IvschatClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1418,9 +1434,9 @@ extension IvschatClient {
     ///
     /// Updates a specified logging configuration.
     ///
-    /// - Parameter UpdateLoggingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLoggingConfigurationInput`)
     ///
-    /// - Returns: `UpdateLoggingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLoggingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1458,6 +1474,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLoggingConfigurationOutput>(UpdateLoggingConfigurationOutput.httpOutput(from:), UpdateLoggingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLoggingConfigurationInput, UpdateLoggingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLoggingConfigurationOutput>())
@@ -1489,9 +1506,9 @@ extension IvschatClient {
     ///
     /// Updates a room’s configuration.
     ///
-    /// - Parameter UpdateRoomInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRoomInput`)
     ///
-    /// - Returns: `UpdateRoomOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRoomOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1528,6 +1545,7 @@ extension IvschatClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRoomInput, UpdateRoomOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRoomOutput>(UpdateRoomOutput.httpOutput(from:), UpdateRoomOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRoomInput, UpdateRoomOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRoomOutput>())

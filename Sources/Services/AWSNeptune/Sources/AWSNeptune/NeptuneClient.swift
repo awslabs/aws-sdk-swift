@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NeptuneClient: ClientRuntime.Client {
     public static let clientName = "NeptuneClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: NeptuneClient.NeptuneClientConfiguration
     let serviceName = "Neptune"
@@ -372,9 +373,9 @@ extension NeptuneClient {
     ///
     /// Associates an Identity and Access Management (IAM) role with an Neptune DB cluster.
     ///
-    /// - Parameter AddRoleToDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddRoleToDBClusterInput`)
     ///
-    /// - Returns: `AddRoleToDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddRoleToDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +410,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddRoleToDBClusterInput, AddRoleToDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddRoleToDBClusterOutput>(AddRoleToDBClusterOutput.httpOutput(from:), AddRoleToDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddRoleToDBClusterInput, AddRoleToDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddRoleToDBClusterOutput>())
@@ -442,9 +444,9 @@ extension NeptuneClient {
     ///
     /// Adds a source identifier to an existing event notification subscription.
     ///
-    /// - Parameter AddSourceIdentifierToSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddSourceIdentifierToSubscriptionInput`)
     ///
-    /// - Returns: `AddSourceIdentifierToSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddSourceIdentifierToSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -477,6 +479,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddSourceIdentifierToSubscriptionOutput>(AddSourceIdentifierToSubscriptionOutput.httpOutput(from:), AddSourceIdentifierToSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddSourceIdentifierToSubscriptionInput, AddSourceIdentifierToSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddSourceIdentifierToSubscriptionOutput>())
@@ -510,9 +513,9 @@ extension NeptuneClient {
     ///
     /// Adds metadata tags to an Amazon Neptune resource. These tags can also be used with cost allocation reporting to track cost associated with Amazon Neptune resources, or used in a Condition statement in an IAM policy for Amazon Neptune.
     ///
-    /// - Parameter AddTagsToResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddTagsToResourceInput`)
     ///
-    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,6 +549,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput>(AddTagsToResourceOutput.httpOutput(from:), AddTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToResourceOutput>())
@@ -579,9 +583,9 @@ extension NeptuneClient {
     ///
     /// Applies a pending maintenance action to a resource (for example, to a DB instance).
     ///
-    /// - Parameter ApplyPendingMaintenanceActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApplyPendingMaintenanceActionInput`)
     ///
-    /// - Returns: `ApplyPendingMaintenanceActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplyPendingMaintenanceActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -613,6 +617,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyPendingMaintenanceActionOutput>(ApplyPendingMaintenanceActionOutput.httpOutput(from:), ApplyPendingMaintenanceActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyPendingMaintenanceActionInput, ApplyPendingMaintenanceActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyPendingMaintenanceActionOutput>())
@@ -646,9 +651,9 @@ extension NeptuneClient {
     ///
     /// Copies the specified DB cluster parameter group.
     ///
-    /// - Parameter CopyDBClusterParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `CopyDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -682,6 +687,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBClusterParameterGroupOutput>(CopyDBClusterParameterGroupOutput.httpOutput(from:), CopyDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBClusterParameterGroupInput, CopyDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBClusterParameterGroupOutput>())
@@ -715,9 +721,9 @@ extension NeptuneClient {
     ///
     /// Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared manual DB cluster snapshot, SourceDBClusterSnapshotIdentifier must be the Amazon Resource Name (ARN) of the shared DB cluster snapshot.
     ///
-    /// - Parameter CopyDBClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyDBClusterSnapshotInput`)
     ///
-    /// - Returns: `CopyDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -754,6 +760,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBClusterSnapshotOutput>(CopyDBClusterSnapshotOutput.httpOutput(from:), CopyDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBClusterSnapshotInput, CopyDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBClusterSnapshotOutput>())
@@ -787,9 +794,9 @@ extension NeptuneClient {
     ///
     /// Copies the specified DB parameter group.
     ///
-    /// - Parameter CopyDBParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyDBParameterGroupInput`)
     ///
-    /// - Returns: `CopyDBParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -823,6 +830,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyDBParameterGroupInput, CopyDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyDBParameterGroupOutput>(CopyDBParameterGroupOutput.httpOutput(from:), CopyDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyDBParameterGroupInput, CopyDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyDBParameterGroupOutput>())
@@ -856,9 +864,9 @@ extension NeptuneClient {
     ///
     /// Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdentifier parameter to create the DB cluster as a Read Replica of another DB cluster or Amazon Neptune DB instance. Note that when you create a new cluster using CreateDBCluster directly, deletion protection is disabled by default (when you create a new production cluster in the console, deletion protection is enabled by default). You can only delete a DB cluster if its DeletionProtection field is set to false.
     ///
-    /// - Parameter CreateDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBClusterInput`)
     ///
-    /// - Returns: `CreateDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,6 +914,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterInput, CreateDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterOutput>(CreateDBClusterOutput.httpOutput(from:), CreateDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterInput, CreateDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterOutput>())
@@ -939,9 +948,9 @@ extension NeptuneClient {
     ///
     /// Creates a new custom endpoint and associates it with an Amazon Neptune DB cluster.
     ///
-    /// - Parameter CreateDBClusterEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBClusterEndpointInput`)
     ///
-    /// - Returns: `CreateDBClusterEndpointOutput` : This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
+    /// - Returns: This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
     ///
     /// * CreateDBClusterEndpoint
     ///
@@ -952,7 +961,7 @@ extension NeptuneClient {
     /// * DeleteDBClusterEndpoint
     ///
     ///
-    /// For the data structure that represents Amazon Neptune DB instance endpoints, see Endpoint.
+    /// For the data structure that represents Amazon Neptune DB instance endpoints, see Endpoint. (Type: `CreateDBClusterEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -989,6 +998,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterEndpointOutput>(CreateDBClusterEndpointOutput.httpOutput(from:), CreateDBClusterEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterEndpointInput, CreateDBClusterEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterEndpointOutput>())
@@ -1022,9 +1032,9 @@ extension NeptuneClient {
     ///
     /// Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster. A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using [ModifyDBClusterParameterGroup]. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using [ModifyDBCluster]. When you associate a new DB cluster parameter group with a running DB cluster, you need to reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the [Amazon Neptune console](https://console.aws.amazon.com/rds/) or the [DescribeDBClusterParameters] command to verify that your DB cluster parameter group has been created or modified.
     ///
-    /// - Parameter CreateDBClusterParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `CreateDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,6 +1067,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterParameterGroupOutput>(CreateDBClusterParameterGroupOutput.httpOutput(from:), CreateDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterParameterGroupInput, CreateDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterParameterGroupOutput>())
@@ -1090,9 +1101,9 @@ extension NeptuneClient {
     ///
     /// Creates a snapshot of a DB cluster.
     ///
-    /// - Parameter CreateDBClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBClusterSnapshotInput`)
     ///
-    /// - Returns: `CreateDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1128,6 +1139,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBClusterSnapshotOutput>(CreateDBClusterSnapshotOutput.httpOutput(from:), CreateDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBClusterSnapshotInput, CreateDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBClusterSnapshotOutput>())
@@ -1161,9 +1173,9 @@ extension NeptuneClient {
     ///
     /// Creates a new DB instance.
     ///
-    /// - Parameter CreateDBInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBInstanceInput`)
     ///
-    /// - Returns: `CreateDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,6 +1224,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBInstanceInput, CreateDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBInstanceOutput>(CreateDBInstanceOutput.httpOutput(from:), CreateDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBInstanceInput, CreateDBInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBInstanceOutput>())
@@ -1245,9 +1258,9 @@ extension NeptuneClient {
     ///
     /// Creates a new DB parameter group. A DB parameter group is initially created with the default parameters for the database engine used by the DB instance. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBParameterGroup. Once you've created a DB parameter group, you need to associate it with your DB instance using ModifyDBInstance. When you associate a new DB parameter group with a running DB instance, you need to reboot the DB instance without failover for the new DB parameter group and associated settings to take effect. After you create a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon Neptune console or the DescribeDBParameters command to verify that your DB parameter group has been created or modified.
     ///
-    /// - Parameter CreateDBParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBParameterGroupInput`)
     ///
-    /// - Returns: `CreateDBParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1280,6 +1293,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBParameterGroupInput, CreateDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBParameterGroupOutput>(CreateDBParameterGroupOutput.httpOutput(from:), CreateDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBParameterGroupInput, CreateDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBParameterGroupOutput>())
@@ -1313,9 +1327,9 @@ extension NeptuneClient {
     ///
     /// Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Region.
     ///
-    /// - Parameter CreateDBSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDBSubnetGroupInput`)
     ///
-    /// - Returns: `CreateDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1351,6 +1365,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDBSubnetGroupOutput>(CreateDBSubnetGroupOutput.httpOutput(from:), CreateDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDBSubnetGroupInput, CreateDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDBSubnetGroupOutput>())
@@ -1384,9 +1399,9 @@ extension NeptuneClient {
     ///
     /// Creates an event notification subscription. This action requires a topic ARN (Amazon Resource Name) created by either the Neptune console, the SNS console, or the SNS API. To obtain an ARN with SNS, you must create a topic in Amazon SNS and subscribe to the topic. The ARN is displayed in the SNS console. You can specify the type of source (SourceType) you want to be notified of, provide a list of Neptune sources (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. For example, you can specify SourceType = db-instance, SourceIds = mydbinstance1, mydbinstance2 and EventCategories = Availability, Backup. If you specify both the SourceType and SourceIds, such as SourceType = db-instance and SourceIdentifier = myDBInstance1, you are notified of all the db-instance events for the specified source. If you specify a SourceType but do not specify a SourceIdentifier, you receive notice of the events for that source type for all your Neptune sources. If you do not specify either the SourceType nor the SourceIdentifier, you are notified of events generated from all Neptune sources belonging to your customer account.
     ///
-    /// - Parameter CreateEventSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventSubscriptionInput`)
     ///
-    /// - Returns: `CreateEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1424,6 +1439,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventSubscriptionOutput>(CreateEventSubscriptionOutput.httpOutput(from:), CreateEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventSubscriptionInput, CreateEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventSubscriptionOutput>())
@@ -1457,9 +1473,9 @@ extension NeptuneClient {
     ///
     /// Creates a Neptune global database spread across multiple Amazon Regions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operation to become the primary cluster of the global database.
     ///
-    /// - Parameter CreateGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGlobalClusterInput`)
     ///
-    /// - Returns: `CreateGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1494,6 +1510,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlobalClusterOutput>(CreateGlobalClusterOutput.httpOutput(from:), CreateGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlobalClusterInput, CreateGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlobalClusterOutput>())
@@ -1527,9 +1544,9 @@ extension NeptuneClient {
     ///
     /// The DeleteDBCluster action deletes a previously provisioned DB cluster. When you delete a DB cluster, all automated backups for that DB cluster are deleted and can't be recovered. Manual DB cluster snapshots of the specified DB cluster are not deleted. Note that the DB Cluster cannot be deleted if deletion protection is enabled. To delete it, you must first set its DeletionProtection field to False.
     ///
-    /// - Parameter DeleteDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBClusterInput`)
     ///
-    /// - Returns: `DeleteDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1565,6 +1582,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterInput, DeleteDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterOutput>(DeleteDBClusterOutput.httpOutput(from:), DeleteDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterInput, DeleteDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterOutput>())
@@ -1598,9 +1616,9 @@ extension NeptuneClient {
     ///
     /// Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
     ///
-    /// - Parameter DeleteDBClusterEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBClusterEndpointInput`)
     ///
-    /// - Returns: `DeleteDBClusterEndpointOutput` : This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
+    /// - Returns: This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
     ///
     /// * CreateDBClusterEndpoint
     ///
@@ -1611,7 +1629,7 @@ extension NeptuneClient {
     /// * DeleteDBClusterEndpoint
     ///
     ///
-    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint. (Type: `DeleteDBClusterEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1645,6 +1663,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterEndpointOutput>(DeleteDBClusterEndpointOutput.httpOutput(from:), DeleteDBClusterEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterEndpointInput, DeleteDBClusterEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterEndpointOutput>())
@@ -1678,9 +1697,9 @@ extension NeptuneClient {
     ///
     /// Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters.
     ///
-    /// - Parameter DeleteDBClusterParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `DeleteDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,6 +1732,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterParameterGroupOutput>(DeleteDBClusterParameterGroupOutput.httpOutput(from:), DeleteDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterParameterGroupInput, DeleteDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterParameterGroupOutput>())
@@ -1746,9 +1766,9 @@ extension NeptuneClient {
     ///
     /// Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is terminated. The DB cluster snapshot must be in the available state to be deleted.
     ///
-    /// - Parameter DeleteDBClusterSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBClusterSnapshotInput`)
     ///
-    /// - Returns: `DeleteDBClusterSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBClusterSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1781,6 +1801,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBClusterSnapshotOutput>(DeleteDBClusterSnapshotOutput.httpOutput(from:), DeleteDBClusterSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBClusterSnapshotInput, DeleteDBClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBClusterSnapshotOutput>())
@@ -1814,9 +1835,9 @@ extension NeptuneClient {
     ///
     /// The DeleteDBInstance action deletes a previously provisioned DB instance. When you delete a DB instance, all automated backups for that instance are deleted and can't be recovered. Manual DB snapshots of the DB instance to be deleted by DeleteDBInstance are not deleted. If you request a final DB snapshot the status of the Amazon Neptune DB instance is deleting until the DB snapshot is created. The API action DescribeDBInstance is used to monitor the status of this operation. The action can't be canceled or reverted once submitted. Note that when a DB instance is in a failure state and has a status of failed, incompatible-restore, or incompatible-network, you can only delete it when the SkipFinalSnapshot parameter is set to true. You can't delete a DB instance if it is the only instance in the DB cluster, or if it has deletion protection enabled.
     ///
-    /// - Parameter DeleteDBInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBInstanceInput`)
     ///
-    /// - Returns: `DeleteDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1852,6 +1873,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBInstanceOutput>(DeleteDBInstanceOutput.httpOutput(from:), DeleteDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBInstanceInput, DeleteDBInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBInstanceOutput>())
@@ -1885,9 +1907,9 @@ extension NeptuneClient {
     ///
     /// Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted can't be associated with any DB instances.
     ///
-    /// - Parameter DeleteDBParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBParameterGroupInput`)
     ///
-    /// - Returns: `DeleteDBParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1920,6 +1942,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBParameterGroupOutput>(DeleteDBParameterGroupOutput.httpOutput(from:), DeleteDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBParameterGroupInput, DeleteDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBParameterGroupOutput>())
@@ -1953,9 +1976,9 @@ extension NeptuneClient {
     ///
     /// Deletes a DB subnet group. The specified database subnet group must not be associated with any DB instances.
     ///
-    /// - Parameter DeleteDBSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDBSubnetGroupInput`)
     ///
-    /// - Returns: `DeleteDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1989,6 +2012,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDBSubnetGroupOutput>(DeleteDBSubnetGroupOutput.httpOutput(from:), DeleteDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDBSubnetGroupInput, DeleteDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDBSubnetGroupOutput>())
@@ -2022,9 +2046,9 @@ extension NeptuneClient {
     ///
     /// Deletes an event notification subscription.
     ///
-    /// - Parameter DeleteEventSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventSubscriptionInput`)
     ///
-    /// - Returns: `DeleteEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2057,6 +2081,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventSubscriptionOutput>(DeleteEventSubscriptionOutput.httpOutput(from:), DeleteEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventSubscriptionInput, DeleteEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventSubscriptionOutput>())
@@ -2090,9 +2115,9 @@ extension NeptuneClient {
     ///
     /// Deletes a global database. The primary and all secondary clusters must already be detached or deleted first.
     ///
-    /// - Parameter DeleteGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGlobalClusterInput`)
     ///
-    /// - Returns: `DeleteGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2125,6 +2150,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGlobalClusterOutput>(DeleteGlobalClusterOutput.httpOutput(from:), DeleteGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlobalClusterInput, DeleteGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlobalClusterOutput>())
@@ -2158,9 +2184,9 @@ extension NeptuneClient {
     ///
     /// Returns information about endpoints for an Amazon Neptune DB cluster. This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
     ///
-    /// - Parameter DescribeDBClusterEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBClusterEndpointsInput`)
     ///
-    /// - Returns: `DescribeDBClusterEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2192,6 +2218,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterEndpointsOutput>(DescribeDBClusterEndpointsOutput.httpOutput(from:), DescribeDBClusterEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterEndpointsInput, DescribeDBClusterEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterEndpointsOutput>())
@@ -2225,9 +2252,9 @@ extension NeptuneClient {
     ///
     /// Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
     ///
-    /// - Parameter DescribeDBClusterParameterGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBClusterParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeDBClusterParameterGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2259,6 +2286,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterParameterGroupsOutput>(DescribeDBClusterParameterGroupsOutput.httpOutput(from:), DescribeDBClusterParameterGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterParameterGroupsInput, DescribeDBClusterParameterGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterParameterGroupsOutput>())
@@ -2292,9 +2320,9 @@ extension NeptuneClient {
     ///
     /// Returns the detailed parameter list for a particular DB cluster parameter group.
     ///
-    /// - Parameter DescribeDBClusterParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBClusterParametersInput`)
     ///
-    /// - Returns: `DescribeDBClusterParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2326,6 +2354,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterParametersOutput>(DescribeDBClusterParametersOutput.httpOutput(from:), DescribeDBClusterParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterParametersInput, DescribeDBClusterParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterParametersOutput>())
@@ -2359,9 +2388,9 @@ extension NeptuneClient {
     ///
     /// Returns a list of DB cluster snapshot attribute names and values for a manual DB cluster snapshot. When sharing snapshots with other Amazon accounts, DescribeDBClusterSnapshotAttributes returns the restore attribute and a list of IDs for the Amazon accounts that are authorized to copy or restore the manual DB cluster snapshot. If all is included in the list of values for the restore attribute, then the manual DB cluster snapshot is public and can be copied or restored by all Amazon accounts. To add or remove access for an Amazon account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the [ModifyDBClusterSnapshotAttribute] API action.
     ///
-    /// - Parameter DescribeDBClusterSnapshotAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBClusterSnapshotAttributesInput`)
     ///
-    /// - Returns: `DescribeDBClusterSnapshotAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterSnapshotAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2393,6 +2422,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotAttributesOutput>(DescribeDBClusterSnapshotAttributesOutput.httpOutput(from:), DescribeDBClusterSnapshotAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotAttributesInput, DescribeDBClusterSnapshotAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterSnapshotAttributesOutput>())
@@ -2426,9 +2456,9 @@ extension NeptuneClient {
     ///
     /// Returns information about DB cluster snapshots. This API action supports pagination.
     ///
-    /// - Parameter DescribeDBClusterSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBClusterSnapshotsInput`)
     ///
-    /// - Returns: `DescribeDBClusterSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClusterSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2460,6 +2490,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClusterSnapshotsOutput>(DescribeDBClusterSnapshotsOutput.httpOutput(from:), DescribeDBClusterSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClusterSnapshotsInput, DescribeDBClusterSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClusterSnapshotsOutput>())
@@ -2493,9 +2524,9 @@ extension NeptuneClient {
     ///
     /// Returns information about provisioned DB clusters, and supports pagination. This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters.
     ///
-    /// - Parameter DescribeDBClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBClustersInput`)
     ///
-    /// - Returns: `DescribeDBClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2527,6 +2558,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBClustersInput, DescribeDBClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBClustersOutput>(DescribeDBClustersOutput.httpOutput(from:), DescribeDBClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBClustersInput, DescribeDBClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBClustersOutput>())
@@ -2560,9 +2592,9 @@ extension NeptuneClient {
     ///
     /// Returns a list of the available DB engines.
     ///
-    /// - Parameter DescribeDBEngineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBEngineVersionsInput`)
     ///
-    /// - Returns: `DescribeDBEngineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBEngineVersionsOutput`)
     public func describeDBEngineVersions(input: DescribeDBEngineVersionsInput) async throws -> DescribeDBEngineVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2589,6 +2621,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBEngineVersionsOutput>(DescribeDBEngineVersionsOutput.httpOutput(from:), DescribeDBEngineVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBEngineVersionsInput, DescribeDBEngineVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBEngineVersionsOutput>())
@@ -2622,9 +2655,9 @@ extension NeptuneClient {
     ///
     /// Returns information about provisioned instances, and supports pagination. This operation can also return information for Amazon RDS instances and Amazon DocDB instances.
     ///
-    /// - Parameter DescribeDBInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBInstancesInput`)
     ///
-    /// - Returns: `DescribeDBInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2656,6 +2689,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBInstancesOutput>(DescribeDBInstancesOutput.httpOutput(from:), DescribeDBInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBInstancesInput, DescribeDBInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBInstancesOutput>())
@@ -2689,9 +2723,9 @@ extension NeptuneClient {
     ///
     /// Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
     ///
-    /// - Parameter DescribeDBParameterGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBParameterGroupsInput`)
     ///
-    /// - Returns: `DescribeDBParameterGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBParameterGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2723,6 +2757,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBParameterGroupsOutput>(DescribeDBParameterGroupsOutput.httpOutput(from:), DescribeDBParameterGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBParameterGroupsInput, DescribeDBParameterGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBParameterGroupsOutput>())
@@ -2756,9 +2791,9 @@ extension NeptuneClient {
     ///
     /// Returns the detailed parameter list for a particular DB parameter group.
     ///
-    /// - Parameter DescribeDBParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBParametersInput`)
     ///
-    /// - Returns: `DescribeDBParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2790,6 +2825,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBParametersInput, DescribeDBParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBParametersOutput>(DescribeDBParametersOutput.httpOutput(from:), DescribeDBParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBParametersInput, DescribeDBParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBParametersOutput>())
@@ -2823,9 +2859,9 @@ extension NeptuneClient {
     ///
     /// Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the [Wikipedia Tutorial](http://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing).
     ///
-    /// - Parameter DescribeDBSubnetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDBSubnetGroupsInput`)
     ///
-    /// - Returns: `DescribeDBSubnetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDBSubnetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2857,6 +2893,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDBSubnetGroupsOutput>(DescribeDBSubnetGroupsOutput.httpOutput(from:), DescribeDBSubnetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDBSubnetGroupsInput, DescribeDBSubnetGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDBSubnetGroupsOutput>())
@@ -2890,9 +2927,9 @@ extension NeptuneClient {
     ///
     /// Returns the default engine and system parameter information for the cluster database engine.
     ///
-    /// - Parameter DescribeEngineDefaultClusterParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEngineDefaultClusterParametersInput`)
     ///
-    /// - Returns: `DescribeEngineDefaultClusterParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineDefaultClusterParametersOutput`)
     public func describeEngineDefaultClusterParameters(input: DescribeEngineDefaultClusterParametersInput) async throws -> DescribeEngineDefaultClusterParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2919,6 +2956,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultClusterParametersOutput>(DescribeEngineDefaultClusterParametersOutput.httpOutput(from:), DescribeEngineDefaultClusterParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEngineDefaultClusterParametersInput, DescribeEngineDefaultClusterParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEngineDefaultClusterParametersOutput>())
@@ -2952,9 +2990,9 @@ extension NeptuneClient {
     ///
     /// Returns the default engine and system parameter information for the specified database engine.
     ///
-    /// - Parameter DescribeEngineDefaultParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEngineDefaultParametersInput`)
     ///
-    /// - Returns: `DescribeEngineDefaultParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEngineDefaultParametersOutput`)
     public func describeEngineDefaultParameters(input: DescribeEngineDefaultParametersInput) async throws -> DescribeEngineDefaultParametersOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2981,6 +3019,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEngineDefaultParametersOutput>(DescribeEngineDefaultParametersOutput.httpOutput(from:), DescribeEngineDefaultParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEngineDefaultParametersInput, DescribeEngineDefaultParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEngineDefaultParametersOutput>())
@@ -3014,9 +3053,9 @@ extension NeptuneClient {
     ///
     /// Displays a list of categories for all event source types, or, if specified, for a specified source type.
     ///
-    /// - Parameter DescribeEventCategoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventCategoriesInput`)
     ///
-    /// - Returns: `DescribeEventCategoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventCategoriesOutput`)
     public func describeEventCategories(input: DescribeEventCategoriesInput) async throws -> DescribeEventCategoriesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3043,6 +3082,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventCategoriesOutput>(DescribeEventCategoriesOutput.httpOutput(from:), DescribeEventCategoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventCategoriesInput, DescribeEventCategoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventCategoriesOutput>())
@@ -3076,9 +3116,9 @@ extension NeptuneClient {
     ///
     /// Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     ///
-    /// - Parameter DescribeEventSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventSubscriptionsInput`)
     ///
-    /// - Returns: `DescribeEventSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3110,6 +3150,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventSubscriptionsOutput>(DescribeEventSubscriptionsOutput.httpOutput(from:), DescribeEventSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventSubscriptionsInput, DescribeEventSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventSubscriptionsOutput>())
@@ -3143,9 +3184,9 @@ extension NeptuneClient {
     ///
     /// Returns events related to DB instances, DB security groups, DB snapshots, and DB parameter groups for the past 14 days. Events specific to a particular DB instance, DB security group, database snapshot, or DB parameter group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
     ///
-    /// - Parameter DescribeEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEventsInput`)
     ///
-    /// - Returns: `DescribeEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEventsOutput`)
     public func describeEvents(input: DescribeEventsInput) async throws -> DescribeEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3172,6 +3213,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventsInput, DescribeEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventsOutput>(DescribeEventsOutput.httpOutput(from:), DescribeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventsInput, DescribeEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventsOutput>())
@@ -3205,9 +3247,9 @@ extension NeptuneClient {
     ///
     /// Returns information about Neptune global database clusters. This API supports pagination.
     ///
-    /// - Parameter DescribeGlobalClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalClustersInput`)
     ///
-    /// - Returns: `DescribeGlobalClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3239,6 +3281,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGlobalClustersOutput>(DescribeGlobalClustersOutput.httpOutput(from:), DescribeGlobalClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGlobalClustersInput, DescribeGlobalClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalClustersOutput>())
@@ -3272,9 +3315,9 @@ extension NeptuneClient {
     ///
     /// Returns a list of orderable DB instance options for the specified engine.
     ///
-    /// - Parameter DescribeOrderableDBInstanceOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrderableDBInstanceOptionsInput`)
     ///
-    /// - Returns: `DescribeOrderableDBInstanceOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrderableDBInstanceOptionsOutput`)
     public func describeOrderableDBInstanceOptions(input: DescribeOrderableDBInstanceOptionsInput) async throws -> DescribeOrderableDBInstanceOptionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3301,6 +3344,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrderableDBInstanceOptionsOutput>(DescribeOrderableDBInstanceOptionsOutput.httpOutput(from:), DescribeOrderableDBInstanceOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrderableDBInstanceOptionsInput, DescribeOrderableDBInstanceOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrderableDBInstanceOptionsOutput>())
@@ -3334,9 +3378,9 @@ extension NeptuneClient {
     ///
     /// Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
     ///
-    /// - Parameter DescribePendingMaintenanceActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePendingMaintenanceActionsInput`)
     ///
-    /// - Returns: `DescribePendingMaintenanceActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePendingMaintenanceActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3368,6 +3412,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePendingMaintenanceActionsOutput>(DescribePendingMaintenanceActionsOutput.httpOutput(from:), DescribePendingMaintenanceActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePendingMaintenanceActionsInput, DescribePendingMaintenanceActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePendingMaintenanceActionsOutput>())
@@ -3401,9 +3446,9 @@ extension NeptuneClient {
     ///
     /// You can call [DescribeValidDBInstanceModifications] to learn what modifications you can make to your DB instance. You can use this information when you call [ModifyDBInstance].
     ///
-    /// - Parameter DescribeValidDBInstanceModificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeValidDBInstanceModificationsInput`)
     ///
-    /// - Returns: `DescribeValidDBInstanceModificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeValidDBInstanceModificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3436,6 +3481,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeValidDBInstanceModificationsOutput>(DescribeValidDBInstanceModificationsOutput.httpOutput(from:), DescribeValidDBInstanceModificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeValidDBInstanceModificationsInput, DescribeValidDBInstanceModificationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeValidDBInstanceModificationsOutput>())
@@ -3469,9 +3515,9 @@ extension NeptuneClient {
     ///
     /// Forces a failover for a DB cluster. A failover for a DB cluster promotes one of the Read Replicas (read-only instances) in the DB cluster to be the primary instance (the cluster writer). Amazon Neptune will automatically fail over to a Read Replica, if one exists, when the primary instance fails. You can force a failover when you want to simulate a failure of a primary instance for testing. Because each instance in a DB cluster has its own endpoint address, you will need to clean up and re-establish any existing connections that use those endpoint addresses when the failover is complete.
     ///
-    /// - Parameter FailoverDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverDBClusterInput`)
     ///
-    /// - Returns: `FailoverDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3505,6 +3551,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverDBClusterInput, FailoverDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverDBClusterOutput>(FailoverDBClusterOutput.httpOutput(from:), FailoverDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverDBClusterInput, FailoverDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FailoverDBClusterOutput>())
@@ -3538,9 +3585,9 @@ extension NeptuneClient {
     ///
     /// Initiates the failover process for a Neptune global database. A failover for a Neptune global database promotes one of secondary read-only DB clusters to be the primary DB cluster and demotes the primary DB cluster to being a secondary (read-only) DB cluster. In other words, the role of the current primary DB cluster and the selected target secondary DB cluster are switched. The selected secondary DB cluster assumes full read/write capabilities for the Neptune global database. This action applies only to Neptune global databases. This action is only intended for use on healthy Neptune global databases with healthy Neptune DB clusters and no region-wide outages, to test disaster recovery scenarios or to reconfigure the global database topology.
     ///
-    /// - Parameter FailoverGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FailoverGlobalClusterInput`)
     ///
-    /// - Returns: `FailoverGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FailoverGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3575,6 +3622,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FailoverGlobalClusterOutput>(FailoverGlobalClusterOutput.httpOutput(from:), FailoverGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FailoverGlobalClusterInput, FailoverGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FailoverGlobalClusterOutput>())
@@ -3608,9 +3656,9 @@ extension NeptuneClient {
     ///
     /// Lists all tags on an Amazon Neptune resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3644,6 +3692,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3677,9 +3726,9 @@ extension NeptuneClient {
     ///
     /// Modify a setting for a DB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     ///
-    /// - Parameter ModifyDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBClusterInput`)
     ///
-    /// - Returns: `ModifyDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3722,6 +3771,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterInput, ModifyDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterOutput>(ModifyDBClusterOutput.httpOutput(from:), ModifyDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterInput, ModifyDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterOutput>())
@@ -3755,9 +3805,9 @@ extension NeptuneClient {
     ///
     /// Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
     ///
-    /// - Parameter ModifyDBClusterEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBClusterEndpointInput`)
     ///
-    /// - Returns: `ModifyDBClusterEndpointOutput` : This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
+    /// - Returns: This data type represents the information you need to connect to an Amazon Neptune DB cluster. This data type is used as a response element in the following actions:
     ///
     /// * CreateDBClusterEndpoint
     ///
@@ -3768,7 +3818,7 @@ extension NeptuneClient {
     /// * DeleteDBClusterEndpoint
     ///
     ///
-    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
+    /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint. (Type: `ModifyDBClusterEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3804,6 +3854,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterEndpointOutput>(ModifyDBClusterEndpointOutput.httpOutput(from:), ModifyDBClusterEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterEndpointInput, ModifyDBClusterEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterEndpointOutput>())
@@ -3837,9 +3888,9 @@ extension NeptuneClient {
     ///
     /// Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect. After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon Neptune console or the [DescribeDBClusterParameters] command to verify that your DB cluster parameter group has been created or modified.
     ///
-    /// - Parameter ModifyDBClusterParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `ModifyDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3872,6 +3923,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterParameterGroupOutput>(ModifyDBClusterParameterGroupOutput.httpOutput(from:), ModifyDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterParameterGroupInput, ModifyDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterParameterGroupOutput>())
@@ -3905,9 +3957,9 @@ extension NeptuneClient {
     ///
     /// Adds an attribute and values to, or removes an attribute and values from, a manual DB cluster snapshot. To share a manual DB cluster snapshot with other Amazon accounts, specify restore as the AttributeName and use the ValuesToAdd parameter to add a list of IDs of the Amazon accounts that are authorized to restore the manual DB cluster snapshot. Use the value all to make the manual DB cluster snapshot public, which means that it can be copied or restored by all Amazon accounts. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all Amazon accounts. If a manual DB cluster snapshot is encrypted, it can be shared, but only by specifying a list of authorized Amazon account IDs for the ValuesToAdd parameter. You can't use all as a value for that parameter in this case. To view which Amazon accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot public or private, use the [DescribeDBClusterSnapshotAttributes] API action.
     ///
-    /// - Parameter ModifyDBClusterSnapshotAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBClusterSnapshotAttributeInput`)
     ///
-    /// - Returns: `ModifyDBClusterSnapshotAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBClusterSnapshotAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3941,6 +3993,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBClusterSnapshotAttributeOutput>(ModifyDBClusterSnapshotAttributeOutput.httpOutput(from:), ModifyDBClusterSnapshotAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBClusterSnapshotAttributeInput, ModifyDBClusterSnapshotAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBClusterSnapshotAttributeOutput>())
@@ -3974,9 +4027,9 @@ extension NeptuneClient {
     ///
     /// Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call [DescribeValidDBInstanceModifications] before you call [ModifyDBInstance].
     ///
-    /// - Parameter ModifyDBInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBInstanceInput`)
     ///
-    /// - Returns: `ModifyDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4023,6 +4076,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBInstanceOutput>(ModifyDBInstanceOutput.httpOutput(from:), ModifyDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBInstanceInput, ModifyDBInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBInstanceOutput>())
@@ -4056,9 +4110,9 @@ extension NeptuneClient {
     ///
     /// Modifies the parameters of a DB parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB instance associated with the parameter group before the change can take effect. After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon Neptune to fully complete the modify action before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon Neptune console or the DescribeDBParameters command to verify that your DB parameter group has been created or modified.
     ///
-    /// - Parameter ModifyDBParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBParameterGroupInput`)
     ///
-    /// - Returns: `ModifyDBParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4091,6 +4145,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBParameterGroupOutput>(ModifyDBParameterGroupOutput.httpOutput(from:), ModifyDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBParameterGroupInput, ModifyDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBParameterGroupOutput>())
@@ -4124,9 +4179,9 @@ extension NeptuneClient {
     ///
     /// Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Region.
     ///
-    /// - Parameter ModifyDBSubnetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyDBSubnetGroupInput`)
     ///
-    /// - Returns: `ModifyDBSubnetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyDBSubnetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4162,6 +4217,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyDBSubnetGroupOutput>(ModifyDBSubnetGroupOutput.httpOutput(from:), ModifyDBSubnetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyDBSubnetGroupInput, ModifyDBSubnetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyDBSubnetGroupOutput>())
@@ -4195,9 +4251,9 @@ extension NeptuneClient {
     ///
     /// Modifies an existing event notification subscription. Note that you can't modify the source identifiers using this call; to change source identifiers for a subscription, use the [AddSourceIdentifierToSubscription] and [RemoveSourceIdentifierFromSubscription] calls. You can see a list of the event categories for a given SourceType by using the DescribeEventCategories action.
     ///
-    /// - Parameter ModifyEventSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyEventSubscriptionInput`)
     ///
-    /// - Returns: `ModifyEventSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyEventSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4234,6 +4290,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEventSubscriptionOutput>(ModifyEventSubscriptionOutput.httpOutput(from:), ModifyEventSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEventSubscriptionInput, ModifyEventSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEventSubscriptionOutput>())
@@ -4267,9 +4324,9 @@ extension NeptuneClient {
     ///
     /// Modify a setting for an Amazon Neptune global cluster. You can change one or more database configuration parameters by specifying these parameters and their new values in the request.
     ///
-    /// - Parameter ModifyGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyGlobalClusterInput`)
     ///
-    /// - Returns: `ModifyGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4302,6 +4359,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyGlobalClusterOutput>(ModifyGlobalClusterOutput.httpOutput(from:), ModifyGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyGlobalClusterInput, ModifyGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyGlobalClusterOutput>())
@@ -4335,9 +4393,9 @@ extension NeptuneClient {
     ///
     /// Not supported.
     ///
-    /// - Parameter PromoteReadReplicaDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PromoteReadReplicaDBClusterInput`)
     ///
-    /// - Returns: `PromoteReadReplicaDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromoteReadReplicaDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4370,6 +4428,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PromoteReadReplicaDBClusterOutput>(PromoteReadReplicaDBClusterOutput.httpOutput(from:), PromoteReadReplicaDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PromoteReadReplicaDBClusterInput, PromoteReadReplicaDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PromoteReadReplicaDBClusterOutput>())
@@ -4403,9 +4462,9 @@ extension NeptuneClient {
     ///
     /// You might need to reboot your DB instance, usually for maintenance reasons. For example, if you make certain modifications, or if you change the DB parameter group associated with the DB instance, you must reboot the instance for the changes to take effect. Rebooting a DB instance restarts the database engine service. Rebooting a DB instance results in a momentary outage, during which the DB instance status is set to rebooting.
     ///
-    /// - Parameter RebootDBInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootDBInstanceInput`)
     ///
-    /// - Returns: `RebootDBInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootDBInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4438,6 +4497,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootDBInstanceInput, RebootDBInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootDBInstanceOutput>(RebootDBInstanceOutput.httpOutput(from:), RebootDBInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootDBInstanceInput, RebootDBInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootDBInstanceOutput>())
@@ -4471,9 +4531,9 @@ extension NeptuneClient {
     ///
     /// Detaches a Neptune DB cluster from a Neptune global database. A secondary cluster becomes a normal standalone cluster with read-write capability instead of being read-only, and no longer receives data from a the primary cluster.
     ///
-    /// - Parameter RemoveFromGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveFromGlobalClusterInput`)
     ///
-    /// - Returns: `RemoveFromGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveFromGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4507,6 +4567,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveFromGlobalClusterOutput>(RemoveFromGlobalClusterOutput.httpOutput(from:), RemoveFromGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveFromGlobalClusterInput, RemoveFromGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveFromGlobalClusterOutput>())
@@ -4540,9 +4601,9 @@ extension NeptuneClient {
     ///
     /// Disassociates an Identity and Access Management (IAM) role from a DB cluster.
     ///
-    /// - Parameter RemoveRoleFromDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveRoleFromDBClusterInput`)
     ///
-    /// - Returns: `RemoveRoleFromDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveRoleFromDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4576,6 +4637,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveRoleFromDBClusterOutput>(RemoveRoleFromDBClusterOutput.httpOutput(from:), RemoveRoleFromDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveRoleFromDBClusterInput, RemoveRoleFromDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveRoleFromDBClusterOutput>())
@@ -4609,9 +4671,9 @@ extension NeptuneClient {
     ///
     /// Removes a source identifier from an existing event notification subscription.
     ///
-    /// - Parameter RemoveSourceIdentifierFromSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveSourceIdentifierFromSubscriptionInput`)
     ///
-    /// - Returns: `RemoveSourceIdentifierFromSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveSourceIdentifierFromSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4644,6 +4706,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveSourceIdentifierFromSubscriptionOutput>(RemoveSourceIdentifierFromSubscriptionOutput.httpOutput(from:), RemoveSourceIdentifierFromSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveSourceIdentifierFromSubscriptionInput, RemoveSourceIdentifierFromSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveSourceIdentifierFromSubscriptionOutput>())
@@ -4677,9 +4740,9 @@ extension NeptuneClient {
     ///
     /// Removes metadata tags from an Amazon Neptune resource.
     ///
-    /// - Parameter RemoveTagsFromResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4713,6 +4776,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput>(RemoveTagsFromResourceOutput.httpOutput(from:), RemoveTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromResourceOutput>())
@@ -4746,9 +4810,9 @@ extension NeptuneClient {
     ///
     /// Modifies the parameters of a DB cluster parameter group to the default value. To reset specific parameters submit a list of the following: ParameterName and ApplyMethod. To reset the entire DB cluster parameter group, specify the DBClusterParameterGroupName and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or [RebootDBInstance] request. You must call [RebootDBInstance] for every DB instance in your DB cluster that you want the updated static parameter to apply to.
     ///
-    /// - Parameter ResetDBClusterParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetDBClusterParameterGroupInput`)
     ///
-    /// - Returns: `ResetDBClusterParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetDBClusterParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4781,6 +4845,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetDBClusterParameterGroupOutput>(ResetDBClusterParameterGroupOutput.httpOutput(from:), ResetDBClusterParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetDBClusterParameterGroupInput, ResetDBClusterParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetDBClusterParameterGroupOutput>())
@@ -4814,9 +4879,9 @@ extension NeptuneClient {
     ///
     /// Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to pending-reboot to take effect on the next DB instance restart or RebootDBInstance request.
     ///
-    /// - Parameter ResetDBParameterGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetDBParameterGroupInput`)
     ///
-    /// - Returns: `ResetDBParameterGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetDBParameterGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4849,6 +4914,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetDBParameterGroupInput, ResetDBParameterGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetDBParameterGroupOutput>(ResetDBParameterGroupOutput.httpOutput(from:), ResetDBParameterGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetDBParameterGroupInput, ResetDBParameterGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetDBParameterGroupOutput>())
@@ -4882,9 +4948,9 @@ extension NeptuneClient {
     ///
     /// Creates a new DB cluster from a DB snapshot or DB cluster snapshot. If a DB snapshot is specified, the target DB cluster is created from the source DB snapshot with a default configuration and default security group. If a DB cluster snapshot is specified, the target DB cluster is created from the source DB cluster restore point with the same configuration as the original source DB cluster, except that the new DB cluster is created with the default security group.
     ///
-    /// - Parameter RestoreDBClusterFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreDBClusterFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreDBClusterFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4931,6 +4997,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBClusterFromSnapshotOutput>(RestoreDBClusterFromSnapshotOutput.httpOutput(from:), RestoreDBClusterFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBClusterFromSnapshotInput, RestoreDBClusterFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBClusterFromSnapshotOutput>())
@@ -4964,9 +5031,9 @@ extension NeptuneClient {
     ///
     /// Restores a DB cluster to an arbitrary point in time. Users can restore to any point in time before LatestRestorableTime for up to BackupRetentionPeriod days. The target DB cluster is created from the source DB cluster with the same configuration as the original DB cluster, except that the new DB cluster is created with the default DB security group. This action only restores the DB cluster, not the DB instances for that DB cluster. You must invoke the [CreateDBInstance] action to create DB instances for the restored DB cluster, specifying the identifier of the restored DB cluster in DBClusterIdentifier. You can create DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB cluster is available.
     ///
-    /// - Parameter RestoreDBClusterToPointInTimeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreDBClusterToPointInTimeInput`)
     ///
-    /// - Returns: `RestoreDBClusterToPointInTimeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreDBClusterToPointInTimeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5014,6 +5081,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreDBClusterToPointInTimeOutput>(RestoreDBClusterToPointInTimeOutput.httpOutput(from:), RestoreDBClusterToPointInTimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreDBClusterToPointInTimeInput, RestoreDBClusterToPointInTimeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreDBClusterToPointInTimeOutput>())
@@ -5047,9 +5115,9 @@ extension NeptuneClient {
     ///
     /// Starts an Amazon Neptune DB cluster that was stopped using the Amazon console, the Amazon CLI stop-db-cluster command, or the StopDBCluster API.
     ///
-    /// - Parameter StartDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDBClusterInput`)
     ///
-    /// - Returns: `StartDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5083,6 +5151,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDBClusterInput, StartDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDBClusterOutput>(StartDBClusterOutput.httpOutput(from:), StartDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDBClusterInput, StartDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDBClusterOutput>())
@@ -5116,9 +5185,9 @@ extension NeptuneClient {
     ///
     /// Stops an Amazon Neptune DB cluster. When you stop a DB cluster, Neptune retains the DB cluster's metadata, including its endpoints and DB parameter groups. Neptune also retains the transaction logs so you can do a point-in-time restore if necessary.
     ///
-    /// - Parameter StopDBClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopDBClusterInput`)
     ///
-    /// - Returns: `StopDBClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopDBClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5152,6 +5221,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopDBClusterInput, StopDBClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopDBClusterOutput>(StopDBClusterOutput.httpOutput(from:), StopDBClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopDBClusterInput, StopDBClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopDBClusterOutput>())
@@ -5185,9 +5255,9 @@ extension NeptuneClient {
     ///
     /// Switches over the specified secondary DB cluster to be the new primary DB cluster in the global database cluster. Switchover operations were previously called "managed planned failovers." Promotes the specified secondary cluster to assume full read/write capabilities and demotes the current primary cluster to a secondary (read-only) cluster, maintaining the original replication topology. All secondary clusters are synchronized with the primary at the beginning of the process so the new primary continues operations for the global database without losing any data. Your database is unavailable for a short time while the primary and selected secondary clusters are assuming their new roles. This operation is intended for controlled environments, for operations such as "regional rotation" or to fall back to the original primary after a global database failover.
     ///
-    /// - Parameter SwitchoverGlobalClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SwitchoverGlobalClusterInput`)
     ///
-    /// - Returns: `SwitchoverGlobalClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SwitchoverGlobalClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5222,6 +5292,7 @@ extension NeptuneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SwitchoverGlobalClusterInput, SwitchoverGlobalClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SwitchoverGlobalClusterOutput>(SwitchoverGlobalClusterOutput.httpOutput(from:), SwitchoverGlobalClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SwitchoverGlobalClusterInput, SwitchoverGlobalClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SwitchoverGlobalClusterOutput>())

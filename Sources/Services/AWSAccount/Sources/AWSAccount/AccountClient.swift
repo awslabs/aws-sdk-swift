@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AccountClient: ClientRuntime.Client {
     public static let clientName = "AccountClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: AccountClient.AccountClientConfiguration
     let serviceName = "Account"
@@ -372,9 +373,9 @@ extension AccountClient {
     ///
     /// Accepts the request that originated from [StartPrimaryEmailUpdate] to update the primary email address (also known as the root user email address) for the specified account.
     ///
-    /// - Parameter AcceptPrimaryEmailUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptPrimaryEmailUpdateInput`)
     ///
-    /// - Returns: `AcceptPrimaryEmailUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptPrimaryEmailUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptPrimaryEmailUpdateOutput>(AcceptPrimaryEmailUpdateOutput.httpOutput(from:), AcceptPrimaryEmailUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptPrimaryEmailUpdateInput, AcceptPrimaryEmailUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptPrimaryEmailUpdateOutput>())
@@ -444,9 +446,9 @@ extension AccountClient {
     ///
     /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
     ///
-    /// - Parameter DeleteAlternateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAlternateContactInput`)
     ///
-    /// - Returns: `DeleteAlternateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlternateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +486,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlternateContactInput, DeleteAlternateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlternateContactOutput>(DeleteAlternateContactOutput.httpOutput(from:), DeleteAlternateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlternateContactInput, DeleteAlternateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlternateContactOutput>())
@@ -515,9 +518,9 @@ extension AccountClient {
     ///
     /// Disables (opts-out) a particular Region for an account. The act of disabling a Region will remove all IAM access to any resources that reside in that Region.
     ///
-    /// - Parameter DisableRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableRegionInput`)
     ///
-    /// - Returns: `DisableRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +558,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableRegionInput, DisableRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableRegionOutput>(DisableRegionOutput.httpOutput(from:), DisableRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableRegionInput, DisableRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableRegionOutput>())
@@ -586,9 +590,9 @@ extension AccountClient {
     ///
     /// Enables (opts-in) a particular Region for an account.
     ///
-    /// - Parameter EnableRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableRegionInput`)
     ///
-    /// - Returns: `EnableRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,6 +630,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableRegionInput, EnableRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableRegionOutput>(EnableRegionOutput.httpOutput(from:), EnableRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableRegionInput, EnableRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableRegionOutput>())
@@ -657,9 +662,9 @@ extension AccountClient {
     ///
     /// Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
     ///
-    /// - Parameter GetAccountInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountInformationInput`)
     ///
-    /// - Returns: `GetAccountInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,6 +701,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountInformationInput, GetAccountInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountInformationOutput>(GetAccountInformationOutput.httpOutput(from:), GetAccountInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountInformationInput, GetAccountInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountInformationOutput>())
@@ -727,9 +733,9 @@ extension AccountClient {
     ///
     /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
     ///
-    /// - Parameter GetAlternateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAlternateContactInput`)
     ///
-    /// - Returns: `GetAlternateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAlternateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,6 +773,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAlternateContactInput, GetAlternateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAlternateContactOutput>(GetAlternateContactOutput.httpOutput(from:), GetAlternateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAlternateContactInput, GetAlternateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAlternateContactOutput>())
@@ -798,9 +805,9 @@ extension AccountClient {
     ///
     /// Retrieves the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
     ///
-    /// - Parameter GetContactInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactInformationInput`)
     ///
-    /// - Returns: `GetContactInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,6 +845,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactInformationInput, GetContactInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactInformationOutput>(GetContactInformationOutput.httpOutput(from:), GetContactInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactInformationInput, GetContactInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactInformationOutput>())
@@ -869,9 +877,9 @@ extension AccountClient {
     ///
     /// Retrieves the primary email address for the specified account.
     ///
-    /// - Parameter GetPrimaryEmailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPrimaryEmailInput`)
     ///
-    /// - Returns: `GetPrimaryEmailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPrimaryEmailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,6 +917,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPrimaryEmailOutput>(GetPrimaryEmailOutput.httpOutput(from:), GetPrimaryEmailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPrimaryEmailInput, GetPrimaryEmailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPrimaryEmailOutput>())
@@ -940,9 +949,9 @@ extension AccountClient {
     ///
     /// Retrieves the opt-in status of a particular Region.
     ///
-    /// - Parameter GetRegionOptStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegionOptStatusInput`)
     ///
-    /// - Returns: `GetRegionOptStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegionOptStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -979,6 +988,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegionOptStatusInput, GetRegionOptStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegionOptStatusOutput>(GetRegionOptStatusOutput.httpOutput(from:), GetRegionOptStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegionOptStatusInput, GetRegionOptStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegionOptStatusOutput>())
@@ -1010,9 +1020,9 @@ extension AccountClient {
     ///
     /// Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the region-opt-status-contains parameter.
     ///
-    /// - Parameter ListRegionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRegionsInput`)
     ///
-    /// - Returns: `ListRegionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1049,6 +1059,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegionsInput, ListRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegionsOutput>(ListRegionsOutput.httpOutput(from:), ListRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegionsInput, ListRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegionsOutput>())
@@ -1080,9 +1091,9 @@ extension AccountClient {
     ///
     /// Updates the account name of the specified account. To use this API, IAM principals must have the account:PutAccountName IAM permission.
     ///
-    /// - Parameter PutAccountNameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountNameInput`)
     ///
-    /// - Returns: `PutAccountNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1119,6 +1130,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountNameInput, PutAccountNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountNameOutput>(PutAccountNameOutput.httpOutput(from:), PutAccountNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountNameInput, PutAccountNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountNameOutput>())
@@ -1150,9 +1162,9 @@ extension AccountClient {
     ///
     /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
     ///
-    /// - Parameter PutAlternateContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAlternateContactInput`)
     ///
-    /// - Returns: `PutAlternateContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAlternateContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1189,6 +1201,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAlternateContactInput, PutAlternateContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAlternateContactOutput>(PutAlternateContactOutput.httpOutput(from:), PutAlternateContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAlternateContactInput, PutAlternateContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAlternateContactOutput>())
@@ -1220,9 +1233,9 @@ extension AccountClient {
     ///
     /// Updates the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
     ///
-    /// - Parameter PutContactInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutContactInformationInput`)
     ///
-    /// - Returns: `PutContactInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutContactInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1259,6 +1272,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutContactInformationInput, PutContactInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutContactInformationOutput>(PutContactInformationOutput.httpOutput(from:), PutContactInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutContactInformationInput, PutContactInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutContactInformationOutput>())
@@ -1290,9 +1304,9 @@ extension AccountClient {
     ///
     /// Starts the process to update the primary email address for the specified account.
     ///
-    /// - Parameter StartPrimaryEmailUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPrimaryEmailUpdateInput`)
     ///
-    /// - Returns: `StartPrimaryEmailUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPrimaryEmailUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1331,6 +1345,7 @@ extension AccountClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPrimaryEmailUpdateOutput>(StartPrimaryEmailUpdateOutput.httpOutput(from:), StartPrimaryEmailUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPrimaryEmailUpdateInput, StartPrimaryEmailUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPrimaryEmailUpdateOutput>())

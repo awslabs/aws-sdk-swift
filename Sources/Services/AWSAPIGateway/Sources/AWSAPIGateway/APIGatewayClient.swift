@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -71,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class APIGatewayClient: ClientRuntime.Client {
     public static let clientName = "APIGatewayClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: APIGatewayClient.APIGatewayClientConfiguration
     let serviceName = "API Gateway"
@@ -377,9 +378,9 @@ extension APIGatewayClient {
     ///
     /// Create an ApiKey resource.
     ///
-    /// - Parameter CreateApiKeyInput : Request to create an ApiKey resource.
+    /// - Parameter input: Request to create an ApiKey resource. (Type: `CreateApiKeyInput`)
     ///
-    /// - Returns: `CreateApiKeyOutput` : A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
+    /// - Returns: A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage. (Type: `CreateApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +419,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApiKeyInput, CreateApiKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApiKeyOutput>(CreateApiKeyOutput.httpOutput(from:), CreateApiKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApiKeyInput, CreateApiKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApiKeyOutput>())
@@ -450,9 +452,9 @@ extension APIGatewayClient {
     ///
     /// Adds a new Authorizer resource to an existing RestApi resource.
     ///
-    /// - Parameter CreateAuthorizerInput : Request to add a new Authorizer to an existing RestApi resource.
+    /// - Parameter input: Request to add a new Authorizer to an existing RestApi resource. (Type: `CreateAuthorizerInput`)
     ///
-    /// - Returns: `CreateAuthorizerOutput` : Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
+    /// - Returns: Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method. (Type: `CreateAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,6 +493,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAuthorizerInput, CreateAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAuthorizerOutput>(CreateAuthorizerOutput.httpOutput(from:), CreateAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAuthorizerInput, CreateAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAuthorizerOutput>())
@@ -523,9 +526,9 @@ extension APIGatewayClient {
     ///
     /// Creates a new BasePathMapping resource.
     ///
-    /// - Parameter CreateBasePathMappingInput : Requests API Gateway to create a new BasePathMapping resource.
+    /// - Parameter input: Requests API Gateway to create a new BasePathMapping resource. (Type: `CreateBasePathMappingInput`)
     ///
-    /// - Returns: `CreateBasePathMappingOutput` : Represents the base path that callers of the API must provide as part of the URL after the domain name.
+    /// - Returns: Represents the base path that callers of the API must provide as part of the URL after the domain name. (Type: `CreateBasePathMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,6 +568,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBasePathMappingInput, CreateBasePathMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBasePathMappingOutput>(CreateBasePathMappingOutput.httpOutput(from:), CreateBasePathMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBasePathMappingInput, CreateBasePathMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBasePathMappingOutput>())
@@ -597,9 +601,9 @@ extension APIGatewayClient {
     ///
     /// Creates a Deployment resource, which makes a specified RestApi callable over the internet.
     ///
-    /// - Parameter CreateDeploymentInput : Requests API Gateway to create a Deployment resource.
+    /// - Parameter input: Requests API Gateway to create a Deployment resource. (Type: `CreateDeploymentInput`)
     ///
-    /// - Returns: `CreateDeploymentOutput` : An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
+    /// - Returns: An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet. (Type: `CreateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -639,6 +643,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentInput, CreateDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeploymentOutput>(CreateDeploymentOutput.httpOutput(from:), CreateDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentInput, CreateDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentOutput>())
@@ -671,9 +676,9 @@ extension APIGatewayClient {
     ///
     /// Creates a documentation part.
     ///
-    /// - Parameter CreateDocumentationPartInput : Creates a new documentation part of a given API.
+    /// - Parameter input: Creates a new documentation part of a given API. (Type: `CreateDocumentationPartInput`)
     ///
-    /// - Returns: `CreateDocumentationPartOutput` : A documentation part for a targeted API entity.
+    /// - Returns: A documentation part for a targeted API entity. (Type: `CreateDocumentationPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -712,6 +717,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDocumentationPartInput, CreateDocumentationPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDocumentationPartOutput>(CreateDocumentationPartOutput.httpOutput(from:), CreateDocumentationPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDocumentationPartInput, CreateDocumentationPartOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDocumentationPartOutput>())
@@ -744,9 +750,9 @@ extension APIGatewayClient {
     ///
     /// Creates a documentation version
     ///
-    /// - Parameter CreateDocumentationVersionInput : Creates a new documentation version of a given API.
+    /// - Parameter input: Creates a new documentation version of a given API. (Type: `CreateDocumentationVersionInput`)
     ///
-    /// - Returns: `CreateDocumentationVersionOutput` : A snapshot of the documentation of an API.
+    /// - Returns: A snapshot of the documentation of an API. (Type: `CreateDocumentationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -785,6 +791,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDocumentationVersionInput, CreateDocumentationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDocumentationVersionOutput>(CreateDocumentationVersionOutput.httpOutput(from:), CreateDocumentationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDocumentationVersionInput, CreateDocumentationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDocumentationVersionOutput>())
@@ -817,9 +824,9 @@ extension APIGatewayClient {
     ///
     /// Creates a new domain name.
     ///
-    /// - Parameter CreateDomainNameInput : A request to create a new domain name.
+    /// - Parameter input: A request to create a new domain name. (Type: `CreateDomainNameInput`)
     ///
-    /// - Returns: `CreateDomainNameOutput` : Represents a custom domain name as a user-friendly host name of an API (RestApi).
+    /// - Returns: Represents a custom domain name as a user-friendly host name of an API (RestApi). (Type: `CreateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -857,6 +864,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainNameInput, CreateDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainNameOutput>(CreateDomainNameOutput.httpOutput(from:), CreateDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainNameInput, CreateDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainNameOutput>())
@@ -889,9 +897,9 @@ extension APIGatewayClient {
     ///
     /// Creates a domain name access association resource between an access association source and a private custom domain name.
     ///
-    /// - Parameter CreateDomainNameAccessAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainNameAccessAssociationInput`)
     ///
-    /// - Returns: `CreateDomainNameAccessAssociationOutput` : Represents a domain name access association between an access association source and a private custom domain name. With a domain name access association, an access association source can invoke a private custom domain name while isolated from the public internet.
+    /// - Returns: Represents a domain name access association between an access association source and a private custom domain name. With a domain name access association, an access association source can invoke a private custom domain name while isolated from the public internet. (Type: `CreateDomainNameAccessAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,6 +937,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainNameAccessAssociationInput, CreateDomainNameAccessAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainNameAccessAssociationOutput>(CreateDomainNameAccessAssociationOutput.httpOutput(from:), CreateDomainNameAccessAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainNameAccessAssociationInput, CreateDomainNameAccessAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainNameAccessAssociationOutput>())
@@ -961,9 +970,9 @@ extension APIGatewayClient {
     ///
     /// Adds a new Model resource to an existing RestApi resource.
     ///
-    /// - Parameter CreateModelInput : Request to add a new Model to an existing RestApi resource.
+    /// - Parameter input: Request to add a new Model to an existing RestApi resource. (Type: `CreateModelInput`)
     ///
-    /// - Returns: `CreateModelOutput` : Represents the data structure of a method's request or response payload.
+    /// - Returns: Represents the data structure of a method's request or response payload. (Type: `CreateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,6 +1011,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelInput, CreateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelOutput>(CreateModelOutput.httpOutput(from:), CreateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelInput, CreateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelOutput>())
@@ -1034,9 +1044,9 @@ extension APIGatewayClient {
     ///
     /// Creates a RequestValidator of a given RestApi.
     ///
-    /// - Parameter CreateRequestValidatorInput : Creates a RequestValidator of a given RestApi.
+    /// - Parameter input: Creates a RequestValidator of a given RestApi. (Type: `CreateRequestValidatorInput`)
     ///
-    /// - Returns: `CreateRequestValidatorOutput` : A set of validation rules for incoming Method requests.
+    /// - Returns: A set of validation rules for incoming Method requests. (Type: `CreateRequestValidatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1075,6 +1085,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRequestValidatorInput, CreateRequestValidatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRequestValidatorOutput>(CreateRequestValidatorOutput.httpOutput(from:), CreateRequestValidatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRequestValidatorInput, CreateRequestValidatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRequestValidatorOutput>())
@@ -1107,9 +1118,9 @@ extension APIGatewayClient {
     ///
     /// Creates a Resource resource.
     ///
-    /// - Parameter CreateResourceInput : Requests API Gateway to create a Resource resource.
+    /// - Parameter input: Requests API Gateway to create a Resource resource. (Type: `CreateResourceInput`)
     ///
-    /// - Returns: `CreateResourceOutput` : Represents an API resource.
+    /// - Returns: Represents an API resource. (Type: `CreateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1148,6 +1159,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceInput, CreateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceOutput>(CreateResourceOutput.httpOutput(from:), CreateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceInput, CreateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceOutput>())
@@ -1180,9 +1192,9 @@ extension APIGatewayClient {
     ///
     /// Creates a new RestApi resource.
     ///
-    /// - Parameter CreateRestApiInput : The POST Request to add a new RestApi resource to your collection.
+    /// - Parameter input: The POST Request to add a new RestApi resource to your collection. (Type: `CreateRestApiInput`)
     ///
-    /// - Returns: `CreateRestApiOutput` : Represents a REST API.
+    /// - Returns: Represents a REST API. (Type: `CreateRestApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1220,6 +1232,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRestApiInput, CreateRestApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRestApiOutput>(CreateRestApiOutput.httpOutput(from:), CreateRestApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRestApiInput, CreateRestApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRestApiOutput>())
@@ -1252,9 +1265,9 @@ extension APIGatewayClient {
     ///
     /// Creates a new Stage resource that references a pre-existing Deployment for the API.
     ///
-    /// - Parameter CreateStageInput : Requests API Gateway to create a Stage resource.
+    /// - Parameter input: Requests API Gateway to create a Stage resource. (Type: `CreateStageInput`)
     ///
-    /// - Returns: `CreateStageOutput` : Represents a unique identifier for a version of a deployed RestApi that is callable by users.
+    /// - Returns: Represents a unique identifier for a version of a deployed RestApi that is callable by users. (Type: `CreateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1293,6 +1306,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStageInput, CreateStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStageOutput>(CreateStageOutput.httpOutput(from:), CreateStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStageInput, CreateStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStageOutput>())
@@ -1325,9 +1339,9 @@ extension APIGatewayClient {
     ///
     /// Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
     ///
-    /// - Parameter CreateUsagePlanInput : The POST request to create a usage plan with the name, description, throttle limits and quota limits, as well as the associated API stages, specified in the payload.
+    /// - Parameter input: The POST request to create a usage plan with the name, description, throttle limits and quota limits, as well as the associated API stages, specified in the payload. (Type: `CreateUsagePlanInput`)
     ///
-    /// - Returns: `CreateUsagePlanOutput` : Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
+    /// - Returns: Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests. (Type: `CreateUsagePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1366,6 +1380,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsagePlanInput, CreateUsagePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUsagePlanOutput>(CreateUsagePlanOutput.httpOutput(from:), CreateUsagePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUsagePlanInput, CreateUsagePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUsagePlanOutput>())
@@ -1398,9 +1413,9 @@ extension APIGatewayClient {
     ///
     /// Creates a usage plan key for adding an existing API key to a usage plan.
     ///
-    /// - Parameter CreateUsagePlanKeyInput : The POST request to create a usage plan key for adding an existing API key to a usage plan.
+    /// - Parameter input: The POST request to create a usage plan key for adding an existing API key to a usage plan. (Type: `CreateUsagePlanKeyInput`)
     ///
-    /// - Returns: `CreateUsagePlanKeyOutput` : Represents a usage plan key to identify a plan customer.
+    /// - Returns: Represents a usage plan key to identify a plan customer. (Type: `CreateUsagePlanKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,6 +1454,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUsagePlanKeyInput, CreateUsagePlanKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUsagePlanKeyOutput>(CreateUsagePlanKeyOutput.httpOutput(from:), CreateUsagePlanKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUsagePlanKeyInput, CreateUsagePlanKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUsagePlanKeyOutput>())
@@ -1471,9 +1487,9 @@ extension APIGatewayClient {
     ///
     /// Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
     ///
-    /// - Parameter CreateVpcLinkInput : Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
+    /// - Parameter input: Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services. (Type: `CreateVpcLinkInput`)
     ///
-    /// - Returns: `CreateVpcLinkOutput` : An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
+    /// - Returns: An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC). (Type: `CreateVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1511,6 +1527,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcLinkInput, CreateVpcLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcLinkOutput>(CreateVpcLinkOutput.httpOutput(from:), CreateVpcLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcLinkInput, CreateVpcLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcLinkOutput>())
@@ -1543,9 +1560,9 @@ extension APIGatewayClient {
     ///
     /// Deletes the ApiKey resource.
     ///
-    /// - Parameter DeleteApiKeyInput : A request to delete the ApiKey resource.
+    /// - Parameter input: A request to delete the ApiKey resource. (Type: `DeleteApiKeyInput`)
     ///
-    /// - Returns: `DeleteApiKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1580,6 +1597,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteApiKeyInput, DeleteApiKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApiKeyOutput>(DeleteApiKeyOutput.httpOutput(from:), DeleteApiKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApiKeyInput, DeleteApiKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApiKeyOutput>())
@@ -1612,9 +1630,9 @@ extension APIGatewayClient {
     ///
     /// Deletes an existing Authorizer resource.
     ///
-    /// - Parameter DeleteAuthorizerInput : Request to delete an existing Authorizer resource.
+    /// - Parameter input: Request to delete an existing Authorizer resource. (Type: `DeleteAuthorizerInput`)
     ///
-    /// - Returns: `DeleteAuthorizerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1649,6 +1667,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAuthorizerInput, DeleteAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAuthorizerOutput>(DeleteAuthorizerOutput.httpOutput(from:), DeleteAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAuthorizerInput, DeleteAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAuthorizerOutput>())
@@ -1681,9 +1700,9 @@ extension APIGatewayClient {
     ///
     /// Deletes the BasePathMapping resource.
     ///
-    /// - Parameter DeleteBasePathMappingInput : A request to delete the BasePathMapping resource.
+    /// - Parameter input: A request to delete the BasePathMapping resource. (Type: `DeleteBasePathMappingInput`)
     ///
-    /// - Returns: `DeleteBasePathMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBasePathMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1719,6 +1738,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBasePathMappingInput, DeleteBasePathMappingOutput>(DeleteBasePathMappingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBasePathMappingOutput>(DeleteBasePathMappingOutput.httpOutput(from:), DeleteBasePathMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBasePathMappingInput, DeleteBasePathMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBasePathMappingOutput>())
@@ -1751,9 +1771,9 @@ extension APIGatewayClient {
     ///
     /// Deletes the ClientCertificate resource.
     ///
-    /// - Parameter DeleteClientCertificateInput : A request to delete the ClientCertificate resource.
+    /// - Parameter input: A request to delete the ClientCertificate resource. (Type: `DeleteClientCertificateInput`)
     ///
-    /// - Returns: `DeleteClientCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClientCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,6 +1808,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClientCertificateInput, DeleteClientCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClientCertificateOutput>(DeleteClientCertificateOutput.httpOutput(from:), DeleteClientCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClientCertificateInput, DeleteClientCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClientCertificateOutput>())
@@ -1820,9 +1841,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
     ///
-    /// - Parameter DeleteDeploymentInput : Requests API Gateway to delete a Deployment resource.
+    /// - Parameter input: Requests API Gateway to delete a Deployment resource. (Type: `DeleteDeploymentInput`)
     ///
-    /// - Returns: `DeleteDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1858,6 +1879,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeploymentOutput>(DeleteDeploymentOutput.httpOutput(from:), DeleteDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeploymentInput, DeleteDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeploymentOutput>())
@@ -1890,9 +1912,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a documentation part
     ///
-    /// - Parameter DeleteDocumentationPartInput : Deletes an existing documentation part of an API.
+    /// - Parameter input: Deletes an existing documentation part of an API. (Type: `DeleteDocumentationPartInput`)
     ///
-    /// - Returns: `DeleteDocumentationPartOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDocumentationPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1927,6 +1949,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDocumentationPartInput, DeleteDocumentationPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDocumentationPartOutput>(DeleteDocumentationPartOutput.httpOutput(from:), DeleteDocumentationPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDocumentationPartInput, DeleteDocumentationPartOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDocumentationPartOutput>())
@@ -1959,9 +1982,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a documentation version.
     ///
-    /// - Parameter DeleteDocumentationVersionInput : Deletes an existing documentation version of an API.
+    /// - Parameter input: Deletes an existing documentation version of an API. (Type: `DeleteDocumentationVersionInput`)
     ///
-    /// - Returns: `DeleteDocumentationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDocumentationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1996,6 +2019,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDocumentationVersionInput, DeleteDocumentationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDocumentationVersionOutput>(DeleteDocumentationVersionOutput.httpOutput(from:), DeleteDocumentationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDocumentationVersionInput, DeleteDocumentationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDocumentationVersionOutput>())
@@ -2028,9 +2052,9 @@ extension APIGatewayClient {
     ///
     /// Deletes the DomainName resource.
     ///
-    /// - Parameter DeleteDomainNameInput : A request to delete the DomainName resource.
+    /// - Parameter input: A request to delete the DomainName resource. (Type: `DeleteDomainNameInput`)
     ///
-    /// - Returns: `DeleteDomainNameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2066,6 +2090,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDomainNameInput, DeleteDomainNameOutput>(DeleteDomainNameInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainNameOutput>(DeleteDomainNameOutput.httpOutput(from:), DeleteDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainNameInput, DeleteDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainNameOutput>())
@@ -2098,9 +2123,9 @@ extension APIGatewayClient {
     ///
     /// Deletes the DomainNameAccessAssociation resource. Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
     ///
-    /// - Parameter DeleteDomainNameAccessAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainNameAccessAssociationInput`)
     ///
-    /// - Returns: `DeleteDomainNameAccessAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainNameAccessAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,6 +2160,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainNameAccessAssociationInput, DeleteDomainNameAccessAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainNameAccessAssociationOutput>(DeleteDomainNameAccessAssociationOutput.httpOutput(from:), DeleteDomainNameAccessAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainNameAccessAssociationInput, DeleteDomainNameAccessAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainNameAccessAssociationOutput>())
@@ -2167,9 +2193,9 @@ extension APIGatewayClient {
     ///
     /// Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
     ///
-    /// - Parameter DeleteGatewayResponseInput : Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
+    /// - Parameter input: Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings. (Type: `DeleteGatewayResponseInput`)
     ///
-    /// - Returns: `DeleteGatewayResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2204,6 +2230,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGatewayResponseInput, DeleteGatewayResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayResponseOutput>(DeleteGatewayResponseOutput.httpOutput(from:), DeleteGatewayResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayResponseInput, DeleteGatewayResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayResponseOutput>())
@@ -2236,9 +2263,9 @@ extension APIGatewayClient {
     ///
     /// Represents a delete integration.
     ///
-    /// - Parameter DeleteIntegrationInput : Represents a delete integration request.
+    /// - Parameter input: Represents a delete integration request. (Type: `DeleteIntegrationInput`)
     ///
-    /// - Returns: `DeleteIntegrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2273,6 +2300,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationOutput>(DeleteIntegrationOutput.httpOutput(from:), DeleteIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationInput, DeleteIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationOutput>())
@@ -2305,9 +2333,9 @@ extension APIGatewayClient {
     ///
     /// Represents a delete integration response.
     ///
-    /// - Parameter DeleteIntegrationResponseInput : Represents a delete integration response request.
+    /// - Parameter input: Represents a delete integration response request. (Type: `DeleteIntegrationResponseInput`)
     ///
-    /// - Returns: `DeleteIntegrationResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2342,6 +2370,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntegrationResponseInput, DeleteIntegrationResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntegrationResponseOutput>(DeleteIntegrationResponseOutput.httpOutput(from:), DeleteIntegrationResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntegrationResponseInput, DeleteIntegrationResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntegrationResponseOutput>())
@@ -2374,9 +2403,9 @@ extension APIGatewayClient {
     ///
     /// Deletes an existing Method resource.
     ///
-    /// - Parameter DeleteMethodInput : Request to delete an existing Method resource.
+    /// - Parameter input: Request to delete an existing Method resource. (Type: `DeleteMethodInput`)
     ///
-    /// - Returns: `DeleteMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2410,6 +2439,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMethodInput, DeleteMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMethodOutput>(DeleteMethodOutput.httpOutput(from:), DeleteMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMethodInput, DeleteMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMethodOutput>())
@@ -2442,9 +2472,9 @@ extension APIGatewayClient {
     ///
     /// Deletes an existing MethodResponse resource.
     ///
-    /// - Parameter DeleteMethodResponseInput : A request to delete an existing MethodResponse resource.
+    /// - Parameter input: A request to delete an existing MethodResponse resource. (Type: `DeleteMethodResponseInput`)
     ///
-    /// - Returns: `DeleteMethodResponseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMethodResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2479,6 +2509,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMethodResponseInput, DeleteMethodResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMethodResponseOutput>(DeleteMethodResponseOutput.httpOutput(from:), DeleteMethodResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMethodResponseInput, DeleteMethodResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMethodResponseOutput>())
@@ -2511,9 +2542,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a model.
     ///
-    /// - Parameter DeleteModelInput : Request to delete an existing model in an existing RestApi resource.
+    /// - Parameter input: Request to delete an existing model in an existing RestApi resource. (Type: `DeleteModelInput`)
     ///
-    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2548,6 +2579,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteModelInput, DeleteModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelOutput>(DeleteModelOutput.httpOutput(from:), DeleteModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelInput, DeleteModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelOutput>())
@@ -2580,9 +2612,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a RequestValidator of a given RestApi.
     ///
-    /// - Parameter DeleteRequestValidatorInput : Deletes a specified RequestValidator of a given RestApi.
+    /// - Parameter input: Deletes a specified RequestValidator of a given RestApi. (Type: `DeleteRequestValidatorInput`)
     ///
-    /// - Returns: `DeleteRequestValidatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRequestValidatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2617,6 +2649,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRequestValidatorInput, DeleteRequestValidatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRequestValidatorOutput>(DeleteRequestValidatorOutput.httpOutput(from:), DeleteRequestValidatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRequestValidatorInput, DeleteRequestValidatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRequestValidatorOutput>())
@@ -2649,9 +2682,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a Resource resource.
     ///
-    /// - Parameter DeleteResourceInput : Request to delete a Resource.
+    /// - Parameter input: Request to delete a Resource. (Type: `DeleteResourceInput`)
     ///
-    /// - Returns: `DeleteResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2686,6 +2719,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourceInput, DeleteResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceOutput>(DeleteResourceOutput.httpOutput(from:), DeleteResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceInput, DeleteResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceOutput>())
@@ -2718,9 +2752,9 @@ extension APIGatewayClient {
     ///
     /// Deletes the specified API.
     ///
-    /// - Parameter DeleteRestApiInput : Request to delete the specified API from your collection.
+    /// - Parameter input: Request to delete the specified API from your collection. (Type: `DeleteRestApiInput`)
     ///
-    /// - Returns: `DeleteRestApiOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRestApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2755,6 +2789,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRestApiInput, DeleteRestApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRestApiOutput>(DeleteRestApiOutput.httpOutput(from:), DeleteRestApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRestApiInput, DeleteRestApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRestApiOutput>())
@@ -2787,9 +2822,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a Stage resource.
     ///
-    /// - Parameter DeleteStageInput : Requests API Gateway to delete a Stage resource.
+    /// - Parameter input: Requests API Gateway to delete a Stage resource. (Type: `DeleteStageInput`)
     ///
-    /// - Returns: `DeleteStageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2825,6 +2860,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStageInput, DeleteStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStageOutput>(DeleteStageOutput.httpOutput(from:), DeleteStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStageInput, DeleteStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStageOutput>())
@@ -2857,9 +2893,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a usage plan of a given plan Id.
     ///
-    /// - Parameter DeleteUsagePlanInput : The DELETE request to delete a usage plan of a given plan Id.
+    /// - Parameter input: The DELETE request to delete a usage plan of a given plan Id. (Type: `DeleteUsagePlanInput`)
     ///
-    /// - Returns: `DeleteUsagePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUsagePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2894,6 +2930,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUsagePlanInput, DeleteUsagePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUsagePlanOutput>(DeleteUsagePlanOutput.httpOutput(from:), DeleteUsagePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUsagePlanInput, DeleteUsagePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUsagePlanOutput>())
@@ -2926,9 +2963,9 @@ extension APIGatewayClient {
     ///
     /// Deletes a usage plan key and remove the underlying API key from the associated usage plan.
     ///
-    /// - Parameter DeleteUsagePlanKeyInput : The DELETE request to delete a usage plan key and remove the underlying API key from the associated usage plan.
+    /// - Parameter input: The DELETE request to delete a usage plan key and remove the underlying API key from the associated usage plan. (Type: `DeleteUsagePlanKeyInput`)
     ///
-    /// - Returns: `DeleteUsagePlanKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUsagePlanKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2963,6 +3000,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUsagePlanKeyInput, DeleteUsagePlanKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUsagePlanKeyOutput>(DeleteUsagePlanKeyOutput.httpOutput(from:), DeleteUsagePlanKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUsagePlanKeyInput, DeleteUsagePlanKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUsagePlanKeyOutput>())
@@ -2995,9 +3033,9 @@ extension APIGatewayClient {
     ///
     /// Deletes an existing VpcLink of a specified identifier.
     ///
-    /// - Parameter DeleteVpcLinkInput : Deletes an existing VpcLink of a specified identifier.
+    /// - Parameter input: Deletes an existing VpcLink of a specified identifier. (Type: `DeleteVpcLinkInput`)
     ///
-    /// - Returns: `DeleteVpcLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3032,6 +3070,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcLinkInput, DeleteVpcLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcLinkOutput>(DeleteVpcLinkOutput.httpOutput(from:), DeleteVpcLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcLinkInput, DeleteVpcLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcLinkOutput>())
@@ -3064,9 +3103,9 @@ extension APIGatewayClient {
     ///
     /// Flushes all authorizer cache entries on a stage.
     ///
-    /// - Parameter FlushStageAuthorizersCacheInput : Request to flush authorizer cache entries on a specified stage.
+    /// - Parameter input: Request to flush authorizer cache entries on a specified stage. (Type: `FlushStageAuthorizersCacheInput`)
     ///
-    /// - Returns: `FlushStageAuthorizersCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FlushStageAuthorizersCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3102,6 +3141,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<FlushStageAuthorizersCacheInput, FlushStageAuthorizersCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FlushStageAuthorizersCacheOutput>(FlushStageAuthorizersCacheOutput.httpOutput(from:), FlushStageAuthorizersCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FlushStageAuthorizersCacheInput, FlushStageAuthorizersCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FlushStageAuthorizersCacheOutput>())
@@ -3134,9 +3174,9 @@ extension APIGatewayClient {
     ///
     /// Flushes a stage's cache.
     ///
-    /// - Parameter FlushStageCacheInput : Requests API Gateway to flush a stage's cache.
+    /// - Parameter input: Requests API Gateway to flush a stage's cache. (Type: `FlushStageCacheInput`)
     ///
-    /// - Returns: `FlushStageCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FlushStageCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3172,6 +3212,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<FlushStageCacheInput, FlushStageCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FlushStageCacheOutput>(FlushStageCacheOutput.httpOutput(from:), FlushStageCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FlushStageCacheInput, FlushStageCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FlushStageCacheOutput>())
@@ -3204,9 +3245,9 @@ extension APIGatewayClient {
     ///
     /// Generates a ClientCertificate resource.
     ///
-    /// - Parameter GenerateClientCertificateInput : A request to generate a ClientCertificate resource.
+    /// - Parameter input: A request to generate a ClientCertificate resource. (Type: `GenerateClientCertificateInput`)
     ///
-    /// - Returns: `GenerateClientCertificateOutput` : Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
+    /// - Returns: Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint. (Type: `GenerateClientCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3244,6 +3285,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateClientCertificateInput, GenerateClientCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateClientCertificateOutput>(GenerateClientCertificateOutput.httpOutput(from:), GenerateClientCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateClientCertificateInput, GenerateClientCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateClientCertificateOutput>())
@@ -3276,9 +3318,9 @@ extension APIGatewayClient {
     ///
     /// Gets information about the current Account resource.
     ///
-    /// - Parameter GetAccountInput : Requests API Gateway to get information about the current Account resource.
+    /// - Parameter input: Requests API Gateway to get information about the current Account resource. (Type: `GetAccountInput`)
     ///
-    /// - Returns: `GetAccountOutput` : Represents an AWS account that is associated with API Gateway.
+    /// - Returns: Represents an AWS account that is associated with API Gateway. (Type: `GetAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3312,6 +3354,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountInput, GetAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountOutput>(GetAccountOutput.httpOutput(from:), GetAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountInput, GetAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountOutput>())
@@ -3344,9 +3387,9 @@ extension APIGatewayClient {
     ///
     /// Gets information about the current ApiKey resource.
     ///
-    /// - Parameter GetApiKeyInput : A request to get information about the current ApiKey resource.
+    /// - Parameter input: A request to get information about the current ApiKey resource. (Type: `GetApiKeyInput`)
     ///
-    /// - Returns: `GetApiKeyOutput` : A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
+    /// - Returns: A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage. (Type: `GetApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3381,6 +3424,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetApiKeyInput, GetApiKeyOutput>(GetApiKeyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiKeyOutput>(GetApiKeyOutput.httpOutput(from:), GetApiKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiKeyInput, GetApiKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiKeyOutput>())
@@ -3413,9 +3457,9 @@ extension APIGatewayClient {
     ///
     /// Gets information about the current ApiKeys resource.
     ///
-    /// - Parameter GetApiKeysInput : A request to get information about the current ApiKeys resource.
+    /// - Parameter input: A request to get information about the current ApiKeys resource. (Type: `GetApiKeysInput`)
     ///
-    /// - Returns: `GetApiKeysOutput` : Represents a collection of API keys as represented by an ApiKeys resource.
+    /// - Returns: Represents a collection of API keys as represented by an ApiKeys resource. (Type: `GetApiKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3450,6 +3494,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetApiKeysInput, GetApiKeysOutput>(GetApiKeysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApiKeysOutput>(GetApiKeysOutput.httpOutput(from:), GetApiKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApiKeysInput, GetApiKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApiKeysOutput>())
@@ -3482,9 +3527,9 @@ extension APIGatewayClient {
     ///
     /// Describe an existing Authorizer resource.
     ///
-    /// - Parameter GetAuthorizerInput : Request to describe an existing Authorizer resource.
+    /// - Parameter input: Request to describe an existing Authorizer resource. (Type: `GetAuthorizerInput`)
     ///
-    /// - Returns: `GetAuthorizerOutput` : Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
+    /// - Returns: Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method. (Type: `GetAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3518,6 +3563,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAuthorizerInput, GetAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthorizerOutput>(GetAuthorizerOutput.httpOutput(from:), GetAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthorizerInput, GetAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthorizerOutput>())
@@ -3550,9 +3596,9 @@ extension APIGatewayClient {
     ///
     /// Describe an existing Authorizers resource.
     ///
-    /// - Parameter GetAuthorizersInput : Request to describe an existing Authorizers resource.
+    /// - Parameter input: Request to describe an existing Authorizers resource. (Type: `GetAuthorizersInput`)
     ///
-    /// - Returns: `GetAuthorizersOutput` : Represents a collection of Authorizer resources.
+    /// - Returns: Represents a collection of Authorizer resources. (Type: `GetAuthorizersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3587,6 +3633,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAuthorizersInput, GetAuthorizersOutput>(GetAuthorizersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthorizersOutput>(GetAuthorizersOutput.httpOutput(from:), GetAuthorizersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthorizersInput, GetAuthorizersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthorizersOutput>())
@@ -3619,9 +3666,9 @@ extension APIGatewayClient {
     ///
     /// Describe a BasePathMapping resource.
     ///
-    /// - Parameter GetBasePathMappingInput : Request to describe a BasePathMapping resource.
+    /// - Parameter input: Request to describe a BasePathMapping resource. (Type: `GetBasePathMappingInput`)
     ///
-    /// - Returns: `GetBasePathMappingOutput` : Represents the base path that callers of the API must provide as part of the URL after the domain name.
+    /// - Returns: Represents the base path that callers of the API must provide as part of the URL after the domain name. (Type: `GetBasePathMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3656,6 +3703,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBasePathMappingInput, GetBasePathMappingOutput>(GetBasePathMappingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBasePathMappingOutput>(GetBasePathMappingOutput.httpOutput(from:), GetBasePathMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBasePathMappingInput, GetBasePathMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBasePathMappingOutput>())
@@ -3688,9 +3736,9 @@ extension APIGatewayClient {
     ///
     /// Represents a collection of BasePathMapping resources.
     ///
-    /// - Parameter GetBasePathMappingsInput : A request to get information about a collection of BasePathMapping resources.
+    /// - Parameter input: A request to get information about a collection of BasePathMapping resources. (Type: `GetBasePathMappingsInput`)
     ///
-    /// - Returns: `GetBasePathMappingsOutput` : Represents a collection of BasePathMapping resources.
+    /// - Returns: Represents a collection of BasePathMapping resources. (Type: `GetBasePathMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3725,6 +3773,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetBasePathMappingsInput, GetBasePathMappingsOutput>(GetBasePathMappingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBasePathMappingsOutput>(GetBasePathMappingsOutput.httpOutput(from:), GetBasePathMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBasePathMappingsInput, GetBasePathMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBasePathMappingsOutput>())
@@ -3757,9 +3806,9 @@ extension APIGatewayClient {
     ///
     /// Gets information about the current ClientCertificate resource.
     ///
-    /// - Parameter GetClientCertificateInput : A request to get information about the current ClientCertificate resource.
+    /// - Parameter input: A request to get information about the current ClientCertificate resource. (Type: `GetClientCertificateInput`)
     ///
-    /// - Returns: `GetClientCertificateOutput` : Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
+    /// - Returns: Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint. (Type: `GetClientCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3793,6 +3842,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClientCertificateInput, GetClientCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClientCertificateOutput>(GetClientCertificateOutput.httpOutput(from:), GetClientCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClientCertificateInput, GetClientCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClientCertificateOutput>())
@@ -3825,9 +3875,9 @@ extension APIGatewayClient {
     ///
     /// Gets a collection of ClientCertificate resources.
     ///
-    /// - Parameter GetClientCertificatesInput : A request to get information about a collection of ClientCertificate resources.
+    /// - Parameter input: A request to get information about a collection of ClientCertificate resources. (Type: `GetClientCertificatesInput`)
     ///
-    /// - Returns: `GetClientCertificatesOutput` : Represents a collection of ClientCertificate resources.
+    /// - Returns: Represents a collection of ClientCertificate resources. (Type: `GetClientCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3862,6 +3912,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetClientCertificatesInput, GetClientCertificatesOutput>(GetClientCertificatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClientCertificatesOutput>(GetClientCertificatesOutput.httpOutput(from:), GetClientCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClientCertificatesInput, GetClientCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClientCertificatesOutput>())
@@ -3894,9 +3945,9 @@ extension APIGatewayClient {
     ///
     /// Gets information about a Deployment resource.
     ///
-    /// - Parameter GetDeploymentInput : Requests API Gateway to get information about a Deployment resource.
+    /// - Parameter input: Requests API Gateway to get information about a Deployment resource. (Type: `GetDeploymentInput`)
     ///
-    /// - Returns: `GetDeploymentOutput` : An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
+    /// - Returns: An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet. (Type: `GetDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3932,6 +3983,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDeploymentInput, GetDeploymentOutput>(GetDeploymentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentOutput>(GetDeploymentOutput.httpOutput(from:), GetDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentInput, GetDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentOutput>())
@@ -3964,9 +4016,9 @@ extension APIGatewayClient {
     ///
     /// Gets information about a Deployments collection.
     ///
-    /// - Parameter GetDeploymentsInput : Requests API Gateway to get information about a Deployments collection.
+    /// - Parameter input: Requests API Gateway to get information about a Deployments collection. (Type: `GetDeploymentsInput`)
     ///
-    /// - Returns: `GetDeploymentsOutput` : Represents a collection resource that contains zero or more references to your existing deployments, and links that guide you on how to interact with your collection. The collection offers a paginated view of the contained deployments.
+    /// - Returns: Represents a collection resource that contains zero or more references to your existing deployments, and links that guide you on how to interact with your collection. The collection offers a paginated view of the contained deployments. (Type: `GetDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4002,6 +4054,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDeploymentsInput, GetDeploymentsOutput>(GetDeploymentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeploymentsOutput>(GetDeploymentsOutput.httpOutput(from:), GetDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeploymentsInput, GetDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeploymentsOutput>())
@@ -4034,9 +4087,9 @@ extension APIGatewayClient {
     ///
     /// Gets a documentation part.
     ///
-    /// - Parameter GetDocumentationPartInput : Gets a specified documentation part of a given API.
+    /// - Parameter input: Gets a specified documentation part of a given API. (Type: `GetDocumentationPartInput`)
     ///
-    /// - Returns: `GetDocumentationPartOutput` : A documentation part for a targeted API entity.
+    /// - Returns: A documentation part for a targeted API entity. (Type: `GetDocumentationPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4070,6 +4123,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDocumentationPartInput, GetDocumentationPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentationPartOutput>(GetDocumentationPartOutput.httpOutput(from:), GetDocumentationPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentationPartInput, GetDocumentationPartOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentationPartOutput>())
@@ -4102,9 +4156,9 @@ extension APIGatewayClient {
     ///
     /// Gets documentation parts.
     ///
-    /// - Parameter GetDocumentationPartsInput : Gets the documentation parts of an API. The result may be filtered by the type, name, or path of API entities (targets).
+    /// - Parameter input: Gets the documentation parts of an API. The result may be filtered by the type, name, or path of API entities (targets). (Type: `GetDocumentationPartsInput`)
     ///
-    /// - Returns: `GetDocumentationPartsOutput` : The collection of documentation parts of an API.
+    /// - Returns: The collection of documentation parts of an API. (Type: `GetDocumentationPartsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4139,6 +4193,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDocumentationPartsInput, GetDocumentationPartsOutput>(GetDocumentationPartsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentationPartsOutput>(GetDocumentationPartsOutput.httpOutput(from:), GetDocumentationPartsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentationPartsInput, GetDocumentationPartsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentationPartsOutput>())
@@ -4171,9 +4226,9 @@ extension APIGatewayClient {
     ///
     /// Gets a documentation version.
     ///
-    /// - Parameter GetDocumentationVersionInput : Gets a documentation snapshot of an API.
+    /// - Parameter input: Gets a documentation snapshot of an API. (Type: `GetDocumentationVersionInput`)
     ///
-    /// - Returns: `GetDocumentationVersionOutput` : A snapshot of the documentation of an API.
+    /// - Returns: A snapshot of the documentation of an API. (Type: `GetDocumentationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4206,6 +4261,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDocumentationVersionInput, GetDocumentationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentationVersionOutput>(GetDocumentationVersionOutput.httpOutput(from:), GetDocumentationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentationVersionInput, GetDocumentationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentationVersionOutput>())
@@ -4238,9 +4294,9 @@ extension APIGatewayClient {
     ///
     /// Gets documentation versions.
     ///
-    /// - Parameter GetDocumentationVersionsInput : Gets the documentation versions of an API.
+    /// - Parameter input: Gets the documentation versions of an API. (Type: `GetDocumentationVersionsInput`)
     ///
-    /// - Returns: `GetDocumentationVersionsOutput` : The collection of documentation snapshots of an API.
+    /// - Returns: The collection of documentation snapshots of an API. (Type: `GetDocumentationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4275,6 +4331,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDocumentationVersionsInput, GetDocumentationVersionsOutput>(GetDocumentationVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDocumentationVersionsOutput>(GetDocumentationVersionsOutput.httpOutput(from:), GetDocumentationVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDocumentationVersionsInput, GetDocumentationVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDocumentationVersionsOutput>())
@@ -4307,9 +4364,9 @@ extension APIGatewayClient {
     ///
     /// Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
     ///
-    /// - Parameter GetDomainNameInput : Request to get the name of a DomainName resource.
+    /// - Parameter input: Request to get the name of a DomainName resource. (Type: `GetDomainNameInput`)
     ///
-    /// - Returns: `GetDomainNameOutput` : Represents a custom domain name as a user-friendly host name of an API (RestApi).
+    /// - Returns: Represents a custom domain name as a user-friendly host name of an API (RestApi). (Type: `GetDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4344,6 +4401,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDomainNameInput, GetDomainNameOutput>(GetDomainNameInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainNameOutput>(GetDomainNameOutput.httpOutput(from:), GetDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainNameInput, GetDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainNameOutput>())
@@ -4376,9 +4434,9 @@ extension APIGatewayClient {
     ///
     /// Represents a collection on DomainNameAccessAssociations resources.
     ///
-    /// - Parameter GetDomainNameAccessAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainNameAccessAssociationsInput`)
     ///
-    /// - Returns: `GetDomainNameAccessAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainNameAccessAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4413,6 +4471,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDomainNameAccessAssociationsInput, GetDomainNameAccessAssociationsOutput>(GetDomainNameAccessAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainNameAccessAssociationsOutput>(GetDomainNameAccessAssociationsOutput.httpOutput(from:), GetDomainNameAccessAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainNameAccessAssociationsInput, GetDomainNameAccessAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainNameAccessAssociationsOutput>())
@@ -4445,9 +4504,9 @@ extension APIGatewayClient {
     ///
     /// Represents a collection of DomainName resources.
     ///
-    /// - Parameter GetDomainNamesInput : Request to describe a collection of DomainName resources.
+    /// - Parameter input: Request to describe a collection of DomainName resources. (Type: `GetDomainNamesInput`)
     ///
-    /// - Returns: `GetDomainNamesOutput` : Represents a collection of DomainName resources.
+    /// - Returns: Represents a collection of DomainName resources. (Type: `GetDomainNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4482,6 +4541,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDomainNamesInput, GetDomainNamesOutput>(GetDomainNamesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainNamesOutput>(GetDomainNamesOutput.httpOutput(from:), GetDomainNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainNamesInput, GetDomainNamesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainNamesOutput>())
@@ -4514,9 +4574,9 @@ extension APIGatewayClient {
     ///
     /// Exports a deployed version of a RestApi in a specified format.
     ///
-    /// - Parameter GetExportInput : Request a new export of a RestApi for a particular Stage.
+    /// - Parameter input: Request a new export of a RestApi for a particular Stage. (Type: `GetExportInput`)
     ///
-    /// - Returns: `GetExportOutput` : The binary blob response to GetExport, which contains the generated SDK.
+    /// - Returns: The binary blob response to GetExport, which contains the generated SDK. (Type: `GetExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4554,6 +4614,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetExportInput, GetExportOutput>(GetExportInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExportOutput>(GetExportOutput.httpOutput(from:), GetExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportInput, GetExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExportOutput>())
@@ -4586,9 +4647,9 @@ extension APIGatewayClient {
     ///
     /// Gets a GatewayResponse of a specified response type on the given RestApi.
     ///
-    /// - Parameter GetGatewayResponseInput : Gets a GatewayResponse of a specified response type on the given RestApi.
+    /// - Parameter input: Gets a GatewayResponse of a specified response type on the given RestApi. (Type: `GetGatewayResponseInput`)
     ///
-    /// - Returns: `GetGatewayResponseOutput` : A gateway response of a given response type and status code, with optional response parameters and mapping templates.
+    /// - Returns: A gateway response of a given response type and status code, with optional response parameters and mapping templates. (Type: `GetGatewayResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4622,6 +4683,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGatewayResponseInput, GetGatewayResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGatewayResponseOutput>(GetGatewayResponseOutput.httpOutput(from:), GetGatewayResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGatewayResponseInput, GetGatewayResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGatewayResponseOutput>())
@@ -4654,9 +4716,9 @@ extension APIGatewayClient {
     ///
     /// Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
     ///
-    /// - Parameter GetGatewayResponsesInput : Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
+    /// - Parameter input: Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types. (Type: `GetGatewayResponsesInput`)
     ///
-    /// - Returns: `GetGatewayResponsesOutput` : The collection of the GatewayResponse instances of a RestApi as a responseType-to-GatewayResponse object map of key-value pairs. As such, pagination is not supported for querying this collection.
+    /// - Returns: The collection of the GatewayResponse instances of a RestApi as a responseType-to-GatewayResponse object map of key-value pairs. As such, pagination is not supported for querying this collection. (Type: `GetGatewayResponsesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4691,6 +4753,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetGatewayResponsesInput, GetGatewayResponsesOutput>(GetGatewayResponsesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGatewayResponsesOutput>(GetGatewayResponsesOutput.httpOutput(from:), GetGatewayResponsesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGatewayResponsesInput, GetGatewayResponsesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGatewayResponsesOutput>())
@@ -4723,9 +4786,9 @@ extension APIGatewayClient {
     ///
     /// Get the integration settings.
     ///
-    /// - Parameter GetIntegrationInput : Represents a request to get the integration configuration.
+    /// - Parameter input: Represents a request to get the integration configuration. (Type: `GetIntegrationInput`)
     ///
-    /// - Returns: `GetIntegrationOutput` : Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
+    /// - Returns: Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration. (Type: `GetIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4759,6 +4822,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIntegrationInput, GetIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationOutput>(GetIntegrationOutput.httpOutput(from:), GetIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationInput, GetIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationOutput>())
@@ -4791,9 +4855,9 @@ extension APIGatewayClient {
     ///
     /// Represents a get integration response.
     ///
-    /// - Parameter GetIntegrationResponseInput : Represents a get integration response request.
+    /// - Parameter input: Represents a get integration response request. (Type: `GetIntegrationResponseInput`)
     ///
-    /// - Returns: `GetIntegrationResponseOutput` : Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
+    /// - Returns: Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response. (Type: `GetIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4827,6 +4891,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIntegrationResponseInput, GetIntegrationResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIntegrationResponseOutput>(GetIntegrationResponseOutput.httpOutput(from:), GetIntegrationResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIntegrationResponseInput, GetIntegrationResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIntegrationResponseOutput>())
@@ -4859,9 +4924,9 @@ extension APIGatewayClient {
     ///
     /// Describe an existing Method resource.
     ///
-    /// - Parameter GetMethodInput : Request to describe an existing Method resource.
+    /// - Parameter input: Request to describe an existing Method resource. (Type: `GetMethodInput`)
     ///
-    /// - Returns: `GetMethodOutput` : Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
+    /// - Returns: Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource. (Type: `GetMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4894,6 +4959,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMethodInput, GetMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMethodOutput>(GetMethodOutput.httpOutput(from:), GetMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMethodInput, GetMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMethodOutput>())
@@ -4926,9 +4992,9 @@ extension APIGatewayClient {
     ///
     /// Describes a MethodResponse resource.
     ///
-    /// - Parameter GetMethodResponseInput : Request to describe a MethodResponse resource.
+    /// - Parameter input: Request to describe a MethodResponse resource. (Type: `GetMethodResponseInput`)
     ///
-    /// - Returns: `GetMethodResponseOutput` : Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
+    /// - Returns: Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template. (Type: `GetMethodResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4961,6 +5027,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMethodResponseInput, GetMethodResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMethodResponseOutput>(GetMethodResponseOutput.httpOutput(from:), GetMethodResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMethodResponseInput, GetMethodResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMethodResponseOutput>())
@@ -4993,9 +5060,9 @@ extension APIGatewayClient {
     ///
     /// Describes an existing model defined for a RestApi resource.
     ///
-    /// - Parameter GetModelInput : Request to list information about a model in an existing RestApi resource.
+    /// - Parameter input: Request to list information about a model in an existing RestApi resource. (Type: `GetModelInput`)
     ///
-    /// - Returns: `GetModelOutput` : Represents the data structure of a method's request or response payload.
+    /// - Returns: Represents the data structure of a method's request or response payload. (Type: `GetModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5030,6 +5097,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetModelInput, GetModelOutput>(GetModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelOutput>(GetModelOutput.httpOutput(from:), GetModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelInput, GetModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelOutput>())
@@ -5062,9 +5130,9 @@ extension APIGatewayClient {
     ///
     /// Generates a sample mapping template that can be used to transform a payload into the structure of a model.
     ///
-    /// - Parameter GetModelTemplateInput : Request to generate a sample mapping template used to transform the payload.
+    /// - Parameter input: Request to generate a sample mapping template used to transform the payload. (Type: `GetModelTemplateInput`)
     ///
-    /// - Returns: `GetModelTemplateOutput` : Represents a mapping template used to transform a payload.
+    /// - Returns: Represents a mapping template used to transform a payload. (Type: `GetModelTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5098,6 +5166,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetModelTemplateInput, GetModelTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelTemplateOutput>(GetModelTemplateOutput.httpOutput(from:), GetModelTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelTemplateInput, GetModelTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelTemplateOutput>())
@@ -5130,9 +5199,9 @@ extension APIGatewayClient {
     ///
     /// Describes existing Models defined for a RestApi resource.
     ///
-    /// - Parameter GetModelsInput : Request to list existing Models defined for a RestApi resource.
+    /// - Parameter input: Request to list existing Models defined for a RestApi resource. (Type: `GetModelsInput`)
     ///
-    /// - Returns: `GetModelsOutput` : Represents a collection of Model resources.
+    /// - Returns: Represents a collection of Model resources. (Type: `GetModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5167,6 +5236,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetModelsInput, GetModelsOutput>(GetModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelsOutput>(GetModelsOutput.httpOutput(from:), GetModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelsInput, GetModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelsOutput>())
@@ -5199,9 +5269,9 @@ extension APIGatewayClient {
     ///
     /// Gets a RequestValidator of a given RestApi.
     ///
-    /// - Parameter GetRequestValidatorInput : Gets a RequestValidator of a given RestApi.
+    /// - Parameter input: Gets a RequestValidator of a given RestApi. (Type: `GetRequestValidatorInput`)
     ///
-    /// - Returns: `GetRequestValidatorOutput` : A set of validation rules for incoming Method requests.
+    /// - Returns: A set of validation rules for incoming Method requests. (Type: `GetRequestValidatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5235,6 +5305,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRequestValidatorInput, GetRequestValidatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRequestValidatorOutput>(GetRequestValidatorOutput.httpOutput(from:), GetRequestValidatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRequestValidatorInput, GetRequestValidatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRequestValidatorOutput>())
@@ -5267,9 +5338,9 @@ extension APIGatewayClient {
     ///
     /// Gets the RequestValidators collection of a given RestApi.
     ///
-    /// - Parameter GetRequestValidatorsInput : Gets the RequestValidators collection of a given RestApi.
+    /// - Parameter input: Gets the RequestValidators collection of a given RestApi. (Type: `GetRequestValidatorsInput`)
     ///
-    /// - Returns: `GetRequestValidatorsOutput` : A collection of RequestValidator resources of a given RestApi.
+    /// - Returns: A collection of RequestValidator resources of a given RestApi. (Type: `GetRequestValidatorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5304,6 +5375,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRequestValidatorsInput, GetRequestValidatorsOutput>(GetRequestValidatorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRequestValidatorsOutput>(GetRequestValidatorsOutput.httpOutput(from:), GetRequestValidatorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRequestValidatorsInput, GetRequestValidatorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRequestValidatorsOutput>())
@@ -5336,9 +5408,9 @@ extension APIGatewayClient {
     ///
     /// Lists information about a resource.
     ///
-    /// - Parameter GetResourceInput : Request to list information about a resource.
+    /// - Parameter input: Request to list information about a resource. (Type: `GetResourceInput`)
     ///
-    /// - Returns: `GetResourceOutput` : Represents an API resource.
+    /// - Returns: Represents an API resource. (Type: `GetResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5372,6 +5444,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetResourceInput, GetResourceOutput>(GetResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceOutput>(GetResourceOutput.httpOutput(from:), GetResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceInput, GetResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceOutput>())
@@ -5404,9 +5477,9 @@ extension APIGatewayClient {
     ///
     /// Lists information about a collection of Resource resources.
     ///
-    /// - Parameter GetResourcesInput : Request to list information about a collection of resources.
+    /// - Parameter input: Request to list information about a collection of resources. (Type: `GetResourcesInput`)
     ///
-    /// - Returns: `GetResourcesOutput` : Represents a collection of Resource resources.
+    /// - Returns: Represents a collection of Resource resources. (Type: `GetResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5441,6 +5514,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetResourcesInput, GetResourcesOutput>(GetResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcesOutput>(GetResourcesOutput.httpOutput(from:), GetResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcesInput, GetResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcesOutput>())
@@ -5473,9 +5547,9 @@ extension APIGatewayClient {
     ///
     /// Lists the RestApi resource in the collection.
     ///
-    /// - Parameter GetRestApiInput : The GET request to list an existing RestApi defined for your collection.
+    /// - Parameter input: The GET request to list an existing RestApi defined for your collection. (Type: `GetRestApiInput`)
     ///
-    /// - Returns: `GetRestApiOutput` : Represents a REST API.
+    /// - Returns: Represents a REST API. (Type: `GetRestApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5509,6 +5583,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRestApiInput, GetRestApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRestApiOutput>(GetRestApiOutput.httpOutput(from:), GetRestApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRestApiInput, GetRestApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRestApiOutput>())
@@ -5541,9 +5616,9 @@ extension APIGatewayClient {
     ///
     /// Lists the RestApis resources for your collection.
     ///
-    /// - Parameter GetRestApisInput : The GET request to list existing RestApis defined for your collection.
+    /// - Parameter input: The GET request to list existing RestApis defined for your collection. (Type: `GetRestApisInput`)
     ///
-    /// - Returns: `GetRestApisOutput` : Contains references to your APIs and links that guide you in how to interact with your collection. A collection offers a paginated view of your APIs.
+    /// - Returns: Contains references to your APIs and links that guide you in how to interact with your collection. A collection offers a paginated view of your APIs. (Type: `GetRestApisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5578,6 +5653,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRestApisInput, GetRestApisOutput>(GetRestApisInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRestApisOutput>(GetRestApisOutput.httpOutput(from:), GetRestApisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRestApisInput, GetRestApisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRestApisOutput>())
@@ -5610,9 +5686,9 @@ extension APIGatewayClient {
     ///
     /// Generates a client SDK for a RestApi and Stage.
     ///
-    /// - Parameter GetSdkInput : Request a new generated client SDK for a RestApi and Stage.
+    /// - Parameter input: Request a new generated client SDK for a RestApi and Stage. (Type: `GetSdkInput`)
     ///
-    /// - Returns: `GetSdkOutput` : The binary blob response to GetSdk, which contains the generated SDK.
+    /// - Returns: The binary blob response to GetSdk, which contains the generated SDK. (Type: `GetSdkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5649,6 +5725,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSdkInput, GetSdkOutput>(GetSdkInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSdkOutput>(GetSdkOutput.httpOutput(from:), GetSdkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSdkInput, GetSdkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSdkOutput>())
@@ -5681,9 +5758,9 @@ extension APIGatewayClient {
     ///
     /// Gets an SDK type.
     ///
-    /// - Parameter GetSdkTypeInput : Get an SdkType instance.
+    /// - Parameter input: Get an SdkType instance. (Type: `GetSdkTypeInput`)
     ///
-    /// - Returns: `GetSdkTypeOutput` : A type of SDK that API Gateway can generate.
+    /// - Returns: A type of SDK that API Gateway can generate. (Type: `GetSdkTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5717,6 +5794,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSdkTypeInput, GetSdkTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSdkTypeOutput>(GetSdkTypeOutput.httpOutput(from:), GetSdkTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSdkTypeInput, GetSdkTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSdkTypeOutput>())
@@ -5749,9 +5827,9 @@ extension APIGatewayClient {
     ///
     /// Gets SDK types
     ///
-    /// - Parameter GetSdkTypesInput : Get the SdkTypes collection.
+    /// - Parameter input: Get the SdkTypes collection. (Type: `GetSdkTypesInput`)
     ///
-    /// - Returns: `GetSdkTypesOutput` : The collection of SdkType instances.
+    /// - Returns: The collection of SdkType instances. (Type: `GetSdkTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5786,6 +5864,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSdkTypesInput, GetSdkTypesOutput>(GetSdkTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSdkTypesOutput>(GetSdkTypesOutput.httpOutput(from:), GetSdkTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSdkTypesInput, GetSdkTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSdkTypesOutput>())
@@ -5818,9 +5897,9 @@ extension APIGatewayClient {
     ///
     /// Gets information about a Stage resource.
     ///
-    /// - Parameter GetStageInput : Requests API Gateway to get information about a Stage resource.
+    /// - Parameter input: Requests API Gateway to get information about a Stage resource. (Type: `GetStageInput`)
     ///
-    /// - Returns: `GetStageOutput` : Represents a unique identifier for a version of a deployed RestApi that is callable by users.
+    /// - Returns: Represents a unique identifier for a version of a deployed RestApi that is callable by users. (Type: `GetStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5856,6 +5935,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStageInput, GetStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStageOutput>(GetStageOutput.httpOutput(from:), GetStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStageInput, GetStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStageOutput>())
@@ -5888,9 +5968,9 @@ extension APIGatewayClient {
     ///
     /// Gets information about one or more Stage resources.
     ///
-    /// - Parameter GetStagesInput : Requests API Gateway to get information about one or more Stage resources.
+    /// - Parameter input: Requests API Gateway to get information about one or more Stage resources. (Type: `GetStagesInput`)
     ///
-    /// - Returns: `GetStagesOutput` : A list of Stage resources that are associated with the ApiKey resource.
+    /// - Returns: A list of Stage resources that are associated with the ApiKey resource. (Type: `GetStagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5927,6 +6007,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetStagesInput, GetStagesOutput>(GetStagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStagesOutput>(GetStagesOutput.httpOutput(from:), GetStagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStagesInput, GetStagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStagesOutput>())
@@ -5959,9 +6040,9 @@ extension APIGatewayClient {
     ///
     /// Gets the Tags collection for a given resource.
     ///
-    /// - Parameter GetTagsInput : Gets the Tags collection for a given resource.
+    /// - Parameter input: Gets the Tags collection for a given resource. (Type: `GetTagsInput`)
     ///
-    /// - Returns: `GetTagsOutput` : The collection of tags. Each tag element is associated with a given resource.
+    /// - Returns: The collection of tags. Each tag element is associated with a given resource. (Type: `GetTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5996,6 +6077,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTagsInput, GetTagsOutput>(GetTagsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTagsOutput>(GetTagsOutput.httpOutput(from:), GetTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTagsInput, GetTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTagsOutput>())
@@ -6028,9 +6110,9 @@ extension APIGatewayClient {
     ///
     /// Gets the usage data of a usage plan in a specified time interval.
     ///
-    /// - Parameter GetUsageInput : The GET request to get the usage data of a usage plan in a specified time interval.
+    /// - Parameter input: The GET request to get the usage data of a usage plan in a specified time interval. (Type: `GetUsageInput`)
     ///
-    /// - Returns: `GetUsageOutput` : Represents the usage data of a usage plan.
+    /// - Returns: Represents the usage data of a usage plan. (Type: `GetUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6065,6 +6147,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUsageInput, GetUsageOutput>(GetUsageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsageOutput>(GetUsageOutput.httpOutput(from:), GetUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsageInput, GetUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsageOutput>())
@@ -6097,9 +6180,9 @@ extension APIGatewayClient {
     ///
     /// Gets a usage plan of a given plan identifier.
     ///
-    /// - Parameter GetUsagePlanInput : The GET request to get a usage plan of a given plan identifier.
+    /// - Parameter input: The GET request to get a usage plan of a given plan identifier. (Type: `GetUsagePlanInput`)
     ///
-    /// - Returns: `GetUsagePlanOutput` : Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
+    /// - Returns: Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests. (Type: `GetUsagePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6133,6 +6216,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUsagePlanInput, GetUsagePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsagePlanOutput>(GetUsagePlanOutput.httpOutput(from:), GetUsagePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsagePlanInput, GetUsagePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsagePlanOutput>())
@@ -6165,9 +6249,9 @@ extension APIGatewayClient {
     ///
     /// Gets a usage plan key of a given key identifier.
     ///
-    /// - Parameter GetUsagePlanKeyInput : The GET request to get a usage plan key of a given key identifier.
+    /// - Parameter input: The GET request to get a usage plan key of a given key identifier. (Type: `GetUsagePlanKeyInput`)
     ///
-    /// - Returns: `GetUsagePlanKeyOutput` : Represents a usage plan key to identify a plan customer.
+    /// - Returns: Represents a usage plan key to identify a plan customer. (Type: `GetUsagePlanKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6201,6 +6285,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUsagePlanKeyInput, GetUsagePlanKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsagePlanKeyOutput>(GetUsagePlanKeyOutput.httpOutput(from:), GetUsagePlanKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsagePlanKeyInput, GetUsagePlanKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsagePlanKeyOutput>())
@@ -6233,9 +6318,9 @@ extension APIGatewayClient {
     ///
     /// Gets all the usage plan keys representing the API keys added to a specified usage plan.
     ///
-    /// - Parameter GetUsagePlanKeysInput : The GET request to get all the usage plan keys representing the API keys added to a specified usage plan.
+    /// - Parameter input: The GET request to get all the usage plan keys representing the API keys added to a specified usage plan. (Type: `GetUsagePlanKeysInput`)
     ///
-    /// - Returns: `GetUsagePlanKeysOutput` : Represents the collection of usage plan keys added to usage plans for the associated API keys and, possibly, other types of keys.
+    /// - Returns: Represents the collection of usage plan keys added to usage plans for the associated API keys and, possibly, other types of keys. (Type: `GetUsagePlanKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6270,6 +6355,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUsagePlanKeysInput, GetUsagePlanKeysOutput>(GetUsagePlanKeysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsagePlanKeysOutput>(GetUsagePlanKeysOutput.httpOutput(from:), GetUsagePlanKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsagePlanKeysInput, GetUsagePlanKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsagePlanKeysOutput>())
@@ -6302,9 +6388,9 @@ extension APIGatewayClient {
     ///
     /// Gets all the usage plans of the caller's account.
     ///
-    /// - Parameter GetUsagePlansInput : The GET request to get all the usage plans of the caller's account.
+    /// - Parameter input: The GET request to get all the usage plans of the caller's account. (Type: `GetUsagePlansInput`)
     ///
-    /// - Returns: `GetUsagePlansOutput` : Represents a collection of usage plans for an AWS account.
+    /// - Returns: Represents a collection of usage plans for an AWS account. (Type: `GetUsagePlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6339,6 +6425,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUsagePlansInput, GetUsagePlansOutput>(GetUsagePlansInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUsagePlansOutput>(GetUsagePlansOutput.httpOutput(from:), GetUsagePlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUsagePlansInput, GetUsagePlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUsagePlansOutput>())
@@ -6371,9 +6458,9 @@ extension APIGatewayClient {
     ///
     /// Gets a specified VPC link under the caller's account in a region.
     ///
-    /// - Parameter GetVpcLinkInput : Gets a specified VPC link under the caller's account in a region.
+    /// - Parameter input: Gets a specified VPC link under the caller's account in a region. (Type: `GetVpcLinkInput`)
     ///
-    /// - Returns: `GetVpcLinkOutput` : An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
+    /// - Returns: An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC). (Type: `GetVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6407,6 +6494,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVpcLinkInput, GetVpcLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpcLinkOutput>(GetVpcLinkOutput.httpOutput(from:), GetVpcLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpcLinkInput, GetVpcLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpcLinkOutput>())
@@ -6439,9 +6527,9 @@ extension APIGatewayClient {
     ///
     /// Gets the VpcLinks collection under the caller's account in a selected region.
     ///
-    /// - Parameter GetVpcLinksInput : Gets the VpcLinks collection under the caller's account in a selected region.
+    /// - Parameter input: Gets the VpcLinks collection under the caller's account in a selected region. (Type: `GetVpcLinksInput`)
     ///
-    /// - Returns: `GetVpcLinksOutput` : The collection of VPC links under the caller's account in a region.
+    /// - Returns: The collection of VPC links under the caller's account in a region. (Type: `GetVpcLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6476,6 +6564,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetVpcLinksInput, GetVpcLinksOutput>(GetVpcLinksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpcLinksOutput>(GetVpcLinksOutput.httpOutput(from:), GetVpcLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpcLinksInput, GetVpcLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpcLinksOutput>())
@@ -6508,9 +6597,9 @@ extension APIGatewayClient {
     ///
     /// Import API keys from an external source, such as a CSV-formatted file.
     ///
-    /// - Parameter ImportApiKeysInput : The POST request to import API keys from an external source, such as a CSV-formatted file.
+    /// - Parameter input: The POST request to import API keys from an external source, such as a CSV-formatted file. (Type: `ImportApiKeysInput`)
     ///
-    /// - Returns: `ImportApiKeysOutput` : The identifier of an ApiKey used in a UsagePlan.
+    /// - Returns: The identifier of an ApiKey used in a UsagePlan. (Type: `ImportApiKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6550,6 +6639,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportApiKeysInput, ImportApiKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportApiKeysOutput>(ImportApiKeysOutput.httpOutput(from:), ImportApiKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportApiKeysInput, ImportApiKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportApiKeysOutput>())
@@ -6582,9 +6672,9 @@ extension APIGatewayClient {
     ///
     /// Imports documentation parts
     ///
-    /// - Parameter ImportDocumentationPartsInput : Import documentation parts from an external (e.g., OpenAPI) definition file.
+    /// - Parameter input: Import documentation parts from an external (e.g., OpenAPI) definition file. (Type: `ImportDocumentationPartsInput`)
     ///
-    /// - Returns: `ImportDocumentationPartsOutput` : A collection of the imported DocumentationPart identifiers.
+    /// - Returns: A collection of the imported DocumentationPart identifiers. (Type: `ImportDocumentationPartsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6624,6 +6714,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportDocumentationPartsInput, ImportDocumentationPartsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportDocumentationPartsOutput>(ImportDocumentationPartsOutput.httpOutput(from:), ImportDocumentationPartsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportDocumentationPartsInput, ImportDocumentationPartsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportDocumentationPartsOutput>())
@@ -6656,9 +6747,9 @@ extension APIGatewayClient {
     ///
     /// A feature of the API Gateway control service for creating a new API from an external API definition file.
     ///
-    /// - Parameter ImportRestApiInput : A POST request to import an API to API Gateway using an input of an API definition file.
+    /// - Parameter input: A POST request to import an API to API Gateway using an input of an API definition file. (Type: `ImportRestApiInput`)
     ///
-    /// - Returns: `ImportRestApiOutput` : Represents a REST API.
+    /// - Returns: Represents a REST API. (Type: `ImportRestApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6698,6 +6789,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportRestApiInput, ImportRestApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportRestApiOutput>(ImportRestApiOutput.httpOutput(from:), ImportRestApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportRestApiInput, ImportRestApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportRestApiOutput>())
@@ -6730,9 +6822,9 @@ extension APIGatewayClient {
     ///
     /// Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
     ///
-    /// - Parameter PutGatewayResponseInput : Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
+    /// - Parameter input: Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi. (Type: `PutGatewayResponseInput`)
     ///
-    /// - Returns: `PutGatewayResponseOutput` : A gateway response of a given response type and status code, with optional response parameters and mapping templates.
+    /// - Returns: A gateway response of a given response type and status code, with optional response parameters and mapping templates. (Type: `PutGatewayResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6771,6 +6863,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutGatewayResponseInput, PutGatewayResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutGatewayResponseOutput>(PutGatewayResponseOutput.httpOutput(from:), PutGatewayResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutGatewayResponseInput, PutGatewayResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutGatewayResponseOutput>())
@@ -6803,9 +6896,9 @@ extension APIGatewayClient {
     ///
     /// Sets up a method's integration.
     ///
-    /// - Parameter PutIntegrationInput : Sets up a method's integration.
+    /// - Parameter input: Sets up a method's integration. (Type: `PutIntegrationInput`)
     ///
-    /// - Returns: `PutIntegrationOutput` : Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
+    /// - Returns: Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration. (Type: `PutIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6844,6 +6937,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIntegrationInput, PutIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutIntegrationOutput>(PutIntegrationOutput.httpOutput(from:), PutIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIntegrationInput, PutIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIntegrationOutput>())
@@ -6876,9 +6970,9 @@ extension APIGatewayClient {
     ///
     /// Represents a put integration.
     ///
-    /// - Parameter PutIntegrationResponseInput : Represents a put integration response request.
+    /// - Parameter input: Represents a put integration response request. (Type: `PutIntegrationResponseInput`)
     ///
-    /// - Returns: `PutIntegrationResponseOutput` : Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
+    /// - Returns: Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response. (Type: `PutIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6917,6 +7011,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutIntegrationResponseInput, PutIntegrationResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutIntegrationResponseOutput>(PutIntegrationResponseOutput.httpOutput(from:), PutIntegrationResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutIntegrationResponseInput, PutIntegrationResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutIntegrationResponseOutput>())
@@ -6949,9 +7044,9 @@ extension APIGatewayClient {
     ///
     /// Add a method to an existing Resource resource.
     ///
-    /// - Parameter PutMethodInput : Request to add a method to an existing Resource resource.
+    /// - Parameter input: Request to add a method to an existing Resource resource. (Type: `PutMethodInput`)
     ///
-    /// - Returns: `PutMethodOutput` : Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
+    /// - Returns: Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource. (Type: `PutMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6990,6 +7085,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMethodInput, PutMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMethodOutput>(PutMethodOutput.httpOutput(from:), PutMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMethodInput, PutMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMethodOutput>())
@@ -7022,9 +7118,9 @@ extension APIGatewayClient {
     ///
     /// Adds a MethodResponse to an existing Method resource.
     ///
-    /// - Parameter PutMethodResponseInput : Request to add a MethodResponse to an existing Method resource.
+    /// - Parameter input: Request to add a MethodResponse to an existing Method resource. (Type: `PutMethodResponseInput`)
     ///
-    /// - Returns: `PutMethodResponseOutput` : Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
+    /// - Returns: Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template. (Type: `PutMethodResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7063,6 +7159,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMethodResponseInput, PutMethodResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMethodResponseOutput>(PutMethodResponseOutput.httpOutput(from:), PutMethodResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMethodResponseInput, PutMethodResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMethodResponseOutput>())
@@ -7095,9 +7192,9 @@ extension APIGatewayClient {
     ///
     /// A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
     ///
-    /// - Parameter PutRestApiInput : A PUT request to update an existing API, with external API definitions specified as the request body.
+    /// - Parameter input: A PUT request to update an existing API, with external API definitions specified as the request body. (Type: `PutRestApiInput`)
     ///
-    /// - Returns: `PutRestApiOutput` : Represents a REST API.
+    /// - Returns: Represents a REST API. (Type: `PutRestApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7137,6 +7234,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRestApiInput, PutRestApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRestApiOutput>(PutRestApiOutput.httpOutput(from:), PutRestApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRestApiInput, PutRestApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRestApiOutput>())
@@ -7169,9 +7267,9 @@ extension APIGatewayClient {
     ///
     /// Rejects a domain name access association with a private custom domain name. To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
     ///
-    /// - Parameter RejectDomainNameAccessAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectDomainNameAccessAssociationInput`)
     ///
-    /// - Returns: `RejectDomainNameAccessAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectDomainNameAccessAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7207,6 +7305,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RejectDomainNameAccessAssociationInput, RejectDomainNameAccessAssociationOutput>(RejectDomainNameAccessAssociationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectDomainNameAccessAssociationOutput>(RejectDomainNameAccessAssociationOutput.httpOutput(from:), RejectDomainNameAccessAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectDomainNameAccessAssociationInput, RejectDomainNameAccessAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectDomainNameAccessAssociationOutput>())
@@ -7239,9 +7338,9 @@ extension APIGatewayClient {
     ///
     /// Adds or updates a tag on a given resource.
     ///
-    /// - Parameter TagResourceInput : Adds or updates a tag on a given resource.
+    /// - Parameter input: Adds or updates a tag on a given resource. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7280,6 +7379,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -7312,9 +7412,9 @@ extension APIGatewayClient {
     ///
     /// Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
     ///
-    /// - Parameter TestInvokeAuthorizerInput : Make a request to simulate the invocation of an Authorizer.
+    /// - Parameter input: Make a request to simulate the invocation of an Authorizer. (Type: `TestInvokeAuthorizerInput`)
     ///
-    /// - Returns: `TestInvokeAuthorizerOutput` : Represents the response of the test invoke request for a custom Authorizer
+    /// - Returns: Represents the response of the test invoke request for a custom Authorizer (Type: `TestInvokeAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7351,6 +7451,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestInvokeAuthorizerInput, TestInvokeAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestInvokeAuthorizerOutput>(TestInvokeAuthorizerOutput.httpOutput(from:), TestInvokeAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestInvokeAuthorizerInput, TestInvokeAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestInvokeAuthorizerOutput>())
@@ -7383,9 +7484,9 @@ extension APIGatewayClient {
     ///
     /// Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
     ///
-    /// - Parameter TestInvokeMethodInput : Make a request to simulate the invocation of a Method.
+    /// - Parameter input: Make a request to simulate the invocation of a Method. (Type: `TestInvokeMethodInput`)
     ///
-    /// - Returns: `TestInvokeMethodOutput` : Represents the response of the test invoke request in the HTTP method.
+    /// - Returns: Represents the response of the test invoke request in the HTTP method. (Type: `TestInvokeMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7422,6 +7523,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestInvokeMethodInput, TestInvokeMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestInvokeMethodOutput>(TestInvokeMethodOutput.httpOutput(from:), TestInvokeMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestInvokeMethodInput, TestInvokeMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestInvokeMethodOutput>())
@@ -7454,9 +7556,9 @@ extension APIGatewayClient {
     ///
     /// Removes a tag from a given resource.
     ///
-    /// - Parameter UntagResourceInput : Removes a tag from a given resource.
+    /// - Parameter input: Removes a tag from a given resource. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7493,6 +7595,7 @@ extension APIGatewayClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -7525,9 +7628,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about the current Account resource.
     ///
-    /// - Parameter UpdateAccountInput : Requests API Gateway to change information about the current Account resource.
+    /// - Parameter input: Requests API Gateway to change information about the current Account resource. (Type: `UpdateAccountInput`)
     ///
-    /// - Returns: `UpdateAccountOutput` : Represents an AWS account that is associated with API Gateway.
+    /// - Returns: Represents an AWS account that is associated with API Gateway. (Type: `UpdateAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7566,6 +7669,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountInput, UpdateAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountOutput>(UpdateAccountOutput.httpOutput(from:), UpdateAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountInput, UpdateAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountOutput>())
@@ -7598,9 +7702,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about an ApiKey resource.
     ///
-    /// - Parameter UpdateApiKeyInput : A request to change information about an ApiKey resource.
+    /// - Parameter input: A request to change information about an ApiKey resource. (Type: `UpdateApiKeyInput`)
     ///
-    /// - Returns: `UpdateApiKeyOutput` : A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage.
+    /// - Returns: A resource that can be distributed to callers for executing Method resources that require an API key. API keys can be mapped to any Stage on any RestApi, which indicates that the callers with the API key can make requests to that stage. (Type: `UpdateApiKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7639,6 +7743,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApiKeyInput, UpdateApiKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApiKeyOutput>(UpdateApiKeyOutput.httpOutput(from:), UpdateApiKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApiKeyInput, UpdateApiKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApiKeyOutput>())
@@ -7671,9 +7776,9 @@ extension APIGatewayClient {
     ///
     /// Updates an existing Authorizer resource.
     ///
-    /// - Parameter UpdateAuthorizerInput : Request to update an existing Authorizer resource.
+    /// - Parameter input: Request to update an existing Authorizer resource. (Type: `UpdateAuthorizerInput`)
     ///
-    /// - Returns: `UpdateAuthorizerOutput` : Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method.
+    /// - Returns: Represents an authorization layer for methods. If enabled on a method, API Gateway will activate the authorizer when a client calls the method. (Type: `UpdateAuthorizerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7712,6 +7817,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAuthorizerInput, UpdateAuthorizerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAuthorizerOutput>(UpdateAuthorizerOutput.httpOutput(from:), UpdateAuthorizerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAuthorizerInput, UpdateAuthorizerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAuthorizerOutput>())
@@ -7744,9 +7850,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about the BasePathMapping resource.
     ///
-    /// - Parameter UpdateBasePathMappingInput : A request to change information about the BasePathMapping resource.
+    /// - Parameter input: A request to change information about the BasePathMapping resource. (Type: `UpdateBasePathMappingInput`)
     ///
-    /// - Returns: `UpdateBasePathMappingOutput` : Represents the base path that callers of the API must provide as part of the URL after the domain name.
+    /// - Returns: Represents the base path that callers of the API must provide as part of the URL after the domain name. (Type: `UpdateBasePathMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7786,6 +7892,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBasePathMappingInput, UpdateBasePathMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBasePathMappingOutput>(UpdateBasePathMappingOutput.httpOutput(from:), UpdateBasePathMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBasePathMappingInput, UpdateBasePathMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBasePathMappingOutput>())
@@ -7818,9 +7925,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about an ClientCertificate resource.
     ///
-    /// - Parameter UpdateClientCertificateInput : A request to change information about an ClientCertificate resource.
+    /// - Parameter input: A request to change information about an ClientCertificate resource. (Type: `UpdateClientCertificateInput`)
     ///
-    /// - Returns: `UpdateClientCertificateOutput` : Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint.
+    /// - Returns: Represents a client certificate used to configure client-side SSL authentication while sending requests to the integration endpoint. (Type: `UpdateClientCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7859,6 +7966,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClientCertificateInput, UpdateClientCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClientCertificateOutput>(UpdateClientCertificateOutput.httpOutput(from:), UpdateClientCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClientCertificateInput, UpdateClientCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClientCertificateOutput>())
@@ -7891,9 +7999,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about a Deployment resource.
     ///
-    /// - Parameter UpdateDeploymentInput : Requests API Gateway to change information about a Deployment resource.
+    /// - Parameter input: Requests API Gateway to change information about a Deployment resource. (Type: `UpdateDeploymentInput`)
     ///
-    /// - Returns: `UpdateDeploymentOutput` : An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet.
+    /// - Returns: An immutable representation of a RestApi resource that can be called by users using Stages. A deployment must be associated with a Stage for it to be callable over the Internet. (Type: `UpdateDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7933,6 +8041,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeploymentInput, UpdateDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeploymentOutput>(UpdateDeploymentOutput.httpOutput(from:), UpdateDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeploymentInput, UpdateDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeploymentOutput>())
@@ -7965,9 +8074,9 @@ extension APIGatewayClient {
     ///
     /// Updates a documentation part.
     ///
-    /// - Parameter UpdateDocumentationPartInput : Updates an existing documentation part of a given API.
+    /// - Parameter input: Updates an existing documentation part of a given API. (Type: `UpdateDocumentationPartInput`)
     ///
-    /// - Returns: `UpdateDocumentationPartOutput` : A documentation part for a targeted API entity.
+    /// - Returns: A documentation part for a targeted API entity. (Type: `UpdateDocumentationPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8006,6 +8115,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentationPartInput, UpdateDocumentationPartOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDocumentationPartOutput>(UpdateDocumentationPartOutput.httpOutput(from:), UpdateDocumentationPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentationPartInput, UpdateDocumentationPartOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentationPartOutput>())
@@ -8038,9 +8148,9 @@ extension APIGatewayClient {
     ///
     /// Updates a documentation version.
     ///
-    /// - Parameter UpdateDocumentationVersionInput : Updates an existing documentation version of an API.
+    /// - Parameter input: Updates an existing documentation version of an API. (Type: `UpdateDocumentationVersionInput`)
     ///
-    /// - Returns: `UpdateDocumentationVersionOutput` : A snapshot of the documentation of an API.
+    /// - Returns: A snapshot of the documentation of an API. (Type: `UpdateDocumentationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8079,6 +8189,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDocumentationVersionInput, UpdateDocumentationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDocumentationVersionOutput>(UpdateDocumentationVersionOutput.httpOutput(from:), UpdateDocumentationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDocumentationVersionInput, UpdateDocumentationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDocumentationVersionOutput>())
@@ -8111,9 +8222,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about the DomainName resource.
     ///
-    /// - Parameter UpdateDomainNameInput : A request to change information about the DomainName resource.
+    /// - Parameter input: A request to change information about the DomainName resource. (Type: `UpdateDomainNameInput`)
     ///
-    /// - Returns: `UpdateDomainNameOutput` : Represents a custom domain name as a user-friendly host name of an API (RestApi).
+    /// - Returns: Represents a custom domain name as a user-friendly host name of an API (RestApi). (Type: `UpdateDomainNameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8153,6 +8264,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainNameInput, UpdateDomainNameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainNameOutput>(UpdateDomainNameOutput.httpOutput(from:), UpdateDomainNameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainNameInput, UpdateDomainNameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainNameOutput>())
@@ -8185,9 +8297,9 @@ extension APIGatewayClient {
     ///
     /// Updates a GatewayResponse of a specified response type on the given RestApi.
     ///
-    /// - Parameter UpdateGatewayResponseInput : Updates a GatewayResponse of a specified response type on the given RestApi.
+    /// - Parameter input: Updates a GatewayResponse of a specified response type on the given RestApi. (Type: `UpdateGatewayResponseInput`)
     ///
-    /// - Returns: `UpdateGatewayResponseOutput` : A gateway response of a given response type and status code, with optional response parameters and mapping templates.
+    /// - Returns: A gateway response of a given response type and status code, with optional response parameters and mapping templates. (Type: `UpdateGatewayResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8226,6 +8338,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayResponseInput, UpdateGatewayResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayResponseOutput>(UpdateGatewayResponseOutput.httpOutput(from:), UpdateGatewayResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayResponseInput, UpdateGatewayResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayResponseOutput>())
@@ -8258,9 +8371,9 @@ extension APIGatewayClient {
     ///
     /// Represents an update integration.
     ///
-    /// - Parameter UpdateIntegrationInput : Represents an update integration request.
+    /// - Parameter input: Represents an update integration request. (Type: `UpdateIntegrationInput`)
     ///
-    /// - Returns: `UpdateIntegrationOutput` : Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration.
+    /// - Returns: Represents an HTTP, HTTP_PROXY, AWS, AWS_PROXY, or Mock integration. (Type: `UpdateIntegrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8299,6 +8412,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntegrationOutput>(UpdateIntegrationOutput.httpOutput(from:), UpdateIntegrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegrationOutput>())
@@ -8331,9 +8445,9 @@ extension APIGatewayClient {
     ///
     /// Represents an update integration response.
     ///
-    /// - Parameter UpdateIntegrationResponseInput : Represents an update integration response request.
+    /// - Parameter input: Represents an update integration response request. (Type: `UpdateIntegrationResponseInput`)
     ///
-    /// - Returns: `UpdateIntegrationResponseOutput` : Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response.
+    /// - Returns: Represents an integration response. The status code must map to an existing MethodResponse, and parameters and templates can be used to transform the back-end response. (Type: `UpdateIntegrationResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8372,6 +8486,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntegrationResponseInput, UpdateIntegrationResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntegrationResponseOutput>(UpdateIntegrationResponseOutput.httpOutput(from:), UpdateIntegrationResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntegrationResponseInput, UpdateIntegrationResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntegrationResponseOutput>())
@@ -8404,9 +8519,9 @@ extension APIGatewayClient {
     ///
     /// Updates an existing Method resource.
     ///
-    /// - Parameter UpdateMethodInput : Request to update an existing Method resource.
+    /// - Parameter input: Request to update an existing Method resource. (Type: `UpdateMethodInput`)
     ///
-    /// - Returns: `UpdateMethodOutput` : Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource.
+    /// - Returns: Represents a client-facing interface by which the client calls the API to access back-end resources. A Method resource is integrated with an Integration resource. Both consist of a request and one or more responses. The method request takes the client input that is passed to the back end through the integration request. A method response returns the output from the back end to the client through an integration response. A method request is embodied in a Method resource, whereas an integration request is embodied in an Integration resource. On the other hand, a method response is represented by a MethodResponse resource, whereas an integration response is represented by an IntegrationResponse resource. (Type: `UpdateMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8444,6 +8559,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMethodInput, UpdateMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMethodOutput>(UpdateMethodOutput.httpOutput(from:), UpdateMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMethodInput, UpdateMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMethodOutput>())
@@ -8476,9 +8592,9 @@ extension APIGatewayClient {
     ///
     /// Updates an existing MethodResponse resource.
     ///
-    /// - Parameter UpdateMethodResponseInput : A request to update an existing MethodResponse resource.
+    /// - Parameter input: A request to update an existing MethodResponse resource. (Type: `UpdateMethodResponseInput`)
     ///
-    /// - Returns: `UpdateMethodResponseOutput` : Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template.
+    /// - Returns: Represents a method response of a given HTTP status code returned to the client. The method response is passed from the back end through the associated integration response that can be transformed using a mapping template. (Type: `UpdateMethodResponseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8517,6 +8633,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMethodResponseInput, UpdateMethodResponseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMethodResponseOutput>(UpdateMethodResponseOutput.httpOutput(from:), UpdateMethodResponseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMethodResponseInput, UpdateMethodResponseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMethodResponseOutput>())
@@ -8549,9 +8666,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about a model. The maximum size of the model is 400 KB.
     ///
-    /// - Parameter UpdateModelInput : Request to update an existing model in an existing RestApi resource.
+    /// - Parameter input: Request to update an existing model in an existing RestApi resource. (Type: `UpdateModelInput`)
     ///
-    /// - Returns: `UpdateModelOutput` : Represents the data structure of a method's request or response payload.
+    /// - Returns: Represents the data structure of a method's request or response payload. (Type: `UpdateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8590,6 +8707,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelInput, UpdateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelOutput>(UpdateModelOutput.httpOutput(from:), UpdateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelInput, UpdateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelOutput>())
@@ -8622,9 +8740,9 @@ extension APIGatewayClient {
     ///
     /// Updates a RequestValidator of a given RestApi.
     ///
-    /// - Parameter UpdateRequestValidatorInput : Updates a RequestValidator of a given RestApi.
+    /// - Parameter input: Updates a RequestValidator of a given RestApi. (Type: `UpdateRequestValidatorInput`)
     ///
-    /// - Returns: `UpdateRequestValidatorOutput` : A set of validation rules for incoming Method requests.
+    /// - Returns: A set of validation rules for incoming Method requests. (Type: `UpdateRequestValidatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8663,6 +8781,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRequestValidatorInput, UpdateRequestValidatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRequestValidatorOutput>(UpdateRequestValidatorOutput.httpOutput(from:), UpdateRequestValidatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRequestValidatorInput, UpdateRequestValidatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRequestValidatorOutput>())
@@ -8695,9 +8814,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about a Resource resource.
     ///
-    /// - Parameter UpdateResourceInput : Request to change information about a Resource resource.
+    /// - Parameter input: Request to change information about a Resource resource. (Type: `UpdateResourceInput`)
     ///
-    /// - Returns: `UpdateResourceOutput` : Represents an API resource.
+    /// - Returns: Represents an API resource. (Type: `UpdateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8735,6 +8854,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceInput, UpdateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceOutput>(UpdateResourceOutput.httpOutput(from:), UpdateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceInput, UpdateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceOutput>())
@@ -8767,9 +8887,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about the specified API.
     ///
-    /// - Parameter UpdateRestApiInput : Request to update an existing RestApi resource in your collection.
+    /// - Parameter input: Request to update an existing RestApi resource in your collection. (Type: `UpdateRestApiInput`)
     ///
-    /// - Returns: `UpdateRestApiOutput` : Represents a REST API.
+    /// - Returns: Represents a REST API. (Type: `UpdateRestApiOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8808,6 +8928,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRestApiInput, UpdateRestApiOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRestApiOutput>(UpdateRestApiOutput.httpOutput(from:), UpdateRestApiOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRestApiInput, UpdateRestApiOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRestApiOutput>())
@@ -8840,9 +8961,9 @@ extension APIGatewayClient {
     ///
     /// Changes information about a Stage resource.
     ///
-    /// - Parameter UpdateStageInput : Requests API Gateway to change information about a Stage resource.
+    /// - Parameter input: Requests API Gateway to change information about a Stage resource. (Type: `UpdateStageInput`)
     ///
-    /// - Returns: `UpdateStageOutput` : Represents a unique identifier for a version of a deployed RestApi that is callable by users.
+    /// - Returns: Represents a unique identifier for a version of a deployed RestApi that is callable by users. (Type: `UpdateStageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8881,6 +9002,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStageInput, UpdateStageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStageOutput>(UpdateStageOutput.httpOutput(from:), UpdateStageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStageInput, UpdateStageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStageOutput>())
@@ -8913,9 +9035,9 @@ extension APIGatewayClient {
     ///
     /// Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
     ///
-    /// - Parameter UpdateUsageInput : The PATCH request to grant a temporary extension to the remaining quota of a usage plan associated with a specified API key.
+    /// - Parameter input: The PATCH request to grant a temporary extension to the remaining quota of a usage plan associated with a specified API key. (Type: `UpdateUsageInput`)
     ///
-    /// - Returns: `UpdateUsageOutput` : Represents the usage data of a usage plan.
+    /// - Returns: Represents the usage data of a usage plan. (Type: `UpdateUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8954,6 +9076,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUsageInput, UpdateUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUsageOutput>(UpdateUsageOutput.httpOutput(from:), UpdateUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUsageInput, UpdateUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUsageOutput>())
@@ -8986,9 +9109,9 @@ extension APIGatewayClient {
     ///
     /// Updates a usage plan of a given plan Id.
     ///
-    /// - Parameter UpdateUsagePlanInput : The PATCH request to update a usage plan of a given plan Id.
+    /// - Parameter input: The PATCH request to update a usage plan of a given plan Id. (Type: `UpdateUsagePlanInput`)
     ///
-    /// - Returns: `UpdateUsagePlanOutput` : Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests.
+    /// - Returns: Represents a usage plan used to specify who can assess associated API stages. Optionally, target request rate and quota limits can be set. In some cases clients can exceed the targets that you set. Don’t rely on usage plans to control costs. Consider using [Amazon Web Services Budgets](https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html) to monitor costs and [WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html) to manage API requests. (Type: `UpdateUsagePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9027,6 +9150,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUsagePlanInput, UpdateUsagePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUsagePlanOutput>(UpdateUsagePlanOutput.httpOutput(from:), UpdateUsagePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUsagePlanInput, UpdateUsagePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUsagePlanOutput>())
@@ -9059,9 +9183,9 @@ extension APIGatewayClient {
     ///
     /// Updates an existing VpcLink of a specified identifier.
     ///
-    /// - Parameter UpdateVpcLinkInput : Updates an existing VpcLink of a specified identifier.
+    /// - Parameter input: Updates an existing VpcLink of a specified identifier. (Type: `UpdateVpcLinkInput`)
     ///
-    /// - Returns: `UpdateVpcLinkOutput` : An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC).
+    /// - Returns: An API Gateway VPC link for a RestApi to access resources in an Amazon Virtual Private Cloud (VPC). (Type: `UpdateVpcLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9100,6 +9224,7 @@ extension APIGatewayClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcLinkInput, UpdateVpcLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcLinkOutput>(UpdateVpcLinkOutput.httpOutput(from:), UpdateVpcLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcLinkInput, UpdateVpcLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVpcLinkOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisVideoArchivedMediaClient: ClientRuntime.Client {
     public static let clientName = "KinesisVideoArchivedMediaClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisVideoArchivedMediaClient.KinesisVideoArchivedMediaClientConfiguration
     let serviceName = "Kinesis Video Archived Media"
@@ -384,9 +385,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// You can monitor the amount of outgoing data by monitoring the GetClip.OutgoingBytes Amazon CloudWatch metric. For information about using CloudWatch to monitor Kinesis Video Streams, see [Monitoring Kinesis Video Streams](http://docs.aws.amazon.com/kinesisvideostreams/latest/dg/monitoring.html). For pricing information, see [Amazon Kinesis Video Streams Pricing](https://aws.amazon.com/kinesis/video-streams/pricing/) and [ Amazon Web Services Pricing](https://aws.amazon.com/pricing/). Charges for outgoing Amazon Web Services data apply.
     ///
-    /// - Parameter GetClipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClipInput`)
     ///
-    /// - Returns: `GetClipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -428,6 +429,7 @@ extension KinesisVideoArchivedMediaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetClipInput, GetClipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClipOutput>(GetClipOutput.httpOutput(from:), GetClipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClipInput, GetClipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClipOutput>())
@@ -497,9 +499,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter GetDASHStreamingSessionURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDASHStreamingSessionURLInput`)
     ///
-    /// - Returns: `GetDASHStreamingSessionURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDASHStreamingSessionURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -540,6 +542,7 @@ extension KinesisVideoArchivedMediaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDASHStreamingSessionURLInput, GetDASHStreamingSessionURLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDASHStreamingSessionURLOutput>(GetDASHStreamingSessionURLOutput.httpOutput(from:), GetDASHStreamingSessionURLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDASHStreamingSessionURLInput, GetDASHStreamingSessionURLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDASHStreamingSessionURLOutput>())
@@ -613,9 +616,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter GetHLSStreamingSessionURLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHLSStreamingSessionURLInput`)
     ///
-    /// - Returns: `GetHLSStreamingSessionURLOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHLSStreamingSessionURLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -656,6 +659,7 @@ extension KinesisVideoArchivedMediaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetHLSStreamingSessionURLInput, GetHLSStreamingSessionURLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHLSStreamingSessionURLOutput>(GetHLSStreamingSessionURLOutput.httpOutput(from:), GetHLSStreamingSessionURLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHLSStreamingSessionURLInput, GetHLSStreamingSessionURLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHLSStreamingSessionURLOutput>())
@@ -687,9 +691,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Retrieves a list of images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
     ///
-    /// - Parameter GetImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImagesInput`)
     ///
-    /// - Returns: `GetImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,6 +731,7 @@ extension KinesisVideoArchivedMediaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetImagesInput, GetImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImagesOutput>(GetImagesOutput.httpOutput(from:), GetImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImagesInput, GetImagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImagesOutput>())
@@ -765,9 +770,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter GetMediaForFragmentListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMediaForFragmentListInput`)
     ///
-    /// - Returns: `GetMediaForFragmentListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMediaForFragmentListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -804,6 +809,7 @@ extension KinesisVideoArchivedMediaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMediaForFragmentListInput, GetMediaForFragmentListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMediaForFragmentListOutput>(GetMediaForFragmentListOutput.httpOutput(from:), GetMediaForFragmentListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMediaForFragmentListInput, GetMediaForFragmentListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMediaForFragmentListOutput>())
@@ -842,9 +848,9 @@ extension KinesisVideoArchivedMediaClient {
     ///
     /// Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as [Common Errors](https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/CommonErrors.html).
     ///
-    /// - Parameter ListFragmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFragmentsInput`)
     ///
-    /// - Returns: `ListFragmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFragmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,6 +887,7 @@ extension KinesisVideoArchivedMediaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFragmentsInput, ListFragmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFragmentsOutput>(ListFragmentsOutput.httpOutput(from:), ListFragmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFragmentsInput, ListFragmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFragmentsOutput>())

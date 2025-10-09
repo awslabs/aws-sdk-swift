@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MPAClient: ClientRuntime.Client {
     public static let clientName = "MPAClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MPAClient.MPAClientConfiguration
     let serviceName = "MPA"
@@ -374,9 +375,9 @@ extension MPAClient {
     ///
     /// Cancels an approval session. For more information, see [Session](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter CancelSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSessionInput`)
     ///
-    /// - Returns: `CancelSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelSessionInput, CancelSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSessionOutput>(CancelSessionOutput.httpOutput(from:), CancelSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSessionInput, CancelSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSessionOutput>())
@@ -443,9 +445,9 @@ extension MPAClient {
     ///
     /// Creates a new approval team. For more information, see [Approval team](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter CreateApprovalTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApprovalTeamInput`)
     ///
-    /// - Returns: `CreateApprovalTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApprovalTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +487,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApprovalTeamInput, CreateApprovalTeamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApprovalTeamOutput>(CreateApprovalTeamOutput.httpOutput(from:), CreateApprovalTeamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApprovalTeamInput, CreateApprovalTeamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApprovalTeamOutput>())
@@ -516,9 +519,9 @@ extension MPAClient {
     ///
     /// Creates a new identity source. For more information, see [Identity Source](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter CreateIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdentitySourceInput`)
     ///
-    /// - Returns: `CreateIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +560,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdentitySourceOutput>(CreateIdentitySourceOutput.httpOutput(from:), CreateIdentitySourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdentitySourceInput, CreateIdentitySourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdentitySourceOutput>())
@@ -588,9 +592,9 @@ extension MPAClient {
     ///
     /// Deletes an identity source. For more information, see [Identity Source](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter DeleteIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentitySourceInput`)
     ///
-    /// - Returns: `DeleteIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,6 +629,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdentitySourceOutput>(DeleteIdentitySourceOutput.httpOutput(from:), DeleteIdentitySourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentitySourceInput, DeleteIdentitySourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentitySourceOutput>())
@@ -656,9 +661,9 @@ extension MPAClient {
     ///
     /// Deletes an inactive approval team. For more information, see [Team health](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-health.html) in the Multi-party approval User Guide. You can also use this operation to delete a team draft. For more information, see [Interacting with drafts](https://docs.aws.amazon.com/mpa/latest/userguide/update-team.html#update-team-draft-status) in the Multi-party approval User Guide.
     ///
-    /// - Parameter DeleteInactiveApprovalTeamVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInactiveApprovalTeamVersionInput`)
     ///
-    /// - Returns: `DeleteInactiveApprovalTeamVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInactiveApprovalTeamVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,6 +699,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInactiveApprovalTeamVersionInput, DeleteInactiveApprovalTeamVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInactiveApprovalTeamVersionOutput>(DeleteInactiveApprovalTeamVersionOutput.httpOutput(from:), DeleteInactiveApprovalTeamVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInactiveApprovalTeamVersionInput, DeleteInactiveApprovalTeamVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInactiveApprovalTeamVersionOutput>())
@@ -725,9 +731,9 @@ extension MPAClient {
     ///
     /// Returns details for an approval team.
     ///
-    /// - Parameter GetApprovalTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetApprovalTeamInput`)
     ///
-    /// - Returns: `GetApprovalTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetApprovalTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,6 +768,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetApprovalTeamInput, GetApprovalTeamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetApprovalTeamOutput>(GetApprovalTeamOutput.httpOutput(from:), GetApprovalTeamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetApprovalTeamInput, GetApprovalTeamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetApprovalTeamOutput>())
@@ -793,9 +800,9 @@ extension MPAClient {
     ///
     /// Returns details for an identity source. For more information, see [Identity Source](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter GetIdentitySourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdentitySourceInput`)
     ///
-    /// - Returns: `GetIdentitySourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdentitySourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,6 +837,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentitySourceOutput>(GetIdentitySourceOutput.httpOutput(from:), GetIdentitySourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentitySourceInput, GetIdentitySourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentitySourceOutput>())
@@ -861,9 +869,9 @@ extension MPAClient {
     ///
     /// Returns details for the version of a policy. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter GetPolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyVersionInput`)
     ///
-    /// - Returns: `GetPolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,6 +906,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyVersionOutput>(GetPolicyVersionOutput.httpOutput(from:), GetPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyVersionInput, GetPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyVersionOutput>())
@@ -929,9 +938,9 @@ extension MPAClient {
     ///
     /// Returns details about a policy for a resource.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -969,6 +978,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -1000,9 +1010,9 @@ extension MPAClient {
     ///
     /// Returns details for an approval session. For more information, see [Session](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1037,6 +1047,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -1068,9 +1079,9 @@ extension MPAClient {
     ///
     /// Returns a list of approval teams.
     ///
-    /// - Parameter ListApprovalTeamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApprovalTeamsInput`)
     ///
-    /// - Returns: `ListApprovalTeamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApprovalTeamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1105,6 +1116,7 @@ extension MPAClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApprovalTeamsInput, ListApprovalTeamsOutput>(ListApprovalTeamsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApprovalTeamsOutput>(ListApprovalTeamsOutput.httpOutput(from:), ListApprovalTeamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApprovalTeamsInput, ListApprovalTeamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApprovalTeamsOutput>())
@@ -1136,9 +1148,9 @@ extension MPAClient {
     ///
     /// Returns a list of identity sources. For more information, see [Identity Source](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter ListIdentitySourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentitySourcesInput`)
     ///
-    /// - Returns: `ListIdentitySourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentitySourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1173,6 +1185,7 @@ extension MPAClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput>(ListIdentitySourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentitySourcesOutput>(ListIdentitySourcesOutput.httpOutput(from:), ListIdentitySourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentitySourcesInput, ListIdentitySourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentitySourcesOutput>())
@@ -1204,9 +1217,9 @@ extension MPAClient {
     ///
     /// Returns a list of policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter ListPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPoliciesInput`)
     ///
-    /// - Returns: `ListPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1241,6 +1254,7 @@ extension MPAClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPoliciesInput, ListPoliciesOutput>(ListPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPoliciesOutput>(ListPoliciesOutput.httpOutput(from:), ListPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPoliciesInput, ListPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPoliciesOutput>())
@@ -1272,9 +1286,9 @@ extension MPAClient {
     ///
     /// Returns a list of the versions for policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter ListPolicyVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyVersionsInput`)
     ///
-    /// - Returns: `ListPolicyVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1310,6 +1324,7 @@ extension MPAClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>(ListPolicyVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyVersionsOutput>(ListPolicyVersionsOutput.httpOutput(from:), ListPolicyVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyVersionsInput, ListPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyVersionsOutput>())
@@ -1341,9 +1356,9 @@ extension MPAClient {
     ///
     /// Returns a list of policies for a resource.
     ///
-    /// - Parameter ListResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcePoliciesInput`)
     ///
-    /// - Returns: `ListResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,6 +1394,7 @@ extension MPAClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourcePoliciesInput, ListResourcePoliciesOutput>(ListResourcePoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcePoliciesOutput>(ListResourcePoliciesOutput.httpOutput(from:), ListResourcePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcePoliciesInput, ListResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcePoliciesOutput>())
@@ -1410,9 +1426,9 @@ extension MPAClient {
     ///
     /// Returns a list of approval sessions. For more information, see [Session](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-concepts.html) in the Multi-party approval User Guide.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,6 +1467,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSessionsInput, ListSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionsOutput>(ListSessionsOutput.httpOutput(from:), ListSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
@@ -1482,9 +1499,9 @@ extension MPAClient {
     ///
     /// Returns a list of the tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,6 +1536,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1550,9 +1568,9 @@ extension MPAClient {
     ///
     /// Starts the deletion process for an active approval team. Deletions require team approval Requests to delete an active team must be approved by the team.
     ///
-    /// - Parameter StartActiveApprovalTeamDeletionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartActiveApprovalTeamDeletionInput`)
     ///
-    /// - Returns: `StartActiveApprovalTeamDeletionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartActiveApprovalTeamDeletionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1592,6 +1610,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartActiveApprovalTeamDeletionInput, StartActiveApprovalTeamDeletionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartActiveApprovalTeamDeletionOutput>(StartActiveApprovalTeamDeletionOutput.httpOutput(from:), StartActiveApprovalTeamDeletionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartActiveApprovalTeamDeletionInput, StartActiveApprovalTeamDeletionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartActiveApprovalTeamDeletionOutput>())
@@ -1623,9 +1642,9 @@ extension MPAClient {
     ///
     /// Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1664,6 +1683,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1695,9 +1715,9 @@ extension MPAClient {
     ///
     /// Removes a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1735,6 +1755,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1766,9 +1787,9 @@ extension MPAClient {
     ///
     /// Updates an approval team. You can request to update the team description, approval threshold, and approvers in the team. Updates require team approval Updates to an active team must be approved by the team.
     ///
-    /// - Parameter UpdateApprovalTeamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApprovalTeamInput`)
     ///
-    /// - Returns: `UpdateApprovalTeamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApprovalTeamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1808,6 +1829,7 @@ extension MPAClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApprovalTeamInput, UpdateApprovalTeamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApprovalTeamOutput>(UpdateApprovalTeamOutput.httpOutput(from:), UpdateApprovalTeamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApprovalTeamInput, UpdateApprovalTeamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApprovalTeamOutput>())

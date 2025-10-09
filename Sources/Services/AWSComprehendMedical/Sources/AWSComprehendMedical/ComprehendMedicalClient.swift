@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ComprehendMedicalClient: ClientRuntime.Client {
     public static let clientName = "ComprehendMedicalClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ComprehendMedicalClient.ComprehendMedicalClientConfiguration
     let serviceName = "ComprehendMedical"
@@ -373,9 +374,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribeEntitiesDetectionV2JobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEntitiesDetectionV2JobInput`)
     ///
-    /// - Returns: `DescribeEntitiesDetectionV2JobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEntitiesDetectionV2JobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +411,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEntitiesDetectionV2JobOutput>(DescribeEntitiesDetectionV2JobOutput.httpOutput(from:), DescribeEntitiesDetectionV2JobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEntitiesDetectionV2JobInput, DescribeEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEntitiesDetectionV2JobOutput>())
@@ -444,9 +446,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with an InferICD10CM job. Use this operation to get the status of an inference job.
     ///
-    /// - Parameter DescribeICD10CMInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeICD10CMInferenceJobInput`)
     ///
-    /// - Returns: `DescribeICD10CMInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeICD10CMInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +483,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeICD10CMInferenceJobOutput>(DescribeICD10CMInferenceJobOutput.httpOutput(from:), DescribeICD10CMInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeICD10CMInferenceJobInput, DescribeICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeICD10CMInferenceJobOutput>())
@@ -515,9 +518,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with a protected health information (PHI) detection job. Use this operation to get the status of a detection job.
     ///
-    /// - Parameter DescribePHIDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePHIDetectionJobInput`)
     ///
-    /// - Returns: `DescribePHIDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePHIDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,6 +555,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePHIDetectionJobOutput>(DescribePHIDetectionJobOutput.httpOutput(from:), DescribePHIDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePHIDetectionJobInput, DescribePHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePHIDetectionJobOutput>())
@@ -586,9 +590,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job.
     ///
-    /// - Parameter DescribeRxNormInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRxNormInferenceJobInput`)
     ///
-    /// - Returns: `DescribeRxNormInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRxNormInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +627,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRxNormInferenceJobOutput>(DescribeRxNormInferenceJobOutput.httpOutput(from:), DescribeRxNormInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRxNormInferenceJobInput, DescribeRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRxNormInferenceJobOutput>())
@@ -657,9 +662,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
     ///
-    /// - Parameter DescribeSNOMEDCTInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSNOMEDCTInferenceJobInput`)
     ///
-    /// - Returns: `DescribeSNOMEDCTInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSNOMEDCTInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,6 +699,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSNOMEDCTInferenceJobOutput>(DescribeSNOMEDCTInferenceJobOutput.httpOutput(from:), DescribeSNOMEDCTInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSNOMEDCTInferenceJobInput, DescribeSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSNOMEDCTInferenceJobOutput>())
@@ -729,9 +735,9 @@ extension ComprehendMedicalClient {
     /// The DetectEntities operation is deprecated. You should use the [DetectEntitiesV2] operation instead. Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information.
     @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
     ///
-    /// - Parameter DetectEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectEntitiesInput`)
     ///
-    /// - Returns: `DetectEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,6 +774,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesInput, DetectEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectEntitiesOutput>(DetectEntitiesOutput.httpOutput(from:), DetectEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectEntitiesInput, DetectEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectEntitiesOutput>())
@@ -802,9 +809,9 @@ extension ComprehendMedicalClient {
     ///
     /// Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the [DetectEntities] operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types.
     ///
-    /// - Parameter DetectEntitiesV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectEntitiesV2Input`)
     ///
-    /// - Returns: `DetectEntitiesV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectEntitiesV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -841,6 +848,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectEntitiesV2Output>(DetectEntitiesV2Output.httpOutput(from:), DetectEntitiesV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectEntitiesV2Input, DetectEntitiesV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectEntitiesV2Output>())
@@ -875,9 +883,9 @@ extension ComprehendMedicalClient {
     ///
     /// Inspects the clinical text for protected health information (PHI) entities and returns the entity category, location, and confidence score for each entity. Amazon Comprehend Medical only detects entities in English language texts.
     ///
-    /// - Parameter DetectPHIInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectPHIInput`)
     ///
-    /// - Returns: `DetectPHIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectPHIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,6 +922,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectPHIInput, DetectPHIOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectPHIOutput>(DetectPHIOutput.httpOutput(from:), DetectPHIOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectPHIInput, DetectPHIOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectPHIOutput>())
@@ -948,9 +957,9 @@ extension ComprehendMedicalClient {
     ///
     /// InferICD10CM detects medical conditions as entities listed in a patient record and links those entities to normalized concept identifiers in the ICD-10-CM knowledge base from the Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in English language texts.
     ///
-    /// - Parameter InferICD10CMInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InferICD10CMInput`)
     ///
-    /// - Returns: `InferICD10CMOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InferICD10CMOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -987,6 +996,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferICD10CMInput, InferICD10CMOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InferICD10CMOutput>(InferICD10CMOutput.httpOutput(from:), InferICD10CMOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferICD10CMInput, InferICD10CMOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferICD10CMOutput>())
@@ -1021,9 +1031,9 @@ extension ComprehendMedicalClient {
     ///
     /// InferRxNorm detects medications as entities listed in a patient record and links to the normalized concept identifiers in the RxNorm database from the National Library of Medicine. Amazon Comprehend Medical only detects medical entities in English language texts.
     ///
-    /// - Parameter InferRxNormInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InferRxNormInput`)
     ///
-    /// - Returns: `InferRxNormOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InferRxNormOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1060,6 +1070,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferRxNormInput, InferRxNormOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InferRxNormOutput>(InferRxNormOutput.httpOutput(from:), InferRxNormOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferRxNormInput, InferRxNormOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferRxNormOutput>())
@@ -1094,9 +1105,9 @@ extension ComprehendMedicalClient {
     ///
     /// InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
     ///
-    /// - Parameter InferSNOMEDCTInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InferSNOMEDCTInput`)
     ///
-    /// - Returns: `InferSNOMEDCTOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InferSNOMEDCTOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1133,6 +1144,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InferSNOMEDCTOutput>(InferSNOMEDCTOutput.httpOutput(from:), InferSNOMEDCTOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InferSNOMEDCTInput, InferSNOMEDCTOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InferSNOMEDCTOutput>())
@@ -1167,9 +1179,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of medical entity detection jobs that you have submitted.
     ///
-    /// - Parameter ListEntitiesDetectionV2JobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitiesDetectionV2JobsInput`)
     ///
-    /// - Returns: `ListEntitiesDetectionV2JobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitiesDetectionV2JobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,6 +1216,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitiesDetectionV2JobsOutput>(ListEntitiesDetectionV2JobsOutput.httpOutput(from:), ListEntitiesDetectionV2JobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitiesDetectionV2JobsInput, ListEntitiesDetectionV2JobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitiesDetectionV2JobsOutput>())
@@ -1238,9 +1251,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of InferICD10CM jobs that you have submitted.
     ///
-    /// - Parameter ListICD10CMInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListICD10CMInferenceJobsInput`)
     ///
-    /// - Returns: `ListICD10CMInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListICD10CMInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1275,6 +1288,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListICD10CMInferenceJobsOutput>(ListICD10CMInferenceJobsOutput.httpOutput(from:), ListICD10CMInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListICD10CMInferenceJobsInput, ListICD10CMInferenceJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListICD10CMInferenceJobsOutput>())
@@ -1309,9 +1323,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of protected health information (PHI) detection jobs you have submitted.
     ///
-    /// - Parameter ListPHIDetectionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPHIDetectionJobsInput`)
     ///
-    /// - Returns: `ListPHIDetectionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPHIDetectionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1346,6 +1360,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPHIDetectionJobsOutput>(ListPHIDetectionJobsOutput.httpOutput(from:), ListPHIDetectionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPHIDetectionJobsInput, ListPHIDetectionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPHIDetectionJobsOutput>())
@@ -1380,9 +1395,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of InferRxNorm jobs that you have submitted.
     ///
-    /// - Parameter ListRxNormInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRxNormInferenceJobsInput`)
     ///
-    /// - Returns: `ListRxNormInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRxNormInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1417,6 +1432,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRxNormInferenceJobsOutput>(ListRxNormInferenceJobsOutput.httpOutput(from:), ListRxNormInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRxNormInferenceJobsInput, ListRxNormInferenceJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRxNormInferenceJobsOutput>())
@@ -1451,9 +1467,9 @@ extension ComprehendMedicalClient {
     ///
     /// Gets a list of InferSNOMEDCT jobs a user has submitted.
     ///
-    /// - Parameter ListSNOMEDCTInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSNOMEDCTInferenceJobsInput`)
     ///
-    /// - Returns: `ListSNOMEDCTInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSNOMEDCTInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1488,6 +1504,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSNOMEDCTInferenceJobsOutput>(ListSNOMEDCTInferenceJobsOutput.httpOutput(from:), ListSNOMEDCTInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSNOMEDCTInferenceJobsInput, ListSNOMEDCTInferenceJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSNOMEDCTInferenceJobsOutput>())
@@ -1522,9 +1539,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job.
     ///
-    /// - Parameter StartEntitiesDetectionV2JobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartEntitiesDetectionV2JobInput`)
     ///
-    /// - Returns: `StartEntitiesDetectionV2JobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartEntitiesDetectionV2JobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1560,6 +1577,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartEntitiesDetectionV2JobOutput>(StartEntitiesDetectionV2JobOutput.httpOutput(from:), StartEntitiesDetectionV2JobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartEntitiesDetectionV2JobInput, StartEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartEntitiesDetectionV2JobOutput>())
@@ -1594,9 +1612,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous job to detect medical conditions and link them to the ICD-10-CM ontology. Use the DescribeICD10CMInferenceJob operation to track the status of a job.
     ///
-    /// - Parameter StartICD10CMInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartICD10CMInferenceJobInput`)
     ///
-    /// - Returns: `StartICD10CMInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartICD10CMInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1632,6 +1650,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartICD10CMInferenceJobOutput>(StartICD10CMInferenceJobOutput.httpOutput(from:), StartICD10CMInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartICD10CMInferenceJobInput, StartICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartICD10CMInferenceJobOutput>())
@@ -1666,9 +1685,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous job to detect protected health information (PHI). Use the DescribePHIDetectionJob operation to track the status of a job.
     ///
-    /// - Parameter StartPHIDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartPHIDetectionJobInput`)
     ///
-    /// - Returns: `StartPHIDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartPHIDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1704,6 +1723,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartPHIDetectionJobOutput>(StartPHIDetectionJobOutput.httpOutput(from:), StartPHIDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartPHIDetectionJobInput, StartPHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartPHIDetectionJobOutput>())
@@ -1738,9 +1758,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous job to detect medication entities and link them to the RxNorm ontology. Use the DescribeRxNormInferenceJob operation to track the status of a job.
     ///
-    /// - Parameter StartRxNormInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRxNormInferenceJobInput`)
     ///
-    /// - Returns: `StartRxNormInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRxNormInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1776,6 +1796,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRxNormInferenceJobOutput>(StartRxNormInferenceJobOutput.httpOutput(from:), StartRxNormInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRxNormInferenceJobInput, StartRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRxNormInferenceJobOutput>())
@@ -1810,9 +1831,9 @@ extension ComprehendMedicalClient {
     ///
     /// Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
     ///
-    /// - Parameter StartSNOMEDCTInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSNOMEDCTInferenceJobInput`)
     ///
-    /// - Returns: `StartSNOMEDCTInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSNOMEDCTInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1848,6 +1869,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSNOMEDCTInferenceJobOutput>(StartSNOMEDCTInferenceJobOutput.httpOutput(from:), StartSNOMEDCTInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSNOMEDCTInferenceJobInput, StartSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSNOMEDCTInferenceJobOutput>())
@@ -1882,9 +1904,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops a medical entities detection job in progress.
     ///
-    /// - Parameter StopEntitiesDetectionV2JobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopEntitiesDetectionV2JobInput`)
     ///
-    /// - Returns: `StopEntitiesDetectionV2JobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopEntitiesDetectionV2JobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1918,6 +1940,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopEntitiesDetectionV2JobOutput>(StopEntitiesDetectionV2JobOutput.httpOutput(from:), StopEntitiesDetectionV2JobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopEntitiesDetectionV2JobInput, StopEntitiesDetectionV2JobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopEntitiesDetectionV2JobOutput>())
@@ -1952,9 +1975,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops an InferICD10CM inference job in progress.
     ///
-    /// - Parameter StopICD10CMInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopICD10CMInferenceJobInput`)
     ///
-    /// - Returns: `StopICD10CMInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopICD10CMInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1988,6 +2011,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopICD10CMInferenceJobOutput>(StopICD10CMInferenceJobOutput.httpOutput(from:), StopICD10CMInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopICD10CMInferenceJobInput, StopICD10CMInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopICD10CMInferenceJobOutput>())
@@ -2022,9 +2046,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops a protected health information (PHI) detection job in progress.
     ///
-    /// - Parameter StopPHIDetectionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopPHIDetectionJobInput`)
     ///
-    /// - Returns: `StopPHIDetectionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopPHIDetectionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2058,6 +2082,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopPHIDetectionJobOutput>(StopPHIDetectionJobOutput.httpOutput(from:), StopPHIDetectionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopPHIDetectionJobInput, StopPHIDetectionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopPHIDetectionJobOutput>())
@@ -2092,9 +2117,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops an InferRxNorm inference job in progress.
     ///
-    /// - Parameter StopRxNormInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopRxNormInferenceJobInput`)
     ///
-    /// - Returns: `StopRxNormInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopRxNormInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2128,6 +2153,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRxNormInferenceJobOutput>(StopRxNormInferenceJobOutput.httpOutput(from:), StopRxNormInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRxNormInferenceJobInput, StopRxNormInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopRxNormInferenceJobOutput>())
@@ -2162,9 +2188,9 @@ extension ComprehendMedicalClient {
     ///
     /// Stops an InferSNOMEDCT inference job in progress.
     ///
-    /// - Parameter StopSNOMEDCTInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopSNOMEDCTInferenceJobInput`)
     ///
-    /// - Returns: `StopSNOMEDCTInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopSNOMEDCTInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2199,6 +2225,7 @@ extension ComprehendMedicalClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopSNOMEDCTInferenceJobOutput>(StopSNOMEDCTInferenceJobOutput.httpOutput(from:), StopSNOMEDCTInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopSNOMEDCTInferenceJobInput, StopSNOMEDCTInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopSNOMEDCTInferenceJobOutput>())

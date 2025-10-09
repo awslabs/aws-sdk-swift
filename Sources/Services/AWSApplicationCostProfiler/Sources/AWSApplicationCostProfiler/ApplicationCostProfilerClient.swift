@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationCostProfilerClient: ClientRuntime.Client {
     public static let clientName = "ApplicationCostProfilerClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationCostProfilerClient.ApplicationCostProfilerClientConfiguration
     let serviceName = "ApplicationCostProfiler"
@@ -373,9 +374,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated.
     ///
-    /// - Parameter DeleteReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReportDefinitionInput`)
     ///
-    /// - Returns: `DeleteReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +410,7 @@ extension ApplicationCostProfilerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReportDefinitionOutput>(DeleteReportDefinitionOutput.httpOutput(from:), DeleteReportDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReportDefinitionOutput>())
@@ -440,9 +442,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Retrieves the definition of a report already configured in AWS Application Cost Profiler.
     ///
-    /// - Parameter GetReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReportDefinitionInput`)
     ///
-    /// - Returns: `GetReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,6 +478,7 @@ extension ApplicationCostProfilerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReportDefinitionInput, GetReportDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReportDefinitionOutput>(GetReportDefinitionOutput.httpOutput(from:), GetReportDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReportDefinitionInput, GetReportDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReportDefinitionOutput>())
@@ -507,9 +510,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously.
     ///
-    /// - Parameter ImportApplicationUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportApplicationUsageInput`)
     ///
-    /// - Returns: `ImportApplicationUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportApplicationUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,6 +549,7 @@ extension ApplicationCostProfilerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportApplicationUsageInput, ImportApplicationUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportApplicationUsageOutput>(ImportApplicationUsageOutput.httpOutput(from:), ImportApplicationUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportApplicationUsageInput, ImportApplicationUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportApplicationUsageOutput>())
@@ -577,9 +581,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
     ///
-    /// - Parameter ListReportDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReportDefinitionsInput`)
     ///
-    /// - Returns: `ListReportDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReportDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -614,6 +618,7 @@ extension ApplicationCostProfilerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReportDefinitionsInput, ListReportDefinitionsOutput>(ListReportDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReportDefinitionsOutput>(ListReportDefinitionsOutput.httpOutput(from:), ListReportDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReportDefinitionsInput, ListReportDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReportDefinitionsOutput>())
@@ -645,9 +650,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Creates the report definition for a report in Application Cost Profiler.
     ///
-    /// - Parameter PutReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutReportDefinitionInput`)
     ///
-    /// - Returns: `PutReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -685,6 +690,7 @@ extension ApplicationCostProfilerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutReportDefinitionInput, PutReportDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutReportDefinitionOutput>(PutReportDefinitionOutput.httpOutput(from:), PutReportDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutReportDefinitionInput, PutReportDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutReportDefinitionOutput>())
@@ -716,9 +722,9 @@ extension ApplicationCostProfilerClient {
     ///
     /// Updates existing report in AWS Application Cost Profiler.
     ///
-    /// - Parameter UpdateReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReportDefinitionInput`)
     ///
-    /// - Returns: `UpdateReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -755,6 +761,7 @@ extension ApplicationCostProfilerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReportDefinitionInput, UpdateReportDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReportDefinitionOutput>(UpdateReportDefinitionOutput.httpOutput(from:), UpdateReportDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReportDefinitionInput, UpdateReportDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReportDefinitionOutput>())

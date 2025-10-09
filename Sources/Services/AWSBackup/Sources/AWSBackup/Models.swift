@@ -3365,7 +3365,7 @@ public struct DescribeGlobalSettingsInput: Swift.Sendable {
 }
 
 public struct DescribeGlobalSettingsOutput: Swift.Sendable {
-    /// The status of the flag isCrossAccountBackupEnabled.
+    /// The status of the flags isCrossAccountBackupEnabled and isMpaEnabled ('Mpa' refers to multi-party approval).
     public var globalSettings: [Swift.String: Swift.String]?
     /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastUpdateTime: Foundation.Date?
@@ -4163,15 +4163,74 @@ public struct GetBackupPlanInput: Swift.Sendable {
     /// Uniquely identifies a backup plan.
     /// This member is required.
     public var backupPlanId: Swift.String?
+    /// Number of future scheduled backup runs to preview. When set to 0 (default), no scheduled runs preview is included in the response. Valid range is 0-10.
+    public var maxScheduledRunsPreview: Swift.Int?
     /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
     public var versionId: Swift.String?
 
     public init(
         backupPlanId: Swift.String? = nil,
+        maxScheduledRunsPreview: Swift.Int? = 0,
         versionId: Swift.String? = nil
     ) {
         self.backupPlanId = backupPlanId
+        self.maxScheduledRunsPreview = maxScheduledRunsPreview
         self.versionId = versionId
+    }
+}
+
+extension BackupClientTypes {
+
+    public enum RuleExecutionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case continuous
+        case continuousAndSnapshots
+        case snapshots
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleExecutionType] {
+            return [
+                .continuous,
+                .continuousAndSnapshots,
+                .snapshots
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .continuous: return "CONTINUOUS"
+            case .continuousAndSnapshots: return "CONTINUOUS_AND_SNAPSHOTS"
+            case .snapshots: return "SNAPSHOTS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Contains information about a scheduled backup plan execution, including the execution time, rule type, and associated rule identifier.
+    public struct ScheduledPlanExecutionMember: Swift.Sendable {
+        /// The timestamp when the backup is scheduled to run, in Unix format and Coordinated Universal Time (UTC). The value is accurate to milliseconds.
+        public var executionTime: Foundation.Date?
+        /// The type of backup rule execution. Valid values are CONTINUOUS (point-in-time recovery), SNAPSHOTS (snapshot backups), or CONTINUOUS_AND_SNAPSHOTS (both types combined).
+        public var ruleExecutionType: BackupClientTypes.RuleExecutionType?
+        /// The unique identifier of the backup rule that will execute at the scheduled time.
+        public var ruleId: Swift.String?
+
+        public init(
+            executionTime: Foundation.Date? = nil,
+            ruleExecutionType: BackupClientTypes.RuleExecutionType? = nil,
+            ruleId: Swift.String? = nil
+        ) {
+            self.executionTime = executionTime
+            self.ruleExecutionType = ruleExecutionType
+            self.ruleId = ruleId
+        }
     }
 }
 
@@ -4192,6 +4251,8 @@ public struct GetBackupPlanOutput: Swift.Sendable {
     public var deletionDate: Foundation.Date?
     /// The last time this backup plan was run. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastExecutionDate: Foundation.Date?
+    /// List of upcoming scheduled backup runs. Only included when MaxScheduledRunsPreview parameter is greater than 0. Contains up to 10 future backup executions with their scheduled times, execution types, and associated rule IDs.
+    public var scheduledRunsPreview: [BackupClientTypes.ScheduledPlanExecutionMember]?
     /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
     public var versionId: Swift.String?
 
@@ -4204,6 +4265,7 @@ public struct GetBackupPlanOutput: Swift.Sendable {
         creatorRequestId: Swift.String? = nil,
         deletionDate: Foundation.Date? = nil,
         lastExecutionDate: Foundation.Date? = nil,
+        scheduledRunsPreview: [BackupClientTypes.ScheduledPlanExecutionMember]? = nil,
         versionId: Swift.String? = nil
     ) {
         self.advancedBackupSettings = advancedBackupSettings
@@ -4214,6 +4276,7 @@ public struct GetBackupPlanOutput: Swift.Sendable {
         self.creatorRequestId = creatorRequestId
         self.deletionDate = deletionDate
         self.lastExecutionDate = lastExecutionDate
+        self.scheduledRunsPreview = scheduledRunsPreview
         self.versionId = versionId
     }
 }
@@ -7382,7 +7445,7 @@ public struct UpdateFrameworkOutput: Swift.Sendable {
 }
 
 public struct UpdateGlobalSettingsInput: Swift.Sendable {
-    /// A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2.
+    /// Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2.
     public var globalSettings: [Swift.String: Swift.String]?
 
     public init(
@@ -8150,6 +8213,10 @@ extension GetBackupPlanInput {
         if let versionId = value.versionId {
             let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
             items.append(versionIdQueryItem)
+        }
+        if let maxScheduledRunsPreview = value.maxScheduledRunsPreview {
+            let maxScheduledRunsPreviewQueryItem = Smithy.URIQueryItem(name: "MaxScheduledRunsPreview".urlPercentEncoding(), value: Swift.String(maxScheduledRunsPreview).urlPercentEncoding())
+            items.append(maxScheduledRunsPreviewQueryItem)
         }
         return items
     }
@@ -10287,6 +10354,7 @@ extension GetBackupPlanOutput {
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.deletionDate = try reader["DeletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastExecutionDate = try reader["LastExecutionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scheduledRunsPreview = try reader["ScheduledRunsPreview"].readListIfPresent(memberReadingClosure: BackupClientTypes.ScheduledPlanExecutionMember.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.versionId = try reader["VersionId"].readIfPresent()
         return value
     }
@@ -13254,6 +13322,18 @@ extension BackupClientTypes.CopyAction {
         var value = BackupClientTypes.CopyAction()
         value.lifecycle = try reader["Lifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
         value.destinationBackupVaultArn = try reader["DestinationBackupVaultArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BackupClientTypes.ScheduledPlanExecutionMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ScheduledPlanExecutionMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ScheduledPlanExecutionMember()
+        value.executionTime = try reader["ExecutionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ruleId = try reader["RuleId"].readIfPresent()
+        value.ruleExecutionType = try reader["RuleExecutionType"].readIfPresent()
         return value
     }
 }

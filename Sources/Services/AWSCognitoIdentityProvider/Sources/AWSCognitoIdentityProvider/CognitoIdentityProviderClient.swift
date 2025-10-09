@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CognitoIdentityProviderClient: ClientRuntime.Client {
     public static let clientName = "CognitoIdentityProviderClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityProviderClient.CognitoIdentityProviderClientConfiguration
     let serviceName = "Cognito Identity Provider"
@@ -378,9 +379,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AddCustomAttributesInput : Represents the request to add custom attributes.
+    /// - Parameter input: Represents the request to add custom attributes. (Type: `AddCustomAttributesInput`)
     ///
-    /// - Returns: `AddCustomAttributesOutput` : Represents the response from the server for the request to add custom attributes.
+    /// - Returns: Represents the response from the server for the request to add custom attributes. (Type: `AddCustomAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,6 +418,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddCustomAttributesOutput>(AddCustomAttributesOutput.httpOutput(from:), AddCustomAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddCustomAttributesInput, AddCustomAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddCustomAttributesOutput>())
@@ -455,9 +457,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminAddUserToGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminAddUserToGroupInput`)
     ///
-    /// - Returns: `AdminAddUserToGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminAddUserToGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -494,6 +496,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminAddUserToGroupOutput>(AdminAddUserToGroupOutput.httpOutput(from:), AdminAddUserToGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminAddUserToGroupInput, AdminAddUserToGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminAddUserToGroupOutput>())
@@ -535,9 +538,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// To configure your user pool to require administrative confirmation of users, set AllowAdminCreateUserOnly to true in a CreateUserPool or UpdateUserPool request.
     ///
-    /// - Parameter AdminConfirmSignUpInput : Confirm a user's registration as a user pool administrator.
+    /// - Parameter input: Confirm a user's registration as a user pool administrator. (Type: `AdminConfirmSignUpInput`)
     ///
-    /// - Returns: `AdminConfirmSignUpOutput` : Represents the response from the server for the request to confirm registration.
+    /// - Returns: Represents the response from the server for the request to confirm registration. (Type: `AdminConfirmSignUpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,6 +582,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminConfirmSignUpOutput>(AdminConfirmSignUpOutput.httpOutput(from:), AdminConfirmSignUpOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminConfirmSignUpInput, AdminConfirmSignUpOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminConfirmSignUpOutput>())
@@ -617,9 +621,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminCreateUserInput : Creates a new user in the specified user pool.
+    /// - Parameter input: Creates a new user in the specified user pool. (Type: `AdminCreateUserInput`)
     ///
-    /// - Returns: `AdminCreateUserOutput` : Represents the response from the server to the request to create the user.
+    /// - Returns: Represents the response from the server to the request to create the user. (Type: `AdminCreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,6 +670,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminCreateUserInput, AdminCreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminCreateUserOutput>(AdminCreateUserOutput.httpOutput(from:), AdminCreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminCreateUserInput, AdminCreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminCreateUserOutput>())
@@ -704,9 +709,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminDeleteUserInput : Represents the request to delete a user as an administrator.
+    /// - Parameter input: Represents the request to delete a user as an administrator. (Type: `AdminDeleteUserInput`)
     ///
-    /// - Returns: `AdminDeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminDeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -743,6 +748,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminDeleteUserOutput>(AdminDeleteUserOutput.httpOutput(from:), AdminDeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminDeleteUserInput, AdminDeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminDeleteUserOutput>())
@@ -781,9 +787,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminDeleteUserAttributesInput : Represents the request to delete user attributes as an administrator.
+    /// - Parameter input: Represents the request to delete user attributes as an administrator. (Type: `AdminDeleteUserAttributesInput`)
     ///
-    /// - Returns: `AdminDeleteUserAttributesOutput` : Represents the response received from the server for a request to delete user attributes.
+    /// - Returns: Represents the response received from the server for a request to delete user attributes. (Type: `AdminDeleteUserAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -820,6 +826,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminDeleteUserAttributesOutput>(AdminDeleteUserAttributesOutput.httpOutput(from:), AdminDeleteUserAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminDeleteUserAttributesInput, AdminDeleteUserAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminDeleteUserAttributesOutput>())
@@ -858,9 +865,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminDisableProviderForUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminDisableProviderForUserInput`)
     ///
-    /// - Returns: `AdminDisableProviderForUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminDisableProviderForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,6 +905,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminDisableProviderForUserOutput>(AdminDisableProviderForUserOutput.httpOutput(from:), AdminDisableProviderForUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminDisableProviderForUserInput, AdminDisableProviderForUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminDisableProviderForUserOutput>())
@@ -936,9 +944,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminDisableUserInput : Represents the request to disable the user as an administrator.
+    /// - Parameter input: Represents the request to disable the user as an administrator. (Type: `AdminDisableUserInput`)
     ///
-    /// - Returns: `AdminDisableUserOutput` : Represents the response received from the server to disable the user as an administrator.
+    /// - Returns: Represents the response received from the server to disable the user as an administrator. (Type: `AdminDisableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -975,6 +983,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminDisableUserInput, AdminDisableUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminDisableUserOutput>(AdminDisableUserOutput.httpOutput(from:), AdminDisableUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminDisableUserInput, AdminDisableUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminDisableUserOutput>())
@@ -1013,9 +1022,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminEnableUserInput : Represents the request that enables the user as an administrator.
+    /// - Parameter input: Represents the request that enables the user as an administrator. (Type: `AdminEnableUserInput`)
     ///
-    /// - Returns: `AdminEnableUserOutput` : Represents the response from the server for the request to enable a user as an administrator.
+    /// - Returns: Represents the response from the server for the request to enable a user as an administrator. (Type: `AdminEnableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1052,6 +1061,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminEnableUserInput, AdminEnableUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminEnableUserOutput>(AdminEnableUserOutput.httpOutput(from:), AdminEnableUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminEnableUserInput, AdminEnableUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminEnableUserOutput>())
@@ -1090,9 +1100,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminForgetDeviceInput : Sends the forgot device request, as an administrator.
+    /// - Parameter input: Sends the forgot device request, as an administrator. (Type: `AdminForgetDeviceInput`)
     ///
-    /// - Returns: `AdminForgetDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminForgetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1130,6 +1140,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminForgetDeviceOutput>(AdminForgetDeviceOutput.httpOutput(from:), AdminForgetDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminForgetDeviceInput, AdminForgetDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminForgetDeviceOutput>())
@@ -1168,9 +1179,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminGetDeviceInput : Represents the request to get the device, as an administrator.
+    /// - Parameter input: Represents the request to get the device, as an administrator. (Type: `AdminGetDeviceInput`)
     ///
-    /// - Returns: `AdminGetDeviceOutput` : Gets the device response, as an administrator.
+    /// - Returns: Gets the device response, as an administrator. (Type: `AdminGetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1207,6 +1218,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminGetDeviceOutput>(AdminGetDeviceOutput.httpOutput(from:), AdminGetDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminGetDeviceInput, AdminGetDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminGetDeviceOutput>())
@@ -1245,9 +1257,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminGetUserInput : Represents the request to get the specified user as an administrator.
+    /// - Parameter input: Represents the request to get the specified user as an administrator. (Type: `AdminGetUserInput`)
     ///
-    /// - Returns: `AdminGetUserOutput` : Represents the response from the server from the request to get the specified user as an administrator.
+    /// - Returns: Represents the response from the server from the request to get the specified user as an administrator. (Type: `AdminGetUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,6 +1296,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminGetUserInput, AdminGetUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminGetUserOutput>(AdminGetUserOutput.httpOutput(from:), AdminGetUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminGetUserInput, AdminGetUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminGetUserOutput>())
@@ -1322,9 +1335,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminInitiateAuthInput : Initiates the authorization request, as an administrator.
+    /// - Parameter input: Initiates the authorization request, as an administrator. (Type: `AdminInitiateAuthInput`)
     ///
-    /// - Returns: `AdminInitiateAuthOutput` : Initiates the authentication response, as an administrator.
+    /// - Returns: Initiates the authentication response, as an administrator. (Type: `AdminInitiateAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1372,6 +1385,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminInitiateAuthOutput>(AdminInitiateAuthOutput.httpOutput(from:), AdminInitiateAuthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminInitiateAuthInput, AdminInitiateAuthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminInitiateAuthOutput>())
@@ -1410,9 +1424,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminLinkProviderForUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminLinkProviderForUserInput`)
     ///
-    /// - Returns: `AdminLinkProviderForUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminLinkProviderForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,6 +1465,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminLinkProviderForUserOutput>(AdminLinkProviderForUserOutput.httpOutput(from:), AdminLinkProviderForUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminLinkProviderForUserInput, AdminLinkProviderForUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminLinkProviderForUserOutput>())
@@ -1489,9 +1504,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminListDevicesInput : Represents the request to list devices, as an administrator.
+    /// - Parameter input: Represents the request to list devices, as an administrator. (Type: `AdminListDevicesInput`)
     ///
-    /// - Returns: `AdminListDevicesOutput` : Lists the device's response, as an administrator.
+    /// - Returns: Lists the device's response, as an administrator. (Type: `AdminListDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1528,6 +1543,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminListDevicesInput, AdminListDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminListDevicesOutput>(AdminListDevicesOutput.httpOutput(from:), AdminListDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminListDevicesInput, AdminListDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminListDevicesOutput>())
@@ -1566,9 +1582,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminListGroupsForUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminListGroupsForUserInput`)
     ///
-    /// - Returns: `AdminListGroupsForUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminListGroupsForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1605,6 +1621,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminListGroupsForUserOutput>(AdminListGroupsForUserOutput.httpOutput(from:), AdminListGroupsForUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminListGroupsForUserInput, AdminListGroupsForUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminListGroupsForUserOutput>())
@@ -1643,9 +1660,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminListUserAuthEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminListUserAuthEventsInput`)
     ///
-    /// - Returns: `AdminListUserAuthEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminListUserAuthEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,6 +1700,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminListUserAuthEventsOutput>(AdminListUserAuthEventsOutput.httpOutput(from:), AdminListUserAuthEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminListUserAuthEventsInput, AdminListUserAuthEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminListUserAuthEventsOutput>())
@@ -1721,9 +1739,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminRemoveUserFromGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminRemoveUserFromGroupInput`)
     ///
-    /// - Returns: `AdminRemoveUserFromGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminRemoveUserFromGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1760,6 +1778,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminRemoveUserFromGroupOutput>(AdminRemoveUserFromGroupOutput.httpOutput(from:), AdminRemoveUserFromGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminRemoveUserFromGroupInput, AdminRemoveUserFromGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminRemoveUserFromGroupOutput>())
@@ -1798,9 +1817,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminResetUserPasswordInput : Represents the request to reset a user's password as an administrator.
+    /// - Parameter input: Represents the request to reset a user's password as an administrator. (Type: `AdminResetUserPasswordInput`)
     ///
-    /// - Returns: `AdminResetUserPasswordOutput` : Represents the response from the server to reset a user password as an administrator.
+    /// - Returns: Represents the response from the server to reset a user password as an administrator. (Type: `AdminResetUserPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1844,6 +1863,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminResetUserPasswordOutput>(AdminResetUserPasswordOutput.httpOutput(from:), AdminResetUserPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminResetUserPasswordInput, AdminResetUserPasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminResetUserPasswordOutput>())
@@ -1882,9 +1902,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminRespondToAuthChallengeInput : The request to respond to the authentication challenge, as an administrator.
+    /// - Parameter input: The request to respond to the authentication challenge, as an administrator. (Type: `AdminRespondToAuthChallengeInput`)
     ///
-    /// - Returns: `AdminRespondToAuthChallengeOutput` : Responds to the authentication challenge, as an administrator.
+    /// - Returns: Responds to the authentication challenge, as an administrator. (Type: `AdminRespondToAuthChallengeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1937,6 +1957,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminRespondToAuthChallengeOutput>(AdminRespondToAuthChallengeOutput.httpOutput(from:), AdminRespondToAuthChallengeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminRespondToAuthChallengeInput, AdminRespondToAuthChallengeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminRespondToAuthChallengeOutput>())
@@ -1975,9 +1996,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminSetUserMFAPreferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminSetUserMFAPreferenceInput`)
     ///
-    /// - Returns: `AdminSetUserMFAPreferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminSetUserMFAPreferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2015,6 +2036,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminSetUserMFAPreferenceOutput>(AdminSetUserMFAPreferenceOutput.httpOutput(from:), AdminSetUserMFAPreferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminSetUserMFAPreferenceInput, AdminSetUserMFAPreferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminSetUserMFAPreferenceOutput>())
@@ -2053,9 +2075,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminSetUserPasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminSetUserPasswordInput`)
     ///
-    /// - Returns: `AdminSetUserPasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminSetUserPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2094,6 +2116,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminSetUserPasswordOutput>(AdminSetUserPasswordOutput.httpOutput(from:), AdminSetUserPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminSetUserPasswordInput, AdminSetUserPasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminSetUserPasswordOutput>())
@@ -2132,9 +2155,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminSetUserSettingsInput : You can use this parameter to set an MFA configuration that uses the SMS delivery medium.
+    /// - Parameter input: You can use this parameter to set an MFA configuration that uses the SMS delivery medium. (Type: `AdminSetUserSettingsInput`)
     ///
-    /// - Returns: `AdminSetUserSettingsOutput` : Represents the response from the server to set user settings as an administrator.
+    /// - Returns: Represents the response from the server to set user settings as an administrator. (Type: `AdminSetUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2170,6 +2193,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminSetUserSettingsOutput>(AdminSetUserSettingsOutput.httpOutput(from:), AdminSetUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminSetUserSettingsInput, AdminSetUserSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminSetUserSettingsOutput>())
@@ -2208,9 +2232,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminUpdateAuthEventFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdminUpdateAuthEventFeedbackInput`)
     ///
-    /// - Returns: `AdminUpdateAuthEventFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdminUpdateAuthEventFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2248,6 +2272,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminUpdateAuthEventFeedbackOutput>(AdminUpdateAuthEventFeedbackOutput.httpOutput(from:), AdminUpdateAuthEventFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminUpdateAuthEventFeedbackInput, AdminUpdateAuthEventFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminUpdateAuthEventFeedbackOutput>())
@@ -2286,9 +2311,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminUpdateDeviceStatusInput : The request to update the device status, as an administrator.
+    /// - Parameter input: The request to update the device status, as an administrator. (Type: `AdminUpdateDeviceStatusInput`)
     ///
-    /// - Returns: `AdminUpdateDeviceStatusOutput` : The status response to the request to update the device, as an administrator.
+    /// - Returns: The status response to the request to update the device, as an administrator. (Type: `AdminUpdateDeviceStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2326,6 +2351,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminUpdateDeviceStatusOutput>(AdminUpdateDeviceStatusOutput.httpOutput(from:), AdminUpdateDeviceStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminUpdateDeviceStatusInput, AdminUpdateDeviceStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminUpdateDeviceStatusOutput>())
@@ -2367,9 +2393,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
-    /// - Parameter AdminUpdateUserAttributesInput : Represents the request to update the user's attributes as an administrator.
+    /// - Parameter input: Represents the request to update the user's attributes as an administrator. (Type: `AdminUpdateUserAttributesInput`)
     ///
-    /// - Returns: `AdminUpdateUserAttributesOutput` : Represents the response from the server for the request to update user attributes as an administrator.
+    /// - Returns: Represents the response from the server for the request to update user attributes as an administrator. (Type: `AdminUpdateUserAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2413,6 +2439,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminUpdateUserAttributesOutput>(AdminUpdateUserAttributesOutput.httpOutput(from:), AdminUpdateUserAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminUpdateUserAttributesInput, AdminUpdateUserAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminUpdateUserAttributesOutput>())
@@ -2460,9 +2487,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter AdminUserGlobalSignOutInput : The request to sign out of all devices, as an administrator.
+    /// - Parameter input: The request to sign out of all devices, as an administrator. (Type: `AdminUserGlobalSignOutInput`)
     ///
-    /// - Returns: `AdminUserGlobalSignOutOutput` : The global sign-out response, as an administrator.
+    /// - Returns: The global sign-out response, as an administrator. (Type: `AdminUserGlobalSignOutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2499,6 +2526,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdminUserGlobalSignOutOutput>(AdminUserGlobalSignOutOutput.httpOutput(from:), AdminUserGlobalSignOutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdminUserGlobalSignOutInput, AdminUserGlobalSignOutOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdminUserGlobalSignOutOutput>())
@@ -2533,9 +2561,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Begins setup of time-based one-time password (TOTP) multi-factor authentication (MFA) for a user, with a unique private key that Amazon Cognito generates and returns in the API response. You can authorize an AssociateSoftwareToken request with either the user's access token, or a session string from a challenge response that you received from Amazon Cognito. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.
     ///
-    /// - Parameter AssociateSoftwareTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSoftwareTokenInput`)
     ///
-    /// - Returns: `AssociateSoftwareTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSoftwareTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2571,6 +2599,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSoftwareTokenOutput>(AssociateSoftwareTokenOutput.httpOutput(from:), AssociateSoftwareTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSoftwareTokenInput, AssociateSoftwareTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSoftwareTokenOutput>())
@@ -2605,9 +2634,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Changes the password for the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter ChangePasswordInput : Represents the request to change a user password.
+    /// - Parameter input: Represents the request to change a user password. (Type: `ChangePasswordInput`)
     ///
-    /// - Returns: `ChangePasswordOutput` : The response from the server to the change password request.
+    /// - Returns: The response from the server to the change password request. (Type: `ChangePasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2648,6 +2677,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangePasswordInput, ChangePasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangePasswordOutput>(ChangePasswordOutput.httpOutput(from:), ChangePasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangePasswordInput, ChangePasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangePasswordOutput>())
@@ -2682,9 +2712,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Completes registration of a passkey authenticator for the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.
     ///
-    /// - Parameter CompleteWebAuthnRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteWebAuthnRegistrationInput`)
     ///
-    /// - Returns: `CompleteWebAuthnRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteWebAuthnRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2725,6 +2755,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteWebAuthnRegistrationOutput>(CompleteWebAuthnRegistrationOutput.httpOutput(from:), CompleteWebAuthnRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteWebAuthnRegistrationInput, CompleteWebAuthnRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteWebAuthnRegistrationOutput>())
@@ -2759,9 +2790,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Confirms a device that a user wants to remember. A remembered device is a "Remember me on this device" option for user pools that perform authentication with the device key of a trusted device in the back end, instead of a user-provided MFA code. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter ConfirmDeviceInput : The confirm-device request.
+    /// - Parameter input: The confirm-device request. (Type: `ConfirmDeviceInput`)
     ///
-    /// - Returns: `ConfirmDeviceOutput` : The confirm-device response.
+    /// - Returns: The confirm-device response. (Type: `ConfirmDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2804,6 +2835,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmDeviceOutput>(ConfirmDeviceOutput.httpOutput(from:), ConfirmDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmDeviceInput, ConfirmDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmDeviceOutput>())
@@ -2838,9 +2870,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// This public API operation accepts a confirmation code that Amazon Cognito sent to a user and accepts a new password for that user. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter ConfirmForgotPasswordInput : The request representing the confirmation for a password reset.
+    /// - Parameter input: The request representing the confirmation for a password reset. (Type: `ConfirmForgotPasswordInput`)
     ///
-    /// - Returns: `ConfirmForgotPasswordOutput` : The response from the server that results from a user's request to retrieve a forgotten password.
+    /// - Returns: The response from the server that results from a user's request to retrieve a forgotten password. (Type: `ConfirmForgotPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2886,6 +2918,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmForgotPasswordOutput>(ConfirmForgotPasswordOutput.httpOutput(from:), ConfirmForgotPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmForgotPasswordInput, ConfirmForgotPasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmForgotPasswordOutput>())
@@ -2920,9 +2953,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Confirms the account of a new user. This public API operation submits a code that Amazon Cognito sent to your user when they signed up in your user pool. After your user enters their code, they confirm ownership of the email address or phone number that they provided, and their user account becomes active. Depending on your user pool configuration, your users will receive their confirmation code in an email or SMS message. Local users who signed up in your user pool are the only type of user who can confirm sign-up with a code. Users who federate through an external identity provider (IdP) have already been confirmed by their IdP. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter ConfirmSignUpInput : Represents the request to confirm registration of a user.
+    /// - Parameter input: Represents the request to confirm registration of a user. (Type: `ConfirmSignUpInput`)
     ///
-    /// - Returns: `ConfirmSignUpOutput` : Represents the response from the server for the registration confirmation.
+    /// - Returns: Represents the response from the server for the registration confirmation. (Type: `ConfirmSignUpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2966,6 +2999,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfirmSignUpOutput>(ConfirmSignUpOutput.httpOutput(from:), ConfirmSignUpOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfirmSignUpInput, ConfirmSignUpOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfirmSignUpOutput>())
@@ -3004,9 +3038,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupInput`)
     ///
-    /// - Returns: `CreateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3044,6 +3078,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupInput, CreateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupOutput>(CreateGroupOutput.httpOutput(from:), CreateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupInput, CreateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupOutput>())
@@ -3082,9 +3117,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdentityProviderInput`)
     ///
-    /// - Returns: `CreateIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3122,6 +3157,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdentityProviderOutput>(CreateIdentityProviderOutput.httpOutput(from:), CreateIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdentityProviderInput, CreateIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdentityProviderOutput>())
@@ -3160,9 +3196,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateManagedLoginBrandingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateManagedLoginBrandingInput`)
     ///
-    /// - Returns: `CreateManagedLoginBrandingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateManagedLoginBrandingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3201,6 +3237,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateManagedLoginBrandingOutput>(CreateManagedLoginBrandingOutput.httpOutput(from:), CreateManagedLoginBrandingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateManagedLoginBrandingInput, CreateManagedLoginBrandingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateManagedLoginBrandingOutput>())
@@ -3239,9 +3276,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateResourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceServerInput`)
     ///
-    /// - Returns: `CreateResourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3278,6 +3315,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceServerInput, CreateResourceServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceServerOutput>(CreateResourceServerOutput.httpOutput(from:), CreateResourceServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceServerInput, CreateResourceServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceServerOutput>())
@@ -3316,9 +3354,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTermsInput`)
     ///
-    /// - Returns: `CreateTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3357,6 +3395,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTermsInput, CreateTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTermsOutput>(CreateTermsOutput.httpOutput(from:), CreateTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTermsInput, CreateTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTermsOutput>())
@@ -3395,9 +3434,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateUserImportJobInput : Represents the request to create the user import job.
+    /// - Parameter input: Represents the request to create the user import job. (Type: `CreateUserImportJobInput`)
     ///
-    /// - Returns: `CreateUserImportJobOutput` : Represents the response from the server to the request to create the user import job.
+    /// - Returns: Represents the response from the server to the request to create the user import job. (Type: `CreateUserImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3435,6 +3474,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserImportJobOutput>(CreateUserImportJobOutput.httpOutput(from:), CreateUserImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserImportJobInput, CreateUserImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserImportJobOutput>())
@@ -3473,9 +3513,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateUserPoolInput : Represents the request to create a user pool.
+    /// - Parameter input: Represents the request to create a user pool. (Type: `CreateUserPoolInput`)
     ///
-    /// - Returns: `CreateUserPoolOutput` : Represents the response from the server for the request to create a user pool.
+    /// - Returns: Represents the response from the server for the request to create a user pool. (Type: `CreateUserPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3517,6 +3557,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserPoolInput, CreateUserPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserPoolOutput>(CreateUserPoolOutput.httpOutput(from:), CreateUserPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserPoolInput, CreateUserPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserPoolOutput>())
@@ -3555,9 +3596,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateUserPoolClientInput : Represents the request to create a user pool client.
+    /// - Parameter input: Represents the request to create a user pool client. (Type: `CreateUserPoolClientInput`)
     ///
-    /// - Returns: `CreateUserPoolClientOutput` : Represents the response from the server to create a user pool client.
+    /// - Returns: Represents the response from the server to create a user pool client. (Type: `CreateUserPoolClientOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3597,6 +3638,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserPoolClientOutput>(CreateUserPoolClientOutput.httpOutput(from:), CreateUserPoolClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserPoolClientInput, CreateUserPoolClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserPoolClientOutput>())
@@ -3635,9 +3677,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter CreateUserPoolDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserPoolDomainInput`)
     ///
-    /// - Returns: `CreateUserPoolDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserPoolDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,6 +3717,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserPoolDomainOutput>(CreateUserPoolDomainOutput.httpOutput(from:), CreateUserPoolDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserPoolDomainInput, CreateUserPoolDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserPoolDomainOutput>())
@@ -3713,9 +3756,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DeleteGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGroupInput`)
     ///
-    /// - Returns: `DeleteGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3751,6 +3794,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGroupInput, DeleteGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGroupOutput>(DeleteGroupOutput.httpOutput(from:), DeleteGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGroupInput, DeleteGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGroupOutput>())
@@ -3789,9 +3833,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DeleteIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdentityProviderInput`)
     ///
-    /// - Returns: `DeleteIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3829,6 +3873,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdentityProviderOutput>(DeleteIdentityProviderOutput.httpOutput(from:), DeleteIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentityProviderInput, DeleteIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentityProviderOutput>())
@@ -3867,9 +3912,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DeleteManagedLoginBrandingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteManagedLoginBrandingInput`)
     ///
-    /// - Returns: `DeleteManagedLoginBrandingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteManagedLoginBrandingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3906,6 +3951,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteManagedLoginBrandingOutput>(DeleteManagedLoginBrandingOutput.httpOutput(from:), DeleteManagedLoginBrandingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteManagedLoginBrandingInput, DeleteManagedLoginBrandingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteManagedLoginBrandingOutput>())
@@ -3944,9 +3990,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DeleteResourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceServerInput`)
     ///
-    /// - Returns: `DeleteResourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3982,6 +4028,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceServerOutput>(DeleteResourceServerOutput.httpOutput(from:), DeleteResourceServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceServerInput, DeleteResourceServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceServerOutput>())
@@ -4020,9 +4067,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DeleteTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTermsInput`)
     ///
-    /// - Returns: `DeleteTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4059,6 +4106,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTermsInput, DeleteTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTermsOutput>(DeleteTermsOutput.httpOutput(from:), DeleteTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTermsInput, DeleteTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTermsOutput>())
@@ -4093,9 +4141,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Deletes the profile of the currently signed-in user. A deleted user profile can no longer be used to sign in and can't be restored. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter DeleteUserInput : Represents the request to delete a user.
+    /// - Parameter input: Represents the request to delete a user. (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4133,6 +4181,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -4167,9 +4216,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Deletes attributes from the currently signed-in user. For example, your application can submit a request to this operation when a user wants to remove their birthdate attribute value. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter DeleteUserAttributesInput : Represents the request to delete user attributes.
+    /// - Parameter input: Represents the request to delete user attributes. (Type: `DeleteUserAttributesInput`)
     ///
-    /// - Returns: `DeleteUserAttributesOutput` : Represents the response from the server to delete user attributes.
+    /// - Returns: Represents the response from the server to delete user attributes. (Type: `DeleteUserAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4207,6 +4256,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserAttributesOutput>(DeleteUserAttributesOutput.httpOutput(from:), DeleteUserAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserAttributesInput, DeleteUserAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserAttributesOutput>())
@@ -4241,9 +4291,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Deletes a user pool. After you delete a user pool, users can no longer sign in to any associated applications. When you delete a user pool, it's no longer visible or operational in your Amazon Web Services account. Amazon Cognito retains deleted user pools in an inactive state for 14 days, then begins a cleanup process that fully removes them from Amazon Web Services systems. In case of accidental deletion, contact Amazon Web ServicesSupport within 14 days for restoration assistance. Amazon Cognito begins full deletion of all resources from deleted user pools after 14 days. In the case of large user pools, the cleanup process might take significant additional time before all user data is permanently deleted.
     ///
-    /// - Parameter DeleteUserPoolInput : Represents the request to delete a user pool.
+    /// - Parameter input: Represents the request to delete a user pool. (Type: `DeleteUserPoolInput`)
     ///
-    /// - Returns: `DeleteUserPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4280,6 +4330,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserPoolOutput>(DeleteUserPoolOutput.httpOutput(from:), DeleteUserPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolInput, DeleteUserPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolOutput>())
@@ -4314,9 +4365,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Deletes a user pool app client. After you delete an app client, users can no longer sign in to the associated application.
     ///
-    /// - Parameter DeleteUserPoolClientInput : Represents the request to delete a user pool client.
+    /// - Parameter input: Represents the request to delete a user pool client. (Type: `DeleteUserPoolClientInput`)
     ///
-    /// - Returns: `DeleteUserPoolClientOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserPoolClientOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4353,6 +4404,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserPoolClientOutput>(DeleteUserPoolClientOutput.httpOutput(from:), DeleteUserPoolClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolClientInput, DeleteUserPoolClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolClientOutput>())
@@ -4387,9 +4439,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given a user pool ID and domain identifier, deletes a user pool domain. After you delete a user pool domain, your managed login pages and authorization server are no longer available.
     ///
-    /// - Parameter DeleteUserPoolDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserPoolDomainInput`)
     ///
-    /// - Returns: `DeleteUserPoolDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserPoolDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4425,6 +4477,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserPoolDomainOutput>(DeleteUserPoolDomainOutput.httpOutput(from:), DeleteUserPoolDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserPoolDomainInput, DeleteUserPoolDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserPoolDomainOutput>())
@@ -4459,9 +4512,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Deletes a registered passkey, or WebAuthn, authenticator for the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter DeleteWebAuthnCredentialInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWebAuthnCredentialInput`)
     ///
-    /// - Returns: `DeleteWebAuthnCredentialOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWebAuthnCredentialOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4497,6 +4550,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWebAuthnCredentialOutput>(DeleteWebAuthnCredentialOutput.httpOutput(from:), DeleteWebAuthnCredentialOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWebAuthnCredentialInput, DeleteWebAuthnCredentialOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWebAuthnCredentialOutput>())
@@ -4531,9 +4585,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given a user pool ID and identity provider (IdP) name, returns details about the IdP.
     ///
-    /// - Parameter DescribeIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIdentityProviderInput`)
     ///
-    /// - Returns: `DescribeIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4569,6 +4623,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdentityProviderOutput>(DescribeIdentityProviderOutput.httpOutput(from:), DescribeIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityProviderInput, DescribeIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityProviderOutput>())
@@ -4603,9 +4658,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given the ID of a managed login branding style, returns detailed information about the style.
     ///
-    /// - Parameter DescribeManagedLoginBrandingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeManagedLoginBrandingInput`)
     ///
-    /// - Returns: `DescribeManagedLoginBrandingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeManagedLoginBrandingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4641,6 +4696,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeManagedLoginBrandingOutput>(DescribeManagedLoginBrandingOutput.httpOutput(from:), DescribeManagedLoginBrandingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedLoginBrandingInput, DescribeManagedLoginBrandingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedLoginBrandingOutput>())
@@ -4675,9 +4731,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given the ID of a user pool app client, returns detailed information about the style assigned to the app client.
     ///
-    /// - Parameter DescribeManagedLoginBrandingByClientInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeManagedLoginBrandingByClientInput`)
     ///
-    /// - Returns: `DescribeManagedLoginBrandingByClientOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeManagedLoginBrandingByClientOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4713,6 +4769,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeManagedLoginBrandingByClientOutput>(DescribeManagedLoginBrandingByClientOutput.httpOutput(from:), DescribeManagedLoginBrandingByClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedLoginBrandingByClientInput, DescribeManagedLoginBrandingByClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedLoginBrandingByClientOutput>())
@@ -4747,9 +4804,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Describes a resource server. For more information about resource servers, see [Access control with resource servers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-define-resource-servers.html).
     ///
-    /// - Parameter DescribeResourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourceServerInput`)
     ///
-    /// - Returns: `DescribeResourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4785,6 +4842,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourceServerOutput>(DescribeResourceServerOutput.httpOutput(from:), DescribeResourceServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourceServerInput, DescribeResourceServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourceServerOutput>())
@@ -4819,9 +4877,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given an app client or user pool ID where threat protection is configured, describes the risk configuration. This operation returns details about adaptive authentication, compromised credentials, and IP-address allow- and denylists. For more information about threat protection, see [Threat protection](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-threat-protection.html).
     ///
-    /// - Parameter DescribeRiskConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRiskConfigurationInput`)
     ///
-    /// - Returns: `DescribeRiskConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRiskConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4858,6 +4916,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRiskConfigurationOutput>(DescribeRiskConfigurationOutput.httpOutput(from:), DescribeRiskConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRiskConfigurationInput, DescribeRiskConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRiskConfigurationOutput>())
@@ -4896,9 +4955,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DescribeTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTermsInput`)
     ///
-    /// - Returns: `DescribeTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4934,6 +4993,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTermsInput, DescribeTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTermsOutput>(DescribeTermsOutput.httpOutput(from:), DescribeTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTermsInput, DescribeTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTermsOutput>())
@@ -4968,9 +5028,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Describes a user import job. For more information about user CSV import, see [Importing users from a CSV file](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-using-import-tool.html).
     ///
-    /// - Parameter DescribeUserImportJobInput : Represents the request to describe the user import job.
+    /// - Parameter input: Represents the request to describe the user import job. (Type: `DescribeUserImportJobInput`)
     ///
-    /// - Returns: `DescribeUserImportJobOutput` : Represents the response from the server to the request to describe the user import job.
+    /// - Returns: Represents the response from the server to the request to describe the user import job. (Type: `DescribeUserImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5006,6 +5066,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserImportJobOutput>(DescribeUserImportJobOutput.httpOutput(from:), DescribeUserImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserImportJobInput, DescribeUserImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserImportJobOutput>())
@@ -5044,9 +5105,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DescribeUserPoolInput : Represents the request to describe the user pool.
+    /// - Parameter input: Represents the request to describe the user pool. (Type: `DescribeUserPoolInput`)
     ///
-    /// - Returns: `DescribeUserPoolOutput` : Represents the response to describe the user pool.
+    /// - Returns: Represents the response to describe the user pool. (Type: `DescribeUserPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5083,6 +5144,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserPoolOutput>(DescribeUserPoolOutput.httpOutput(from:), DescribeUserPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserPoolInput, DescribeUserPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserPoolOutput>())
@@ -5121,9 +5183,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DescribeUserPoolClientInput : Represents the request to describe a user pool client.
+    /// - Parameter input: Represents the request to describe a user pool client. (Type: `DescribeUserPoolClientInput`)
     ///
-    /// - Returns: `DescribeUserPoolClientOutput` : Represents the response from the server from a request to describe the user pool client.
+    /// - Returns: Represents the response from the server from a request to describe the user pool client. (Type: `DescribeUserPoolClientOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5159,6 +5221,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserPoolClientOutput>(DescribeUserPoolClientOutput.httpOutput(from:), DescribeUserPoolClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserPoolClientInput, DescribeUserPoolClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserPoolClientOutput>())
@@ -5197,9 +5260,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter DescribeUserPoolDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserPoolDomainInput`)
     ///
-    /// - Returns: `DescribeUserPoolDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserPoolDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5234,6 +5297,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserPoolDomainOutput>(DescribeUserPoolDomainOutput.httpOutput(from:), DescribeUserPoolDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserPoolDomainInput, DescribeUserPoolDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserPoolDomainOutput>())
@@ -5268,9 +5332,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given a device key, deletes a remembered device as the currently signed-in user. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter ForgetDeviceInput : Represents the request to forget the device.
+    /// - Parameter input: Represents the request to forget the device. (Type: `ForgetDeviceInput`)
     ///
-    /// - Returns: `ForgetDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ForgetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5309,6 +5373,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ForgetDeviceInput, ForgetDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ForgetDeviceOutput>(ForgetDeviceOutput.httpOutput(from:), ForgetDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ForgetDeviceInput, ForgetDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ForgetDeviceOutput>())
@@ -5343,9 +5408,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Sends a password-reset confirmation code to the email address or phone number of the requested username. The message delivery method is determined by the user's available attributes and the AccountRecoverySetting configuration of the user pool. For the Username parameter, you can use the username or an email, phone, or preferred username alias. If neither a verified phone number nor a verified email exists, Amazon Cognito responds with an InvalidParameterException error . If your app client has a client secret and you don't provide a SECRET_HASH parameter, this API returns NotAuthorizedException. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
-    /// - Parameter ForgotPasswordInput : Represents the request to reset a user's password.
+    /// - Parameter input: Represents the request to reset a user's password. (Type: `ForgotPasswordInput`)
     ///
-    /// - Returns: `ForgotPasswordOutput` : The response from Amazon Cognito to a request to reset a password.
+    /// - Returns: The response from Amazon Cognito to a request to reset a password. (Type: `ForgotPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5389,6 +5454,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ForgotPasswordInput, ForgotPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ForgotPasswordOutput>(ForgotPasswordOutput.httpOutput(from:), ForgotPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ForgotPasswordInput, ForgotPasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ForgotPasswordOutput>())
@@ -5427,9 +5493,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter GetCSVHeaderInput : Represents the request to get the header information of the CSV file for the user import job.
+    /// - Parameter input: Represents the request to get the header information of the CSV file for the user import job. (Type: `GetCSVHeaderInput`)
     ///
-    /// - Returns: `GetCSVHeaderOutput` : Represents the response from the server to the request to get the header information of the CSV file for the user import job.
+    /// - Returns: Represents the response from the server to the request to get the header information of the CSV file for the user import job. (Type: `GetCSVHeaderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5465,6 +5531,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCSVHeaderOutput>(GetCSVHeaderOutput.httpOutput(from:), GetCSVHeaderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCSVHeaderInput, GetCSVHeaderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCSVHeaderOutput>())
@@ -5499,9 +5566,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given a device key, returns information about a remembered device for the current user. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter GetDeviceInput : Represents the request to get the device.
+    /// - Parameter input: Represents the request to get the device. (Type: `GetDeviceInput`)
     ///
-    /// - Returns: `GetDeviceOutput` : Gets the device response.
+    /// - Returns: Gets the device response. (Type: `GetDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5540,6 +5607,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeviceInput, GetDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceOutput>(GetDeviceOutput.httpOutput(from:), GetDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceInput, GetDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceOutput>())
@@ -5578,9 +5646,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter GetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupInput`)
     ///
-    /// - Returns: `GetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5616,6 +5684,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGroupInput, GetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupOutput>(GetGroupOutput.httpOutput(from:), GetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupInput, GetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupOutput>())
@@ -5650,9 +5719,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given the identifier of an identity provider (IdP), for example examplecorp, returns information about the user pool configuration for that IdP. For more information about IdPs, see [Third-party IdP sign-in](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-identity-federation.html).
     ///
-    /// - Parameter GetIdentityProviderByIdentifierInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdentityProviderByIdentifierInput`)
     ///
-    /// - Returns: `GetIdentityProviderByIdentifierOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdentityProviderByIdentifierOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5688,6 +5757,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityProviderByIdentifierOutput>(GetIdentityProviderByIdentifierOutput.httpOutput(from:), GetIdentityProviderByIdentifierOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityProviderByIdentifierInput, GetIdentityProviderByIdentifierOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityProviderByIdentifierOutput>())
@@ -5726,9 +5796,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter GetLogDeliveryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLogDeliveryConfigurationInput`)
     ///
-    /// - Returns: `GetLogDeliveryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLogDeliveryConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5764,6 +5834,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogDeliveryConfigurationOutput>(GetLogDeliveryConfigurationOutput.httpOutput(from:), GetLogDeliveryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogDeliveryConfigurationInput, GetLogDeliveryConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogDeliveryConfigurationOutput>())
@@ -5802,9 +5873,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter GetSigningCertificateInput : Request to get a signing certificate from Amazon Cognito.
+    /// - Parameter input: Request to get a signing certificate from Amazon Cognito. (Type: `GetSigningCertificateInput`)
     ///
-    /// - Returns: `GetSigningCertificateOutput` : Response from Amazon Cognito for a signing certificate request.
+    /// - Returns: Response from Amazon Cognito for a signing certificate request. (Type: `GetSigningCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5838,6 +5909,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSigningCertificateOutput>(GetSigningCertificateOutput.httpOutput(from:), GetSigningCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSigningCertificateInput, GetSigningCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSigningCertificateOutput>())
@@ -5872,9 +5944,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given a refresh token, issues new ID, access, and optionally refresh tokens for the user who owns the submitted token. This operation issues a new refresh token and invalidates the original refresh token after an optional grace period when refresh token rotation is enabled. If refresh token rotation is disabled, issues new ID and access tokens only.
     ///
-    /// - Parameter GetTokensFromRefreshTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTokensFromRefreshTokenInput`)
     ///
-    /// - Returns: `GetTokensFromRefreshTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTokensFromRefreshTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5914,6 +5986,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTokensFromRefreshTokenOutput>(GetTokensFromRefreshTokenOutput.httpOutput(from:), GetTokensFromRefreshTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTokensFromRefreshTokenInput, GetTokensFromRefreshTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTokensFromRefreshTokenOutput>())
@@ -5948,9 +6021,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given a user pool ID or app client, returns information about classic hosted UI branding that you applied, if any. Returns user-pool level branding information if no app client branding is applied, or if you don't specify an app client ID. Returns an empty object if you haven't applied hosted UI branding to either the client or the user pool. For more information, see [Hosted UI (classic) branding](https://docs.aws.amazon.com/cognito/latest/developerguide/hosted-ui-classic-branding.html).
     ///
-    /// - Parameter GetUICustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUICustomizationInput`)
     ///
-    /// - Returns: `GetUICustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUICustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5986,6 +6059,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUICustomizationInput, GetUICustomizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUICustomizationOutput>(GetUICustomizationOutput.httpOutput(from:), GetUICustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUICustomizationInput, GetUICustomizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUICustomizationOutput>())
@@ -6020,9 +6094,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Gets user attributes and and MFA settings for the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter GetUserInput : Represents the request to get information about the user.
+    /// - Parameter input: Represents the request to get information about the user. (Type: `GetUserInput`)
     ///
-    /// - Returns: `GetUserOutput` : Represents the response from the server from the request to get information about the user.
+    /// - Returns: Represents the response from the server from the request to get information about the user. (Type: `GetUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6060,6 +6134,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserInput, GetUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserOutput>(GetUserOutput.httpOutput(from:), GetUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserInput, GetUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserOutput>())
@@ -6094,9 +6169,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given an attribute name, sends a user attribute verification code for the specified attribute name to the currently signed-in user. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
-    /// - Parameter GetUserAttributeVerificationCodeInput : Represents the request to get user attribute verification.
+    /// - Parameter input: Represents the request to get user attribute verification. (Type: `GetUserAttributeVerificationCodeInput`)
     ///
-    /// - Returns: `GetUserAttributeVerificationCodeOutput` : The verification code response returned by the server response to get the user attribute verification code.
+    /// - Returns: The verification code response returned by the server response to get the user attribute verification code. (Type: `GetUserAttributeVerificationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6142,6 +6217,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserAttributeVerificationCodeOutput>(GetUserAttributeVerificationCodeOutput.httpOutput(from:), GetUserAttributeVerificationCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserAttributeVerificationCodeInput, GetUserAttributeVerificationCodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserAttributeVerificationCodeOutput>())
@@ -6183,9 +6259,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter GetUserAuthFactorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserAuthFactorsInput`)
     ///
-    /// - Returns: `GetUserAuthFactorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserAuthFactorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6223,6 +6299,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserAuthFactorsOutput>(GetUserAuthFactorsOutput.httpOutput(from:), GetUserAuthFactorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserAuthFactorsInput, GetUserAuthFactorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserAuthFactorsOutput>())
@@ -6272,9 +6349,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter GetUserPoolMfaConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserPoolMfaConfigInput`)
     ///
-    /// - Returns: `GetUserPoolMfaConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserPoolMfaConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6310,6 +6387,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserPoolMfaConfigOutput>(GetUserPoolMfaConfigOutput.httpOutput(from:), GetUserPoolMfaConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserPoolMfaConfigInput, GetUserPoolMfaConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserPoolMfaConfigOutput>())
@@ -6353,9 +6431,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Other requests might be valid until your user's token expires. This operation doesn't clear the [managed login](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-managed-login.html) session cookie. To clear the session for a user who signed in with managed login or the classic hosted UI, direct their browser session to the [logout endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/logout-endpoint.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter GlobalSignOutInput : Represents the request to sign out all devices.
+    /// - Parameter input: Represents the request to sign out all devices. (Type: `GlobalSignOutInput`)
     ///
-    /// - Returns: `GlobalSignOutOutput` : The response to the request to sign out all devices.
+    /// - Returns: The response to the request to sign out all devices. (Type: `GlobalSignOutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6392,6 +6470,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GlobalSignOutInput, GlobalSignOutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GlobalSignOutOutput>(GlobalSignOutOutput.httpOutput(from:), GlobalSignOutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GlobalSignOutInput, GlobalSignOutOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GlobalSignOutOutput>())
@@ -6426,9 +6505,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Declares an authentication flow and initiates sign-in for a user in the Amazon Cognito user directory. Amazon Cognito might respond with an additional challenge or an AuthenticationResult that contains the outcome of a successful authentication. You can't sign in a user with a federated IdP with InitiateAuth. For more information, see [Authentication](https://docs.aws.amazon.com/cognito/latest/developerguide/authentication.html). Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
-    /// - Parameter InitiateAuthInput : Initiates the authentication request.
+    /// - Parameter input: Initiates the authentication request. (Type: `InitiateAuthInput`)
     ///
-    /// - Returns: `InitiateAuthOutput` : Initiates the authentication response.
+    /// - Returns: Initiates the authentication response. (Type: `InitiateAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6474,6 +6553,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InitiateAuthInput, InitiateAuthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitiateAuthOutput>(InitiateAuthOutput.httpOutput(from:), InitiateAuthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitiateAuthInput, InitiateAuthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitiateAuthOutput>())
@@ -6508,9 +6588,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Lists the devices that Amazon Cognito has registered to the currently signed-in user. For more information about device authentication, see [Working with user devices in your user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter ListDevicesInput : Represents the request to list the devices.
+    /// - Parameter input: Represents the request to list the devices. (Type: `ListDevicesInput`)
     ///
-    /// - Returns: `ListDevicesOutput` : Represents the response to list devices.
+    /// - Returns: Represents the response to list devices. (Type: `ListDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6549,6 +6629,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDevicesInput, ListDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesOutput>(ListDevicesOutput.httpOutput(from:), ListDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesInput, ListDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesOutput>())
@@ -6587,9 +6668,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGroupsInput`)
     ///
-    /// - Returns: `ListGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6625,6 +6706,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGroupsInput, ListGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGroupsOutput>(ListGroupsOutput.httpOutput(from:), ListGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGroupsInput, ListGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGroupsOutput>())
@@ -6663,9 +6745,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListIdentityProvidersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityProvidersInput`)
     ///
-    /// - Returns: `ListIdentityProvidersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityProvidersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6701,6 +6783,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityProvidersOutput>(ListIdentityProvidersOutput.httpOutput(from:), ListIdentityProvidersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityProvidersInput, ListIdentityProvidersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityProvidersOutput>())
@@ -6739,9 +6822,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListResourceServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceServersInput`)
     ///
-    /// - Returns: `ListResourceServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6777,6 +6860,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceServersInput, ListResourceServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceServersOutput>(ListResourceServersOutput.httpOutput(from:), ListResourceServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceServersInput, ListResourceServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceServersOutput>())
@@ -6811,9 +6895,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Lists the tags that are assigned to an Amazon Cognito user pool. For more information, see [Tagging resources](https://docs.aws.amazon.com/cognito/latest/developerguide/tagging.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6849,6 +6933,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -6887,9 +6972,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTermsInput`)
     ///
-    /// - Returns: `ListTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6925,6 +7010,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTermsInput, ListTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTermsOutput>(ListTermsOutput.httpOutput(from:), ListTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTermsInput, ListTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTermsOutput>())
@@ -6963,9 +7049,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListUserImportJobsInput : Represents the request to list the user import jobs.
+    /// - Parameter input: Represents the request to list the user import jobs. (Type: `ListUserImportJobsInput`)
     ///
-    /// - Returns: `ListUserImportJobsOutput` : Represents the response from the server to the request to list the user import jobs.
+    /// - Returns: Represents the response from the server to the request to list the user import jobs. (Type: `ListUserImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7001,6 +7087,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserImportJobsOutput>(ListUserImportJobsOutput.httpOutput(from:), ListUserImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserImportJobsInput, ListUserImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserImportJobsOutput>())
@@ -7039,9 +7126,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListUserPoolClientsInput : Represents the request to list the user pool clients.
+    /// - Parameter input: Represents the request to list the user pool clients. (Type: `ListUserPoolClientsInput`)
     ///
-    /// - Returns: `ListUserPoolClientsOutput` : Represents the response from the server that lists user pool clients.
+    /// - Returns: Represents the response from the server that lists user pool clients. (Type: `ListUserPoolClientsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7077,6 +7164,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserPoolClientsOutput>(ListUserPoolClientsOutput.httpOutput(from:), ListUserPoolClientsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserPoolClientsInput, ListUserPoolClientsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserPoolClientsOutput>())
@@ -7115,9 +7203,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListUserPoolsInput : Represents the request to list user pools.
+    /// - Parameter input: Represents the request to list user pools. (Type: `ListUserPoolsInput`)
     ///
-    /// - Returns: `ListUserPoolsOutput` : Represents the response to list user pools.
+    /// - Returns: Represents the response to list user pools. (Type: `ListUserPoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7152,6 +7240,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUserPoolsInput, ListUserPoolsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUserPoolsOutput>(ListUserPoolsOutput.httpOutput(from:), ListUserPoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUserPoolsInput, ListUserPoolsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUserPoolsOutput>())
@@ -7190,9 +7279,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListUsersInput : Represents the request to list users.
+    /// - Parameter input: Represents the request to list users. (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : The response from the request to list users.
+    /// - Returns: The response from the request to list users. (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7228,6 +7317,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInput, ListUsersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -7266,9 +7356,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter ListUsersInGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInGroupInput`)
     ///
-    /// - Returns: `ListUsersInGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersInGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7304,6 +7394,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersInGroupOutput>(ListUsersInGroupOutput.httpOutput(from:), ListUsersInGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInGroupInput, ListUsersInGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersInGroupOutput>())
@@ -7338,9 +7429,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Generates a list of the currently signed-in user's registered passkey, or WebAuthn, credentials. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter ListWebAuthnCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWebAuthnCredentialsInput`)
     ///
-    /// - Returns: `ListWebAuthnCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWebAuthnCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7375,6 +7466,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWebAuthnCredentialsOutput>(ListWebAuthnCredentialsOutput.httpOutput(from:), ListWebAuthnCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWebAuthnCredentialsInput, ListWebAuthnCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWebAuthnCredentialsOutput>())
@@ -7409,9 +7501,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Resends the code that confirms a new account for a user who has signed up in your user pool. Amazon Cognito sends confirmation codes to the user attribute in the AutoVerifiedAttributes property of your user pool. When you prompt new users for the confirmation code, include a "Resend code" option that generates a call to this API operation. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
-    /// - Parameter ResendConfirmationCodeInput : Represents the request to resend the confirmation code.
+    /// - Parameter input: Represents the request to resend the confirmation code. (Type: `ResendConfirmationCodeInput`)
     ///
-    /// - Returns: `ResendConfirmationCodeOutput` : The response from the server when Amazon Cognito makes the request to resend a confirmation code.
+    /// - Returns: The response from the server when Amazon Cognito makes the request to resend a confirmation code. (Type: `ResendConfirmationCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7455,6 +7547,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResendConfirmationCodeOutput>(ResendConfirmationCodeOutput.httpOutput(from:), ResendConfirmationCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResendConfirmationCodeInput, ResendConfirmationCodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResendConfirmationCodeOutput>())
@@ -7489,9 +7582,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Some API operations in a user pool generate a challenge, like a prompt for an MFA code, for device authentication that bypasses MFA, or for a custom authentication challenge. A RespondToAuthChallenge API request provides the answer to that challenge, like a code or a secure remote password (SRP). The parameters of a response to an authentication challenge vary with the type of challenge. For more information about custom authentication challenges, see [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html). Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
-    /// - Parameter RespondToAuthChallengeInput : The request to respond to an authentication challenge.
+    /// - Parameter input: The request to respond to an authentication challenge. (Type: `RespondToAuthChallengeInput`)
     ///
-    /// - Returns: `RespondToAuthChallengeOutput` : The response to respond to the authentication challenge.
+    /// - Returns: The response to respond to the authentication challenge. (Type: `RespondToAuthChallengeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7543,6 +7636,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RespondToAuthChallengeOutput>(RespondToAuthChallengeOutput.httpOutput(from:), RespondToAuthChallengeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RespondToAuthChallengeInput, RespondToAuthChallengeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RespondToAuthChallengeOutput>())
@@ -7577,9 +7671,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Revokes all of the access tokens generated by, and at the same time as, the specified refresh token. After a token is revoked, you can't use the revoked token to access Amazon Cognito user APIs, or to authorize access to your resource server. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter RevokeTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeTokenInput`)
     ///
-    /// - Returns: `RevokeTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7615,6 +7709,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeTokenInput, RevokeTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeTokenOutput>(RevokeTokenOutput.httpOutput(from:), RevokeTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeTokenInput, RevokeTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeTokenOutput>())
@@ -7649,9 +7744,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Sets up or modifies the logging configuration of a user pool. User pools can export user notification logs and, when threat protection is active, user-activity logs. For more information, see [Exporting user pool logs](https://docs.aws.amazon.com/cognito/latest/developerguide/exporting-quotas-and-usage.html).
     ///
-    /// - Parameter SetLogDeliveryConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetLogDeliveryConfigurationInput`)
     ///
-    /// - Returns: `SetLogDeliveryConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetLogDeliveryConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7688,6 +7783,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetLogDeliveryConfigurationOutput>(SetLogDeliveryConfigurationOutput.httpOutput(from:), SetLogDeliveryConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetLogDeliveryConfigurationInput, SetLogDeliveryConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetLogDeliveryConfigurationOutput>())
@@ -7733,9 +7829,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// To set the risk configuration for the user pool to defaults, send this request with only the UserPoolId parameter. To reset the threat protection settings of an app client to be inherited from the user pool, send UserPoolId and ClientId parameters only. To change threat protection to audit-only or off, update the value of UserPoolAddOns in an UpdateUserPool request. To activate this setting, your user pool must be on the [ Plus tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-plus.html).
     ///
-    /// - Parameter SetRiskConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetRiskConfigurationInput`)
     ///
-    /// - Returns: `SetRiskConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetRiskConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7774,6 +7870,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetRiskConfigurationOutput>(SetRiskConfigurationOutput.httpOutput(from:), SetRiskConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetRiskConfigurationInput, SetRiskConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetRiskConfigurationOutput>())
@@ -7812,9 +7909,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter SetUICustomizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetUICustomizationInput`)
     ///
-    /// - Returns: `SetUICustomizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetUICustomizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7850,6 +7947,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUICustomizationInput, SetUICustomizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetUICustomizationOutput>(SetUICustomizationOutput.httpOutput(from:), SetUICustomizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUICustomizationInput, SetUICustomizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUICustomizationOutput>())
@@ -7884,9 +7982,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Set the user's multi-factor authentication (MFA) method preference, including which MFA factors are activated and if any are preferred. Only one factor can be set as preferred. The preferred MFA factor will be used to authenticate a user if multiple factors are activated. If multiple options are activated and no preference is set, a challenge to choose an MFA option will be returned during sign-in. If an MFA type is activated for a user, the user will be prompted for MFA during all sign-in attempts unless device tracking is turned on and the device has been trusted. If you want MFA to be applied selectively based on the assessed risk level of sign-in attempts, deactivate MFA for users and turn on Adaptive Authentication for the user pool. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter SetUserMFAPreferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetUserMFAPreferenceInput`)
     ///
-    /// - Returns: `SetUserMFAPreferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetUserMFAPreferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7923,6 +8021,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetUserMFAPreferenceOutput>(SetUserMFAPreferenceOutput.httpOutput(from:), SetUserMFAPreferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUserMFAPreferenceInput, SetUserMFAPreferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUserMFAPreferenceOutput>())
@@ -7957,9 +8056,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Sets user pool multi-factor authentication (MFA) and passkey configuration. For more information about user pool MFA, see [Adding MFA](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html). For more information about WebAuthn passkeys see [Authentication flows](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow-methods.html#amazon-cognito-user-pools-authentication-flow-methods-passkey). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
-    /// - Parameter SetUserPoolMfaConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetUserPoolMfaConfigInput`)
     ///
-    /// - Returns: `SetUserPoolMfaConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetUserPoolMfaConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7999,6 +8098,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetUserPoolMfaConfigOutput>(SetUserPoolMfaConfigOutput.httpOutput(from:), SetUserPoolMfaConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUserPoolMfaConfigInput, SetUserPoolMfaConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUserPoolMfaConfigOutput>())
@@ -8033,9 +8133,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// This action is no longer supported. You can use it to configure only SMS MFA. You can't use it to configure time-based one-time password (TOTP) software token or email MFA. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter SetUserSettingsInput : Represents the request to set user settings.
+    /// - Parameter input: Represents the request to set user settings. (Type: `SetUserSettingsInput`)
     ///
-    /// - Returns: `SetUserSettingsOutput` : The response from the server for a set user settings request.
+    /// - Returns: The response from the server for a set user settings request. (Type: `SetUserSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8072,6 +8172,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetUserSettingsInput, SetUserSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetUserSettingsOutput>(SetUserSettingsOutput.httpOutput(from:), SetUserSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetUserSettingsInput, SetUserSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetUserSettingsOutput>())
@@ -8106,9 +8207,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Registers a user with an app client and requests a user name, password, and user attributes in the user pool. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide. You might receive a LimitExceeded exception in response to this request if you have exceeded a rate quota for email or SMS messages, and if your user pool automatically verifies email addresses or phone numbers. When you get this exception in the response, the user is successfully created and is in an UNCONFIRMED state.
     ///
-    /// - Parameter SignUpInput : Represents the request to register a user.
+    /// - Parameter input: Represents the request to register a user. (Type: `SignUpInput`)
     ///
-    /// - Returns: `SignUpOutput` : The response from the server for a registration request.
+    /// - Returns: The response from the server for a registration request. (Type: `SignUpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8153,6 +8254,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignUpInput, SignUpOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SignUpOutput>(SignUpOutput.httpOutput(from:), SignUpOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignUpInput, SignUpOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SignUpOutput>())
@@ -8187,9 +8289,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Instructs your user pool to start importing users from a CSV file that contains their usernames and attributes. For more information about importing users from a CSV file, see [Importing users from a CSV file](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-using-import-tool.html).
     ///
-    /// - Parameter StartUserImportJobInput : Represents the request to start the user import job.
+    /// - Parameter input: Represents the request to start the user import job. (Type: `StartUserImportJobInput`)
     ///
-    /// - Returns: `StartUserImportJobOutput` : Represents the response from the server to the request to start the user import job.
+    /// - Returns: Represents the response from the server to the request to start the user import job. (Type: `StartUserImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8226,6 +8328,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartUserImportJobInput, StartUserImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartUserImportJobOutput>(StartUserImportJobOutput.httpOutput(from:), StartUserImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartUserImportJobInput, StartUserImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartUserImportJobOutput>())
@@ -8260,9 +8363,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Requests credential creation options from your user pool for the currently signed-in user. Returns information about the user pool, the user profile, and authentication requirements. Users must provide this information in their request to enroll your application with their passkey provider. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin.
     ///
-    /// - Parameter StartWebAuthnRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWebAuthnRegistrationInput`)
     ///
-    /// - Returns: `StartWebAuthnRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWebAuthnRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8299,6 +8402,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWebAuthnRegistrationOutput>(StartWebAuthnRegistrationOutput.httpOutput(from:), StartWebAuthnRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWebAuthnRegistrationInput, StartWebAuthnRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWebAuthnRegistrationOutput>())
@@ -8333,9 +8437,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Instructs your user pool to stop a running job that's importing users from a CSV file that contains their usernames and attributes. For more information about importing users from a CSV file, see [Importing users from a CSV file](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-using-import-tool.html).
     ///
-    /// - Parameter StopUserImportJobInput : Represents the request to stop the user import job.
+    /// - Parameter input: Represents the request to stop the user import job. (Type: `StopUserImportJobInput`)
     ///
-    /// - Returns: `StopUserImportJobOutput` : Represents the response from the server to the request to stop the user import job.
+    /// - Returns: Represents the response from the server to the request to stop the user import job. (Type: `StopUserImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8372,6 +8476,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopUserImportJobInput, StopUserImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopUserImportJobOutput>(StopUserImportJobOutput.httpOutput(from:), StopUserImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopUserImportJobInput, StopUserImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopUserImportJobOutput>())
@@ -8406,9 +8511,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Assigns a set of tags to an Amazon Cognito user pool. A tag is a label that you can use to categorize and manage user pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of a user pool, one for testing and another for production, you might assign an Environment tag key to both user pools. The value of this key might be Test for one user pool, and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your user pools. In an Identity and Access Management policy, you can constrain permissions for user pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. A user pool can have as many as 50 tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8444,6 +8549,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -8478,9 +8584,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Given tag IDs that you previously assigned to a user pool, removes them.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8516,6 +8622,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -8550,9 +8657,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Provides the feedback for an authentication event generated by threat protection features. The user's response indicates that you think that the event either was from a valid user or was an unwanted authentication attempt. This feedback improves the risk evaluation decision for the user pool as part of Amazon Cognito threat protection. To activate this setting, your user pool must be on the [ Plus tier](https://docs.aws.amazon.com/cognito/latest/developerguide/feature-plans-features-plus.html). This operation requires a FeedbackToken that Amazon Cognito generates and adds to notification emails when users have potentially suspicious authentication events. Users invoke this operation when they select the link that corresponds to {one-click-link-valid} or {one-click-link-invalid} in your notification template. Because FeedbackToken is a required parameter, you can't make requests to UpdateAuthEventFeedback without the contents of the notification email message. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter UpdateAuthEventFeedbackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAuthEventFeedbackInput`)
     ///
-    /// - Returns: `UpdateAuthEventFeedbackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAuthEventFeedbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8588,6 +8695,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAuthEventFeedbackOutput>(UpdateAuthEventFeedbackOutput.httpOutput(from:), UpdateAuthEventFeedbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAuthEventFeedbackInput, UpdateAuthEventFeedbackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAuthEventFeedbackOutput>())
@@ -8622,9 +8730,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Updates the status of a the currently signed-in user's device so that it is marked as remembered or not remembered for the purpose of device authentication. Device authentication is a "remember me" mechanism that silently completes sign-in from trusted devices with a device key instead of a user-provided MFA code. This operation changes the status of a device without deleting it, so you can enable it again later. For more information about device authentication, see [Working with devices](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-device-tracking.html). Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter UpdateDeviceStatusInput : Represents the request to update the device status.
+    /// - Parameter input: Represents the request to update the device status. (Type: `UpdateDeviceStatusInput`)
     ///
-    /// - Returns: `UpdateDeviceStatusOutput` : The response to the request to update the device status.
+    /// - Returns: The response to the request to update the device status. (Type: `UpdateDeviceStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8663,6 +8771,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeviceStatusOutput>(UpdateDeviceStatusOutput.httpOutput(from:), UpdateDeviceStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeviceStatusInput, UpdateDeviceStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeviceStatusOutput>())
@@ -8701,9 +8810,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter UpdateGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupInput`)
     ///
-    /// - Returns: `UpdateGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8739,6 +8848,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupInput, UpdateGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupOutput>(UpdateGroupOutput.httpOutput(from:), UpdateGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupInput, UpdateGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupOutput>())
@@ -8777,9 +8887,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter UpdateIdentityProviderInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdentityProviderInput`)
     ///
-    /// - Returns: `UpdateIdentityProviderOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdentityProviderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8817,6 +8927,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdentityProviderOutput>(UpdateIdentityProviderOutput.httpOutput(from:), UpdateIdentityProviderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdentityProviderInput, UpdateIdentityProviderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdentityProviderOutput>())
@@ -8855,9 +8966,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter UpdateManagedLoginBrandingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateManagedLoginBrandingInput`)
     ///
-    /// - Returns: `UpdateManagedLoginBrandingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateManagedLoginBrandingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8894,6 +9005,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateManagedLoginBrandingOutput>(UpdateManagedLoginBrandingOutput.httpOutput(from:), UpdateManagedLoginBrandingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateManagedLoginBrandingInput, UpdateManagedLoginBrandingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateManagedLoginBrandingOutput>())
@@ -8932,9 +9044,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter UpdateResourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceServerInput`)
     ///
-    /// - Returns: `UpdateResourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8970,6 +9082,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceServerOutput>(UpdateResourceServerOutput.httpOutput(from:), UpdateResourceServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceServerInput, UpdateResourceServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceServerOutput>())
@@ -9008,9 +9121,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter UpdateTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTermsInput`)
     ///
-    /// - Returns: `UpdateTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9048,6 +9161,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTermsInput, UpdateTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTermsOutput>(UpdateTermsOutput.httpOutput(from:), UpdateTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTermsInput, UpdateTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTermsOutput>())
@@ -9082,9 +9196,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Updates the currently signed-in user's attributes. To delete an attribute from the user, submit the attribute in your API request with a blank value. For custom attributes, you must add a custom: prefix to the attribute name, for example custom:department. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html). This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers require you to register an origination phone number before you can send SMS messages to US phone numbers. If you use SMS text messages in Amazon Cognito, you must register a phone number with [Amazon Pinpoint](https://console.aws.amazon.com/pinpoint/home/). Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up, activate their accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might place your account in the SMS sandbox. In [sandbox mode](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) , you can send messages only to verified phone numbers. After you test your app while in the sandbox environment, you can move out of the sandbox and into production. For more information, see [ SMS message settings for Amazon Cognito user pools](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-sms-settings.html) in the Amazon Cognito Developer Guide.
     ///
-    /// - Parameter UpdateUserAttributesInput : Represents the request to update user attributes.
+    /// - Parameter input: Represents the request to update user attributes. (Type: `UpdateUserAttributesInput`)
     ///
-    /// - Returns: `UpdateUserAttributesOutput` : Represents the response from the server for the request to update user attributes.
+    /// - Returns: Represents the response from the server for the request to update user attributes. (Type: `UpdateUserAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9132,6 +9246,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserAttributesOutput>(UpdateUserAttributesOutput.httpOutput(from:), UpdateUserAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserAttributesInput, UpdateUserAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserAttributesOutput>())
@@ -9170,9 +9285,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter UpdateUserPoolInput : Represents the request to update the user pool.
+    /// - Parameter input: Represents the request to update the user pool. (Type: `UpdateUserPoolInput`)
     ///
-    /// - Returns: `UpdateUserPoolOutput` : Represents the response from the server when you make a request to update the user pool.
+    /// - Returns: Represents the response from the server when you make a request to update the user pool. (Type: `UpdateUserPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9216,6 +9331,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserPoolOutput>(UpdateUserPoolOutput.httpOutput(from:), UpdateUserPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserPoolInput, UpdateUserPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserPoolOutput>())
@@ -9254,9 +9370,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter UpdateUserPoolClientInput : Represents the request to update the user pool client.
+    /// - Parameter input: Represents the request to update the user pool client. (Type: `UpdateUserPoolClientInput`)
     ///
-    /// - Returns: `UpdateUserPoolClientOutput` : Represents the response from the server to the request to update the user pool client.
+    /// - Returns: Represents the response from the server to the request to update the user pool client. (Type: `UpdateUserPoolClientOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9296,6 +9412,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserPoolClientOutput>(UpdateUserPoolClientOutput.httpOutput(from:), UpdateUserPoolClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserPoolClientInput, UpdateUserPoolClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserPoolClientOutput>())
@@ -9334,9 +9451,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// * [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html)
     ///
-    /// - Parameter UpdateUserPoolDomainInput : The UpdateUserPoolDomain request input.
+    /// - Parameter input: The UpdateUserPoolDomain request input. (Type: `UpdateUserPoolDomainInput`)
     ///
-    /// - Returns: `UpdateUserPoolDomainOutput` : The UpdateUserPoolDomain response output.
+    /// - Returns: The UpdateUserPoolDomain response output. (Type: `UpdateUserPoolDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9374,6 +9491,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserPoolDomainOutput>(UpdateUserPoolDomainOutput.httpOutput(from:), UpdateUserPoolDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserPoolDomainInput, UpdateUserPoolDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserPoolDomainOutput>())
@@ -9408,9 +9526,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Registers the current user's time-based one-time password (TOTP) authenticator with a code generated in their authenticator app from a private key that's supplied by your user pool. Marks the user's software token MFA status as "verified" if successful. The request takes an access token or a session string, but not both. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter VerifySoftwareTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `VerifySoftwareTokenInput`)
     ///
-    /// - Returns: `VerifySoftwareTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `VerifySoftwareTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9452,6 +9570,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifySoftwareTokenOutput>(VerifySoftwareTokenOutput.httpOutput(from:), VerifySoftwareTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifySoftwareTokenInput, VerifySoftwareTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifySoftwareTokenOutput>())
@@ -9486,9 +9605,9 @@ extension CognitoIdentityProviderClient {
     ///
     /// Submits a verification code for a signed-in user who has added or changed a value of an auto-verified attribute. When successful, the user's attribute becomes verified and the attribute email_verified or phone_number_verified becomes true. If your user pool requires verification before Amazon Cognito updates the attribute value, this operation updates the affected attribute to its pending value. Authorize this action with a signed-in user's access token. It must include the scope aws.cognito.signin.user.admin. Amazon Cognito doesn't evaluate Identity and Access Management (IAM) policies in requests for this API operation. For this operation, you can't use IAM credentials to authorize requests, and you can't grant IAM permissions in policies. For more information about authorization models in Amazon Cognito, see [Using the Amazon Cognito user pools API and user pool endpoints](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pools-API-operations.html).
     ///
-    /// - Parameter VerifyUserAttributeInput : Represents the request to verify user attributes.
+    /// - Parameter input: Represents the request to verify user attributes. (Type: `VerifyUserAttributeInput`)
     ///
-    /// - Returns: `VerifyUserAttributeOutput` : A container representing the response from the server from the request to verify user attributes.
+    /// - Returns: A container representing the response from the server from the request to verify user attributes. (Type: `VerifyUserAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9530,6 +9649,7 @@ extension CognitoIdentityProviderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyUserAttributeOutput>(VerifyUserAttributeOutput.httpOutput(from:), VerifyUserAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyUserAttributeInput, VerifyUserAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyUserAttributeOutput>())

@@ -21,6 +21,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TranscribeStreamingClient: ClientRuntime.Client {
     public static let clientName = "TranscribeStreamingClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: TranscribeStreamingClient.TranscribeStreamingClientConfiguration
     let serviceName = "Transcribe Streaming"
@@ -371,9 +372,9 @@ extension TranscribeStreamingClient {
     ///
     /// Provides details about the specified Amazon Web Services HealthScribe streaming session. To view the status of the streaming session, check the StreamStatus field in the response. To get the details of post-stream analytics, including its status, check the PostStreamAnalyticsResult field in the response.
     ///
-    /// - Parameter GetMedicalScribeStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMedicalScribeStreamInput`)
     ///
-    /// - Returns: `GetMedicalScribeStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMedicalScribeStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,6 +408,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMedicalScribeStreamInput, GetMedicalScribeStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMedicalScribeStreamOutput>(GetMedicalScribeStreamOutput.httpOutput(from:), GetMedicalScribeStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMedicalScribeStreamInput, GetMedicalScribeStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMedicalScribeStreamOutput>())
@@ -447,9 +449,9 @@ extension TranscribeStreamingClient {
     ///
     /// For more information on streaming with Amazon Transcribe, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     ///
-    /// - Parameter StartCallAnalyticsStreamTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCallAnalyticsStreamTranscriptionInput`)
     ///
-    /// - Returns: `StartCallAnalyticsStreamTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCallAnalyticsStreamTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,6 +491,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCallAnalyticsStreamTranscriptionOutput>(StartCallAnalyticsStreamTranscriptionOutput.httpOutput(from:), StartCallAnalyticsStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCallAnalyticsStreamTranscriptionInput, StartCallAnalyticsStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCallAnalyticsStreamTranscriptionOutput>())
@@ -529,9 +532,9 @@ extension TranscribeStreamingClient {
     ///
     /// For more information on streaming with Amazon Web Services HealthScribe, see [Amazon Web Services HealthScribe](https://docs.aws.amazon.com/transcribe/latest/dg/health-scribe-streaming.html).
     ///
-    /// - Parameter StartMedicalScribeStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMedicalScribeStreamInput`)
     ///
-    /// - Returns: `StartMedicalScribeStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMedicalScribeStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,6 +574,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalScribeStreamInput, StartMedicalScribeStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMedicalScribeStreamOutput>(StartMedicalScribeStreamOutput.httpOutput(from:), StartMedicalScribeStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalScribeStreamInput, StartMedicalScribeStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalScribeStreamOutput>())
@@ -611,9 +615,9 @@ extension TranscribeStreamingClient {
     ///
     /// For more information on streaming with Amazon Transcribe Medical, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     ///
-    /// - Parameter StartMedicalStreamTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMedicalStreamTranscriptionInput`)
     ///
-    /// - Returns: `StartMedicalStreamTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMedicalStreamTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,6 +657,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMedicalStreamTranscriptionOutput>(StartMedicalStreamTranscriptionOutput.httpOutput(from:), StartMedicalStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMedicalStreamTranscriptionInput, StartMedicalStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMedicalStreamTranscriptionOutput>())
@@ -693,9 +698,9 @@ extension TranscribeStreamingClient {
     ///
     /// For more information on streaming with Amazon Transcribe, see [Transcribing streaming audio](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html).
     ///
-    /// - Parameter StartStreamTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartStreamTranscriptionInput`)
     ///
-    /// - Returns: `StartStreamTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartStreamTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -735,6 +740,7 @@ extension TranscribeStreamingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartStreamTranscriptionOutput>(StartStreamTranscriptionOutput.httpOutput(from:), StartStreamTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartStreamTranscriptionInput, StartStreamTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartStreamTranscriptionOutput>())

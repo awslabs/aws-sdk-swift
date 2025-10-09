@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RAMClient: ClientRuntime.Client {
     public static let clientName = "RAMClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: RAMClient.RAMClientConfiguration
     let serviceName = "RAM"
@@ -372,9 +373,9 @@ extension RAMClient {
     ///
     /// Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the invitation, the resources included in the resource share are available to interact with in the relevant Amazon Web Services Management Consoles and tools.
     ///
-    /// - Parameter AcceptResourceShareInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptResourceShareInvitationInput`)
     ///
-    /// - Returns: `AcceptResourceShareInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptResourceShareInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,6 +418,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptResourceShareInvitationInput, AcceptResourceShareInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptResourceShareInvitationOutput>(AcceptResourceShareInvitationOutput.httpOutput(from:), AcceptResourceShareInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptResourceShareInvitationInput, AcceptResourceShareInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptResourceShareInvitationOutput>())
@@ -448,9 +450,9 @@ extension RAMClient {
     ///
     /// Adds the specified list of principals and list of resources to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
     ///
-    /// - Parameter AssociateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceShareInput`)
     ///
-    /// - Returns: `AssociateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -494,6 +496,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResourceShareInput, AssociateResourceShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResourceShareOutput>(AssociateResourceShareOutput.httpOutput(from:), AssociateResourceShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResourceShareInput, AssociateResourceShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResourceShareOutput>())
@@ -525,9 +528,9 @@ extension RAMClient {
     ///
     /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permission only if there are currently no resources of that resource type currently in the resource share.
     ///
-    /// - Parameter AssociateResourceSharePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateResourceSharePermissionInput`)
     ///
-    /// - Returns: `AssociateResourceSharePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateResourceSharePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -567,6 +570,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateResourceSharePermissionInput, AssociateResourceSharePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateResourceSharePermissionOutput>(AssociateResourceSharePermissionOutput.httpOutput(from:), AssociateResourceSharePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateResourceSharePermissionInput, AssociateResourceSharePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateResourceSharePermissionOutput>())
@@ -598,9 +602,9 @@ extension RAMClient {
     ///
     /// Creates a customer managed permission for a specified resource type that you can attach to resource shares. It is created in the Amazon Web Services Region in which you call the operation.
     ///
-    /// - Parameter CreatePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionInput`)
     ///
-    /// - Returns: `CreatePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,6 +647,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePermissionInput, CreatePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePermissionOutput>(CreatePermissionOutput.httpOutput(from:), CreatePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePermissionInput, CreatePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePermissionOutput>())
@@ -674,9 +679,9 @@ extension RAMClient {
     ///
     /// Creates a new version of the specified customer managed permission. The new version is automatically set as the default version of the customer managed permission. New resource shares automatically use the default permission. Existing resource shares continue to use their original permission versions, but you can use [ReplacePermissionAssociations] to update them. If the specified customer managed permission already has the maximum of 5 versions, then you must delete one of the existing versions before you can create a new one.
     ///
-    /// - Parameter CreatePermissionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionVersionInput`)
     ///
-    /// - Returns: `CreatePermissionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -719,6 +724,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePermissionVersionInput, CreatePermissionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePermissionVersionOutput>(CreatePermissionVersionOutput.httpOutput(from:), CreatePermissionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePermissionVersionInput, CreatePermissionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePermissionVersionOutput>())
@@ -750,9 +756,9 @@ extension RAMClient {
     ///
     /// Creates a resource share. You can provide a list of the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for the resources that you want to share, a list of principals you want to share the resources with, and the permissions to grant those principals. Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
     ///
-    /// - Parameter CreateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceShareInput`)
     ///
-    /// - Returns: `CreateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -797,6 +803,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceShareInput, CreateResourceShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceShareOutput>(CreateResourceShareOutput.httpOutput(from:), CreateResourceShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceShareInput, CreateResourceShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceShareOutput>())
@@ -828,9 +835,9 @@ extension RAMClient {
     ///
     /// Deletes the specified customer managed permission in the Amazon Web Services Region in which you call this operation. You can delete a customer managed permission only if it isn't attached to any resource share. The operation deletes all versions associated with the customer managed permission.
     ///
-    /// - Parameter DeletePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionInput`)
     ///
-    /// - Returns: `DeletePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -868,6 +875,7 @@ extension RAMClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePermissionInput, DeletePermissionOutput>(DeletePermissionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionOutput>(DeletePermissionOutput.httpOutput(from:), DeletePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionInput, DeletePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionOutput>())
@@ -899,9 +907,9 @@ extension RAMClient {
     ///
     /// Deletes one version of a customer managed permission. The version you specify must not be attached to any resource share and must not be the default version for the permission. If a customer managed permission has the maximum of 5 versions, then you must delete at least one version before you can create another.
     ///
-    /// - Parameter DeletePermissionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionVersionInput`)
     ///
-    /// - Returns: `DeletePermissionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -940,6 +948,7 @@ extension RAMClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePermissionVersionInput, DeletePermissionVersionOutput>(DeletePermissionVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionVersionOutput>(DeletePermissionVersionOutput.httpOutput(from:), DeletePermissionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionVersionInput, DeletePermissionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionVersionOutput>())
@@ -971,9 +980,9 @@ extension RAMClient {
     ///
     /// Deletes the specified resource share. This doesn't delete any of the resources that were associated with the resource share; it only stops the sharing of those resources through this resource share.
     ///
-    /// - Parameter DeleteResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceShareInput`)
     ///
-    /// - Returns: `DeleteResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,6 +1022,7 @@ extension RAMClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteResourceShareInput, DeleteResourceShareOutput>(DeleteResourceShareInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceShareOutput>(DeleteResourceShareOutput.httpOutput(from:), DeleteResourceShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceShareInput, DeleteResourceShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceShareOutput>())
@@ -1044,9 +1054,9 @@ extension RAMClient {
     ///
     /// Removes the specified principals or resources from participating in the specified resource share.
     ///
-    /// - Parameter DisassociateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceShareInput`)
     ///
-    /// - Returns: `DisassociateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1089,6 +1099,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResourceShareInput, DisassociateResourceShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResourceShareOutput>(DisassociateResourceShareOutput.httpOutput(from:), DisassociateResourceShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResourceShareInput, DisassociateResourceShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResourceShareOutput>())
@@ -1120,9 +1131,9 @@ extension RAMClient {
     ///
     /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a resource share only if there are currently no resources of the relevant resource type currently attached to the resource share.
     ///
-    /// - Parameter DisassociateResourceSharePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateResourceSharePermissionInput`)
     ///
-    /// - Returns: `DisassociateResourceSharePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateResourceSharePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1163,6 +1174,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateResourceSharePermissionInput, DisassociateResourceSharePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateResourceSharePermissionOutput>(DisassociateResourceSharePermissionOutput.httpOutput(from:), DisassociateResourceSharePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateResourceSharePermissionInput, DisassociateResourceSharePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateResourceSharePermissionOutput>())
@@ -1194,9 +1206,9 @@ extension RAMClient {
     ///
     /// Enables resource sharing within your organization in Organizations. This operation creates a service-linked role called AWSServiceRoleForResourceAccessManager that has the IAM managed policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits RAM to retrieve information about the organization and its structure. This lets you share resources with all of the accounts in the calling account's organization by specifying the organization ID, or all of the accounts in an organizational unit (OU) by specifying the OU ID. Until you enable sharing within the organization, you can specify only individual Amazon Web Services accounts, or for supported resource types, IAM roles and users. You must call this operation from an IAM role or user in the organization's management account.
     ///
-    /// - Parameter EnableSharingWithAwsOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableSharingWithAwsOrganizationInput`)
     ///
-    /// - Returns: `EnableSharingWithAwsOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableSharingWithAwsOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1229,6 +1241,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableSharingWithAwsOrganizationInput, EnableSharingWithAwsOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSharingWithAwsOrganizationOutput>(EnableSharingWithAwsOrganizationOutput.httpOutput(from:), EnableSharingWithAwsOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSharingWithAwsOrganizationInput, EnableSharingWithAwsOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSharingWithAwsOrganizationOutput>())
@@ -1260,9 +1273,9 @@ extension RAMClient {
     ///
     /// Retrieves the contents of a managed permission in JSON format.
     ///
-    /// - Parameter GetPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPermissionInput`)
     ///
-    /// - Returns: `GetPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1301,6 +1314,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPermissionInput, GetPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPermissionOutput>(GetPermissionOutput.httpOutput(from:), GetPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPermissionInput, GetPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPermissionOutput>())
@@ -1332,9 +1346,9 @@ extension RAMClient {
     ///
     /// Retrieves the resource policies for the specified resources that you own and have shared.
     ///
-    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePoliciesInput`)
     ///
-    /// - Returns: `GetResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1373,6 +1387,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePoliciesOutput>(GetResourcePoliciesOutput.httpOutput(from:), GetResourcePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePoliciesOutput>())
@@ -1404,9 +1419,9 @@ extension RAMClient {
     ///
     /// Retrieves the lists of resources and principals that associated for resource shares that you own.
     ///
-    /// - Parameter GetResourceShareAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceShareAssociationsInput`)
     ///
-    /// - Returns: `GetResourceShareAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceShareAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1446,6 +1461,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceShareAssociationsOutput>(GetResourceShareAssociationsOutput.httpOutput(from:), GetResourceShareAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceShareAssociationsInput, GetResourceShareAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceShareAssociationsOutput>())
@@ -1477,9 +1493,9 @@ extension RAMClient {
     ///
     /// Retrieves details about invitations that you have received for resource shares.
     ///
-    /// - Parameter GetResourceShareInvitationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceShareInvitationsInput`)
     ///
-    /// - Returns: `GetResourceShareInvitationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceShareInvitationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1520,6 +1536,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceShareInvitationsOutput>(GetResourceShareInvitationsOutput.httpOutput(from:), GetResourceShareInvitationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceShareInvitationsInput, GetResourceShareInvitationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceShareInvitationsOutput>())
@@ -1551,9 +1568,9 @@ extension RAMClient {
     ///
     /// Retrieves details about the resource shares that you own or that are shared with you.
     ///
-    /// - Parameter GetResourceSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceSharesInput`)
     ///
-    /// - Returns: `GetResourceSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1592,6 +1609,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceSharesInput, GetResourceSharesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceSharesOutput>(GetResourceSharesOutput.httpOutput(from:), GetResourceSharesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceSharesInput, GetResourceSharesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceSharesOutput>())
@@ -1623,9 +1641,9 @@ extension RAMClient {
     ///
     /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
     ///
-    /// - Parameter ListPendingInvitationResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPendingInvitationResourcesInput`)
     ///
-    /// - Returns: `ListPendingInvitationResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPendingInvitationResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1667,6 +1685,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPendingInvitationResourcesOutput>(ListPendingInvitationResourcesOutput.httpOutput(from:), ListPendingInvitationResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPendingInvitationResourcesInput, ListPendingInvitationResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPendingInvitationResourcesOutput>())
@@ -1698,9 +1717,9 @@ extension RAMClient {
     ///
     /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.
     ///
-    /// - Parameter ListPermissionAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionAssociationsInput`)
     ///
-    /// - Returns: `ListPermissionAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1738,6 +1757,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionAssociationsInput, ListPermissionAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionAssociationsOutput>(ListPermissionAssociationsOutput.httpOutput(from:), ListPermissionAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionAssociationsInput, ListPermissionAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionAssociationsOutput>())
@@ -1769,9 +1789,9 @@ extension RAMClient {
     ///
     /// Lists the available versions of the specified RAM permission.
     ///
-    /// - Parameter ListPermissionVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionVersionsInput`)
     ///
-    /// - Returns: `ListPermissionVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1811,6 +1831,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionVersionsInput, ListPermissionVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionVersionsOutput>(ListPermissionVersionsOutput.httpOutput(from:), ListPermissionVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionVersionsInput, ListPermissionVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionVersionsOutput>())
@@ -1842,9 +1863,9 @@ extension RAMClient {
     ///
     /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
     ///
-    /// - Parameter ListPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionsInput`)
     ///
-    /// - Returns: `ListPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1882,6 +1903,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPermissionsInput, ListPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionsOutput>(ListPermissionsOutput.httpOutput(from:), ListPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionsInput, ListPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionsOutput>())
@@ -1913,9 +1935,9 @@ extension RAMClient {
     ///
     /// Lists the principals that you are sharing resources with or that are sharing resources with you.
     ///
-    /// - Parameter ListPrincipalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrincipalsInput`)
     ///
-    /// - Returns: `ListPrincipalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrincipalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1954,6 +1976,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPrincipalsInput, ListPrincipalsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrincipalsOutput>(ListPrincipalsOutput.httpOutput(from:), ListPrincipalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrincipalsInput, ListPrincipalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrincipalsOutput>())
@@ -1985,9 +2008,9 @@ extension RAMClient {
     ///
     /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [ReplacePermissionAssociationsWork] operation.
     ///
-    /// - Parameter ListReplacePermissionAssociationsWorkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReplacePermissionAssociationsWorkInput`)
     ///
-    /// - Returns: `ListReplacePermissionAssociationsWorkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReplacePermissionAssociationsWorkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2024,6 +2047,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReplacePermissionAssociationsWorkOutput>(ListReplacePermissionAssociationsWorkOutput.httpOutput(from:), ListReplacePermissionAssociationsWorkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReplacePermissionAssociationsWorkInput, ListReplacePermissionAssociationsWorkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReplacePermissionAssociationsWorkOutput>())
@@ -2055,9 +2079,9 @@ extension RAMClient {
     ///
     /// Lists the RAM permissions that are associated with a resource share.
     ///
-    /// - Parameter ListResourceSharePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceSharePermissionsInput`)
     ///
-    /// - Returns: `ListResourceSharePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceSharePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2097,6 +2121,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceSharePermissionsOutput>(ListResourceSharePermissionsOutput.httpOutput(from:), ListResourceSharePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceSharePermissionsInput, ListResourceSharePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceSharePermissionsOutput>())
@@ -2128,9 +2153,9 @@ extension RAMClient {
     ///
     /// Lists the resource types that can be shared by RAM.
     ///
-    /// - Parameter ListResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceTypesInput`)
     ///
-    /// - Returns: `ListResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2167,6 +2192,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceTypesInput, ListResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceTypesOutput>(ListResourceTypesOutput.httpOutput(from:), ListResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceTypesInput, ListResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceTypesOutput>())
@@ -2198,9 +2224,9 @@ extension RAMClient {
     ///
     /// Lists the resources that you added to a resource share or the resources that are shared with you.
     ///
-    /// - Parameter ListResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
-    /// - Returns: `ListResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2240,6 +2266,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcesInput, ListResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcesOutput>(ListResourcesOutput.httpOutput(from:), ListResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcesInput, ListResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcesOutput>())
@@ -2277,9 +2304,9 @@ extension RAMClient {
     ///
     /// * After you promote a resource share, if the original CREATED_FROM_POLICY managed permission has no other associations to A resource share, then RAM automatically deletes it.
     ///
-    /// - Parameter PromotePermissionCreatedFromPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PromotePermissionCreatedFromPolicyInput`)
     ///
-    /// - Returns: `PromotePermissionCreatedFromPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromotePermissionCreatedFromPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2319,6 +2346,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PromotePermissionCreatedFromPolicyInput, PromotePermissionCreatedFromPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PromotePermissionCreatedFromPolicyOutput>(PromotePermissionCreatedFromPolicyOutput.httpOutput(from:), PromotePermissionCreatedFromPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PromotePermissionCreatedFromPolicyInput, PromotePermissionCreatedFromPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PromotePermissionCreatedFromPolicyOutput>())
@@ -2350,9 +2378,9 @@ extension RAMClient {
     ///
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation promotes the resource share to a STANDARD resource share that is fully manageable in RAM. When you promote a resource share, you can then manage the resource share in RAM and it becomes visible to all of the principals you shared it with. Before you perform this operation, you should first run [PromotePermissionCreatedFromPolicy]to ensure that you have an appropriate customer managed permission that can be associated with this resource share after its is promoted. If this operation can't find a managed permission that exactly matches the existing CREATED_FROM_POLICY permission, then this operation fails.
     ///
-    /// - Parameter PromoteResourceShareCreatedFromPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PromoteResourceShareCreatedFromPolicyInput`)
     ///
-    /// - Returns: `PromoteResourceShareCreatedFromPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromoteResourceShareCreatedFromPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2393,6 +2421,7 @@ extension RAMClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<PromoteResourceShareCreatedFromPolicyInput, PromoteResourceShareCreatedFromPolicyOutput>(PromoteResourceShareCreatedFromPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PromoteResourceShareCreatedFromPolicyOutput>(PromoteResourceShareCreatedFromPolicyOutput.httpOutput(from:), PromoteResourceShareCreatedFromPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PromoteResourceShareCreatedFromPolicyInput, PromoteResourceShareCreatedFromPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PromoteResourceShareCreatedFromPolicyOutput>())
@@ -2424,9 +2453,9 @@ extension RAMClient {
     ///
     /// Rejects an invitation to a resource share from another Amazon Web Services account.
     ///
-    /// - Parameter RejectResourceShareInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectResourceShareInvitationInput`)
     ///
-    /// - Returns: `RejectResourceShareInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectResourceShareInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2469,6 +2498,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectResourceShareInvitationInput, RejectResourceShareInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectResourceShareInvitationOutput>(RejectResourceShareInvitationOutput.httpOutput(from:), RejectResourceShareInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectResourceShareInvitationInput, RejectResourceShareInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectResourceShareInvitationOutput>())
@@ -2500,9 +2530,9 @@ extension RAMClient {
     ///
     /// Updates all resource shares that use a managed permission to a different managed permission. This operation always applies the default version of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a specified version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default version of the permission by specifying the same value for the fromPermissionArn and toPermissionArn parameters. You can use the optional fromPermissionVersion parameter to update only those resources that use a specified version of the managed permission to the new managed permission. To successfully perform this operation, you must have permission to update the resource-based policy on all affected resource types.
     ///
-    /// - Parameter ReplacePermissionAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReplacePermissionAssociationsInput`)
     ///
-    /// - Returns: `ReplacePermissionAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReplacePermissionAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2543,6 +2573,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReplacePermissionAssociationsInput, ReplacePermissionAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReplacePermissionAssociationsOutput>(ReplacePermissionAssociationsOutput.httpOutput(from:), ReplacePermissionAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReplacePermissionAssociationsInput, ReplacePermissionAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReplacePermissionAssociationsOutput>())
@@ -2574,9 +2605,9 @@ extension RAMClient {
     ///
     /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automatically use this new default permission. Existing resource shares continue to use their original permission version, but you can use [ReplacePermissionAssociations] to update them.
     ///
-    /// - Parameter SetDefaultPermissionVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetDefaultPermissionVersionInput`)
     ///
-    /// - Returns: `SetDefaultPermissionVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetDefaultPermissionVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2616,6 +2647,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetDefaultPermissionVersionInput, SetDefaultPermissionVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetDefaultPermissionVersionOutput>(SetDefaultPermissionVersionOutput.httpOutput(from:), SetDefaultPermissionVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetDefaultPermissionVersionInput, SetDefaultPermissionVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetDefaultPermissionVersionOutput>())
@@ -2647,9 +2679,9 @@ extension RAMClient {
     ///
     /// Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the tags are attached to only the resource share, not to the resources that are in the resource share. The tags on a managed permission are the same for all versions of the managed permission.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2690,6 +2722,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2721,9 +2754,9 @@ extension RAMClient {
     ///
     /// Removes the specified tag key and value pairs from the specified resource share or managed permission.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2761,6 +2794,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2792,9 +2826,9 @@ extension RAMClient {
     ///
     /// Modifies some of the properties of the specified resource share.
     ///
-    /// - Parameter UpdateResourceShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceShareInput`)
     ///
-    /// - Returns: `UpdateResourceShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2836,6 +2870,7 @@ extension RAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceShareInput, UpdateResourceShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceShareOutput>(UpdateResourceShareOutput.httpOutput(from:), UpdateResourceShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceShareInput, UpdateResourceShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceShareOutput>())

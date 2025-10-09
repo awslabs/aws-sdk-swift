@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LexModelsV2Client: ClientRuntime.Client {
     public static let clientName = "LexModelsV2Client"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: LexModelsV2Client.LexModelsV2ClientConfiguration
     let serviceName = "Lex Models V2"
@@ -373,9 +374,9 @@ extension LexModelsV2Client {
     ///
     /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
-    /// - Parameter BatchCreateCustomVocabularyItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateCustomVocabularyItemInput`)
     ///
-    /// - Returns: `BatchCreateCustomVocabularyItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateCustomVocabularyItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateCustomVocabularyItemInput, BatchCreateCustomVocabularyItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateCustomVocabularyItemOutput>(BatchCreateCustomVocabularyItemOutput.httpOutput(from:), BatchCreateCustomVocabularyItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateCustomVocabularyItemInput, BatchCreateCustomVocabularyItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateCustomVocabularyItemOutput>())
@@ -444,9 +446,9 @@ extension LexModelsV2Client {
     ///
     /// Delete a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
-    /// - Parameter BatchDeleteCustomVocabularyItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteCustomVocabularyItemInput`)
     ///
-    /// - Returns: `BatchDeleteCustomVocabularyItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteCustomVocabularyItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +486,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteCustomVocabularyItemInput, BatchDeleteCustomVocabularyItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteCustomVocabularyItemOutput>(BatchDeleteCustomVocabularyItemOutput.httpOutput(from:), BatchDeleteCustomVocabularyItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteCustomVocabularyItemInput, BatchDeleteCustomVocabularyItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteCustomVocabularyItemOutput>())
@@ -515,9 +518,9 @@ extension LexModelsV2Client {
     ///
     /// Update a batch of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
-    /// - Parameter BatchUpdateCustomVocabularyItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateCustomVocabularyItemInput`)
     ///
-    /// - Returns: `BatchUpdateCustomVocabularyItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateCustomVocabularyItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +558,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateCustomVocabularyItemInput, BatchUpdateCustomVocabularyItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateCustomVocabularyItemOutput>(BatchUpdateCustomVocabularyItemOutput.httpOutput(from:), BatchUpdateCustomVocabularyItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateCustomVocabularyItemInput, BatchUpdateCustomVocabularyItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateCustomVocabularyItemOutput>())
@@ -586,9 +590,9 @@ extension LexModelsV2Client {
     ///
     /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
     ///
-    /// - Parameter BuildBotLocaleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BuildBotLocaleInput`)
     ///
-    /// - Returns: `BuildBotLocaleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BuildBotLocaleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,6 +628,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<BuildBotLocaleInput, BuildBotLocaleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BuildBotLocaleOutput>(BuildBotLocaleOutput.httpOutput(from:), BuildBotLocaleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BuildBotLocaleInput, BuildBotLocaleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BuildBotLocaleOutput>())
@@ -655,9 +660,9 @@ extension LexModelsV2Client {
     ///
     /// Creates an Amazon Lex conversational bot.
     ///
-    /// - Parameter CreateBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBotInput`)
     ///
-    /// - Returns: `CreateBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,6 +701,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBotInput, CreateBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBotOutput>(CreateBotOutput.httpOutput(from:), CreateBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBotInput, CreateBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBotOutput>())
@@ -727,9 +733,9 @@ extension LexModelsV2Client {
     ///
     /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applications use to call the Amazon Lex bot.
     ///
-    /// - Parameter CreateBotAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBotAliasInput`)
     ///
-    /// - Returns: `CreateBotAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBotAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,6 +774,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBotAliasInput, CreateBotAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBotAliasOutput>(CreateBotAliasOutput.httpOutput(from:), CreateBotAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBotAliasInput, CreateBotAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBotAliasOutput>())
@@ -799,9 +806,9 @@ extension LexModelsV2Client {
     ///
     /// Creates a locale in the bot. The locale contains the intents and slot types that the bot uses in conversations with users in the specified language and locale. You must add a locale to a bot before you can add intents and slot types to the bot.
     ///
-    /// - Parameter CreateBotLocaleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBotLocaleInput`)
     ///
-    /// - Returns: `CreateBotLocaleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBotLocaleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +847,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBotLocaleInput, CreateBotLocaleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBotLocaleOutput>(CreateBotLocaleOutput.httpOutput(from:), CreateBotLocaleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBotLocaleInput, CreateBotLocaleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBotLocaleOutput>())
@@ -871,9 +879,9 @@ extension LexModelsV2Client {
     ///
     /// Action to create a replication of the source bot in the secondary region.
     ///
-    /// - Parameter CreateBotReplicaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBotReplicaInput`)
     ///
-    /// - Returns: `CreateBotReplicaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBotReplicaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -912,6 +920,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBotReplicaInput, CreateBotReplicaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBotReplicaOutput>(CreateBotReplicaOutput.httpOutput(from:), CreateBotReplicaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBotReplicaInput, CreateBotReplicaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBotReplicaOutput>())
@@ -943,9 +952,9 @@ extension LexModelsV2Client {
     ///
     /// Creates an immutable version of the bot. When you create the first version of a bot, Amazon Lex sets the version number to 1. Subsequent bot versions increase in an increment of 1. The version number will always represent the total number of versions created of the bot, not the current number of versions. If a bot version is deleted, that bot version number will not be reused.
     ///
-    /// - Parameter CreateBotVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBotVersionInput`)
     ///
-    /// - Returns: `CreateBotVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBotVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,6 +993,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBotVersionInput, CreateBotVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBotVersionOutput>(CreateBotVersionOutput.httpOutput(from:), CreateBotVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBotVersionInput, CreateBotVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBotVersionOutput>())
@@ -1015,9 +1025,9 @@ extension LexModelsV2Client {
     ///
     /// Creates a zip archive containing the contents of a bot or a bot locale. The archive contains a directory structure that contains JSON files that define the bot. You can create an archive that contains the complete definition of a bot, or you can specify that the archive contain only the definition of a single bot locale. For more information about exporting bots, and about the structure of the export archive, see [ Importing and exporting bots ](https://docs.aws.amazon.com/lexv2/latest/dg/importing-exporting.html)
     ///
-    /// - Parameter CreateExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExportInput`)
     ///
-    /// - Returns: `CreateExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1056,6 +1066,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExportInput, CreateExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExportOutput>(CreateExportOutput.httpOutput(from:), CreateExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExportInput, CreateExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExportOutput>())
@@ -1099,9 +1110,9 @@ extension LexModelsV2Client {
     ///
     /// * A follow-up prompt that asks the user for additional activity. For example, "Do you want a drink with your pizza?"
     ///
-    /// - Parameter CreateIntentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIntentInput`)
     ///
-    /// - Returns: `CreateIntentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIntentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1140,6 +1151,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIntentInput, CreateIntentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIntentOutput>(CreateIntentOutput.httpOutput(from:), CreateIntentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIntentInput, CreateIntentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIntentOutput>())
@@ -1171,9 +1183,9 @@ extension LexModelsV2Client {
     ///
     /// Creates a new resource policy with the specified policy statements.
     ///
-    /// - Parameter CreateResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourcePolicyInput`)
     ///
-    /// - Returns: `CreateResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1212,6 +1224,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourcePolicyInput, CreateResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourcePolicyOutput>(CreateResourcePolicyOutput.httpOutput(from:), CreateResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourcePolicyInput, CreateResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourcePolicyOutput>())
@@ -1243,9 +1256,9 @@ extension LexModelsV2Client {
     ///
     /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access. You need to add the CreateResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API.
     ///
-    /// - Parameter CreateResourcePolicyStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourcePolicyStatementInput`)
     ///
-    /// - Returns: `CreateResourcePolicyStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourcePolicyStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,6 +1299,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourcePolicyStatementInput, CreateResourcePolicyStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourcePolicyStatementOutput>(CreateResourcePolicyStatementOutput.httpOutput(from:), CreateResourcePolicyStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourcePolicyStatementInput, CreateResourcePolicyStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourcePolicyStatementOutput>())
@@ -1317,9 +1331,9 @@ extension LexModelsV2Client {
     ///
     /// Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example, an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot, you define one or more utterances that Amazon Lex uses to elicit a response from the user.
     ///
-    /// - Parameter CreateSlotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSlotInput`)
     ///
-    /// - Returns: `CreateSlotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSlotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1358,6 +1372,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSlotInput, CreateSlotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSlotOutput>(CreateSlotOutput.httpOutput(from:), CreateSlotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSlotInput, CreateSlotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSlotOutput>())
@@ -1389,9 +1404,9 @@ extension LexModelsV2Client {
     ///
     /// Creates a custom slot type To create a custom slot type, specify a name for the slot type and a set of enumeration values, the values that a slot of this type can assume.
     ///
-    /// - Parameter CreateSlotTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSlotTypeInput`)
     ///
-    /// - Returns: `CreateSlotTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSlotTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1430,6 +1445,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSlotTypeInput, CreateSlotTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSlotTypeOutput>(CreateSlotTypeOutput.httpOutput(from:), CreateSlotTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSlotTypeInput, CreateSlotTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSlotTypeOutput>())
@@ -1461,9 +1477,9 @@ extension LexModelsV2Client {
     ///
     /// Create a report that describes the differences between the bot and the test set.
     ///
-    /// - Parameter CreateTestSetDiscrepancyReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTestSetDiscrepancyReportInput`)
     ///
-    /// - Returns: `CreateTestSetDiscrepancyReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTestSetDiscrepancyReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1502,6 +1518,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTestSetDiscrepancyReportInput, CreateTestSetDiscrepancyReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTestSetDiscrepancyReportOutput>(CreateTestSetDiscrepancyReportOutput.httpOutput(from:), CreateTestSetDiscrepancyReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTestSetDiscrepancyReportInput, CreateTestSetDiscrepancyReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTestSetDiscrepancyReportOutput>())
@@ -1533,9 +1550,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
     ///
-    /// - Parameter CreateUploadUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUploadUrlInput`)
     ///
-    /// - Returns: `CreateUploadUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUploadUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1570,6 +1587,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateUploadUrlInput, CreateUploadUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUploadUrlOutput>(CreateUploadUrlOutput.httpOutput(from:), CreateUploadUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUploadUrlInput, CreateUploadUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUploadUrlOutput>())
@@ -1601,9 +1619,9 @@ extension LexModelsV2Client {
     ///
     /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true.
     ///
-    /// - Parameter DeleteBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotInput`)
     ///
-    /// - Returns: `DeleteBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1640,6 +1658,7 @@ extension LexModelsV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBotInput, DeleteBotOutput>(DeleteBotInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotOutput>(DeleteBotOutput.httpOutput(from:), DeleteBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotInput, DeleteBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotOutput>())
@@ -1671,9 +1690,9 @@ extension LexModelsV2Client {
     ///
     /// Deletes the specified bot alias.
     ///
-    /// - Parameter DeleteBotAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotAliasInput`)
     ///
-    /// - Returns: `DeleteBotAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1710,6 +1729,7 @@ extension LexModelsV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBotAliasInput, DeleteBotAliasOutput>(DeleteBotAliasInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotAliasOutput>(DeleteBotAliasOutput.httpOutput(from:), DeleteBotAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotAliasInput, DeleteBotAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotAliasOutput>())
@@ -1741,9 +1761,9 @@ extension LexModelsV2Client {
     ///
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted.
     ///
-    /// - Parameter DeleteBotLocaleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotLocaleInput`)
     ///
-    /// - Returns: `DeleteBotLocaleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotLocaleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1779,6 +1799,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBotLocaleInput, DeleteBotLocaleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotLocaleOutput>(DeleteBotLocaleOutput.httpOutput(from:), DeleteBotLocaleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotLocaleInput, DeleteBotLocaleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotLocaleOutput>())
@@ -1810,9 +1831,9 @@ extension LexModelsV2Client {
     ///
     /// The action to delete the replicated bot in the secondary region.
     ///
-    /// - Parameter DeleteBotReplicaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotReplicaInput`)
     ///
-    /// - Returns: `DeleteBotReplicaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotReplicaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1848,6 +1869,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBotReplicaInput, DeleteBotReplicaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotReplicaOutput>(DeleteBotReplicaOutput.httpOutput(from:), DeleteBotReplicaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotReplicaInput, DeleteBotReplicaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotReplicaOutput>())
@@ -1879,9 +1901,9 @@ extension LexModelsV2Client {
     ///
     /// Deletes a specific version of a bot. To delete all versions of a bot, use the [DeleteBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DeleteBot.html) operation.
     ///
-    /// - Parameter DeleteBotVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBotVersionInput`)
     ///
-    /// - Returns: `DeleteBotVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBotVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1918,6 +1940,7 @@ extension LexModelsV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBotVersionInput, DeleteBotVersionOutput>(DeleteBotVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBotVersionOutput>(DeleteBotVersionOutput.httpOutput(from:), DeleteBotVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBotVersionInput, DeleteBotVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBotVersionOutput>())
@@ -1949,9 +1972,9 @@ extension LexModelsV2Client {
     ///
     /// Removes a custom vocabulary from the specified locale in the specified bot.
     ///
-    /// - Parameter DeleteCustomVocabularyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomVocabularyInput`)
     ///
-    /// - Returns: `DeleteCustomVocabularyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomVocabularyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1987,6 +2010,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCustomVocabularyInput, DeleteCustomVocabularyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomVocabularyOutput>(DeleteCustomVocabularyOutput.httpOutput(from:), DeleteCustomVocabularyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomVocabularyInput, DeleteCustomVocabularyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomVocabularyOutput>())
@@ -2018,9 +2042,9 @@ extension LexModelsV2Client {
     ///
     /// Removes a previous export and the associated files stored in an S3 bucket.
     ///
-    /// - Parameter DeleteExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExportInput`)
     ///
-    /// - Returns: `DeleteExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2055,6 +2079,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteExportInput, DeleteExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExportOutput>(DeleteExportOutput.httpOutput(from:), DeleteExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExportInput, DeleteExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExportOutput>())
@@ -2086,9 +2111,9 @@ extension LexModelsV2Client {
     ///
     /// Removes a previous import and the associated file stored in an S3 bucket.
     ///
-    /// - Parameter DeleteImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImportInput`)
     ///
-    /// - Returns: `DeleteImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2123,6 +2148,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImportInput, DeleteImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImportOutput>(DeleteImportOutput.httpOutput(from:), DeleteImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImportInput, DeleteImportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImportOutput>())
@@ -2154,9 +2180,9 @@ extension LexModelsV2Client {
     ///
     /// Removes the specified intent. Deleting an intent also deletes the slots associated with the intent.
     ///
-    /// - Parameter DeleteIntentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIntentInput`)
     ///
-    /// - Returns: `DeleteIntentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIntentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2192,6 +2218,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIntentInput, DeleteIntentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIntentOutput>(DeleteIntentOutput.httpOutput(from:), DeleteIntentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIntentInput, DeleteIntentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIntentOutput>())
@@ -2223,9 +2250,9 @@ extension LexModelsV2Client {
     ///
     /// Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy attached, Amazon Lex returns an exception.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2260,6 +2287,7 @@ extension LexModelsV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(DeleteResourcePolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -2291,9 +2319,9 @@ extension LexModelsV2Client {
     ///
     /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception. You need to add the DeleteResourcePolicy or UpdateResourcePolicy action to the bot role in order to call the API.
     ///
-    /// - Parameter DeleteResourcePolicyStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyStatementInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2328,6 +2356,7 @@ extension LexModelsV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteResourcePolicyStatementInput, DeleteResourcePolicyStatementOutput>(DeleteResourcePolicyStatementInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyStatementOutput>(DeleteResourcePolicyStatementOutput.httpOutput(from:), DeleteResourcePolicyStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyStatementInput, DeleteResourcePolicyStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyStatementOutput>())
@@ -2359,9 +2388,9 @@ extension LexModelsV2Client {
     ///
     /// Deletes the specified slot from an intent.
     ///
-    /// - Parameter DeleteSlotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlotInput`)
     ///
-    /// - Returns: `DeleteSlotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2397,6 +2426,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSlotInput, DeleteSlotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlotOutput>(DeleteSlotOutput.httpOutput(from:), DeleteSlotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlotInput, DeleteSlotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlotOutput>())
@@ -2428,9 +2458,9 @@ extension LexModelsV2Client {
     ///
     /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true.
     ///
-    /// - Parameter DeleteSlotTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlotTypeInput`)
     ///
-    /// - Returns: `DeleteSlotTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlotTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2467,6 +2497,7 @@ extension LexModelsV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteSlotTypeInput, DeleteSlotTypeOutput>(DeleteSlotTypeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlotTypeOutput>(DeleteSlotTypeOutput.httpOutput(from:), DeleteSlotTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlotTypeInput, DeleteSlotTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlotTypeOutput>())
@@ -2498,9 +2529,9 @@ extension LexModelsV2Client {
     ///
     /// The action to delete the selected test set.
     ///
-    /// - Parameter DeleteTestSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTestSetInput`)
     ///
-    /// - Returns: `DeleteTestSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTestSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2536,6 +2567,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTestSetInput, DeleteTestSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTestSetOutput>(DeleteTestSetOutput.httpOutput(from:), DeleteTestSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTestSetInput, DeleteTestSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTestSetOutput>())
@@ -2567,9 +2599,9 @@ extension LexModelsV2Client {
     ///
     /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
     ///
-    /// - Parameter DeleteUtterancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUtterancesInput`)
     ///
-    /// - Returns: `DeleteUtterancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUtterancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2603,6 +2635,7 @@ extension LexModelsV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteUtterancesInput, DeleteUtterancesOutput>(DeleteUtterancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUtterancesOutput>(DeleteUtterancesOutput.httpOutput(from:), DeleteUtterancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUtterancesInput, DeleteUtterancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUtterancesOutput>())
@@ -2634,9 +2667,9 @@ extension LexModelsV2Client {
     ///
     /// Provides metadata information about a bot.
     ///
-    /// - Parameter DescribeBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBotInput`)
     ///
-    /// - Returns: `DescribeBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2671,6 +2704,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBotInput, DescribeBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBotOutput>(DescribeBotOutput.httpOutput(from:), DescribeBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBotInput, DescribeBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBotOutput>())
@@ -2702,9 +2736,9 @@ extension LexModelsV2Client {
     ///
     /// Get information about a specific bot alias.
     ///
-    /// - Parameter DescribeBotAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBotAliasInput`)
     ///
-    /// - Returns: `DescribeBotAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBotAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2739,6 +2773,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBotAliasInput, DescribeBotAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBotAliasOutput>(DescribeBotAliasOutput.httpOutput(from:), DescribeBotAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBotAliasInput, DescribeBotAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBotAliasOutput>())
@@ -2770,9 +2805,9 @@ extension LexModelsV2Client {
     ///
     /// Describes the settings that a bot has for a specific locale.
     ///
-    /// - Parameter DescribeBotLocaleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBotLocaleInput`)
     ///
-    /// - Returns: `DescribeBotLocaleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBotLocaleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2807,6 +2842,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBotLocaleInput, DescribeBotLocaleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBotLocaleOutput>(DescribeBotLocaleOutput.httpOutput(from:), DescribeBotLocaleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBotLocaleInput, DescribeBotLocaleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBotLocaleOutput>())
@@ -2838,9 +2874,9 @@ extension LexModelsV2Client {
     ///
     /// Provides metadata information about a bot recommendation. This information will enable you to get a description on the request inputs, to download associated transcripts after processing is complete, and to download intents and slot-types generated by the bot recommendation.
     ///
-    /// - Parameter DescribeBotRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBotRecommendationInput`)
     ///
-    /// - Returns: `DescribeBotRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBotRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2874,6 +2910,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBotRecommendationInput, DescribeBotRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBotRecommendationOutput>(DescribeBotRecommendationOutput.httpOutput(from:), DescribeBotRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBotRecommendationInput, DescribeBotRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBotRecommendationOutput>())
@@ -2905,9 +2942,9 @@ extension LexModelsV2Client {
     ///
     /// Monitors the bot replication status through the UI console.
     ///
-    /// - Parameter DescribeBotReplicaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBotReplicaInput`)
     ///
-    /// - Returns: `DescribeBotReplicaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBotReplicaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2942,6 +2979,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBotReplicaInput, DescribeBotReplicaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBotReplicaOutput>(DescribeBotReplicaOutput.httpOutput(from:), DescribeBotReplicaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBotReplicaInput, DescribeBotReplicaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBotReplicaOutput>())
@@ -2973,9 +3011,9 @@ extension LexModelsV2Client {
     ///
     /// Returns information about a request to generate a bot through natural language description, made through the StartBotResource API. Use the generatedBotLocaleUrl to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration.
     ///
-    /// - Parameter DescribeBotResourceGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBotResourceGenerationInput`)
     ///
-    /// - Returns: `DescribeBotResourceGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBotResourceGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3009,6 +3047,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBotResourceGenerationInput, DescribeBotResourceGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBotResourceGenerationOutput>(DescribeBotResourceGenerationOutput.httpOutput(from:), DescribeBotResourceGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBotResourceGenerationInput, DescribeBotResourceGenerationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBotResourceGenerationOutput>())
@@ -3040,9 +3079,9 @@ extension LexModelsV2Client {
     ///
     /// Provides metadata about a version of a bot.
     ///
-    /// - Parameter DescribeBotVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBotVersionInput`)
     ///
-    /// - Returns: `DescribeBotVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBotVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3077,6 +3116,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBotVersionInput, DescribeBotVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBotVersionOutput>(DescribeBotVersionOutput.httpOutput(from:), DescribeBotVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBotVersionInput, DescribeBotVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBotVersionOutput>())
@@ -3108,9 +3148,9 @@ extension LexModelsV2Client {
     ///
     /// Provides metadata information about a custom vocabulary.
     ///
-    /// - Parameter DescribeCustomVocabularyMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomVocabularyMetadataInput`)
     ///
-    /// - Returns: `DescribeCustomVocabularyMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomVocabularyMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3145,6 +3185,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCustomVocabularyMetadataInput, DescribeCustomVocabularyMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomVocabularyMetadataOutput>(DescribeCustomVocabularyMetadataOutput.httpOutput(from:), DescribeCustomVocabularyMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomVocabularyMetadataInput, DescribeCustomVocabularyMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomVocabularyMetadataOutput>())
@@ -3176,9 +3217,9 @@ extension LexModelsV2Client {
     ///
     /// Gets information about a specific export.
     ///
-    /// - Parameter DescribeExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExportInput`)
     ///
-    /// - Returns: `DescribeExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3212,6 +3253,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeExportInput, DescribeExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExportOutput>(DescribeExportOutput.httpOutput(from:), DescribeExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExportInput, DescribeExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExportOutput>())
@@ -3243,9 +3285,9 @@ extension LexModelsV2Client {
     ///
     /// Gets information about a specific import.
     ///
-    /// - Parameter DescribeImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImportInput`)
     ///
-    /// - Returns: `DescribeImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3279,6 +3321,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeImportInput, DescribeImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImportOutput>(DescribeImportOutput.httpOutput(from:), DescribeImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImportInput, DescribeImportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImportOutput>())
@@ -3310,9 +3353,9 @@ extension LexModelsV2Client {
     ///
     /// Returns metadata about an intent.
     ///
-    /// - Parameter DescribeIntentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIntentInput`)
     ///
-    /// - Returns: `DescribeIntentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIntentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3347,6 +3390,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeIntentInput, DescribeIntentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIntentOutput>(DescribeIntentOutput.httpOutput(from:), DescribeIntentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIntentInput, DescribeIntentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIntentOutput>())
@@ -3378,9 +3422,9 @@ extension LexModelsV2Client {
     ///
     /// Gets the resource policy and policy revision for a bot or bot alias.
     ///
-    /// - Parameter DescribeResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
-    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3413,6 +3457,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutput>(DescribeResourcePolicyOutput.httpOutput(from:), DescribeResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
@@ -3444,9 +3489,9 @@ extension LexModelsV2Client {
     ///
     /// Gets metadata information about a slot.
     ///
-    /// - Parameter DescribeSlotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSlotInput`)
     ///
-    /// - Returns: `DescribeSlotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSlotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3481,6 +3526,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSlotInput, DescribeSlotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSlotOutput>(DescribeSlotOutput.httpOutput(from:), DescribeSlotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSlotInput, DescribeSlotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSlotOutput>())
@@ -3512,9 +3558,9 @@ extension LexModelsV2Client {
     ///
     /// Gets metadata information about a slot type.
     ///
-    /// - Parameter DescribeSlotTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSlotTypeInput`)
     ///
-    /// - Returns: `DescribeSlotTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSlotTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3549,6 +3595,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSlotTypeInput, DescribeSlotTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSlotTypeOutput>(DescribeSlotTypeOutput.httpOutput(from:), DescribeSlotTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSlotTypeInput, DescribeSlotTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSlotTypeOutput>())
@@ -3580,9 +3627,9 @@ extension LexModelsV2Client {
     ///
     /// Gets metadata information about the test execution.
     ///
-    /// - Parameter DescribeTestExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTestExecutionInput`)
     ///
-    /// - Returns: `DescribeTestExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTestExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3617,6 +3664,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTestExecutionInput, DescribeTestExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTestExecutionOutput>(DescribeTestExecutionOutput.httpOutput(from:), DescribeTestExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTestExecutionInput, DescribeTestExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTestExecutionOutput>())
@@ -3648,9 +3696,9 @@ extension LexModelsV2Client {
     ///
     /// Gets metadata information about the test set.
     ///
-    /// - Parameter DescribeTestSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTestSetInput`)
     ///
-    /// - Returns: `DescribeTestSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTestSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3685,6 +3733,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTestSetInput, DescribeTestSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTestSetOutput>(DescribeTestSetOutput.httpOutput(from:), DescribeTestSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTestSetInput, DescribeTestSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTestSetOutput>())
@@ -3716,9 +3765,9 @@ extension LexModelsV2Client {
     ///
     /// Gets metadata information about the test set discrepancy report.
     ///
-    /// - Parameter DescribeTestSetDiscrepancyReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTestSetDiscrepancyReportInput`)
     ///
-    /// - Returns: `DescribeTestSetDiscrepancyReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTestSetDiscrepancyReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3753,6 +3802,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTestSetDiscrepancyReportInput, DescribeTestSetDiscrepancyReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTestSetDiscrepancyReportOutput>(DescribeTestSetDiscrepancyReportOutput.httpOutput(from:), DescribeTestSetDiscrepancyReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTestSetDiscrepancyReportInput, DescribeTestSetDiscrepancyReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTestSetDiscrepancyReportOutput>())
@@ -3784,9 +3834,9 @@ extension LexModelsV2Client {
     ///
     /// Gets metadata information about the test set generation.
     ///
-    /// - Parameter DescribeTestSetGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTestSetGenerationInput`)
     ///
-    /// - Returns: `DescribeTestSetGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTestSetGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3821,6 +3871,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTestSetGenerationInput, DescribeTestSetGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTestSetGenerationOutput>(DescribeTestSetGenerationOutput.httpOutput(from:), DescribeTestSetGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTestSetGenerationInput, DescribeTestSetGenerationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTestSetGenerationOutput>())
@@ -3852,9 +3903,9 @@ extension LexModelsV2Client {
     ///
     /// Generates sample utterances for an intent.
     ///
-    /// - Parameter GenerateBotElementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateBotElementInput`)
     ///
-    /// - Returns: `GenerateBotElementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateBotElementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3894,6 +3945,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateBotElementInput, GenerateBotElementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateBotElementOutput>(GenerateBotElementOutput.httpOutput(from:), GenerateBotElementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateBotElementInput, GenerateBotElementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateBotElementOutput>())
@@ -3925,9 +3977,9 @@ extension LexModelsV2Client {
     ///
     /// The pre-signed Amazon S3 URL to download the test execution result artifacts.
     ///
-    /// - Parameter GetTestExecutionArtifactsUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTestExecutionArtifactsUrlInput`)
     ///
-    /// - Returns: `GetTestExecutionArtifactsUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTestExecutionArtifactsUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3962,6 +4014,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTestExecutionArtifactsUrlInput, GetTestExecutionArtifactsUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTestExecutionArtifactsUrlOutput>(GetTestExecutionArtifactsUrlOutput.httpOutput(from:), GetTestExecutionArtifactsUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTestExecutionArtifactsUrlInput, GetTestExecutionArtifactsUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTestExecutionArtifactsUrlOutput>())
@@ -3999,9 +4052,9 @@ extension LexModelsV2Client {
     ///
     /// * You opted out of participating in improving Amazon Lex.
     ///
-    /// - Parameter ListAggregatedUtterancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAggregatedUtterancesInput`)
     ///
-    /// - Returns: `ListAggregatedUtterancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAggregatedUtterancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4038,6 +4091,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAggregatedUtterancesInput, ListAggregatedUtterancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAggregatedUtterancesOutput>(ListAggregatedUtterancesOutput.httpOutput(from:), ListAggregatedUtterancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAggregatedUtterancesInput, ListAggregatedUtterancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAggregatedUtterancesOutput>())
@@ -4069,9 +4123,9 @@ extension LexModelsV2Client {
     ///
     /// The action to list the replicated bots created from the source bot alias.
     ///
-    /// - Parameter ListBotAliasReplicasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotAliasReplicasInput`)
     ///
-    /// - Returns: `ListBotAliasReplicasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotAliasReplicasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4108,6 +4162,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotAliasReplicasInput, ListBotAliasReplicasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotAliasReplicasOutput>(ListBotAliasReplicasOutput.httpOutput(from:), ListBotAliasReplicasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotAliasReplicasInput, ListBotAliasReplicasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotAliasReplicasOutput>())
@@ -4139,9 +4194,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of aliases for the specified bot.
     ///
-    /// - Parameter ListBotAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotAliasesInput`)
     ///
-    /// - Returns: `ListBotAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4178,6 +4233,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotAliasesInput, ListBotAliasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotAliasesOutput>(ListBotAliasesOutput.httpOutput(from:), ListBotAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotAliasesInput, ListBotAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotAliasesOutput>())
@@ -4209,9 +4265,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of locales for the specified bot.
     ///
-    /// - Parameter ListBotLocalesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotLocalesInput`)
     ///
-    /// - Returns: `ListBotLocalesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotLocalesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4248,6 +4304,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotLocalesInput, ListBotLocalesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotLocalesOutput>(ListBotLocalesOutput.httpOutput(from:), ListBotLocalesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotLocalesInput, ListBotLocalesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotLocalesOutput>())
@@ -4279,9 +4336,9 @@ extension LexModelsV2Client {
     ///
     /// Get a list of bot recommendations that meet the specified criteria.
     ///
-    /// - Parameter ListBotRecommendationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotRecommendationsInput`)
     ///
-    /// - Returns: `ListBotRecommendationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotRecommendationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4318,6 +4375,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotRecommendationsInput, ListBotRecommendationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotRecommendationsOutput>(ListBotRecommendationsOutput.httpOutput(from:), ListBotRecommendationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotRecommendationsInput, ListBotRecommendationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotRecommendationsOutput>())
@@ -4349,9 +4407,9 @@ extension LexModelsV2Client {
     ///
     /// The action to list the replicated bots.
     ///
-    /// - Parameter ListBotReplicasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotReplicasInput`)
     ///
-    /// - Returns: `ListBotReplicasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotReplicasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4385,6 +4443,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListBotReplicasInput, ListBotReplicasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotReplicasOutput>(ListBotReplicasOutput.httpOutput(from:), ListBotReplicasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotReplicasInput, ListBotReplicasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotReplicasOutput>())
@@ -4416,9 +4475,9 @@ extension LexModelsV2Client {
     ///
     /// Lists the generation requests made for a bot locale.
     ///
-    /// - Parameter ListBotResourceGenerationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotResourceGenerationsInput`)
     ///
-    /// - Returns: `ListBotResourceGenerationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotResourceGenerationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4455,6 +4514,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotResourceGenerationsInput, ListBotResourceGenerationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotResourceGenerationsOutput>(ListBotResourceGenerationsOutput.httpOutput(from:), ListBotResourceGenerationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotResourceGenerationsInput, ListBotResourceGenerationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotResourceGenerationsOutput>())
@@ -4486,9 +4546,9 @@ extension LexModelsV2Client {
     ///
     /// Contains information about all the versions replication statuses applicable for Global Resiliency.
     ///
-    /// - Parameter ListBotVersionReplicasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotVersionReplicasInput`)
     ///
-    /// - Returns: `ListBotVersionReplicasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotVersionReplicasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4525,6 +4585,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotVersionReplicasInput, ListBotVersionReplicasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotVersionReplicasOutput>(ListBotVersionReplicasOutput.httpOutput(from:), ListBotVersionReplicasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotVersionReplicasInput, ListBotVersionReplicasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotVersionReplicasOutput>())
@@ -4556,9 +4617,9 @@ extension LexModelsV2Client {
     ///
     /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
     ///
-    /// - Parameter ListBotVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotVersionsInput`)
     ///
-    /// - Returns: `ListBotVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4595,6 +4656,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotVersionsInput, ListBotVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotVersionsOutput>(ListBotVersionsOutput.httpOutput(from:), ListBotVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotVersionsInput, ListBotVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotVersionsOutput>())
@@ -4626,9 +4688,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of available bots.
     ///
-    /// - Parameter ListBotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBotsInput`)
     ///
-    /// - Returns: `ListBotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4665,6 +4727,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBotsInput, ListBotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBotsOutput>(ListBotsOutput.httpOutput(from:), ListBotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBotsInput, ListBotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBotsOutput>())
@@ -4696,9 +4759,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateIntent.html).
     ///
-    /// - Parameter ListBuiltInIntentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuiltInIntentsInput`)
     ///
-    /// - Returns: `ListBuiltInIntentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuiltInIntentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4735,6 +4798,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuiltInIntentsInput, ListBuiltInIntentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuiltInIntentsOutput>(ListBuiltInIntentsOutput.httpOutput(from:), ListBuiltInIntentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuiltInIntentsInput, ListBuiltInIntentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuiltInIntentsOutput>())
@@ -4766,9 +4830,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of built-in slot types that meet the specified criteria.
     ///
-    /// - Parameter ListBuiltInSlotTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBuiltInSlotTypesInput`)
     ///
-    /// - Returns: `ListBuiltInSlotTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBuiltInSlotTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4805,6 +4869,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBuiltInSlotTypesInput, ListBuiltInSlotTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBuiltInSlotTypesOutput>(ListBuiltInSlotTypesOutput.httpOutput(from:), ListBuiltInSlotTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBuiltInSlotTypesInput, ListBuiltInSlotTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBuiltInSlotTypesOutput>())
@@ -4836,9 +4901,9 @@ extension LexModelsV2Client {
     ///
     /// Paginated list of custom vocabulary items for a given bot locale's custom vocabulary.
     ///
-    /// - Parameter ListCustomVocabularyItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomVocabularyItemsInput`)
     ///
-    /// - Returns: `ListCustomVocabularyItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomVocabularyItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4876,6 +4941,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomVocabularyItemsInput, ListCustomVocabularyItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomVocabularyItemsOutput>(ListCustomVocabularyItemsOutput.httpOutput(from:), ListCustomVocabularyItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomVocabularyItemsInput, ListCustomVocabularyItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomVocabularyItemsOutput>())
@@ -4907,9 +4973,9 @@ extension LexModelsV2Client {
     ///
     /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     ///
-    /// - Parameter ListExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExportsInput`)
     ///
-    /// - Returns: `ListExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4945,6 +5011,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportsInput, ListExportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExportsOutput>(ListExportsOutput.httpOutput(from:), ListExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportsInput, ListExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExportsOutput>())
@@ -4976,9 +5043,9 @@ extension LexModelsV2Client {
     ///
     /// Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
     ///
-    /// - Parameter ListImportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportsInput`)
     ///
-    /// - Returns: `ListImportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5014,6 +5081,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImportsInput, ListImportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportsOutput>(ListImportsOutput.httpOutput(from:), ListImportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportsInput, ListImportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportsOutput>())
@@ -5059,9 +5127,9 @@ extension LexModelsV2Client {
     ///
     /// Note that an order field exists in both binBy and metrics. You can specify only one order in a given request.
     ///
-    /// - Parameter ListIntentMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIntentMetricsInput`)
     ///
-    /// - Returns: `ListIntentMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIntentMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5099,6 +5167,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntentMetricsInput, ListIntentMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntentMetricsOutput>(ListIntentMetricsOutput.httpOutput(from:), ListIntentMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntentMetricsInput, ListIntentMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntentMetricsOutput>())
@@ -5137,9 +5206,9 @@ extension LexModelsV2Client {
     ///
     /// Use the optional filters field to filter the results.
     ///
-    /// - Parameter ListIntentPathsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIntentPathsInput`)
     ///
-    /// - Returns: `ListIntentPathsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIntentPathsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5177,6 +5246,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntentPathsInput, ListIntentPathsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntentPathsOutput>(ListIntentPathsOutput.httpOutput(from:), ListIntentPathsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntentPathsInput, ListIntentPathsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntentPathsOutput>())
@@ -5222,9 +5292,9 @@ extension LexModelsV2Client {
     ///
     /// Note that an order field exists in both binBy and metrics. You can only specify one order in a given request.
     ///
-    /// - Parameter ListIntentStageMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIntentStageMetricsInput`)
     ///
-    /// - Returns: `ListIntentStageMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIntentStageMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5262,6 +5332,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntentStageMetricsInput, ListIntentStageMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntentStageMetricsOutput>(ListIntentStageMetricsOutput.httpOutput(from:), ListIntentStageMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntentStageMetricsInput, ListIntentStageMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntentStageMetricsOutput>())
@@ -5293,9 +5364,9 @@ extension LexModelsV2Client {
     ///
     /// Get a list of intents that meet the specified criteria.
     ///
-    /// - Parameter ListIntentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIntentsInput`)
     ///
-    /// - Returns: `ListIntentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIntentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5332,6 +5403,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIntentsInput, ListIntentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIntentsOutput>(ListIntentsOutput.httpOutput(from:), ListIntentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIntentsInput, ListIntentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIntentsOutput>())
@@ -5363,9 +5435,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the response are ordered by relevance.
     ///
-    /// - Parameter ListRecommendedIntentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendedIntentsInput`)
     ///
-    /// - Returns: `ListRecommendedIntentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendedIntentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5403,6 +5475,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedIntentsInput, ListRecommendedIntentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendedIntentsOutput>(ListRecommendedIntentsOutput.httpOutput(from:), ListRecommendedIntentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendedIntentsInput, ListRecommendedIntentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendedIntentsOutput>())
@@ -5438,9 +5511,9 @@ extension LexModelsV2Client {
     ///
     /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
     ///
-    /// - Parameter ListSessionAnalyticsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionAnalyticsDataInput`)
     ///
-    /// - Returns: `ListSessionAnalyticsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionAnalyticsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5478,6 +5551,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSessionAnalyticsDataInput, ListSessionAnalyticsDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionAnalyticsDataOutput>(ListSessionAnalyticsDataOutput.httpOutput(from:), ListSessionAnalyticsDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionAnalyticsDataInput, ListSessionAnalyticsDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionAnalyticsDataOutput>())
@@ -5523,9 +5597,9 @@ extension LexModelsV2Client {
     ///
     /// Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
     ///
-    /// - Parameter ListSessionMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionMetricsInput`)
     ///
-    /// - Returns: `ListSessionMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5563,6 +5637,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSessionMetricsInput, ListSessionMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionMetricsOutput>(ListSessionMetricsOutput.httpOutput(from:), ListSessionMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionMetricsInput, ListSessionMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionMetricsOutput>())
@@ -5594,9 +5669,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of slot types that match the specified criteria.
     ///
-    /// - Parameter ListSlotTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSlotTypesInput`)
     ///
-    /// - Returns: `ListSlotTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSlotTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5633,6 +5708,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSlotTypesInput, ListSlotTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSlotTypesOutput>(ListSlotTypesOutput.httpOutput(from:), ListSlotTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSlotTypesInput, ListSlotTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSlotTypesOutput>())
@@ -5664,9 +5740,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of slots that match the specified criteria.
     ///
-    /// - Parameter ListSlotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSlotsInput`)
     ///
-    /// - Returns: `ListSlotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSlotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5703,6 +5779,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSlotsInput, ListSlotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSlotsOutput>(ListSlotsOutput.httpOutput(from:), ListSlotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSlotsInput, ListSlotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSlotsOutput>())
@@ -5734,9 +5811,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels can have tags associated with them.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5770,6 +5847,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5801,9 +5879,9 @@ extension LexModelsV2Client {
     ///
     /// Gets a list of test execution result items.
     ///
-    /// - Parameter ListTestExecutionResultItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestExecutionResultItemsInput`)
     ///
-    /// - Returns: `ListTestExecutionResultItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestExecutionResultItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5841,6 +5919,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestExecutionResultItemsInput, ListTestExecutionResultItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestExecutionResultItemsOutput>(ListTestExecutionResultItemsOutput.httpOutput(from:), ListTestExecutionResultItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestExecutionResultItemsInput, ListTestExecutionResultItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestExecutionResultItemsOutput>())
@@ -5872,9 +5951,9 @@ extension LexModelsV2Client {
     ///
     /// The list of test set executions.
     ///
-    /// - Parameter ListTestExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestExecutionsInput`)
     ///
-    /// - Returns: `ListTestExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5911,6 +5990,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestExecutionsInput, ListTestExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestExecutionsOutput>(ListTestExecutionsOutput.httpOutput(from:), ListTestExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestExecutionsInput, ListTestExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestExecutionsOutput>())
@@ -5942,9 +6022,9 @@ extension LexModelsV2Client {
     ///
     /// The list of test set records.
     ///
-    /// - Parameter ListTestSetRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestSetRecordsInput`)
     ///
-    /// - Returns: `ListTestSetRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestSetRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5982,6 +6062,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestSetRecordsInput, ListTestSetRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestSetRecordsOutput>(ListTestSetRecordsOutput.httpOutput(from:), ListTestSetRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestSetRecordsInput, ListTestSetRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestSetRecordsOutput>())
@@ -6013,9 +6094,9 @@ extension LexModelsV2Client {
     ///
     /// The list of the test sets
     ///
-    /// - Parameter ListTestSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTestSetsInput`)
     ///
-    /// - Returns: `ListTestSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTestSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6052,6 +6133,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTestSetsInput, ListTestSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTestSetsOutput>(ListTestSetsOutput.httpOutput(from:), ListTestSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTestSetsInput, ListTestSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTestSetsOutput>())
@@ -6092,9 +6174,9 @@ extension LexModelsV2Client {
     ///
     /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
     ///
-    /// - Parameter ListUtteranceAnalyticsDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUtteranceAnalyticsDataInput`)
     ///
-    /// - Returns: `ListUtteranceAnalyticsDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUtteranceAnalyticsDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6132,6 +6214,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUtteranceAnalyticsDataInput, ListUtteranceAnalyticsDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUtteranceAnalyticsDataOutput>(ListUtteranceAnalyticsDataOutput.httpOutput(from:), ListUtteranceAnalyticsDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUtteranceAnalyticsDataInput, ListUtteranceAnalyticsDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUtteranceAnalyticsDataOutput>())
@@ -6177,9 +6260,9 @@ extension LexModelsV2Client {
     ///
     /// Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
     ///
-    /// - Parameter ListUtteranceMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUtteranceMetricsInput`)
     ///
-    /// - Returns: `ListUtteranceMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUtteranceMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6217,6 +6300,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListUtteranceMetricsInput, ListUtteranceMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUtteranceMetricsOutput>(ListUtteranceMetricsOutput.httpOutput(from:), ListUtteranceMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUtteranceMetricsInput, ListUtteranceMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUtteranceMetricsOutput>())
@@ -6248,9 +6332,9 @@ extension LexModelsV2Client {
     ///
     /// Search for associated transcripts that meet the specified criteria.
     ///
-    /// - Parameter SearchAssociatedTranscriptsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchAssociatedTranscriptsInput`)
     ///
-    /// - Returns: `SearchAssociatedTranscriptsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchAssociatedTranscriptsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6288,6 +6372,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAssociatedTranscriptsInput, SearchAssociatedTranscriptsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAssociatedTranscriptsOutput>(SearchAssociatedTranscriptsOutput.httpOutput(from:), SearchAssociatedTranscriptsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAssociatedTranscriptsInput, SearchAssociatedTranscriptsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchAssociatedTranscriptsOutput>())
@@ -6319,9 +6404,9 @@ extension LexModelsV2Client {
     ///
     /// Use this to provide your transcript data, and to start the bot recommendation process.
     ///
-    /// - Parameter StartBotRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBotRecommendationInput`)
     ///
-    /// - Returns: `StartBotRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBotRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6361,6 +6446,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBotRecommendationInput, StartBotRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBotRecommendationOutput>(StartBotRecommendationOutput.httpOutput(from:), StartBotRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBotRecommendationInput, StartBotRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBotRecommendationOutput>())
@@ -6392,9 +6478,9 @@ extension LexModelsV2Client {
     ///
     /// Starts a request for the descriptive bot builder to generate a bot locale configuration based on the prompt you provide it. After you make this call, use the DescribeBotResourceGeneration operation to check on the status of the generation and for the generatedBotLocaleUrl when the generation is complete. Use that value to retrieve the Amazon S3 object containing the bot locale configuration. You can then modify and import this configuration.
     ///
-    /// - Parameter StartBotResourceGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBotResourceGenerationInput`)
     ///
-    /// - Returns: `StartBotResourceGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBotResourceGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6433,6 +6519,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBotResourceGenerationInput, StartBotResourceGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBotResourceGenerationOutput>(StartBotResourceGenerationOutput.httpOutput(from:), StartBotResourceGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBotResourceGenerationInput, StartBotResourceGenerationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBotResourceGenerationOutput>())
@@ -6464,9 +6551,9 @@ extension LexModelsV2Client {
     ///
     /// Starts importing a bot, bot locale, or custom vocabulary from a zip archive that you uploaded to an S3 bucket.
     ///
-    /// - Parameter StartImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartImportInput`)
     ///
-    /// - Returns: `StartImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6505,6 +6592,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportInput, StartImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportOutput>(StartImportOutput.httpOutput(from:), StartImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportInput, StartImportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportOutput>())
@@ -6536,9 +6624,9 @@ extension LexModelsV2Client {
     ///
     /// The action to start test set execution.
     ///
-    /// - Parameter StartTestExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTestExecutionInput`)
     ///
-    /// - Returns: `StartTestExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTestExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6577,6 +6665,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTestExecutionInput, StartTestExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTestExecutionOutput>(StartTestExecutionOutput.httpOutput(from:), StartTestExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTestExecutionInput, StartTestExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTestExecutionOutput>())
@@ -6608,9 +6697,9 @@ extension LexModelsV2Client {
     ///
     /// The action to start the generation of test set.
     ///
-    /// - Parameter StartTestSetGenerationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTestSetGenerationInput`)
     ///
-    /// - Returns: `StartTestSetGenerationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTestSetGenerationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6649,6 +6738,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTestSetGenerationInput, StartTestSetGenerationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTestSetGenerationOutput>(StartTestSetGenerationOutput.httpOutput(from:), StartTestSetGenerationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTestSetGenerationInput, StartTestSetGenerationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTestSetGenerationOutput>())
@@ -6680,9 +6770,9 @@ extension LexModelsV2Client {
     ///
     /// Stop an already running Bot Recommendation request.
     ///
-    /// - Parameter StopBotRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopBotRecommendationInput`)
     ///
-    /// - Returns: `StopBotRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopBotRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6719,6 +6809,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBotRecommendationInput, StopBotRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopBotRecommendationOutput>(StopBotRecommendationOutput.httpOutput(from:), StopBotRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopBotRecommendationInput, StopBotRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopBotRecommendationOutput>())
@@ -6750,9 +6841,9 @@ extension LexModelsV2Client {
     ///
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6789,6 +6880,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6820,9 +6912,9 @@ extension LexModelsV2Client {
     ///
     /// Removes tags from a bot, bot alias, or bot channel.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6857,6 +6949,7 @@ extension LexModelsV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6888,9 +6981,9 @@ extension LexModelsV2Client {
     ///
     /// Updates the configuration of an existing bot.
     ///
-    /// - Parameter UpdateBotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBotInput`)
     ///
-    /// - Returns: `UpdateBotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6929,6 +7022,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBotInput, UpdateBotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBotOutput>(UpdateBotOutput.httpOutput(from:), UpdateBotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBotInput, UpdateBotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBotOutput>())
@@ -6960,9 +7054,9 @@ extension LexModelsV2Client {
     ///
     /// Updates the configuration of an existing bot alias.
     ///
-    /// - Parameter UpdateBotAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBotAliasInput`)
     ///
-    /// - Returns: `UpdateBotAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBotAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7001,6 +7095,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBotAliasInput, UpdateBotAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBotAliasOutput>(UpdateBotAliasOutput.httpOutput(from:), UpdateBotAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBotAliasInput, UpdateBotAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBotAliasOutput>())
@@ -7032,9 +7127,9 @@ extension LexModelsV2Client {
     ///
     /// Updates the settings that a bot has for a specific locale.
     ///
-    /// - Parameter UpdateBotLocaleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBotLocaleInput`)
     ///
-    /// - Returns: `UpdateBotLocaleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBotLocaleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7073,6 +7168,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBotLocaleInput, UpdateBotLocaleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBotLocaleOutput>(UpdateBotLocaleOutput.httpOutput(from:), UpdateBotLocaleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBotLocaleInput, UpdateBotLocaleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBotLocaleOutput>())
@@ -7104,9 +7200,9 @@ extension LexModelsV2Client {
     ///
     /// Updates an existing bot recommendation request.
     ///
-    /// - Parameter UpdateBotRecommendationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBotRecommendationInput`)
     ///
-    /// - Returns: `UpdateBotRecommendationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBotRecommendationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7146,6 +7242,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBotRecommendationInput, UpdateBotRecommendationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBotRecommendationOutput>(UpdateBotRecommendationOutput.httpOutput(from:), UpdateBotRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBotRecommendationInput, UpdateBotRecommendationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBotRecommendationOutput>())
@@ -7177,9 +7274,9 @@ extension LexModelsV2Client {
     ///
     /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation.
     ///
-    /// - Parameter UpdateExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateExportInput`)
     ///
-    /// - Returns: `UpdateExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7218,6 +7315,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateExportInput, UpdateExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateExportOutput>(UpdateExportOutput.httpOutput(from:), UpdateExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateExportInput, UpdateExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateExportOutput>())
@@ -7249,9 +7347,9 @@ extension LexModelsV2Client {
     ///
     /// Updates the settings for an intent.
     ///
-    /// - Parameter UpdateIntentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIntentInput`)
     ///
-    /// - Returns: `UpdateIntentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIntentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7290,6 +7388,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIntentInput, UpdateIntentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIntentOutput>(UpdateIntentOutput.httpOutput(from:), UpdateIntentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIntentInput, UpdateIntentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIntentOutput>())
@@ -7321,9 +7420,9 @@ extension LexModelsV2Client {
     ///
     /// Replaces the existing resource policy for a bot or bot alias with a new one. If the policy doesn't exist, Amazon Lex returns an exception.
     ///
-    /// - Parameter UpdateResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourcePolicyInput`)
     ///
-    /// - Returns: `UpdateResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7363,6 +7462,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourcePolicyInput, UpdateResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourcePolicyOutput>(UpdateResourcePolicyOutput.httpOutput(from:), UpdateResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourcePolicyInput, UpdateResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourcePolicyOutput>())
@@ -7394,9 +7494,9 @@ extension LexModelsV2Client {
     ///
     /// Updates the settings for a slot.
     ///
-    /// - Parameter UpdateSlotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSlotInput`)
     ///
-    /// - Returns: `UpdateSlotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSlotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7435,6 +7535,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSlotInput, UpdateSlotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSlotOutput>(UpdateSlotOutput.httpOutput(from:), UpdateSlotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSlotInput, UpdateSlotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSlotOutput>())
@@ -7466,9 +7567,9 @@ extension LexModelsV2Client {
     ///
     /// Updates the configuration of an existing slot type.
     ///
-    /// - Parameter UpdateSlotTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSlotTypeInput`)
     ///
-    /// - Returns: `UpdateSlotTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSlotTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7507,6 +7608,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSlotTypeInput, UpdateSlotTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSlotTypeOutput>(UpdateSlotTypeOutput.httpOutput(from:), UpdateSlotTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSlotTypeInput, UpdateSlotTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSlotTypeOutput>())
@@ -7538,9 +7640,9 @@ extension LexModelsV2Client {
     ///
     /// The action to update the test set.
     ///
-    /// - Parameter UpdateTestSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTestSetInput`)
     ///
-    /// - Returns: `UpdateTestSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTestSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7579,6 +7681,7 @@ extension LexModelsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTestSetInput, UpdateTestSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTestSetOutput>(UpdateTestSetOutput.httpOutput(from:), UpdateTestSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTestSetInput, UpdateTestSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTestSetOutput>())

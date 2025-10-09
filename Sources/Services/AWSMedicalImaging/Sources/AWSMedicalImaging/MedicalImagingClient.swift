@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -70,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MedicalImagingClient: ClientRuntime.Client {
     public static let clientName = "MedicalImagingClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MedicalImagingClient.MedicalImagingClientConfiguration
     let serviceName = "Medical Imaging"
@@ -376,9 +377,9 @@ extension MedicalImagingClient {
     ///
     /// Copy an image set.
     ///
-    /// - Parameter CopyImageSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyImageSetInput`)
     ///
-    /// - Returns: `CopyImageSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyImageSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,6 +420,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyImageSetInput, CopyImageSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyImageSetOutput>(CopyImageSetOutput.httpOutput(from:), CopyImageSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyImageSetInput, CopyImageSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyImageSetOutput>())
@@ -450,9 +452,9 @@ extension MedicalImagingClient {
     ///
     /// Create a data store.
     ///
-    /// - Parameter CreateDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatastoreInput`)
     ///
-    /// - Returns: `CreateDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,6 +495,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatastoreInput, CreateDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatastoreOutput>(CreateDatastoreOutput.httpOutput(from:), CreateDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatastoreInput, CreateDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatastoreOutput>())
@@ -524,9 +527,9 @@ extension MedicalImagingClient {
     ///
     /// Delete a data store. Before a data store can be deleted, you must first delete all image sets within it.
     ///
-    /// - Parameter DeleteDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatastoreInput`)
     ///
-    /// - Returns: `DeleteDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +565,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatastoreInput, DeleteDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatastoreOutput>(DeleteDatastoreOutput.httpOutput(from:), DeleteDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatastoreInput, DeleteDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatastoreOutput>())
@@ -593,9 +597,9 @@ extension MedicalImagingClient {
     ///
     /// Delete an image set.
     ///
-    /// - Parameter DeleteImageSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteImageSetInput`)
     ///
-    /// - Returns: `DeleteImageSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteImageSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,6 +635,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteImageSetInput, DeleteImageSetOutput>(hostPrefix: "runtime-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteImageSetOutput>(DeleteImageSetOutput.httpOutput(from:), DeleteImageSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteImageSetInput, DeleteImageSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteImageSetOutput>())
@@ -662,9 +667,9 @@ extension MedicalImagingClient {
     ///
     /// Get the import job properties to learn more about the job or job progress. The jobStatus refers to the execution of the import job. Therefore, an import job can return a jobStatus as COMPLETED even if validation issues are discovered during the import process. If a jobStatus returns as COMPLETED, we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports.
     ///
-    /// - Parameter GetDICOMImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDICOMImportJobInput`)
     ///
-    /// - Returns: `GetDICOMImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDICOMImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,6 +705,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDICOMImportJobInput, GetDICOMImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDICOMImportJobOutput>(GetDICOMImportJobOutput.httpOutput(from:), GetDICOMImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDICOMImportJobInput, GetDICOMImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDICOMImportJobOutput>())
@@ -731,9 +737,9 @@ extension MedicalImagingClient {
     ///
     /// Get data store properties.
     ///
-    /// - Parameter GetDatastoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatastoreInput`)
     ///
-    /// - Returns: `GetDatastoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatastoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,6 +774,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDatastoreInput, GetDatastoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDatastoreOutput>(GetDatastoreOutput.httpOutput(from:), GetDatastoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatastoreInput, GetDatastoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatastoreOutput>())
@@ -799,9 +806,9 @@ extension MedicalImagingClient {
     ///
     /// Get an image frame (pixel data) for an image set.
     ///
-    /// - Parameter GetImageFrameInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageFrameInput`)
     ///
-    /// - Returns: `GetImageFrameOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageFrameOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +847,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetImageFrameInput, GetImageFrameOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImageFrameOutput>(GetImageFrameOutput.httpOutput(from:), GetImageFrameOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImageFrameInput, GetImageFrameOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImageFrameOutput>())
@@ -871,9 +879,9 @@ extension MedicalImagingClient {
     ///
     /// Get image set properties.
     ///
-    /// - Parameter GetImageSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageSetInput`)
     ///
-    /// - Returns: `GetImageSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -910,6 +918,7 @@ extension MedicalImagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetImageSetInput, GetImageSetOutput>(GetImageSetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImageSetOutput>(GetImageSetOutput.httpOutput(from:), GetImageSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImageSetInput, GetImageSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImageSetOutput>())
@@ -941,9 +950,9 @@ extension MedicalImagingClient {
     ///
     /// Get metadata attributes for an image set.
     ///
-    /// - Parameter GetImageSetMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetImageSetMetadataInput`)
     ///
-    /// - Returns: `GetImageSetMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetImageSetMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -980,6 +989,7 @@ extension MedicalImagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetImageSetMetadataInput, GetImageSetMetadataOutput>(GetImageSetMetadataInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetImageSetMetadataOutput>(GetImageSetMetadataOutput.httpOutput(from:), GetImageSetMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetImageSetMetadataInput, GetImageSetMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetImageSetMetadataOutput>())
@@ -1011,9 +1021,9 @@ extension MedicalImagingClient {
     ///
     /// List import jobs created for a specific data store.
     ///
-    /// - Parameter ListDICOMImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDICOMImportJobsInput`)
     ///
-    /// - Returns: `ListDICOMImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDICOMImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1050,6 +1060,7 @@ extension MedicalImagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDICOMImportJobsInput, ListDICOMImportJobsOutput>(ListDICOMImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDICOMImportJobsOutput>(ListDICOMImportJobsOutput.httpOutput(from:), ListDICOMImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDICOMImportJobsInput, ListDICOMImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDICOMImportJobsOutput>())
@@ -1081,9 +1092,9 @@ extension MedicalImagingClient {
     ///
     /// List data stores.
     ///
-    /// - Parameter ListDatastoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatastoresInput`)
     ///
-    /// - Returns: `ListDatastoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatastoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1118,6 +1129,7 @@ extension MedicalImagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatastoresInput, ListDatastoresOutput>(ListDatastoresInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatastoresOutput>(ListDatastoresOutput.httpOutput(from:), ListDatastoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatastoresInput, ListDatastoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatastoresOutput>())
@@ -1149,9 +1161,9 @@ extension MedicalImagingClient {
     ///
     /// List image set versions.
     ///
-    /// - Parameter ListImageSetVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImageSetVersionsInput`)
     ///
-    /// - Returns: `ListImageSetVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImageSetVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,6 +1200,7 @@ extension MedicalImagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListImageSetVersionsInput, ListImageSetVersionsOutput>(ListImageSetVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImageSetVersionsOutput>(ListImageSetVersionsOutput.httpOutput(from:), ListImageSetVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImageSetVersionsInput, ListImageSetVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImageSetVersionsOutput>())
@@ -1219,9 +1232,9 @@ extension MedicalImagingClient {
     ///
     /// Lists all tags associated with a medical imaging resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1256,6 +1269,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1287,9 +1301,9 @@ extension MedicalImagingClient {
     ///
     /// Search image sets based on defined input attributes. SearchImageSets accepts a single search query parameter and returns a paginated response of all image sets that have the matching criteria. All date range queries must be input as (lowerBound, upperBound). By default, SearchImageSets uses the updatedAt field for sorting in descending order from newest to oldest.
     ///
-    /// - Parameter SearchImageSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchImageSetsInput`)
     ///
-    /// - Returns: `SearchImageSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchImageSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,6 +1343,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchImageSetsInput, SearchImageSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchImageSetsOutput>(SearchImageSetsOutput.httpOutput(from:), SearchImageSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchImageSetsInput, SearchImageSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchImageSetsOutput>())
@@ -1360,9 +1375,9 @@ extension MedicalImagingClient {
     ///
     /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
     ///
-    /// - Parameter StartDICOMImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDICOMImportJobInput`)
     ///
-    /// - Returns: `StartDICOMImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDICOMImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1403,6 +1418,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDICOMImportJobInput, StartDICOMImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDICOMImportJobOutput>(StartDICOMImportJobOutput.httpOutput(from:), StartDICOMImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDICOMImportJobInput, StartDICOMImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDICOMImportJobOutput>())
@@ -1434,9 +1450,9 @@ extension MedicalImagingClient {
     ///
     /// Adds a user-specifed key and value tag to a medical imaging resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1474,6 +1490,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1505,9 +1522,9 @@ extension MedicalImagingClient {
     ///
     /// Removes tags from a medical imaging resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1543,6 +1560,7 @@ extension MedicalImagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1574,9 +1592,9 @@ extension MedicalImagingClient {
     ///
     /// Update image set metadata attributes.
     ///
-    /// - Parameter UpdateImageSetMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateImageSetMetadataInput`)
     ///
-    /// - Returns: `UpdateImageSetMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateImageSetMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1617,6 +1635,7 @@ extension MedicalImagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateImageSetMetadataInput, UpdateImageSetMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateImageSetMetadataOutput>(UpdateImageSetMetadataOutput.httpOutput(from:), UpdateImageSetMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateImageSetMetadataInput, UpdateImageSetMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateImageSetMetadataOutput>())

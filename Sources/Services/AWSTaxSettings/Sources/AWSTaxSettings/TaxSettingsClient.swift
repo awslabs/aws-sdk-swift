@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class TaxSettingsClient: ClientRuntime.Client {
     public static let clientName = "TaxSettingsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: TaxSettingsClient.TaxSettingsClientConfiguration
     let serviceName = "TaxSettings"
@@ -371,9 +372,9 @@ extension TaxSettingsClient {
     ///
     /// Deletes tax registration for multiple accounts in batch. This can be used to delete tax registrations for up to five accounts in one batch. This API operation can't be used to delete your tax registration in Brazil. Use the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods) page in the Billing and Cost Management console instead.
     ///
-    /// - Parameter BatchDeleteTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteTaxRegistrationInput`)
     ///
-    /// - Returns: `BatchDeleteTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +410,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteTaxRegistrationInput, BatchDeleteTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteTaxRegistrationOutput>(BatchDeleteTaxRegistrationOutput.httpOutput(from:), BatchDeleteTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteTaxRegistrationInput, BatchDeleteTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteTaxRegistrationOutput>())
@@ -440,9 +442,9 @@ extension TaxSettingsClient {
     ///
     /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions.
     ///
-    /// - Parameter BatchGetTaxExemptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetTaxExemptionsInput`)
     ///
-    /// - Returns: `BatchGetTaxExemptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetTaxExemptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,6 +480,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetTaxExemptionsOutput>(BatchGetTaxExemptionsOutput.httpOutput(from:), BatchGetTaxExemptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetTaxExemptionsInput, BatchGetTaxExemptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetTaxExemptionsOutput>())
@@ -615,9 +618,9 @@ extension TaxSettingsClient {
     ///
     /// * The sector valid values are Business and Individual.
     ///
-    /// - Parameter BatchPutTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutTaxRegistrationInput`)
     ///
-    /// - Returns: `BatchPutTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,6 +656,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutTaxRegistrationInput, BatchPutTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutTaxRegistrationOutput>(BatchPutTaxRegistrationOutput.httpOutput(from:), BatchPutTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutTaxRegistrationInput, BatchPutTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutTaxRegistrationOutput>())
@@ -684,9 +688,9 @@ extension TaxSettingsClient {
     ///
     /// Deletes a supplemental tax registration for a single account.
     ///
-    /// - Parameter DeleteSupplementalTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSupplementalTaxRegistrationInput`)
     ///
-    /// - Returns: `DeleteSupplementalTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSupplementalTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -723,6 +727,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSupplementalTaxRegistrationInput, DeleteSupplementalTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSupplementalTaxRegistrationOutput>(DeleteSupplementalTaxRegistrationOutput.httpOutput(from:), DeleteSupplementalTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSupplementalTaxRegistrationInput, DeleteSupplementalTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSupplementalTaxRegistrationOutput>())
@@ -754,9 +759,9 @@ extension TaxSettingsClient {
     ///
     /// Deletes tax registration for a single account. This API operation can't be used to delete your tax registration in Brazil. Use the [Payment preferences](https://console.aws.amazon.com/billing/home#/paymentpreferences/paymentmethods) page in the Billing and Cost Management console instead.
     ///
-    /// - Parameter DeleteTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTaxRegistrationInput`)
     ///
-    /// - Returns: `DeleteTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -793,6 +798,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTaxRegistrationInput, DeleteTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTaxRegistrationOutput>(DeleteTaxRegistrationOutput.httpOutput(from:), DeleteTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTaxRegistrationInput, DeleteTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTaxRegistrationOutput>())
@@ -824,9 +830,9 @@ extension TaxSettingsClient {
     ///
     /// Get supported tax exemption types. The IAM action is tax:GetExemptions.
     ///
-    /// - Parameter GetTaxExemptionTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaxExemptionTypesInput`)
     ///
-    /// - Returns: `GetTaxExemptionTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaxExemptionTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,6 +865,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxExemptionTypesOutput>(GetTaxExemptionTypesOutput.httpOutput(from:), GetTaxExemptionTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxExemptionTypesInput, GetTaxExemptionTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxExemptionTypesOutput>())
@@ -890,9 +897,9 @@ extension TaxSettingsClient {
     ///
     /// The get account tax inheritance status.
     ///
-    /// - Parameter GetTaxInheritanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaxInheritanceInput`)
     ///
-    /// - Returns: `GetTaxInheritanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaxInheritanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -925,6 +932,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxInheritanceOutput>(GetTaxInheritanceOutput.httpOutput(from:), GetTaxInheritanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxInheritanceInput, GetTaxInheritanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxInheritanceOutput>())
@@ -956,9 +964,9 @@ extension TaxSettingsClient {
     ///
     /// Retrieves tax registration for a single account.
     ///
-    /// - Parameter GetTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaxRegistrationInput`)
     ///
-    /// - Returns: `GetTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -994,6 +1002,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTaxRegistrationInput, GetTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxRegistrationOutput>(GetTaxRegistrationOutput.httpOutput(from:), GetTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxRegistrationInput, GetTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxRegistrationOutput>())
@@ -1025,9 +1034,9 @@ extension TaxSettingsClient {
     ///
     /// Downloads your tax documents to the Amazon S3 bucket that you specify in your request.
     ///
-    /// - Parameter GetTaxRegistrationDocumentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaxRegistrationDocumentInput`)
     ///
-    /// - Returns: `GetTaxRegistrationDocumentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaxRegistrationDocumentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,6 +1071,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTaxRegistrationDocumentInput, GetTaxRegistrationDocumentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaxRegistrationDocumentOutput>(GetTaxRegistrationDocumentOutput.httpOutput(from:), GetTaxRegistrationDocumentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaxRegistrationDocumentInput, GetTaxRegistrationDocumentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaxRegistrationDocumentOutput>())
@@ -1093,9 +1103,9 @@ extension TaxSettingsClient {
     ///
     /// Retrieves supplemental tax registrations for a single account.
     ///
-    /// - Parameter ListSupplementalTaxRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSupplementalTaxRegistrationsInput`)
     ///
-    /// - Returns: `ListSupplementalTaxRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSupplementalTaxRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1131,6 +1141,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSupplementalTaxRegistrationsInput, ListSupplementalTaxRegistrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSupplementalTaxRegistrationsOutput>(ListSupplementalTaxRegistrationsOutput.httpOutput(from:), ListSupplementalTaxRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSupplementalTaxRegistrationsInput, ListSupplementalTaxRegistrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSupplementalTaxRegistrationsOutput>())
@@ -1162,9 +1173,9 @@ extension TaxSettingsClient {
     ///
     /// Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is tax:GetExemptions.
     ///
-    /// - Parameter ListTaxExemptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTaxExemptionsInput`)
     ///
-    /// - Returns: `ListTaxExemptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTaxExemptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1200,6 +1211,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaxExemptionsOutput>(ListTaxExemptionsOutput.httpOutput(from:), ListTaxExemptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaxExemptionsInput, ListTaxExemptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaxExemptionsOutput>())
@@ -1231,9 +1243,9 @@ extension TaxSettingsClient {
     ///
     /// Retrieves the tax registration of accounts listed in a consolidated billing family. This can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
     ///
-    /// - Parameter ListTaxRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTaxRegistrationsInput`)
     ///
-    /// - Returns: `ListTaxRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTaxRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1269,6 +1281,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTaxRegistrationsInput, ListTaxRegistrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTaxRegistrationsOutput>(ListTaxRegistrationsOutput.httpOutput(from:), ListTaxRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTaxRegistrationsInput, ListTaxRegistrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTaxRegistrationsOutput>())
@@ -1300,9 +1313,9 @@ extension TaxSettingsClient {
     ///
     /// Stores supplemental tax registration for a single account.
     ///
-    /// - Parameter PutSupplementalTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSupplementalTaxRegistrationInput`)
     ///
-    /// - Returns: `PutSupplementalTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSupplementalTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,6 +1351,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSupplementalTaxRegistrationInput, PutSupplementalTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSupplementalTaxRegistrationOutput>(PutSupplementalTaxRegistrationOutput.httpOutput(from:), PutSupplementalTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSupplementalTaxRegistrationInput, PutSupplementalTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSupplementalTaxRegistrationOutput>())
@@ -1369,9 +1383,9 @@ extension TaxSettingsClient {
     ///
     /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is tax:UpdateExemptions.
     ///
-    /// - Parameter PutTaxExemptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTaxExemptionInput`)
     ///
-    /// - Returns: `PutTaxExemptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTaxExemptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1410,6 +1424,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxExemptionOutput>(PutTaxExemptionOutput.httpOutput(from:), PutTaxExemptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxExemptionInput, PutTaxExemptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxExemptionOutput>())
@@ -1441,9 +1456,9 @@ extension TaxSettingsClient {
     ///
     /// The updated tax inheritance status.
     ///
-    /// - Parameter PutTaxInheritanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTaxInheritanceInput`)
     ///
-    /// - Returns: `PutTaxInheritanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTaxInheritanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,6 +1495,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxInheritanceOutput>(PutTaxInheritanceOutput.httpOutput(from:), PutTaxInheritanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxInheritanceInput, PutTaxInheritanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxInheritanceOutput>())
@@ -1617,9 +1633,9 @@ extension TaxSettingsClient {
     ///
     /// * The sector valid values are Business and Individual.
     ///
-    /// - Parameter PutTaxRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTaxRegistrationInput`)
     ///
-    /// - Returns: `PutTaxRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTaxRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1655,6 +1671,7 @@ extension TaxSettingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTaxRegistrationInput, PutTaxRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTaxRegistrationOutput>(PutTaxRegistrationOutput.httpOutput(from:), PutTaxRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTaxRegistrationInput, PutTaxRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTaxRegistrationOutput>())

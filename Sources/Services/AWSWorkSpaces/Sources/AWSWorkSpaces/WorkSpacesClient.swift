@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkSpacesClient: ClientRuntime.Client {
     public static let clientName = "WorkSpacesClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkSpacesClient.WorkSpacesClientConfiguration
     let serviceName = "WorkSpaces"
@@ -373,9 +374,9 @@ extension WorkSpacesClient {
     ///
     /// Accepts the account link invitation. There's currently no unlinking capability after you accept the account linking invitation.
     ///
-    /// - Parameter AcceptAccountLinkInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptAccountLinkInvitationInput`)
     ///
-    /// - Returns: `AcceptAccountLinkInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptAccountLinkInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +412,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptAccountLinkInvitationInput, AcceptAccountLinkInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptAccountLinkInvitationOutput>(AcceptAccountLinkInvitationOutput.httpOutput(from:), AcceptAccountLinkInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAccountLinkInvitationInput, AcceptAccountLinkInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAccountLinkInvitationOutput>())
@@ -445,9 +447,9 @@ extension WorkSpacesClient {
     ///
     /// Associates the specified connection alias with the specified directory to enable cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html). Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html) to make sure that the current state of the connection alias is CREATED.
     ///
-    /// - Parameter AssociateConnectionAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateConnectionAliasInput`)
     ///
-    /// - Returns: `AssociateConnectionAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateConnectionAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +486,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateConnectionAliasInput, AssociateConnectionAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateConnectionAliasOutput>(AssociateConnectionAliasOutput.httpOutput(from:), AssociateConnectionAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateConnectionAliasInput, AssociateConnectionAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateConnectionAliasOutput>())
@@ -518,9 +521,9 @@ extension WorkSpacesClient {
     ///
     /// Associates the specified IP access control group with the specified directory.
     ///
-    /// - Parameter AssociateIpGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateIpGroupsInput`)
     ///
-    /// - Returns: `AssociateIpGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateIpGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +560,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateIpGroupsInput, AssociateIpGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateIpGroupsOutput>(AssociateIpGroupsOutput.httpOutput(from:), AssociateIpGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateIpGroupsInput, AssociateIpGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateIpGroupsOutput>())
@@ -591,9 +595,9 @@ extension WorkSpacesClient {
     ///
     /// Associates the specified application to the specified WorkSpace.
     ///
-    /// - Parameter AssociateWorkspaceApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWorkspaceApplicationInput`)
     ///
-    /// - Returns: `AssociateWorkspaceApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWorkspaceApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWorkspaceApplicationInput, AssociateWorkspaceApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWorkspaceApplicationOutput>(AssociateWorkspaceApplicationOutput.httpOutput(from:), AssociateWorkspaceApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWorkspaceApplicationInput, AssociateWorkspaceApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWorkspaceApplicationOutput>())
@@ -668,9 +673,9 @@ extension WorkSpacesClient {
     ///
     /// Adds one or more rules to the specified IP access control group. This action gives users permission to access their WorkSpaces from the CIDR address ranges specified in the rules.
     ///
-    /// - Parameter AuthorizeIpRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AuthorizeIpRulesInput`)
     ///
-    /// - Returns: `AuthorizeIpRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AuthorizeIpRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,6 +711,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AuthorizeIpRulesInput, AuthorizeIpRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AuthorizeIpRulesOutput>(AuthorizeIpRulesOutput.httpOutput(from:), AuthorizeIpRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AuthorizeIpRulesInput, AuthorizeIpRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AuthorizeIpRulesOutput>())
@@ -740,9 +746,9 @@ extension WorkSpacesClient {
     ///
     /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see [ Copy a Custom WorkSpaces Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/copy-custom-image.html). In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport. Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the ID of the Amazon Web Services account that owns an image, use the [DescribeWorkSpaceImages](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html) and [DescribeWorkspaceImagePermissions](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImagePermissions.html) API operations.
     ///
-    /// - Parameter CopyWorkspaceImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyWorkspaceImageInput`)
     ///
-    /// - Returns: `CopyWorkspaceImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyWorkspaceImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -780,6 +786,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyWorkspaceImageInput, CopyWorkspaceImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyWorkspaceImageOutput>(CopyWorkspaceImageOutput.httpOutput(from:), CopyWorkspaceImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyWorkspaceImageInput, CopyWorkspaceImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyWorkspaceImageOutput>())
@@ -814,9 +821,9 @@ extension WorkSpacesClient {
     ///
     /// Creates the account link invitation.
     ///
-    /// - Parameter CreateAccountLinkInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountLinkInvitationInput`)
     ///
-    /// - Returns: `CreateAccountLinkInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountLinkInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,6 +858,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountLinkInvitationInput, CreateAccountLinkInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountLinkInvitationOutput>(CreateAccountLinkInvitationOutput.httpOutput(from:), CreateAccountLinkInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountLinkInvitationInput, CreateAccountLinkInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountLinkInvitationOutput>())
@@ -885,9 +893,9 @@ extension WorkSpacesClient {
     ///
     /// Creates a client-add-in for Amazon Connect within a directory. You can create only one Amazon Connect client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
     ///
-    /// - Parameter CreateConnectClientAddInInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectClientAddInInput`)
     ///
-    /// - Returns: `CreateConnectClientAddInOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectClientAddInOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,6 +931,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectClientAddInInput, CreateConnectClientAddInOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectClientAddInOutput>(CreateConnectClientAddInOutput.httpOutput(from:), CreateConnectClientAddInOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectClientAddInInput, CreateConnectClientAddInOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectClientAddInOutput>())
@@ -957,9 +966,9 @@ extension WorkSpacesClient {
     ///
     /// Creates the specified connection alias for use with cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
     ///
-    /// - Parameter CreateConnectionAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionAliasInput`)
     ///
-    /// - Returns: `CreateConnectionAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectionAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,6 +1005,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionAliasInput, CreateConnectionAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionAliasOutput>(CreateConnectionAliasOutput.httpOutput(from:), CreateConnectionAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionAliasInput, CreateConnectionAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionAliasOutput>())
@@ -1030,9 +1040,9 @@ extension WorkSpacesClient {
     ///
     /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using [AuthorizeIpRules]. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
     ///
-    /// - Parameter CreateIpGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIpGroupInput`)
     ///
-    /// - Returns: `CreateIpGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIpGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,6 +1078,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIpGroupInput, CreateIpGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIpGroupOutput>(CreateIpGroupOutput.httpOutput(from:), CreateIpGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIpGroupInput, CreateIpGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIpGroupOutput>())
@@ -1102,9 +1113,9 @@ extension WorkSpacesClient {
     ///
     /// Creates a standby WorkSpace in a secondary Region.
     ///
-    /// - Parameter CreateStandbyWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStandbyWorkspacesInput`)
     ///
-    /// - Returns: `CreateStandbyWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStandbyWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1140,6 +1151,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStandbyWorkspacesInput, CreateStandbyWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStandbyWorkspacesOutput>(CreateStandbyWorkspacesOutput.httpOutput(from:), CreateStandbyWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStandbyWorkspacesInput, CreateStandbyWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStandbyWorkspacesOutput>())
@@ -1174,9 +1186,9 @@ extension WorkSpacesClient {
     ///
     /// Creates the specified tags for the specified WorkSpaces resource.
     ///
-    /// - Parameter CreateTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTagsInput`)
     ///
-    /// - Returns: `CreateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1210,6 +1222,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTagsInput, CreateTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTagsOutput>(CreateTagsOutput.httpOutput(from:), CreateTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTagsInput, CreateTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTagsOutput>())
@@ -1250,9 +1263,9 @@ extension WorkSpacesClient {
     ///
     /// * The source WorkSpace image is not deleted. You can delete the source image after you've verified your new updated image and created a new bundle.
     ///
-    /// - Parameter CreateUpdatedWorkspaceImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUpdatedWorkspaceImageInput`)
     ///
-    /// - Returns: `CreateUpdatedWorkspaceImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUpdatedWorkspaceImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1290,6 +1303,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUpdatedWorkspaceImageInput, CreateUpdatedWorkspaceImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUpdatedWorkspaceImageOutput>(CreateUpdatedWorkspaceImageOutput.httpOutput(from:), CreateUpdatedWorkspaceImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUpdatedWorkspaceImageInput, CreateUpdatedWorkspaceImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUpdatedWorkspaceImageOutput>())
@@ -1324,9 +1338,9 @@ extension WorkSpacesClient {
     ///
     /// Creates the specified WorkSpace bundle. For more information about creating WorkSpace bundles, see [ Create a Custom WorkSpaces Image and Bundle](https://docs.aws.amazon.com/workspaces/latest/adminguide/create-custom-bundle.html).
     ///
-    /// - Parameter CreateWorkspaceBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceBundleInput`)
     ///
-    /// - Returns: `CreateWorkspaceBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1363,6 +1377,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspaceBundleInput, CreateWorkspaceBundleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspaceBundleOutput>(CreateWorkspaceBundleOutput.httpOutput(from:), CreateWorkspaceBundleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspaceBundleInput, CreateWorkspaceBundleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspaceBundleOutput>())
@@ -1397,9 +1412,9 @@ extension WorkSpacesClient {
     ///
     /// Creates a new WorkSpace image from an existing WorkSpace.
     ///
-    /// - Parameter CreateWorkspaceImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceImageInput`)
     ///
-    /// - Returns: `CreateWorkspaceImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1437,6 +1452,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspaceImageInput, CreateWorkspaceImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspaceImageOutput>(CreateWorkspaceImageOutput.httpOutput(from:), CreateWorkspaceImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspaceImageInput, CreateWorkspaceImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspaceImageOutput>())
@@ -1479,9 +1495,9 @@ extension WorkSpacesClient {
     ///
     /// * Review your running mode to ensure you are using one that is optimal for your needs and budget. For more information on switching running modes, see [ Can I switch between hourly and monthly billing?](http://aws.amazon.com/workspaces-family/workspaces/faqs/#:~:text=Can%20I%20switch%20between%20hourly%20and%20monthly%20billing%20on%20WorkSpaces%20Personal%3F)
     ///
-    /// - Parameter CreateWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspacesInput`)
     ///
-    /// - Returns: `CreateWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1514,6 +1530,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspacesInput, CreateWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspacesOutput>(CreateWorkspacesOutput.httpOutput(from:), CreateWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspacesInput, CreateWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspacesOutput>())
@@ -1548,9 +1565,9 @@ extension WorkSpacesClient {
     ///
     /// Creates a pool of WorkSpaces.
     ///
-    /// - Parameter CreateWorkspacesPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspacesPoolInput`)
     ///
-    /// - Returns: `CreateWorkspacesPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspacesPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1587,6 +1604,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspacesPoolOutput>(CreateWorkspacesPoolOutput.httpOutput(from:), CreateWorkspacesPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspacesPoolInput, CreateWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspacesPoolOutput>())
@@ -1621,9 +1639,9 @@ extension WorkSpacesClient {
     ///
     /// Deletes the account link invitation.
     ///
-    /// - Parameter DeleteAccountLinkInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountLinkInvitationInput`)
     ///
-    /// - Returns: `DeleteAccountLinkInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountLinkInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1659,6 +1677,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAccountLinkInvitationInput, DeleteAccountLinkInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountLinkInvitationOutput>(DeleteAccountLinkInvitationOutput.httpOutput(from:), DeleteAccountLinkInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountLinkInvitationInput, DeleteAccountLinkInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountLinkInvitationOutput>())
@@ -1693,9 +1712,9 @@ extension WorkSpacesClient {
     ///
     /// Deletes customized client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal reverts to the default client branding.
     ///
-    /// - Parameter DeleteClientBrandingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClientBrandingInput`)
     ///
-    /// - Returns: `DeleteClientBrandingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClientBrandingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1729,6 +1748,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteClientBrandingInput, DeleteClientBrandingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClientBrandingOutput>(DeleteClientBrandingOutput.httpOutput(from:), DeleteClientBrandingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClientBrandingInput, DeleteClientBrandingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClientBrandingOutput>())
@@ -1763,9 +1783,9 @@ extension WorkSpacesClient {
     ///
     /// Deletes a client-add-in for Amazon Connect that is configured within a directory.
     ///
-    /// - Parameter DeleteConnectClientAddInInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectClientAddInInput`)
     ///
-    /// - Returns: `DeleteConnectClientAddInOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectClientAddInOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,6 +1819,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectClientAddInInput, DeleteConnectClientAddInOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectClientAddInOutput>(DeleteConnectClientAddInOutput.httpOutput(from:), DeleteConnectClientAddInOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectClientAddInInput, DeleteConnectClientAddInOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectClientAddInOutput>())
@@ -1833,9 +1854,9 @@ extension WorkSpacesClient {
     ///
     /// Deletes the specified connection alias. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html). If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see [ Security Considerations if You Stop Using Cross-Region Redirection](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html#cross-region-redirection-security-considerations). To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories.
     ///
-    /// - Parameter DeleteConnectionAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionAliasInput`)
     ///
-    /// - Returns: `DeleteConnectionAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,6 +1893,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionAliasInput, DeleteConnectionAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionAliasOutput>(DeleteConnectionAliasOutput.httpOutput(from:), DeleteConnectionAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionAliasInput, DeleteConnectionAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionAliasOutput>())
@@ -1906,9 +1928,9 @@ extension WorkSpacesClient {
     ///
     /// Deletes the specified IP access control group. You cannot delete an IP access control group that is associated with a directory.
     ///
-    /// - Parameter DeleteIpGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIpGroupInput`)
     ///
-    /// - Returns: `DeleteIpGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIpGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1943,6 +1965,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIpGroupInput, DeleteIpGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIpGroupOutput>(DeleteIpGroupOutput.httpOutput(from:), DeleteIpGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIpGroupInput, DeleteIpGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIpGroupOutput>())
@@ -1977,9 +2000,9 @@ extension WorkSpacesClient {
     ///
     /// Deletes the specified tags from the specified WorkSpaces resource.
     ///
-    /// - Parameter DeleteTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2012,6 +2035,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTagsInput, DeleteTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTagsOutput>(DeleteTagsOutput.httpOutput(from:), DeleteTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTagsInput, DeleteTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTagsOutput>())
@@ -2046,9 +2070,9 @@ extension WorkSpacesClient {
     ///
     /// Deletes the specified WorkSpace bundle. For more information about deleting WorkSpace bundles, see [ Delete a Custom WorkSpaces Bundle or Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete_bundle.html).
     ///
-    /// - Parameter DeleteWorkspaceBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceBundleInput`)
     ///
-    /// - Returns: `DeleteWorkspaceBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2083,6 +2107,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkspaceBundleInput, DeleteWorkspaceBundleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkspaceBundleOutput>(DeleteWorkspaceBundleOutput.httpOutput(from:), DeleteWorkspaceBundleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkspaceBundleInput, DeleteWorkspaceBundleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkspaceBundleOutput>())
@@ -2117,9 +2142,9 @@ extension WorkSpacesClient {
     ///
     /// Deletes the specified image from your account. To delete an image, you must first delete any bundles that are associated with the image and unshare the image if it is shared with other accounts.
     ///
-    /// - Parameter DeleteWorkspaceImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceImageInput`)
     ///
-    /// - Returns: `DeleteWorkspaceImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2153,6 +2178,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkspaceImageInput, DeleteWorkspaceImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkspaceImageOutput>(DeleteWorkspaceImageOutput.httpOutput(from:), DeleteWorkspaceImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkspaceImageInput, DeleteWorkspaceImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkspaceImageOutput>())
@@ -2187,9 +2213,9 @@ extension WorkSpacesClient {
     ///
     /// Deploys associated applications to the specified WorkSpace
     ///
-    /// - Parameter DeployWorkspaceApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeployWorkspaceApplicationsInput`)
     ///
-    /// - Returns: `DeployWorkspaceApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeployWorkspaceApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2226,6 +2252,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeployWorkspaceApplicationsInput, DeployWorkspaceApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeployWorkspaceApplicationsOutput>(DeployWorkspaceApplicationsOutput.httpOutput(from:), DeployWorkspaceApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeployWorkspaceApplicationsInput, DeployWorkspaceApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeployWorkspaceApplicationsOutput>())
@@ -2260,9 +2287,9 @@ extension WorkSpacesClient {
     ///
     /// Deregisters the specified directory. This operation is asynchronous and returns before the WorkSpace directory is deregistered. If any WorkSpaces are registered to this directory, you must remove them before you can deregister the directory. Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the [Directory Service pricing terms](http://aws.amazon.com/directoryservice/pricing/). To delete empty directories, see [ Delete the Directory for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html). If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     ///
-    /// - Parameter DeregisterWorkspaceDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterWorkspaceDirectoryInput`)
     ///
-    /// - Returns: `DeregisterWorkspaceDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterWorkspaceDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2298,6 +2325,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterWorkspaceDirectoryInput, DeregisterWorkspaceDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterWorkspaceDirectoryOutput>(DeregisterWorkspaceDirectoryOutput.httpOutput(from:), DeregisterWorkspaceDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterWorkspaceDirectoryInput, DeregisterWorkspaceDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterWorkspaceDirectoryOutput>())
@@ -2332,9 +2360,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the specified account.
     ///
-    /// - Parameter DescribeAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountInput`)
     ///
-    /// - Returns: `DescribeAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2366,6 +2394,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountInput, DescribeAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountOutput>(DescribeAccountOutput.httpOutput(from:), DescribeAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountInput, DescribeAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountOutput>())
@@ -2400,9 +2429,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list that describes modifications to the configuration of Bring Your Own License (BYOL) for the specified account.
     ///
-    /// - Parameter DescribeAccountModificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountModificationsInput`)
     ///
-    /// - Returns: `DescribeAccountModificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccountModificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2434,6 +2463,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountModificationsInput, DescribeAccountModificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountModificationsOutput>(DescribeAccountModificationsOutput.httpOutput(from:), DescribeAccountModificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountModificationsInput, DescribeAccountModificationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountModificationsOutput>())
@@ -2468,9 +2498,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the associations between the application and the specified associated resources.
     ///
-    /// - Parameter DescribeApplicationAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationAssociationsInput`)
     ///
-    /// - Returns: `DescribeApplicationAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2505,6 +2535,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationAssociationsInput, DescribeApplicationAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationAssociationsOutput>(DescribeApplicationAssociationsOutput.httpOutput(from:), DescribeApplicationAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationAssociationsInput, DescribeApplicationAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationAssociationsOutput>())
@@ -2539,9 +2570,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the specified applications by filtering based on their compute types, license availability, operating systems, and owners.
     ///
-    /// - Parameter DescribeApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationsInput`)
     ///
-    /// - Returns: `DescribeApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2576,6 +2607,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationsOutput>(DescribeApplicationsOutput.httpOutput(from:), DescribeApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationsInput, DescribeApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationsOutput>())
@@ -2610,9 +2642,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the associations between the applications and the specified bundle.
     ///
-    /// - Parameter DescribeBundleAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBundleAssociationsInput`)
     ///
-    /// - Returns: `DescribeBundleAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBundleAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2647,6 +2679,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeBundleAssociationsInput, DescribeBundleAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBundleAssociationsOutput>(DescribeBundleAssociationsOutput.httpOutput(from:), DescribeBundleAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBundleAssociationsInput, DescribeBundleAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBundleAssociationsOutput>())
@@ -2681,9 +2714,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the specified client branding. Client branding allows you to customize the log in page of various device types for your users. You can add your company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. Only device types that have branding information configured will be shown in the response.
     ///
-    /// - Parameter DescribeClientBrandingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClientBrandingInput`)
     ///
-    /// - Returns: `DescribeClientBrandingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClientBrandingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2717,6 +2750,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClientBrandingInput, DescribeClientBrandingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClientBrandingOutput>(DescribeClientBrandingOutput.httpOutput(from:), DescribeClientBrandingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClientBrandingInput, DescribeClientBrandingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClientBrandingOutput>())
@@ -2751,9 +2785,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
     ///
-    /// - Parameter DescribeClientPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClientPropertiesInput`)
     ///
-    /// - Returns: `DescribeClientPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClientPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2787,6 +2821,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClientPropertiesInput, DescribeClientPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClientPropertiesOutput>(DescribeClientPropertiesOutput.httpOutput(from:), DescribeClientPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClientPropertiesInput, DescribeClientPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClientPropertiesOutput>())
@@ -2821,9 +2856,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list of Amazon Connect client add-ins that have been created.
     ///
-    /// - Parameter DescribeConnectClientAddInsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectClientAddInsInput`)
     ///
-    /// - Returns: `DescribeConnectClientAddInsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectClientAddInsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2857,6 +2892,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectClientAddInsInput, DescribeConnectClientAddInsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectClientAddInsOutput>(DescribeConnectClientAddInsOutput.httpOutput(from:), DescribeConnectClientAddInsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectClientAddInsInput, DescribeConnectClientAddInsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectClientAddInsOutput>())
@@ -2891,9 +2927,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified connection alias. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
     ///
-    /// - Parameter DescribeConnectionAliasPermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectionAliasPermissionsInput`)
     ///
-    /// - Returns: `DescribeConnectionAliasPermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectionAliasPermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2928,6 +2964,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionAliasPermissionsInput, DescribeConnectionAliasPermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionAliasPermissionsOutput>(DescribeConnectionAliasPermissionsOutput.httpOutput(from:), DescribeConnectionAliasPermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionAliasPermissionsInput, DescribeConnectionAliasPermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionAliasPermissionsOutput>())
@@ -2962,9 +2999,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
     ///
-    /// - Parameter DescribeConnectionAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConnectionAliasesInput`)
     ///
-    /// - Returns: `DescribeConnectionAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConnectionAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2998,6 +3035,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConnectionAliasesInput, DescribeConnectionAliasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConnectionAliasesOutput>(DescribeConnectionAliasesOutput.httpOutput(from:), DescribeConnectionAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConnectionAliasesInput, DescribeConnectionAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConnectionAliasesOutput>())
@@ -3032,9 +3070,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves information about a WorkSpace BYOL image being imported via ImportCustomWorkspaceImage.
     ///
-    /// - Parameter DescribeCustomWorkspaceImageImportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomWorkspaceImageImportInput`)
     ///
-    /// - Returns: `DescribeCustomWorkspaceImageImportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomWorkspaceImageImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3067,6 +3105,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomWorkspaceImageImportOutput>(DescribeCustomWorkspaceImageImportOutput.httpOutput(from:), DescribeCustomWorkspaceImageImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomWorkspaceImageImportInput, DescribeCustomWorkspaceImageImportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomWorkspaceImageImportOutput>())
@@ -3101,9 +3140,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the associations between the applications and the specified image.
     ///
-    /// - Parameter DescribeImageAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeImageAssociationsInput`)
     ///
-    /// - Returns: `DescribeImageAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeImageAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3138,6 +3177,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeImageAssociationsInput, DescribeImageAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeImageAssociationsOutput>(DescribeImageAssociationsOutput.httpOutput(from:), DescribeImageAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeImageAssociationsInput, DescribeImageAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeImageAssociationsOutput>())
@@ -3172,9 +3212,9 @@ extension WorkSpacesClient {
     ///
     /// Describes one or more of your IP access control groups.
     ///
-    /// - Parameter DescribeIpGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIpGroupsInput`)
     ///
-    /// - Returns: `DescribeIpGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIpGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3207,6 +3247,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIpGroupsInput, DescribeIpGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIpGroupsOutput>(DescribeIpGroupsOutput.httpOutput(from:), DescribeIpGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIpGroupsInput, DescribeIpGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIpGroupsOutput>())
@@ -3241,9 +3282,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the specified tags for the specified WorkSpaces resource.
     ///
-    /// - Parameter DescribeTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTagsInput`)
     ///
-    /// - Returns: `DescribeTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3275,6 +3316,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTagsInput, DescribeTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTagsOutput>(DescribeTagsOutput.httpOutput(from:), DescribeTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTagsInput, DescribeTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTagsOutput>())
@@ -3309,9 +3351,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the associations betweens applications and the specified WorkSpace.
     ///
-    /// - Parameter DescribeWorkspaceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceAssociationsInput`)
     ///
-    /// - Returns: `DescribeWorkspaceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3346,6 +3388,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspaceAssociationsInput, DescribeWorkspaceAssociationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceAssociationsOutput>(DescribeWorkspaceAssociationsOutput.httpOutput(from:), DescribeWorkspaceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceAssociationsInput, DescribeWorkspaceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceAssociationsOutput>())
@@ -3380,9 +3423,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list that describes the available WorkSpace bundles. You can filter the results using either bundle ID or owner, but not both.
     ///
-    /// - Parameter DescribeWorkspaceBundlesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceBundlesInput`)
     ///
-    /// - Returns: `DescribeWorkspaceBundlesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceBundlesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3414,6 +3457,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceBundlesOutput>(DescribeWorkspaceBundlesOutput.httpOutput(from:), DescribeWorkspaceBundlesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceBundlesInput, DescribeWorkspaceBundlesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceBundlesOutput>())
@@ -3448,9 +3492,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the available directories that are registered with Amazon WorkSpaces.
     ///
-    /// - Parameter DescribeWorkspaceDirectoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceDirectoriesInput`)
     ///
-    /// - Returns: `DescribeWorkspaceDirectoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceDirectoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3482,6 +3526,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceDirectoriesOutput>(DescribeWorkspaceDirectoriesOutput.httpOutput(from:), DescribeWorkspaceDirectoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceDirectoriesInput, DescribeWorkspaceDirectoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceDirectoriesOutput>())
@@ -3516,9 +3561,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the permissions that the owner of an image has granted to other Amazon Web Services accounts for an image.
     ///
-    /// - Parameter DescribeWorkspaceImagePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceImagePermissionsInput`)
     ///
-    /// - Returns: `DescribeWorkspaceImagePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceImagePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3552,6 +3597,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspaceImagePermissionsInput, DescribeWorkspaceImagePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceImagePermissionsOutput>(DescribeWorkspaceImagePermissionsOutput.httpOutput(from:), DescribeWorkspaceImagePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceImagePermissionsInput, DescribeWorkspaceImagePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceImagePermissionsOutput>())
@@ -3586,9 +3632,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list that describes one or more specified images, if the image identifiers are provided. Otherwise, all images in the account are described.
     ///
-    /// - Parameter DescribeWorkspaceImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceImagesInput`)
     ///
-    /// - Returns: `DescribeWorkspaceImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3620,6 +3666,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspaceImagesInput, DescribeWorkspaceImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceImagesOutput>(DescribeWorkspaceImagesOutput.httpOutput(from:), DescribeWorkspaceImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceImagesInput, DescribeWorkspaceImagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceImagesOutput>())
@@ -3654,9 +3701,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the snapshots for the specified WorkSpace.
     ///
-    /// - Parameter DescribeWorkspaceSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspaceSnapshotsInput`)
     ///
-    /// - Returns: `DescribeWorkspaceSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspaceSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3690,6 +3737,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspaceSnapshotsInput, DescribeWorkspaceSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspaceSnapshotsOutput>(DescribeWorkspaceSnapshotsOutput.httpOutput(from:), DescribeWorkspaceSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspaceSnapshotsInput, DescribeWorkspaceSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspaceSnapshotsOutput>())
@@ -3724,9 +3772,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the specified WorkSpaces. You can filter the results by using the bundle identifier, directory identifier, or owner, but you can specify only one filter at a time.
     ///
-    /// - Parameter DescribeWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspacesInput`)
     ///
-    /// - Returns: `DescribeWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3759,6 +3807,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspacesInput, DescribeWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspacesOutput>(DescribeWorkspacesOutput.httpOutput(from:), DescribeWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspacesInput, DescribeWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspacesOutput>())
@@ -3793,9 +3842,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the connection status of the specified WorkSpaces.
     ///
-    /// - Parameter DescribeWorkspacesConnectionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspacesConnectionStatusInput`)
     ///
-    /// - Returns: `DescribeWorkspacesConnectionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspacesConnectionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3827,6 +3876,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspacesConnectionStatusInput, DescribeWorkspacesConnectionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspacesConnectionStatusOutput>(DescribeWorkspacesConnectionStatusOutput.httpOutput(from:), DescribeWorkspacesConnectionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspacesConnectionStatusInput, DescribeWorkspacesConnectionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspacesConnectionStatusOutput>())
@@ -3861,9 +3911,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list that describes the streaming sessions for a specified pool.
     ///
-    /// - Parameter DescribeWorkspacesPoolSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspacesPoolSessionsInput`)
     ///
-    /// - Returns: `DescribeWorkspacesPoolSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspacesPoolSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3897,6 +3947,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspacesPoolSessionsOutput>(DescribeWorkspacesPoolSessionsOutput.httpOutput(from:), DescribeWorkspacesPoolSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspacesPoolSessionsInput, DescribeWorkspacesPoolSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspacesPoolSessionsOutput>())
@@ -3931,9 +3982,9 @@ extension WorkSpacesClient {
     ///
     /// Describes the specified WorkSpaces Pools.
     ///
-    /// - Parameter DescribeWorkspacesPoolsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorkspacesPoolsInput`)
     ///
-    /// - Returns: `DescribeWorkspacesPoolsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorkspacesPoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3967,6 +4018,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorkspacesPoolsOutput>(DescribeWorkspacesPoolsOutput.httpOutput(from:), DescribeWorkspacesPoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorkspacesPoolsInput, DescribeWorkspacesPoolsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorkspacesPoolsOutput>())
@@ -4001,9 +4053,9 @@ extension WorkSpacesClient {
     ///
     /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different Regions. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html). Before performing this operation, call [ DescribeConnectionAliases](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html) to make sure that the current state of the connection alias is CREATED.
     ///
-    /// - Parameter DisassociateConnectionAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateConnectionAliasInput`)
     ///
-    /// - Returns: `DisassociateConnectionAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateConnectionAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4039,6 +4091,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateConnectionAliasInput, DisassociateConnectionAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateConnectionAliasOutput>(DisassociateConnectionAliasOutput.httpOutput(from:), DisassociateConnectionAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateConnectionAliasInput, DisassociateConnectionAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateConnectionAliasOutput>())
@@ -4073,9 +4126,9 @@ extension WorkSpacesClient {
     ///
     /// Disassociates the specified IP access control group from the specified directory.
     ///
-    /// - Parameter DisassociateIpGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateIpGroupsInput`)
     ///
-    /// - Returns: `DisassociateIpGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateIpGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4111,6 +4164,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateIpGroupsInput, DisassociateIpGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateIpGroupsOutput>(DisassociateIpGroupsOutput.httpOutput(from:), DisassociateIpGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateIpGroupsInput, DisassociateIpGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateIpGroupsOutput>())
@@ -4145,9 +4199,9 @@ extension WorkSpacesClient {
     ///
     /// Disassociates the specified application from a WorkSpace.
     ///
-    /// - Parameter DisassociateWorkspaceApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWorkspaceApplicationInput`)
     ///
-    /// - Returns: `DisassociateWorkspaceApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWorkspaceApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4183,6 +4237,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateWorkspaceApplicationInput, DisassociateWorkspaceApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWorkspaceApplicationOutput>(DisassociateWorkspaceApplicationOutput.httpOutput(from:), DisassociateWorkspaceApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWorkspaceApplicationInput, DisassociateWorkspaceApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWorkspaceApplicationOutput>())
@@ -4217,9 +4272,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves account link information.
     ///
-    /// - Parameter GetAccountLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountLinkInput`)
     ///
-    /// - Returns: `GetAccountLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4254,6 +4309,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountLinkInput, GetAccountLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountLinkOutput>(GetAccountLinkOutput.httpOutput(from:), GetAccountLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountLinkInput, GetAccountLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountLinkOutput>())
@@ -4296,9 +4352,9 @@ extension WorkSpacesClient {
     ///
     /// * Imported data can take up to a minute to appear in the WorkSpaces client.
     ///
-    /// - Parameter ImportClientBrandingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportClientBrandingInput`)
     ///
-    /// - Returns: `ImportClientBrandingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportClientBrandingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4333,6 +4389,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportClientBrandingInput, ImportClientBrandingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportClientBrandingOutput>(ImportClientBrandingOutput.httpOutput(from:), ImportClientBrandingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportClientBrandingInput, ImportClientBrandingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportClientBrandingOutput>())
@@ -4367,9 +4424,9 @@ extension WorkSpacesClient {
     ///
     /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces using EC2 Image Builder. The image must be an already licensed image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
     ///
-    /// - Parameter ImportCustomWorkspaceImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportCustomWorkspaceImageInput`)
     ///
-    /// - Returns: `ImportCustomWorkspaceImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportCustomWorkspaceImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4406,6 +4463,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportCustomWorkspaceImageOutput>(ImportCustomWorkspaceImageOutput.httpOutput(from:), ImportCustomWorkspaceImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportCustomWorkspaceImageInput, ImportCustomWorkspaceImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportCustomWorkspaceImageOutput>())
@@ -4440,9 +4498,9 @@ extension WorkSpacesClient {
     ///
     /// Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
     ///
-    /// - Parameter ImportWorkspaceImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportWorkspaceImageInput`)
     ///
-    /// - Returns: `ImportWorkspaceImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportWorkspaceImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4479,6 +4537,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportWorkspaceImageInput, ImportWorkspaceImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportWorkspaceImageOutput>(ImportWorkspaceImageOutput.httpOutput(from:), ImportWorkspaceImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportWorkspaceImageInput, ImportWorkspaceImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportWorkspaceImageOutput>())
@@ -4513,9 +4572,9 @@ extension WorkSpacesClient {
     ///
     /// Lists all account links.
     ///
-    /// - Parameter ListAccountLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountLinksInput`)
     ///
-    /// - Returns: `ListAccountLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4549,6 +4608,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountLinksInput, ListAccountLinksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountLinksOutput>(ListAccountLinksOutput.httpOutput(from:), ListAccountLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountLinksInput, ListAccountLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountLinksOutput>())
@@ -4583,9 +4643,9 @@ extension WorkSpacesClient {
     ///
     /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL). This operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
     ///
-    /// - Parameter ListAvailableManagementCidrRangesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableManagementCidrRangesInput`)
     ///
-    /// - Returns: `ListAvailableManagementCidrRangesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailableManagementCidrRangesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4618,6 +4678,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAvailableManagementCidrRangesInput, ListAvailableManagementCidrRangesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableManagementCidrRangesOutput>(ListAvailableManagementCidrRangesOutput.httpOutput(from:), ListAvailableManagementCidrRangesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableManagementCidrRangesInput, ListAvailableManagementCidrRangesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableManagementCidrRangesOutput>())
@@ -4652,9 +4713,9 @@ extension WorkSpacesClient {
     ///
     /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\ folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile. For available migration scenarios, details about what happens during migration, and best practices, see [Migrate a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/migrate-workspaces.html).
     ///
-    /// - Parameter MigrateWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MigrateWorkspaceInput`)
     ///
-    /// - Returns: `MigrateWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MigrateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4691,6 +4752,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MigrateWorkspaceInput, MigrateWorkspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MigrateWorkspaceOutput>(MigrateWorkspaceOutput.httpOutput(from:), MigrateWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MigrateWorkspaceInput, MigrateWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MigrateWorkspaceOutput>())
@@ -4725,9 +4787,9 @@ extension WorkSpacesClient {
     ///
     /// Modifies the configuration of Bring Your Own License (BYOL) for the specified account.
     ///
-    /// - Parameter ModifyAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyAccountInput`)
     ///
-    /// - Returns: `ModifyAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4763,6 +4825,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyAccountInput, ModifyAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyAccountOutput>(ModifyAccountOutput.httpOutput(from:), ModifyAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyAccountInput, ModifyAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyAccountOutput>())
@@ -4797,9 +4860,9 @@ extension WorkSpacesClient {
     ///
     /// Modifies the properties of the certificate-based authentication you want to use with your WorkSpaces.
     ///
-    /// - Parameter ModifyCertificateBasedAuthPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyCertificateBasedAuthPropertiesInput`)
     ///
-    /// - Returns: `ModifyCertificateBasedAuthPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyCertificateBasedAuthPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4834,6 +4897,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyCertificateBasedAuthPropertiesInput, ModifyCertificateBasedAuthPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyCertificateBasedAuthPropertiesOutput>(ModifyCertificateBasedAuthPropertiesOutput.httpOutput(from:), ModifyCertificateBasedAuthPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyCertificateBasedAuthPropertiesInput, ModifyCertificateBasedAuthPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyCertificateBasedAuthPropertiesOutput>())
@@ -4868,9 +4932,9 @@ extension WorkSpacesClient {
     ///
     /// Modifies the properties of the specified Amazon WorkSpaces clients.
     ///
-    /// - Parameter ModifyClientPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyClientPropertiesInput`)
     ///
-    /// - Returns: `ModifyClientPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyClientPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4905,6 +4969,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyClientPropertiesInput, ModifyClientPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyClientPropertiesOutput>(ModifyClientPropertiesOutput.httpOutput(from:), ModifyClientPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyClientPropertiesInput, ModifyClientPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyClientPropertiesOutput>())
@@ -4939,9 +5004,9 @@ extension WorkSpacesClient {
     ///
     /// Modifies the endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
     ///
-    /// - Parameter ModifyEndpointEncryptionModeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyEndpointEncryptionModeInput`)
     ///
-    /// - Returns: `ModifyEndpointEncryptionModeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyEndpointEncryptionModeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4975,6 +5040,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyEndpointEncryptionModeInput, ModifyEndpointEncryptionModeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyEndpointEncryptionModeOutput>(ModifyEndpointEncryptionModeOutput.httpOutput(from:), ModifyEndpointEncryptionModeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyEndpointEncryptionModeInput, ModifyEndpointEncryptionModeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyEndpointEncryptionModeOutput>())
@@ -5009,9 +5075,9 @@ extension WorkSpacesClient {
     ///
     /// Modifies multiple properties related to SAML 2.0 authentication, including the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider.
     ///
-    /// - Parameter ModifySamlPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifySamlPropertiesInput`)
     ///
-    /// - Returns: `ModifySamlPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifySamlPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5046,6 +5112,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifySamlPropertiesInput, ModifySamlPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySamlPropertiesOutput>(ModifySamlPropertiesOutput.httpOutput(from:), ModifySamlPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySamlPropertiesInput, ModifySamlPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySamlPropertiesOutput>())
@@ -5080,9 +5147,9 @@ extension WorkSpacesClient {
     ///
     /// Modifies the self-service WorkSpace management capabilities for your users. For more information, see [Enable Self-Service WorkSpace Management Capabilities for Your Users](https://docs.aws.amazon.com/workspaces/latest/adminguide/enable-user-self-service-workspace-management.html).
     ///
-    /// - Parameter ModifySelfservicePermissionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifySelfservicePermissionsInput`)
     ///
-    /// - Returns: `ModifySelfservicePermissionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifySelfservicePermissionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5117,6 +5184,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifySelfservicePermissionsInput, ModifySelfservicePermissionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifySelfservicePermissionsOutput>(ModifySelfservicePermissionsOutput.httpOutput(from:), ModifySelfservicePermissionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifySelfservicePermissionsInput, ModifySelfservicePermissionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifySelfservicePermissionsOutput>())
@@ -5151,9 +5219,9 @@ extension WorkSpacesClient {
     ///
     /// Modifies the specified streaming properties.
     ///
-    /// - Parameter ModifyStreamingPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyStreamingPropertiesInput`)
     ///
-    /// - Returns: `ModifyStreamingPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyStreamingPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5188,6 +5256,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyStreamingPropertiesOutput>(ModifyStreamingPropertiesOutput.httpOutput(from:), ModifyStreamingPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyStreamingPropertiesInput, ModifyStreamingPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyStreamingPropertiesOutput>())
@@ -5222,9 +5291,9 @@ extension WorkSpacesClient {
     ///
     /// Specifies which devices and operating systems users can use to access their WorkSpaces. For more information, see [ Control Device Access](https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html#control-device-access).
     ///
-    /// - Parameter ModifyWorkspaceAccessPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyWorkspaceAccessPropertiesInput`)
     ///
-    /// - Returns: `ModifyWorkspaceAccessPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyWorkspaceAccessPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5260,6 +5329,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyWorkspaceAccessPropertiesInput, ModifyWorkspaceAccessPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyWorkspaceAccessPropertiesOutput>(ModifyWorkspaceAccessPropertiesOutput.httpOutput(from:), ModifyWorkspaceAccessPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyWorkspaceAccessPropertiesInput, ModifyWorkspaceAccessPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyWorkspaceAccessPropertiesOutput>())
@@ -5294,9 +5364,9 @@ extension WorkSpacesClient {
     ///
     /// Modify the default properties used to create WorkSpaces.
     ///
-    /// - Parameter ModifyWorkspaceCreationPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyWorkspaceCreationPropertiesInput`)
     ///
-    /// - Returns: `ModifyWorkspaceCreationPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyWorkspaceCreationPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5331,6 +5401,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyWorkspaceCreationPropertiesInput, ModifyWorkspaceCreationPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyWorkspaceCreationPropertiesOutput>(ModifyWorkspaceCreationPropertiesOutput.httpOutput(from:), ModifyWorkspaceCreationPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyWorkspaceCreationPropertiesInput, ModifyWorkspaceCreationPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyWorkspaceCreationPropertiesOutput>())
@@ -5365,9 +5436,9 @@ extension WorkSpacesClient {
     ///
     /// Modifies the specified WorkSpace properties. For important information about how to modify the size of the root and user volumes, see [ Modify a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html). The MANUAL running mode value is only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more information, see [Amazon WorkSpaces Core](http://aws.amazon.com/workspaces/core/).
     ///
-    /// - Parameter ModifyWorkspacePropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyWorkspacePropertiesInput`)
     ///
-    /// - Returns: `ModifyWorkspacePropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyWorkspacePropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5408,6 +5479,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyWorkspacePropertiesInput, ModifyWorkspacePropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyWorkspacePropertiesOutput>(ModifyWorkspacePropertiesOutput.httpOutput(from:), ModifyWorkspacePropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyWorkspacePropertiesInput, ModifyWorkspacePropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyWorkspacePropertiesOutput>())
@@ -5442,9 +5514,9 @@ extension WorkSpacesClient {
     ///
     /// Sets the state of the specified WorkSpace. To maintain a WorkSpace without being interrupted, set the WorkSpace state to ADMIN_MAINTENANCE. WorkSpaces in this state do not respond to requests to reboot, stop, start, rebuild, or restore. An AutoStop WorkSpace in this state is not stopped. Users cannot log into a WorkSpace in the ADMIN_MAINTENANCE state.
     ///
-    /// - Parameter ModifyWorkspaceStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyWorkspaceStateInput`)
     ///
-    /// - Returns: `ModifyWorkspaceStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyWorkspaceStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5479,6 +5551,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyWorkspaceStateInput, ModifyWorkspaceStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyWorkspaceStateOutput>(ModifyWorkspaceStateOutput.httpOutput(from:), ModifyWorkspaceStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyWorkspaceStateInput, ModifyWorkspaceStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyWorkspaceStateOutput>())
@@ -5513,9 +5586,9 @@ extension WorkSpacesClient {
     ///
     /// Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is AVAILABLE, UNHEALTHY, or REBOOTING. Reboot a WorkSpace in the REBOOTING state only if your WorkSpace has been stuck in the REBOOTING state for over 20 minutes. This operation is asynchronous and returns before the WorkSpaces have rebooted.
     ///
-    /// - Parameter RebootWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootWorkspacesInput`)
     ///
-    /// - Returns: `RebootWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5547,6 +5620,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootWorkspacesInput, RebootWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootWorkspacesOutput>(RebootWorkspacesOutput.httpOutput(from:), RebootWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootWorkspacesInput, RebootWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootWorkspacesOutput>())
@@ -5581,9 +5655,9 @@ extension WorkSpacesClient {
     ///
     /// Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its state is AVAILABLE, ERROR, UNHEALTHY, STOPPED, or REBOOTING. Rebuilding a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see [Rebuild a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/reset-workspace.html). This operation is asynchronous and returns before the WorkSpaces have been completely rebuilt.
     ///
-    /// - Parameter RebuildWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebuildWorkspacesInput`)
     ///
-    /// - Returns: `RebuildWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebuildWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5615,6 +5689,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebuildWorkspacesInput, RebuildWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebuildWorkspacesOutput>(RebuildWorkspacesOutput.httpOutput(from:), RebuildWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebuildWorkspacesInput, RebuildWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebuildWorkspacesOutput>())
@@ -5649,9 +5724,9 @@ extension WorkSpacesClient {
     ///
     /// Registers the specified directory. This operation is asynchronous and returns before the WorkSpace directory is registered. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see [ Creating the workspaces_DefaultRole Role](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-access-control.html#create-default-role).
     ///
-    /// - Parameter RegisterWorkspaceDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterWorkspaceDirectoryInput`)
     ///
-    /// - Returns: `RegisterWorkspaceDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterWorkspaceDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5691,6 +5766,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterWorkspaceDirectoryInput, RegisterWorkspaceDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterWorkspaceDirectoryOutput>(RegisterWorkspaceDirectoryOutput.httpOutput(from:), RegisterWorkspaceDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterWorkspaceDirectoryInput, RegisterWorkspaceDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterWorkspaceDirectoryOutput>())
@@ -5725,9 +5801,9 @@ extension WorkSpacesClient {
     ///
     /// Rejects the account link invitation.
     ///
-    /// - Parameter RejectAccountLinkInvitationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectAccountLinkInvitationInput`)
     ///
-    /// - Returns: `RejectAccountLinkInvitationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectAccountLinkInvitationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5763,6 +5839,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectAccountLinkInvitationInput, RejectAccountLinkInvitationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectAccountLinkInvitationOutput>(RejectAccountLinkInvitationOutput.httpOutput(from:), RejectAccountLinkInvitationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectAccountLinkInvitationInput, RejectAccountLinkInvitationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectAccountLinkInvitationOutput>())
@@ -5797,9 +5874,9 @@ extension WorkSpacesClient {
     ///
     /// Restores the specified WorkSpace to its last known healthy state. You cannot restore a WorkSpace unless its state is  AVAILABLE, ERROR, UNHEALTHY, or STOPPED. Restoring a WorkSpace is a potentially destructive action that can result in the loss of data. For more information, see [Restore a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/restore-workspace.html). This operation is asynchronous and returns before the WorkSpace is completely restored.
     ///
-    /// - Parameter RestoreWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreWorkspaceInput`)
     ///
-    /// - Returns: `RestoreWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5834,6 +5911,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreWorkspaceInput, RestoreWorkspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreWorkspaceOutput>(RestoreWorkspaceOutput.httpOutput(from:), RestoreWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreWorkspaceInput, RestoreWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreWorkspaceOutput>())
@@ -5868,9 +5946,9 @@ extension WorkSpacesClient {
     ///
     /// Removes one or more rules from the specified IP access control group.
     ///
-    /// - Parameter RevokeIpRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeIpRulesInput`)
     ///
-    /// - Returns: `RevokeIpRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeIpRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5905,6 +5983,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeIpRulesInput, RevokeIpRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeIpRulesOutput>(RevokeIpRulesOutput.httpOutput(from:), RevokeIpRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeIpRulesInput, RevokeIpRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeIpRulesOutput>())
@@ -5939,9 +6018,9 @@ extension WorkSpacesClient {
     ///
     /// Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode of AutoStop or Manual and a state of STOPPED.
     ///
-    /// - Parameter StartWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkspacesInput`)
     ///
-    /// - Returns: `StartWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWorkspacesOutput`)
     public func startWorkspaces(input: StartWorkspacesInput) async throws -> StartWorkspacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5968,6 +6047,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWorkspacesInput, StartWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWorkspacesOutput>(StartWorkspacesOutput.httpOutput(from:), StartWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWorkspacesInput, StartWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWorkspacesOutput>())
@@ -6002,9 +6082,9 @@ extension WorkSpacesClient {
     ///
     /// Starts the specified pool. You cannot start a pool unless it has a running mode of AutoStop and a state of STOPPED.
     ///
-    /// - Parameter StartWorkspacesPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWorkspacesPoolInput`)
     ///
-    /// - Returns: `StartWorkspacesPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWorkspacesPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6042,6 +6122,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWorkspacesPoolOutput>(StartWorkspacesPoolOutput.httpOutput(from:), StartWorkspacesPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWorkspacesPoolInput, StartWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWorkspacesPoolOutput>())
@@ -6076,9 +6157,9 @@ extension WorkSpacesClient {
     ///
     /// Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of AutoStop or Manual and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     ///
-    /// - Parameter StopWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopWorkspacesInput`)
     ///
-    /// - Returns: `StopWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopWorkspacesOutput`)
     public func stopWorkspaces(input: StopWorkspacesInput) async throws -> StopWorkspacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6105,6 +6186,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopWorkspacesInput, StopWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopWorkspacesOutput>(StopWorkspacesOutput.httpOutput(from:), StopWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopWorkspacesInput, StopWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopWorkspacesOutput>())
@@ -6139,9 +6221,9 @@ extension WorkSpacesClient {
     ///
     /// Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
     ///
-    /// - Parameter StopWorkspacesPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopWorkspacesPoolInput`)
     ///
-    /// - Returns: `StopWorkspacesPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopWorkspacesPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6177,6 +6259,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopWorkspacesPoolOutput>(StopWorkspacesPoolOutput.httpOutput(from:), StopWorkspacesPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopWorkspacesPoolInput, StopWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopWorkspacesPoolOutput>())
@@ -6211,9 +6294,9 @@ extension WorkSpacesClient {
     ///
     /// Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web ServicesSupport before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using [ DescribeWorkSpaces](https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html). If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated. Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the [Directory Service pricing terms](http://aws.amazon.com/directoryservice/pricing/). To delete empty directories, see [ Delete the Directory for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html). If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     ///
-    /// - Parameter TerminateWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateWorkspacesInput`)
     ///
-    /// - Returns: `TerminateWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateWorkspacesOutput`)
     public func terminateWorkspaces(input: TerminateWorkspacesInput) async throws -> TerminateWorkspacesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6240,6 +6323,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateWorkspacesInput, TerminateWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateWorkspacesOutput>(TerminateWorkspacesOutput.httpOutput(from:), TerminateWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateWorkspacesInput, TerminateWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateWorkspacesOutput>())
@@ -6274,9 +6358,9 @@ extension WorkSpacesClient {
     ///
     /// Terminates the specified pool.
     ///
-    /// - Parameter TerminateWorkspacesPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateWorkspacesPoolInput`)
     ///
-    /// - Returns: `TerminateWorkspacesPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateWorkspacesPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6312,6 +6396,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateWorkspacesPoolOutput>(TerminateWorkspacesPoolOutput.httpOutput(from:), TerminateWorkspacesPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateWorkspacesPoolInput, TerminateWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateWorkspacesPoolOutput>())
@@ -6346,9 +6431,9 @@ extension WorkSpacesClient {
     ///
     /// Terminates the pool session.
     ///
-    /// - Parameter TerminateWorkspacesPoolSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateWorkspacesPoolSessionInput`)
     ///
-    /// - Returns: `TerminateWorkspacesPoolSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateWorkspacesPoolSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6384,6 +6469,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateWorkspacesPoolSessionOutput>(TerminateWorkspacesPoolSessionOutput.httpOutput(from:), TerminateWorkspacesPoolSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateWorkspacesPoolSessionInput, TerminateWorkspacesPoolSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateWorkspacesPoolSessionOutput>())
@@ -6418,9 +6504,9 @@ extension WorkSpacesClient {
     ///
     /// Updates a Amazon Connect client add-in. Use this action to update the name and endpoint URL of a Amazon Connect client add-in.
     ///
-    /// - Parameter UpdateConnectClientAddInInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectClientAddInInput`)
     ///
-    /// - Returns: `UpdateConnectClientAddInOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectClientAddInOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6454,6 +6540,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectClientAddInInput, UpdateConnectClientAddInOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectClientAddInOutput>(UpdateConnectClientAddInOutput.httpOutput(from:), UpdateConnectClientAddInOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectClientAddInInput, UpdateConnectClientAddInOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectClientAddInOutput>())
@@ -6492,9 +6579,9 @@ extension WorkSpacesClient {
     ///
     /// * To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories.
     ///
-    /// - Parameter UpdateConnectionAliasPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionAliasPermissionInput`)
     ///
-    /// - Returns: `UpdateConnectionAliasPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionAliasPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6532,6 +6619,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionAliasPermissionInput, UpdateConnectionAliasPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionAliasPermissionOutput>(UpdateConnectionAliasPermissionOutput.httpOutput(from:), UpdateConnectionAliasPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionAliasPermissionInput, UpdateConnectionAliasPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionAliasPermissionOutput>())
@@ -6566,9 +6654,9 @@ extension WorkSpacesClient {
     ///
     /// Replaces the current rules of the specified IP access control group with the specified rules.
     ///
-    /// - Parameter UpdateRulesOfIpGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRulesOfIpGroupInput`)
     ///
-    /// - Returns: `UpdateRulesOfIpGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRulesOfIpGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6604,6 +6692,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRulesOfIpGroupInput, UpdateRulesOfIpGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRulesOfIpGroupOutput>(UpdateRulesOfIpGroupOutput.httpOutput(from:), UpdateRulesOfIpGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRulesOfIpGroupInput, UpdateRulesOfIpGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRulesOfIpGroupOutput>())
@@ -6638,9 +6727,9 @@ extension WorkSpacesClient {
     ///
     /// Updates a WorkSpace bundle with a new image. For more information about updating WorkSpace bundles, see [ Update a Custom WorkSpaces Bundle](https://docs.aws.amazon.com/workspaces/latest/adminguide/update-custom-bundle.html). Existing WorkSpaces aren't automatically updated when you update the bundle that they're based on. To update existing WorkSpaces that are based on a bundle that you've updated, you must either rebuild the WorkSpaces or delete and recreate them.
     ///
-    /// - Parameter UpdateWorkspaceBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceBundleInput`)
     ///
-    /// - Returns: `UpdateWorkspaceBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6676,6 +6765,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspaceBundleInput, UpdateWorkspaceBundleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspaceBundleOutput>(UpdateWorkspaceBundleOutput.httpOutput(from:), UpdateWorkspaceBundleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspaceBundleInput, UpdateWorkspaceBundleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspaceBundleOutput>())
@@ -6714,9 +6804,9 @@ extension WorkSpacesClient {
     ///
     /// * Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images across accounts in Amazon Web Services GovCloud (US), contact Amazon Web ServicesSupport.
     ///
-    /// - Parameter UpdateWorkspaceImagePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceImagePermissionInput`)
     ///
-    /// - Returns: `UpdateWorkspaceImagePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceImagePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6752,6 +6842,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspaceImagePermissionInput, UpdateWorkspaceImagePermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspaceImagePermissionOutput>(UpdateWorkspaceImagePermissionOutput.httpOutput(from:), UpdateWorkspaceImagePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspaceImagePermissionInput, UpdateWorkspaceImagePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspaceImagePermissionOutput>())
@@ -6786,9 +6877,9 @@ extension WorkSpacesClient {
     ///
     /// Updates the specified pool.
     ///
-    /// - Parameter UpdateWorkspacesPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspacesPoolInput`)
     ///
-    /// - Returns: `UpdateWorkspacesPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspacesPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6826,6 +6917,7 @@ extension WorkSpacesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspacesPoolOutput>(UpdateWorkspacesPoolOutput.httpOutput(from:), UpdateWorkspacesPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspacesPoolInput, UpdateWorkspacesPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspacesPoolOutput>())

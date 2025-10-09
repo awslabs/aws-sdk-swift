@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaTailorClient: ClientRuntime.Client {
     public static let clientName = "MediaTailorClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaTailorClient.MediaTailorClientConfiguration
     let serviceName = "MediaTailor"
@@ -373,9 +374,9 @@ extension MediaTailorClient {
     ///
     /// Configures Amazon CloudWatch log settings for a channel.
     ///
-    /// - Parameter ConfigureLogsForChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConfigureLogsForChannelInput`)
     ///
-    /// - Returns: `ConfigureLogsForChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfigureLogsForChannelOutput`)
     public func configureLogsForChannel(input: ConfigureLogsForChannelInput) async throws -> ConfigureLogsForChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -404,6 +405,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfigureLogsForChannelInput, ConfigureLogsForChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfigureLogsForChannelOutput>(ConfigureLogsForChannelOutput.httpOutput(from:), ConfigureLogsForChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfigureLogsForChannelInput, ConfigureLogsForChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfigureLogsForChannelOutput>())
@@ -435,9 +437,9 @@ extension MediaTailorClient {
     ///
     /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     ///
-    /// - Parameter ConfigureLogsForPlaybackConfigurationInput : Configures Amazon CloudWatch log settings for a playback configuration.
+    /// - Parameter input: Configures Amazon CloudWatch log settings for a playback configuration. (Type: `ConfigureLogsForPlaybackConfigurationInput`)
     ///
-    /// - Returns: `ConfigureLogsForPlaybackConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfigureLogsForPlaybackConfigurationOutput`)
     public func configureLogsForPlaybackConfiguration(input: ConfigureLogsForPlaybackConfigurationInput) async throws -> ConfigureLogsForPlaybackConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -466,6 +468,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfigureLogsForPlaybackConfigurationInput, ConfigureLogsForPlaybackConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfigureLogsForPlaybackConfigurationOutput>(ConfigureLogsForPlaybackConfigurationOutput.httpOutput(from:), ConfigureLogsForPlaybackConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfigureLogsForPlaybackConfigurationInput, ConfigureLogsForPlaybackConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfigureLogsForPlaybackConfigurationOutput>())
@@ -497,9 +500,9 @@ extension MediaTailorClient {
     ///
     /// Creates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -528,6 +531,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -559,9 +563,9 @@ extension MediaTailorClient {
     ///
     /// The live source configuration.
     ///
-    /// - Parameter CreateLiveSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLiveSourceInput`)
     ///
-    /// - Returns: `CreateLiveSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLiveSourceOutput`)
     public func createLiveSource(input: CreateLiveSourceInput) async throws -> CreateLiveSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -590,6 +594,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLiveSourceInput, CreateLiveSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLiveSourceOutput>(CreateLiveSourceOutput.httpOutput(from:), CreateLiveSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLiveSourceInput, CreateLiveSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLiveSourceOutput>())
@@ -621,9 +626,9 @@ extension MediaTailorClient {
     ///
     /// Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter CreatePrefetchScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePrefetchScheduleInput`)
     ///
-    /// - Returns: `CreatePrefetchScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePrefetchScheduleOutput`)
     public func createPrefetchSchedule(input: CreatePrefetchScheduleInput) async throws -> CreatePrefetchScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -652,6 +657,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePrefetchScheduleInput, CreatePrefetchScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePrefetchScheduleOutput>(CreatePrefetchScheduleOutput.httpOutput(from:), CreatePrefetchScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePrefetchScheduleInput, CreatePrefetchScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePrefetchScheduleOutput>())
@@ -683,9 +689,9 @@ extension MediaTailorClient {
     ///
     /// Creates a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter CreateProgramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProgramInput`)
     ///
-    /// - Returns: `CreateProgramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProgramOutput`)
     public func createProgram(input: CreateProgramInput) async throws -> CreateProgramOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -714,6 +720,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProgramInput, CreateProgramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProgramOutput>(CreateProgramOutput.httpOutput(from:), CreateProgramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProgramInput, CreateProgramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProgramOutput>())
@@ -745,9 +752,9 @@ extension MediaTailorClient {
     ///
     /// Creates a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter CreateSourceLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSourceLocationInput`)
     ///
-    /// - Returns: `CreateSourceLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSourceLocationOutput`)
     public func createSourceLocation(input: CreateSourceLocationInput) async throws -> CreateSourceLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -776,6 +783,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSourceLocationInput, CreateSourceLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSourceLocationOutput>(CreateSourceLocationOutput.httpOutput(from:), CreateSourceLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSourceLocationInput, CreateSourceLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSourceLocationOutput>())
@@ -807,9 +815,9 @@ extension MediaTailorClient {
     ///
     /// The VOD source configuration parameters.
     ///
-    /// - Parameter CreateVodSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVodSourceInput`)
     ///
-    /// - Returns: `CreateVodSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVodSourceOutput`)
     public func createVodSource(input: CreateVodSourceInput) async throws -> CreateVodSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -838,6 +846,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVodSourceInput, CreateVodSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVodSourceOutput>(CreateVodSourceOutput.httpOutput(from:), CreateVodSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVodSourceInput, CreateVodSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVodSourceOutput>())
@@ -869,9 +878,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -897,6 +906,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(DeleteChannelOutput.httpOutput(from:), DeleteChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelInput, DeleteChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
@@ -928,9 +938,9 @@ extension MediaTailorClient {
     ///
     /// The channel policy to delete.
     ///
-    /// - Parameter DeleteChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelPolicyInput`)
     ///
-    /// - Returns: `DeleteChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelPolicyOutput`)
     public func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -956,6 +966,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelPolicyInput, DeleteChannelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelPolicyOutput>(DeleteChannelPolicyOutput.httpOutput(from:), DeleteChannelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelPolicyInput, DeleteChannelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelPolicyOutput>())
@@ -987,9 +998,9 @@ extension MediaTailorClient {
     ///
     /// The live source to delete.
     ///
-    /// - Parameter DeleteLiveSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLiveSourceInput`)
     ///
-    /// - Returns: `DeleteLiveSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLiveSourceOutput`)
     public func deleteLiveSource(input: DeleteLiveSourceInput) async throws -> DeleteLiveSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1015,6 +1026,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLiveSourceInput, DeleteLiveSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLiveSourceOutput>(DeleteLiveSourceOutput.httpOutput(from:), DeleteLiveSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLiveSourceInput, DeleteLiveSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLiveSourceOutput>())
@@ -1046,9 +1058,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     ///
-    /// - Parameter DeletePlaybackConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePlaybackConfigurationInput`)
     ///
-    /// - Returns: `DeletePlaybackConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePlaybackConfigurationOutput`)
     public func deletePlaybackConfiguration(input: DeletePlaybackConfigurationInput) async throws -> DeletePlaybackConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1074,6 +1086,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePlaybackConfigurationInput, DeletePlaybackConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePlaybackConfigurationOutput>(DeletePlaybackConfigurationOutput.httpOutput(from:), DeletePlaybackConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePlaybackConfigurationInput, DeletePlaybackConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePlaybackConfigurationOutput>())
@@ -1105,9 +1118,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a prefetch schedule for a specific playback configuration. If you call DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DeletePrefetchScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePrefetchScheduleInput`)
     ///
-    /// - Returns: `DeletePrefetchScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePrefetchScheduleOutput`)
     public func deletePrefetchSchedule(input: DeletePrefetchScheduleInput) async throws -> DeletePrefetchScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1133,6 +1146,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePrefetchScheduleInput, DeletePrefetchScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePrefetchScheduleOutput>(DeletePrefetchScheduleOutput.httpOutput(from:), DeletePrefetchScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePrefetchScheduleInput, DeletePrefetchScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePrefetchScheduleOutput>())
@@ -1164,9 +1178,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DeleteProgramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProgramInput`)
     ///
-    /// - Returns: `DeleteProgramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProgramOutput`)
     public func deleteProgram(input: DeleteProgramInput) async throws -> DeleteProgramOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1192,6 +1206,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProgramInput, DeleteProgramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProgramOutput>(DeleteProgramOutput.httpOutput(from:), DeleteProgramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProgramInput, DeleteProgramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProgramOutput>())
@@ -1223,9 +1238,9 @@ extension MediaTailorClient {
     ///
     /// Deletes a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DeleteSourceLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceLocationInput`)
     ///
-    /// - Returns: `DeleteSourceLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceLocationOutput`)
     public func deleteSourceLocation(input: DeleteSourceLocationInput) async throws -> DeleteSourceLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1251,6 +1266,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSourceLocationInput, DeleteSourceLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSourceLocationOutput>(DeleteSourceLocationOutput.httpOutput(from:), DeleteSourceLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSourceLocationInput, DeleteSourceLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSourceLocationOutput>())
@@ -1282,9 +1298,9 @@ extension MediaTailorClient {
     ///
     /// The video on demand (VOD) source to delete.
     ///
-    /// - Parameter DeleteVodSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVodSourceInput`)
     ///
-    /// - Returns: `DeleteVodSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVodSourceOutput`)
     public func deleteVodSource(input: DeleteVodSourceInput) async throws -> DeleteVodSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1310,6 +1326,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVodSourceInput, DeleteVodSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVodSourceOutput>(DeleteVodSourceOutput.httpOutput(from:), DeleteVodSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVodSourceInput, DeleteVodSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVodSourceOutput>())
@@ -1341,9 +1358,9 @@ extension MediaTailorClient {
     ///
     /// Describes a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DescribeChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChannelInput`)
     ///
-    /// - Returns: `DescribeChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChannelOutput`)
     public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1369,6 +1386,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeChannelInput, DescribeChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChannelOutput>(DescribeChannelOutput.httpOutput(from:), DescribeChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChannelInput, DescribeChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChannelOutput>())
@@ -1400,9 +1418,9 @@ extension MediaTailorClient {
     ///
     /// The live source to describe.
     ///
-    /// - Parameter DescribeLiveSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLiveSourceInput`)
     ///
-    /// - Returns: `DescribeLiveSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLiveSourceOutput`)
     public func describeLiveSource(input: DescribeLiveSourceInput) async throws -> DescribeLiveSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1428,6 +1446,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLiveSourceInput, DescribeLiveSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLiveSourceOutput>(DescribeLiveSourceOutput.httpOutput(from:), DescribeLiveSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLiveSourceInput, DescribeLiveSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLiveSourceOutput>())
@@ -1459,9 +1478,9 @@ extension MediaTailorClient {
     ///
     /// Describes a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DescribeProgramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProgramInput`)
     ///
-    /// - Returns: `DescribeProgramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProgramOutput`)
     public func describeProgram(input: DescribeProgramInput) async throws -> DescribeProgramOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1487,6 +1506,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProgramInput, DescribeProgramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProgramOutput>(DescribeProgramOutput.httpOutput(from:), DescribeProgramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProgramInput, DescribeProgramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProgramOutput>())
@@ -1518,9 +1538,9 @@ extension MediaTailorClient {
     ///
     /// Describes a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter DescribeSourceLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSourceLocationInput`)
     ///
-    /// - Returns: `DescribeSourceLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSourceLocationOutput`)
     public func describeSourceLocation(input: DescribeSourceLocationInput) async throws -> DescribeSourceLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1546,6 +1566,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSourceLocationInput, DescribeSourceLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSourceLocationOutput>(DescribeSourceLocationOutput.httpOutput(from:), DescribeSourceLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSourceLocationInput, DescribeSourceLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSourceLocationOutput>())
@@ -1577,9 +1598,9 @@ extension MediaTailorClient {
     ///
     /// Provides details about a specific video on demand (VOD) source in a specific source location.
     ///
-    /// - Parameter DescribeVodSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVodSourceInput`)
     ///
-    /// - Returns: `DescribeVodSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVodSourceOutput`)
     public func describeVodSource(input: DescribeVodSourceInput) async throws -> DescribeVodSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1605,6 +1626,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVodSourceInput, DescribeVodSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVodSourceOutput>(DescribeVodSourceOutput.httpOutput(from:), DescribeVodSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVodSourceInput, DescribeVodSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVodSourceOutput>())
@@ -1636,9 +1658,9 @@ extension MediaTailorClient {
     ///
     /// Returns the channel's IAM policy. IAM policies are used to control access to your channel.
     ///
-    /// - Parameter GetChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelPolicyInput`)
     ///
-    /// - Returns: `GetChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelPolicyOutput`)
     public func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1664,6 +1686,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChannelPolicyInput, GetChannelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelPolicyOutput>(GetChannelPolicyOutput.httpOutput(from:), GetChannelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelPolicyInput, GetChannelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelPolicyOutput>())
@@ -1695,9 +1718,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves information about your channel's schedule.
     ///
-    /// - Parameter GetChannelScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelScheduleInput`)
     ///
-    /// - Returns: `GetChannelScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelScheduleOutput`)
     public func getChannelSchedule(input: GetChannelScheduleInput) async throws -> GetChannelScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1724,6 +1747,7 @@ extension MediaTailorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetChannelScheduleInput, GetChannelScheduleOutput>(GetChannelScheduleInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelScheduleOutput>(GetChannelScheduleOutput.httpOutput(from:), GetChannelScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelScheduleInput, GetChannelScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelScheduleOutput>())
@@ -1755,9 +1779,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     ///
-    /// - Parameter GetPlaybackConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPlaybackConfigurationInput`)
     ///
-    /// - Returns: `GetPlaybackConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPlaybackConfigurationOutput`)
     public func getPlaybackConfiguration(input: GetPlaybackConfigurationInput) async throws -> GetPlaybackConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1783,6 +1807,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPlaybackConfigurationInput, GetPlaybackConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPlaybackConfigurationOutput>(GetPlaybackConfigurationOutput.httpOutput(from:), GetPlaybackConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPlaybackConfigurationInput, GetPlaybackConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPlaybackConfigurationOutput>())
@@ -1814,9 +1839,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter GetPrefetchScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPrefetchScheduleInput`)
     ///
-    /// - Returns: `GetPrefetchScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPrefetchScheduleOutput`)
     public func getPrefetchSchedule(input: GetPrefetchScheduleInput) async throws -> GetPrefetchScheduleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1842,6 +1867,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPrefetchScheduleInput, GetPrefetchScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPrefetchScheduleOutput>(GetPrefetchScheduleOutput.httpOutput(from:), GetPrefetchScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPrefetchScheduleInput, GetPrefetchScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPrefetchScheduleOutput>())
@@ -1873,9 +1899,9 @@ extension MediaTailorClient {
     ///
     /// Lists the alerts that are associated with a MediaTailor channel assembly resource.
     ///
-    /// - Parameter ListAlertsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAlertsInput`)
     ///
-    /// - Returns: `ListAlertsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAlertsOutput`)
     public func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1902,6 +1928,7 @@ extension MediaTailorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAlertsInput, ListAlertsOutput>(ListAlertsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAlertsOutput>(ListAlertsOutput.httpOutput(from:), ListAlertsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlertsInput, ListAlertsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAlertsOutput>())
@@ -1933,9 +1960,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves information about the channels that are associated with the current AWS account.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1962,6 +1989,7 @@ extension MediaTailorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1993,9 +2021,9 @@ extension MediaTailorClient {
     ///
     /// Lists the live sources contained in a source location. A source represents a piece of content.
     ///
-    /// - Parameter ListLiveSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLiveSourcesInput`)
     ///
-    /// - Returns: `ListLiveSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLiveSourcesOutput`)
     public func listLiveSources(input: ListLiveSourcesInput) async throws -> ListLiveSourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2022,6 +2050,7 @@ extension MediaTailorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLiveSourcesInput, ListLiveSourcesOutput>(ListLiveSourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLiveSourcesOutput>(ListLiveSourcesOutput.httpOutput(from:), ListLiveSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLiveSourcesInput, ListLiveSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLiveSourcesOutput>())
@@ -2053,9 +2082,9 @@ extension MediaTailorClient {
     ///
     /// Retrieves existing playback configurations. For information about MediaTailor configurations, see [Working with Configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     ///
-    /// - Parameter ListPlaybackConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPlaybackConfigurationsInput`)
     ///
-    /// - Returns: `ListPlaybackConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPlaybackConfigurationsOutput`)
     public func listPlaybackConfigurations(input: ListPlaybackConfigurationsInput) async throws -> ListPlaybackConfigurationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2082,6 +2111,7 @@ extension MediaTailorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPlaybackConfigurationsInput, ListPlaybackConfigurationsOutput>(ListPlaybackConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPlaybackConfigurationsOutput>(ListPlaybackConfigurationsOutput.httpOutput(from:), ListPlaybackConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPlaybackConfigurationsInput, ListPlaybackConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPlaybackConfigurationsOutput>())
@@ -2113,9 +2143,9 @@ extension MediaTailorClient {
     ///
     /// Lists the prefetch schedules for a playback configuration.
     ///
-    /// - Parameter ListPrefetchSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPrefetchSchedulesInput`)
     ///
-    /// - Returns: `ListPrefetchSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPrefetchSchedulesOutput`)
     public func listPrefetchSchedules(input: ListPrefetchSchedulesInput) async throws -> ListPrefetchSchedulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2144,6 +2174,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPrefetchSchedulesInput, ListPrefetchSchedulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPrefetchSchedulesOutput>(ListPrefetchSchedulesOutput.httpOutput(from:), ListPrefetchSchedulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPrefetchSchedulesInput, ListPrefetchSchedulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPrefetchSchedulesOutput>())
@@ -2175,9 +2206,9 @@ extension MediaTailorClient {
     ///
     /// Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
     ///
-    /// - Parameter ListSourceLocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceLocationsInput`)
     ///
-    /// - Returns: `ListSourceLocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceLocationsOutput`)
     public func listSourceLocations(input: ListSourceLocationsInput) async throws -> ListSourceLocationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2204,6 +2235,7 @@ extension MediaTailorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSourceLocationsInput, ListSourceLocationsOutput>(ListSourceLocationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceLocationsOutput>(ListSourceLocationsOutput.httpOutput(from:), ListSourceLocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceLocationsInput, ListSourceLocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceLocationsOutput>())
@@ -2235,9 +2267,9 @@ extension MediaTailorClient {
     ///
     /// A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2268,6 +2300,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2299,9 +2332,9 @@ extension MediaTailorClient {
     ///
     /// Lists the VOD sources contained in a source location. A source represents a piece of content.
     ///
-    /// - Parameter ListVodSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVodSourcesInput`)
     ///
-    /// - Returns: `ListVodSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVodSourcesOutput`)
     public func listVodSources(input: ListVodSourcesInput) async throws -> ListVodSourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2328,6 +2361,7 @@ extension MediaTailorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVodSourcesInput, ListVodSourcesOutput>(ListVodSourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVodSourcesOutput>(ListVodSourcesOutput.httpOutput(from:), ListVodSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVodSourcesInput, ListVodSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVodSourcesOutput>())
@@ -2359,9 +2393,9 @@ extension MediaTailorClient {
     ///
     /// Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
     ///
-    /// - Parameter PutChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutChannelPolicyInput`)
     ///
-    /// - Returns: `PutChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutChannelPolicyOutput`)
     public func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2390,6 +2424,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutChannelPolicyOutput>(PutChannelPolicyOutput.httpOutput(from:), PutChannelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutChannelPolicyOutput>())
@@ -2421,9 +2456,9 @@ extension MediaTailorClient {
     ///
     /// Creates a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
     ///
-    /// - Parameter PutPlaybackConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPlaybackConfigurationInput`)
     ///
-    /// - Returns: `PutPlaybackConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPlaybackConfigurationOutput`)
     public func putPlaybackConfiguration(input: PutPlaybackConfigurationInput) async throws -> PutPlaybackConfigurationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2452,6 +2487,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPlaybackConfigurationInput, PutPlaybackConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPlaybackConfigurationOutput>(PutPlaybackConfigurationOutput.httpOutput(from:), PutPlaybackConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPlaybackConfigurationInput, PutPlaybackConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPlaybackConfigurationOutput>())
@@ -2483,9 +2519,9 @@ extension MediaTailorClient {
     ///
     /// Starts a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter StartChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartChannelInput`)
     ///
-    /// - Returns: `StartChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartChannelOutput`)
     public func startChannel(input: StartChannelInput) async throws -> StartChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2511,6 +2547,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartChannelInput, StartChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartChannelOutput>(StartChannelOutput.httpOutput(from:), StartChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartChannelInput, StartChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartChannelOutput>())
@@ -2542,9 +2579,9 @@ extension MediaTailorClient {
     ///
     /// Stops a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter StopChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopChannelInput`)
     ///
-    /// - Returns: `StopChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopChannelOutput`)
     public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2570,6 +2607,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopChannelInput, StopChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopChannelOutput>(StopChannelOutput.httpOutput(from:), StopChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopChannelInput, StopChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopChannelOutput>())
@@ -2601,9 +2639,9 @@ extension MediaTailorClient {
     ///
     /// The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2637,6 +2675,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2668,9 +2707,9 @@ extension MediaTailorClient {
     ///
     /// The resource to untag.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2702,6 +2741,7 @@ extension MediaTailorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2733,9 +2773,9 @@ extension MediaTailorClient {
     ///
     /// Updates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2764,6 +2804,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -2795,9 +2836,9 @@ extension MediaTailorClient {
     ///
     /// Updates a live source's configuration.
     ///
-    /// - Parameter UpdateLiveSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLiveSourceInput`)
     ///
-    /// - Returns: `UpdateLiveSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLiveSourceOutput`)
     public func updateLiveSource(input: UpdateLiveSourceInput) async throws -> UpdateLiveSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2826,6 +2867,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLiveSourceInput, UpdateLiveSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLiveSourceOutput>(UpdateLiveSourceOutput.httpOutput(from:), UpdateLiveSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLiveSourceInput, UpdateLiveSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLiveSourceOutput>())
@@ -2857,9 +2899,9 @@ extension MediaTailorClient {
     ///
     /// Updates a program within a channel.
     ///
-    /// - Parameter UpdateProgramInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProgramInput`)
     ///
-    /// - Returns: `UpdateProgramOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProgramOutput`)
     public func updateProgram(input: UpdateProgramInput) async throws -> UpdateProgramOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2888,6 +2930,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProgramInput, UpdateProgramOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProgramOutput>(UpdateProgramOutput.httpOutput(from:), UpdateProgramOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProgramInput, UpdateProgramOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProgramOutput>())
@@ -2919,9 +2962,9 @@ extension MediaTailorClient {
     ///
     /// Updates a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
     ///
-    /// - Parameter UpdateSourceLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSourceLocationInput`)
     ///
-    /// - Returns: `UpdateSourceLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSourceLocationOutput`)
     public func updateSourceLocation(input: UpdateSourceLocationInput) async throws -> UpdateSourceLocationOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2950,6 +2993,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSourceLocationInput, UpdateSourceLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSourceLocationOutput>(UpdateSourceLocationOutput.httpOutput(from:), UpdateSourceLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSourceLocationInput, UpdateSourceLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSourceLocationOutput>())
@@ -2981,9 +3025,9 @@ extension MediaTailorClient {
     ///
     /// Updates a VOD source's configuration.
     ///
-    /// - Parameter UpdateVodSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVodSourceInput`)
     ///
-    /// - Returns: `UpdateVodSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVodSourceOutput`)
     public func updateVodSource(input: UpdateVodSourceInput) async throws -> UpdateVodSourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -3012,6 +3056,7 @@ extension MediaTailorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVodSourceInput, UpdateVodSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVodSourceOutput>(UpdateVodSourceOutput.httpOutput(from:), UpdateVodSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVodSourceInput, UpdateVodSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVodSourceOutput>())

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSOOIDCClient: ClientRuntime.Client {
     public static let clientName = "SSOOIDCClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOOIDCClient.SSOOIDCClientConfiguration
     let serviceName = "SSO OIDC"
@@ -372,9 +373,9 @@ extension SSOOIDCClient {
     ///
     /// Creates and returns access and refresh tokens for clients that are authenticated using client secrets. The access token can be used to fetch short-lived credentials for the assigned AWS accounts or to access application APIs using bearer authentication.
     ///
-    /// - Parameter CreateTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTokenInput`)
     ///
-    /// - Returns: `CreateTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +417,7 @@ extension SSOOIDCClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTokenInput, CreateTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTokenOutput>(CreateTokenOutput.httpOutput(from:), CreateTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTokenInput, CreateTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTokenOutput>())
@@ -447,9 +449,9 @@ extension SSOOIDCClient {
     ///
     /// Creates and returns access and refresh tokens for authorized client applications that are authenticated using any IAM entity, such as a service role or user. These tokens might contain defined scopes that specify permissions such as read:profile or write:data. Through downscoping, you can use the scopes parameter to request tokens with reduced permissions compared to the original client application's permissions or, if applicable, the refresh token's scopes. The access token can be used to fetch short-lived credentials for the assigned Amazon Web Services accounts or to access application APIs using bearer authentication. This API is used with Signature Version 4. For more information, see [Amazon Web Services Signature Version 4 for API Requests](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_sigv.html).
     ///
-    /// - Parameter CreateTokenWithIAMInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTokenWithIAMInput`)
     ///
-    /// - Returns: `CreateTokenWithIAMOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTokenWithIAMOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -495,6 +497,7 @@ extension SSOOIDCClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTokenWithIAMInput, CreateTokenWithIAMOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTokenWithIAMOutput>(CreateTokenWithIAMOutput.httpOutput(from:), CreateTokenWithIAMOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTokenWithIAMInput, CreateTokenWithIAMOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTokenWithIAMOutput>())
@@ -526,9 +529,9 @@ extension SSOOIDCClient {
     ///
     /// Registers a public client with IAM Identity Center. This allows clients to perform authorization using the authorization code grant with Proof Key for Code Exchange (PKCE) or the device code grant.
     ///
-    /// - Parameter RegisterClientInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterClientInput`)
     ///
-    /// - Returns: `RegisterClientOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterClientOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -566,6 +569,7 @@ extension SSOOIDCClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterClientInput, RegisterClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterClientOutput>(RegisterClientOutput.httpOutput(from:), RegisterClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterClientInput, RegisterClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterClientOutput>())
@@ -597,9 +601,9 @@ extension SSOOIDCClient {
     ///
     /// Initiates device authorization by requesting a pair of verification codes from the authorization service.
     ///
-    /// - Parameter StartDeviceAuthorizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDeviceAuthorizationInput`)
     ///
-    /// - Returns: `StartDeviceAuthorizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDeviceAuthorizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,6 +639,7 @@ extension SSOOIDCClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeviceAuthorizationInput, StartDeviceAuthorizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeviceAuthorizationOutput>(StartDeviceAuthorizationOutput.httpOutput(from:), StartDeviceAuthorizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeviceAuthorizationInput, StartDeviceAuthorizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDeviceAuthorizationOutput>())

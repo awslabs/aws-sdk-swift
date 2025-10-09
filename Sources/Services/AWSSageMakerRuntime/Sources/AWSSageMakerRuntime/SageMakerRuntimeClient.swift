@@ -22,6 +22,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerRuntimeClient: ClientRuntime.Client {
     public static let clientName = "SageMakerRuntimeClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerRuntimeClient.SageMakerRuntimeClientConfiguration
     let serviceName = "SageMaker Runtime"
@@ -372,9 +373,9 @@ extension SageMakerRuntimeClient {
     ///
     /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint. For an overview of Amazon SageMaker AI, see [How It Works](https://docs.aws.amazon.com/sagemaker/latest/dg/how-it-works.html). Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpoint are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference. A customer's model containers must respond to requests within 60 seconds. The model itself can have a maximum processing time of 60 seconds before responding to invocations. If your model is going to take 50-60 seconds of processing time, the SDK socket timeout should be set to be 70 seconds. Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker AI determines the account ID from the authentication token that is supplied by the caller.
     ///
-    /// - Parameter InvokeEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeEndpointInput`)
     ///
-    /// - Returns: `InvokeEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +415,7 @@ extension SageMakerRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeEndpointInput, InvokeEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeEndpointOutput>(InvokeEndpointOutput.httpOutput(from:), InvokeEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeEndpointInput, InvokeEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeEndpointOutput>())
@@ -445,9 +447,9 @@ extension SageMakerRuntimeClient {
     ///
     /// After you deploy a model into production using Amazon SageMaker AI hosting services, your client applications use this API to get inferences from the model hosted at the specified endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for asynchronous processing. The processing of the inference request may or may not complete before you receive a response from this API. The response from this API will not contain the result of the inference request but contain information about where you can locate it. Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointAsync are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference.
     ///
-    /// - Parameter InvokeEndpointAsyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeEndpointAsyncInput`)
     ///
-    /// - Returns: `InvokeEndpointAsyncOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeEndpointAsyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +483,7 @@ extension SageMakerRuntimeClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<InvokeEndpointAsyncInput, InvokeEndpointAsyncOutput>(InvokeEndpointAsyncInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeEndpointAsyncOutput>(InvokeEndpointAsyncOutput.httpOutput(from:), InvokeEndpointAsyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeEndpointAsyncInput, InvokeEndpointAsyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeEndpointAsyncOutput>())
@@ -519,9 +522,9 @@ extension SageMakerRuntimeClient {
     ///
     /// Before you can use this operation, your IAM permissions must allow the sagemaker:InvokeEndpoint action. For more information about Amazon SageMaker AI actions for IAM policies, see [Actions, resources, and condition keys for Amazon SageMaker AI](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonsagemaker.html) in the IAM Service Authorization Reference. Amazon SageMaker AI strips all POST headers except those supported by the API. Amazon SageMaker AI might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointWithResponseStream are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference.
     ///
-    /// - Parameter InvokeEndpointWithResponseStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeEndpointWithResponseStreamInput`)
     ///
-    /// - Returns: `InvokeEndpointWithResponseStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeEndpointWithResponseStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +564,7 @@ extension SageMakerRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeEndpointWithResponseStreamInput, InvokeEndpointWithResponseStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeEndpointWithResponseStreamOutput>(InvokeEndpointWithResponseStreamOutput.httpOutput(from:), InvokeEndpointWithResponseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeEndpointWithResponseStreamInput, InvokeEndpointWithResponseStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeEndpointWithResponseStreamOutput>())

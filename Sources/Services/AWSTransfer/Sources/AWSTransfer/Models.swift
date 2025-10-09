@@ -1612,7 +1612,7 @@ extension TransferClientTypes {
 
     /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
     public struct SftpConnectorConfig: Swift.Sendable {
-        /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 5 (this is also the maximum value allowed). This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
+        /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1. The maximum values is 5. If you are using the Amazon Web Services Management Console, the default value is 5. This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
         public var maxConcurrentConnections: Swift.Int?
         /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
@@ -2292,7 +2292,7 @@ extension TransferClientTypes {
         ///
         /// * You can't set address allocation IDs for servers that have an IpAddressType set to DUALSTACK You can only set this property if IpAddressType is set to IPV4.
         public var addressAllocationIds: [Swift.String]?
-        /// A list of security groups IDs that are available to attach to your server's endpoint. This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the [UpdateServer](https://docs.aws.amazon.com/transfer/latest/userguide/API_UpdateServer.html) API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 [ModifyVpcEndpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyVpcEndpoint.html) API.
+        /// A list of security groups IDs that are available to attach to your server's endpoint. While SecurityGroupIds appears in the response syntax for consistency with CreateServer and UpdateServer operations, this field is not populated in DescribeServer responses. Security groups are managed at the VPC endpoint level and can be modified outside of the Transfer Family service. To retrieve current security group information, use the EC2 DescribeVpcEndpoints API with the VpcEndpointId returned in the response. This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the [UpdateServer](https://docs.aws.amazon.com/transfer/latest/userguide/API_UpdateServer.html) API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 [ModifyVpcEndpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyVpcEndpoint.html) API.
         public var securityGroupIds: [Swift.String]?
         /// A list of subnet IDs that are required to host your server endpoint in your VPC. This property can only be set when EndpointType is set to VPC.
         public var subnetIds: [Swift.String]?
@@ -2651,7 +2651,14 @@ extension TransferClientTypes {
 
     /// The Amazon S3 storage options that are configured for your server.
     public struct S3StorageOptions: Swift.Sendable {
-        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized.
+        ///
+        /// * If using the console, this is enabled by default.
+        ///
+        /// * If using the API or CLI, this is disabled by default.
+        ///
+        ///
+        /// By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
         public var directoryListingOptimization: TransferClientTypes.DirectoryListingOptimization?
 
         public init(
@@ -2778,7 +2785,14 @@ public struct CreateServerInput: Swift.Sendable {
     ///
     /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     public var protocols: [TransferClientTypes.ModelProtocol]?
-    /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+    /// Specifies whether or not performance for your Amazon S3 directories is optimized.
+    ///
+    /// * If using the console, this is enabled by default.
+    ///
+    /// * If using the API or CLI, this is disabled by default.
+    ///
+    ///
+    /// By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
     public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
     /// Specifies the name of the security policy for the server.
     public var securityPolicyName: Swift.String?
@@ -4232,7 +4246,14 @@ extension TransferClientTypes {
         ///
         /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
         public var protocols: [TransferClientTypes.ModelProtocol]?
-        /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+        /// Specifies whether or not performance for your Amazon S3 directories is optimized.
+        ///
+        /// * If using the console, this is enabled by default.
+        ///
+        /// * If using the API or CLI, this is disabled by default.
+        ///
+        ///
+        /// By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
         public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
         /// Specifies the name of the security policy for the server.
         public var securityPolicyName: Swift.String?
@@ -5595,6 +5616,8 @@ public struct UpdateServerInput: Swift.Sendable {
     public var hostKey: Swift.String?
     /// An array containing all of the information required to call a customer's authentication API method.
     public var identityProviderDetails: TransferClientTypes.IdentityProviderDetails?
+    /// The mode of authentication for a server. The default value is SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in Directory Service for Microsoft Active Directory or Microsoft Active Directory in your on-premises environment or in Amazon Web Services using AD Connector. This option also requires you to provide a Directory ID by using the IdentityProviderDetails parameter. Use the API_GATEWAY value to integrate with an identity provider of your choosing. The API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to directly use an Lambda function as your identity provider. If you choose this value, you must specify the ARN for the Lambda function in the Function parameter for the IdentityProviderDetails data type.
+    public var identityProviderType: TransferClientTypes.IdentityProviderType?
     /// Specifies whether to use IPv4 only, or to use dual-stack (IPv4 and IPv6) for your Transfer Family endpoint. The default value is IPV4. The IpAddressType parameter has the following limitations:
     ///
     /// * It cannot be changed while the server is online. You must stop the server before modifying this parameter.
@@ -5643,7 +5666,14 @@ public struct UpdateServerInput: Swift.Sendable {
     ///
     /// * If Protocol includes AS2, then the EndpointType must be VPC, and domain must be Amazon S3.
     public var protocols: [TransferClientTypes.ModelProtocol]?
-    /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
+    /// Specifies whether or not performance for your Amazon S3 directories is optimized.
+    ///
+    /// * If using the console, this is enabled by default.
+    ///
+    /// * If using the API or CLI, this is disabled by default.
+    ///
+    ///
+    /// By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
     public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
     /// Specifies the name of the security policy for the server.
     public var securityPolicyName: Swift.String?
@@ -5661,6 +5691,7 @@ public struct UpdateServerInput: Swift.Sendable {
         endpointType: TransferClientTypes.EndpointType? = nil,
         hostKey: Swift.String? = nil,
         identityProviderDetails: TransferClientTypes.IdentityProviderDetails? = nil,
+        identityProviderType: TransferClientTypes.IdentityProviderType? = nil,
         ipAddressType: TransferClientTypes.IpAddressType? = nil,
         loggingRole: Swift.String? = nil,
         postAuthenticationLoginBanner: Swift.String? = nil,
@@ -5678,6 +5709,7 @@ public struct UpdateServerInput: Swift.Sendable {
         self.endpointType = endpointType
         self.hostKey = hostKey
         self.identityProviderDetails = identityProviderDetails
+        self.identityProviderType = identityProviderType
         self.ipAddressType = ipAddressType
         self.loggingRole = loggingRole
         self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
@@ -5694,7 +5726,7 @@ public struct UpdateServerInput: Swift.Sendable {
 
 extension UpdateServerInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateServerInput(certificate: \(Swift.String(describing: certificate)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), ipAddressType: \(Swift.String(describing: ipAddressType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), serverId: \(Swift.String(describing: serverId)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
+        "UpdateServerInput(certificate: \(Swift.String(describing: certificate)), endpointDetails: \(Swift.String(describing: endpointDetails)), endpointType: \(Swift.String(describing: endpointType)), identityProviderDetails: \(Swift.String(describing: identityProviderDetails)), identityProviderType: \(Swift.String(describing: identityProviderType)), ipAddressType: \(Swift.String(describing: ipAddressType)), loggingRole: \(Swift.String(describing: loggingRole)), postAuthenticationLoginBanner: \(Swift.String(describing: postAuthenticationLoginBanner)), preAuthenticationLoginBanner: \(Swift.String(describing: preAuthenticationLoginBanner)), protocolDetails: \(Swift.String(describing: protocolDetails)), protocols: \(Swift.String(describing: protocols)), s3StorageOptions: \(Swift.String(describing: s3StorageOptions)), securityPolicyName: \(Swift.String(describing: securityPolicyName)), serverId: \(Swift.String(describing: serverId)), structuredLogDestinations: \(Swift.String(describing: structuredLogDestinations)), workflowDetails: \(Swift.String(describing: workflowDetails)), hostKey: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateServerOutput: Swift.Sendable {
@@ -7491,6 +7523,7 @@ extension UpdateServerInput {
         try writer["EndpointType"].write(value.endpointType)
         try writer["HostKey"].write(value.hostKey)
         try writer["IdentityProviderDetails"].write(value.identityProviderDetails, with: TransferClientTypes.IdentityProviderDetails.write(value:to:))
+        try writer["IdentityProviderType"].write(value.identityProviderType)
         try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["PostAuthenticationLoginBanner"].write(value.postAuthenticationLoginBanner)

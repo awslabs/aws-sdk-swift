@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FinspacedataClient: ClientRuntime.Client {
     public static let clientName = "FinspacedataClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: FinspacedataClient.FinspacedataClientConfiguration
     let serviceName = "finspace data"
@@ -374,9 +375,9 @@ extension FinspacedataClient {
     /// Adds a user to a permission group to grant permissions for actions a user can perform in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter AssociateUserToPermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateUserToPermissionGroupInput`)
     ///
-    /// - Returns: `AssociateUserToPermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateUserToPermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +417,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateUserToPermissionGroupInput, AssociateUserToPermissionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateUserToPermissionGroupOutput>(AssociateUserToPermissionGroupOutput.httpOutput(from:), AssociateUserToPermissionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateUserToPermissionGroupInput, AssociateUserToPermissionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateUserToPermissionGroupOutput>())
@@ -448,9 +450,9 @@ extension FinspacedataClient {
     /// Creates a new Changeset in a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateChangesetInput : The request for a CreateChangeset operation.
+    /// - Parameter input: The request for a CreateChangeset operation. (Type: `CreateChangesetInput`)
     ///
-    /// - Returns: `CreateChangesetOutput` : The response from a CreateChangeset operation.
+    /// - Returns: The response from a CreateChangeset operation. (Type: `CreateChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,6 +493,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChangesetInput, CreateChangesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChangesetOutput>(CreateChangesetOutput.httpOutput(from:), CreateChangesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChangesetInput, CreateChangesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChangesetOutput>())
@@ -523,9 +526,9 @@ extension FinspacedataClient {
     /// Creates a Dataview for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateDataViewInput : Request for creating a data view.
+    /// - Parameter input: Request for creating a data view. (Type: `CreateDataViewInput`)
     ///
-    /// - Returns: `CreateDataViewOutput` : Response for creating a data view.
+    /// - Returns: Response for creating a data view. (Type: `CreateDataViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,6 +568,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataViewInput, CreateDataViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataViewOutput>(CreateDataViewOutput.httpOutput(from:), CreateDataViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataViewInput, CreateDataViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataViewOutput>())
@@ -597,9 +601,9 @@ extension FinspacedataClient {
     /// Creates a new FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateDatasetInput : The request for a CreateDataset operation
+    /// - Parameter input: The request for a CreateDataset operation (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : The response from a CreateDataset operation
+    /// - Returns: The response from a CreateDataset operation (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,6 +644,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -672,9 +677,9 @@ extension FinspacedataClient {
     /// Creates a group of permissions for various actions that a user can perform in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreatePermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePermissionGroupInput`)
     ///
-    /// - Returns: `CreatePermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,6 +719,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePermissionGroupInput, CreatePermissionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePermissionGroupOutput>(CreatePermissionGroupOutput.httpOutput(from:), CreatePermissionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePermissionGroupInput, CreatePermissionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePermissionGroupOutput>())
@@ -746,9 +752,9 @@ extension FinspacedataClient {
     /// Creates a new user in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter CreateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,6 +794,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -820,9 +827,9 @@ extension FinspacedataClient {
     /// Deletes a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DeleteDatasetInput : The request for a DeleteDataset operation.
+    /// - Parameter input: The request for a DeleteDataset operation. (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : The response from an DeleteDataset operation
+    /// - Returns: The response from an DeleteDataset operation (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,6 +868,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(DeleteDatasetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -893,9 +901,9 @@ extension FinspacedataClient {
     /// Deletes a permission group. This action is irreversible.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DeletePermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePermissionGroupInput`)
     ///
-    /// - Returns: `DeletePermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -934,6 +942,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePermissionGroupInput, DeletePermissionGroupOutput>(DeletePermissionGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePermissionGroupOutput>(DeletePermissionGroupOutput.httpOutput(from:), DeletePermissionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePermissionGroupInput, DeletePermissionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePermissionGroupOutput>())
@@ -966,9 +975,9 @@ extension FinspacedataClient {
     /// Denies access to the FinSpace web application and API for the specified user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DisableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableUserInput`)
     ///
-    /// - Returns: `DisableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1008,6 +1017,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableUserInput, DisableUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableUserOutput>(DisableUserOutput.httpOutput(from:), DisableUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableUserInput, DisableUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableUserOutput>())
@@ -1040,9 +1050,9 @@ extension FinspacedataClient {
     /// Removes a user from a permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter DisassociateUserFromPermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateUserFromPermissionGroupInput`)
     ///
-    /// - Returns: `DisassociateUserFromPermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateUserFromPermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1080,6 +1090,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateUserFromPermissionGroupInput, DisassociateUserFromPermissionGroupOutput>(DisassociateUserFromPermissionGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateUserFromPermissionGroupOutput>(DisassociateUserFromPermissionGroupOutput.httpOutput(from:), DisassociateUserFromPermissionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateUserFromPermissionGroupInput, DisassociateUserFromPermissionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateUserFromPermissionGroupOutput>())
@@ -1112,9 +1123,9 @@ extension FinspacedataClient {
     /// Allows the specified user to access the FinSpace web application and API.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter EnableUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableUserInput`)
     ///
-    /// - Returns: `EnableUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1155,6 +1166,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableUserInput, EnableUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableUserOutput>(EnableUserOutput.httpOutput(from:), EnableUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableUserInput, EnableUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableUserOutput>())
@@ -1187,9 +1199,9 @@ extension FinspacedataClient {
     /// Get information about a Changeset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetChangesetInput : Request to describe a changeset.
+    /// - Parameter input: Request to describe a changeset. (Type: `GetChangesetInput`)
     ///
-    /// - Returns: `GetChangesetOutput` : The response from a describe changeset operation
+    /// - Returns: The response from a describe changeset operation (Type: `GetChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1225,6 +1237,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChangesetInput, GetChangesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChangesetOutput>(GetChangesetOutput.httpOutput(from:), GetChangesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChangesetInput, GetChangesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChangesetOutput>())
@@ -1257,9 +1270,9 @@ extension FinspacedataClient {
     /// Gets information about a Dataview.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetDataViewInput : Request for retrieving a data view detail. Grouped / accessible within a dataset by its dataset id.
+    /// - Parameter input: Request for retrieving a data view detail. Grouped / accessible within a dataset by its dataset id. (Type: `GetDataViewInput`)
     ///
-    /// - Returns: `GetDataViewOutput` : Response from retrieving a dataview, which includes details on the target database and table name
+    /// - Returns: Response from retrieving a dataview, which includes details on the target database and table name (Type: `GetDataViewOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,6 +1307,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataViewInput, GetDataViewOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataViewOutput>(GetDataViewOutput.httpOutput(from:), GetDataViewOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataViewInput, GetDataViewOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataViewOutput>())
@@ -1326,9 +1340,9 @@ extension FinspacedataClient {
     /// Returns information about a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetDatasetInput : Request for the GetDataset operation.
+    /// - Parameter input: Request for the GetDataset operation. (Type: `GetDatasetInput`)
     ///
-    /// - Returns: `GetDatasetOutput` : Response for the GetDataset operation
+    /// - Returns: Response for the GetDataset operation (Type: `GetDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1364,6 +1378,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDatasetInput, GetDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDatasetOutput>(GetDatasetOutput.httpOutput(from:), GetDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatasetInput, GetDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatasetOutput>())
@@ -1400,9 +1415,9 @@ extension FinspacedataClient {
     /// * You must be a member of a FinSpace user group, where the dataset that you want to access has Read Dataset Data permissions.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetExternalDataViewAccessDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExternalDataViewAccessDetailsInput`)
     ///
-    /// - Returns: `GetExternalDataViewAccessDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExternalDataViewAccessDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1437,6 +1452,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExternalDataViewAccessDetailsInput, GetExternalDataViewAccessDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExternalDataViewAccessDetailsOutput>(GetExternalDataViewAccessDetailsOutput.httpOutput(from:), GetExternalDataViewAccessDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExternalDataViewAccessDetailsInput, GetExternalDataViewAccessDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExternalDataViewAccessDetailsOutput>())
@@ -1469,9 +1485,9 @@ extension FinspacedataClient {
     /// Retrieves the details of a specific permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetPermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPermissionGroupInput`)
     ///
-    /// - Returns: `GetPermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1506,6 +1522,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPermissionGroupInput, GetPermissionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPermissionGroupOutput>(GetPermissionGroupOutput.httpOutput(from:), GetPermissionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPermissionGroupInput, GetPermissionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPermissionGroupOutput>())
@@ -1538,9 +1555,9 @@ extension FinspacedataClient {
     /// Request programmatic credentials to use with FinSpace SDK. For more information, see [Step 2. Access credentials programmatically using IAM access key id and secret access key](https://docs.aws.amazon.com/finspace/latest/data-api/fs-using-the-finspace-api.html#accessing-credentials).
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetProgrammaticAccessCredentialsInput : Request for GetProgrammaticAccessCredentials operation
+    /// - Parameter input: Request for GetProgrammaticAccessCredentials operation (Type: `GetProgrammaticAccessCredentialsInput`)
     ///
-    /// - Returns: `GetProgrammaticAccessCredentialsOutput` : Response for GetProgrammaticAccessCredentials operation
+    /// - Returns: Response for GetProgrammaticAccessCredentials operation (Type: `GetProgrammaticAccessCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1575,6 +1592,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetProgrammaticAccessCredentialsInput, GetProgrammaticAccessCredentialsOutput>(GetProgrammaticAccessCredentialsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProgrammaticAccessCredentialsOutput>(GetProgrammaticAccessCredentialsOutput.httpOutput(from:), GetProgrammaticAccessCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProgrammaticAccessCredentialsInput, GetProgrammaticAccessCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProgrammaticAccessCredentialsOutput>())
@@ -1607,9 +1625,9 @@ extension FinspacedataClient {
     /// Retrieves details for a specific user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserInput`)
     ///
-    /// - Returns: `GetUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1644,6 +1662,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetUserInput, GetUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserOutput>(GetUserOutput.httpOutput(from:), GetUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserInput, GetUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserOutput>())
@@ -1676,9 +1695,9 @@ extension FinspacedataClient {
     /// A temporary Amazon S3 location, where you can copy your files from a source location to stage or use as a scratch space in FinSpace notebook.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter GetWorkingLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkingLocationInput`)
     ///
-    /// - Returns: `GetWorkingLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkingLocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1715,6 +1734,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkingLocationInput, GetWorkingLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkingLocationOutput>(GetWorkingLocationOutput.httpOutput(from:), GetWorkingLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkingLocationInput, GetWorkingLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkingLocationOutput>())
@@ -1747,9 +1767,9 @@ extension FinspacedataClient {
     /// Lists the FinSpace Changesets for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListChangesetsInput : Request to ListChangesetsRequest. It exposes minimal query filters.
+    /// - Parameter input: Request to ListChangesetsRequest. It exposes minimal query filters. (Type: `ListChangesetsInput`)
     ///
-    /// - Returns: `ListChangesetsOutput` : Response to ListChangesetsResponse. This returns a list of dataset changesets that match the query criteria.
+    /// - Returns: Response to ListChangesetsResponse. This returns a list of dataset changesets that match the query criteria. (Type: `ListChangesetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1786,6 +1806,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChangesetsInput, ListChangesetsOutput>(ListChangesetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChangesetsOutput>(ListChangesetsOutput.httpOutput(from:), ListChangesetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChangesetsInput, ListChangesetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChangesetsOutput>())
@@ -1818,9 +1839,9 @@ extension FinspacedataClient {
     /// Lists all available Dataviews for a Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListDataViewsInput : Request for a list data views.
+    /// - Parameter input: Request for a list data views. (Type: `ListDataViewsInput`)
     ///
-    /// - Returns: `ListDataViewsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataViewsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1856,6 +1877,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataViewsInput, ListDataViewsOutput>(ListDataViewsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataViewsOutput>(ListDataViewsOutput.httpOutput(from:), ListDataViewsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataViewsInput, ListDataViewsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataViewsOutput>())
@@ -1888,9 +1910,9 @@ extension FinspacedataClient {
     /// Lists all of the active Datasets that a user has access to.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListDatasetsInput : Request for the ListDatasets operation.
+    /// - Parameter input: Request for the ListDatasets operation. (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : Response for the ListDatasets operation
+    /// - Returns: Response for the ListDatasets operation (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1926,6 +1948,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetsInput, ListDatasetsOutput>(ListDatasetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -1958,9 +1981,9 @@ extension FinspacedataClient {
     /// Lists all available permission groups in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListPermissionGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionGroupsInput`)
     ///
-    /// - Returns: `ListPermissionGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1995,6 +2018,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPermissionGroupsInput, ListPermissionGroupsOutput>(ListPermissionGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionGroupsOutput>(ListPermissionGroupsOutput.httpOutput(from:), ListPermissionGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionGroupsInput, ListPermissionGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionGroupsOutput>())
@@ -2027,9 +2051,9 @@ extension FinspacedataClient {
     /// Lists all the permission groups that are associated with a specific user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListPermissionGroupsByUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPermissionGroupsByUserInput`)
     ///
-    /// - Returns: `ListPermissionGroupsByUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPermissionGroupsByUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2065,6 +2089,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPermissionGroupsByUserInput, ListPermissionGroupsByUserOutput>(ListPermissionGroupsByUserInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPermissionGroupsByUserOutput>(ListPermissionGroupsByUserOutput.httpOutput(from:), ListPermissionGroupsByUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPermissionGroupsByUserInput, ListPermissionGroupsByUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPermissionGroupsByUserOutput>())
@@ -2097,9 +2122,9 @@ extension FinspacedataClient {
     /// Lists all available users in FinSpace.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2134,6 +2159,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -2166,9 +2192,9 @@ extension FinspacedataClient {
     /// Lists details of all the users in a specific permission group.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ListUsersByPermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersByPermissionGroupInput`)
     ///
-    /// - Returns: `ListUsersByPermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersByPermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2204,6 +2230,7 @@ extension FinspacedataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUsersByPermissionGroupInput, ListUsersByPermissionGroupOutput>(ListUsersByPermissionGroupInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersByPermissionGroupOutput>(ListUsersByPermissionGroupOutput.httpOutput(from:), ListUsersByPermissionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersByPermissionGroupInput, ListUsersByPermissionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersByPermissionGroupOutput>())
@@ -2236,9 +2263,9 @@ extension FinspacedataClient {
     /// Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter ResetUserPasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetUserPasswordInput`)
     ///
-    /// - Returns: `ResetUserPasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetUserPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2278,6 +2305,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetUserPasswordOutput>(ResetUserPasswordOutput.httpOutput(from:), ResetUserPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetUserPasswordOutput>())
@@ -2310,9 +2338,9 @@ extension FinspacedataClient {
     /// Updates a FinSpace Changeset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdateChangesetInput : Request to update an existing changeset.
+    /// - Parameter input: Request to update an existing changeset. (Type: `UpdateChangesetInput`)
     ///
-    /// - Returns: `UpdateChangesetOutput` : The response from a update changeset operation.
+    /// - Returns: The response from a update changeset operation. (Type: `UpdateChangesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2352,6 +2380,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChangesetInput, UpdateChangesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChangesetOutput>(UpdateChangesetOutput.httpOutput(from:), UpdateChangesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChangesetInput, UpdateChangesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChangesetOutput>())
@@ -2384,9 +2413,9 @@ extension FinspacedataClient {
     /// Updates a FinSpace Dataset.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdateDatasetInput : The request for an UpdateDataset operation
+    /// - Parameter input: The request for an UpdateDataset operation (Type: `UpdateDatasetInput`)
     ///
-    /// - Returns: `UpdateDatasetOutput` : The response from an UpdateDataset operation
+    /// - Returns: The response from an UpdateDataset operation (Type: `UpdateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2426,6 +2455,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetInput, UpdateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetOutput>(UpdateDatasetOutput.httpOutput(from:), UpdateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatasetOutput>())
@@ -2458,9 +2488,9 @@ extension FinspacedataClient {
     /// Modifies the details of a permission group. You cannot modify a permissionGroupID.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdatePermissionGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePermissionGroupInput`)
     ///
-    /// - Returns: `UpdatePermissionGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePermissionGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,6 +2530,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePermissionGroupInput, UpdatePermissionGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePermissionGroupOutput>(UpdatePermissionGroupOutput.httpOutput(from:), UpdatePermissionGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePermissionGroupInput, UpdatePermissionGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePermissionGroupOutput>())
@@ -2532,9 +2563,9 @@ extension FinspacedataClient {
     /// Modifies the details of the specified user. You cannot update the userId for a user.
     @available(*, deprecated, message: "This method will be discontinued.")
     ///
-    /// - Parameter UpdateUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2574,6 +2605,7 @@ extension FinspacedataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())

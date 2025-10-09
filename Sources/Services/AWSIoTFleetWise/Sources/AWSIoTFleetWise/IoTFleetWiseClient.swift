@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTFleetWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTFleetWiseClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTFleetWiseClient.IoTFleetWiseClientConfiguration
     let serviceName = "IoTFleetWise"
@@ -374,9 +375,9 @@ extension IoTFleetWiseClient {
     ///
     /// Adds, or associates, a vehicle with a fleet.
     ///
-    /// - Parameter AssociateVehicleFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateVehicleFleetInput`)
     ///
-    /// - Returns: `AssociateVehicleFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateVehicleFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateVehicleFleetInput, AssociateVehicleFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateVehicleFleetOutput>(AssociateVehicleFleetOutput.httpOutput(from:), AssociateVehicleFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVehicleFleetInput, AssociateVehicleFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVehicleFleetOutput>())
@@ -447,9 +449,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Create multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter BatchCreateVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateVehicleInput`)
     ///
-    /// - Returns: `BatchCreateVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +487,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateVehicleInput, BatchCreateVehicleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateVehicleOutput>(BatchCreateVehicleOutput.httpOutput(from:), BatchCreateVehicleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateVehicleInput, BatchCreateVehicleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateVehicleOutput>())
@@ -519,9 +522,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Update multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/update-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter BatchUpdateVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateVehicleInput`)
     ///
-    /// - Returns: `BatchUpdateVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +560,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateVehicleInput, BatchUpdateVehicleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateVehicleOutput>(BatchUpdateVehicleOutput.httpOutput(from:), BatchUpdateVehicleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateVehicleInput, BatchUpdateVehicleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateVehicleOutput>())
@@ -591,9 +595,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html) in the Amazon Web Services IoT FleetWise Developer Guide. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCampaignInput`)
     ///
-    /// - Returns: `CreateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,6 +635,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCampaignInput, CreateCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCampaignOutput>(CreateCampaignOutput.httpOutput(from:), CreateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCampaignInput, CreateCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCampaignOutput>())
@@ -673,9 +678,9 @@ extension IoTFleetWiseClient {
     ///
     /// * The signal decoders are specified in the model manifest.
     ///
-    /// - Parameter CreateDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDecoderManifestInput`)
     ///
-    /// - Returns: `CreateDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,6 +719,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDecoderManifestInput, CreateDecoderManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDecoderManifestOutput>(CreateDecoderManifestOutput.httpOutput(from:), CreateDecoderManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDecoderManifestInput, CreateDecoderManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDecoderManifestOutput>())
@@ -748,9 +754,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a fleet that represents a group of vehicles. You must create both a signal catalog and vehicles before you can create a fleet. For more information, see [Fleets](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleets.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,6 +794,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetOutput>(CreateFleetOutput.httpOutput(from:), CreateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
@@ -822,9 +829,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see [Vehicle models](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/vehicle-models.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateModelManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelManifestInput`)
     ///
-    /// - Returns: `CreateModelManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,6 +870,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelManifestInput, CreateModelManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelManifestOutput>(CreateModelManifestOutput.httpOutput(from:), CreateModelManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelManifestInput, CreateModelManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelManifestOutput>())
@@ -897,9 +905,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a collection of standardized signals that can be reused to create vehicle models.
     ///
-    /// - Parameter CreateSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSignalCatalogInput`)
     ///
-    /// - Returns: `CreateSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -938,6 +946,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSignalCatalogInput, CreateSignalCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSignalCatalogOutput>(CreateSignalCatalogOutput.httpOutput(from:), CreateSignalCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSignalCatalogInput, CreateSignalCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSignalCatalogOutput>())
@@ -972,9 +981,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a state template. State templates contain state properties, which are signals that belong to a signal catalog that is synchronized between the Amazon Web Services IoT FleetWise Edge and the Amazon Web Services Cloud. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateStateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStateTemplateInput`)
     ///
-    /// - Returns: `CreateStateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1013,6 +1022,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStateTemplateOutput>(CreateStateTemplateOutput.httpOutput(from:), CreateStateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStateTemplateInput, CreateStateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStateTemplateOutput>())
@@ -1047,9 +1057,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see [Create a vehicle (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicle-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter CreateVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVehicleInput`)
     ///
-    /// - Returns: `CreateVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1087,6 +1097,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVehicleInput, CreateVehicleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVehicleOutput>(CreateVehicleOutput.httpOutput(from:), CreateVehicleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVehicleInput, CreateVehicleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVehicleOutput>())
@@ -1121,9 +1132,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a data collection campaign. Deleting a campaign suspends all data collection and removes it from any vehicles.
     ///
-    /// - Parameter DeleteCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCampaignInput`)
     ///
-    /// - Returns: `DeleteCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1159,6 +1170,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCampaignInput, DeleteCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCampaignOutput>(DeleteCampaignOutput.httpOutput(from:), DeleteCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCampaignInput, DeleteCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCampaignOutput>())
@@ -1193,9 +1205,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it.
     ///
-    /// - Parameter DeleteDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDecoderManifestInput`)
     ///
-    /// - Returns: `DeleteDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1231,6 +1243,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDecoderManifestInput, DeleteDecoderManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDecoderManifestOutput>(DeleteDecoderManifestOutput.httpOutput(from:), DeleteDecoderManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDecoderManifestInput, DeleteDecoderManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDecoderManifestOutput>())
@@ -1265,9 +1278,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter DeleteFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetInput`)
     ///
-    /// - Returns: `DeleteFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1302,6 +1315,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetOutput>(DeleteFleetOutput.httpOutput(from:), DeleteFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
@@ -1336,9 +1350,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a vehicle model (model manifest).
     ///
-    /// - Parameter DeleteModelManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelManifestInput`)
     ///
-    /// - Returns: `DeleteModelManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1374,6 +1388,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelManifestInput, DeleteModelManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelManifestOutput>(DeleteModelManifestOutput.httpOutput(from:), DeleteModelManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelManifestInput, DeleteModelManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelManifestOutput>())
@@ -1408,9 +1423,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a signal catalog.
     ///
-    /// - Parameter DeleteSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSignalCatalogInput`)
     ///
-    /// - Returns: `DeleteSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1446,6 +1461,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSignalCatalogInput, DeleteSignalCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSignalCatalogOutput>(DeleteSignalCatalogOutput.httpOutput(from:), DeleteSignalCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSignalCatalogInput, DeleteSignalCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSignalCatalogOutput>())
@@ -1480,9 +1496,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a state template.
     ///
-    /// - Parameter DeleteStateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStateTemplateInput`)
     ///
-    /// - Returns: `DeleteStateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1517,6 +1533,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStateTemplateOutput>(DeleteStateTemplateOutput.httpOutput(from:), DeleteStateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStateTemplateInput, DeleteStateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStateTemplateOutput>())
@@ -1551,9 +1568,9 @@ extension IoTFleetWiseClient {
     ///
     /// Deletes a vehicle and removes it from any campaigns.
     ///
-    /// - Parameter DeleteVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVehicleInput`)
     ///
-    /// - Returns: `DeleteVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1588,6 +1605,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVehicleInput, DeleteVehicleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVehicleOutput>(DeleteVehicleOutput.httpOutput(from:), DeleteVehicleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVehicleInput, DeleteVehicleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVehicleOutput>())
@@ -1622,9 +1640,9 @@ extension IoTFleetWiseClient {
     ///
     /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle.
     ///
-    /// - Parameter DisassociateVehicleFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateVehicleFleetInput`)
     ///
-    /// - Returns: `DisassociateVehicleFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateVehicleFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1660,6 +1678,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateVehicleFleetOutput>(DisassociateVehicleFleetOutput.httpOutput(from:), DisassociateVehicleFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateVehicleFleetInput, DisassociateVehicleFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateVehicleFleetOutput>())
@@ -1694,9 +1713,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a campaign. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter GetCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCampaignInput`)
     ///
-    /// - Returns: `GetCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1732,6 +1751,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCampaignInput, GetCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCampaignOutput>(GetCampaignOutput.httpOutput(from:), GetCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCampaignInput, GetCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCampaignOutput>())
@@ -1766,9 +1786,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a created decoder manifest.
     ///
-    /// - Parameter GetDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDecoderManifestInput`)
     ///
-    /// - Returns: `GetDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,6 +1824,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDecoderManifestInput, GetDecoderManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDecoderManifestOutput>(GetDecoderManifestOutput.httpOutput(from:), GetDecoderManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDecoderManifestInput, GetDecoderManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDecoderManifestOutput>())
@@ -1838,9 +1859,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
     ///
-    /// - Parameter GetEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEncryptionConfigurationInput`)
     ///
-    /// - Returns: `GetEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1876,6 +1897,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEncryptionConfigurationOutput>(GetEncryptionConfigurationOutput.httpOutput(from:), GetEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEncryptionConfigurationOutput>())
@@ -1910,9 +1932,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a fleet.
     ///
-    /// - Parameter GetFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFleetInput`)
     ///
-    /// - Returns: `GetFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1948,6 +1970,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFleetInput, GetFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFleetOutput>(GetFleetOutput.httpOutput(from:), GetFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFleetInput, GetFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFleetOutput>())
@@ -1982,9 +2005,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves the logging options.
     ///
-    /// - Parameter GetLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoggingOptionsInput`)
     ///
-    /// - Returns: `GetLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2018,6 +2041,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoggingOptionsOutput>(GetLoggingOptionsOutput.httpOutput(from:), GetLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoggingOptionsInput, GetLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoggingOptionsOutput>())
@@ -2052,9 +2076,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a vehicle model (model manifest).
     ///
-    /// - Parameter GetModelManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelManifestInput`)
     ///
-    /// - Returns: `GetModelManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2090,6 +2114,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetModelManifestInput, GetModelManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelManifestOutput>(GetModelManifestOutput.httpOutput(from:), GetModelManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelManifestInput, GetModelManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelManifestOutput>())
@@ -2124,9 +2149,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). This API operation doesn't require input parameters.
     ///
-    /// - Parameter GetRegisterAccountStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegisterAccountStatusInput`)
     ///
-    /// - Returns: `GetRegisterAccountStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegisterAccountStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2162,6 +2187,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegisterAccountStatusOutput>(GetRegisterAccountStatusOutput.httpOutput(from:), GetRegisterAccountStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegisterAccountStatusInput, GetRegisterAccountStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegisterAccountStatusOutput>())
@@ -2196,9 +2222,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a signal catalog.
     ///
-    /// - Parameter GetSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSignalCatalogInput`)
     ///
-    /// - Returns: `GetSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2234,6 +2260,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSignalCatalogInput, GetSignalCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSignalCatalogOutput>(GetSignalCatalogOutput.httpOutput(from:), GetSignalCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSignalCatalogInput, GetSignalCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSignalCatalogOutput>())
@@ -2268,9 +2295,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter GetStateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStateTemplateInput`)
     ///
-    /// - Returns: `GetStateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,6 +2333,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStateTemplateInput, GetStateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStateTemplateOutput>(GetStateTemplateOutput.httpOutput(from:), GetStateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStateTemplateInput, GetStateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStateTemplateOutput>())
@@ -2340,9 +2368,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about a vehicle.
     ///
-    /// - Parameter GetVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVehicleInput`)
     ///
-    /// - Returns: `GetVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2378,6 +2406,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVehicleInput, GetVehicleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVehicleOutput>(GetVehicleOutput.httpOutput(from:), GetVehicleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVehicleInput, GetVehicleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVehicleOutput>())
@@ -2412,9 +2441,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information about the status of campaigns, decoder manifests, or state templates associated with a vehicle.
     ///
-    /// - Parameter GetVehicleStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVehicleStatusInput`)
     ///
-    /// - Returns: `GetVehicleStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVehicleStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2451,6 +2480,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVehicleStatusInput, GetVehicleStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVehicleStatusOutput>(GetVehicleStatusOutput.httpOutput(from:), GetVehicleStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVehicleStatusInput, GetVehicleStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVehicleStatusOutput>())
@@ -2485,9 +2515,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a decoder manifest using your existing CAN DBC file from your local device. The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
     ///
-    /// - Parameter ImportDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportDecoderManifestInput`)
     ///
-    /// - Returns: `ImportDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2526,6 +2556,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportDecoderManifestInput, ImportDecoderManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportDecoderManifestOutput>(ImportDecoderManifestOutput.httpOutput(from:), ImportDecoderManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportDecoderManifestInput, ImportDecoderManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportDecoderManifestOutput>())
@@ -2560,9 +2591,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates a signal catalog using your existing VSS formatted content from your local device.
     ///
-    /// - Parameter ImportSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportSignalCatalogInput`)
     ///
-    /// - Returns: `ImportSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,6 +2632,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportSignalCatalogInput, ImportSignalCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportSignalCatalogOutput>(ImportSignalCatalogOutput.httpOutput(from:), ImportSignalCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportSignalCatalogInput, ImportSignalCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportSignalCatalogOutput>())
@@ -2635,9 +2667,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists information about created campaigns. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListCampaignsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCampaignsInput`)
     ///
-    /// - Returns: `ListCampaignsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCampaignsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2673,6 +2705,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCampaignsInput, ListCampaignsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCampaignsOutput>(ListCampaignsOutput.httpOutput(from:), ListCampaignsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCampaignsInput, ListCampaignsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCampaignsOutput>())
@@ -2707,9 +2740,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists the network interfaces specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListDecoderManifestNetworkInterfacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDecoderManifestNetworkInterfacesInput`)
     ///
-    /// - Returns: `ListDecoderManifestNetworkInterfacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDecoderManifestNetworkInterfacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2746,6 +2779,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDecoderManifestNetworkInterfacesOutput>(ListDecoderManifestNetworkInterfacesOutput.httpOutput(from:), ListDecoderManifestNetworkInterfacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDecoderManifestNetworkInterfacesInput, ListDecoderManifestNetworkInterfacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDecoderManifestNetworkInterfacesOutput>())
@@ -2780,9 +2814,9 @@ extension IoTFleetWiseClient {
     ///
     /// A list of information about signal decoders specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListDecoderManifestSignalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDecoderManifestSignalsInput`)
     ///
-    /// - Returns: `ListDecoderManifestSignalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDecoderManifestSignalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2819,6 +2853,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDecoderManifestSignalsOutput>(ListDecoderManifestSignalsOutput.httpOutput(from:), ListDecoderManifestSignalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDecoderManifestSignalsInput, ListDecoderManifestSignalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDecoderManifestSignalsOutput>())
@@ -2853,9 +2888,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists decoder manifests. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListDecoderManifestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDecoderManifestsInput`)
     ///
-    /// - Returns: `ListDecoderManifestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDecoderManifestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2891,6 +2926,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDecoderManifestsInput, ListDecoderManifestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDecoderManifestsOutput>(ListDecoderManifestsOutput.httpOutput(from:), ListDecoderManifestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDecoderManifestsInput, ListDecoderManifestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDecoderManifestsOutput>())
@@ -2925,9 +2961,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves information for each created fleet in an Amazon Web Services account. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetsInput`)
     ///
-    /// - Returns: `ListFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2964,6 +3000,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetsOutput>(ListFleetsOutput.httpOutput(from:), ListFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsInput, ListFleetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetsOutput>())
@@ -2998,9 +3035,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListFleetsForVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetsForVehicleInput`)
     ///
-    /// - Returns: `ListFleetsForVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetsForVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3037,6 +3074,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsForVehicleInput, ListFleetsForVehicleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetsForVehicleOutput>(ListFleetsForVehicleOutput.httpOutput(from:), ListFleetsForVehicleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsForVehicleInput, ListFleetsForVehicleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetsForVehicleOutput>())
@@ -3071,9 +3109,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists information about nodes specified in a vehicle model (model manifest). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListModelManifestNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelManifestNodesInput`)
     ///
-    /// - Returns: `ListModelManifestNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelManifestNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3111,6 +3149,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelManifestNodesInput, ListModelManifestNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelManifestNodesOutput>(ListModelManifestNodesOutput.httpOutput(from:), ListModelManifestNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelManifestNodesInput, ListModelManifestNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelManifestNodesOutput>())
@@ -3145,9 +3184,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves a list of vehicle models (model manifests). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListModelManifestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelManifestsInput`)
     ///
-    /// - Returns: `ListModelManifestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelManifestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3183,6 +3222,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelManifestsInput, ListModelManifestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelManifestsOutput>(ListModelManifestsOutput.httpOutput(from:), ListModelManifestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelManifestsInput, ListModelManifestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelManifestsOutput>())
@@ -3217,9 +3257,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists of information about the signals (nodes) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListSignalCatalogNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSignalCatalogNodesInput`)
     ///
-    /// - Returns: `ListSignalCatalogNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSignalCatalogNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3257,6 +3297,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSignalCatalogNodesOutput>(ListSignalCatalogNodesOutput.httpOutput(from:), ListSignalCatalogNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSignalCatalogNodesInput, ListSignalCatalogNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSignalCatalogNodesOutput>())
@@ -3291,9 +3332,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists all the created signal catalogs in an Amazon Web Services account. You can use to list information about each signal (node) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListSignalCatalogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSignalCatalogsInput`)
     ///
-    /// - Returns: `ListSignalCatalogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSignalCatalogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3329,6 +3370,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSignalCatalogsInput, ListSignalCatalogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSignalCatalogsOutput>(ListSignalCatalogsOutput.httpOutput(from:), ListSignalCatalogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSignalCatalogsInput, ListSignalCatalogsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSignalCatalogsOutput>())
@@ -3363,9 +3405,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists information about created state templates. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter ListStateTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStateTemplatesInput`)
     ///
-    /// - Returns: `ListStateTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStateTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3401,6 +3443,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStateTemplatesOutput>(ListStateTemplatesOutput.httpOutput(from:), ListStateTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStateTemplatesInput, ListStateTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStateTemplatesOutput>())
@@ -3435,9 +3478,9 @@ extension IoTFleetWiseClient {
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3474,6 +3517,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3508,9 +3552,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves a list of summaries of created vehicles. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListVehiclesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVehiclesInput`)
     ///
-    /// - Returns: `ListVehiclesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVehiclesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3546,6 +3590,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVehiclesInput, ListVehiclesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVehiclesOutput>(ListVehiclesOutput.httpOutput(from:), ListVehiclesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVehiclesInput, ListVehiclesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVehiclesOutput>())
@@ -3580,9 +3625,9 @@ extension IoTFleetWiseClient {
     ///
     /// Retrieves a list of summaries of all vehicles associated with a fleet. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
-    /// - Parameter ListVehiclesInFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVehiclesInFleetInput`)
     ///
-    /// - Returns: `ListVehiclesInFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVehiclesInFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3619,6 +3664,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVehiclesInFleetInput, ListVehiclesInFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVehiclesInFleetOutput>(ListVehiclesInFleetOutput.httpOutput(from:), ListVehiclesInFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVehiclesInFleetInput, ListVehiclesInFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVehiclesInFleetOutput>())
@@ -3653,9 +3699,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see [Data encryption](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/data-encryption.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter PutEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEncryptionConfigurationInput`)
     ///
-    /// - Returns: `PutEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3692,6 +3738,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEncryptionConfigurationOutput>(PutEncryptionConfigurationOutput.httpOutput(from:), PutEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEncryptionConfigurationOutput>())
@@ -3726,9 +3773,9 @@ extension IoTFleetWiseClient {
     ///
     /// Creates or updates the logging option.
     ///
-    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLoggingOptionsInput`)
     ///
-    /// - Returns: `PutLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3765,6 +3812,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLoggingOptionsOutput>(PutLoggingOptionsOutput.httpOutput(from:), PutLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLoggingOptionsOutput>())
@@ -3799,9 +3847,9 @@ extension IoTFleetWiseClient {
     ///
     /// This API operation contains deprecated parameters. Register your account again without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the [CreateCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CreateCampaign.html) API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more information, see the [DeleteCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DeleteCampaign.html) API operation. If you want to delete the Timestream inline policy from the service-linked role, such as to mitigate an overly permissive policy, you must first delete any existing campaigns. Then delete the service-linked role and register your account again to enable CloudWatch metrics. For more information, see [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) in the Identity and Access Management API Reference. Registers your Amazon Web Services account, IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). An Amazon Web Services account is not the same thing as a "user." An [Amazon Web Services user](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management.html#intro-identity-users) is an identity that you create using Identity and Access Management (IAM) and takes the form of either an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) or an [IAM role, both with credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). A single Amazon Web Services account can, and typically does, contain many users and roles.
     ///
-    /// - Parameter RegisterAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAccountInput`)
     ///
-    /// - Returns: `RegisterAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3838,6 +3886,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterAccountInput, RegisterAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterAccountOutput>(RegisterAccountOutput.httpOutput(from:), RegisterAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterAccountInput, RegisterAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterAccountOutput>())
@@ -3872,9 +3921,9 @@ extension IoTFleetWiseClient {
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3911,6 +3960,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3945,9 +3995,9 @@ extension IoTFleetWiseClient {
     ///
     /// Removes the given tags (metadata) from the resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3984,6 +4034,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4018,9 +4069,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a campaign.
     ///
-    /// - Parameter UpdateCampaignInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCampaignInput`)
     ///
-    /// - Returns: `UpdateCampaignOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCampaignOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4057,6 +4108,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCampaignInput, UpdateCampaignOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCampaignOutput>(UpdateCampaignOutput.httpOutput(from:), UpdateCampaignOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCampaignInput, UpdateCampaignOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCampaignOutput>())
@@ -4091,9 +4143,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a decoder manifest. A decoder manifest can only be updated when the status is DRAFT. Only ACTIVE decoder manifests can be associated with vehicles.
     ///
-    /// - Parameter UpdateDecoderManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDecoderManifestInput`)
     ///
-    /// - Returns: `UpdateDecoderManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDecoderManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4132,6 +4184,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDecoderManifestInput, UpdateDecoderManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDecoderManifestOutput>(UpdateDecoderManifestOutput.httpOutput(from:), UpdateDecoderManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDecoderManifestInput, UpdateDecoderManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDecoderManifestOutput>())
@@ -4166,9 +4219,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates the description of an existing fleet.
     ///
-    /// - Parameter UpdateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFleetInput`)
     ///
-    /// - Returns: `UpdateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4205,6 +4258,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetOutput>(UpdateFleetOutput.httpOutput(from:), UpdateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetInput, UpdateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetOutput>())
@@ -4239,9 +4293,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated.
     ///
-    /// - Parameter UpdateModelManifestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelManifestInput`)
     ///
-    /// - Returns: `UpdateModelManifestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelManifestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4279,6 +4333,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelManifestInput, UpdateModelManifestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelManifestOutput>(UpdateModelManifestOutput.httpOutput(from:), UpdateModelManifestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelManifestInput, UpdateModelManifestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelManifestOutput>())
@@ -4313,9 +4368,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a signal catalog.
     ///
-    /// - Parameter UpdateSignalCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSignalCatalogInput`)
     ///
-    /// - Returns: `UpdateSignalCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSignalCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4355,6 +4410,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSignalCatalogInput, UpdateSignalCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSignalCatalogOutput>(UpdateSignalCatalogOutput.httpOutput(from:), UpdateSignalCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSignalCatalogInput, UpdateSignalCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSignalCatalogOutput>())
@@ -4389,9 +4445,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a state template. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter UpdateStateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStateTemplateInput`)
     ///
-    /// - Returns: `UpdateStateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4429,6 +4485,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStateTemplateOutput>(UpdateStateTemplateOutput.httpOutput(from:), UpdateStateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStateTemplateInput, UpdateStateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStateTemplateOutput>())
@@ -4463,9 +4520,9 @@ extension IoTFleetWiseClient {
     ///
     /// Updates a vehicle. Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see [Amazon Web Services Region and feature availability](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleetwise-regions.html) in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
-    /// - Parameter UpdateVehicleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVehicleInput`)
     ///
-    /// - Returns: `UpdateVehicleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVehicleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4503,6 +4560,7 @@ extension IoTFleetWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVehicleInput, UpdateVehicleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVehicleOutput>(UpdateVehicleOutput.httpOutput(from:), UpdateVehicleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVehicleInput, UpdateVehicleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVehicleOutput>())

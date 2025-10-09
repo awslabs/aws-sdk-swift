@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudFormationClient: ClientRuntime.Client {
     public static let clientName = "CloudFormationClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudFormationClient.CloudFormationClientConfiguration
     let serviceName = "CloudFormation"
@@ -373,9 +374,9 @@ extension CloudFormationClient {
     ///
     /// Activate trusted access with Organizations. With trusted access between StackSets and Organizations activated, the management account has permissions to create and manage StackSets for your organization.
     ///
-    /// - Parameter ActivateOrganizationsAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateOrganizationsAccessInput`)
     ///
-    /// - Returns: `ActivateOrganizationsAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateOrganizationsAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +409,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivateOrganizationsAccessInput, ActivateOrganizationsAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateOrganizationsAccessOutput>(ActivateOrganizationsAccessOutput.httpOutput(from:), ActivateOrganizationsAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateOrganizationsAccessInput, ActivateOrganizationsAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateOrganizationsAccessOutput>())
@@ -441,9 +443,9 @@ extension CloudFormationClient {
     ///
     /// Activates a public third-party extension, such as a resource or module, to make it available for use in stack templates in your current account and Region. It can also create CloudFormation Hooks, which allow you to evaluate resource configurations before CloudFormation provisions them. Hooks integrate with both CloudFormation and Cloud Control API operations. After you activate an extension, you can use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html) to set specific properties for the extension. To see which extensions have been activated, use [ListTypes](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListTypes.html). To see configuration details for an extension, use [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). For more information, see [Activate a third-party public extension in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public-activate-extension.html) in the CloudFormation User Guide. For information about creating Hooks, see the [CloudFormation Hooks User Guide](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/what-is-cloudformation-hooks.html).
     ///
-    /// - Parameter ActivateTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ActivateTypeInput`)
     ///
-    /// - Returns: `ActivateTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ActivateTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -476,6 +478,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ActivateTypeInput, ActivateTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ActivateTypeOutput>(ActivateTypeOutput.httpOutput(from:), ActivateTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ActivateTypeInput, ActivateTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ActivateTypeOutput>())
@@ -509,9 +512,9 @@ extension CloudFormationClient {
     ///
     /// Returns configuration data for the specified CloudFormation extensions, from the CloudFormation registry in your current account and Region. For more information, see [Edit configuration data for extensions in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter BatchDescribeTypeConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDescribeTypeConfigurationsInput`)
     ///
-    /// - Returns: `BatchDescribeTypeConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDescribeTypeConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -544,6 +547,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDescribeTypeConfigurationsInput, BatchDescribeTypeConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDescribeTypeConfigurationsOutput>(BatchDescribeTypeConfigurationsOutput.httpOutput(from:), BatchDescribeTypeConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDescribeTypeConfigurationsInput, BatchDescribeTypeConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDescribeTypeConfigurationsOutput>())
@@ -577,9 +581,9 @@ extension CloudFormationClient {
     ///
     /// Cancels an update on the specified stack. If the call completes successfully, the stack rolls back the update and reverts to the previous stack configuration. You can cancel only stacks that are in the UPDATE_IN_PROGRESS state.
     ///
-    /// - Parameter CancelUpdateStackInput : The input for the [CancelUpdateStack] action.
+    /// - Parameter input: The input for the [CancelUpdateStack] action. (Type: `CancelUpdateStackInput`)
     ///
-    /// - Returns: `CancelUpdateStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelUpdateStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -611,6 +615,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelUpdateStackInput, CancelUpdateStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelUpdateStackOutput>(CancelUpdateStackOutput.httpOutput(from:), CancelUpdateStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelUpdateStackInput, CancelUpdateStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelUpdateStackOutput>())
@@ -644,9 +649,9 @@ extension CloudFormationClient {
     ///
     /// Continues rolling back a stack from UPDATE_ROLLBACK_FAILED to UPDATE_ROLLBACK_COMPLETE state. Depending on the cause of the failure, you can manually fix the error and continue the rollback. By continuing the rollback, you can return your stack to a working state (the UPDATE_ROLLBACK_COMPLETE state) and then try to update the stack again. A stack enters the UPDATE_ROLLBACK_FAILED state when CloudFormation can't roll back all changes after a failed stack update. For example, this might occur when a stack attempts to roll back to an old database that was deleted outside of CloudFormation. Because CloudFormation doesn't know the instance was deleted, it assumes the instance still exists and attempts to roll back to it, causing the update rollback to fail. For more information, see [Continue rolling back an update](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-continueupdaterollback.html) in the CloudFormation User Guide. For information for troubleshooting a failed update rollback, see [Update rollback failed](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#troubleshooting-errors-update-rollback-failed).
     ///
-    /// - Parameter ContinueUpdateRollbackInput : The input for the [ContinueUpdateRollback] action.
+    /// - Parameter input: The input for the [ContinueUpdateRollback] action. (Type: `ContinueUpdateRollbackInput`)
     ///
-    /// - Returns: `ContinueUpdateRollbackOutput` : The output for a [ContinueUpdateRollback] operation.
+    /// - Returns: The output for a [ContinueUpdateRollback] operation. (Type: `ContinueUpdateRollbackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -678,6 +683,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ContinueUpdateRollbackInput, ContinueUpdateRollbackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ContinueUpdateRollbackOutput>(ContinueUpdateRollbackOutput.httpOutput(from:), ContinueUpdateRollbackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ContinueUpdateRollbackInput, ContinueUpdateRollbackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ContinueUpdateRollbackOutput>())
@@ -711,9 +717,9 @@ extension CloudFormationClient {
     ///
     /// Creates a list of changes that will be applied to a stack so that you can review the changes before executing them. You can create a change set for a stack that doesn't exist or an existing stack. If you create a change set for a stack that doesn't exist, the change set shows all of the resources that CloudFormation will create. If you create a change set for an existing stack, CloudFormation compares the stack's information with the information that you submit in the change set and lists the differences. Use change sets to understand which resources CloudFormation will create or change, and how it will change resources in an existing stack, before you create or update a stack. To create a change set for a stack that doesn't exist, for the ChangeSetType parameter, specify CREATE. To create a change set for an existing stack, specify UPDATE for the ChangeSetType parameter. To create a change set for an import operation, specify IMPORT for the ChangeSetType parameter. After the CreateChangeSet call successfully completes, CloudFormation starts creating the change set. To check the status of the change set or to review it, use the [DescribeChangeSet] action. When you are satisfied with the changes the change set will make, execute the change set by using the [ExecuteChangeSet] action. CloudFormation doesn't make changes until you execute the change set. To create a change set for the entire stack hierarchy, set IncludeNestedStacks to True.
     ///
-    /// - Parameter CreateChangeSetInput : The input for the [CreateChangeSet] action.
+    /// - Parameter input: The input for the [CreateChangeSet] action. (Type: `CreateChangeSetInput`)
     ///
-    /// - Returns: `CreateChangeSetOutput` : The output for the [CreateChangeSet] action.
+    /// - Returns: The output for the [CreateChangeSet] action. (Type: `CreateChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -747,6 +753,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChangeSetInput, CreateChangeSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChangeSetOutput>(CreateChangeSetOutput.httpOutput(from:), CreateChangeSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChangeSetInput, CreateChangeSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChangeSetOutput>())
@@ -780,9 +787,9 @@ extension CloudFormationClient {
     ///
     /// Creates a template from existing resources that are not already managed with CloudFormation. You can check the status of the template generation using the DescribeGeneratedTemplate API action.
     ///
-    /// - Parameter CreateGeneratedTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGeneratedTemplateInput`)
     ///
-    /// - Returns: `CreateGeneratedTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGeneratedTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -816,6 +823,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGeneratedTemplateInput, CreateGeneratedTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGeneratedTemplateOutput>(CreateGeneratedTemplateOutput.httpOutput(from:), CreateGeneratedTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGeneratedTemplateInput, CreateGeneratedTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGeneratedTemplateOutput>())
@@ -849,9 +857,9 @@ extension CloudFormationClient {
     ///
     /// Creates a stack as specified in the template. After the call completes successfully, the stack creation starts. You can check the status of the stack through the [DescribeStacks] operation. For more information about creating a stack and monitoring stack progress, see [Managing Amazon Web Services resources as a single unit with CloudFormation stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter CreateStackInput : The input for [CreateStack] action.
+    /// - Parameter input: The input for [CreateStack] action. (Type: `CreateStackInput`)
     ///
-    /// - Returns: `CreateStackOutput` : The output for a [CreateStack] action.
+    /// - Returns: The output for a [CreateStack] action. (Type: `CreateStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,6 +894,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStackInput, CreateStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStackOutput>(CreateStackOutput.httpOutput(from:), CreateStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStackInput, CreateStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStackOutput>())
@@ -923,9 +932,9 @@ extension CloudFormationClient {
     ///
     /// * Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contains all desired child OUs.
     ///
-    /// - Parameter CreateStackInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStackInstancesInput`)
     ///
-    /// - Returns: `CreateStackInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStackInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -963,6 +972,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStackInstancesInput, CreateStackInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStackInstancesOutput>(CreateStackInstancesOutput.httpOutput(from:), CreateStackInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStackInstancesInput, CreateStackInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStackInstancesOutput>())
@@ -996,9 +1006,9 @@ extension CloudFormationClient {
     ///
     /// Creates a refactor across multiple stacks, with the list of stacks and resources that are affected.
     ///
-    /// - Parameter CreateStackRefactorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStackRefactorInput`)
     ///
-    /// - Returns: `CreateStackRefactorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStackRefactorOutput`)
     public func createStackRefactor(input: CreateStackRefactorInput) async throws -> CreateStackRefactorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1025,6 +1035,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStackRefactorInput, CreateStackRefactorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStackRefactorOutput>(CreateStackRefactorOutput.httpOutput(from:), CreateStackRefactorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStackRefactorInput, CreateStackRefactorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStackRefactorOutput>())
@@ -1058,9 +1069,9 @@ extension CloudFormationClient {
     ///
     /// Creates a StackSet.
     ///
-    /// - Parameter CreateStackSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStackSetInput`)
     ///
-    /// - Returns: `CreateStackSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStackSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1095,6 +1106,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStackSetInput, CreateStackSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStackSetOutput>(CreateStackSetOutput.httpOutput(from:), CreateStackSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStackSetInput, CreateStackSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStackSetOutput>())
@@ -1128,9 +1140,9 @@ extension CloudFormationClient {
     ///
     /// Deactivates trusted access with Organizations. If trusted access is deactivated, the management account does not have permissions to create and manage service-managed StackSets for your organization.
     ///
-    /// - Parameter DeactivateOrganizationsAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateOrganizationsAccessInput`)
     ///
-    /// - Returns: `DeactivateOrganizationsAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateOrganizationsAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1163,6 +1175,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivateOrganizationsAccessInput, DeactivateOrganizationsAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateOrganizationsAccessOutput>(DeactivateOrganizationsAccessOutput.httpOutput(from:), DeactivateOrganizationsAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateOrganizationsAccessInput, DeactivateOrganizationsAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateOrganizationsAccessOutput>())
@@ -1194,11 +1207,11 @@ extension CloudFormationClient {
 
     /// Performs the `DeactivateType` operation on the `CloudFormation` service.
     ///
-    /// Deactivates a public third-party extension, such as a resource or module, or a CloudFormation Hook when you no longer use it. Deactivating an extension deletes the configuration details that are associated with it. To temporary disable a CloudFormation Hook instead, you can use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html). Once deactivated, an extension can't be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being made to the extension. In addition, deactivated extensions aren't automatically updated if a new version of the extension is released. To see which extensions are currently activated, use [ListTypes](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListTypes.html).
+    /// Deactivates a public third-party extension, such as a resource or module, or a CloudFormation Hook when you no longer use it. Deactivating an extension deletes the configuration details that are associated with it. To temporarily disable a CloudFormation Hook instead, you can use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html). Once deactivated, an extension can't be used in any CloudFormation operation. This includes stack update operations where the stack template includes the extension, even if no updates are being made to the extension. In addition, deactivated extensions aren't automatically updated if a new version of the extension is released. To see which extensions are currently activated, use [ListTypes](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListTypes.html).
     ///
-    /// - Parameter DeactivateTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeactivateTypeInput`)
     ///
-    /// - Returns: `DeactivateTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeactivateTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1231,6 +1244,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeactivateTypeInput, DeactivateTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeactivateTypeOutput>(DeactivateTypeOutput.httpOutput(from:), DeactivateTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeactivateTypeInput, DeactivateTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeactivateTypeOutput>())
@@ -1264,9 +1278,9 @@ extension CloudFormationClient {
     ///
     /// Deletes the specified change set. Deleting change sets ensures that no one executes the wrong change set. If the call successfully completes, CloudFormation successfully deleted the change set. If IncludeNestedStacks specifies True during the creation of the nested change set, then DeleteChangeSet will delete all change sets that belong to the stacks hierarchy and will also delete all change sets for nested stacks with the status of REVIEW_IN_PROGRESS.
     ///
-    /// - Parameter DeleteChangeSetInput : The input for the [DeleteChangeSet] action.
+    /// - Parameter input: The input for the [DeleteChangeSet] action. (Type: `DeleteChangeSetInput`)
     ///
-    /// - Returns: `DeleteChangeSetOutput` : The output for the [DeleteChangeSet] action.
+    /// - Returns: The output for the [DeleteChangeSet] action. (Type: `DeleteChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1298,6 +1312,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteChangeSetInput, DeleteChangeSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChangeSetOutput>(DeleteChangeSetOutput.httpOutput(from:), DeleteChangeSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChangeSetInput, DeleteChangeSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChangeSetOutput>())
@@ -1331,9 +1346,9 @@ extension CloudFormationClient {
     ///
     /// Deleted a generated template.
     ///
-    /// - Parameter DeleteGeneratedTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGeneratedTemplateInput`)
     ///
-    /// - Returns: `DeleteGeneratedTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGeneratedTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1366,6 +1381,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteGeneratedTemplateInput, DeleteGeneratedTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGeneratedTemplateOutput>(DeleteGeneratedTemplateOutput.httpOutput(from:), DeleteGeneratedTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGeneratedTemplateInput, DeleteGeneratedTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGeneratedTemplateOutput>())
@@ -1399,9 +1415,9 @@ extension CloudFormationClient {
     ///
     /// Deletes a specified stack. Once the call completes successfully, stack deletion starts. Deleted stacks don't show up in the [DescribeStacks] operation if the deletion has been completed successfully. For more information about deleting a stack, see [Delete a stack from the CloudFormation console](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-console-delete-stack.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter DeleteStackInput : The input for [DeleteStack] action.
+    /// - Parameter input: The input for [DeleteStack] action. (Type: `DeleteStackInput`)
     ///
-    /// - Returns: `DeleteStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,6 +1449,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStackInput, DeleteStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStackOutput>(DeleteStackOutput.httpOutput(from:), DeleteStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStackInput, DeleteStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStackOutput>())
@@ -1470,9 +1487,9 @@ extension CloudFormationClient {
     ///
     /// * Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contains all desired child OUs.
     ///
-    /// - Parameter DeleteStackInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStackInstancesInput`)
     ///
-    /// - Returns: `DeleteStackInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStackInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1509,6 +1526,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStackInstancesInput, DeleteStackInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStackInstancesOutput>(DeleteStackInstancesOutput.httpOutput(from:), DeleteStackInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStackInstancesInput, DeleteStackInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStackInstancesOutput>())
@@ -1542,9 +1560,9 @@ extension CloudFormationClient {
     ///
     /// Deletes a StackSet. Before you can delete a StackSet, all its member stack instances must be deleted. For more information about how to complete this, see [DeleteStackInstances].
     ///
-    /// - Parameter DeleteStackSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStackSetInput`)
     ///
-    /// - Returns: `DeleteStackSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStackSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1577,6 +1595,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteStackSetInput, DeleteStackSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStackSetOutput>(DeleteStackSetOutput.httpOutput(from:), DeleteStackSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStackSetInput, DeleteStackSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStackSetOutput>())
@@ -1610,9 +1629,9 @@ extension CloudFormationClient {
     ///
     /// Marks an extension or extension version as DEPRECATED in the CloudFormation registry, removing it from active use. Deprecated extensions or extension versions cannot be used in CloudFormation operations. To deregister an entire extension, you must individually deregister all active versions of that extension. If an extension has only a single active version, deregistering that version results in the extension itself being deregistered and marked as deprecated in the registry. You can't deregister the default version of an extension if there are other active version of that extension. If you do deregister the default version of an extension, the extension type itself is deregistered as well and marked as deprecated. To view the deprecation status of an extension or extension version, use [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). For more information, see [Remove third-party private extensions from your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private-deregister-extension.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter DeregisterTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTypeInput`)
     ///
-    /// - Returns: `DeregisterTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1645,6 +1664,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterTypeInput, DeregisterTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTypeOutput>(DeregisterTypeOutput.httpOutput(from:), DeregisterTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTypeInput, DeregisterTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTypeOutput>())
@@ -1678,9 +1698,9 @@ extension CloudFormationClient {
     ///
     /// Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see [Understand CloudFormation quotas](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter DescribeAccountLimitsInput : The input for the [DescribeAccountLimits] action.
+    /// - Parameter input: The input for the [DescribeAccountLimits] action. (Type: `DescribeAccountLimitsInput`)
     ///
-    /// - Returns: `DescribeAccountLimitsOutput` : The output for the [DescribeAccountLimits] action.
+    /// - Returns: The output for the [DescribeAccountLimits] action. (Type: `DescribeAccountLimitsOutput`)
     public func describeAccountLimits(input: DescribeAccountLimitsInput) async throws -> DescribeAccountLimitsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1707,6 +1727,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountLimitsOutput>(DescribeAccountLimitsOutput.httpOutput(from:), DescribeAccountLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountLimitsInput, DescribeAccountLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountLimitsOutput>())
@@ -1740,9 +1761,9 @@ extension CloudFormationClient {
     ///
     /// Returns the inputs for the change set and a list of changes that CloudFormation will make if you execute the change set. For more information, see [Update CloudFormation stacks using change sets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter DescribeChangeSetInput : The input for the [DescribeChangeSet] action.
+    /// - Parameter input: The input for the [DescribeChangeSet] action. (Type: `DescribeChangeSetInput`)
     ///
-    /// - Returns: `DescribeChangeSetOutput` : The output for the [DescribeChangeSet] action.
+    /// - Returns: The output for the [DescribeChangeSet] action. (Type: `DescribeChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1774,6 +1795,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeChangeSetInput, DescribeChangeSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChangeSetOutput>(DescribeChangeSetOutput.httpOutput(from:), DescribeChangeSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChangeSetInput, DescribeChangeSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChangeSetOutput>())
@@ -1807,9 +1829,9 @@ extension CloudFormationClient {
     ///
     /// Returns hook-related information for the change set and a list of changes that CloudFormation makes when you run the change set.
     ///
-    /// - Parameter DescribeChangeSetHooksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeChangeSetHooksInput`)
     ///
-    /// - Returns: `DescribeChangeSetHooksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeChangeSetHooksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1841,6 +1863,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeChangeSetHooksInput, DescribeChangeSetHooksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeChangeSetHooksOutput>(DescribeChangeSetHooksOutput.httpOutput(from:), DescribeChangeSetHooksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeChangeSetHooksInput, DescribeChangeSetHooksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeChangeSetHooksOutput>())
@@ -1874,9 +1897,9 @@ extension CloudFormationClient {
     ///
     /// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a CreateGeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action.
     ///
-    /// - Parameter DescribeGeneratedTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGeneratedTemplateInput`)
     ///
-    /// - Returns: `DescribeGeneratedTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGeneratedTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1908,6 +1931,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeGeneratedTemplateInput, DescribeGeneratedTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGeneratedTemplateOutput>(DescribeGeneratedTemplateOutput.httpOutput(from:), DescribeGeneratedTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGeneratedTemplateInput, DescribeGeneratedTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGeneratedTemplateOutput>())
@@ -1941,9 +1965,9 @@ extension CloudFormationClient {
     ///
     /// Retrieves information about the account's OrganizationAccess status. This API can be called either by the management account or the delegated administrator by using the CallAs parameter. This API can also be called without the CallAs parameter by the management account.
     ///
-    /// - Parameter DescribeOrganizationsAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeOrganizationsAccessInput`)
     ///
-    /// - Returns: `DescribeOrganizationsAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeOrganizationsAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1976,6 +2000,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeOrganizationsAccessInput, DescribeOrganizationsAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeOrganizationsAccessOutput>(DescribeOrganizationsAccessOutput.httpOutput(from:), DescribeOrganizationsAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeOrganizationsAccessInput, DescribeOrganizationsAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeOrganizationsAccessOutput>())
@@ -2013,9 +2038,9 @@ extension CloudFormationClient {
     ///
     /// * [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html) in the CloudFormation Command Line Interface (CLI) User Guide
     ///
-    /// - Parameter DescribePublisherInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePublisherInput`)
     ///
-    /// - Returns: `DescribePublisherOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePublisherOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2047,6 +2072,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePublisherInput, DescribePublisherOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePublisherOutput>(DescribePublisherOutput.httpOutput(from:), DescribePublisherOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePublisherInput, DescribePublisherOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePublisherOutput>())
@@ -2080,9 +2106,9 @@ extension CloudFormationClient {
     ///
     /// Describes details of a resource scan.
     ///
-    /// - Parameter DescribeResourceScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourceScanInput`)
     ///
-    /// - Returns: `DescribeResourceScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourceScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2114,6 +2140,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourceScanInput, DescribeResourceScanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourceScanOutput>(DescribeResourceScanOutput.httpOutput(from:), DescribeResourceScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourceScanInput, DescribeResourceScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourceScanOutput>())
@@ -2147,9 +2174,9 @@ extension CloudFormationClient {
     ///
     /// Returns information about a stack drift detection operation. A stack drift detection operation detects whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. A stack is considered to have drifted if one or more of its resources have drifted. For more information about stack and resource drift, see [Detect unmanaged configuration changes to stacks and resources with drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use [DetectStackDrift] to initiate a stack drift detection operation. DetectStackDrift returns a StackDriftDetectionId you can use to monitor the progress of the operation using DescribeStackDriftDetectionStatus. Once the drift detection operation has completed, use [DescribeStackResourceDrifts] to return drift information about the stack and its resources.
     ///
-    /// - Parameter DescribeStackDriftDetectionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStackDriftDetectionStatusInput`)
     ///
-    /// - Returns: `DescribeStackDriftDetectionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStackDriftDetectionStatusOutput`)
     public func describeStackDriftDetectionStatus(input: DescribeStackDriftDetectionStatusInput) async throws -> DescribeStackDriftDetectionStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2176,6 +2203,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackDriftDetectionStatusInput, DescribeStackDriftDetectionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackDriftDetectionStatusOutput>(DescribeStackDriftDetectionStatusOutput.httpOutput(from:), DescribeStackDriftDetectionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackDriftDetectionStatusInput, DescribeStackDriftDetectionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackDriftDetectionStatusOutput>())
@@ -2209,9 +2237,9 @@ extension CloudFormationClient {
     ///
     /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, see [Understand CloudFormation stack creation events](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide. You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
     ///
-    /// - Parameter DescribeStackEventsInput : The input for [DescribeStackEvents] action.
+    /// - Parameter input: The input for [DescribeStackEvents] action. (Type: `DescribeStackEventsInput`)
     ///
-    /// - Returns: `DescribeStackEventsOutput` : The output for a [DescribeStackEvents] action.
+    /// - Returns: The output for a [DescribeStackEvents] action. (Type: `DescribeStackEventsOutput`)
     public func describeStackEvents(input: DescribeStackEventsInput) async throws -> DescribeStackEventsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2238,6 +2266,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackEventsInput, DescribeStackEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackEventsOutput>(DescribeStackEventsOutput.httpOutput(from:), DescribeStackEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackEventsInput, DescribeStackEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackEventsOutput>())
@@ -2271,9 +2300,9 @@ extension CloudFormationClient {
     ///
     /// Returns the stack instance that's associated with the specified StackSet, Amazon Web Services account, and Amazon Web Services Region. For a list of stack instances that are associated with a specific StackSet, use [ListStackInstances].
     ///
-    /// - Parameter DescribeStackInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStackInstanceInput`)
     ///
-    /// - Returns: `DescribeStackInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStackInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2306,6 +2335,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackInstanceInput, DescribeStackInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackInstanceOutput>(DescribeStackInstanceOutput.httpOutput(from:), DescribeStackInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackInstanceInput, DescribeStackInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackInstanceOutput>())
@@ -2339,9 +2369,9 @@ extension CloudFormationClient {
     ///
     /// Describes the stack refactor status.
     ///
-    /// - Parameter DescribeStackRefactorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStackRefactorInput`)
     ///
-    /// - Returns: `DescribeStackRefactorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStackRefactorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2373,6 +2403,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackRefactorInput, DescribeStackRefactorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackRefactorOutput>(DescribeStackRefactorOutput.httpOutput(from:), DescribeStackRefactorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackRefactorInput, DescribeStackRefactorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackRefactorOutput>())
@@ -2406,9 +2437,9 @@ extension CloudFormationClient {
     ///
     /// Returns a description of the specified resource in the specified stack. For deleted stacks, DescribeStackResource returns resource information for up to 90 days after the stack has been deleted.
     ///
-    /// - Parameter DescribeStackResourceInput : The input for [DescribeStackResource] action.
+    /// - Parameter input: The input for [DescribeStackResource] action. (Type: `DescribeStackResourceInput`)
     ///
-    /// - Returns: `DescribeStackResourceOutput` : The output for a [DescribeStackResource] action.
+    /// - Returns: The output for a [DescribeStackResource] action. (Type: `DescribeStackResourceOutput`)
     public func describeStackResource(input: DescribeStackResourceInput) async throws -> DescribeStackResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2435,6 +2466,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackResourceInput, DescribeStackResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackResourceOutput>(DescribeStackResourceOutput.httpOutput(from:), DescribeStackResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackResourceInput, DescribeStackResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackResourceOutput>())
@@ -2468,9 +2500,9 @@ extension CloudFormationClient {
     ///
     /// Returns drift information for the resources that have been checked for drift in the specified stack. This includes actual and expected configuration values for resources where CloudFormation detects configuration drift. For a given stack, there will be one StackResourceDrift for each stack resource that has been checked for drift. Resources that haven't yet been checked for drift aren't included. Resources that don't currently support drift detection aren't checked, and so not included. For a list of resources that support drift detection, see [Resource type support for imports and drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html). Use [DetectStackResourceDrift] to detect drift on individual resources, or [DetectStackDrift] to detect drift on all supported resources for a given stack.
     ///
-    /// - Parameter DescribeStackResourceDriftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStackResourceDriftsInput`)
     ///
-    /// - Returns: `DescribeStackResourceDriftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStackResourceDriftsOutput`)
     public func describeStackResourceDrifts(input: DescribeStackResourceDriftsInput) async throws -> DescribeStackResourceDriftsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2497,6 +2529,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackResourceDriftsOutput>(DescribeStackResourceDriftsOutput.httpOutput(from:), DescribeStackResourceDriftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackResourceDriftsInput, DescribeStackResourceDriftsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackResourceDriftsOutput>())
@@ -2530,9 +2563,9 @@ extension CloudFormationClient {
     ///
     /// Returns Amazon Web Services resource descriptions for running and deleted stacks. If StackName is specified, all the associated resources that are part of the stack are returned. If PhysicalResourceId is specified, the associated resources of the stack that the resource belongs to are returned. Only the first 100 resources will be returned. If your stack has more resources than this, you should use ListStackResources instead. For deleted stacks, DescribeStackResources returns resource information for up to 90 days after the stack has been deleted. You must specify either StackName or PhysicalResourceId, but not both. In addition, you can specify LogicalResourceId to filter the returned result. For more information about resources, the LogicalResourceId and PhysicalResourceId, see the [CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/). A ValidationError is returned if you specify both StackName and PhysicalResourceId in the same request.
     ///
-    /// - Parameter DescribeStackResourcesInput : The input for [DescribeStackResources] action.
+    /// - Parameter input: The input for [DescribeStackResources] action. (Type: `DescribeStackResourcesInput`)
     ///
-    /// - Returns: `DescribeStackResourcesOutput` : The output for a [DescribeStackResources] action.
+    /// - Returns: The output for a [DescribeStackResources] action. (Type: `DescribeStackResourcesOutput`)
     public func describeStackResources(input: DescribeStackResourcesInput) async throws -> DescribeStackResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2559,6 +2592,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackResourcesInput, DescribeStackResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackResourcesOutput>(DescribeStackResourcesOutput.httpOutput(from:), DescribeStackResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackResourcesInput, DescribeStackResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackResourcesOutput>())
@@ -2592,9 +2626,9 @@ extension CloudFormationClient {
     ///
     /// Returns the description of the specified StackSet. This API provides strongly consistent reads meaning it will always return the most up-to-date data.
     ///
-    /// - Parameter DescribeStackSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStackSetInput`)
     ///
-    /// - Returns: `DescribeStackSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStackSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2626,6 +2660,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackSetInput, DescribeStackSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackSetOutput>(DescribeStackSetOutput.httpOutput(from:), DescribeStackSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackSetInput, DescribeStackSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackSetOutput>())
@@ -2659,9 +2694,9 @@ extension CloudFormationClient {
     ///
     /// Returns the description of the specified StackSet operation. This API provides strongly consistent reads meaning it will always return the most up-to-date data.
     ///
-    /// - Parameter DescribeStackSetOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStackSetOperationInput`)
     ///
-    /// - Returns: `DescribeStackSetOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStackSetOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2694,6 +2729,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStackSetOperationInput, DescribeStackSetOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStackSetOperationOutput>(DescribeStackSetOperationOutput.httpOutput(from:), DescribeStackSetOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStackSetOperationInput, DescribeStackSetOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStackSetOperationOutput>())
@@ -2727,9 +2763,9 @@ extension CloudFormationClient {
     ///
     /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. For more information about a stack's event history, see [Understand CloudFormation stack creation events](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide. If the stack doesn't exist, a ValidationError is returned.
     ///
-    /// - Parameter DescribeStacksInput : The input for [DescribeStacks] action.
+    /// - Parameter input: The input for [DescribeStacks] action. (Type: `DescribeStacksInput`)
     ///
-    /// - Returns: `DescribeStacksOutput` : The output for a [DescribeStacks] action.
+    /// - Returns: The output for a [DescribeStacks] action. (Type: `DescribeStacksOutput`)
     public func describeStacks(input: DescribeStacksInput) async throws -> DescribeStacksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2756,6 +2792,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeStacksInput, DescribeStacksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStacksOutput>(DescribeStacksOutput.httpOutput(from:), DescribeStacksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStacksInput, DescribeStacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStacksOutput>())
@@ -2787,11 +2824,11 @@ extension CloudFormationClient {
 
     /// Performs the `DescribeType` operation on the `CloudFormation` service.
     ///
-    /// Returns detailed information about an extension from the CloudFormation registry in your current account and Region. If you specify a VersionId, DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version.
+    /// Returns detailed information about an extension from the CloudFormation registry in your current account and Region. If you specify a VersionId, DescribeType returns information about that specific extension version. Otherwise, it returns information about the default extension version. For more information, see [Edit configuration data for extensions in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter DescribeTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTypeInput`)
     ///
-    /// - Returns: `DescribeTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2824,6 +2861,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTypeInput, DescribeTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTypeOutput>(DescribeTypeOutput.httpOutput(from:), DescribeTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTypeInput, DescribeTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTypeOutput>())
@@ -2857,9 +2895,9 @@ extension CloudFormationClient {
     ///
     /// Returns information about an extension's registration, including its current status and type and version identifiers. When you initiate a registration request using [RegisterType], you can then use [DescribeTypeRegistration] to monitor the progress of that registration request. Once the registration request has completed, use [DescribeType] to return detailed information about an extension.
     ///
-    /// - Parameter DescribeTypeRegistrationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTypeRegistrationInput`)
     ///
-    /// - Returns: `DescribeTypeRegistrationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTypeRegistrationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2891,6 +2929,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTypeRegistrationOutput>(DescribeTypeRegistrationOutput.httpOutput(from:), DescribeTypeRegistrationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTypeRegistrationInput, DescribeTypeRegistrationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTypeRegistrationOutput>())
@@ -2924,9 +2963,9 @@ extension CloudFormationClient {
     ///
     /// Detects whether a stack's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. For each resource in the stack that supports drift detection, CloudFormation compares the actual configuration of the resource with its expected template configuration. Only resource properties explicitly defined in the stack template are checked for drift. A stack is considered to have drifted if one or more of its resources differ from their expected template configurations. For more information, see [Detect unmanaged configuration changes to stacks and resources with drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use DetectStackDrift to detect drift on all supported resources for a given stack, or [DetectStackResourceDrift] to detect drift on individual resources. For a list of stack resources that currently support drift detection, see [Resource type support for imports and drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html). DetectStackDrift can take up to several minutes, depending on the number of resources contained within the stack. Use [DescribeStackDriftDetectionStatus] to monitor the progress of a detect stack drift operation. Once the drift detection operation has completed, use [DescribeStackResourceDrifts] to return drift information about the stack and its resources. When detecting drift on a stack, CloudFormation doesn't detect drift on any nested stacks belonging to that stack. Perform DetectStackDrift directly on the nested stack itself.
     ///
-    /// - Parameter DetectStackDriftInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectStackDriftInput`)
     ///
-    /// - Returns: `DetectStackDriftOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectStackDriftOutput`)
     public func detectStackDrift(input: DetectStackDriftInput) async throws -> DetectStackDriftOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2953,6 +2992,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectStackDriftInput, DetectStackDriftOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectStackDriftOutput>(DetectStackDriftOutput.httpOutput(from:), DetectStackDriftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectStackDriftInput, DetectStackDriftOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectStackDriftOutput>())
@@ -2986,9 +3026,9 @@ extension CloudFormationClient {
     ///
     /// Returns information about whether a resource's actual configuration differs, or has drifted, from its expected configuration, as defined in the stack template and any values specified as template parameters. This information includes actual and expected property values for resources in which CloudFormation detects drift. Only resource properties explicitly defined in the stack template are checked for drift. For more information about stack and resource drift, see [Detect unmanaged configuration changes to stacks and resources with drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html). Use DetectStackResourceDrift to detect drift on individual resources, or [DetectStackDrift] to detect drift on all resources in a given stack that support drift detection. Resources that don't currently support drift detection can't be checked. For a list of resources that support drift detection, see [Resource type support for imports and drift detection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html).
     ///
-    /// - Parameter DetectStackResourceDriftInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectStackResourceDriftInput`)
     ///
-    /// - Returns: `DetectStackResourceDriftOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectStackResourceDriftOutput`)
     public func detectStackResourceDrift(input: DetectStackResourceDriftInput) async throws -> DetectStackResourceDriftOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3015,6 +3055,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectStackResourceDriftInput, DetectStackResourceDriftOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectStackResourceDriftOutput>(DetectStackResourceDriftOutput.httpOutput(from:), DetectStackResourceDriftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectStackResourceDriftInput, DetectStackResourceDriftOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectStackResourceDriftOutput>())
@@ -3057,9 +3098,9 @@ extension CloudFormationClient {
     ///
     /// You can only run a single drift detection operation on a given StackSet at one time. To stop a drift detection StackSet operation, use [StopStackSetOperation].
     ///
-    /// - Parameter DetectStackSetDriftInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetectStackSetDriftInput`)
     ///
-    /// - Returns: `DetectStackSetDriftOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetectStackSetDriftOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3094,6 +3135,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetectStackSetDriftInput, DetectStackSetDriftOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetectStackSetDriftOutput>(DetectStackSetDriftOutput.httpOutput(from:), DetectStackSetDriftOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetectStackSetDriftInput, DetectStackSetDriftOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetectStackSetDriftOutput>())
@@ -3127,9 +3169,9 @@ extension CloudFormationClient {
     ///
     /// Returns the estimated monthly cost of a template. The return value is an Amazon Web Services Simple Monthly Calculator URL with a query string that describes the resources required to run the template.
     ///
-    /// - Parameter EstimateTemplateCostInput : The input for an [EstimateTemplateCost] action.
+    /// - Parameter input: The input for an [EstimateTemplateCost] action. (Type: `EstimateTemplateCostInput`)
     ///
-    /// - Returns: `EstimateTemplateCostOutput` : The output for a [EstimateTemplateCost] action.
+    /// - Returns: The output for a [EstimateTemplateCost] action. (Type: `EstimateTemplateCostOutput`)
     public func estimateTemplateCost(input: EstimateTemplateCostInput) async throws -> EstimateTemplateCostOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3156,6 +3198,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EstimateTemplateCostInput, EstimateTemplateCostOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EstimateTemplateCostOutput>(EstimateTemplateCostOutput.httpOutput(from:), EstimateTemplateCostOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EstimateTemplateCostInput, EstimateTemplateCostOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EstimateTemplateCostOutput>())
@@ -3189,9 +3232,9 @@ extension CloudFormationClient {
     ///
     /// Updates a stack using the input information that was provided when the specified change set was created. After the call successfully completes, CloudFormation starts updating the stack. Use the [DescribeStacks] action to view the status of the update. When you execute a change set, CloudFormation deletes all other change sets associated with the stack because they aren't valid for the updated stack. If a stack policy is associated with the stack, CloudFormation enforces the policy during the update. You can't specify a temporary stack policy that overrides the current policy. To create a change set for the entire stack hierarchy, IncludeNestedStacks must have been set to True.
     ///
-    /// - Parameter ExecuteChangeSetInput : The input for the [ExecuteChangeSet] action.
+    /// - Parameter input: The input for the [ExecuteChangeSet] action. (Type: `ExecuteChangeSetInput`)
     ///
-    /// - Returns: `ExecuteChangeSetOutput` : The output for the [ExecuteChangeSet] action.
+    /// - Returns: The output for the [ExecuteChangeSet] action. (Type: `ExecuteChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3226,6 +3269,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteChangeSetInput, ExecuteChangeSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteChangeSetOutput>(ExecuteChangeSetOutput.httpOutput(from:), ExecuteChangeSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteChangeSetInput, ExecuteChangeSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteChangeSetOutput>())
@@ -3259,9 +3303,9 @@ extension CloudFormationClient {
     ///
     /// Executes the stack refactor operation.
     ///
-    /// - Parameter ExecuteStackRefactorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteStackRefactorInput`)
     ///
-    /// - Returns: `ExecuteStackRefactorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteStackRefactorOutput`)
     public func executeStackRefactor(input: ExecuteStackRefactorInput) async throws -> ExecuteStackRefactorOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3288,6 +3332,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteStackRefactorInput, ExecuteStackRefactorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteStackRefactorOutput>(ExecuteStackRefactorOutput.httpOutput(from:), ExecuteStackRefactorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteStackRefactorInput, ExecuteStackRefactorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteStackRefactorOutput>())
@@ -3321,9 +3366,9 @@ extension CloudFormationClient {
     ///
     /// Retrieves a generated template. If the template is in an InProgress or Pending status then the template returned will be the template when the template was last in a Complete status. If the template has not yet been in a Complete status then an empty template will be returned.
     ///
-    /// - Parameter GetGeneratedTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGeneratedTemplateInput`)
     ///
-    /// - Returns: `GetGeneratedTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGeneratedTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3355,6 +3400,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetGeneratedTemplateInput, GetGeneratedTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGeneratedTemplateOutput>(GetGeneratedTemplateOutput.httpOutput(from:), GetGeneratedTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGeneratedTemplateInput, GetGeneratedTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGeneratedTemplateOutput>())
@@ -3388,9 +3434,9 @@ extension CloudFormationClient {
     ///
     /// Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null value is returned.
     ///
-    /// - Parameter GetStackPolicyInput : The input for the [GetStackPolicy] action.
+    /// - Parameter input: The input for the [GetStackPolicy] action. (Type: `GetStackPolicyInput`)
     ///
-    /// - Returns: `GetStackPolicyOutput` : The output for the [GetStackPolicy] action.
+    /// - Returns: The output for the [GetStackPolicy] action. (Type: `GetStackPolicyOutput`)
     public func getStackPolicy(input: GetStackPolicyInput) async throws -> GetStackPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3417,6 +3463,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStackPolicyInput, GetStackPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStackPolicyOutput>(GetStackPolicyOutput.httpOutput(from:), GetStackPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStackPolicyInput, GetStackPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStackPolicyOutput>())
@@ -3450,9 +3497,9 @@ extension CloudFormationClient {
     ///
     /// Returns the template body for a specified stack. You can get the template for running or deleted stacks. For deleted stacks, GetTemplate returns the template for up to 90 days after the stack has been deleted. If the template doesn't exist, a ValidationError is returned.
     ///
-    /// - Parameter GetTemplateInput : The input for a [GetTemplate] action.
+    /// - Parameter input: The input for a [GetTemplate] action. (Type: `GetTemplateInput`)
     ///
-    /// - Returns: `GetTemplateOutput` : The output for [GetTemplate] action.
+    /// - Returns: The output for [GetTemplate] action. (Type: `GetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3484,6 +3531,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemplateInput, GetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateOutput>(GetTemplateOutput.httpOutput(from:), GetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateInput, GetTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateOutput>())
@@ -3517,9 +3565,9 @@ extension CloudFormationClient {
     ///
     /// Returns information about a new or existing template. The GetTemplateSummary action is useful for viewing parameter information, such as default parameter values and parameter types, before you create or update a stack or StackSet. You can use the GetTemplateSummary action when you submit a template, or you can get template information for a StackSet, or a running or deleted stack. For deleted stacks, GetTemplateSummary returns the template information for up to 90 days after the stack has been deleted. If the template doesn't exist, a ValidationError is returned.
     ///
-    /// - Parameter GetTemplateSummaryInput : The input for the [GetTemplateSummary] action.
+    /// - Parameter input: The input for the [GetTemplateSummary] action. (Type: `GetTemplateSummaryInput`)
     ///
-    /// - Returns: `GetTemplateSummaryOutput` : The output for the [GetTemplateSummary] action.
+    /// - Returns: The output for the [GetTemplateSummary] action. (Type: `GetTemplateSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3551,6 +3599,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemplateSummaryInput, GetTemplateSummaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateSummaryOutput>(GetTemplateSummaryOutput.httpOutput(from:), GetTemplateSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateSummaryInput, GetTemplateSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateSummaryOutput>())
@@ -3584,9 +3633,9 @@ extension CloudFormationClient {
     ///
     /// Import existing stacks into a new StackSets. Use the stack import operation to import up to 10 stacks into a new StackSet in the same account as the source stack or in a different administrator account and Region, by specifying the stack ID of the stack you intend to import.
     ///
-    /// - Parameter ImportStacksToStackSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportStacksToStackSetInput`)
     ///
-    /// - Returns: `ImportStacksToStackSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportStacksToStackSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3625,6 +3674,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportStacksToStackSetInput, ImportStacksToStackSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportStacksToStackSetOutput>(ImportStacksToStackSetOutput.httpOutput(from:), ImportStacksToStackSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportStacksToStackSetInput, ImportStacksToStackSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportStacksToStackSetOutput>())
@@ -3658,9 +3708,9 @@ extension CloudFormationClient {
     ///
     /// Returns the ID and status of each active change set for a stack. For example, CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
     ///
-    /// - Parameter ListChangeSetsInput : The input for the [ListChangeSets] action.
+    /// - Parameter input: The input for the [ListChangeSets] action. (Type: `ListChangeSetsInput`)
     ///
-    /// - Returns: `ListChangeSetsOutput` : The output for the [ListChangeSets] action.
+    /// - Returns: The output for the [ListChangeSets] action. (Type: `ListChangeSetsOutput`)
     public func listChangeSets(input: ListChangeSetsInput) async throws -> ListChangeSetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3687,6 +3737,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListChangeSetsInput, ListChangeSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChangeSetsOutput>(ListChangeSetsOutput.httpOutput(from:), ListChangeSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChangeSetsInput, ListChangeSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChangeSetsOutput>())
@@ -3720,9 +3771,9 @@ extension CloudFormationClient {
     ///
     /// Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the [ Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/intrinsic-function-reference-importvalue.html) function. For more information, see [Get exported outputs from a deployed CloudFormation stack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html).
     ///
-    /// - Parameter ListExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExportsInput`)
     ///
-    /// - Returns: `ListExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExportsOutput`)
     public func listExports(input: ListExportsInput) async throws -> ListExportsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3749,6 +3800,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportsInput, ListExportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExportsOutput>(ListExportsOutput.httpOutput(from:), ListExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportsInput, ListExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExportsOutput>())
@@ -3782,9 +3834,9 @@ extension CloudFormationClient {
     ///
     /// Lists your generated templates in this Region.
     ///
-    /// - Parameter ListGeneratedTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGeneratedTemplatesInput`)
     ///
-    /// - Returns: `ListGeneratedTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGeneratedTemplatesOutput`)
     public func listGeneratedTemplates(input: ListGeneratedTemplatesInput) async throws -> ListGeneratedTemplatesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3811,6 +3863,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListGeneratedTemplatesInput, ListGeneratedTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGeneratedTemplatesOutput>(ListGeneratedTemplatesOutput.httpOutput(from:), ListGeneratedTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGeneratedTemplatesInput, ListGeneratedTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGeneratedTemplatesOutput>())
@@ -3842,7 +3895,7 @@ extension CloudFormationClient {
 
     /// Performs the `ListHookResults` operation on the `CloudFormation` service.
     ///
-    /// Returns summaries of invoked Hooks. For more information, see [View CloudFormation Hooks invocations](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/hooks-view-invocations.html) in the CloudFormation Hooks User Guide. This operation supports the following parameter combinations:
+    /// Returns summaries of invoked Hooks. For more information, see [View invocation summaries for CloudFormation Hooks](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/hooks-view-invocations.html) in the CloudFormation Hooks User Guide. This operation supports the following parameter combinations:
     ///
     /// * No parameters: Returns all Hook invocation summaries.
     ///
@@ -3852,9 +3905,9 @@ extension CloudFormationClient {
     ///
     /// * TargetId and TargetType: Returns summaries for a specific Hook invocation target.
     ///
-    /// - Parameter ListHookResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListHookResultsInput`)
     ///
-    /// - Returns: `ListHookResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListHookResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3886,6 +3939,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListHookResultsInput, ListHookResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHookResultsOutput>(ListHookResultsOutput.httpOutput(from:), ListHookResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHookResultsInput, ListHookResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHookResultsOutput>())
@@ -3919,9 +3973,9 @@ extension CloudFormationClient {
     ///
     /// Lists all stacks that are importing an exported output value. To modify or remove an exported output value, first use this action to see which stacks are using it. To see the exported output values in your account, see [ListExports]. For more information about importing an exported output value, see the [Fn::ImportValue](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/intrinsic-function-reference-importvalue.html) function.
     ///
-    /// - Parameter ListImportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListImportsInput`)
     ///
-    /// - Returns: `ListImportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListImportsOutput`)
     public func listImports(input: ListImportsInput) async throws -> ListImportsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3948,6 +4002,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImportsInput, ListImportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportsOutput>(ListImportsOutput.httpOutput(from:), ListImportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportsInput, ListImportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportsOutput>())
@@ -3981,9 +4036,9 @@ extension CloudFormationClient {
     ///
     /// Lists the related resources for a list of resources from a resource scan. The response indicates whether each returned resource is already managed by CloudFormation.
     ///
-    /// - Parameter ListResourceScanRelatedResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceScanRelatedResourcesInput`)
     ///
-    /// - Returns: `ListResourceScanRelatedResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceScanRelatedResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4016,6 +4071,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceScanRelatedResourcesInput, ListResourceScanRelatedResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceScanRelatedResourcesOutput>(ListResourceScanRelatedResourcesOutput.httpOutput(from:), ListResourceScanRelatedResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceScanRelatedResourcesInput, ListResourceScanRelatedResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceScanRelatedResourcesOutput>())
@@ -4049,9 +4105,9 @@ extension CloudFormationClient {
     ///
     /// Lists the resources from a resource scan. The results can be filtered by resource identifier, resource type prefix, tag key, and tag value. Only resources that match all specified filters are returned. The response indicates whether each returned resource is already managed by CloudFormation.
     ///
-    /// - Parameter ListResourceScanResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceScanResourcesInput`)
     ///
-    /// - Returns: `ListResourceScanResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceScanResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4084,6 +4140,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceScanResourcesInput, ListResourceScanResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceScanResourcesOutput>(ListResourceScanResourcesOutput.httpOutput(from:), ListResourceScanResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceScanResourcesInput, ListResourceScanResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceScanResourcesOutput>())
@@ -4117,9 +4174,9 @@ extension CloudFormationClient {
     ///
     /// List the resource scans from newest to oldest. By default it will return up to 10 resource scans.
     ///
-    /// - Parameter ListResourceScansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceScansInput`)
     ///
-    /// - Returns: `ListResourceScansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceScansOutput`)
     public func listResourceScans(input: ListResourceScansInput) async throws -> ListResourceScansOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4146,6 +4203,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceScansInput, ListResourceScansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceScansOutput>(ListResourceScansOutput.httpOutput(from:), ListResourceScansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceScansInput, ListResourceScansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceScansOutput>())
@@ -4179,9 +4237,9 @@ extension CloudFormationClient {
     ///
     /// Returns drift information for resources in a stack instance. ListStackInstanceResourceDrifts returns drift information for the most recent drift detection operation. If an operation is in progress, it may only return partial results.
     ///
-    /// - Parameter ListStackInstanceResourceDriftsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackInstanceResourceDriftsInput`)
     ///
-    /// - Returns: `ListStackInstanceResourceDriftsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackInstanceResourceDriftsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4215,6 +4273,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackInstanceResourceDriftsInput, ListStackInstanceResourceDriftsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackInstanceResourceDriftsOutput>(ListStackInstanceResourceDriftsOutput.httpOutput(from:), ListStackInstanceResourceDriftsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackInstanceResourceDriftsInput, ListStackInstanceResourceDriftsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackInstanceResourceDriftsOutput>())
@@ -4248,9 +4307,9 @@ extension CloudFormationClient {
     ///
     /// Returns summary information about stack instances that are associated with the specified StackSet. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region, or that have a specific status.
     ///
-    /// - Parameter ListStackInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackInstancesInput`)
     ///
-    /// - Returns: `ListStackInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4282,6 +4341,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackInstancesInput, ListStackInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackInstancesOutput>(ListStackInstancesOutput.httpOutput(from:), ListStackInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackInstancesInput, ListStackInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackInstancesOutput>())
@@ -4315,9 +4375,9 @@ extension CloudFormationClient {
     ///
     /// Lists the stack refactor actions that will be taken after calling the [ExecuteStackRefactor] action.
     ///
-    /// - Parameter ListStackRefactorActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackRefactorActionsInput`)
     ///
-    /// - Returns: `ListStackRefactorActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackRefactorActionsOutput`)
     public func listStackRefactorActions(input: ListStackRefactorActionsInput) async throws -> ListStackRefactorActionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4344,6 +4404,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackRefactorActionsInput, ListStackRefactorActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackRefactorActionsOutput>(ListStackRefactorActionsOutput.httpOutput(from:), ListStackRefactorActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackRefactorActionsInput, ListStackRefactorActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackRefactorActionsOutput>())
@@ -4377,9 +4438,9 @@ extension CloudFormationClient {
     ///
     /// Lists all account stack refactor operations and their statuses.
     ///
-    /// - Parameter ListStackRefactorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackRefactorsInput`)
     ///
-    /// - Returns: `ListStackRefactorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackRefactorsOutput`)
     public func listStackRefactors(input: ListStackRefactorsInput) async throws -> ListStackRefactorsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4406,6 +4467,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackRefactorsInput, ListStackRefactorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackRefactorsOutput>(ListStackRefactorsOutput.httpOutput(from:), ListStackRefactorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackRefactorsInput, ListStackRefactorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackRefactorsOutput>())
@@ -4439,9 +4501,9 @@ extension CloudFormationClient {
     ///
     /// Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
     ///
-    /// - Parameter ListStackResourcesInput : The input for the [ListStackResource] action.
+    /// - Parameter input: The input for the [ListStackResource] action. (Type: `ListStackResourcesInput`)
     ///
-    /// - Returns: `ListStackResourcesOutput` : The output for a [ListStackResources] action.
+    /// - Returns: The output for a [ListStackResources] action. (Type: `ListStackResourcesOutput`)
     public func listStackResources(input: ListStackResourcesInput) async throws -> ListStackResourcesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4468,6 +4530,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackResourcesInput, ListStackResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackResourcesOutput>(ListStackResourcesOutput.httpOutput(from:), ListStackResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackResourcesInput, ListStackResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackResourcesOutput>())
@@ -4501,9 +4564,9 @@ extension CloudFormationClient {
     ///
     /// Returns summary information about deployment targets for a StackSet.
     ///
-    /// - Parameter ListStackSetAutoDeploymentTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackSetAutoDeploymentTargetsInput`)
     ///
-    /// - Returns: `ListStackSetAutoDeploymentTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackSetAutoDeploymentTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4535,6 +4598,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackSetAutoDeploymentTargetsInput, ListStackSetAutoDeploymentTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackSetAutoDeploymentTargetsOutput>(ListStackSetAutoDeploymentTargetsOutput.httpOutput(from:), ListStackSetAutoDeploymentTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackSetAutoDeploymentTargetsInput, ListStackSetAutoDeploymentTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackSetAutoDeploymentTargetsOutput>())
@@ -4568,9 +4632,9 @@ extension CloudFormationClient {
     ///
     /// Returns summary information about the results of a StackSet operation. This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data.
     ///
-    /// - Parameter ListStackSetOperationResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackSetOperationResultsInput`)
     ///
-    /// - Returns: `ListStackSetOperationResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackSetOperationResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4603,6 +4667,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackSetOperationResultsOutput>(ListStackSetOperationResultsOutput.httpOutput(from:), ListStackSetOperationResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackSetOperationResultsInput, ListStackSetOperationResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackSetOperationResultsOutput>())
@@ -4636,9 +4701,9 @@ extension CloudFormationClient {
     ///
     /// Returns summary information about operations performed on a StackSet. This API provides eventually consistent reads meaning it may take some time but will eventually return the most up-to-date data.
     ///
-    /// - Parameter ListStackSetOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackSetOperationsInput`)
     ///
-    /// - Returns: `ListStackSetOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackSetOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4670,6 +4735,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackSetOperationsInput, ListStackSetOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackSetOperationsOutput>(ListStackSetOperationsOutput.httpOutput(from:), ListStackSetOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackSetOperationsInput, ListStackSetOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackSetOperationsOutput>())
@@ -4709,9 +4775,9 @@ extension CloudFormationClient {
     ///
     /// * [Service-managed permissions] If you set the CallAs parameter to DELEGATED_ADMIN while signed in to your member account, ListStackSets returns all StackSets with service-managed permissions in the management account.
     ///
-    /// - Parameter ListStackSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStackSetsInput`)
     ///
-    /// - Returns: `ListStackSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStackSetsOutput`)
     public func listStackSets(input: ListStackSetsInput) async throws -> ListStackSetsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4738,6 +4804,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStackSetsInput, ListStackSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStackSetsOutput>(ListStackSetsOutput.httpOutput(from:), ListStackSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStackSetsInput, ListStackSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStackSetsOutput>())
@@ -4771,9 +4838,9 @@ extension CloudFormationClient {
     ///
     /// Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
     ///
-    /// - Parameter ListStacksInput : The input for [ListStacks] action.
+    /// - Parameter input: The input for [ListStacks] action. (Type: `ListStacksInput`)
     ///
-    /// - Returns: `ListStacksOutput` : The output for [ListStacks] action.
+    /// - Returns: The output for [ListStacks] action. (Type: `ListStacksOutput`)
     public func listStacks(input: ListStacksInput) async throws -> ListStacksOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -4800,6 +4867,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListStacksInput, ListStacksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStacksOutput>(ListStacksOutput.httpOutput(from:), ListStacksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStacksInput, ListStacksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStacksOutput>())
@@ -4833,9 +4901,9 @@ extension CloudFormationClient {
     ///
     /// Returns a list of registration tokens for the specified extension(s).
     ///
-    /// - Parameter ListTypeRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypeRegistrationsInput`)
     ///
-    /// - Returns: `ListTypeRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypeRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4867,6 +4935,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTypeRegistrationsInput, ListTypeRegistrationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypeRegistrationsOutput>(ListTypeRegistrationsOutput.httpOutput(from:), ListTypeRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypeRegistrationsInput, ListTypeRegistrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypeRegistrationsOutput>())
@@ -4900,9 +4969,9 @@ extension CloudFormationClient {
     ///
     /// Returns summary information about the versions of an extension.
     ///
-    /// - Parameter ListTypeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypeVersionsInput`)
     ///
-    /// - Returns: `ListTypeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4934,6 +5003,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTypeVersionsInput, ListTypeVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypeVersionsOutput>(ListTypeVersionsOutput.httpOutput(from:), ListTypeVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypeVersionsInput, ListTypeVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypeVersionsOutput>())
@@ -4967,9 +5037,9 @@ extension CloudFormationClient {
     ///
     /// Returns summary information about all extensions, including your private resource types, modules, and Hooks as well as all public extensions from Amazon Web Services and third-party publishers.
     ///
-    /// - Parameter ListTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTypesInput`)
     ///
-    /// - Returns: `ListTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5001,6 +5071,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTypesInput, ListTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTypesOutput>(ListTypesOutput.httpOutput(from:), ListTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTypesInput, ListTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTypesOutput>())
@@ -5034,9 +5105,9 @@ extension CloudFormationClient {
     ///
     /// Publishes the specified extension to the CloudFormation registry as a public extension in this Region. Public extensions are available for use by all CloudFormation users. For more information about publishing extensions, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html) in the CloudFormation Command Line Interface (CLI) User Guide. To publish an extension, you must be registered as a publisher with CloudFormation. For more information, see [RegisterPublisher](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterPublisher.html).
     ///
-    /// - Parameter PublishTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishTypeInput`)
     ///
-    /// - Returns: `PublishTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5069,6 +5140,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishTypeInput, PublishTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishTypeOutput>(PublishTypeOutput.httpOutput(from:), PublishTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishTypeInput, PublishTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PublishTypeOutput>())
@@ -5102,9 +5174,9 @@ extension CloudFormationClient {
     ///
     /// Reports progress of a resource handler to CloudFormation. Reserved for use by the [CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/what-is-cloudformation-cli.html). Don't use this API in your code.
     ///
-    /// - Parameter RecordHandlerProgressInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RecordHandlerProgressInput`)
     ///
-    /// - Returns: `RecordHandlerProgressOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RecordHandlerProgressOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5137,6 +5209,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RecordHandlerProgressInput, RecordHandlerProgressOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RecordHandlerProgressOutput>(RecordHandlerProgressOutput.httpOutput(from:), RecordHandlerProgressOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RecordHandlerProgressInput, RecordHandlerProgressOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RecordHandlerProgressOutput>())
@@ -5170,9 +5243,9 @@ extension CloudFormationClient {
     ///
     /// Registers your account as a publisher of public extensions in the CloudFormation registry. Public extensions are available for use by all CloudFormation users. This publisher ID applies to your account in all Amazon Web Services Regions. For information about requirements for registering as a public extension publisher, see [Prerequisite: Registering your account to publish CloudFormation extensions](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-prereqs) in the CloudFormation Command Line Interface (CLI) User Guide.
     ///
-    /// - Parameter RegisterPublisherInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterPublisherInput`)
     ///
-    /// - Returns: `RegisterPublisherOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterPublisherOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5204,6 +5277,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterPublisherInput, RegisterPublisherOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterPublisherOutput>(RegisterPublisherOutput.httpOutput(from:), RegisterPublisherOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterPublisherInput, RegisterPublisherOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterPublisherOutput>())
@@ -5246,9 +5320,9 @@ extension CloudFormationClient {
     ///
     /// For more information about how to develop extensions and ready them for registration, see [Creating resource types using the CloudFormation CLI](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-types.html) in the CloudFormation Command Line Interface (CLI) User Guide. You can have a maximum of 50 resource extension versions registered at a time. This maximum is per account and per Region. Use [DeregisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeregisterType.html) to deregister specific extension versions if necessary. Once you have initiated a registration request using [RegisterType], you can use [DescribeTypeRegistration] to monitor the progress of the registration request. Once you have registered a private extension in your account and Region, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html) to specify configuration properties for the extension. For more information, see [Edit configuration data for extensions in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter RegisterTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTypeInput`)
     ///
-    /// - Returns: `RegisterTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5280,6 +5354,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTypeInput, RegisterTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTypeOutput>(RegisterTypeOutput.httpOutput(from:), RegisterTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTypeInput, RegisterTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTypeOutput>())
@@ -5323,9 +5398,9 @@ extension CloudFormationClient {
     ///
     /// * IMPORT_ROLLBACK_COMPLETE
     ///
-    /// - Parameter RollbackStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RollbackStackInput`)
     ///
-    /// - Returns: `RollbackStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RollbackStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5357,6 +5432,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RollbackStackInput, RollbackStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RollbackStackOutput>(RollbackStackOutput.httpOutput(from:), RollbackStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RollbackStackInput, RollbackStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RollbackStackOutput>())
@@ -5390,9 +5466,9 @@ extension CloudFormationClient {
     ///
     /// Sets a stack policy for a specified stack.
     ///
-    /// - Parameter SetStackPolicyInput : The input for the [SetStackPolicy] action.
+    /// - Parameter input: The input for the [SetStackPolicy] action. (Type: `SetStackPolicyInput`)
     ///
-    /// - Returns: `SetStackPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetStackPolicyOutput`)
     public func setStackPolicy(input: SetStackPolicyInput) async throws -> SetStackPolicyOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5419,6 +5495,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetStackPolicyInput, SetStackPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetStackPolicyOutput>(SetStackPolicyOutput.httpOutput(from:), SetStackPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetStackPolicyInput, SetStackPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetStackPolicyOutput>())
@@ -5450,11 +5527,11 @@ extension CloudFormationClient {
 
     /// Performs the `SetTypeConfiguration` operation on the `CloudFormation` service.
     ///
-    /// Specifies the configuration data for a registered CloudFormation extension, in the given account and Region. To view the current configuration data for an extension, refer to the ConfigurationSchema element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). For more information, see [Edit configuration data for extensions in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html) in the CloudFormation User Guide. It's strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party credentials. For more details on dynamic references, see [Specify values stored in other services using dynamic references](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html) in the CloudFormation User Guide.
+    /// Specifies the configuration data for a CloudFormation extension, such as a resource or Hook, in the given account and Region. For more information, see [Edit configuration data for extensions in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html) in the CloudFormation User Guide. To view the current configuration data for an extension, refer to the ConfigurationSchema element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). It's strongly recommended that you use dynamic references to restrict sensitive configuration definitions, such as third-party credentials. For more information, see [Specify values stored in other services using dynamic references](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html) in the CloudFormation User Guide. For more information about setting the configuration data for resource types, see [Defining the account-level configuration of an extension](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-model.html#resource-type-howto-configuration) in the CloudFormation Command Line Interface (CLI) User Guide. For more information about setting the configuration data for Hooks, see the [CloudFormation Hooks User Guide](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/what-is-cloudformation-hooks.html).
     ///
-    /// - Parameter SetTypeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetTypeConfigurationInput`)
     ///
-    /// - Returns: `SetTypeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetTypeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5487,6 +5564,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetTypeConfigurationInput, SetTypeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetTypeConfigurationOutput>(SetTypeConfigurationOutput.httpOutput(from:), SetTypeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetTypeConfigurationInput, SetTypeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetTypeConfigurationOutput>())
@@ -5520,9 +5598,9 @@ extension CloudFormationClient {
     ///
     /// Specify the default version of an extension. The default version of an extension will be used in CloudFormation operations.
     ///
-    /// - Parameter SetTypeDefaultVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetTypeDefaultVersionInput`)
     ///
-    /// - Returns: `SetTypeDefaultVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetTypeDefaultVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5555,6 +5633,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetTypeDefaultVersionInput, SetTypeDefaultVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetTypeDefaultVersionOutput>(SetTypeDefaultVersionOutput.httpOutput(from:), SetTypeDefaultVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetTypeDefaultVersionInput, SetTypeDefaultVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetTypeDefaultVersionOutput>())
@@ -5588,9 +5667,9 @@ extension CloudFormationClient {
     ///
     /// Sends a signal to the specified resource with a success or failure status. You can use the SignalResource operation in conjunction with a creation policy or update policy. CloudFormation doesn't proceed with a stack creation or update until resources receive the required number of signals or the timeout period is exceeded. The SignalResource operation is useful in cases where you want to send signals from anywhere other than an Amazon EC2 instance.
     ///
-    /// - Parameter SignalResourceInput : The input for the [SignalResource] action.
+    /// - Parameter input: The input for the [SignalResource] action. (Type: `SignalResourceInput`)
     ///
-    /// - Returns: `SignalResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SignalResourceOutput`)
     public func signalResource(input: SignalResourceInput) async throws -> SignalResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -5617,6 +5696,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignalResourceInput, SignalResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SignalResourceOutput>(SignalResourceOutput.httpOutput(from:), SignalResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignalResourceInput, SignalResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SignalResourceOutput>())
@@ -5650,9 +5730,9 @@ extension CloudFormationClient {
     ///
     /// Starts a scan of the resources in this account in this Region. You can the status of a scan using the ListResourceScans API action.
     ///
-    /// - Parameter StartResourceScanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartResourceScanInput`)
     ///
-    /// - Returns: `StartResourceScanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartResourceScanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5691,6 +5771,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartResourceScanInput, StartResourceScanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartResourceScanOutput>(StartResourceScanOutput.httpOutput(from:), StartResourceScanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartResourceScanInput, StartResourceScanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartResourceScanOutput>())
@@ -5724,9 +5805,9 @@ extension CloudFormationClient {
     ///
     /// Stops an in-progress operation on a StackSet and its associated stack instances. StackSets will cancel all the unstarted stack instance deployments and wait for those are in-progress to complete.
     ///
-    /// - Parameter StopStackSetOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopStackSetOperationInput`)
     ///
-    /// - Returns: `StopStackSetOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopStackSetOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5760,6 +5841,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopStackSetOperationInput, StopStackSetOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopStackSetOperationOutput>(StopStackSetOperationOutput.httpOutput(from:), StopStackSetOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopStackSetOperationInput, StopStackSetOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopStackSetOperationOutput>())
@@ -5800,9 +5882,9 @@ extension CloudFormationClient {
     ///
     /// For more information, see [Testing your public extension before publishing](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-testing) in the CloudFormation Command Line Interface (CLI) User Guide. If you don't specify a version, CloudFormation uses the default version of the extension in your account and Region for testing. To perform testing, CloudFormation assumes the execution role specified when the type was registered. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html). Once you've initiated testing on an extension using TestType, you can pass the returned TypeVersionArn into [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html) to monitor the current test status and test status description for the extension. An extension must have a test status of PASSED before it can be published. For more information, see [Publishing extensions to make them available for public use](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-publish.html) in the CloudFormation Command Line Interface (CLI) User Guide.
     ///
-    /// - Parameter TestTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestTypeInput`)
     ///
-    /// - Returns: `TestTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5835,6 +5917,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestTypeInput, TestTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestTypeOutput>(TestTypeOutput.httpOutput(from:), TestTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestTypeInput, TestTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestTypeOutput>())
@@ -5868,9 +5951,9 @@ extension CloudFormationClient {
     ///
     /// Updates a generated template. This can be used to change the name, add and remove resources, refresh resources, and change the DeletionPolicy and UpdateReplacePolicy settings. You can check the status of the update to the generated template using the DescribeGeneratedTemplate API action.
     ///
-    /// - Parameter UpdateGeneratedTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGeneratedTemplateInput`)
     ///
-    /// - Returns: `UpdateGeneratedTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGeneratedTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5904,6 +5987,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGeneratedTemplateInput, UpdateGeneratedTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGeneratedTemplateOutput>(UpdateGeneratedTemplateOutput.httpOutput(from:), UpdateGeneratedTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGeneratedTemplateInput, UpdateGeneratedTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGeneratedTemplateOutput>())
@@ -5937,9 +6021,9 @@ extension CloudFormationClient {
     ///
     /// Updates a stack as specified in the template. After the call completes successfully, the stack update starts. You can check the status of the stack through the [DescribeStacks] action. To get a copy of the template for an existing stack, you can use the [GetTemplate] action. For more information about updating a stack and monitoring the progress of the update, see [Managing Amazon Web Services resources as a single unit with CloudFormation stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the CloudFormation User Guide.
     ///
-    /// - Parameter UpdateStackInput : The input for an [UpdateStack] action.
+    /// - Parameter input: The input for an [UpdateStack] action. (Type: `UpdateStackInput`)
     ///
-    /// - Returns: `UpdateStackOutput` : The output for an [UpdateStack] action.
+    /// - Returns: The output for an [UpdateStack] action. (Type: `UpdateStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5972,6 +6056,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStackInput, UpdateStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStackOutput>(UpdateStackOutput.httpOutput(from:), UpdateStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStackInput, UpdateStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStackOutput>())
@@ -6009,9 +6094,9 @@ extension CloudFormationClient {
     ///
     /// * Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contains all desired child OUs.
     ///
-    /// - Parameter UpdateStackInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStackInstancesInput`)
     ///
-    /// - Returns: `UpdateStackInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStackInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6049,6 +6134,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStackInstancesInput, UpdateStackInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStackInstancesOutput>(UpdateStackInstancesOutput.httpOutput(from:), UpdateStackInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStackInstancesInput, UpdateStackInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStackInstancesOutput>())
@@ -6086,9 +6172,9 @@ extension CloudFormationClient {
     ///
     /// * Parent OU strategy: If you don't mind exposing the OU hierarchy, target a parent OU that contains all desired child OUs.
     ///
-    /// - Parameter UpdateStackSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStackSetInput`)
     ///
-    /// - Returns: `UpdateStackSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStackSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6126,6 +6212,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStackSetInput, UpdateStackSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStackSetOutput>(UpdateStackSetOutput.httpOutput(from:), UpdateStackSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStackSetInput, UpdateStackSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStackSetOutput>())
@@ -6159,9 +6246,9 @@ extension CloudFormationClient {
     ///
     /// Updates termination protection for the specified stack. If a user attempts to delete a stack with termination protection enabled, the operation fails and the stack remains unchanged. For more information, see [Protect a CloudFormation stack from being deleted](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-protect-stacks.html) in the CloudFormation User Guide. For [nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html), termination protection is set on the root stack and can't be changed directly on the nested stack.
     ///
-    /// - Parameter UpdateTerminationProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTerminationProtectionInput`)
     ///
-    /// - Returns: `UpdateTerminationProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTerminationProtectionOutput`)
     public func updateTerminationProtection(input: UpdateTerminationProtectionInput) async throws -> UpdateTerminationProtectionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6188,6 +6275,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTerminationProtectionInput, UpdateTerminationProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTerminationProtectionOutput>(UpdateTerminationProtectionOutput.httpOutput(from:), UpdateTerminationProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTerminationProtectionInput, UpdateTerminationProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTerminationProtectionOutput>())
@@ -6221,9 +6309,9 @@ extension CloudFormationClient {
     ///
     /// Validates a specified template. CloudFormation first checks if the template is valid JSON. If it isn't, CloudFormation checks if the template is valid YAML. If both these checks fail, CloudFormation returns a template validation error.
     ///
-    /// - Parameter ValidateTemplateInput : The input for [ValidateTemplate] action.
+    /// - Parameter input: The input for [ValidateTemplate] action. (Type: `ValidateTemplateInput`)
     ///
-    /// - Returns: `ValidateTemplateOutput` : The output for [ValidateTemplate] action.
+    /// - Returns: The output for [ValidateTemplate] action. (Type: `ValidateTemplateOutput`)
     public func validateTemplate(input: ValidateTemplateInput) async throws -> ValidateTemplateOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -6250,6 +6338,7 @@ extension CloudFormationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ValidateTemplateInput, ValidateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ValidateTemplateOutput>(ValidateTemplateOutput.httpOutput(from:), ValidateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ValidateTemplateInput, ValidateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ValidateTemplateOutput>())

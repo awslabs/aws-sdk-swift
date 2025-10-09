@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EMRcontainersClient: ClientRuntime.Client {
     public static let clientName = "EMRcontainersClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: EMRcontainersClient.EMRcontainersClientConfiguration
     let serviceName = "EMR containers"
@@ -374,9 +375,9 @@ extension EMRcontainersClient {
     ///
     /// Cancels a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
-    /// - Parameter CancelJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobRunInput`)
     ///
-    /// - Returns: `CancelJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +409,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobRunInput, CancelJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobRunOutput>(CancelJobRunOutput.httpOutput(from:), CancelJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobRunInput, CancelJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobRunOutput>())
@@ -439,9 +441,9 @@ extension EMRcontainersClient {
     ///
     /// Creates a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
-    /// - Parameter CreateJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobTemplateInput`)
     ///
-    /// - Returns: `CreateJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -478,6 +480,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobTemplateOutput>(CreateJobTemplateOutput.httpOutput(from:), CreateJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobTemplateInput, CreateJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobTemplateOutput>())
@@ -509,9 +512,9 @@ extension EMRcontainersClient {
     ///
     /// Creates a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
-    /// - Parameter CreateManagedEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateManagedEndpointInput`)
     ///
-    /// - Returns: `CreateManagedEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateManagedEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -548,6 +551,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateManagedEndpointInput, CreateManagedEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateManagedEndpointOutput>(CreateManagedEndpointOutput.httpOutput(from:), CreateManagedEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateManagedEndpointInput, CreateManagedEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateManagedEndpointOutput>())
@@ -579,9 +583,9 @@ extension EMRcontainersClient {
     ///
     /// Creates a security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
     ///
-    /// - Parameter CreateSecurityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSecurityConfigurationInput`)
     ///
-    /// - Returns: `CreateSecurityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSecurityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -617,6 +621,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSecurityConfigurationOutput>(CreateSecurityConfigurationOutput.httpOutput(from:), CreateSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSecurityConfigurationInput, CreateSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSecurityConfigurationOutput>())
@@ -648,9 +653,9 @@ extension EMRcontainersClient {
     ///
     /// Creates a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
-    /// - Parameter CreateVirtualClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVirtualClusterInput`)
     ///
-    /// - Returns: `CreateVirtualClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVirtualClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -688,6 +693,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVirtualClusterInput, CreateVirtualClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVirtualClusterOutput>(CreateVirtualClusterOutput.httpOutput(from:), CreateVirtualClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVirtualClusterInput, CreateVirtualClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVirtualClusterOutput>())
@@ -719,9 +725,9 @@ extension EMRcontainersClient {
     ///
     /// Deletes a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
-    /// - Parameter DeleteJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobTemplateInput`)
     ///
-    /// - Returns: `DeleteJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -753,6 +759,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobTemplateOutput>(DeleteJobTemplateOutput.httpOutput(from:), DeleteJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobTemplateInput, DeleteJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobTemplateOutput>())
@@ -784,9 +791,9 @@ extension EMRcontainersClient {
     ///
     /// Deletes a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
-    /// - Parameter DeleteManagedEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteManagedEndpointInput`)
     ///
-    /// - Returns: `DeleteManagedEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteManagedEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -818,6 +825,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteManagedEndpointInput, DeleteManagedEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteManagedEndpointOutput>(DeleteManagedEndpointOutput.httpOutput(from:), DeleteManagedEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteManagedEndpointInput, DeleteManagedEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteManagedEndpointOutput>())
@@ -849,9 +857,9 @@ extension EMRcontainersClient {
     ///
     /// Deletes a virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
-    /// - Parameter DeleteVirtualClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVirtualClusterInput`)
     ///
-    /// - Returns: `DeleteVirtualClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVirtualClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -883,6 +891,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVirtualClusterInput, DeleteVirtualClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVirtualClusterOutput>(DeleteVirtualClusterOutput.httpOutput(from:), DeleteVirtualClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVirtualClusterInput, DeleteVirtualClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVirtualClusterOutput>())
@@ -914,9 +923,9 @@ extension EMRcontainersClient {
     ///
     /// Displays detailed information about a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
-    /// - Parameter DescribeJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobRunInput`)
     ///
-    /// - Returns: `DescribeJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -949,6 +958,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobRunInput, DescribeJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobRunOutput>(DescribeJobRunOutput.httpOutput(from:), DescribeJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobRunInput, DescribeJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobRunOutput>())
@@ -980,9 +990,9 @@ extension EMRcontainersClient {
     ///
     /// Displays detailed information about a specified job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
-    /// - Parameter DescribeJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobTemplateInput`)
     ///
-    /// - Returns: `DescribeJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1015,6 +1025,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobTemplateInput, DescribeJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobTemplateOutput>(DescribeJobTemplateOutput.httpOutput(from:), DescribeJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobTemplateInput, DescribeJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobTemplateOutput>())
@@ -1046,9 +1057,9 @@ extension EMRcontainersClient {
     ///
     /// Displays detailed information about a managed endpoint. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
-    /// - Parameter DescribeManagedEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeManagedEndpointInput`)
     ///
-    /// - Returns: `DescribeManagedEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeManagedEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1081,6 +1092,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeManagedEndpointInput, DescribeManagedEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeManagedEndpointOutput>(DescribeManagedEndpointOutput.httpOutput(from:), DescribeManagedEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeManagedEndpointInput, DescribeManagedEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeManagedEndpointOutput>())
@@ -1112,9 +1124,9 @@ extension EMRcontainersClient {
     ///
     /// Displays detailed information about a specified security configuration. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
     ///
-    /// - Parameter DescribeSecurityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSecurityConfigurationInput`)
     ///
-    /// - Returns: `DescribeSecurityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSecurityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1147,6 +1159,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSecurityConfigurationOutput>(DescribeSecurityConfigurationOutput.httpOutput(from:), DescribeSecurityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSecurityConfigurationInput, DescribeSecurityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSecurityConfigurationOutput>())
@@ -1178,9 +1191,9 @@ extension EMRcontainersClient {
     ///
     /// Displays detailed information about a specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
-    /// - Parameter DescribeVirtualClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVirtualClusterInput`)
     ///
-    /// - Returns: `DescribeVirtualClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVirtualClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1213,6 +1226,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVirtualClusterInput, DescribeVirtualClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVirtualClusterOutput>(DescribeVirtualClusterOutput.httpOutput(from:), DescribeVirtualClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVirtualClusterInput, DescribeVirtualClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVirtualClusterOutput>())
@@ -1244,9 +1258,9 @@ extension EMRcontainersClient {
     ///
     /// Generate a session token to connect to a managed endpoint.
     ///
-    /// - Parameter GetManagedEndpointSessionCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedEndpointSessionCredentialsInput`)
     ///
-    /// - Returns: `GetManagedEndpointSessionCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedEndpointSessionCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1284,6 +1298,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetManagedEndpointSessionCredentialsInput, GetManagedEndpointSessionCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedEndpointSessionCredentialsOutput>(GetManagedEndpointSessionCredentialsOutput.httpOutput(from:), GetManagedEndpointSessionCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedEndpointSessionCredentialsInput, GetManagedEndpointSessionCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedEndpointSessionCredentialsOutput>())
@@ -1315,9 +1330,9 @@ extension EMRcontainersClient {
     ///
     /// Lists job runs based on a set of parameters. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
-    /// - Parameter ListJobRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobRunsInput`)
     ///
-    /// - Returns: `ListJobRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,6 +1365,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobRunsInput, ListJobRunsOutput>(ListJobRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobRunsOutput>(ListJobRunsOutput.httpOutput(from:), ListJobRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobRunsInput, ListJobRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobRunsOutput>())
@@ -1381,9 +1397,9 @@ extension EMRcontainersClient {
     ///
     /// Lists job templates based on a set of parameters. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
     ///
-    /// - Parameter ListJobTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobTemplatesInput`)
     ///
-    /// - Returns: `ListJobTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1416,6 +1432,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(ListJobTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobTemplatesOutput>(ListJobTemplatesOutput.httpOutput(from:), ListJobTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobTemplatesInput, ListJobTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobTemplatesOutput>())
@@ -1447,9 +1464,9 @@ extension EMRcontainersClient {
     ///
     /// Lists managed endpoints based on a set of parameters. A managed endpoint is a gateway that connects Amazon EMR Studio to Amazon EMR on EKS so that Amazon EMR Studio can communicate with your virtual cluster.
     ///
-    /// - Parameter ListManagedEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedEndpointsInput`)
     ///
-    /// - Returns: `ListManagedEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1482,6 +1499,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedEndpointsInput, ListManagedEndpointsOutput>(ListManagedEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedEndpointsOutput>(ListManagedEndpointsOutput.httpOutput(from:), ListManagedEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedEndpointsInput, ListManagedEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedEndpointsOutput>())
@@ -1513,9 +1531,9 @@ extension EMRcontainersClient {
     ///
     /// Lists security configurations based on a set of parameters. Security configurations in Amazon EMR on EKS are templates for different security setups. You can use security configurations to configure the Lake Formation integration setup. You can also create a security configuration to re-use a security setup each time you create a virtual cluster.
     ///
-    /// - Parameter ListSecurityConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSecurityConfigurationsInput`)
     ///
-    /// - Returns: `ListSecurityConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSecurityConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1548,6 +1566,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(ListSecurityConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSecurityConfigurationsOutput>(ListSecurityConfigurationsOutput.httpOutput(from:), ListSecurityConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSecurityConfigurationsInput, ListSecurityConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSecurityConfigurationsOutput>())
@@ -1579,9 +1598,9 @@ extension EMRcontainersClient {
     ///
     /// Lists the tags assigned to the resources.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1614,6 +1633,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1645,9 +1665,9 @@ extension EMRcontainersClient {
     ///
     /// Lists information about the specified virtual cluster. Virtual cluster is a managed entity on Amazon EMR on EKS. You can create, describe, list and delete virtual clusters. They do not consume any additional resource in your system. A single virtual cluster maps to a single Kubernetes namespace. Given this relationship, you can model virtual clusters the same way you model Kubernetes namespaces to meet your requirements.
     ///
-    /// - Parameter ListVirtualClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVirtualClustersInput`)
     ///
-    /// - Returns: `ListVirtualClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVirtualClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1680,6 +1700,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVirtualClustersInput, ListVirtualClustersOutput>(ListVirtualClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVirtualClustersOutput>(ListVirtualClustersOutput.httpOutput(from:), ListVirtualClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVirtualClustersInput, ListVirtualClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVirtualClustersOutput>())
@@ -1711,9 +1732,9 @@ extension EMRcontainersClient {
     ///
     /// Starts a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
     ///
-    /// - Parameter StartJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartJobRunInput`)
     ///
-    /// - Returns: `StartJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1750,6 +1771,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartJobRunInput, StartJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartJobRunOutput>(StartJobRunOutput.httpOutput(from:), StartJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobRunInput, StartJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartJobRunOutput>())
@@ -1781,9 +1803,9 @@ extension EMRcontainersClient {
     ///
     /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it. For example, you can define a set of tags for your Amazon EMR on EKS clusters to help you track each cluster's owner and stack level. We recommend that you devise a consistent set of tag keys for each resource type. You can then search and filter the resources based on the tags that you add.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1819,6 +1841,7 @@ extension EMRcontainersClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1850,9 +1873,9 @@ extension EMRcontainersClient {
     ///
     /// Removes tags from resources.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1886,6 +1909,7 @@ extension EMRcontainersClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

@@ -99,6 +99,8 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public var domainCredentialsProvider: LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider?
         /// A list of domain IPv4 addresses that are used for the Active Directory.
         public var domainIpv4List: [Swift.String]?
+        /// A list of domain IPv6 addresses that are used for the Active Directory.
+        public var domainIpv6List: [Swift.String]?
         /// The domain name for the Active Directory.
         public var domainName: Swift.String?
         /// The DomainNetworkSettings resource contains an array of subnets that apply for the Active Directory.
@@ -107,11 +109,13 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public init(
             domainCredentialsProvider: LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider? = nil,
             domainIpv4List: [Swift.String]? = nil,
+            domainIpv6List: [Swift.String]? = nil,
             domainName: Swift.String? = nil,
             domainNetworkSettings: LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings? = nil
         ) {
             self.domainCredentialsProvider = domainCredentialsProvider
             self.domainIpv4List = domainIpv4List
+            self.domainIpv6List = domainIpv6List
             self.domainName = domainName
             self.domainNetworkSettings = domainNetworkSettings
         }
@@ -644,16 +648,20 @@ extension LicenseManagerUserSubscriptionsClientTypes {
         public var healthStatus: LicenseManagerUserSubscriptionsClientTypes.LicenseServerHealthStatus?
         /// A list of domain IPv4 addresses that are used for the RDS license server.
         public var ipv4Address: Swift.String?
+        /// A list of domain IPv6 addresses that are used for the RDS license server.
+        public var ipv6Address: Swift.String?
         /// The current state of the provisioning process for the RDS license server.
         public var provisioningStatus: LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpointProvisioningStatus?
 
         public init(
             healthStatus: LicenseManagerUserSubscriptionsClientTypes.LicenseServerHealthStatus? = nil,
             ipv4Address: Swift.String? = nil,
+            ipv6Address: Swift.String? = nil,
             provisioningStatus: LicenseManagerUserSubscriptionsClientTypes.LicenseServerEndpointProvisioningStatus? = nil
         ) {
             self.healthStatus = healthStatus
             self.ipv4Address = ipv4Address
+            self.ipv6Address = ipv6Address
             self.provisioningStatus = provisioningStatus
         }
     }
@@ -2459,6 +2467,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.ActiveDirectorySettings {
         guard let value else { return }
         try writer["DomainCredentialsProvider"].write(value.domainCredentialsProvider, with: LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider.write(value:to:))
         try writer["DomainIpv4List"].writeList(value.domainIpv4List, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DomainIpv6List"].writeList(value.domainIpv6List, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DomainName"].write(value.domainName)
         try writer["DomainNetworkSettings"].write(value.domainNetworkSettings, with: LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings.write(value:to:))
     }
@@ -2468,6 +2477,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.ActiveDirectorySettings {
         var value = LicenseManagerUserSubscriptionsClientTypes.ActiveDirectorySettings()
         value.domainName = try reader["DomainName"].readIfPresent()
         value.domainIpv4List = try reader["DomainIpv4List"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainIpv6List = try reader["DomainIpv6List"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.domainCredentialsProvider = try reader["DomainCredentialsProvider"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.CredentialsProvider.read(from:))
         value.domainNetworkSettings = try reader["DomainNetworkSettings"].readIfPresent(with: LicenseManagerUserSubscriptionsClientTypes.DomainNetworkSettings.read(from:))
         return value
@@ -2554,6 +2564,7 @@ extension LicenseManagerUserSubscriptionsClientTypes.LicenseServer {
         value.provisioningStatus = try reader["ProvisioningStatus"].readIfPresent()
         value.healthStatus = try reader["HealthStatus"].readIfPresent()
         value.ipv4Address = try reader["Ipv4Address"].readIfPresent()
+        value.ipv6Address = try reader["Ipv6Address"].readIfPresent()
         return value
     }
 }

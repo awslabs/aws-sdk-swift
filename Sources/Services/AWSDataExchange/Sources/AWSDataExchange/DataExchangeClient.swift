@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -71,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataExchangeClient: ClientRuntime.Client {
     public static let clientName = "DataExchangeClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: DataExchangeClient.DataExchangeClientConfiguration
     let serviceName = "DataExchange"
@@ -377,9 +378,9 @@ extension DataExchangeClient {
     ///
     /// This operation accepts a data grant.
     ///
-    /// - Parameter AcceptDataGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptDataGrantInput`)
     ///
-    /// - Returns: `AcceptDataGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptDataGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptDataGrantInput, AcceptDataGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptDataGrantOutput>(AcceptDataGrantOutput.httpOutput(from:), AcceptDataGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptDataGrantInput, AcceptDataGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptDataGrantOutput>())
@@ -446,9 +448,9 @@ extension DataExchangeClient {
     ///
     /// This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
     ///
-    /// - Parameter CancelJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +485,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobOutput>())
@@ -514,9 +517,9 @@ extension DataExchangeClient {
     ///
     /// This operation creates a data grant.
     ///
-    /// - Parameter CreateDataGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataGrantInput`)
     ///
-    /// - Returns: `CreateDataGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +558,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataGrantInput, CreateDataGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataGrantOutput>(CreateDataGrantOutput.httpOutput(from:), CreateDataGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataGrantInput, CreateDataGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataGrantOutput>())
@@ -586,9 +590,9 @@ extension DataExchangeClient {
     ///
     /// This operation creates a data set.
     ///
-    /// - Parameter CreateDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSetInput`)
     ///
-    /// - Returns: `CreateDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -626,6 +630,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataSetInput, CreateDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataSetOutput>(CreateDataSetOutput.httpOutput(from:), CreateDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataSetInput, CreateDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataSetOutput>())
@@ -657,9 +662,9 @@ extension DataExchangeClient {
     ///
     /// This operation creates an event action.
     ///
-    /// - Parameter CreateEventActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventActionInput`)
     ///
-    /// - Returns: `CreateEventActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -697,6 +702,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventActionInput, CreateEventActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventActionOutput>(CreateEventActionOutput.httpOutput(from:), CreateEventActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventActionInput, CreateEventActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventActionOutput>())
@@ -728,9 +734,9 @@ extension DataExchangeClient {
     ///
     /// This operation creates a job.
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,6 +775,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -800,9 +807,9 @@ extension DataExchangeClient {
     ///
     /// This operation creates a revision for a data set.
     ///
-    /// - Parameter CreateRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRevisionInput`)
     ///
-    /// - Returns: `CreateRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +847,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRevisionInput, CreateRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRevisionOutput>(CreateRevisionOutput.httpOutput(from:), CreateRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRevisionInput, CreateRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRevisionOutput>())
@@ -871,9 +879,9 @@ extension DataExchangeClient {
     ///
     /// This operation deletes an asset.
     ///
-    /// - Parameter DeleteAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetInput`)
     ///
-    /// - Returns: `DeleteAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -909,6 +917,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetInput, DeleteAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetOutput>(DeleteAssetOutput.httpOutput(from:), DeleteAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetInput, DeleteAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetOutput>())
@@ -940,9 +949,9 @@ extension DataExchangeClient {
     ///
     /// This operation deletes a data grant.
     ///
-    /// - Parameter DeleteDataGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataGrantInput`)
     ///
-    /// - Returns: `DeleteDataGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,6 +986,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataGrantInput, DeleteDataGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataGrantOutput>(DeleteDataGrantOutput.httpOutput(from:), DeleteDataGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataGrantInput, DeleteDataGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataGrantOutput>())
@@ -1008,9 +1018,9 @@ extension DataExchangeClient {
     ///
     /// This operation deletes a data set.
     ///
-    /// - Parameter DeleteDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSetInput`)
     ///
-    /// - Returns: `DeleteDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1046,6 +1056,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataSetInput, DeleteDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSetOutput>(DeleteDataSetOutput.httpOutput(from:), DeleteDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSetInput, DeleteDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSetOutput>())
@@ -1077,9 +1088,9 @@ extension DataExchangeClient {
     ///
     /// This operation deletes the event action.
     ///
-    /// - Parameter DeleteEventActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventActionInput`)
     ///
-    /// - Returns: `DeleteEventActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,6 +1124,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventActionInput, DeleteEventActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventActionOutput>(DeleteEventActionOutput.httpOutput(from:), DeleteEventActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventActionInput, DeleteEventActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventActionOutput>())
@@ -1144,9 +1156,9 @@ extension DataExchangeClient {
     ///
     /// This operation deletes a revision.
     ///
-    /// - Parameter DeleteRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRevisionInput`)
     ///
-    /// - Returns: `DeleteRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1182,6 +1194,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRevisionInput, DeleteRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRevisionOutput>(DeleteRevisionOutput.httpOutput(from:), DeleteRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRevisionInput, DeleteRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRevisionOutput>())
@@ -1213,9 +1226,9 @@ extension DataExchangeClient {
     ///
     /// This operation returns information about an asset.
     ///
-    /// - Parameter GetAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssetInput`)
     ///
-    /// - Returns: `GetAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1249,6 +1262,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssetInput, GetAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssetOutput>(GetAssetOutput.httpOutput(from:), GetAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetInput, GetAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetOutput>())
@@ -1280,9 +1294,9 @@ extension DataExchangeClient {
     ///
     /// This operation returns information about a data grant.
     ///
-    /// - Parameter GetDataGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataGrantInput`)
     ///
-    /// - Returns: `GetDataGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1317,6 +1331,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataGrantInput, GetDataGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataGrantOutput>(GetDataGrantOutput.httpOutput(from:), GetDataGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataGrantInput, GetDataGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataGrantOutput>())
@@ -1348,9 +1363,9 @@ extension DataExchangeClient {
     ///
     /// This operation returns information about a data set.
     ///
-    /// - Parameter GetDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSetInput`)
     ///
-    /// - Returns: `GetDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1384,6 +1399,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataSetInput, GetDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataSetOutput>(GetDataSetOutput.httpOutput(from:), GetDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataSetInput, GetDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataSetOutput>())
@@ -1415,9 +1431,9 @@ extension DataExchangeClient {
     ///
     /// This operation retrieves information about an event action.
     ///
-    /// - Parameter GetEventActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventActionInput`)
     ///
-    /// - Returns: `GetEventActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,6 +1467,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventActionInput, GetEventActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventActionOutput>(GetEventActionOutput.httpOutput(from:), GetEventActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventActionInput, GetEventActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventActionOutput>())
@@ -1482,9 +1499,9 @@ extension DataExchangeClient {
     ///
     /// This operation returns information about a job.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1518,6 +1535,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobInput, GetJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -1549,9 +1567,9 @@ extension DataExchangeClient {
     ///
     /// This operation returns information about a received data grant.
     ///
-    /// - Parameter GetReceivedDataGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReceivedDataGrantInput`)
     ///
-    /// - Returns: `GetReceivedDataGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReceivedDataGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,6 +1604,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReceivedDataGrantInput, GetReceivedDataGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReceivedDataGrantOutput>(GetReceivedDataGrantOutput.httpOutput(from:), GetReceivedDataGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReceivedDataGrantInput, GetReceivedDataGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReceivedDataGrantOutput>())
@@ -1617,9 +1636,9 @@ extension DataExchangeClient {
     ///
     /// This operation returns information about a revision.
     ///
-    /// - Parameter GetRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRevisionInput`)
     ///
-    /// - Returns: `GetRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1653,6 +1672,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRevisionInput, GetRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRevisionOutput>(GetRevisionOutput.httpOutput(from:), GetRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRevisionInput, GetRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRevisionOutput>())
@@ -1684,9 +1704,9 @@ extension DataExchangeClient {
     ///
     /// This operation returns information about all data grants.
     ///
-    /// - Parameter ListDataGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataGrantsInput`)
     ///
-    /// - Returns: `ListDataGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1722,6 +1742,7 @@ extension DataExchangeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataGrantsInput, ListDataGrantsOutput>(ListDataGrantsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataGrantsOutput>(ListDataGrantsOutput.httpOutput(from:), ListDataGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataGrantsInput, ListDataGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataGrantsOutput>())
@@ -1753,9 +1774,9 @@ extension DataExchangeClient {
     ///
     /// This operation lists a data set's revisions sorted by CreatedAt in descending order.
     ///
-    /// - Parameter ListDataSetRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSetRevisionsInput`)
     ///
-    /// - Returns: `ListDataSetRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSetRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1790,6 +1811,7 @@ extension DataExchangeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSetRevisionsInput, ListDataSetRevisionsOutput>(ListDataSetRevisionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSetRevisionsOutput>(ListDataSetRevisionsOutput.httpOutput(from:), ListDataSetRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSetRevisionsInput, ListDataSetRevisionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSetRevisionsOutput>())
@@ -1821,9 +1843,9 @@ extension DataExchangeClient {
     ///
     /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order.
     ///
-    /// - Parameter ListDataSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSetsInput`)
     ///
-    /// - Returns: `ListDataSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1858,6 +1880,7 @@ extension DataExchangeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSetsInput, ListDataSetsOutput>(ListDataSetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSetsOutput>(ListDataSetsOutput.httpOutput(from:), ListDataSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSetsInput, ListDataSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSetsOutput>())
@@ -1889,9 +1912,9 @@ extension DataExchangeClient {
     ///
     /// This operation lists your event actions.
     ///
-    /// - Parameter ListEventActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventActionsInput`)
     ///
-    /// - Returns: `ListEventActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1926,6 +1949,7 @@ extension DataExchangeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventActionsInput, ListEventActionsOutput>(ListEventActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventActionsOutput>(ListEventActionsOutput.httpOutput(from:), ListEventActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventActionsInput, ListEventActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventActionsOutput>())
@@ -1957,9 +1981,9 @@ extension DataExchangeClient {
     ///
     /// This operation lists your jobs sorted by CreatedAt in descending order.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1994,6 +2018,7 @@ extension DataExchangeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -2025,9 +2050,9 @@ extension DataExchangeClient {
     ///
     /// This operation returns information about all received data grants.
     ///
-    /// - Parameter ListReceivedDataGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReceivedDataGrantsInput`)
     ///
-    /// - Returns: `ListReceivedDataGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReceivedDataGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2063,6 +2088,7 @@ extension DataExchangeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReceivedDataGrantsInput, ListReceivedDataGrantsOutput>(ListReceivedDataGrantsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReceivedDataGrantsOutput>(ListReceivedDataGrantsOutput.httpOutput(from:), ListReceivedDataGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReceivedDataGrantsInput, ListReceivedDataGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReceivedDataGrantsOutput>())
@@ -2094,9 +2120,9 @@ extension DataExchangeClient {
     ///
     /// This operation lists a revision's assets sorted alphabetically in descending order.
     ///
-    /// - Parameter ListRevisionAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRevisionAssetsInput`)
     ///
-    /// - Returns: `ListRevisionAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRevisionAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2131,6 +2157,7 @@ extension DataExchangeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRevisionAssetsInput, ListRevisionAssetsOutput>(ListRevisionAssetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRevisionAssetsOutput>(ListRevisionAssetsOutput.httpOutput(from:), ListRevisionAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRevisionAssetsInput, ListRevisionAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRevisionAssetsOutput>())
@@ -2162,9 +2189,9 @@ extension DataExchangeClient {
     ///
     /// This operation lists the tags on the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2190,6 +2217,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2221,9 +2249,9 @@ extension DataExchangeClient {
     ///
     /// This operation revokes subscribers' access to a revision.
     ///
-    /// - Parameter RevokeRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeRevisionInput`)
     ///
-    /// - Returns: `RevokeRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,6 +2290,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeRevisionInput, RevokeRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeRevisionOutput>(RevokeRevisionOutput.httpOutput(from:), RevokeRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeRevisionInput, RevokeRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeRevisionOutput>())
@@ -2293,9 +2322,9 @@ extension DataExchangeClient {
     ///
     /// This operation invokes an API Gateway API asset. The request is proxied to the provider’s API Gateway API.
     ///
-    /// - Parameter SendApiAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendApiAssetInput`)
     ///
-    /// - Returns: `SendApiAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendApiAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2335,6 +2364,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendApiAssetInput, SendApiAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendApiAssetOutput>(SendApiAssetOutput.httpOutput(from:), SendApiAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendApiAssetInput, SendApiAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendApiAssetOutput>())
@@ -2366,9 +2396,9 @@ extension DataExchangeClient {
     ///
     /// The type of event associated with the data set.
     ///
-    /// - Parameter SendDataSetNotificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendDataSetNotificationInput`)
     ///
-    /// - Returns: `SendDataSetNotificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendDataSetNotificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2408,6 +2438,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendDataSetNotificationInput, SendDataSetNotificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDataSetNotificationOutput>(SendDataSetNotificationOutput.httpOutput(from:), SendDataSetNotificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDataSetNotificationInput, SendDataSetNotificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendDataSetNotificationOutput>())
@@ -2439,9 +2470,9 @@ extension DataExchangeClient {
     ///
     /// This operation starts a job.
     ///
-    /// - Parameter StartJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartJobInput`)
     ///
-    /// - Returns: `StartJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2477,6 +2508,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartJobInput, StartJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartJobOutput>(StartJobOutput.httpOutput(from:), StartJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobInput, StartJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartJobOutput>())
@@ -2508,9 +2540,9 @@ extension DataExchangeClient {
     ///
     /// This operation tags a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2539,6 +2571,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2570,9 +2603,9 @@ extension DataExchangeClient {
     ///
     /// This operation removes one or more tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2599,6 +2632,7 @@ extension DataExchangeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2630,9 +2664,9 @@ extension DataExchangeClient {
     ///
     /// This operation updates an asset.
     ///
-    /// - Parameter UpdateAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssetInput`)
     ///
-    /// - Returns: `UpdateAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2671,6 +2705,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetInput, UpdateAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssetOutput>(UpdateAssetOutput.httpOutput(from:), UpdateAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssetInput, UpdateAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssetOutput>())
@@ -2702,9 +2737,9 @@ extension DataExchangeClient {
     ///
     /// This operation updates a data set.
     ///
-    /// - Parameter UpdateDataSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSetInput`)
     ///
-    /// - Returns: `UpdateDataSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2742,6 +2777,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSetInput, UpdateDataSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSetOutput>(UpdateDataSetOutput.httpOutput(from:), UpdateDataSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSetInput, UpdateDataSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSetOutput>())
@@ -2773,9 +2809,9 @@ extension DataExchangeClient {
     ///
     /// This operation updates the event action.
     ///
-    /// - Parameter UpdateEventActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventActionInput`)
     ///
-    /// - Returns: `UpdateEventActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2813,6 +2849,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventActionInput, UpdateEventActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventActionOutput>(UpdateEventActionOutput.httpOutput(from:), UpdateEventActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventActionInput, UpdateEventActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventActionOutput>())
@@ -2844,9 +2881,9 @@ extension DataExchangeClient {
     ///
     /// This operation updates a revision.
     ///
-    /// - Parameter UpdateRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRevisionInput`)
     ///
-    /// - Returns: `UpdateRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2885,6 +2922,7 @@ extension DataExchangeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRevisionInput, UpdateRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRevisionOutput>(UpdateRevisionOutput.httpOutput(from:), UpdateRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRevisionInput, UpdateRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRevisionOutput>())

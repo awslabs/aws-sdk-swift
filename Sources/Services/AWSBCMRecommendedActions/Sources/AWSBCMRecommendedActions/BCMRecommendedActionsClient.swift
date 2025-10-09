@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMRecommendedActionsClient: ClientRuntime.Client {
     public static let clientName = "BCMRecommendedActionsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration
     let serviceName = "BCM Recommended Actions"
@@ -372,9 +373,9 @@ extension BCMRecommendedActionsClient {
     ///
     /// Returns a list of recommended actions that match the filter criteria.
     ///
-    /// - Parameter ListRecommendedActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecommendedActionsInput`)
     ///
-    /// - Returns: `ListRecommendedActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecommendedActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +410,7 @@ extension BCMRecommendedActionsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecommendedActionsOutput>(ListRecommendedActionsOutput.httpOutput(from:), ListRecommendedActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecommendedActionsInput, ListRecommendedActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecommendedActionsOutput>())

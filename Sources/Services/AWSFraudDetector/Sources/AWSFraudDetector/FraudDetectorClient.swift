@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FraudDetectorClient: ClientRuntime.Client {
     public static let clientName = "FraudDetectorClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: FraudDetectorClient.FraudDetectorClientConfiguration
     let serviceName = "FraudDetector"
@@ -372,9 +373,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a batch of variables.
     ///
-    /// - Parameter BatchCreateVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateVariableInput`)
     ///
-    /// - Returns: `BatchCreateVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -409,6 +410,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateVariableOutput>(BatchCreateVariableOutput.httpOutput(from:), BatchCreateVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateVariableInput, BatchCreateVariableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateVariableOutput>())
@@ -443,9 +445,9 @@ extension FraudDetectorClient {
     ///
     /// Gets a batch of variables.
     ///
-    /// - Parameter BatchGetVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetVariableInput`)
     ///
-    /// - Returns: `BatchGetVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,6 +482,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetVariableInput, BatchGetVariableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetVariableOutput>(BatchGetVariableOutput.httpOutput(from:), BatchGetVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetVariableInput, BatchGetVariableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetVariableOutput>())
@@ -514,9 +517,9 @@ extension FraudDetectorClient {
     ///
     /// Cancels an in-progress batch import job.
     ///
-    /// - Parameter CancelBatchImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelBatchImportJobInput`)
     ///
-    /// - Returns: `CancelBatchImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelBatchImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,6 +555,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelBatchImportJobOutput>(CancelBatchImportJobOutput.httpOutput(from:), CancelBatchImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelBatchImportJobInput, CancelBatchImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelBatchImportJobOutput>())
@@ -586,9 +590,9 @@ extension FraudDetectorClient {
     ///
     /// Cancels the specified batch prediction job.
     ///
-    /// - Parameter CancelBatchPredictionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelBatchPredictionJobInput`)
     ///
-    /// - Returns: `CancelBatchPredictionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelBatchPredictionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,6 +628,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelBatchPredictionJobOutput>(CancelBatchPredictionJobOutput.httpOutput(from:), CancelBatchPredictionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelBatchPredictionJobInput, CancelBatchPredictionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelBatchPredictionJobOutput>())
@@ -658,9 +663,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a batch import job.
     ///
-    /// - Parameter CreateBatchImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBatchImportJobInput`)
     ///
-    /// - Returns: `CreateBatchImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBatchImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -696,6 +701,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchImportJobOutput>(CreateBatchImportJobOutput.httpOutput(from:), CreateBatchImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchImportJobInput, CreateBatchImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBatchImportJobOutput>())
@@ -730,9 +736,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a batch prediction job.
     ///
-    /// - Parameter CreateBatchPredictionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBatchPredictionJobInput`)
     ///
-    /// - Returns: `CreateBatchPredictionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBatchPredictionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,6 +774,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBatchPredictionJobOutput>(CreateBatchPredictionJobOutput.httpOutput(from:), CreateBatchPredictionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBatchPredictionJobInput, CreateBatchPredictionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBatchPredictionJobOutput>())
@@ -802,9 +809,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a detector version. The detector version starts in a DRAFT status.
     ///
-    /// - Parameter CreateDetectorVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDetectorVersionInput`)
     ///
-    /// - Returns: `CreateDetectorVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDetectorVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +847,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDetectorVersionOutput>(CreateDetectorVersionOutput.httpOutput(from:), CreateDetectorVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDetectorVersionInput, CreateDetectorVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDetectorVersionOutput>())
@@ -874,9 +882,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a list. List is a set of input data for a variable in your event dataset. You use the input data in a rule that's associated with your detector. For more information, see [Lists](https://docs.aws.amazon.com/frauddetector/latest/ug/lists.html).
     ///
-    /// - Parameter CreateListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateListInput`)
     ///
-    /// - Returns: `CreateListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,6 +919,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateListInput, CreateListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateListOutput>(CreateListOutput.httpOutput(from:), CreateListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateListInput, CreateListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateListOutput>())
@@ -945,9 +954,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a model using the specified model type.
     ///
-    /// - Parameter CreateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelInput`)
     ///
-    /// - Returns: `CreateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -982,6 +991,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelInput, CreateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelOutput>(CreateModelOutput.httpOutput(from:), CreateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelInput, CreateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelOutput>())
@@ -1016,9 +1026,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a version of the model using the specified model type and model id.
     ///
-    /// - Parameter CreateModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelVersionInput`)
     ///
-    /// - Returns: `CreateModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,6 +1064,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelVersionInput, CreateModelVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelVersionOutput>(CreateModelVersionOutput.httpOutput(from:), CreateModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelVersionInput, CreateModelVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelVersionOutput>())
@@ -1088,9 +1099,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a rule for use with the specified detector.
     ///
-    /// - Parameter CreateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleInput`)
     ///
-    /// - Returns: `CreateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,6 +1136,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleInput, CreateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleOutput>(CreateRuleOutput.httpOutput(from:), CreateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleInput, CreateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleOutput>())
@@ -1159,9 +1171,9 @@ extension FraudDetectorClient {
     ///
     /// Creates a variable.
     ///
-    /// - Parameter CreateVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVariableInput`)
     ///
-    /// - Returns: `CreateVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1196,6 +1208,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVariableInput, CreateVariableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVariableOutput>(CreateVariableOutput.httpOutput(from:), CreateVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVariableInput, CreateVariableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVariableOutput>())
@@ -1230,9 +1243,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
     ///
-    /// - Parameter DeleteBatchImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBatchImportJobInput`)
     ///
-    /// - Returns: `DeleteBatchImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBatchImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1267,6 +1280,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBatchImportJobOutput>(DeleteBatchImportJobOutput.httpOutput(from:), DeleteBatchImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBatchImportJobInput, DeleteBatchImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBatchImportJobOutput>())
@@ -1301,9 +1315,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a batch prediction job.
     ///
-    /// - Parameter DeleteBatchPredictionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBatchPredictionJobInput`)
     ///
-    /// - Returns: `DeleteBatchPredictionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBatchPredictionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1338,6 +1352,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBatchPredictionJobOutput>(DeleteBatchPredictionJobOutput.httpOutput(from:), DeleteBatchPredictionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBatchPredictionJobInput, DeleteBatchPredictionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBatchPredictionJobOutput>())
@@ -1372,9 +1387,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the detector. Before deleting a detector, you must first delete all detector versions and rule versions associated with the detector. When you delete a detector, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDetectorInput`)
     ///
-    /// - Returns: `DeleteDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1410,6 +1425,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDetectorInput, DeleteDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDetectorOutput>(DeleteDetectorOutput.httpOutput(from:), DeleteDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDetectorInput, DeleteDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDetectorOutput>())
@@ -1444,9 +1460,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the detector version. You cannot delete detector versions that are in ACTIVE status. When you delete a detector version, Amazon Fraud Detector permanently deletes the detector and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteDetectorVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDetectorVersionInput`)
     ///
-    /// - Returns: `DeleteDetectorVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDetectorVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1483,6 +1499,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDetectorVersionOutput>(DeleteDetectorVersionOutput.httpOutput(from:), DeleteDetectorVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDetectorVersionInput, DeleteDetectorVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDetectorVersionOutput>())
@@ -1517,9 +1534,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes an entity type. You cannot delete an entity type that is included in an event type. When you delete an entity type, Amazon Fraud Detector permanently deletes that entity type and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteEntityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEntityTypeInput`)
     ///
-    /// - Returns: `DeleteEntityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEntityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1555,6 +1572,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEntityTypeOutput>(DeleteEntityTypeOutput.httpOutput(from:), DeleteEntityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEntityTypeInput, DeleteEntityTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEntityTypeOutput>())
@@ -1589,9 +1607,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently deletes that event and the event data is no longer stored in Amazon Fraud Detector. If deleteAuditHistory is True, event data is available through search for up to 30 seconds after the delete operation is completed.
     ///
-    /// - Parameter DeleteEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventInput`)
     ///
-    /// - Returns: `DeleteEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1626,6 +1644,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventInput, DeleteEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventOutput>(DeleteEventOutput.httpOutput(from:), DeleteEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventInput, DeleteEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventOutput>())
@@ -1660,9 +1679,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes an event type. You cannot delete an event type that is used in a detector or a model. When you delete an event type, Amazon Fraud Detector permanently deletes that event type and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteEventTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventTypeInput`)
     ///
-    /// - Returns: `DeleteEventTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1698,6 +1717,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventTypeOutput>(DeleteEventTypeOutput.httpOutput(from:), DeleteEventTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventTypeInput, DeleteEventTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventTypeOutput>())
@@ -1732,9 +1752,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes all events of a particular event type.
     ///
-    /// - Parameter DeleteEventsByEventTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventsByEventTypeInput`)
     ///
-    /// - Returns: `DeleteEventsByEventTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventsByEventTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1771,6 +1791,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventsByEventTypeOutput>(DeleteEventsByEventTypeOutput.httpOutput(from:), DeleteEventsByEventTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventsByEventTypeInput, DeleteEventsByEventTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventsByEventTypeOutput>())
@@ -1805,9 +1826,9 @@ extension FraudDetectorClient {
     ///
     /// Removes a SageMaker model from Amazon Fraud Detector. You can remove an Amazon SageMaker model if it is not associated with a detector version. Removing a SageMaker model disconnects it from Amazon Fraud Detector, but the model remains available in SageMaker.
     ///
-    /// - Parameter DeleteExternalModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExternalModelInput`)
     ///
-    /// - Returns: `DeleteExternalModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExternalModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1843,6 +1864,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExternalModelOutput>(DeleteExternalModelOutput.httpOutput(from:), DeleteExternalModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExternalModelInput, DeleteExternalModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExternalModelOutput>())
@@ -1877,9 +1899,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a label. You cannot delete labels that are included in an event type in Amazon Fraud Detector. You cannot delete a label assigned to an event ID. You must first delete the relevant event ID. When you delete a label, Amazon Fraud Detector permanently deletes that label and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLabelInput`)
     ///
-    /// - Returns: `DeleteLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1914,6 +1936,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLabelInput, DeleteLabelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLabelOutput>(DeleteLabelOutput.httpOutput(from:), DeleteLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLabelInput, DeleteLabelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLabelOutput>())
@@ -1948,9 +1971,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the list, provided it is not used in a rule. When you delete a list, Amazon Fraud Detector permanently deletes that list and the elements in the list.
     ///
-    /// - Parameter DeleteListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteListInput`)
     ///
-    /// - Returns: `DeleteListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1986,6 +2009,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteListInput, DeleteListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteListOutput>(DeleteListOutput.httpOutput(from:), DeleteListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteListInput, DeleteListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteListOutput>())
@@ -2020,9 +2044,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a model. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model, Amazon Fraud Detector permanently deletes that model and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelInput`)
     ///
-    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2058,6 +2082,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelInput, DeleteModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelOutput>(DeleteModelOutput.httpOutput(from:), DeleteModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelInput, DeleteModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelOutput>())
@@ -2092,9 +2117,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a model version. You can delete models and model versions in Amazon Fraud Detector, provided that they are not associated with a detector version. When you delete a model version, Amazon Fraud Detector permanently deletes that model version and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelVersionInput`)
     ///
-    /// - Returns: `DeleteModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2130,6 +2155,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelVersionOutput>(DeleteModelVersionOutput.httpOutput(from:), DeleteModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelVersionInput, DeleteModelVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelVersionOutput>())
@@ -2164,9 +2190,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes an outcome. You cannot delete an outcome that is used in a rule version. When you delete an outcome, Amazon Fraud Detector permanently deletes that outcome and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteOutcomeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOutcomeInput`)
     ///
-    /// - Returns: `DeleteOutcomeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOutcomeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2202,6 +2228,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOutcomeOutput>(DeleteOutcomeOutput.httpOutput(from:), DeleteOutcomeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOutcomeInput, DeleteOutcomeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOutcomeOutput>())
@@ -2236,9 +2263,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes the rule. You cannot delete a rule if it is used by an ACTIVE or INACTIVE detector version. When you delete a rule, Amazon Fraud Detector permanently deletes that rule and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleInput`)
     ///
-    /// - Returns: `DeleteRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2274,6 +2301,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleInput, DeleteRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleOutput>())
@@ -2308,9 +2336,9 @@ extension FraudDetectorClient {
     ///
     /// Deletes a variable. You can't delete variables that are included in an event type in Amazon Fraud Detector. Amazon Fraud Detector automatically deletes model output variables and SageMaker model output variables when you delete the model. You can't delete these variables manually. When you delete a variable, Amazon Fraud Detector permanently deletes that variable and the data is no longer stored in Amazon Fraud Detector.
     ///
-    /// - Parameter DeleteVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVariableInput`)
     ///
-    /// - Returns: `DeleteVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2346,6 +2374,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVariableInput, DeleteVariableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVariableOutput>(DeleteVariableOutput.httpOutput(from:), DeleteVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVariableInput, DeleteVariableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVariableOutput>())
@@ -2380,9 +2409,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all versions for a specified detector.
     ///
-    /// - Parameter DescribeDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDetectorInput`)
     ///
-    /// - Returns: `DescribeDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2418,6 +2447,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDetectorInput, DescribeDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDetectorOutput>(DescribeDetectorOutput.httpOutput(from:), DescribeDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDetectorInput, DescribeDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDetectorOutput>())
@@ -2452,9 +2482,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all of the model versions for the specified model type or for the specified model type and model ID. You can also get details for a single, specified model version.
     ///
-    /// - Parameter DescribeModelVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelVersionsInput`)
     ///
-    /// - Returns: `DescribeModelVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2490,6 +2520,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelVersionsOutput>(DescribeModelVersionsOutput.httpOutput(from:), DescribeModelVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelVersionsInput, DescribeModelVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelVersionsOutput>())
@@ -2524,9 +2555,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all batch import jobs or a specific job of the specified ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchImportJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetBatchImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBatchImportJobsInput`)
     ///
-    /// - Returns: `GetBatchImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBatchImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2562,6 +2593,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBatchImportJobsOutput>(GetBatchImportJobsOutput.httpOutput(from:), GetBatchImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBatchImportJobsInput, GetBatchImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBatchImportJobsOutput>())
@@ -2596,9 +2628,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all batch prediction jobs or a specific job if you specify a job ID. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 1 and 50. To get the next page results, provide the pagination token from the GetBatchPredictionJobsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetBatchPredictionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBatchPredictionJobsInput`)
     ///
-    /// - Returns: `GetBatchPredictionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBatchPredictionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2634,6 +2666,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBatchPredictionJobsOutput>(GetBatchPredictionJobsOutput.httpOutput(from:), GetBatchPredictionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBatchPredictionJobsInput, GetBatchPredictionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBatchPredictionJobsOutput>())
@@ -2668,9 +2701,9 @@ extension FraudDetectorClient {
     ///
     /// Retrieves the status of a DeleteEventsByEventType action.
     ///
-    /// - Parameter GetDeleteEventsByEventTypeStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeleteEventsByEventTypeStatusInput`)
     ///
-    /// - Returns: `GetDeleteEventsByEventTypeStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeleteEventsByEventTypeStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2706,6 +2739,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeleteEventsByEventTypeStatusOutput>(GetDeleteEventsByEventTypeStatusOutput.httpOutput(from:), GetDeleteEventsByEventTypeStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeleteEventsByEventTypeStatusInput, GetDeleteEventsByEventTypeStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeleteEventsByEventTypeStatusOutput>())
@@ -2740,9 +2774,9 @@ extension FraudDetectorClient {
     ///
     /// Gets a particular detector version.
     ///
-    /// - Parameter GetDetectorVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDetectorVersionInput`)
     ///
-    /// - Returns: `GetDetectorVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDetectorVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2778,6 +2812,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDetectorVersionOutput>(GetDetectorVersionOutput.httpOutput(from:), GetDetectorVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDetectorVersionInput, GetDetectorVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDetectorVersionOutput>())
@@ -2812,9 +2847,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all detectors or a single detector if a detectorId is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetDetectorsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDetectorsInput`)
     ///
-    /// - Returns: `GetDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2850,6 +2885,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDetectorsInput, GetDetectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDetectorsOutput>(GetDetectorsOutput.httpOutput(from:), GetDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDetectorsInput, GetDetectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDetectorsOutput>())
@@ -2884,9 +2920,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all entity types or a specific entity type if a name is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEntityTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetEntityTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEntityTypesInput`)
     ///
-    /// - Returns: `GetEntityTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEntityTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2922,6 +2958,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEntityTypesInput, GetEntityTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEntityTypesOutput>(GetEntityTypesOutput.httpOutput(from:), GetEntityTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEntityTypesInput, GetEntityTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEntityTypesOutput>())
@@ -2956,9 +2993,9 @@ extension FraudDetectorClient {
     ///
     /// Retrieves details of events stored with Amazon Fraud Detector. This action does not retrieve prediction results.
     ///
-    /// - Parameter GetEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventInput`)
     ///
-    /// - Returns: `GetEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2994,6 +3031,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventInput, GetEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventOutput>(GetEventOutput.httpOutput(from:), GetEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventInput, GetEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventOutput>())
@@ -3028,9 +3066,9 @@ extension FraudDetectorClient {
     ///
     /// Evaluates an event against a detector version. If a version ID is not provided, the detector’s (ACTIVE) version is used.
     ///
-    /// - Parameter GetEventPredictionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventPredictionInput`)
     ///
-    /// - Returns: `GetEventPredictionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventPredictionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3068,6 +3106,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventPredictionInput, GetEventPredictionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventPredictionOutput>(GetEventPredictionOutput.httpOutput(from:), GetEventPredictionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventPredictionInput, GetEventPredictionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventPredictionOutput>())
@@ -3102,9 +3141,9 @@ extension FraudDetectorClient {
     ///
     /// Gets details of the past fraud predictions for the specified event ID, event type, detector ID, and detector version ID that was generated in the specified time period.
     ///
-    /// - Parameter GetEventPredictionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventPredictionMetadataInput`)
     ///
-    /// - Returns: `GetEventPredictionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventPredictionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3140,6 +3179,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventPredictionMetadataOutput>(GetEventPredictionMetadataOutput.httpOutput(from:), GetEventPredictionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventPredictionMetadataInput, GetEventPredictionMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventPredictionMetadataOutput>())
@@ -3174,9 +3214,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all event types or a specific event type if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetEventTypesResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetEventTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventTypesInput`)
     ///
-    /// - Returns: `GetEventTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3212,6 +3252,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEventTypesInput, GetEventTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventTypesOutput>(GetEventTypesOutput.httpOutput(from:), GetEventTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventTypesInput, GetEventTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventTypesOutput>())
@@ -3246,9 +3287,9 @@ extension FraudDetectorClient {
     ///
     /// Gets the details for one or more Amazon SageMaker models that have been imported into the service. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 5 and 10. To get the next page results, provide the pagination token from the GetExternalModelsResult as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetExternalModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExternalModelsInput`)
     ///
-    /// - Returns: `GetExternalModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExternalModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3284,6 +3325,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExternalModelsInput, GetExternalModelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExternalModelsOutput>(GetExternalModelsOutput.httpOutput(from:), GetExternalModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExternalModelsInput, GetExternalModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExternalModelsOutput>())
@@ -3318,9 +3360,9 @@ extension FraudDetectorClient {
     ///
     /// Gets the encryption key if a KMS key has been specified to be used to encrypt content in Amazon Fraud Detector.
     ///
-    /// - Parameter GetKMSEncryptionKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKMSEncryptionKeyInput`)
     ///
-    /// - Returns: `GetKMSEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKMSEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3355,6 +3397,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKMSEncryptionKeyOutput>(GetKMSEncryptionKeyOutput.httpOutput(from:), GetKMSEncryptionKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKMSEncryptionKeyInput, GetKMSEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKMSEncryptionKeyOutput>())
@@ -3389,9 +3432,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all labels or a specific label if name is provided. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 50 records per page. If you provide a maxResults, the value must be between 10 and 50. To get the next page results, provide the pagination token from the GetGetLabelsResponse as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLabelsInput`)
     ///
-    /// - Returns: `GetLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3427,6 +3470,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLabelsInput, GetLabelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLabelsOutput>(GetLabelsOutput.httpOutput(from:), GetLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLabelsInput, GetLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLabelsOutput>())
@@ -3461,9 +3505,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all the elements in the specified list.
     ///
-    /// - Parameter GetListElementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetListElementsInput`)
     ///
-    /// - Returns: `GetListElementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetListElementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3499,6 +3543,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetListElementsInput, GetListElementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetListElementsOutput>(GetListElementsOutput.httpOutput(from:), GetListElementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetListElementsInput, GetListElementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetListElementsOutput>())
@@ -3533,9 +3578,9 @@ extension FraudDetectorClient {
     ///
     /// Gets the metadata of either all the lists under the account or the specified list.
     ///
-    /// - Parameter GetListsMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetListsMetadataInput`)
     ///
-    /// - Returns: `GetListsMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetListsMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3571,6 +3616,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetListsMetadataInput, GetListsMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetListsMetadataOutput>(GetListsMetadataOutput.httpOutput(from:), GetListsMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetListsMetadataInput, GetListsMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetListsMetadataOutput>())
@@ -3605,9 +3651,9 @@ extension FraudDetectorClient {
     ///
     /// Gets the details of the specified model version.
     ///
-    /// - Parameter GetModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelVersionInput`)
     ///
-    /// - Returns: `GetModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3643,6 +3689,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetModelVersionInput, GetModelVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelVersionOutput>(GetModelVersionOutput.httpOutput(from:), GetModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelVersionInput, GetModelVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelVersionOutput>())
@@ -3677,9 +3724,9 @@ extension FraudDetectorClient {
     ///
     /// Gets one or more models. Gets all models for the Amazon Web Services account if no model type and no model id provided. Gets all models for the Amazon Web Services account and model type, if the model type is specified but model id is not provided. Gets a specific model if (model type, model id) tuple is specified. This is a paginated API. If you provide a null maxResults, this action retrieves a maximum of 10 records per page. If you provide a maxResults, the value must be between 1 and 10. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetModelsInput`)
     ///
-    /// - Returns: `GetModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3715,6 +3762,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetModelsInput, GetModelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetModelsOutput>(GetModelsOutput.httpOutput(from:), GetModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetModelsInput, GetModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetModelsOutput>())
@@ -3749,9 +3797,9 @@ extension FraudDetectorClient {
     ///
     /// Gets one or more outcomes. This is a paginated API. If you provide a null maxResults, this actions retrieves a maximum of 100 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the pagination token from the GetOutcomesResult as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetOutcomesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOutcomesInput`)
     ///
-    /// - Returns: `GetOutcomesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOutcomesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3787,6 +3835,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOutcomesInput, GetOutcomesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutcomesOutput>(GetOutcomesOutput.httpOutput(from:), GetOutcomesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutcomesInput, GetOutcomesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOutcomesOutput>())
@@ -3821,9 +3870,9 @@ extension FraudDetectorClient {
     ///
     /// Get all rules for a detector (paginated) if ruleId and ruleVersion are not specified. Gets all rules for the detector and the ruleId if present (paginated). Gets a specific rule if both the ruleId and the ruleVersion are specified. This is a paginated API. Providing null maxResults results in retrieving maximum of 100 records per page. If you provide maxResults the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetRulesResult as part of your request. Null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRulesInput`)
     ///
-    /// - Returns: `GetRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3859,6 +3908,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRulesInput, GetRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRulesOutput>(GetRulesOutput.httpOutput(from:), GetRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRulesInput, GetRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRulesOutput>())
@@ -3893,9 +3943,9 @@ extension FraudDetectorClient {
     ///
     /// Gets all of the variables or the specific variable. This is a paginated API. Providing null maxSizePerPage results in retrieving maximum of 100 records per page. If you provide maxSizePerPage the value must be between 50 and 100. To get the next page result, a provide a pagination token from GetVariablesResult as part of your request. Null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter GetVariablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVariablesInput`)
     ///
-    /// - Returns: `GetVariablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVariablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3931,6 +3981,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetVariablesInput, GetVariablesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVariablesOutput>(GetVariablesOutput.httpOutput(from:), GetVariablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVariablesInput, GetVariablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVariablesOutput>())
@@ -3965,9 +4016,9 @@ extension FraudDetectorClient {
     ///
     /// Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period. If filter is not specified, the most recent prediction is returned. For example, the following filter lists all past predictions for xyz event type - { "eventType":{ "value": "xyz" }” }  This is a paginated API. If you provide a null maxResults, this action will retrieve a maximum of 10 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the nextToken from the response as part of your request. A null nextToken fetches the records from the beginning.
     ///
-    /// - Parameter ListEventPredictionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventPredictionsInput`)
     ///
-    /// - Returns: `ListEventPredictionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventPredictionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4002,6 +4053,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventPredictionsOutput>(ListEventPredictionsOutput.httpOutput(from:), ListEventPredictionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventPredictionsInput, ListEventPredictionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventPredictionsOutput>())
@@ -4036,9 +4088,9 @@ extension FraudDetectorClient {
     ///
     /// Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4073,6 +4125,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4107,9 +4160,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates a detector.
     ///
-    /// - Parameter PutDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDetectorInput`)
     ///
-    /// - Returns: `PutDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4145,6 +4198,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDetectorInput, PutDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDetectorOutput>(PutDetectorOutput.httpOutput(from:), PutDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDetectorInput, PutDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDetectorOutput>())
@@ -4179,9 +4233,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates an entity type. An entity represents who is performing the event. As part of a fraud prediction, you pass the entity ID to indicate the specific entity who performed the event. An entity type classifies the entity. Example classifications include customer, merchant, or account.
     ///
-    /// - Parameter PutEntityTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEntityTypeInput`)
     ///
-    /// - Returns: `PutEntityTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEntityTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4217,6 +4271,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEntityTypeInput, PutEntityTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEntityTypeOutput>(PutEntityTypeOutput.httpOutput(from:), PutEntityTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEntityTypeInput, PutEntityTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEntityTypeOutput>())
@@ -4251,9 +4306,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates an event type. An event is a business activity that is evaluated for fraud risk. With Amazon Fraud Detector, you generate fraud predictions for events. An event type defines the structure for an event sent to Amazon Fraud Detector. This includes the variables sent as part of the event, the entity performing the event (such as a customer), and the labels that classify the event. Example event types include online payment transactions, account registrations, and authentications.
     ///
-    /// - Parameter PutEventTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEventTypeInput`)
     ///
-    /// - Returns: `PutEventTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEventTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4289,6 +4344,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEventTypeInput, PutEventTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEventTypeOutput>(PutEventTypeOutput.httpOutput(from:), PutEventTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEventTypeInput, PutEventTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEventTypeOutput>())
@@ -4323,9 +4379,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates an Amazon SageMaker model endpoint. You can also use this action to update the configuration of the model endpoint, including the IAM role and/or the mapped variables.
     ///
-    /// - Parameter PutExternalModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutExternalModelInput`)
     ///
-    /// - Returns: `PutExternalModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutExternalModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4361,6 +4417,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutExternalModelInput, PutExternalModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutExternalModelOutput>(PutExternalModelOutput.httpOutput(from:), PutExternalModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutExternalModelInput, PutExternalModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutExternalModelOutput>())
@@ -4395,9 +4452,9 @@ extension FraudDetectorClient {
     ///
     /// Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
     ///
-    /// - Parameter PutKMSEncryptionKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutKMSEncryptionKeyInput`)
     ///
-    /// - Returns: `PutKMSEncryptionKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutKMSEncryptionKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4434,6 +4491,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutKMSEncryptionKeyOutput>(PutKMSEncryptionKeyOutput.httpOutput(from:), PutKMSEncryptionKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutKMSEncryptionKeyInput, PutKMSEncryptionKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutKMSEncryptionKeyOutput>())
@@ -4468,9 +4526,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates label. A label classifies an event as fraudulent or legitimate. Labels are associated with event types and used to train supervised machine learning models in Amazon Fraud Detector.
     ///
-    /// - Parameter PutLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLabelInput`)
     ///
-    /// - Returns: `PutLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4506,6 +4564,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLabelInput, PutLabelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLabelOutput>(PutLabelOutput.httpOutput(from:), PutLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLabelInput, PutLabelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLabelOutput>())
@@ -4540,9 +4599,9 @@ extension FraudDetectorClient {
     ///
     /// Creates or updates an outcome.
     ///
-    /// - Parameter PutOutcomeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutOutcomeInput`)
     ///
-    /// - Returns: `PutOutcomeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutOutcomeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4578,6 +4637,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOutcomeInput, PutOutcomeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutOutcomeOutput>(PutOutcomeOutput.httpOutput(from:), PutOutcomeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOutcomeInput, PutOutcomeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOutcomeOutput>())
@@ -4612,9 +4672,9 @@ extension FraudDetectorClient {
     ///
     /// Stores events in Amazon Fraud Detector without generating fraud predictions for those events. For example, you can use SendEvent to upload a historical dataset, which you can then later use to train a model.
     ///
-    /// - Parameter SendEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendEventInput`)
     ///
-    /// - Returns: `SendEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4651,6 +4711,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendEventInput, SendEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendEventOutput>(SendEventOutput.httpOutput(from:), SendEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendEventInput, SendEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendEventOutput>())
@@ -4685,9 +4746,9 @@ extension FraudDetectorClient {
     ///
     /// Assigns tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4722,6 +4783,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4756,9 +4818,9 @@ extension FraudDetectorClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4793,6 +4855,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4827,9 +4890,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a detector version. The detector version attributes that you can update include models, external model endpoints, rules, rule execution mode, and description. You can only update a DRAFT detector version.
     ///
-    /// - Parameter UpdateDetectorVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorVersionInput`)
     ///
-    /// - Returns: `UpdateDetectorVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4866,6 +4929,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorVersionOutput>(UpdateDetectorVersionOutput.httpOutput(from:), UpdateDetectorVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorVersionInput, UpdateDetectorVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDetectorVersionOutput>())
@@ -4900,9 +4964,9 @@ extension FraudDetectorClient {
     ///
     /// Updates the detector version's description. You can update the metadata for any detector version (DRAFT, ACTIVE, or INACTIVE).
     ///
-    /// - Parameter UpdateDetectorVersionMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorVersionMetadataInput`)
     ///
-    /// - Returns: `UpdateDetectorVersionMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorVersionMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4938,6 +5002,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorVersionMetadataOutput>(UpdateDetectorVersionMetadataOutput.httpOutput(from:), UpdateDetectorVersionMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorVersionMetadataInput, UpdateDetectorVersionMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDetectorVersionMetadataOutput>())
@@ -4972,9 +5037,9 @@ extension FraudDetectorClient {
     ///
     /// Updates the detector version’s status. You can perform the following promotions or demotions using UpdateDetectorVersionStatus: DRAFT to ACTIVE, ACTIVE to INACTIVE, and INACTIVE to ACTIVE.
     ///
-    /// - Parameter UpdateDetectorVersionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorVersionStatusInput`)
     ///
-    /// - Returns: `UpdateDetectorVersionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorVersionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5011,6 +5076,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorVersionStatusOutput>(UpdateDetectorVersionStatusOutput.httpOutput(from:), UpdateDetectorVersionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorVersionStatusInput, UpdateDetectorVersionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDetectorVersionStatusOutput>())
@@ -5045,9 +5111,9 @@ extension FraudDetectorClient {
     ///
     /// Updates the specified event with a new label.
     ///
-    /// - Parameter UpdateEventLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventLabelInput`)
     ///
-    /// - Returns: `UpdateEventLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5084,6 +5150,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventLabelOutput>(UpdateEventLabelOutput.httpOutput(from:), UpdateEventLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventLabelInput, UpdateEventLabelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventLabelOutput>())
@@ -5118,9 +5185,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a list.
     ///
-    /// - Parameter UpdateListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateListInput`)
     ///
-    /// - Returns: `UpdateListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5157,6 +5224,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateListInput, UpdateListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateListOutput>(UpdateListOutput.httpOutput(from:), UpdateListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateListInput, UpdateListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateListOutput>())
@@ -5191,9 +5259,9 @@ extension FraudDetectorClient {
     ///
     /// Updates model description.
     ///
-    /// - Parameter UpdateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelInput`)
     ///
-    /// - Returns: `UpdateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5230,6 +5298,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelInput, UpdateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelOutput>(UpdateModelOutput.httpOutput(from:), UpdateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelInput, UpdateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelOutput>())
@@ -5264,9 +5333,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a model version. Updating a model version retrains an existing model version using updated training data and produces a new minor version of the model. You can update the training data set location and data access role attributes using this action. This action creates and trains a new minor version of the model, for example version 1.01, 1.02, 1.03.
     ///
-    /// - Parameter UpdateModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelVersionInput`)
     ///
-    /// - Returns: `UpdateModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5303,6 +5372,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelVersionOutput>(UpdateModelVersionOutput.httpOutput(from:), UpdateModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelVersionInput, UpdateModelVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelVersionOutput>())
@@ -5343,9 +5413,9 @@ extension FraudDetectorClient {
     ///
     /// * Change ACTIVE to INACTIVE.
     ///
-    /// - Parameter UpdateModelVersionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelVersionStatusInput`)
     ///
-    /// - Returns: `UpdateModelVersionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelVersionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5382,6 +5452,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelVersionStatusOutput>(UpdateModelVersionStatusOutput.httpOutput(from:), UpdateModelVersionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelVersionStatusInput, UpdateModelVersionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelVersionStatusOutput>())
@@ -5416,9 +5487,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a rule's metadata. The description attribute can be updated.
     ///
-    /// - Parameter UpdateRuleMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleMetadataInput`)
     ///
-    /// - Returns: `UpdateRuleMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5455,6 +5526,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleMetadataOutput>(UpdateRuleMetadataOutput.httpOutput(from:), UpdateRuleMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleMetadataInput, UpdateRuleMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleMetadataOutput>())
@@ -5489,9 +5561,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a rule version resulting in a new rule version. Updates a rule version resulting in a new rule version (version 1, 2, 3 ...).
     ///
-    /// - Parameter UpdateRuleVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleVersionInput`)
     ///
-    /// - Returns: `UpdateRuleVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5528,6 +5600,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleVersionOutput>(UpdateRuleVersionOutput.httpOutput(from:), UpdateRuleVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleVersionInput, UpdateRuleVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleVersionOutput>())
@@ -5562,9 +5635,9 @@ extension FraudDetectorClient {
     ///
     /// Updates a variable.
     ///
-    /// - Parameter UpdateVariableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVariableInput`)
     ///
-    /// - Returns: `UpdateVariableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVariableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5601,6 +5674,7 @@ extension FraudDetectorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVariableInput, UpdateVariableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVariableOutput>(UpdateVariableOutput.httpOutput(from:), UpdateVariableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVariableInput, UpdateVariableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVariableOutput>())

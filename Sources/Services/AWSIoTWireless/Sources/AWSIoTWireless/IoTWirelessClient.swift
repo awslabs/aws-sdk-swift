@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -70,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTWirelessClient: ClientRuntime.Client {
     public static let clientName = "IoTWirelessClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTWirelessClient.IoTWirelessClientConfiguration
     let serviceName = "IoT Wireless"
@@ -376,9 +377,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a partner account with your AWS account.
     ///
-    /// - Parameter AssociateAwsAccountWithPartnerAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAwsAccountWithPartnerAccountInput`)
     ///
-    /// - Returns: `AssociateAwsAccountWithPartnerAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAwsAccountWithPartnerAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +419,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAwsAccountWithPartnerAccountOutput>(AssociateAwsAccountWithPartnerAccountOutput.httpOutput(from:), AssociateAwsAccountWithPartnerAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAwsAccountWithPartnerAccountInput, AssociateAwsAccountWithPartnerAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAwsAccountWithPartnerAccountOutput>())
@@ -449,9 +451,9 @@ extension IoTWirelessClient {
     ///
     /// Associate a multicast group with a FUOTA task.
     ///
-    /// - Parameter AssociateMulticastGroupWithFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMulticastGroupWithFuotaTaskInput`)
     ///
-    /// - Returns: `AssociateMulticastGroupWithFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMulticastGroupWithFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,6 +492,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMulticastGroupWithFuotaTaskOutput>(AssociateMulticastGroupWithFuotaTaskOutput.httpOutput(from:), AssociateMulticastGroupWithFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMulticastGroupWithFuotaTaskInput, AssociateMulticastGroupWithFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMulticastGroupWithFuotaTaskOutput>())
@@ -521,9 +524,9 @@ extension IoTWirelessClient {
     ///
     /// Associate a wireless device with a FUOTA task.
     ///
-    /// - Parameter AssociateWirelessDeviceWithFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessDeviceWithFuotaTaskInput`)
     ///
-    /// - Returns: `AssociateWirelessDeviceWithFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessDeviceWithFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +565,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithFuotaTaskOutput>(AssociateWirelessDeviceWithFuotaTaskOutput.httpOutput(from:), AssociateWirelessDeviceWithFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithFuotaTaskInput, AssociateWirelessDeviceWithFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWirelessDeviceWithFuotaTaskOutput>())
@@ -593,9 +597,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a wireless device with a multicast group.
     ///
-    /// - Parameter AssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessDeviceWithMulticastGroupInput`)
     ///
-    /// - Returns: `AssociateWirelessDeviceWithMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessDeviceWithMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithMulticastGroupOutput>(AssociateWirelessDeviceWithMulticastGroupOutput.httpOutput(from:), AssociateWirelessDeviceWithMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithMulticastGroupInput, AssociateWirelessDeviceWithMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWirelessDeviceWithMulticastGroupOutput>())
@@ -665,9 +670,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a wireless device with a thing.
     ///
-    /// - Parameter AssociateWirelessDeviceWithThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessDeviceWithThingInput`)
     ///
-    /// - Returns: `AssociateWirelessDeviceWithThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessDeviceWithThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,6 +711,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWirelessDeviceWithThingOutput>(AssociateWirelessDeviceWithThingOutput.httpOutput(from:), AssociateWirelessDeviceWithThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWirelessDeviceWithThingInput, AssociateWirelessDeviceWithThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWirelessDeviceWithThingOutput>())
@@ -737,9 +743,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a wireless gateway with a certificate.
     ///
-    /// - Parameter AssociateWirelessGatewayWithCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessGatewayWithCertificateInput`)
     ///
-    /// - Returns: `AssociateWirelessGatewayWithCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessGatewayWithCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -778,6 +784,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWirelessGatewayWithCertificateOutput>(AssociateWirelessGatewayWithCertificateOutput.httpOutput(from:), AssociateWirelessGatewayWithCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWirelessGatewayWithCertificateInput, AssociateWirelessGatewayWithCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWirelessGatewayWithCertificateOutput>())
@@ -809,9 +816,9 @@ extension IoTWirelessClient {
     ///
     /// Associates a wireless gateway with a thing.
     ///
-    /// - Parameter AssociateWirelessGatewayWithThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWirelessGatewayWithThingInput`)
     ///
-    /// - Returns: `AssociateWirelessGatewayWithThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWirelessGatewayWithThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,6 +857,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWirelessGatewayWithThingOutput>(AssociateWirelessGatewayWithThingOutput.httpOutput(from:), AssociateWirelessGatewayWithThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWirelessGatewayWithThingInput, AssociateWirelessGatewayWithThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWirelessGatewayWithThingOutput>())
@@ -881,9 +889,9 @@ extension IoTWirelessClient {
     ///
     /// Cancels an existing multicast group session.
     ///
-    /// - Parameter CancelMulticastGroupSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMulticastGroupSessionInput`)
     ///
-    /// - Returns: `CancelMulticastGroupSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMulticastGroupSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -919,6 +927,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelMulticastGroupSessionInput, CancelMulticastGroupSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMulticastGroupSessionOutput>(CancelMulticastGroupSessionOutput.httpOutput(from:), CancelMulticastGroupSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMulticastGroupSessionInput, CancelMulticastGroupSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMulticastGroupSessionOutput>())
@@ -950,9 +959,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a new destination that maps a device message to an AWS IoT rule.
     ///
-    /// - Parameter CreateDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDestinationInput`)
     ///
-    /// - Returns: `CreateDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -992,6 +1001,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDestinationInput, CreateDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDestinationOutput>(CreateDestinationOutput.httpOutput(from:), CreateDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDestinationInput, CreateDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDestinationOutput>())
@@ -1023,9 +1033,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a new device profile.
     ///
-    /// - Parameter CreateDeviceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeviceProfileInput`)
     ///
-    /// - Returns: `CreateDeviceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeviceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1064,6 +1074,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeviceProfileOutput>(CreateDeviceProfileOutput.httpOutput(from:), CreateDeviceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeviceProfileInput, CreateDeviceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeviceProfileOutput>())
@@ -1095,9 +1106,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a FUOTA task.
     ///
-    /// - Parameter CreateFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFuotaTaskInput`)
     ///
-    /// - Returns: `CreateFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1137,6 +1148,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFuotaTaskOutput>(CreateFuotaTaskOutput.httpOutput(from:), CreateFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFuotaTaskInput, CreateFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFuotaTaskOutput>())
@@ -1168,9 +1180,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a multicast group.
     ///
-    /// - Parameter CreateMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMulticastGroupInput`)
     ///
-    /// - Returns: `CreateMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1210,6 +1222,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMulticastGroupOutput>(CreateMulticastGroupOutput.httpOutput(from:), CreateMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMulticastGroupInput, CreateMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMulticastGroupOutput>())
@@ -1241,9 +1254,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a new network analyzer configuration.
     ///
-    /// - Parameter CreateNetworkAnalyzerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNetworkAnalyzerConfigurationInput`)
     ///
-    /// - Returns: `CreateNetworkAnalyzerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNetworkAnalyzerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1283,6 +1296,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNetworkAnalyzerConfigurationOutput>(CreateNetworkAnalyzerConfigurationOutput.httpOutput(from:), CreateNetworkAnalyzerConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNetworkAnalyzerConfigurationInput, CreateNetworkAnalyzerConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNetworkAnalyzerConfigurationOutput>())
@@ -1314,9 +1328,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a new service profile.
     ///
-    /// - Parameter CreateServiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceProfileInput`)
     ///
-    /// - Returns: `CreateServiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1355,6 +1369,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceProfileOutput>(CreateServiceProfileOutput.httpOutput(from:), CreateServiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceProfileInput, CreateServiceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceProfileOutput>())
@@ -1386,9 +1401,9 @@ extension IoTWirelessClient {
     ///
     /// Provisions a wireless device.
     ///
-    /// - Parameter CreateWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWirelessDeviceInput`)
     ///
-    /// - Returns: `CreateWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1428,6 +1443,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWirelessDeviceOutput>(CreateWirelessDeviceOutput.httpOutput(from:), CreateWirelessDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWirelessDeviceInput, CreateWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWirelessDeviceOutput>())
@@ -1466,9 +1482,9 @@ extension IoTWirelessClient {
     ///
     /// To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     ///
-    /// - Parameter CreateWirelessGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWirelessGatewayInput`)
     ///
-    /// - Returns: `CreateWirelessGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWirelessGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1507,6 +1523,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayOutput>(CreateWirelessGatewayOutput.httpOutput(from:), CreateWirelessGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWirelessGatewayInput, CreateWirelessGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWirelessGatewayOutput>())
@@ -1538,9 +1555,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a task for a wireless gateway.
     ///
-    /// - Parameter CreateWirelessGatewayTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWirelessGatewayTaskInput`)
     ///
-    /// - Returns: `CreateWirelessGatewayTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWirelessGatewayTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1579,6 +1596,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayTaskOutput>(CreateWirelessGatewayTaskOutput.httpOutput(from:), CreateWirelessGatewayTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWirelessGatewayTaskInput, CreateWirelessGatewayTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWirelessGatewayTaskOutput>())
@@ -1610,9 +1628,9 @@ extension IoTWirelessClient {
     ///
     /// Creates a gateway task definition.
     ///
-    /// - Parameter CreateWirelessGatewayTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWirelessGatewayTaskDefinitionInput`)
     ///
-    /// - Returns: `CreateWirelessGatewayTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWirelessGatewayTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1652,6 +1670,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWirelessGatewayTaskDefinitionOutput>(CreateWirelessGatewayTaskDefinitionOutput.httpOutput(from:), CreateWirelessGatewayTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWirelessGatewayTaskDefinitionInput, CreateWirelessGatewayTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWirelessGatewayTaskDefinitionOutput>())
@@ -1683,9 +1702,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a destination.
     ///
-    /// - Parameter DeleteDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDestinationInput`)
     ///
-    /// - Returns: `DeleteDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,6 +1740,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDestinationInput, DeleteDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDestinationOutput>(DeleteDestinationOutput.httpOutput(from:), DeleteDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDestinationInput, DeleteDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDestinationOutput>())
@@ -1752,9 +1772,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a device profile.
     ///
-    /// - Parameter DeleteDeviceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceProfileInput`)
     ///
-    /// - Returns: `DeleteDeviceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1790,6 +1810,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeviceProfileInput, DeleteDeviceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeviceProfileOutput>(DeleteDeviceProfileOutput.httpOutput(from:), DeleteDeviceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeviceProfileInput, DeleteDeviceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeviceProfileOutput>())
@@ -1821,9 +1842,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a FUOTA task.
     ///
-    /// - Parameter DeleteFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFuotaTaskInput`)
     ///
-    /// - Returns: `DeleteFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1858,6 +1879,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFuotaTaskInput, DeleteFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFuotaTaskOutput>(DeleteFuotaTaskOutput.httpOutput(from:), DeleteFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFuotaTaskInput, DeleteFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFuotaTaskOutput>())
@@ -1889,9 +1911,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a multicast group if it is not in use by a FUOTA task.
     ///
-    /// - Parameter DeleteMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMulticastGroupInput`)
     ///
-    /// - Returns: `DeleteMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1927,6 +1949,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMulticastGroupInput, DeleteMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMulticastGroupOutput>(DeleteMulticastGroupOutput.httpOutput(from:), DeleteMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMulticastGroupInput, DeleteMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMulticastGroupOutput>())
@@ -1958,9 +1981,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a network analyzer configuration.
     ///
-    /// - Parameter DeleteNetworkAnalyzerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNetworkAnalyzerConfigurationInput`)
     ///
-    /// - Returns: `DeleteNetworkAnalyzerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNetworkAnalyzerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1996,6 +2019,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNetworkAnalyzerConfigurationInput, DeleteNetworkAnalyzerConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNetworkAnalyzerConfigurationOutput>(DeleteNetworkAnalyzerConfigurationOutput.httpOutput(from:), DeleteNetworkAnalyzerConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNetworkAnalyzerConfigurationInput, DeleteNetworkAnalyzerConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNetworkAnalyzerConfigurationOutput>())
@@ -2027,9 +2051,9 @@ extension IoTWirelessClient {
     ///
     /// Remove queued messages from the downlink queue.
     ///
-    /// - Parameter DeleteQueuedMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueuedMessagesInput`)
     ///
-    /// - Returns: `DeleteQueuedMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueuedMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2065,6 +2089,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput>(DeleteQueuedMessagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueuedMessagesOutput>(DeleteQueuedMessagesOutput.httpOutput(from:), DeleteQueuedMessagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueuedMessagesInput, DeleteQueuedMessagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueuedMessagesOutput>())
@@ -2096,9 +2121,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a service profile.
     ///
-    /// - Parameter DeleteServiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceProfileInput`)
     ///
-    /// - Returns: `DeleteServiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2134,6 +2159,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceProfileInput, DeleteServiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceProfileOutput>(DeleteServiceProfileOutput.httpOutput(from:), DeleteServiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceProfileInput, DeleteServiceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceProfileOutput>())
@@ -2165,9 +2191,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a wireless device.
     ///
-    /// - Parameter DeleteWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessDeviceInput`)
     ///
-    /// - Returns: `DeleteWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2202,6 +2228,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWirelessDeviceInput, DeleteWirelessDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWirelessDeviceOutput>(DeleteWirelessDeviceOutput.httpOutput(from:), DeleteWirelessDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWirelessDeviceInput, DeleteWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWirelessDeviceOutput>())
@@ -2233,9 +2260,9 @@ extension IoTWirelessClient {
     ///
     /// Delete an import task.
     ///
-    /// - Parameter DeleteWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `DeleteWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2271,6 +2298,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWirelessDeviceImportTaskInput, DeleteWirelessDeviceImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWirelessDeviceImportTaskOutput>(DeleteWirelessDeviceImportTaskOutput.httpOutput(from:), DeleteWirelessDeviceImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWirelessDeviceImportTaskInput, DeleteWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWirelessDeviceImportTaskOutput>())
@@ -2309,9 +2337,9 @@ extension IoTWirelessClient {
     ///
     /// To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     ///
-    /// - Parameter DeleteWirelessGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessGatewayInput`)
     ///
-    /// - Returns: `DeleteWirelessGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2346,6 +2374,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWirelessGatewayInput, DeleteWirelessGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayOutput>(DeleteWirelessGatewayOutput.httpOutput(from:), DeleteWirelessGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayInput, DeleteWirelessGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWirelessGatewayOutput>())
@@ -2377,9 +2406,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a wireless gateway task.
     ///
-    /// - Parameter DeleteWirelessGatewayTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessGatewayTaskInput`)
     ///
-    /// - Returns: `DeleteWirelessGatewayTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessGatewayTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2414,6 +2443,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWirelessGatewayTaskInput, DeleteWirelessGatewayTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayTaskOutput>(DeleteWirelessGatewayTaskOutput.httpOutput(from:), DeleteWirelessGatewayTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayTaskInput, DeleteWirelessGatewayTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWirelessGatewayTaskOutput>())
@@ -2445,9 +2475,9 @@ extension IoTWirelessClient {
     ///
     /// Deletes a wireless gateway task definition. Deleting this task definition does not affect tasks that are currently in progress.
     ///
-    /// - Parameter DeleteWirelessGatewayTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWirelessGatewayTaskDefinitionInput`)
     ///
-    /// - Returns: `DeleteWirelessGatewayTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWirelessGatewayTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2482,6 +2512,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWirelessGatewayTaskDefinitionInput, DeleteWirelessGatewayTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWirelessGatewayTaskDefinitionOutput>(DeleteWirelessGatewayTaskDefinitionOutput.httpOutput(from:), DeleteWirelessGatewayTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWirelessGatewayTaskDefinitionInput, DeleteWirelessGatewayTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWirelessGatewayTaskDefinitionOutput>())
@@ -2513,9 +2544,9 @@ extension IoTWirelessClient {
     ///
     /// Deregister a wireless device from AWS IoT Wireless.
     ///
-    /// - Parameter DeregisterWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterWirelessDeviceInput`)
     ///
-    /// - Returns: `DeregisterWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2550,6 +2581,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput>(DeregisterWirelessDeviceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterWirelessDeviceOutput>(DeregisterWirelessDeviceOutput.httpOutput(from:), DeregisterWirelessDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterWirelessDeviceInput, DeregisterWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterWirelessDeviceOutput>())
@@ -2581,9 +2613,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates your AWS account from a partner account. If PartnerAccountId and PartnerType are null, disassociates your AWS account from all partner accounts.
     ///
-    /// - Parameter DisassociateAwsAccountFromPartnerAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAwsAccountFromPartnerAccountInput`)
     ///
-    /// - Returns: `DisassociateAwsAccountFromPartnerAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAwsAccountFromPartnerAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2618,6 +2650,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput>(DisassociateAwsAccountFromPartnerAccountInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAwsAccountFromPartnerAccountOutput>(DisassociateAwsAccountFromPartnerAccountOutput.httpOutput(from:), DisassociateAwsAccountFromPartnerAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAwsAccountFromPartnerAccountInput, DisassociateAwsAccountFromPartnerAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAwsAccountFromPartnerAccountOutput>())
@@ -2649,9 +2682,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a multicast group from a FUOTA task.
     ///
-    /// - Parameter DisassociateMulticastGroupFromFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMulticastGroupFromFuotaTaskInput`)
     ///
-    /// - Returns: `DisassociateMulticastGroupFromFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMulticastGroupFromFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2686,6 +2719,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateMulticastGroupFromFuotaTaskInput, DisassociateMulticastGroupFromFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMulticastGroupFromFuotaTaskOutput>(DisassociateMulticastGroupFromFuotaTaskOutput.httpOutput(from:), DisassociateMulticastGroupFromFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMulticastGroupFromFuotaTaskInput, DisassociateMulticastGroupFromFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMulticastGroupFromFuotaTaskOutput>())
@@ -2717,9 +2751,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless device from a FUOTA task.
     ///
-    /// - Parameter DisassociateWirelessDeviceFromFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessDeviceFromFuotaTaskInput`)
     ///
-    /// - Returns: `DisassociateWirelessDeviceFromFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessDeviceFromFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2755,6 +2789,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateWirelessDeviceFromFuotaTaskInput, DisassociateWirelessDeviceFromFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromFuotaTaskOutput>(DisassociateWirelessDeviceFromFuotaTaskOutput.httpOutput(from:), DisassociateWirelessDeviceFromFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromFuotaTaskInput, DisassociateWirelessDeviceFromFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWirelessDeviceFromFuotaTaskOutput>())
@@ -2786,9 +2821,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless device from a multicast group.
     ///
-    /// - Parameter DisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessDeviceFromMulticastGroupInput`)
     ///
-    /// - Returns: `DisassociateWirelessDeviceFromMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessDeviceFromMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2823,6 +2858,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateWirelessDeviceFromMulticastGroupInput, DisassociateWirelessDeviceFromMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromMulticastGroupOutput>(DisassociateWirelessDeviceFromMulticastGroupOutput.httpOutput(from:), DisassociateWirelessDeviceFromMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromMulticastGroupInput, DisassociateWirelessDeviceFromMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWirelessDeviceFromMulticastGroupOutput>())
@@ -2854,9 +2890,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless device from its currently associated thing.
     ///
-    /// - Parameter DisassociateWirelessDeviceFromThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessDeviceFromThingInput`)
     ///
-    /// - Returns: `DisassociateWirelessDeviceFromThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessDeviceFromThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2892,6 +2928,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateWirelessDeviceFromThingInput, DisassociateWirelessDeviceFromThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWirelessDeviceFromThingOutput>(DisassociateWirelessDeviceFromThingOutput.httpOutput(from:), DisassociateWirelessDeviceFromThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWirelessDeviceFromThingInput, DisassociateWirelessDeviceFromThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWirelessDeviceFromThingOutput>())
@@ -2923,9 +2960,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless gateway from its currently associated certificate.
     ///
-    /// - Parameter DisassociateWirelessGatewayFromCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessGatewayFromCertificateInput`)
     ///
-    /// - Returns: `DisassociateWirelessGatewayFromCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessGatewayFromCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2960,6 +2997,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateWirelessGatewayFromCertificateInput, DisassociateWirelessGatewayFromCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWirelessGatewayFromCertificateOutput>(DisassociateWirelessGatewayFromCertificateOutput.httpOutput(from:), DisassociateWirelessGatewayFromCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWirelessGatewayFromCertificateInput, DisassociateWirelessGatewayFromCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWirelessGatewayFromCertificateOutput>())
@@ -2991,9 +3029,9 @@ extension IoTWirelessClient {
     ///
     /// Disassociates a wireless gateway from its currently associated thing.
     ///
-    /// - Parameter DisassociateWirelessGatewayFromThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWirelessGatewayFromThingInput`)
     ///
-    /// - Returns: `DisassociateWirelessGatewayFromThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWirelessGatewayFromThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3029,6 +3067,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateWirelessGatewayFromThingInput, DisassociateWirelessGatewayFromThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWirelessGatewayFromThingOutput>(DisassociateWirelessGatewayFromThingOutput.httpOutput(from:), DisassociateWirelessGatewayFromThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWirelessGatewayFromThingInput, DisassociateWirelessGatewayFromThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWirelessGatewayFromThingOutput>())
@@ -3060,9 +3099,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a destination.
     ///
-    /// - Parameter GetDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDestinationInput`)
     ///
-    /// - Returns: `GetDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3097,6 +3136,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDestinationInput, GetDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDestinationOutput>(GetDestinationOutput.httpOutput(from:), GetDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDestinationInput, GetDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDestinationOutput>())
@@ -3128,9 +3168,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a device profile.
     ///
-    /// - Parameter GetDeviceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceProfileInput`)
     ///
-    /// - Returns: `GetDeviceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3165,6 +3205,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeviceProfileInput, GetDeviceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceProfileOutput>(GetDeviceProfileOutput.httpOutput(from:), GetDeviceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceProfileInput, GetDeviceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceProfileOutput>())
@@ -3196,9 +3237,9 @@ extension IoTWirelessClient {
     ///
     /// Get the event configuration based on resource types.
     ///
-    /// - Parameter GetEventConfigurationByResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventConfigurationByResourceTypesInput`)
     ///
-    /// - Returns: `GetEventConfigurationByResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventConfigurationByResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3231,6 +3272,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventConfigurationByResourceTypesInput, GetEventConfigurationByResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventConfigurationByResourceTypesOutput>(GetEventConfigurationByResourceTypesOutput.httpOutput(from:), GetEventConfigurationByResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventConfigurationByResourceTypesInput, GetEventConfigurationByResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventConfigurationByResourceTypesOutput>())
@@ -3262,9 +3304,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a FUOTA task.
     ///
-    /// - Parameter GetFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFuotaTaskInput`)
     ///
-    /// - Returns: `GetFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3299,6 +3341,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFuotaTaskInput, GetFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFuotaTaskOutput>(GetFuotaTaskOutput.httpOutput(from:), GetFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFuotaTaskInput, GetFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFuotaTaskOutput>())
@@ -3330,9 +3373,9 @@ extension IoTWirelessClient {
     ///
     /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options.
     ///
-    /// - Parameter GetLogLevelsByResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLogLevelsByResourceTypesInput`)
     ///
-    /// - Returns: `GetLogLevelsByResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLogLevelsByResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3367,6 +3410,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLogLevelsByResourceTypesInput, GetLogLevelsByResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLogLevelsByResourceTypesOutput>(GetLogLevelsByResourceTypesOutput.httpOutput(from:), GetLogLevelsByResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLogLevelsByResourceTypesInput, GetLogLevelsByResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLogLevelsByResourceTypesOutput>())
@@ -3398,9 +3442,9 @@ extension IoTWirelessClient {
     ///
     /// Get the metric configuration status for this AWS account.
     ///
-    /// - Parameter GetMetricConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricConfigurationInput`)
     ///
-    /// - Returns: `GetMetricConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3436,6 +3480,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMetricConfigurationInput, GetMetricConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricConfigurationOutput>(GetMetricConfigurationOutput.httpOutput(from:), GetMetricConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricConfigurationInput, GetMetricConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricConfigurationOutput>())
@@ -3467,9 +3512,9 @@ extension IoTWirelessClient {
     ///
     /// Get the summary metrics for this AWS account.
     ///
-    /// - Parameter GetMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricsInput`)
     ///
-    /// - Returns: `GetMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3508,6 +3553,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricsInput, GetMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricsOutput>(GetMetricsOutput.httpOutput(from:), GetMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricsInput, GetMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricsOutput>())
@@ -3539,9 +3585,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a multicast group.
     ///
-    /// - Parameter GetMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMulticastGroupInput`)
     ///
-    /// - Returns: `GetMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3576,6 +3622,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMulticastGroupInput, GetMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMulticastGroupOutput>(GetMulticastGroupOutput.httpOutput(from:), GetMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMulticastGroupInput, GetMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMulticastGroupOutput>())
@@ -3607,9 +3654,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a multicast group session.
     ///
-    /// - Parameter GetMulticastGroupSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMulticastGroupSessionInput`)
     ///
-    /// - Returns: `GetMulticastGroupSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMulticastGroupSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3644,6 +3691,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMulticastGroupSessionInput, GetMulticastGroupSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMulticastGroupSessionOutput>(GetMulticastGroupSessionOutput.httpOutput(from:), GetMulticastGroupSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMulticastGroupSessionInput, GetMulticastGroupSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMulticastGroupSessionOutput>())
@@ -3675,9 +3723,9 @@ extension IoTWirelessClient {
     ///
     /// Get network analyzer configuration.
     ///
-    /// - Parameter GetNetworkAnalyzerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkAnalyzerConfigurationInput`)
     ///
-    /// - Returns: `GetNetworkAnalyzerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkAnalyzerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3712,6 +3760,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetNetworkAnalyzerConfigurationInput, GetNetworkAnalyzerConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkAnalyzerConfigurationOutput>(GetNetworkAnalyzerConfigurationOutput.httpOutput(from:), GetNetworkAnalyzerConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkAnalyzerConfigurationInput, GetNetworkAnalyzerConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkAnalyzerConfigurationOutput>())
@@ -3743,9 +3792,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     ///
-    /// - Parameter GetPartnerAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPartnerAccountInput`)
     ///
-    /// - Returns: `GetPartnerAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPartnerAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3780,6 +3829,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPartnerAccountInput, GetPartnerAccountOutput>(GetPartnerAccountInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPartnerAccountOutput>(GetPartnerAccountOutput.httpOutput(from:), GetPartnerAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPartnerAccountInput, GetPartnerAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPartnerAccountOutput>())
@@ -3812,9 +3862,9 @@ extension IoTWirelessClient {
     /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter GetPositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPositionInput`)
     ///
-    /// - Returns: `GetPositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3850,6 +3900,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPositionInput, GetPositionOutput>(GetPositionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPositionOutput>(GetPositionOutput.httpOutput(from:), GetPositionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPositionInput, GetPositionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPositionOutput>())
@@ -3882,9 +3933,9 @@ extension IoTWirelessClient {
     /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter GetPositionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPositionConfigurationInput`)
     ///
-    /// - Returns: `GetPositionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPositionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3920,6 +3971,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPositionConfigurationInput, GetPositionConfigurationOutput>(GetPositionConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPositionConfigurationOutput>(GetPositionConfigurationOutput.httpOutput(from:), GetPositionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPositionConfigurationInput, GetPositionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPositionConfigurationOutput>())
@@ -3951,9 +4003,9 @@ extension IoTWirelessClient {
     ///
     /// Get estimated position information as a payload in GeoJSON format. The payload measurement data is resolved using solvers that are provided by third-party vendors.
     ///
-    /// - Parameter GetPositionEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPositionEstimateInput`)
     ///
-    /// - Returns: `GetPositionEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPositionEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3991,6 +4043,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPositionEstimateInput, GetPositionEstimateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPositionEstimateOutput>(GetPositionEstimateOutput.httpOutput(from:), GetPositionEstimateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPositionEstimateInput, GetPositionEstimateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPositionEstimateOutput>())
@@ -4022,9 +4075,9 @@ extension IoTWirelessClient {
     ///
     /// Get the event configuration for a particular resource identifier.
     ///
-    /// - Parameter GetResourceEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceEventConfigurationInput`)
     ///
-    /// - Returns: `GetResourceEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4060,6 +4113,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput>(GetResourceEventConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceEventConfigurationOutput>(GetResourceEventConfigurationOutput.httpOutput(from:), GetResourceEventConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceEventConfigurationInput, GetResourceEventConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceEventConfigurationOutput>())
@@ -4091,9 +4145,9 @@ extension IoTWirelessClient {
     ///
     /// Fetches the log-level override, if any, for a given resource ID and resource type..
     ///
-    /// - Parameter GetResourceLogLevelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceLogLevelInput`)
     ///
-    /// - Returns: `GetResourceLogLevelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceLogLevelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4129,6 +4183,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetResourceLogLevelInput, GetResourceLogLevelOutput>(GetResourceLogLevelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceLogLevelOutput>(GetResourceLogLevelOutput.httpOutput(from:), GetResourceLogLevelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceLogLevelInput, GetResourceLogLevelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceLogLevelOutput>())
@@ -4160,9 +4215,9 @@ extension IoTWirelessClient {
     ///
     /// Get the position information for a given wireless device or a wireless gateway resource. The position information uses the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
-    /// - Parameter GetResourcePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePositionInput`)
     ///
-    /// - Returns: `GetResourcePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4198,6 +4253,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetResourcePositionInput, GetResourcePositionOutput>(GetResourcePositionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePositionOutput>(GetResourcePositionOutput.httpOutput(from:), GetResourcePositionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePositionInput, GetResourcePositionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePositionOutput>())
@@ -4229,9 +4285,9 @@ extension IoTWirelessClient {
     ///
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     ///
-    /// - Parameter GetServiceEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceEndpointInput`)
     ///
-    /// - Returns: `GetServiceEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4266,6 +4322,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetServiceEndpointInput, GetServiceEndpointOutput>(GetServiceEndpointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceEndpointOutput>(GetServiceEndpointOutput.httpOutput(from:), GetServiceEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceEndpointInput, GetServiceEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceEndpointOutput>())
@@ -4297,9 +4354,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a service profile.
     ///
-    /// - Parameter GetServiceProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceProfileInput`)
     ///
-    /// - Returns: `GetServiceProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4334,6 +4391,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceProfileInput, GetServiceProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceProfileOutput>(GetServiceProfileOutput.httpOutput(from:), GetServiceProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceProfileInput, GetServiceProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceProfileOutput>())
@@ -4365,9 +4423,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a wireless device.
     ///
-    /// - Parameter GetWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessDeviceInput`)
     ///
-    /// - Returns: `GetWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4403,6 +4461,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWirelessDeviceInput, GetWirelessDeviceOutput>(GetWirelessDeviceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessDeviceOutput>(GetWirelessDeviceOutput.httpOutput(from:), GetWirelessDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessDeviceInput, GetWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessDeviceOutput>())
@@ -4434,9 +4493,9 @@ extension IoTWirelessClient {
     ///
     /// Get information about an import task and count of device onboarding summary information for the import task.
     ///
-    /// - Parameter GetWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `GetWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4472,6 +4531,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWirelessDeviceImportTaskInput, GetWirelessDeviceImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessDeviceImportTaskOutput>(GetWirelessDeviceImportTaskOutput.httpOutput(from:), GetWirelessDeviceImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessDeviceImportTaskInput, GetWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessDeviceImportTaskOutput>())
@@ -4503,9 +4563,9 @@ extension IoTWirelessClient {
     ///
     /// Gets operating information about a wireless device.
     ///
-    /// - Parameter GetWirelessDeviceStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessDeviceStatisticsInput`)
     ///
-    /// - Returns: `GetWirelessDeviceStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessDeviceStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4540,6 +4600,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWirelessDeviceStatisticsInput, GetWirelessDeviceStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessDeviceStatisticsOutput>(GetWirelessDeviceStatisticsOutput.httpOutput(from:), GetWirelessDeviceStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessDeviceStatisticsInput, GetWirelessDeviceStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessDeviceStatisticsOutput>())
@@ -4571,9 +4632,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a wireless gateway.
     ///
-    /// - Parameter GetWirelessGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayInput`)
     ///
-    /// - Returns: `GetWirelessGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4609,6 +4670,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWirelessGatewayInput, GetWirelessGatewayOutput>(GetWirelessGatewayInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessGatewayOutput>(GetWirelessGatewayOutput.httpOutput(from:), GetWirelessGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessGatewayInput, GetWirelessGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessGatewayOutput>())
@@ -4640,9 +4702,9 @@ extension IoTWirelessClient {
     ///
     /// Gets the ID of the certificate that is currently associated with a wireless gateway.
     ///
-    /// - Parameter GetWirelessGatewayCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayCertificateInput`)
     ///
-    /// - Returns: `GetWirelessGatewayCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4677,6 +4739,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWirelessGatewayCertificateInput, GetWirelessGatewayCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessGatewayCertificateOutput>(GetWirelessGatewayCertificateOutput.httpOutput(from:), GetWirelessGatewayCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessGatewayCertificateInput, GetWirelessGatewayCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessGatewayCertificateOutput>())
@@ -4708,9 +4771,9 @@ extension IoTWirelessClient {
     ///
     /// Gets the firmware version and other information about a wireless gateway.
     ///
-    /// - Parameter GetWirelessGatewayFirmwareInformationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayFirmwareInformationInput`)
     ///
-    /// - Returns: `GetWirelessGatewayFirmwareInformationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayFirmwareInformationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4745,6 +4808,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWirelessGatewayFirmwareInformationInput, GetWirelessGatewayFirmwareInformationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessGatewayFirmwareInformationOutput>(GetWirelessGatewayFirmwareInformationOutput.httpOutput(from:), GetWirelessGatewayFirmwareInformationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessGatewayFirmwareInformationInput, GetWirelessGatewayFirmwareInformationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessGatewayFirmwareInformationOutput>())
@@ -4776,9 +4840,9 @@ extension IoTWirelessClient {
     ///
     /// Gets operating information about a wireless gateway.
     ///
-    /// - Parameter GetWirelessGatewayStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayStatisticsInput`)
     ///
-    /// - Returns: `GetWirelessGatewayStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4813,6 +4877,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWirelessGatewayStatisticsInput, GetWirelessGatewayStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessGatewayStatisticsOutput>(GetWirelessGatewayStatisticsOutput.httpOutput(from:), GetWirelessGatewayStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessGatewayStatisticsInput, GetWirelessGatewayStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessGatewayStatisticsOutput>())
@@ -4844,9 +4909,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a wireless gateway task.
     ///
-    /// - Parameter GetWirelessGatewayTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayTaskInput`)
     ///
-    /// - Returns: `GetWirelessGatewayTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4881,6 +4946,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWirelessGatewayTaskInput, GetWirelessGatewayTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessGatewayTaskOutput>(GetWirelessGatewayTaskOutput.httpOutput(from:), GetWirelessGatewayTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessGatewayTaskInput, GetWirelessGatewayTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessGatewayTaskOutput>())
@@ -4912,9 +4978,9 @@ extension IoTWirelessClient {
     ///
     /// Gets information about a wireless gateway task definition.
     ///
-    /// - Parameter GetWirelessGatewayTaskDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWirelessGatewayTaskDefinitionInput`)
     ///
-    /// - Returns: `GetWirelessGatewayTaskDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWirelessGatewayTaskDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4949,6 +5015,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWirelessGatewayTaskDefinitionInput, GetWirelessGatewayTaskDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWirelessGatewayTaskDefinitionOutput>(GetWirelessGatewayTaskDefinitionOutput.httpOutput(from:), GetWirelessGatewayTaskDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWirelessGatewayTaskDefinitionInput, GetWirelessGatewayTaskDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWirelessGatewayTaskDefinitionOutput>())
@@ -4980,9 +5047,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the destinations registered to your AWS account.
     ///
-    /// - Parameter ListDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDestinationsInput`)
     ///
-    /// - Returns: `ListDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5017,6 +5084,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDestinationsInput, ListDestinationsOutput>(ListDestinationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDestinationsOutput>(ListDestinationsOutput.httpOutput(from:), ListDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDestinationsInput, ListDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDestinationsOutput>())
@@ -5048,9 +5116,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the device profiles registered to your AWS account.
     ///
-    /// - Parameter ListDeviceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceProfilesInput`)
     ///
-    /// - Returns: `ListDeviceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5085,6 +5153,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeviceProfilesInput, ListDeviceProfilesOutput>(ListDeviceProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeviceProfilesOutput>(ListDeviceProfilesOutput.httpOutput(from:), ListDeviceProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeviceProfilesInput, ListDeviceProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeviceProfilesOutput>())
@@ -5116,9 +5185,9 @@ extension IoTWirelessClient {
     ///
     /// List the Sidewalk devices in an import task and their onboarding status.
     ///
-    /// - Parameter ListDevicesForWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesForWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `ListDevicesForWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesForWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5155,6 +5224,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput>(ListDevicesForWirelessDeviceImportTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesForWirelessDeviceImportTaskOutput>(ListDevicesForWirelessDeviceImportTaskOutput.httpOutput(from:), ListDevicesForWirelessDeviceImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesForWirelessDeviceImportTaskInput, ListDevicesForWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesForWirelessDeviceImportTaskOutput>())
@@ -5186,9 +5256,9 @@ extension IoTWirelessClient {
     ///
     /// List event configurations where at least one event topic has been enabled.
     ///
-    /// - Parameter ListEventConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventConfigurationsInput`)
     ///
-    /// - Returns: `ListEventConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5223,6 +5293,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventConfigurationsInput, ListEventConfigurationsOutput>(ListEventConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventConfigurationsOutput>(ListEventConfigurationsOutput.httpOutput(from:), ListEventConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventConfigurationsInput, ListEventConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventConfigurationsOutput>())
@@ -5254,9 +5325,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the FUOTA tasks registered to your AWS account.
     ///
-    /// - Parameter ListFuotaTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFuotaTasksInput`)
     ///
-    /// - Returns: `ListFuotaTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFuotaTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5291,6 +5362,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFuotaTasksInput, ListFuotaTasksOutput>(ListFuotaTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFuotaTasksOutput>(ListFuotaTasksOutput.httpOutput(from:), ListFuotaTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFuotaTasksInput, ListFuotaTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFuotaTasksOutput>())
@@ -5322,9 +5394,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the multicast groups registered to your AWS account.
     ///
-    /// - Parameter ListMulticastGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMulticastGroupsInput`)
     ///
-    /// - Returns: `ListMulticastGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMulticastGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5359,6 +5431,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMulticastGroupsInput, ListMulticastGroupsOutput>(ListMulticastGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMulticastGroupsOutput>(ListMulticastGroupsOutput.httpOutput(from:), ListMulticastGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMulticastGroupsInput, ListMulticastGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMulticastGroupsOutput>())
@@ -5390,9 +5463,9 @@ extension IoTWirelessClient {
     ///
     /// List all multicast groups associated with a FUOTA task.
     ///
-    /// - Parameter ListMulticastGroupsByFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMulticastGroupsByFuotaTaskInput`)
     ///
-    /// - Returns: `ListMulticastGroupsByFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMulticastGroupsByFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5428,6 +5501,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>(ListMulticastGroupsByFuotaTaskInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMulticastGroupsByFuotaTaskOutput>(ListMulticastGroupsByFuotaTaskOutput.httpOutput(from:), ListMulticastGroupsByFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMulticastGroupsByFuotaTaskInput, ListMulticastGroupsByFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMulticastGroupsByFuotaTaskOutput>())
@@ -5459,9 +5533,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the network analyzer configurations.
     ///
-    /// - Parameter ListNetworkAnalyzerConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNetworkAnalyzerConfigurationsInput`)
     ///
-    /// - Returns: `ListNetworkAnalyzerConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNetworkAnalyzerConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5496,6 +5570,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>(ListNetworkAnalyzerConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNetworkAnalyzerConfigurationsOutput>(ListNetworkAnalyzerConfigurationsOutput.httpOutput(from:), ListNetworkAnalyzerConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNetworkAnalyzerConfigurationsInput, ListNetworkAnalyzerConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNetworkAnalyzerConfigurationsOutput>())
@@ -5527,9 +5602,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the partner accounts associated with your AWS account.
     ///
-    /// - Parameter ListPartnerAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPartnerAccountsInput`)
     ///
-    /// - Returns: `ListPartnerAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPartnerAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5564,6 +5639,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPartnerAccountsInput, ListPartnerAccountsOutput>(ListPartnerAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPartnerAccountsOutput>(ListPartnerAccountsOutput.httpOutput(from:), ListPartnerAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPartnerAccountsInput, ListPartnerAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPartnerAccountsOutput>())
@@ -5596,9 +5672,9 @@ extension IoTWirelessClient {
     /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter ListPositionConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPositionConfigurationsInput`)
     ///
-    /// - Returns: `ListPositionConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPositionConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5633,6 +5709,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>(ListPositionConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPositionConfigurationsOutput>(ListPositionConfigurationsOutput.httpOutput(from:), ListPositionConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPositionConfigurationsInput, ListPositionConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPositionConfigurationsOutput>())
@@ -5664,9 +5741,9 @@ extension IoTWirelessClient {
     ///
     /// List queued messages in the downlink queue.
     ///
-    /// - Parameter ListQueuedMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuedMessagesInput`)
     ///
-    /// - Returns: `ListQueuedMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuedMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5702,6 +5779,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueuedMessagesInput, ListQueuedMessagesOutput>(ListQueuedMessagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuedMessagesOutput>(ListQueuedMessagesOutput.httpOutput(from:), ListQueuedMessagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuedMessagesInput, ListQueuedMessagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuedMessagesOutput>())
@@ -5733,9 +5811,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the service profiles registered to your AWS account.
     ///
-    /// - Parameter ListServiceProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceProfilesInput`)
     ///
-    /// - Returns: `ListServiceProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5770,6 +5848,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServiceProfilesInput, ListServiceProfilesOutput>(ListServiceProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceProfilesOutput>(ListServiceProfilesOutput.httpOutput(from:), ListServiceProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceProfilesInput, ListServiceProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceProfilesOutput>())
@@ -5801,9 +5880,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5839,6 +5918,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5870,9 +5950,9 @@ extension IoTWirelessClient {
     ///
     /// List wireless devices that have been added to an import task.
     ///
-    /// - Parameter ListWirelessDeviceImportTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWirelessDeviceImportTasksInput`)
     ///
-    /// - Returns: `ListWirelessDeviceImportTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWirelessDeviceImportTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5909,6 +5989,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput>(ListWirelessDeviceImportTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWirelessDeviceImportTasksOutput>(ListWirelessDeviceImportTasksOutput.httpOutput(from:), ListWirelessDeviceImportTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWirelessDeviceImportTasksInput, ListWirelessDeviceImportTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWirelessDeviceImportTasksOutput>())
@@ -5940,9 +6021,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the wireless devices registered to your AWS account.
     ///
-    /// - Parameter ListWirelessDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWirelessDevicesInput`)
     ///
-    /// - Returns: `ListWirelessDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWirelessDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5977,6 +6058,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWirelessDevicesInput, ListWirelessDevicesOutput>(ListWirelessDevicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWirelessDevicesOutput>(ListWirelessDevicesOutput.httpOutput(from:), ListWirelessDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWirelessDevicesInput, ListWirelessDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWirelessDevicesOutput>())
@@ -6008,9 +6090,9 @@ extension IoTWirelessClient {
     ///
     /// List the wireless gateway tasks definitions registered to your AWS account.
     ///
-    /// - Parameter ListWirelessGatewayTaskDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWirelessGatewayTaskDefinitionsInput`)
     ///
-    /// - Returns: `ListWirelessGatewayTaskDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWirelessGatewayTaskDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6045,6 +6127,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput>(ListWirelessGatewayTaskDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWirelessGatewayTaskDefinitionsOutput>(ListWirelessGatewayTaskDefinitionsOutput.httpOutput(from:), ListWirelessGatewayTaskDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWirelessGatewayTaskDefinitionsInput, ListWirelessGatewayTaskDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWirelessGatewayTaskDefinitionsOutput>())
@@ -6076,9 +6159,9 @@ extension IoTWirelessClient {
     ///
     /// Lists the wireless gateways registered to your AWS account.
     ///
-    /// - Parameter ListWirelessGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWirelessGatewaysInput`)
     ///
-    /// - Returns: `ListWirelessGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWirelessGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6113,6 +6196,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>(ListWirelessGatewaysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWirelessGatewaysOutput>(ListWirelessGatewaysOutput.httpOutput(from:), ListWirelessGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWirelessGatewaysInput, ListWirelessGatewaysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWirelessGatewaysOutput>())
@@ -6145,9 +6229,9 @@ extension IoTWirelessClient {
     /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter PutPositionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPositionConfigurationInput`)
     ///
-    /// - Returns: `PutPositionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPositionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6186,6 +6270,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPositionConfigurationOutput>(PutPositionConfigurationOutput.httpOutput(from:), PutPositionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPositionConfigurationInput, PutPositionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPositionConfigurationOutput>())
@@ -6217,9 +6302,9 @@ extension IoTWirelessClient {
     ///
     /// Sets the log-level override for a resource ID and resource type. A limit of 200 log level override can be set per account.
     ///
-    /// - Parameter PutResourceLogLevelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourceLogLevelInput`)
     ///
-    /// - Returns: `PutResourceLogLevelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourceLogLevelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6258,6 +6343,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourceLogLevelOutput>(PutResourceLogLevelOutput.httpOutput(from:), PutResourceLogLevelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourceLogLevelInput, PutResourceLogLevelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourceLogLevelOutput>())
@@ -6289,9 +6375,9 @@ extension IoTWirelessClient {
     ///
     /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and FUOTA tasks.
     ///
-    /// - Parameter ResetAllResourceLogLevelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetAllResourceLogLevelsInput`)
     ///
-    /// - Returns: `ResetAllResourceLogLevelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetAllResourceLogLevelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6326,6 +6412,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResetAllResourceLogLevelsInput, ResetAllResourceLogLevelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetAllResourceLogLevelsOutput>(ResetAllResourceLogLevelsOutput.httpOutput(from:), ResetAllResourceLogLevelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetAllResourceLogLevelsInput, ResetAllResourceLogLevelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetAllResourceLogLevelsOutput>())
@@ -6357,9 +6444,9 @@ extension IoTWirelessClient {
     ///
     /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gateway, or a FUOTA task.
     ///
-    /// - Parameter ResetResourceLogLevelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetResourceLogLevelInput`)
     ///
-    /// - Returns: `ResetResourceLogLevelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetResourceLogLevelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6395,6 +6482,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ResetResourceLogLevelInput, ResetResourceLogLevelOutput>(ResetResourceLogLevelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetResourceLogLevelOutput>(ResetResourceLogLevelOutput.httpOutput(from:), ResetResourceLogLevelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetResourceLogLevelInput, ResetResourceLogLevelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetResourceLogLevelOutput>())
@@ -6426,9 +6514,9 @@ extension IoTWirelessClient {
     ///
     /// Sends the specified data to a multicast group.
     ///
-    /// - Parameter SendDataToMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendDataToMulticastGroupInput`)
     ///
-    /// - Returns: `SendDataToMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendDataToMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6467,6 +6555,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDataToMulticastGroupOutput>(SendDataToMulticastGroupOutput.httpOutput(from:), SendDataToMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDataToMulticastGroupInput, SendDataToMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendDataToMulticastGroupOutput>())
@@ -6498,9 +6587,9 @@ extension IoTWirelessClient {
     ///
     /// Sends a decrypted application data frame to a device.
     ///
-    /// - Parameter SendDataToWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendDataToWirelessDeviceInput`)
     ///
-    /// - Returns: `SendDataToWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendDataToWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6537,6 +6626,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendDataToWirelessDeviceOutput>(SendDataToWirelessDeviceOutput.httpOutput(from:), SendDataToWirelessDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendDataToWirelessDeviceInput, SendDataToWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendDataToWirelessDeviceOutput>())
@@ -6568,9 +6658,9 @@ extension IoTWirelessClient {
     ///
     /// Starts a bulk association of all qualifying wireless devices with a multicast group.
     ///
-    /// - Parameter StartBulkAssociateWirelessDeviceWithMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBulkAssociateWirelessDeviceWithMulticastGroupInput`)
     ///
-    /// - Returns: `StartBulkAssociateWirelessDeviceWithMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBulkAssociateWirelessDeviceWithMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6608,6 +6698,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(StartBulkAssociateWirelessDeviceWithMulticastGroupOutput.httpOutput(from:), StartBulkAssociateWirelessDeviceWithMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupInput, StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBulkAssociateWirelessDeviceWithMulticastGroupOutput>())
@@ -6639,9 +6730,9 @@ extension IoTWirelessClient {
     ///
     /// Starts a bulk disassociatin of all qualifying wireless devices from a multicast group.
     ///
-    /// - Parameter StartBulkDisassociateWirelessDeviceFromMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartBulkDisassociateWirelessDeviceFromMulticastGroupInput`)
     ///
-    /// - Returns: `StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6679,6 +6770,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput.httpOutput(from:), StartBulkDisassociateWirelessDeviceFromMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupInput, StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartBulkDisassociateWirelessDeviceFromMulticastGroupOutput>())
@@ -6710,9 +6802,9 @@ extension IoTWirelessClient {
     ///
     /// Starts a FUOTA task.
     ///
-    /// - Parameter StartFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFuotaTaskInput`)
     ///
-    /// - Returns: `StartFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6751,6 +6843,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFuotaTaskInput, StartFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFuotaTaskOutput>(StartFuotaTaskOutput.httpOutput(from:), StartFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFuotaTaskInput, StartFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFuotaTaskOutput>())
@@ -6782,9 +6875,9 @@ extension IoTWirelessClient {
     ///
     /// Starts a multicast group session.
     ///
-    /// - Parameter StartMulticastGroupSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMulticastGroupSessionInput`)
     ///
-    /// - Returns: `StartMulticastGroupSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMulticastGroupSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6823,6 +6916,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMulticastGroupSessionOutput>(StartMulticastGroupSessionOutput.httpOutput(from:), StartMulticastGroupSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMulticastGroupSessionInput, StartMulticastGroupSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMulticastGroupSessionOutput>())
@@ -6854,9 +6948,9 @@ extension IoTWirelessClient {
     ///
     /// Start import task for a single wireless device.
     ///
-    /// - Parameter StartSingleWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSingleWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `StartSingleWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSingleWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6896,6 +6990,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSingleWirelessDeviceImportTaskOutput>(StartSingleWirelessDeviceImportTaskOutput.httpOutput(from:), StartSingleWirelessDeviceImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSingleWirelessDeviceImportTaskInput, StartSingleWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSingleWirelessDeviceImportTaskOutput>())
@@ -6927,9 +7022,9 @@ extension IoTWirelessClient {
     ///
     /// Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
     ///
-    /// - Parameter StartWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `StartWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6969,6 +7064,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartWirelessDeviceImportTaskOutput>(StartWirelessDeviceImportTaskOutput.httpOutput(from:), StartWirelessDeviceImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartWirelessDeviceImportTaskInput, StartWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartWirelessDeviceImportTaskOutput>())
@@ -7000,9 +7096,9 @@ extension IoTWirelessClient {
     ///
     /// Adds a tag to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7042,6 +7138,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -7073,9 +7170,9 @@ extension IoTWirelessClient {
     ///
     /// Simulates a provisioned device by sending an uplink data payload of Hello.
     ///
-    /// - Parameter TestWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestWirelessDeviceInput`)
     ///
-    /// - Returns: `TestWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7109,6 +7206,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<TestWirelessDeviceInput, TestWirelessDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestWirelessDeviceOutput>(TestWirelessDeviceOutput.httpOutput(from:), TestWirelessDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestWirelessDeviceInput, TestWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestWirelessDeviceOutput>())
@@ -7140,9 +7238,9 @@ extension IoTWirelessClient {
     ///
     /// Removes one or more tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7178,6 +7276,7 @@ extension IoTWirelessClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -7209,9 +7308,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a destination.
     ///
-    /// - Parameter UpdateDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDestinationInput`)
     ///
-    /// - Returns: `UpdateDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7249,6 +7348,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDestinationInput, UpdateDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDestinationOutput>(UpdateDestinationOutput.httpOutput(from:), UpdateDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDestinationInput, UpdateDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDestinationOutput>())
@@ -7280,9 +7380,9 @@ extension IoTWirelessClient {
     ///
     /// Update the event configuration based on resource types.
     ///
-    /// - Parameter UpdateEventConfigurationByResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventConfigurationByResourceTypesInput`)
     ///
-    /// - Returns: `UpdateEventConfigurationByResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventConfigurationByResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7319,6 +7419,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventConfigurationByResourceTypesOutput>(UpdateEventConfigurationByResourceTypesOutput.httpOutput(from:), UpdateEventConfigurationByResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventConfigurationByResourceTypesInput, UpdateEventConfigurationByResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventConfigurationByResourceTypesOutput>())
@@ -7350,9 +7451,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a FUOTA task.
     ///
-    /// - Parameter UpdateFuotaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFuotaTaskInput`)
     ///
-    /// - Returns: `UpdateFuotaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFuotaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7391,6 +7492,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFuotaTaskInput, UpdateFuotaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFuotaTaskOutput>(UpdateFuotaTaskOutput.httpOutput(from:), UpdateFuotaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFuotaTaskInput, UpdateFuotaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFuotaTaskOutput>())
@@ -7422,9 +7524,9 @@ extension IoTWirelessClient {
     ///
     /// Set default log level, or log levels by resource types. This can be for wireless device, wireless gateway, or FUOTA task log options, and is used to control the log messages that'll be displayed in CloudWatch.
     ///
-    /// - Parameter UpdateLogLevelsByResourceTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLogLevelsByResourceTypesInput`)
     ///
-    /// - Returns: `UpdateLogLevelsByResourceTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLogLevelsByResourceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7463,6 +7565,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLogLevelsByResourceTypesOutput>(UpdateLogLevelsByResourceTypesOutput.httpOutput(from:), UpdateLogLevelsByResourceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLogLevelsByResourceTypesInput, UpdateLogLevelsByResourceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLogLevelsByResourceTypesOutput>())
@@ -7494,9 +7597,9 @@ extension IoTWirelessClient {
     ///
     /// Update the summary metric configuration.
     ///
-    /// - Parameter UpdateMetricConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMetricConfigurationInput`)
     ///
-    /// - Returns: `UpdateMetricConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMetricConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7535,6 +7638,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMetricConfigurationInput, UpdateMetricConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMetricConfigurationOutput>(UpdateMetricConfigurationOutput.httpOutput(from:), UpdateMetricConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMetricConfigurationInput, UpdateMetricConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMetricConfigurationOutput>())
@@ -7566,9 +7670,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a multicast group session.
     ///
-    /// - Parameter UpdateMulticastGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMulticastGroupInput`)
     ///
-    /// - Returns: `UpdateMulticastGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMulticastGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7607,6 +7711,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMulticastGroupInput, UpdateMulticastGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMulticastGroupOutput>(UpdateMulticastGroupOutput.httpOutput(from:), UpdateMulticastGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMulticastGroupInput, UpdateMulticastGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMulticastGroupOutput>())
@@ -7638,9 +7743,9 @@ extension IoTWirelessClient {
     ///
     /// Update network analyzer configuration.
     ///
-    /// - Parameter UpdateNetworkAnalyzerConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNetworkAnalyzerConfigurationInput`)
     ///
-    /// - Returns: `UpdateNetworkAnalyzerConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNetworkAnalyzerConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7678,6 +7783,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNetworkAnalyzerConfigurationOutput>(UpdateNetworkAnalyzerConfigurationOutput.httpOutput(from:), UpdateNetworkAnalyzerConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNetworkAnalyzerConfigurationInput, UpdateNetworkAnalyzerConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNetworkAnalyzerConfigurationOutput>())
@@ -7709,9 +7815,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a partner account.
     ///
-    /// - Parameter UpdatePartnerAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePartnerAccountInput`)
     ///
-    /// - Returns: `UpdatePartnerAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePartnerAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7749,6 +7855,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePartnerAccountOutput>(UpdatePartnerAccountOutput.httpOutput(from:), UpdatePartnerAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePartnerAccountInput, UpdatePartnerAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePartnerAccountOutput>())
@@ -7781,9 +7888,9 @@ extension IoTWirelessClient {
     /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
-    /// - Parameter UpdatePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePositionInput`)
     ///
-    /// - Returns: `UpdatePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7822,6 +7929,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePositionInput, UpdatePositionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePositionOutput>(UpdatePositionOutput.httpOutput(from:), UpdatePositionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePositionInput, UpdatePositionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePositionOutput>())
@@ -7853,9 +7961,9 @@ extension IoTWirelessClient {
     ///
     /// Update the event configuration for a particular resource identifier.
     ///
-    /// - Parameter UpdateResourceEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceEventConfigurationInput`)
     ///
-    /// - Returns: `UpdateResourceEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7895,6 +8003,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceEventConfigurationOutput>(UpdateResourceEventConfigurationOutput.httpOutput(from:), UpdateResourceEventConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceEventConfigurationInput, UpdateResourceEventConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceEventConfigurationOutput>())
@@ -7926,9 +8035,9 @@ extension IoTWirelessClient {
     ///
     /// Update the position information of a given wireless device or a wireless gateway resource. The position coordinates are based on the [ World Geodetic System (WGS84)](https://gisgeography.com/wgs84-world-geodetic-system/).
     ///
-    /// - Parameter UpdateResourcePositionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourcePositionInput`)
     ///
-    /// - Returns: `UpdateResourcePositionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourcePositionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7967,6 +8076,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourcePositionInput, UpdateResourcePositionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourcePositionOutput>(UpdateResourcePositionOutput.httpOutput(from:), UpdateResourcePositionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourcePositionInput, UpdateResourcePositionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourcePositionOutput>())
@@ -7998,9 +8108,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a wireless device.
     ///
-    /// - Parameter UpdateWirelessDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWirelessDeviceInput`)
     ///
-    /// - Returns: `UpdateWirelessDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWirelessDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8038,6 +8148,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWirelessDeviceOutput>(UpdateWirelessDeviceOutput.httpOutput(from:), UpdateWirelessDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWirelessDeviceInput, UpdateWirelessDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWirelessDeviceOutput>())
@@ -8069,9 +8180,9 @@ extension IoTWirelessClient {
     ///
     /// Update an import task to add more devices to the task.
     ///
-    /// - Parameter UpdateWirelessDeviceImportTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWirelessDeviceImportTaskInput`)
     ///
-    /// - Returns: `UpdateWirelessDeviceImportTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWirelessDeviceImportTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8110,6 +8221,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWirelessDeviceImportTaskOutput>(UpdateWirelessDeviceImportTaskOutput.httpOutput(from:), UpdateWirelessDeviceImportTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWirelessDeviceImportTaskInput, UpdateWirelessDeviceImportTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWirelessDeviceImportTaskOutput>())
@@ -8141,9 +8253,9 @@ extension IoTWirelessClient {
     ///
     /// Updates properties of a wireless gateway.
     ///
-    /// - Parameter UpdateWirelessGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWirelessGatewayInput`)
     ///
-    /// - Returns: `UpdateWirelessGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWirelessGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8181,6 +8293,7 @@ extension IoTWirelessClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWirelessGatewayOutput>(UpdateWirelessGatewayOutput.httpOutput(from:), UpdateWirelessGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWirelessGatewayInput, UpdateWirelessGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWirelessGatewayOutput>())

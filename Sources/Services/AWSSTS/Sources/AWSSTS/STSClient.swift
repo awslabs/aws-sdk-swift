@@ -26,6 +26,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -70,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class STSClient: ClientRuntime.Client {
     public static let clientName = "STSClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: STSClient.STSClientConfiguration
     let serviceName = "STS"
@@ -392,9 +393,9 @@ extension STSClient {
     ///
     /// You can do either because the role’s trust policy acts as an IAM resource-based policy. When a resource-based policy grants access to a principal in the same account, no additional identity-based policy is required. For more information about trust policies and resource-based policies, see [IAM Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) in the IAM User Guide. Tags (Optional) You can pass tag key-value pairs to your session. These tags are called session tags. For more information about session tags, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. An administrator must grant you the permissions necessary to pass session tags. The administrator can also create granular permissions to allow you to pass only specific session tags. For more information, see [Tutorial: Using Tags for Attribute-Based Access Control](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_attribute-based-access-control.html) in the IAM User Guide. You can set the session tags as transitive. Transitive tags persist during role chaining. For more information, see [Chaining Roles with Session Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html#id_session-tags_role-chaining) in the IAM User Guide. Using MFA with AssumeRole (Optional) You can include multi-factor authentication (MFA) information when you call AssumeRole. This is useful for cross-account scenarios to ensure that the user that assumes the role has been authenticated with an Amazon Web Services MFA device. In that scenario, the trust policy of the role being assumed includes a condition that tests for MFA authentication. If the caller does not include valid MFA information, the request to assume the role is denied. The condition in a trust policy that tests for MFA authentication might look like the following example. "Condition": {"Bool": {"aws:MultiFactorAuthPresent": true}} For more information, see [Configuring MFA-Protected API Access](https://docs.aws.amazon.com/IAM/latest/UserGuide/MFAProtectedAPI.html) in the IAM User Guide guide. To use MFA with AssumeRole, you pass values for the SerialNumber and TokenCode parameters. The SerialNumber value identifies the user's hardware or virtual MFA device. The TokenCode is the time-based one-time password (TOTP) that the MFA device produces.
     ///
-    /// - Parameter AssumeRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeRoleInput`)
     ///
-    /// - Returns: `AssumeRoleOutput` : Contains the response to a successful [AssumeRole] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    /// - Returns: Contains the response to a successful [AssumeRole] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests. (Type: `AssumeRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -429,6 +430,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeRoleInput, AssumeRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleOutput>(AssumeRoleOutput.httpOutput(from:), AssumeRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleInput, AssumeRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleOutput>())
@@ -470,9 +472,9 @@ extension STSClient {
     ///
     /// * [Creating a Role for SAML 2.0 Federation](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-idp_saml.html) in the IAM User Guide.
     ///
-    /// - Parameter AssumeRoleWithSAMLInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeRoleWithSAMLInput`)
     ///
-    /// - Returns: `AssumeRoleWithSAMLOutput` : Contains the response to a successful [AssumeRoleWithSAML] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    /// - Returns: Contains the response to a successful [AssumeRoleWithSAML] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests. (Type: `AssumeRoleWithSAMLOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -507,6 +509,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleWithSAMLOutput>(AssumeRoleWithSAMLOutput.httpOutput(from:), AssumeRoleWithSAMLOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleWithSAMLInput, AssumeRoleWithSAMLOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleWithSAMLOutput>())
@@ -544,9 +547,9 @@ extension STSClient {
     ///
     /// * [Amazon Web Services SDK for iOS Developer Guide](http://aws.amazon.com/sdkforios/) and [Amazon Web Services SDK for Android Developer Guide](http://aws.amazon.com/sdkforandroid/). These toolkits contain sample apps that show how to invoke the identity providers. The toolkits then show how to use the information from these providers to get and use temporary security credentials.
     ///
-    /// - Parameter AssumeRoleWithWebIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeRoleWithWebIdentityInput`)
     ///
-    /// - Returns: `AssumeRoleWithWebIdentityOutput` : Contains the response to a successful [AssumeRoleWithWebIdentity] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    /// - Returns: Contains the response to a successful [AssumeRoleWithWebIdentity] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests. (Type: `AssumeRoleWithWebIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,6 +585,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRoleWithWebIdentityOutput>(AssumeRoleWithWebIdentityOutput.httpOutput(from:), AssumeRoleWithWebIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRoleWithWebIdentityInput, AssumeRoleWithWebIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRoleWithWebIdentityOutput>())
@@ -615,9 +619,9 @@ extension STSClient {
     ///
     /// Returns a set of short term credentials you can use to perform privileged tasks on a member account in your organization. Before you can launch a privileged session, you must have centralized root access in your organization. For steps to enable this feature, see [Centralize root access for member accounts](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-enable-root-access.html) in the IAM User Guide. The STS global endpoint is not supported for AssumeRoot. You must send this request to a Regional STS endpoint. For more information, see [Endpoints](https://docs.aws.amazon.com/STS/latest/APIReference/welcome.html#sts-endpoints). You can track AssumeRoot in CloudTrail logs to determine what actions were performed in a session. For more information, see [Track privileged tasks in CloudTrail](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-track-privileged-tasks.html) in the IAM User Guide.
     ///
-    /// - Parameter AssumeRootInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeRootInput`)
     ///
-    /// - Returns: `AssumeRootOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeRootOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -650,6 +654,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssumeRootInput, AssumeRootOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeRootOutput>(AssumeRootOutput.httpOutput(from:), AssumeRootOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeRootInput, AssumeRootOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeRootOutput>())
@@ -693,9 +698,9 @@ extension STSClient {
     ///
     /// * The values of condition keys in the context of the user's request.
     ///
-    /// - Parameter DecodeAuthorizationMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DecodeAuthorizationMessageInput`)
     ///
-    /// - Returns: `DecodeAuthorizationMessageOutput` : A document that contains additional information about the authorization status of a request from an encoded message that is returned in response to an Amazon Web Services request.
+    /// - Returns: A document that contains additional information about the authorization status of a request from an encoded message that is returned in response to an Amazon Web Services request. (Type: `DecodeAuthorizationMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -727,6 +732,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DecodeAuthorizationMessageOutput>(DecodeAuthorizationMessageOutput.httpOutput(from:), DecodeAuthorizationMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DecodeAuthorizationMessageInput, DecodeAuthorizationMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DecodeAuthorizationMessageOutput>())
@@ -760,9 +766,9 @@ extension STSClient {
     ///
     /// Returns the account identifier for the specified access key ID. Access keys consist of two parts: an access key ID (for example, AKIAIOSFODNN7EXAMPLE) and a secret access key (for example, wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY). For more information about access keys, see [Managing Access Keys for IAM Users](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) in the IAM User Guide. When you pass an access key ID to this operation, it returns the ID of the Amazon Web Services account to which the keys belong. Access key IDs beginning with AKIA are long-term credentials for an IAM user or the Amazon Web Services account root user. Access key IDs beginning with ASIA are temporary credentials that are created using STS operations. If the account in the response belongs to you, you can sign in as the root user and review your root user access keys. Then, you can pull a [credentials report](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_getting-report.html) to learn which IAM user owns the keys. To learn who requested the temporary credentials for an ASIA access key, view the STS events in your [CloudTrail logs](https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html) in the IAM User Guide. This operation does not indicate the state of the access key. The key might be active, inactive, or deleted. Active keys might not have permissions to perform an operation. Providing a deleted access key might return an error that the key doesn't exist.
     ///
-    /// - Parameter GetAccessKeyInfoInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessKeyInfoInput`)
     ///
-    /// - Returns: `GetAccessKeyInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessKeyInfoOutput`)
     public func getAccessKeyInfo(input: GetAccessKeyInfoInput) async throws -> GetAccessKeyInfoOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -789,6 +795,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccessKeyInfoInput, GetAccessKeyInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessKeyInfoOutput>(GetAccessKeyInfoOutput.httpOutput(from:), GetAccessKeyInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessKeyInfoInput, GetAccessKeyInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessKeyInfoOutput>())
@@ -822,9 +829,9 @@ extension STSClient {
     ///
     /// Returns details about the IAM user or role whose credentials are used to call the operation. No permissions are required to perform this operation. If an administrator attaches a policy to your identity that explicitly denies access to the sts:GetCallerIdentity action, you can still perform this operation. Permissions are not required because the same information is returned when access is denied. To view an example response, see [I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice](https://docs.aws.amazon.com/IAM/latest/UserGuide/troubleshoot_general.html#troubleshoot_general_access-denied-delete-mfa) in the IAM User Guide.
     ///
-    /// - Parameter GetCallerIdentityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCallerIdentityInput`)
     ///
-    /// - Returns: `GetCallerIdentityOutput` : Contains the response to a successful [GetCallerIdentity] request, including information about the entity making the request.
+    /// - Returns: Contains the response to a successful [GetCallerIdentity] request, including information about the entity making the request. (Type: `GetCallerIdentityOutput`)
     public func getCallerIdentity(input: GetCallerIdentityInput) async throws -> GetCallerIdentityOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -851,6 +858,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(GetCallerIdentityOutput.httpOutput(from:), GetCallerIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCallerIdentityOutput>())
@@ -891,9 +899,9 @@ extension STSClient {
     ///
     /// You can use temporary credentials for single sign-on (SSO) to the console. You must pass an inline or managed [session policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) to this operation. You can pass a single JSON policy document to use as an inline session policy. You can also specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session policies. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. Though the session policy parameters are optional, if you do not pass a policy, then the resulting federated user session has no permissions. When you pass session policies, the session permissions are the intersection of the IAM user policies and the session policies that you pass. This gives you a way to further restrict the permissions for a federated user. You cannot use session policies to grant more permissions than those that are defined in the permissions policy of the IAM user. For more information, see [Session Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session) in the IAM User Guide. For information about using GetFederationToken to create temporary security credentials, see [GetFederationToken—Federation Through a Custom Identity Broker](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getfederationtoken). You can use the credentials to access a resource that has a resource-based policy. If that policy specifically references the federated user session in the Principal element of the policy, the session has the permissions allowed by the policy. These permissions are granted in addition to the permissions granted by the session policies. Tags (Optional) You can pass tag key-value pairs to your session. These are called session tags. For more information about session tags, see [Passing Session Tags in STS](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_session-tags.html) in the IAM User Guide. You can create a mobile-based or browser-based app that can authenticate users using a web identity provider like Login with Amazon, Facebook, Google, or an OpenID Connect-compatible identity provider. In this case, we recommend that you use [Amazon Cognito](http://aws.amazon.com/cognito/) or AssumeRoleWithWebIdentity. For more information, see [Federation Through a Web-based Identity Provider](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_assumerolewithwebidentity) in the IAM User Guide. An administrator must grant you the permissions necessary to pass session tags. The administrator can also create granular permissions to allow you to pass only specific session tags. For more information, see [Tutorial: Using Tags for Attribute-Based Access Control](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_attribute-based-access-control.html) in the IAM User Guide. Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the user that you are federating has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the user tag.
     ///
-    /// - Parameter GetFederationTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFederationTokenInput`)
     ///
-    /// - Returns: `GetFederationTokenOutput` : Contains the response to a successful [GetFederationToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    /// - Returns: Contains the response to a successful [GetFederationToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests. (Type: `GetFederationTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -927,6 +935,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFederationTokenInput, GetFederationTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFederationTokenOutput>(GetFederationTokenOutput.httpOutput(from:), GetFederationTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFederationTokenInput, GetFederationTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFederationTokenOutput>())
@@ -967,9 +976,9 @@ extension STSClient {
     ///
     /// The credentials that GetSessionToken returns are based on permissions associated with the IAM user whose credentials were used to call the operation. The temporary credentials have the same permissions as the IAM user. Although it is possible to call GetSessionToken using the security credentials of an Amazon Web Services account root user rather than an IAM user, we do not recommend it. If GetSessionToken is called using root user credentials, the temporary credentials have root user permissions. For more information, see [Safeguard your root user credentials and don't use them for everyday tasks](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#lock-away-credentials) in the IAM User Guide For more information about using GetSessionToken to create temporary credentials, see [Temporary Credentials for Users in Untrusted Environments](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_request.html#api_getsessiontoken) in the IAM User Guide.
     ///
-    /// - Parameter GetSessionTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionTokenInput`)
     ///
-    /// - Returns: `GetSessionTokenOutput` : Contains the response to a successful [GetSessionToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests.
+    /// - Returns: Contains the response to a successful [GetSessionToken] request, including temporary Amazon Web Services credentials that can be used to make Amazon Web Services requests. (Type: `GetSessionTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1001,6 +1010,7 @@ extension STSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSessionTokenInput, GetSessionTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionTokenOutput>(GetSessionTokenOutput.httpOutput(from:), GetSessionTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionTokenInput, GetSessionTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionTokenOutput>())

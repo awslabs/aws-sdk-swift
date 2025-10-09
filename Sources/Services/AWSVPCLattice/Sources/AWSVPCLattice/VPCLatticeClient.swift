@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class VPCLatticeClient: ClientRuntime.Client {
     public static let clientName = "VPCLatticeClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: VPCLatticeClient.VPCLatticeClientConfiguration
     let serviceName = "VPC Lattice"
@@ -374,9 +375,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the listener rules in a batch. You can use this operation to change the priority of listener rules. This can be useful when bulk updating or swapping rule priority. Required permissions: vpc-lattice:UpdateRule For more information, see [How Amazon VPC Lattice works with IAM](https://docs.aws.amazon.com/vpc-lattice/latest/ug/security_iam_service-with-iam.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter BatchUpdateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateRuleInput`)
     ///
-    /// - Returns: `BatchUpdateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateRuleInput, BatchUpdateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateRuleOutput>(BatchUpdateRuleOutput.httpOutput(from:), BatchUpdateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateRuleInput, BatchUpdateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateRuleOutput>())
@@ -446,9 +448,9 @@ extension VPCLatticeClient {
     ///
     /// Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kinesis Data Firehose. The service network owner can use the access logs to audit the services in the network. The service network owner can only see access logs from clients and services that are associated with their service network. Access log entries represent traffic originated from VPCs associated with that network. For more information, see [Access logs](https://docs.aws.amazon.com/vpc-lattice/latest/ug/monitoring-access-logs.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateAccessLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessLogSubscriptionInput`)
     ///
-    /// - Returns: `CreateAccessLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +490,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessLogSubscriptionInput, CreateAccessLogSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessLogSubscriptionOutput>(CreateAccessLogSubscriptionOutput.httpOutput(from:), CreateAccessLogSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessLogSubscriptionInput, CreateAccessLogSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessLogSubscriptionOutput>())
@@ -519,9 +522,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a listener for a service. Before you start using your Amazon VPC Lattice service, you must add one or more listeners. A listener is a process that checks for connection requests to your services. For more information, see [Listeners](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateListenerInput`)
     ///
-    /// - Returns: `CreateListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +565,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateListenerInput, CreateListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateListenerOutput>(CreateListenerOutput.httpOutput(from:), CreateListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateListenerInput, CreateListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateListenerOutput>())
@@ -593,9 +597,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a resource configuration. A resource configuration defines a specific resource. You can associate a resource configuration with a service network or a VPC endpoint.
     ///
-    /// - Parameter CreateResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceConfigurationInput`)
     ///
-    /// - Returns: `CreateResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,6 +640,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceConfigurationInput, CreateResourceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceConfigurationOutput>(CreateResourceConfigurationOutput.httpOutput(from:), CreateResourceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceConfigurationInput, CreateResourceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceConfigurationOutput>())
@@ -665,11 +670,11 @@ extension VPCLatticeClient {
 
     /// Performs the `CreateResourceGateway` operation on the `VPCLattice` service.
     ///
-    /// Creates a resource gateway.
+    /// A resource gateway is a point of ingress into the VPC where a resource resides. It spans multiple Availability Zones. For your resource to be accessible from all Availability Zones, you should create your resource gateways to span as many Availability Zones as possible. A VPC can have multiple resource gateways.
     ///
-    /// - Parameter CreateResourceGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceGatewayInput`)
     ///
-    /// - Returns: `CreateResourceGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -710,6 +715,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceGatewayInput, CreateResourceGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceGatewayOutput>(CreateResourceGatewayOutput.httpOutput(from:), CreateResourceGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceGatewayInput, CreateResourceGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceGatewayOutput>())
@@ -741,9 +747,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleInput`)
     ///
-    /// - Returns: `CreateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -784,6 +790,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleInput, CreateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleOutput>(CreateRuleOutput.httpOutput(from:), CreateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleInput, CreateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleOutput>())
@@ -815,9 +822,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a service. A service is any software application that can run on instances containers, or serverless functions within an account or virtual private cloud (VPC). For more information, see [Services](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceInput`)
     ///
-    /// - Returns: `CreateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -858,6 +865,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceInput, CreateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceOutput>(CreateServiceOutput.httpOutput(from:), CreateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceInput, CreateServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceOutput>())
@@ -889,9 +897,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a service network. A service network is a logical boundary for a collection of services. You can associate services and VPCs with a service network. For more information, see [Service networks](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateServiceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceNetworkInput`)
     ///
-    /// - Returns: `CreateServiceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,6 +940,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceNetworkInput, CreateServiceNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceNetworkOutput>(CreateServiceNetworkOutput.httpOutput(from:), CreateServiceNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceNetworkInput, CreateServiceNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceNetworkOutput>())
@@ -963,9 +972,9 @@ extension VPCLatticeClient {
     ///
     /// Associates the specified service network with the specified resource configuration. This allows the resource configuration to receive connections through the service network, including through a service network VPC endpoint.
     ///
-    /// - Parameter CreateServiceNetworkResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceNetworkResourceAssociationInput`)
     ///
-    /// - Returns: `CreateServiceNetworkResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceNetworkResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,6 +1015,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceNetworkResourceAssociationInput, CreateServiceNetworkResourceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceNetworkResourceAssociationOutput>(CreateServiceNetworkResourceAssociationOutput.httpOutput(from:), CreateServiceNetworkResourceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceNetworkResourceAssociationInput, CreateServiceNetworkResourceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceNetworkResourceAssociationOutput>())
@@ -1037,9 +1047,9 @@ extension VPCLatticeClient {
     ///
     /// Associates the specified service with the specified service network. For more information, see [Manage service associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-service-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if the service and service network are already associated or if there is a disassociation or deletion in progress. If the association fails, you can retry the operation by deleting the association and recreating it. You cannot associate a service and service network that are shared with a caller. The caller must own either the service or the service network. As a result of this operation, the association is created in the service network account and the association owner account.
     ///
-    /// - Parameter CreateServiceNetworkServiceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceNetworkServiceAssociationInput`)
     ///
-    /// - Returns: `CreateServiceNetworkServiceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceNetworkServiceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1080,6 +1090,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceNetworkServiceAssociationInput, CreateServiceNetworkServiceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceNetworkServiceAssociationOutput>(CreateServiceNetworkServiceAssociationOutput.httpOutput(from:), CreateServiceNetworkServiceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceNetworkServiceAssociationInput, CreateServiceNetworkServiceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceNetworkServiceAssociationOutput>())
@@ -1111,9 +1122,9 @@ extension VPCLatticeClient {
     ///
     /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see [Manage VPC associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-vpc-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
     ///
-    /// - Parameter CreateServiceNetworkVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateServiceNetworkVpcAssociationInput`)
     ///
-    /// - Returns: `CreateServiceNetworkVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateServiceNetworkVpcAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1154,6 +1165,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateServiceNetworkVpcAssociationInput, CreateServiceNetworkVpcAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateServiceNetworkVpcAssociationOutput>(CreateServiceNetworkVpcAssociationOutput.httpOutput(from:), CreateServiceNetworkVpcAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateServiceNetworkVpcAssociationInput, CreateServiceNetworkVpcAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateServiceNetworkVpcAssociationOutput>())
@@ -1185,9 +1197,9 @@ extension VPCLatticeClient {
     ///
     /// Creates a target group. A target group is a collection of targets, or compute resources, that run your application or service. A target group can only be used by a single service. For more information, see [Target groups](https://docs.aws.amazon.com/vpc-lattice/latest/ug/target-groups.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter CreateTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTargetGroupInput`)
     ///
-    /// - Returns: `CreateTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,6 +1240,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTargetGroupInput, CreateTargetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTargetGroupOutput>(CreateTargetGroupOutput.httpOutput(from:), CreateTargetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTargetGroupInput, CreateTargetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTargetGroupOutput>())
@@ -1259,9 +1272,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified access log subscription.
     ///
-    /// - Parameter DeleteAccessLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessLogSubscriptionInput`)
     ///
-    /// - Returns: `DeleteAccessLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1296,6 +1309,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessLogSubscriptionInput, DeleteAccessLogSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessLogSubscriptionOutput>(DeleteAccessLogSubscriptionOutput.httpOutput(from:), DeleteAccessLogSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessLogSubscriptionInput, DeleteAccessLogSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessLogSubscriptionOutput>())
@@ -1327,9 +1341,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests are denied. If you are trying to remove the auth policy completely, you must set the auth type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests are denied.
     ///
-    /// - Parameter DeleteAuthPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAuthPolicyInput`)
     ///
-    /// - Returns: `DeleteAuthPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAuthPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1364,6 +1378,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAuthPolicyInput, DeleteAuthPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAuthPolicyOutput>(DeleteAuthPolicyOutput.httpOutput(from:), DeleteAuthPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAuthPolicyInput, DeleteAuthPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAuthPolicyOutput>())
@@ -1395,9 +1410,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified listener.
     ///
-    /// - Parameter DeleteListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteListenerInput`)
     ///
-    /// - Returns: `DeleteListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,6 +1448,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteListenerInput, DeleteListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteListenerOutput>(DeleteListenerOutput.httpOutput(from:), DeleteListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteListenerInput, DeleteListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteListenerOutput>())
@@ -1464,9 +1480,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified resource configuration.
     ///
-    /// - Parameter DeleteResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceConfigurationInput`)
     ///
-    /// - Returns: `DeleteResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1502,6 +1518,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourceConfigurationInput, DeleteResourceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceConfigurationOutput>(DeleteResourceConfigurationOutput.httpOutput(from:), DeleteResourceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceConfigurationInput, DeleteResourceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceConfigurationOutput>())
@@ -1533,9 +1550,9 @@ extension VPCLatticeClient {
     ///
     /// Disassociates the resource configuration from the resource VPC endpoint.
     ///
-    /// - Parameter DeleteResourceEndpointAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceEndpointAssociationInput`)
     ///
-    /// - Returns: `DeleteResourceEndpointAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceEndpointAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1570,6 +1587,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourceEndpointAssociationInput, DeleteResourceEndpointAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceEndpointAssociationOutput>(DeleteResourceEndpointAssociationOutput.httpOutput(from:), DeleteResourceEndpointAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceEndpointAssociationInput, DeleteResourceEndpointAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceEndpointAssociationOutput>())
@@ -1601,9 +1619,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified resource gateway.
     ///
-    /// - Parameter DeleteResourceGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceGatewayInput`)
     ///
-    /// - Returns: `DeleteResourceGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1639,6 +1657,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourceGatewayInput, DeleteResourceGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceGatewayOutput>(DeleteResourceGatewayOutput.httpOutput(from:), DeleteResourceGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceGatewayInput, DeleteResourceGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceGatewayOutput>())
@@ -1670,9 +1689,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the specified resource policy.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1707,6 +1726,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1738,9 +1758,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes a listener rule. Each listener has a default rule for checking connection requests, but you can define additional rules. Each rule consists of a priority, one or more actions, and one or more conditions. You can delete additional listener rules, but you cannot delete the default rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter DeleteRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleInput`)
     ///
-    /// - Returns: `DeleteRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1776,6 +1796,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleInput, DeleteRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleOutput>())
@@ -1807,9 +1828,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes a service. A service can't be deleted if it's associated with a service network. If you delete a service, all resources related to the service, such as the resource policy, auth policy, listeners, listener rules, and access log subscriptions, are also deleted. For more information, see [Delete a service](https://docs.aws.amazon.com/vpc-lattice/latest/ug/services.html#delete-service) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter DeleteServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceInput`)
     ///
-    /// - Returns: `DeleteServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1845,6 +1866,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceInput, DeleteServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceOutput>(DeleteServiceOutput.httpOutput(from:), DeleteServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceInput, DeleteServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceOutput>())
@@ -1876,9 +1898,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes a service network. You can only delete the service network if there is no service or VPC associated with it. If you delete a service network, all resources related to the service network, such as the resource policy, auth policy, and access log subscriptions, are also deleted. For more information, see [Delete a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#delete-service-network) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter DeleteServiceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkInput`)
     ///
-    /// - Returns: `DeleteServiceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1914,6 +1936,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceNetworkInput, DeleteServiceNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceNetworkOutput>(DeleteServiceNetworkOutput.httpOutput(from:), DeleteServiceNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceNetworkInput, DeleteServiceNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceNetworkOutput>())
@@ -1945,9 +1968,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the association between a service network and a resource configuration.
     ///
-    /// - Parameter DeleteServiceNetworkResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkResourceAssociationInput`)
     ///
-    /// - Returns: `DeleteServiceNetworkResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceNetworkResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1983,6 +2006,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceNetworkResourceAssociationInput, DeleteServiceNetworkResourceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceNetworkResourceAssociationOutput>(DeleteServiceNetworkResourceAssociationOutput.httpOutput(from:), DeleteServiceNetworkResourceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceNetworkResourceAssociationInput, DeleteServiceNetworkResourceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceNetworkResourceAssociationOutput>())
@@ -2014,9 +2038,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes the association between a service and a service network. This operation fails if an association is still in progress.
     ///
-    /// - Parameter DeleteServiceNetworkServiceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkServiceAssociationInput`)
     ///
-    /// - Returns: `DeleteServiceNetworkServiceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceNetworkServiceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2052,6 +2076,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceNetworkServiceAssociationInput, DeleteServiceNetworkServiceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceNetworkServiceAssociationOutput>(DeleteServiceNetworkServiceAssociationOutput.httpOutput(from:), DeleteServiceNetworkServiceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceNetworkServiceAssociationInput, DeleteServiceNetworkServiceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceNetworkServiceAssociationOutput>())
@@ -2083,9 +2108,9 @@ extension VPCLatticeClient {
     ///
     /// Disassociates the VPC from the service network. You can't disassociate the VPC if there is a create or update association in progress.
     ///
-    /// - Parameter DeleteServiceNetworkVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceNetworkVpcAssociationInput`)
     ///
-    /// - Returns: `DeleteServiceNetworkVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceNetworkVpcAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2121,6 +2146,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteServiceNetworkVpcAssociationInput, DeleteServiceNetworkVpcAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceNetworkVpcAssociationOutput>(DeleteServiceNetworkVpcAssociationOutput.httpOutput(from:), DeleteServiceNetworkVpcAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceNetworkVpcAssociationInput, DeleteServiceNetworkVpcAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceNetworkVpcAssociationOutput>())
@@ -2152,9 +2178,9 @@ extension VPCLatticeClient {
     ///
     /// Deletes a target group. You can't delete a target group if it is used in a listener rule or if the target group creation is in progress.
     ///
-    /// - Parameter DeleteTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTargetGroupInput`)
     ///
-    /// - Returns: `DeleteTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,6 +2215,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTargetGroupInput, DeleteTargetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTargetGroupOutput>(DeleteTargetGroupOutput.httpOutput(from:), DeleteTargetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTargetGroupInput, DeleteTargetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTargetGroupOutput>())
@@ -2220,9 +2247,9 @@ extension VPCLatticeClient {
     ///
     /// Deregisters the specified targets from the specified target group.
     ///
-    /// - Parameter DeregisterTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTargetsInput`)
     ///
-    /// - Returns: `DeregisterTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2261,6 +2288,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterTargetsInput, DeregisterTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTargetsOutput>(DeregisterTargetsOutput.httpOutput(from:), DeregisterTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTargetsInput, DeregisterTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTargetsOutput>())
@@ -2292,9 +2320,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified access log subscription.
     ///
-    /// - Parameter GetAccessLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccessLogSubscriptionInput`)
     ///
-    /// - Returns: `GetAccessLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccessLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2329,6 +2357,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccessLogSubscriptionInput, GetAccessLogSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccessLogSubscriptionOutput>(GetAccessLogSubscriptionOutput.httpOutput(from:), GetAccessLogSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccessLogSubscriptionInput, GetAccessLogSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccessLogSubscriptionOutput>())
@@ -2360,9 +2389,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the auth policy for the specified service or service network.
     ///
-    /// - Parameter GetAuthPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAuthPolicyInput`)
     ///
-    /// - Returns: `GetAuthPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAuthPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2397,6 +2426,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAuthPolicyInput, GetAuthPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAuthPolicyOutput>(GetAuthPolicyOutput.httpOutput(from:), GetAuthPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAuthPolicyInput, GetAuthPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAuthPolicyOutput>())
@@ -2428,9 +2458,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified listener for the specified service.
     ///
-    /// - Parameter GetListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetListenerInput`)
     ///
-    /// - Returns: `GetListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2465,6 +2495,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetListenerInput, GetListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetListenerOutput>(GetListenerOutput.httpOutput(from:), GetListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetListenerInput, GetListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetListenerOutput>())
@@ -2496,9 +2527,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified resource configuration.
     ///
-    /// - Parameter GetResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceConfigurationInput`)
     ///
-    /// - Returns: `GetResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2533,6 +2564,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourceConfigurationInput, GetResourceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceConfigurationOutput>(GetResourceConfigurationOutput.httpOutput(from:), GetResourceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceConfigurationInput, GetResourceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceConfigurationOutput>())
@@ -2564,9 +2596,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified resource gateway.
     ///
-    /// - Parameter GetResourceGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceGatewayInput`)
     ///
-    /// - Returns: `GetResourceGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,6 +2633,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourceGatewayInput, GetResourceGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceGatewayOutput>(GetResourceGatewayOutput.httpOutput(from:), GetResourceGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceGatewayInput, GetResourceGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceGatewayOutput>())
@@ -2632,9 +2665,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2669,6 +2702,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -2700,9 +2734,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified listener rules. You can also retrieve information about the default listener rule. For more information, see [Listener rules](https://docs.aws.amazon.com/vpc-lattice/latest/ug/listeners.html#listener-rules) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter GetRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleInput`)
     ///
-    /// - Returns: `GetRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2737,6 +2771,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuleInput, GetRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuleOutput>(GetRuleOutput.httpOutput(from:), GetRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleInput, GetRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuleOutput>())
@@ -2768,9 +2803,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified service.
     ///
-    /// - Parameter GetServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceInput`)
     ///
-    /// - Returns: `GetServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2805,6 +2840,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceInput, GetServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceOutput>(GetServiceOutput.httpOutput(from:), GetServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceInput, GetServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceOutput>())
@@ -2836,9 +2872,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified service network.
     ///
-    /// - Parameter GetServiceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceNetworkInput`)
     ///
-    /// - Returns: `GetServiceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2873,6 +2909,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceNetworkInput, GetServiceNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceNetworkOutput>(GetServiceNetworkOutput.httpOutput(from:), GetServiceNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceNetworkInput, GetServiceNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceNetworkOutput>())
@@ -2904,9 +2941,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified association between a service network and a resource configuration.
     ///
-    /// - Parameter GetServiceNetworkResourceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceNetworkResourceAssociationInput`)
     ///
-    /// - Returns: `GetServiceNetworkResourceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceNetworkResourceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2941,6 +2978,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceNetworkResourceAssociationInput, GetServiceNetworkResourceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceNetworkResourceAssociationOutput>(GetServiceNetworkResourceAssociationOutput.httpOutput(from:), GetServiceNetworkResourceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceNetworkResourceAssociationInput, GetServiceNetworkResourceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceNetworkResourceAssociationOutput>())
@@ -2972,9 +3010,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified association between a service network and a service.
     ///
-    /// - Parameter GetServiceNetworkServiceAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceNetworkServiceAssociationInput`)
     ///
-    /// - Returns: `GetServiceNetworkServiceAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceNetworkServiceAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3009,6 +3047,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceNetworkServiceAssociationInput, GetServiceNetworkServiceAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceNetworkServiceAssociationOutput>(GetServiceNetworkServiceAssociationOutput.httpOutput(from:), GetServiceNetworkServiceAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceNetworkServiceAssociationInput, GetServiceNetworkServiceAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceNetworkServiceAssociationOutput>())
@@ -3040,9 +3079,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified association between a service network and a VPC.
     ///
-    /// - Parameter GetServiceNetworkVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceNetworkVpcAssociationInput`)
     ///
-    /// - Returns: `GetServiceNetworkVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceNetworkVpcAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3077,6 +3116,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetServiceNetworkVpcAssociationInput, GetServiceNetworkVpcAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceNetworkVpcAssociationOutput>(GetServiceNetworkVpcAssociationOutput.httpOutput(from:), GetServiceNetworkVpcAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceNetworkVpcAssociationInput, GetServiceNetworkVpcAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceNetworkVpcAssociationOutput>())
@@ -3108,9 +3148,9 @@ extension VPCLatticeClient {
     ///
     /// Retrieves information about the specified target group.
     ///
-    /// - Parameter GetTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTargetGroupInput`)
     ///
-    /// - Returns: `GetTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3145,6 +3185,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTargetGroupInput, GetTargetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTargetGroupOutput>(GetTargetGroupOutput.httpOutput(from:), GetTargetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTargetGroupInput, GetTargetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTargetGroupOutput>())
@@ -3176,9 +3217,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the access log subscriptions for the specified service network or service.
     ///
-    /// - Parameter ListAccessLogSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessLogSubscriptionsInput`)
     ///
-    /// - Returns: `ListAccessLogSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessLogSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3213,6 +3254,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessLogSubscriptionsInput, ListAccessLogSubscriptionsOutput>(ListAccessLogSubscriptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessLogSubscriptionsOutput>(ListAccessLogSubscriptionsOutput.httpOutput(from:), ListAccessLogSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessLogSubscriptionsInput, ListAccessLogSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessLogSubscriptionsOutput>())
@@ -3244,9 +3286,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the listeners for the specified service.
     ///
-    /// - Parameter ListListenersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListListenersInput`)
     ///
-    /// - Returns: `ListListenersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListListenersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3282,6 +3324,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListListenersInput, ListListenersOutput>(ListListenersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListListenersOutput>(ListListenersOutput.httpOutput(from:), ListListenersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListListenersInput, ListListenersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListListenersOutput>())
@@ -3313,9 +3356,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the resource configurations owned by or shared with this account.
     ///
-    /// - Parameter ListResourceConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceConfigurationsInput`)
     ///
-    /// - Returns: `ListResourceConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3350,6 +3393,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceConfigurationsInput, ListResourceConfigurationsOutput>(ListResourceConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceConfigurationsOutput>(ListResourceConfigurationsOutput.httpOutput(from:), ListResourceConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceConfigurationsInput, ListResourceConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceConfigurationsOutput>())
@@ -3381,9 +3425,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations for the specified VPC endpoint.
     ///
-    /// - Parameter ListResourceEndpointAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceEndpointAssociationsInput`)
     ///
-    /// - Returns: `ListResourceEndpointAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceEndpointAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3418,6 +3462,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceEndpointAssociationsInput, ListResourceEndpointAssociationsOutput>(ListResourceEndpointAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceEndpointAssociationsOutput>(ListResourceEndpointAssociationsOutput.httpOutput(from:), ListResourceEndpointAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceEndpointAssociationsInput, ListResourceEndpointAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceEndpointAssociationsOutput>())
@@ -3449,9 +3494,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the resource gateways that you own or that were shared with you.
     ///
-    /// - Parameter ListResourceGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceGatewaysInput`)
     ///
-    /// - Returns: `ListResourceGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3486,6 +3531,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListResourceGatewaysInput, ListResourceGatewaysOutput>(ListResourceGatewaysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceGatewaysOutput>(ListResourceGatewaysOutput.httpOutput(from:), ListResourceGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceGatewaysInput, ListResourceGatewaysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceGatewaysOutput>())
@@ -3517,9 +3563,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the rules for the specified listener.
     ///
-    /// - Parameter ListRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesInput`)
     ///
-    /// - Returns: `ListRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3555,6 +3601,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRulesInput, ListRulesOutput>(ListRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesOutput>(ListRulesOutput.httpOutput(from:), ListRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesInput, ListRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRulesOutput>())
@@ -3586,9 +3633,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations between a service network and a resource configuration.
     ///
-    /// - Parameter ListServiceNetworkResourceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworkResourceAssociationsInput`)
     ///
-    /// - Returns: `ListServiceNetworkResourceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworkResourceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3623,6 +3670,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServiceNetworkResourceAssociationsInput, ListServiceNetworkResourceAssociationsOutput>(ListServiceNetworkResourceAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceNetworkResourceAssociationsOutput>(ListServiceNetworkResourceAssociationsOutput.httpOutput(from:), ListServiceNetworkResourceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceNetworkResourceAssociationsInput, ListServiceNetworkResourceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceNetworkResourceAssociationsOutput>())
@@ -3654,9 +3702,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations between a service network and a service. You can filter the list either by service or service network. You must provide either the service network identifier or the service identifier. Every association in Amazon VPC Lattice has a unique Amazon Resource Name (ARN), such as when a service network is associated with a VPC or when a service is associated with a service network. If the association is for a resource is shared with another account, the association includes the local account ID as the prefix in the ARN.
     ///
-    /// - Parameter ListServiceNetworkServiceAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworkServiceAssociationsInput`)
     ///
-    /// - Returns: `ListServiceNetworkServiceAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworkServiceAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3691,6 +3739,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServiceNetworkServiceAssociationsInput, ListServiceNetworkServiceAssociationsOutput>(ListServiceNetworkServiceAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceNetworkServiceAssociationsOutput>(ListServiceNetworkServiceAssociationsOutput.httpOutput(from:), ListServiceNetworkServiceAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceNetworkServiceAssociationsInput, ListServiceNetworkServiceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceNetworkServiceAssociationsOutput>())
@@ -3722,9 +3771,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations between a service network and a VPC. You can filter the list either by VPC or service network. You must provide either the ID of the service network identifier or the ID of the VPC.
     ///
-    /// - Parameter ListServiceNetworkVpcAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworkVpcAssociationsInput`)
     ///
-    /// - Returns: `ListServiceNetworkVpcAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworkVpcAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3759,6 +3808,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServiceNetworkVpcAssociationsInput, ListServiceNetworkVpcAssociationsOutput>(ListServiceNetworkVpcAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceNetworkVpcAssociationsOutput>(ListServiceNetworkVpcAssociationsOutput.httpOutput(from:), ListServiceNetworkVpcAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceNetworkVpcAssociationsInput, ListServiceNetworkVpcAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceNetworkVpcAssociationsOutput>())
@@ -3790,9 +3840,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the associations between a service network and a VPC endpoint.
     ///
-    /// - Parameter ListServiceNetworkVpcEndpointAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworkVpcEndpointAssociationsInput`)
     ///
-    /// - Returns: `ListServiceNetworkVpcEndpointAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworkVpcEndpointAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3827,6 +3877,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServiceNetworkVpcEndpointAssociationsInput, ListServiceNetworkVpcEndpointAssociationsOutput>(ListServiceNetworkVpcEndpointAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceNetworkVpcEndpointAssociationsOutput>(ListServiceNetworkVpcEndpointAssociationsOutput.httpOutput(from:), ListServiceNetworkVpcEndpointAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceNetworkVpcEndpointAssociationsInput, ListServiceNetworkVpcEndpointAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceNetworkVpcEndpointAssociationsOutput>())
@@ -3858,9 +3909,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the service networks owned by or shared with this account. The account ID in the ARN shows which account owns the service network.
     ///
-    /// - Parameter ListServiceNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceNetworksInput`)
     ///
-    /// - Returns: `ListServiceNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3895,6 +3946,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServiceNetworksInput, ListServiceNetworksOutput>(ListServiceNetworksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceNetworksOutput>(ListServiceNetworksOutput.httpOutput(from:), ListServiceNetworksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceNetworksInput, ListServiceNetworksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceNetworksOutput>())
@@ -3926,9 +3978,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the services owned by the caller account or shared with the caller account.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3963,6 +4015,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListServicesInput, ListServicesOutput>(ListServicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesOutput>())
@@ -3994,9 +4047,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4030,6 +4083,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4061,9 +4115,9 @@ extension VPCLatticeClient {
     ///
     /// Lists your target groups. You can narrow your search by using the filters below in your request.
     ///
-    /// - Parameter ListTargetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetGroupsInput`)
     ///
-    /// - Returns: `ListTargetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4098,6 +4152,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTargetGroupsInput, ListTargetGroupsOutput>(ListTargetGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetGroupsOutput>(ListTargetGroupsOutput.httpOutput(from:), ListTargetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetGroupsInput, ListTargetGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetGroupsOutput>())
@@ -4129,9 +4184,9 @@ extension VPCLatticeClient {
     ///
     /// Lists the targets for the target group. By default, all targets are included. You can use this API to check the health status of targets. You can also ﬁlter the results by target.
     ///
-    /// - Parameter ListTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTargetsInput`)
     ///
-    /// - Returns: `ListTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4170,6 +4225,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTargetsInput, ListTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTargetsOutput>(ListTargetsOutput.httpOutput(from:), ListTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTargetsInput, ListTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTargetsOutput>())
@@ -4201,9 +4257,9 @@ extension VPCLatticeClient {
     ///
     /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines. For more information, see [Auth policies](https://docs.aws.amazon.com/vpc-lattice/latest/ug/auth-policies.html) in the Amazon VPC Lattice User Guide.
     ///
-    /// - Parameter PutAuthPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAuthPolicyInput`)
     ///
-    /// - Returns: `PutAuthPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAuthPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4241,6 +4297,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAuthPolicyInput, PutAuthPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAuthPolicyOutput>(PutAuthPolicyOutput.httpOutput(from:), PutAuthPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAuthPolicyInput, PutAuthPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAuthPolicyOutput>())
@@ -4272,9 +4329,9 @@ extension VPCLatticeClient {
     ///
     /// Attaches a resource-based permission policy to a service or service network. The policy must contain the same actions and condition statements as the Amazon Web Services Resource Access Manager permission for sharing services and service networks.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4312,6 +4369,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -4343,9 +4401,9 @@ extension VPCLatticeClient {
     ///
     /// Registers the targets with the target group. If it's a Lambda target, you can only have one target in a target group.
     ///
-    /// - Parameter RegisterTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTargetsInput`)
     ///
-    /// - Returns: `RegisterTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4385,6 +4443,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTargetsInput, RegisterTargetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTargetsOutput>(RegisterTargetsOutput.httpOutput(from:), RegisterTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTargetsInput, RegisterTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTargetsOutput>())
@@ -4416,9 +4475,9 @@ extension VPCLatticeClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4456,6 +4515,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4487,9 +4547,9 @@ extension VPCLatticeClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4524,6 +4584,7 @@ extension VPCLatticeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4555,9 +4616,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified access log subscription.
     ///
-    /// - Parameter UpdateAccessLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessLogSubscriptionInput`)
     ///
-    /// - Returns: `UpdateAccessLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4596,6 +4657,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessLogSubscriptionInput, UpdateAccessLogSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessLogSubscriptionOutput>(UpdateAccessLogSubscriptionOutput.httpOutput(from:), UpdateAccessLogSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessLogSubscriptionInput, UpdateAccessLogSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessLogSubscriptionOutput>())
@@ -4627,9 +4689,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified listener for the specified service.
     ///
-    /// - Parameter UpdateListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateListenerInput`)
     ///
-    /// - Returns: `UpdateListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4669,6 +4731,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateListenerInput, UpdateListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateListenerOutput>(UpdateListenerOutput.httpOutput(from:), UpdateListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateListenerInput, UpdateListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateListenerOutput>())
@@ -4700,9 +4763,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified resource configuration.
     ///
-    /// - Parameter UpdateResourceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceConfigurationInput`)
     ///
-    /// - Returns: `UpdateResourceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4741,6 +4804,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceConfigurationInput, UpdateResourceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceConfigurationOutput>(UpdateResourceConfigurationOutput.httpOutput(from:), UpdateResourceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceConfigurationInput, UpdateResourceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceConfigurationOutput>())
@@ -4772,14 +4836,15 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified resource gateway.
     ///
-    /// - Parameter UpdateResourceGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceGatewayInput`)
     ///
-    /// - Returns: `UpdateResourceGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with the current state of the resource. Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
@@ -4812,6 +4877,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceGatewayInput, UpdateResourceGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceGatewayOutput>(UpdateResourceGatewayOutput.httpOutput(from:), UpdateResourceGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceGatewayInput, UpdateResourceGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceGatewayOutput>())
@@ -4843,9 +4909,9 @@ extension VPCLatticeClient {
     ///
     /// Updates a specified rule for the listener. You can't modify a default listener rule. To modify a default listener rule, use UpdateListener.
     ///
-    /// - Parameter UpdateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleInput`)
     ///
-    /// - Returns: `UpdateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4885,6 +4951,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleInput, UpdateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleOutput>(UpdateRuleOutput.httpOutput(from:), UpdateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleInput, UpdateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleOutput>())
@@ -4916,9 +4983,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified service.
     ///
-    /// - Parameter UpdateServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceInput`)
     ///
-    /// - Returns: `UpdateServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4958,6 +5025,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceInput, UpdateServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceOutput>(UpdateServiceOutput.httpOutput(from:), UpdateServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceInput, UpdateServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceOutput>())
@@ -4989,9 +5057,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified service network.
     ///
-    /// - Parameter UpdateServiceNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceNetworkInput`)
     ///
-    /// - Returns: `UpdateServiceNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5030,6 +5098,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceNetworkInput, UpdateServiceNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceNetworkOutput>(UpdateServiceNetworkOutput.httpOutput(from:), UpdateServiceNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceNetworkInput, UpdateServiceNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceNetworkOutput>())
@@ -5061,9 +5130,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and then recreate it without security groups.
     ///
-    /// - Parameter UpdateServiceNetworkVpcAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateServiceNetworkVpcAssociationInput`)
     ///
-    /// - Returns: `UpdateServiceNetworkVpcAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateServiceNetworkVpcAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5102,6 +5171,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateServiceNetworkVpcAssociationInput, UpdateServiceNetworkVpcAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateServiceNetworkVpcAssociationOutput>(UpdateServiceNetworkVpcAssociationOutput.httpOutput(from:), UpdateServiceNetworkVpcAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateServiceNetworkVpcAssociationInput, UpdateServiceNetworkVpcAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateServiceNetworkVpcAssociationOutput>())
@@ -5133,9 +5203,9 @@ extension VPCLatticeClient {
     ///
     /// Updates the specified target group.
     ///
-    /// - Parameter UpdateTargetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTargetGroupInput`)
     ///
-    /// - Returns: `UpdateTargetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTargetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5175,6 +5245,7 @@ extension VPCLatticeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTargetGroupInput, UpdateTargetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTargetGroupOutput>(UpdateTargetGroupOutput.httpOutput(from:), UpdateTargetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTargetGroupInput, UpdateTargetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTargetGroupOutput>())

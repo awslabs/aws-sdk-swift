@@ -20,6 +20,7 @@ import class Smithy.Context
 import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -62,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 package class SSOClient: ClientRuntime.Client {
     public static let clientName = "SSOClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SSOClient.SSOClientConfiguration
     let serviceName = "SSO"
@@ -368,9 +369,9 @@ extension SSOClient {
     ///
     /// Returns the STS short-term credentials for a given role name that is assigned to the user.
     ///
-    /// - Parameter GetRoleCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRoleCredentialsInput`)
     ///
-    /// - Returns: `GetRoleCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRoleCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -404,6 +405,7 @@ extension SSOClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(GetRoleCredentialsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRoleCredentialsOutput>(GetRoleCredentialsOutput.httpOutput(from:), GetRoleCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRoleCredentialsInput, GetRoleCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRoleCredentialsOutput>())

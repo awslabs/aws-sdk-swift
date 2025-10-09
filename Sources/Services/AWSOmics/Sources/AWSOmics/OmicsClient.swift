@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -73,7 +74,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OmicsClient: ClientRuntime.Client {
     public static let clientName = "OmicsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: OmicsClient.OmicsClientConfiguration
     let serviceName = "Omics"
@@ -379,9 +380,9 @@ extension OmicsClient {
     ///
     /// Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the ListMultipartReadSetUploads API operation to view all active multipart read set uploads.
     ///
-    /// - Parameter AbortMultipartReadSetUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AbortMultipartReadSetUploadInput`)
     ///
-    /// - Returns: `AbortMultipartReadSetUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AbortMultipartReadSetUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -419,6 +420,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AbortMultipartReadSetUploadInput, AbortMultipartReadSetUploadOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AbortMultipartReadSetUploadOutput>(AbortMultipartReadSetUploadOutput.httpOutput(from:), AbortMultipartReadSetUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AbortMultipartReadSetUploadInput, AbortMultipartReadSetUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AbortMultipartReadSetUploadOutput>())
@@ -450,9 +452,9 @@ extension OmicsClient {
     ///
     /// Accept a resource share request.
     ///
-    /// - Parameter AcceptShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptShareInput`)
     ///
-    /// - Returns: `AcceptShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,6 +491,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptShareInput, AcceptShareOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptShareOutput>(AcceptShareOutput.httpOutput(from:), AcceptShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptShareInput, AcceptShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptShareOutput>())
@@ -520,9 +523,9 @@ extension OmicsClient {
     ///
     /// Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each BatchDeleteReadSet API call.
     ///
-    /// - Parameter BatchDeleteReadSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteReadSetInput`)
     ///
-    /// - Returns: `BatchDeleteReadSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteReadSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +564,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteReadSetInput, BatchDeleteReadSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteReadSetOutput>(BatchDeleteReadSetOutput.httpOutput(from:), BatchDeleteReadSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteReadSetInput, BatchDeleteReadSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteReadSetOutput>())
@@ -592,9 +596,9 @@ extension OmicsClient {
     ///
     /// Cancels an annotation import job.
     ///
-    /// - Parameter CancelAnnotationImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelAnnotationImportJobInput`)
     ///
-    /// - Returns: `CancelAnnotationImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelAnnotationImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,6 +633,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelAnnotationImportJobInput, CancelAnnotationImportJobOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelAnnotationImportJobOutput>(CancelAnnotationImportJobOutput.httpOutput(from:), CancelAnnotationImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelAnnotationImportJobInput, CancelAnnotationImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelAnnotationImportJobOutput>())
@@ -660,9 +665,9 @@ extension OmicsClient {
     ///
     /// Cancels a run using its ID and returns a response with no body if the operation is successful. To confirm that the run has been cancelled, use the ListRuns API operation to check that it is no longer listed.
     ///
-    /// - Parameter CancelRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelRunInput`)
     ///
-    /// - Returns: `CancelRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -700,6 +705,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelRunInput, CancelRunOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelRunOutput>(CancelRunOutput.httpOutput(from:), CancelRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelRunInput, CancelRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelRunOutput>())
@@ -731,9 +737,9 @@ extension OmicsClient {
     ///
     /// Cancels a variant import job.
     ///
-    /// - Parameter CancelVariantImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelVariantImportJobInput`)
     ///
-    /// - Returns: `CancelVariantImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelVariantImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,6 +774,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelVariantImportJobInput, CancelVariantImportJobOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelVariantImportJobOutput>(CancelVariantImportJobOutput.httpOutput(from:), CancelVariantImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelVariantImportJobInput, CancelVariantImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelVariantImportJobOutput>())
@@ -799,9 +806,9 @@ extension OmicsClient {
     ///
     /// Completes a multipart read set upload into a sequence store after you have initiated the upload process with CreateMultipartReadSetUpload and uploaded all read set parts using UploadReadSetPart. You must specify the parts you uploaded using the parts parameter. If the operation is successful, it returns the read set ID(s) of the uploaded read set(s). For more information, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CompleteMultipartReadSetUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CompleteMultipartReadSetUploadInput`)
     ///
-    /// - Returns: `CompleteMultipartReadSetUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CompleteMultipartReadSetUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,6 +849,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CompleteMultipartReadSetUploadInput, CompleteMultipartReadSetUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CompleteMultipartReadSetUploadOutput>(CompleteMultipartReadSetUploadOutput.httpOutput(from:), CompleteMultipartReadSetUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CompleteMultipartReadSetUploadInput, CompleteMultipartReadSetUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CompleteMultipartReadSetUploadOutput>())
@@ -873,9 +881,9 @@ extension OmicsClient {
     ///
     /// Creates an annotation store.
     ///
-    /// - Parameter CreateAnnotationStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnnotationStoreInput`)
     ///
-    /// - Returns: `CreateAnnotationStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnnotationStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -915,6 +923,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnnotationStoreInput, CreateAnnotationStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnnotationStoreOutput>(CreateAnnotationStoreOutput.httpOutput(from:), CreateAnnotationStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnnotationStoreInput, CreateAnnotationStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnnotationStoreOutput>())
@@ -946,9 +955,9 @@ extension OmicsClient {
     ///
     /// Creates a new version of an annotation store.
     ///
-    /// - Parameter CreateAnnotationStoreVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAnnotationStoreVersionInput`)
     ///
-    /// - Returns: `CreateAnnotationStoreVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAnnotationStoreVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -988,6 +997,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAnnotationStoreVersionInput, CreateAnnotationStoreVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAnnotationStoreVersionOutput>(CreateAnnotationStoreVersionOutput.httpOutput(from:), CreateAnnotationStoreVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAnnotationStoreVersionInput, CreateAnnotationStoreVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAnnotationStoreVersionOutput>())
@@ -1026,9 +1036,9 @@ extension OmicsClient {
     ///
     /// When you have finished uploading parts, use the CompleteMultipartReadSetUpload API to complete the multipart read set upload and to retrieve the final read set IDs in the response. To learn more about creating parts and the split operation, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateMultipartReadSetUploadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMultipartReadSetUploadInput`)
     ///
-    /// - Returns: `CreateMultipartReadSetUploadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMultipartReadSetUploadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,6 +1079,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMultipartReadSetUploadInput, CreateMultipartReadSetUploadOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMultipartReadSetUploadOutput>(CreateMultipartReadSetUploadOutput.httpOutput(from:), CreateMultipartReadSetUploadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMultipartReadSetUploadInput, CreateMultipartReadSetUploadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMultipartReadSetUploadOutput>())
@@ -1100,9 +1111,9 @@ extension OmicsClient {
     ///
     /// Creates a reference store and returns metadata in JSON format. Reference stores are used to store reference genomes in FASTA format. A reference store is created when the first reference genome is imported. To import additional reference genomes from an Amazon S3 bucket, use the StartReferenceImportJob API operation. For more information, see [Creating a HealthOmics reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateReferenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReferenceStoreInput`)
     ///
-    /// - Returns: `CreateReferenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReferenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1141,6 +1152,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReferenceStoreInput, CreateReferenceStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReferenceStoreOutput>(CreateReferenceStoreOutput.httpOutput(from:), CreateReferenceStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReferenceStoreInput, CreateReferenceStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReferenceStoreOutput>())
@@ -1172,9 +1184,9 @@ extension OmicsClient {
     ///
     /// Creates a run cache to store and reference task outputs from completed private runs. Specify an Amazon S3 location where Amazon Web Services HealthOmics saves the cached data. This data must be immediately accessible and not in an archived state. You can save intermediate task files to a run cache if they are declared as task outputs in the workflow definition file. For more information, see [Call caching](https://docs.aws.amazon.com/omics/latest/dev/workflows-call-caching.html) and [Creating a run cache](https://docs.aws.amazon.com/omics/latest/dev/workflow-cache-create.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateRunCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRunCacheInput`)
     ///
-    /// - Returns: `CreateRunCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRunCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,6 +1228,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRunCacheInput, CreateRunCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRunCacheOutput>(CreateRunCacheOutput.httpOutput(from:), CreateRunCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRunCacheInput, CreateRunCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRunCacheOutput>())
@@ -1247,9 +1260,9 @@ extension OmicsClient {
     ///
     /// Creates a run group to limit the compute resources for the runs that are added to the group. Returns an ARN, ID, and tags for the run group.
     ///
-    /// - Parameter CreateRunGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRunGroupInput`)
     ///
-    /// - Returns: `CreateRunGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRunGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1291,6 +1304,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRunGroupInput, CreateRunGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRunGroupOutput>(CreateRunGroupOutput.httpOutput(from:), CreateRunGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRunGroupInput, CreateRunGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRunGroupOutput>())
@@ -1335,9 +1349,9 @@ extension OmicsClient {
     ///
     /// For more information, see [Creating a HealthOmics sequence store](https://docs.aws.amazon.com/omics/latest/dev/create-sequence-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateSequenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSequenceStoreInput`)
     ///
-    /// - Returns: `CreateSequenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSequenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1377,6 +1391,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSequenceStoreInput, CreateSequenceStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSequenceStoreOutput>(CreateSequenceStoreOutput.httpOutput(from:), CreateSequenceStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSequenceStoreInput, CreateSequenceStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSequenceStoreOutput>())
@@ -1414,9 +1429,9 @@ extension OmicsClient {
     ///
     /// * Private workflows
     ///
-    /// - Parameter CreateShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateShareInput`)
     ///
-    /// - Returns: `CreateShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1456,6 +1471,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateShareInput, CreateShareOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateShareOutput>(CreateShareOutput.httpOutput(from:), CreateShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateShareInput, CreateShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateShareOutput>())
@@ -1487,9 +1503,9 @@ extension OmicsClient {
     ///
     /// Creates a variant store.
     ///
-    /// - Parameter CreateVariantStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVariantStoreInput`)
     ///
-    /// - Returns: `CreateVariantStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVariantStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1529,6 +1545,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVariantStoreInput, CreateVariantStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVariantStoreOutput>(CreateVariantStoreOutput.httpOutput(from:), CreateVariantStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVariantStoreInput, CreateVariantStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVariantStoreOutput>())
@@ -1571,9 +1588,9 @@ extension OmicsClient {
     ///
     /// For more information, see [Creating or updating a private workflow in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/creating-private-workflows.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowInput`)
     ///
-    /// - Returns: `CreateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1615,6 +1632,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowInput, CreateWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkflowOutput>(CreateWorkflowOutput.httpOutput(from:), CreateWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowInput, CreateWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkflowOutput>())
@@ -1646,9 +1664,9 @@ extension OmicsClient {
     ///
     /// Creates a new workflow version for the workflow that you specify with the workflowId parameter. When you create a new version of a workflow, you need to specify the configuration for the new version. It doesn't inherit any configuration values from the workflow. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version. Don't include any personally identifiable information (PII) in the version name. Version names appear in the workflow version ARN. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter CreateWorkflowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkflowVersionInput`)
     ///
-    /// - Returns: `CreateWorkflowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkflowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1690,6 +1708,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkflowVersionInput, CreateWorkflowVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkflowVersionOutput>(CreateWorkflowVersionOutput.httpOutput(from:), CreateWorkflowVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkflowVersionInput, CreateWorkflowVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkflowVersionOutput>())
@@ -1721,9 +1740,9 @@ extension OmicsClient {
     ///
     /// Deletes an annotation store.
     ///
-    /// - Parameter DeleteAnnotationStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnnotationStoreInput`)
     ///
-    /// - Returns: `DeleteAnnotationStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnnotationStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1760,6 +1779,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAnnotationStoreInput, DeleteAnnotationStoreOutput>(DeleteAnnotationStoreInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnnotationStoreOutput>(DeleteAnnotationStoreOutput.httpOutput(from:), DeleteAnnotationStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnnotationStoreInput, DeleteAnnotationStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnnotationStoreOutput>())
@@ -1791,9 +1811,9 @@ extension OmicsClient {
     ///
     /// Deletes one or multiple versions of an annotation store.
     ///
-    /// - Parameter DeleteAnnotationStoreVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnnotationStoreVersionsInput`)
     ///
-    /// - Returns: `DeleteAnnotationStoreVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnnotationStoreVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1833,6 +1853,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnnotationStoreVersionsOutput>(DeleteAnnotationStoreVersionsOutput.httpOutput(from:), DeleteAnnotationStoreVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnnotationStoreVersionsOutput>())
@@ -1864,9 +1885,9 @@ extension OmicsClient {
     ///
     /// Deletes a reference genome and returns a response with no body if the operation is successful. The read set associated with the reference genome must first be deleted before deleting the reference genome. After the reference genome is deleted, you can delete the reference store using the DeleteReferenceStore API operation. For more information, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReferenceInput`)
     ///
-    /// - Returns: `DeleteReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1903,6 +1924,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReferenceInput, DeleteReferenceOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReferenceOutput>(DeleteReferenceOutput.httpOutput(from:), DeleteReferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReferenceInput, DeleteReferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReferenceOutput>())
@@ -1934,9 +1956,9 @@ extension OmicsClient {
     ///
     /// Deletes a reference store and returns a response with no body if the operation is successful. You can only delete a reference store when it does not contain any reference genomes. To empty a reference store, use DeleteReference. For more information about your workflow status, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteReferenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReferenceStoreInput`)
     ///
-    /// - Returns: `DeleteReferenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReferenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1973,6 +1995,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteReferenceStoreInput, DeleteReferenceStoreOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReferenceStoreOutput>(DeleteReferenceStoreOutput.httpOutput(from:), DeleteReferenceStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReferenceStoreInput, DeleteReferenceStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReferenceStoreOutput>())
@@ -2008,9 +2031,9 @@ extension OmicsClient {
     ///
     /// * Use GetRun to verify the workflow cannot be found.
     ///
-    /// - Parameter DeleteRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRunInput`)
     ///
-    /// - Returns: `DeleteRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2048,6 +2071,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRunInput, DeleteRunOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRunOutput>(DeleteRunOutput.httpOutput(from:), DeleteRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRunInput, DeleteRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRunOutput>())
@@ -2079,9 +2103,9 @@ extension OmicsClient {
     ///
     /// Deletes a run cache and returns a response with no body if the operation is successful. This action removes the cache metadata stored in the service account, but does not delete the data in Amazon S3. You can access the cache data in Amazon S3, for inspection or to troubleshoot issues. You can remove old cache data using standard S3 Delete operations. For more information, see [Deleting a run cache](https://docs.aws.amazon.com/omics/latest/dev/workflow-cache-delete.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteRunCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRunCacheInput`)
     ///
-    /// - Returns: `DeleteRunCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRunCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2119,6 +2143,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRunCacheInput, DeleteRunCacheOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRunCacheOutput>(DeleteRunCacheOutput.httpOutput(from:), DeleteRunCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRunCacheInput, DeleteRunCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRunCacheOutput>())
@@ -2154,9 +2179,9 @@ extension OmicsClient {
     ///
     /// * Use GetRunGroup to verify the workflow cannot be found.
     ///
-    /// - Parameter DeleteRunGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRunGroupInput`)
     ///
-    /// - Returns: `DeleteRunGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRunGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2194,6 +2219,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRunGroupInput, DeleteRunGroupOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRunGroupOutput>(DeleteRunGroupOutput.httpOutput(from:), DeleteRunGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRunGroupInput, DeleteRunGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRunGroupOutput>())
@@ -2225,9 +2251,9 @@ extension OmicsClient {
     ///
     /// Deletes an access policy for the specified store.
     ///
-    /// - Parameter DeleteS3AccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteS3AccessPolicyInput`)
     ///
-    /// - Returns: `DeleteS3AccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteS3AccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2264,6 +2290,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteS3AccessPolicyInput, DeleteS3AccessPolicyOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteS3AccessPolicyOutput>(DeleteS3AccessPolicyOutput.httpOutput(from:), DeleteS3AccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteS3AccessPolicyInput, DeleteS3AccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteS3AccessPolicyOutput>())
@@ -2295,9 +2322,9 @@ extension OmicsClient {
     ///
     /// Deletes a sequence store and returns a response with no body if the operation is successful. You can only delete a sequence store when it does not contain any read sets. Use the BatchDeleteReadSet API operation to ensure that all read sets in the sequence store are deleted. When a sequence store is deleted, all tags associated with the store are also deleted. For more information, see [Deleting HealthOmics reference and sequence stores](https://docs.aws.amazon.com/omics/latest/dev/deleting-reference-and-sequence-stores.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteSequenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSequenceStoreInput`)
     ///
-    /// - Returns: `DeleteSequenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSequenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2334,6 +2361,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSequenceStoreInput, DeleteSequenceStoreOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSequenceStoreOutput>(DeleteSequenceStoreOutput.httpOutput(from:), DeleteSequenceStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSequenceStoreInput, DeleteSequenceStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSequenceStoreOutput>())
@@ -2365,9 +2393,9 @@ extension OmicsClient {
     ///
     /// Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
     ///
-    /// - Parameter DeleteShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteShareInput`)
     ///
-    /// - Returns: `DeleteShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2404,6 +2432,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteShareInput, DeleteShareOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteShareOutput>(DeleteShareOutput.httpOutput(from:), DeleteShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteShareInput, DeleteShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteShareOutput>())
@@ -2435,9 +2464,9 @@ extension OmicsClient {
     ///
     /// Deletes a variant store.
     ///
-    /// - Parameter DeleteVariantStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVariantStoreInput`)
     ///
-    /// - Returns: `DeleteVariantStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVariantStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2474,6 +2503,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteVariantStoreInput, DeleteVariantStoreOutput>(DeleteVariantStoreInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVariantStoreOutput>(DeleteVariantStoreOutput.httpOutput(from:), DeleteVariantStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVariantStoreInput, DeleteVariantStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVariantStoreOutput>())
@@ -2509,9 +2539,9 @@ extension OmicsClient {
     ///
     /// * Use GetWorkflow to verify the workflow cannot be found.
     ///
-    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowInput`)
     ///
-    /// - Returns: `DeleteWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2549,6 +2579,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowOutput>(DeleteWorkflowOutput.httpOutput(from:), DeleteWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowInput, DeleteWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowOutput>())
@@ -2580,9 +2611,9 @@ extension OmicsClient {
     ///
     /// Deletes a workflow version. Deleting a workflow version doesn't affect any ongoing runs that are using the workflow version. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter DeleteWorkflowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkflowVersionInput`)
     ///
-    /// - Returns: `DeleteWorkflowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkflowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2620,6 +2651,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkflowVersionInput, DeleteWorkflowVersionOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkflowVersionOutput>(DeleteWorkflowVersionOutput.httpOutput(from:), DeleteWorkflowVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkflowVersionInput, DeleteWorkflowVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkflowVersionOutput>())
@@ -2651,9 +2683,9 @@ extension OmicsClient {
     ///
     /// Gets information about an annotation import job.
     ///
-    /// - Parameter GetAnnotationImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnnotationImportJobInput`)
     ///
-    /// - Returns: `GetAnnotationImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnnotationImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2688,6 +2720,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnnotationImportJobInput, GetAnnotationImportJobOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnnotationImportJobOutput>(GetAnnotationImportJobOutput.httpOutput(from:), GetAnnotationImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnnotationImportJobInput, GetAnnotationImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnnotationImportJobOutput>())
@@ -2719,9 +2752,9 @@ extension OmicsClient {
     ///
     /// Gets information about an annotation store.
     ///
-    /// - Parameter GetAnnotationStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnnotationStoreInput`)
     ///
-    /// - Returns: `GetAnnotationStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnnotationStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2756,6 +2789,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnnotationStoreInput, GetAnnotationStoreOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnnotationStoreOutput>(GetAnnotationStoreOutput.httpOutput(from:), GetAnnotationStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnnotationStoreInput, GetAnnotationStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnnotationStoreOutput>())
@@ -2787,9 +2821,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata for an annotation store version.
     ///
-    /// - Parameter GetAnnotationStoreVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAnnotationStoreVersionInput`)
     ///
-    /// - Returns: `GetAnnotationStoreVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAnnotationStoreVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2824,6 +2858,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAnnotationStoreVersionInput, GetAnnotationStoreVersionOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAnnotationStoreVersionOutput>(GetAnnotationStoreVersionOutput.httpOutput(from:), GetAnnotationStoreVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAnnotationStoreVersionInput, GetAnnotationStoreVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAnnotationStoreVersionOutput>())
@@ -2855,9 +2890,9 @@ extension OmicsClient {
     ///
     /// Retrieves detailed information from parts of a read set and returns the read set in the same format that it was uploaded. You must have read sets uploaded to your sequence store in order to run this operation.
     ///
-    /// - Parameter GetReadSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetInput`)
     ///
-    /// - Returns: `GetReadSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2896,6 +2931,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetReadSetInput, GetReadSetOutput>(GetReadSetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReadSetOutput>(GetReadSetOutput.httpOutput(from:), GetReadSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReadSetInput, GetReadSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReadSetOutput>())
@@ -2927,9 +2963,9 @@ extension OmicsClient {
     ///
     /// Returns detailed information about the status of a read set activation job in JSON format.
     ///
-    /// - Parameter GetReadSetActivationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetActivationJobInput`)
     ///
-    /// - Returns: `GetReadSetActivationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetActivationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2965,6 +3001,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReadSetActivationJobInput, GetReadSetActivationJobOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReadSetActivationJobOutput>(GetReadSetActivationJobOutput.httpOutput(from:), GetReadSetActivationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReadSetActivationJobInput, GetReadSetActivationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReadSetActivationJobOutput>())
@@ -2996,9 +3033,9 @@ extension OmicsClient {
     ///
     /// Retrieves status information about a read set export job and returns the data in JSON format. Use this operation to actively monitor the progress of an export job.
     ///
-    /// - Parameter GetReadSetExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetExportJobInput`)
     ///
-    /// - Returns: `GetReadSetExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3034,6 +3071,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReadSetExportJobInput, GetReadSetExportJobOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReadSetExportJobOutput>(GetReadSetExportJobOutput.httpOutput(from:), GetReadSetExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReadSetExportJobInput, GetReadSetExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReadSetExportJobOutput>())
@@ -3065,9 +3103,9 @@ extension OmicsClient {
     ///
     /// Gets detailed and status information about a read set import job and returns the data in JSON format.
     ///
-    /// - Parameter GetReadSetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetImportJobInput`)
     ///
-    /// - Returns: `GetReadSetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3103,6 +3141,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReadSetImportJobInput, GetReadSetImportJobOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReadSetImportJobOutput>(GetReadSetImportJobOutput.httpOutput(from:), GetReadSetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReadSetImportJobInput, GetReadSetImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReadSetImportJobOutput>())
@@ -3134,9 +3173,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata for a read set from a sequence store in JSON format. This operation does not return tags. To retrieve the list of tags for a read set, use the ListTagsForResource API operation.
     ///
-    /// - Parameter GetReadSetMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReadSetMetadataInput`)
     ///
-    /// - Returns: `GetReadSetMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReadSetMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3172,6 +3211,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReadSetMetadataInput, GetReadSetMetadataOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReadSetMetadataOutput>(GetReadSetMetadataOutput.httpOutput(from:), GetReadSetMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReadSetMetadataInput, GetReadSetMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReadSetMetadataOutput>())
@@ -3203,9 +3243,9 @@ extension OmicsClient {
     ///
     /// Downloads parts of data from a reference genome and returns the reference file in the same format that it was uploaded. For more information, see [Creating a HealthOmics reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetReferenceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReferenceInput`)
     ///
-    /// - Returns: `GetReferenceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReferenceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3244,6 +3284,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetReferenceInput, GetReferenceOutput>(GetReferenceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReferenceOutput>(GetReferenceOutput.httpOutput(from:), GetReferenceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReferenceInput, GetReferenceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReferenceOutput>())
@@ -3275,9 +3316,9 @@ extension OmicsClient {
     ///
     /// Monitors the status of a reference import job. This operation can be called after calling the StartReferenceImportJob operation.
     ///
-    /// - Parameter GetReferenceImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReferenceImportJobInput`)
     ///
-    /// - Returns: `GetReferenceImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReferenceImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3313,6 +3354,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReferenceImportJobInput, GetReferenceImportJobOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReferenceImportJobOutput>(GetReferenceImportJobOutput.httpOutput(from:), GetReferenceImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReferenceImportJobInput, GetReferenceImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReferenceImportJobOutput>())
@@ -3344,9 +3386,9 @@ extension OmicsClient {
     ///
     /// Retrieves metadata for a reference genome. This operation returns the number of parts, part size, and MD5 of an entire file. This operation does not return tags. To retrieve the list of tags for a read set, use the ListTagsForResource API operation.
     ///
-    /// - Parameter GetReferenceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReferenceMetadataInput`)
     ///
-    /// - Returns: `GetReferenceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReferenceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3382,6 +3424,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReferenceMetadataInput, GetReferenceMetadataOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReferenceMetadataOutput>(GetReferenceMetadataOutput.httpOutput(from:), GetReferenceMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReferenceMetadataInput, GetReferenceMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReferenceMetadataOutput>())
@@ -3413,9 +3456,9 @@ extension OmicsClient {
     ///
     /// Gets information about a reference store.
     ///
-    /// - Parameter GetReferenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReferenceStoreInput`)
     ///
-    /// - Returns: `GetReferenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReferenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3451,6 +3494,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetReferenceStoreInput, GetReferenceStoreOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReferenceStoreOutput>(GetReferenceStoreOutput.httpOutput(from:), GetReferenceStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReferenceStoreInput, GetReferenceStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReferenceStoreOutput>())
@@ -3482,9 +3526,9 @@ extension OmicsClient {
     ///
     /// Gets detailed information about a specific run using its ID. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If GetRun does not return the requested run, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see [CloudWatch logs](https://docs.aws.amazon.com/omics/latest/dev/monitoring-cloudwatch-logs.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRunInput`)
     ///
-    /// - Returns: `GetRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3523,6 +3567,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRunInput, GetRunOutput>(GetRunInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRunOutput>(GetRunOutput.httpOutput(from:), GetRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRunInput, GetRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRunOutput>())
@@ -3554,9 +3599,9 @@ extension OmicsClient {
     ///
     /// Retrieves detailed information about the specified run cache using its ID. For more information, see [Call caching for Amazon Web Services HealthOmics runs](https://docs.aws.amazon.com/omics/latest/dev/workflows-call-caching.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetRunCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRunCacheInput`)
     ///
-    /// - Returns: `GetRunCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRunCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3594,6 +3639,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRunCacheInput, GetRunCacheOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRunCacheOutput>(GetRunCacheOutput.httpOutput(from:), GetRunCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRunCacheInput, GetRunCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRunCacheOutput>())
@@ -3625,9 +3671,9 @@ extension OmicsClient {
     ///
     /// Gets information about a run group and returns its metadata.
     ///
-    /// - Parameter GetRunGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRunGroupInput`)
     ///
-    /// - Returns: `GetRunGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRunGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3665,6 +3711,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRunGroupInput, GetRunGroupOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRunGroupOutput>(GetRunGroupOutput.httpOutput(from:), GetRunGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRunGroupInput, GetRunGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRunGroupOutput>())
@@ -3696,9 +3743,9 @@ extension OmicsClient {
     ///
     /// Gets detailed information about a run task using its ID.
     ///
-    /// - Parameter GetRunTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRunTaskInput`)
     ///
-    /// - Returns: `GetRunTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRunTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3736,6 +3783,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRunTaskInput, GetRunTaskOutput>(hostPrefix: "workflows-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRunTaskOutput>(GetRunTaskOutput.httpOutput(from:), GetRunTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRunTaskInput, GetRunTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRunTaskOutput>())
@@ -3767,9 +3815,9 @@ extension OmicsClient {
     ///
     /// Retrieves details about an access policy on a given store.
     ///
-    /// - Parameter GetS3AccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetS3AccessPolicyInput`)
     ///
-    /// - Returns: `GetS3AccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetS3AccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3807,6 +3855,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetS3AccessPolicyInput, GetS3AccessPolicyOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetS3AccessPolicyOutput>(GetS3AccessPolicyOutput.httpOutput(from:), GetS3AccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetS3AccessPolicyInput, GetS3AccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetS3AccessPolicyOutput>())
@@ -3838,9 +3887,9 @@ extension OmicsClient {
     ///
     /// Retrieves metadata for a sequence store using its ID and returns it in JSON format.
     ///
-    /// - Parameter GetSequenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSequenceStoreInput`)
     ///
-    /// - Returns: `GetSequenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSequenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3876,6 +3925,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSequenceStoreInput, GetSequenceStoreOutput>(hostPrefix: "control-storage-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSequenceStoreOutput>(GetSequenceStoreOutput.httpOutput(from:), GetSequenceStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSequenceStoreInput, GetSequenceStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSequenceStoreOutput>())
@@ -3907,9 +3957,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata for the specified resource share.
     ///
-    /// - Parameter GetShareInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetShareInput`)
     ///
-    /// - Returns: `GetShareOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetShareOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3946,6 +3996,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetShareInput, GetShareOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetShareOutput>(GetShareOutput.httpOutput(from:), GetShareOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetShareInput, GetShareOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetShareOutput>())
@@ -3977,9 +4028,9 @@ extension OmicsClient {
     ///
     /// Gets information about a variant import job.
     ///
-    /// - Parameter GetVariantImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVariantImportJobInput`)
     ///
-    /// - Returns: `GetVariantImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVariantImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4014,6 +4065,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVariantImportJobInput, GetVariantImportJobOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVariantImportJobOutput>(GetVariantImportJobOutput.httpOutput(from:), GetVariantImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVariantImportJobInput, GetVariantImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVariantImportJobOutput>())
@@ -4045,9 +4097,9 @@ extension OmicsClient {
     ///
     /// Gets information about a variant store.
     ///
-    /// - Parameter GetVariantStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVariantStoreInput`)
     ///
-    /// - Returns: `GetVariantStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVariantStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4082,6 +4134,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVariantStoreInput, GetVariantStoreOutput>(hostPrefix: "analytics-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVariantStoreOutput>(GetVariantStoreOutput.httpOutput(from:), GetVariantStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVariantStoreInput, GetVariantStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVariantStoreOutput>())
@@ -4113,9 +4166,9 @@ extension OmicsClient {
     ///
     /// Gets all information about a workflow using its ID. If a workflow is shared with you, you cannot export the workflow. For more information about your workflow status, see [Verify the workflow status](https://docs.aws.amazon.com/omics/latest/dev/using-get-workflow.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowInput`)
     ///
-    /// - Returns: `GetWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4154,6 +4207,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWorkflowInput, GetWorkflowOutput>(GetWorkflowInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowOutput>(GetWorkflowOutput.httpOutput(from:), GetWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowInput, GetWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowOutput>())
@@ -4185,9 +4239,9 @@ extension OmicsClient {
     ///
     /// Gets information about a workflow version. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter GetWorkflowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkflowVersionInput`)
     ///
-    /// - Returns: `GetWorkflowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkflowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4226,6 +4280,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWorkflowVersionInput, GetWorkflowVersionOutput>(GetWorkflowVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkflowVersionOutput>(GetWorkflowVersionOutput.httpOutput(from:), GetWorkflowVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkflowVersionInput, GetWorkflowVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkflowVersionOutput>())
@@ -4257,9 +4312,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of annotation import jobs.
     ///
-    /// - Parameter ListAnnotationImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnnotationImportJobsInput`)
     ///
-    /// - Returns: `ListAnnotationImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnnotationImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4298,6 +4353,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnnotationImportJobsInput, ListAnnotationImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnnotationImportJobsOutput>(ListAnnotationImportJobsOutput.httpOutput(from:), ListAnnotationImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnnotationImportJobsInput, ListAnnotationImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnnotationImportJobsOutput>())
@@ -4329,9 +4385,9 @@ extension OmicsClient {
     ///
     /// Lists the versions of an annotation store.
     ///
-    /// - Parameter ListAnnotationStoreVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnnotationStoreVersionsInput`)
     ///
-    /// - Returns: `ListAnnotationStoreVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnnotationStoreVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4370,6 +4426,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnnotationStoreVersionsOutput>(ListAnnotationStoreVersionsOutput.httpOutput(from:), ListAnnotationStoreVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnnotationStoreVersionsOutput>())
@@ -4401,9 +4458,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of annotation stores.
     ///
-    /// - Parameter ListAnnotationStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAnnotationStoresInput`)
     ///
-    /// - Returns: `ListAnnotationStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAnnotationStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4442,6 +4499,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAnnotationStoresInput, ListAnnotationStoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAnnotationStoresOutput>(ListAnnotationStoresOutput.httpOutput(from:), ListAnnotationStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAnnotationStoresInput, ListAnnotationStoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAnnotationStoresOutput>())
@@ -4473,9 +4531,9 @@ extension OmicsClient {
     ///
     /// Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the CreateMultipartReadSetUploads API operation. This operation returns a response with no body when the upload is complete.
     ///
-    /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMultipartReadSetUploadsInput`)
     ///
-    /// - Returns: `ListMultipartReadSetUploadsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMultipartReadSetUploadsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4514,6 +4572,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMultipartReadSetUploadsInput, ListMultipartReadSetUploadsOutput>(ListMultipartReadSetUploadsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMultipartReadSetUploadsOutput>(ListMultipartReadSetUploadsOutput.httpOutput(from:), ListMultipartReadSetUploadsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMultipartReadSetUploadsInput, ListMultipartReadSetUploadsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMultipartReadSetUploadsOutput>())
@@ -4545,9 +4604,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the GetReadSetActivationJob API operation.
     ///
-    /// - Parameter ListReadSetActivationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetActivationJobsInput`)
     ///
-    /// - Returns: `ListReadSetActivationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetActivationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4587,6 +4646,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReadSetActivationJobsInput, ListReadSetActivationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReadSetActivationJobsOutput>(ListReadSetActivationJobsOutput.httpOutput(from:), ListReadSetActivationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReadSetActivationJobsInput, ListReadSetActivationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReadSetActivationJobsOutput>())
@@ -4618,9 +4678,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of read set export jobs in a JSON formatted response. This API operation is used to check the status of a read set export job initiated by the StartReadSetExportJob API operation.
     ///
-    /// - Parameter ListReadSetExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetExportJobsInput`)
     ///
-    /// - Returns: `ListReadSetExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4660,6 +4720,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReadSetExportJobsInput, ListReadSetExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReadSetExportJobsOutput>(ListReadSetExportJobsOutput.httpOutput(from:), ListReadSetExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReadSetExportJobsInput, ListReadSetExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReadSetExportJobsOutput>())
@@ -4691,9 +4752,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of read set import jobs and returns the data in JSON format.
     ///
-    /// - Parameter ListReadSetImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetImportJobsInput`)
     ///
-    /// - Returns: `ListReadSetImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4733,6 +4794,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReadSetImportJobsInput, ListReadSetImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReadSetImportJobsOutput>(ListReadSetImportJobsOutput.httpOutput(from:), ListReadSetImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReadSetImportJobsInput, ListReadSetImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReadSetImportJobsOutput>())
@@ -4764,9 +4826,9 @@ extension OmicsClient {
     ///
     /// Lists all parts in a multipart read set upload for a sequence store and returns the metadata in a JSON formatted output.
     ///
-    /// - Parameter ListReadSetUploadPartsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetUploadPartsInput`)
     ///
-    /// - Returns: `ListReadSetUploadPartsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetUploadPartsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4808,6 +4870,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReadSetUploadPartsInput, ListReadSetUploadPartsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReadSetUploadPartsOutput>(ListReadSetUploadPartsOutput.httpOutput(from:), ListReadSetUploadPartsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReadSetUploadPartsInput, ListReadSetUploadPartsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReadSetUploadPartsOutput>())
@@ -4839,9 +4902,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format.
     ///
-    /// - Parameter ListReadSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReadSetsInput`)
     ///
-    /// - Returns: `ListReadSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReadSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4881,6 +4944,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReadSetsInput, ListReadSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReadSetsOutput>(ListReadSetsOutput.httpOutput(from:), ListReadSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReadSetsInput, ListReadSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReadSetsOutput>())
@@ -4912,9 +4976,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata of one or more reference import jobs for a reference store.
     ///
-    /// - Parameter ListReferenceImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReferenceImportJobsInput`)
     ///
-    /// - Returns: `ListReferenceImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReferenceImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4954,6 +5018,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReferenceImportJobsInput, ListReferenceImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReferenceImportJobsOutput>(ListReferenceImportJobsOutput.httpOutput(from:), ListReferenceImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReferenceImportJobsInput, ListReferenceImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReferenceImportJobsOutput>())
@@ -4985,9 +5050,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of reference stores linked to your account and returns their metadata in JSON format. For more information, see [Creating a reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListReferenceStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReferenceStoresInput`)
     ///
-    /// - Returns: `ListReferenceStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReferenceStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5026,6 +5091,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReferenceStoresInput, ListReferenceStoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReferenceStoresOutput>(ListReferenceStoresOutput.httpOutput(from:), ListReferenceStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReferenceStoresInput, ListReferenceStoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReferenceStoresOutput>())
@@ -5057,9 +5123,9 @@ extension OmicsClient {
     ///
     /// Retrieves the metadata of one or more reference genomes in a reference store. For more information, see [Creating a reference store](https://docs.aws.amazon.com/omics/latest/dev/create-reference-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListReferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReferencesInput`)
     ///
-    /// - Returns: `ListReferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5099,6 +5165,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReferencesInput, ListReferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReferencesOutput>(ListReferencesOutput.httpOutput(from:), ListReferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReferencesInput, ListReferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReferencesOutput>())
@@ -5130,9 +5197,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of your run caches and the metadata for each cache.
     ///
-    /// - Parameter ListRunCachesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRunCachesInput`)
     ///
-    /// - Returns: `ListRunCachesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRunCachesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5171,6 +5238,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRunCachesInput, ListRunCachesOutput>(ListRunCachesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRunCachesOutput>(ListRunCachesOutput.httpOutput(from:), ListRunCachesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRunCachesInput, ListRunCachesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRunCachesOutput>())
@@ -5202,9 +5270,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of all run groups and returns the metadata for each run group.
     ///
-    /// - Parameter ListRunGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRunGroupsInput`)
     ///
-    /// - Returns: `ListRunGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRunGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5243,6 +5311,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRunGroupsInput, ListRunGroupsOutput>(ListRunGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRunGroupsOutput>(ListRunGroupsOutput.httpOutput(from:), ListRunGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRunGroupsInput, ListRunGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRunGroupsOutput>())
@@ -5274,9 +5343,9 @@ extension OmicsClient {
     ///
     /// Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed.
     ///
-    /// - Parameter ListRunTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRunTasksInput`)
     ///
-    /// - Returns: `ListRunTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRunTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5315,6 +5384,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRunTasksInput, ListRunTasksOutput>(ListRunTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRunTasksOutput>(ListRunTasksOutput.httpOutput(from:), ListRunTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRunTasksInput, ListRunTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRunTasksOutput>())
@@ -5346,9 +5416,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of runs and returns each run's metadata and status. Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the ListRuns response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see [CloudWatch logs](https://docs.aws.amazon.com/omics/latest/dev/monitoring-cloudwatch-logs.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRunsInput`)
     ///
-    /// - Returns: `ListRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5387,6 +5457,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRunsInput, ListRunsOutput>(ListRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRunsOutput>(ListRunsOutput.httpOutput(from:), ListRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRunsInput, ListRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRunsOutput>())
@@ -5418,9 +5489,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of sequence stores and returns each sequence store's metadata. For more information, see [Creating a HealthOmics sequence store](https://docs.aws.amazon.com/omics/latest/dev/create-sequence-store.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListSequenceStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSequenceStoresInput`)
     ///
-    /// - Returns: `ListSequenceStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSequenceStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5459,6 +5530,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSequenceStoresInput, ListSequenceStoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSequenceStoresOutput>(ListSequenceStoresOutput.httpOutput(from:), ListSequenceStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSequenceStoresInput, ListSequenceStoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSequenceStoresOutput>())
@@ -5490,9 +5562,9 @@ extension OmicsClient {
     ///
     /// Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares.
     ///
-    /// - Parameter ListSharesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSharesInput`)
     ///
-    /// - Returns: `ListSharesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSharesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5533,6 +5605,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSharesInput, ListSharesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSharesOutput>(ListSharesOutput.httpOutput(from:), ListSharesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSharesInput, ListSharesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSharesOutput>())
@@ -5564,9 +5637,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5604,6 +5677,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(hostPrefix: "tags-"))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5635,9 +5709,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of variant import jobs.
     ///
-    /// - Parameter ListVariantImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVariantImportJobsInput`)
     ///
-    /// - Returns: `ListVariantImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVariantImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5676,6 +5750,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVariantImportJobsInput, ListVariantImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVariantImportJobsOutput>(ListVariantImportJobsOutput.httpOutput(from:), ListVariantImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVariantImportJobsInput, ListVariantImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVariantImportJobsOutput>())
@@ -5707,9 +5782,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of variant stores.
     ///
-    /// - Parameter ListVariantStoresInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVariantStoresInput`)
     ///
-    /// - Returns: `ListVariantStoresOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVariantStoresOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5748,6 +5823,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListVariantStoresInput, ListVariantStoresOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVariantStoresOutput>(ListVariantStoresOutput.httpOutput(from:), ListVariantStoresOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVariantStoresInput, ListVariantStoresOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVariantStoresOutput>())
@@ -5779,9 +5855,9 @@ extension OmicsClient {
     ///
     /// Lists the workflow versions for the specified workflow. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter ListWorkflowVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowVersionsInput`)
     ///
-    /// - Returns: `ListWorkflowVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5820,6 +5896,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkflowVersionsInput, ListWorkflowVersionsOutput>(ListWorkflowVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowVersionsOutput>(ListWorkflowVersionsOutput.httpOutput(from:), ListWorkflowVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowVersionsInput, ListWorkflowVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowVersionsOutput>())
@@ -5851,9 +5928,9 @@ extension OmicsClient {
     ///
     /// Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify PRIVATE to retrieve a list of private workflows or specify READY2RUN for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows.
     ///
-    /// - Parameter ListWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkflowsInput`)
     ///
-    /// - Returns: `ListWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5892,6 +5969,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(ListWorkflowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkflowsOutput>(ListWorkflowsOutput.httpOutput(from:), ListWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkflowsInput, ListWorkflowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkflowsOutput>())
@@ -5923,9 +6001,9 @@ extension OmicsClient {
     ///
     /// Adds an access policy to the specified store.
     ///
-    /// - Parameter PutS3AccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutS3AccessPolicyInput`)
     ///
-    /// - Returns: `PutS3AccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutS3AccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5965,6 +6043,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutS3AccessPolicyInput, PutS3AccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutS3AccessPolicyOutput>(PutS3AccessPolicyOutput.httpOutput(from:), PutS3AccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutS3AccessPolicyInput, PutS3AccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutS3AccessPolicyOutput>())
@@ -5996,9 +6075,9 @@ extension OmicsClient {
     ///
     /// Starts an annotation import job.
     ///
-    /// - Parameter StartAnnotationImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAnnotationImportJobInput`)
     ///
-    /// - Returns: `StartAnnotationImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAnnotationImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6037,6 +6116,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAnnotationImportJobInput, StartAnnotationImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAnnotationImportJobOutput>(StartAnnotationImportJobOutput.httpOutput(from:), StartAnnotationImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAnnotationImportJobInput, StartAnnotationImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAnnotationImportJobOutput>())
@@ -6068,9 +6148,9 @@ extension OmicsClient {
     ///
     /// Activates an archived read set and returns its metadata in a JSON formatted output. AWS HealthOmics automatically archives unused read sets after 30 days. To monitor the status of your read set activation job, use the GetReadSetActivationJob operation. To learn more, see [Activating read sets](https://docs.aws.amazon.com/omics/latest/dev/activating-read-sets.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter StartReadSetActivationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReadSetActivationJobInput`)
     ///
-    /// - Returns: `StartReadSetActivationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReadSetActivationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6110,6 +6190,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReadSetActivationJobInput, StartReadSetActivationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReadSetActivationJobOutput>(StartReadSetActivationJobOutput.httpOutput(from:), StartReadSetActivationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReadSetActivationJobInput, StartReadSetActivationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReadSetActivationJobOutput>())
@@ -6141,9 +6222,9 @@ extension OmicsClient {
     ///
     /// Starts a read set export job. When the export job is finished, the read set is exported to an Amazon S3 bucket which can be retrieved using the GetReadSetExportJob API operation. To monitor the status of the export job, use the ListReadSetExportJobs API operation.
     ///
-    /// - Parameter StartReadSetExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReadSetExportJobInput`)
     ///
-    /// - Returns: `StartReadSetExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReadSetExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6183,6 +6264,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReadSetExportJobInput, StartReadSetExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReadSetExportJobOutput>(StartReadSetExportJobOutput.httpOutput(from:), StartReadSetExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReadSetExportJobInput, StartReadSetExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReadSetExportJobOutput>())
@@ -6214,9 +6296,9 @@ extension OmicsClient {
     ///
     /// Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the GetReadSetImportJob API operation.
     ///
-    /// - Parameter StartReadSetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReadSetImportJobInput`)
     ///
-    /// - Returns: `StartReadSetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReadSetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6256,6 +6338,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReadSetImportJobInput, StartReadSetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReadSetImportJobOutput>(StartReadSetImportJobOutput.httpOutput(from:), StartReadSetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReadSetImportJobInput, StartReadSetImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReadSetImportJobOutput>())
@@ -6287,9 +6370,9 @@ extension OmicsClient {
     ///
     /// Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the GetReferenceImportJob API operation.
     ///
-    /// - Parameter StartReferenceImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReferenceImportJobInput`)
     ///
-    /// - Returns: `StartReferenceImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReferenceImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6329,6 +6412,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReferenceImportJobInput, StartReferenceImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReferenceImportJobOutput>(StartReferenceImportJobOutput.httpOutput(from:), StartReferenceImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReferenceImportJobInput, StartReferenceImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReferenceImportJobOutput>())
@@ -6389,9 +6473,9 @@ extension OmicsClient {
     ///
     /// To learn more about the retention modes, see [Run retention mode](https://docs.aws.amazon.com/omics/latest/dev/run-retention.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter StartRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRunInput`)
     ///
-    /// - Returns: `StartRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6433,6 +6517,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRunInput, StartRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRunOutput>(StartRunOutput.httpOutput(from:), StartRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRunInput, StartRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRunOutput>())
@@ -6464,9 +6549,9 @@ extension OmicsClient {
     ///
     /// Starts a variant import job.
     ///
-    /// - Parameter StartVariantImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartVariantImportJobInput`)
     ///
-    /// - Returns: `StartVariantImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartVariantImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6505,6 +6590,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartVariantImportJobInput, StartVariantImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartVariantImportJobOutput>(StartVariantImportJobOutput.httpOutput(from:), StartVariantImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartVariantImportJobInput, StartVariantImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartVariantImportJobOutput>())
@@ -6536,9 +6622,9 @@ extension OmicsClient {
     ///
     /// Tags a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6579,6 +6665,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6610,9 +6697,9 @@ extension OmicsClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6651,6 +6738,7 @@ extension OmicsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6682,9 +6770,9 @@ extension OmicsClient {
     ///
     /// Updates an annotation store.
     ///
-    /// - Parameter UpdateAnnotationStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnnotationStoreInput`)
     ///
-    /// - Returns: `UpdateAnnotationStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnnotationStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6722,6 +6810,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnnotationStoreInput, UpdateAnnotationStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnnotationStoreOutput>(UpdateAnnotationStoreOutput.httpOutput(from:), UpdateAnnotationStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnnotationStoreInput, UpdateAnnotationStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnnotationStoreOutput>())
@@ -6753,9 +6842,9 @@ extension OmicsClient {
     ///
     /// Updates the description of an annotation store version.
     ///
-    /// - Parameter UpdateAnnotationStoreVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAnnotationStoreVersionInput`)
     ///
-    /// - Returns: `UpdateAnnotationStoreVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAnnotationStoreVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6793,6 +6882,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAnnotationStoreVersionInput, UpdateAnnotationStoreVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAnnotationStoreVersionOutput>(UpdateAnnotationStoreVersionOutput.httpOutput(from:), UpdateAnnotationStoreVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAnnotationStoreVersionInput, UpdateAnnotationStoreVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAnnotationStoreVersionOutput>())
@@ -6824,9 +6914,9 @@ extension OmicsClient {
     ///
     /// Updates a run cache using its ID and returns a response with no body if the operation is successful. You can update the run cache description, name, or the default run cache behavior with CACHE_ON_FAILURE or CACHE_ALWAYS. To confirm that your run cache settings have been properly updated, use the GetRunCache API operation. For more information, see [How call caching works](https://docs.aws.amazon.com/omics/latest/dev/how-run-cache.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter UpdateRunCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRunCacheInput`)
     ///
-    /// - Returns: `UpdateRunCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRunCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6867,6 +6957,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRunCacheInput, UpdateRunCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRunCacheOutput>(UpdateRunCacheOutput.httpOutput(from:), UpdateRunCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRunCacheInput, UpdateRunCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRunCacheOutput>())
@@ -6911,9 +7002,9 @@ extension OmicsClient {
     ///
     /// To confirm that the settings have been successfully updated, use the ListRunGroups or GetRunGroup API operations to verify that the desired changes have been made.
     ///
-    /// - Parameter UpdateRunGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRunGroupInput`)
     ///
-    /// - Returns: `UpdateRunGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRunGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6954,6 +7045,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRunGroupInput, UpdateRunGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRunGroupOutput>(UpdateRunGroupOutput.httpOutput(from:), UpdateRunGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRunGroupInput, UpdateRunGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRunGroupOutput>())
@@ -6985,9 +7077,9 @@ extension OmicsClient {
     ///
     /// Update one or more parameters for the sequence store.
     ///
-    /// - Parameter UpdateSequenceStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSequenceStoreInput`)
     ///
-    /// - Returns: `UpdateSequenceStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSequenceStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7028,6 +7120,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSequenceStoreInput, UpdateSequenceStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSequenceStoreOutput>(UpdateSequenceStoreOutput.httpOutput(from:), UpdateSequenceStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSequenceStoreInput, UpdateSequenceStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSequenceStoreOutput>())
@@ -7059,9 +7152,9 @@ extension OmicsClient {
     ///
     /// Updates a variant store.
     ///
-    /// - Parameter UpdateVariantStoreInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVariantStoreInput`)
     ///
-    /// - Returns: `UpdateVariantStoreOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVariantStoreOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7099,6 +7192,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVariantStoreInput, UpdateVariantStoreOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVariantStoreOutput>(UpdateVariantStoreOutput.httpOutput(from:), UpdateVariantStoreOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVariantStoreInput, UpdateVariantStoreOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVariantStoreOutput>())
@@ -7141,9 +7235,9 @@ extension OmicsClient {
     ///
     /// This operation returns a response with no body if the operation is successful. You can check the workflow updates by calling the GetWorkflow API operation. For more information, see [Update a private workflow](https://docs.aws.amazon.com/omics/latest/dev/update-private-workflow.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowInput`)
     ///
-    /// - Returns: `UpdateWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7184,6 +7278,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkflowOutput>(UpdateWorkflowOutput.httpOutput(from:), UpdateWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkflowInput, UpdateWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkflowOutput>())
@@ -7215,9 +7310,9 @@ extension OmicsClient {
     ///
     /// Updates information about the workflow version. For more information, see [Workflow versioning in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/workflow-versions.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter UpdateWorkflowVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkflowVersionInput`)
     ///
-    /// - Returns: `UpdateWorkflowVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkflowVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7258,6 +7353,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkflowVersionInput, UpdateWorkflowVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkflowVersionOutput>(UpdateWorkflowVersionOutput.httpOutput(from:), UpdateWorkflowVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkflowVersionInput, UpdateWorkflowVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkflowVersionOutput>())
@@ -7289,9 +7385,9 @@ extension OmicsClient {
     ///
     /// Uploads a specific part of a read set into a sequence store. When you a upload a read set part with a part number that already exists, the new part replaces the existing one. This operation returns a JSON formatted response containing a string identifier that is used to confirm that parts are being added to the intended upload. For more information, see [Direct upload to a sequence store](https://docs.aws.amazon.com/omics/latest/dev/synchronous-uploads.html) in the Amazon Web Services HealthOmics User Guide.
     ///
-    /// - Parameter UploadReadSetPartInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadReadSetPartInput`)
     ///
-    /// - Returns: `UploadReadSetPartOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadReadSetPartOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7333,6 +7429,7 @@ extension OmicsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadReadSetPartInput, UploadReadSetPartOutput>(requiresLength: true, unsignedPayload: true))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadReadSetPartOutput>(UploadReadSetPartOutput.httpOutput(from:), UploadReadSetPartOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadReadSetPartInput, UploadReadSetPartOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadReadSetPartOutput>())

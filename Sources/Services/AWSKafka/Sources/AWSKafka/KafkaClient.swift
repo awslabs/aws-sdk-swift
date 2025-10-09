@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KafkaClient: ClientRuntime.Client {
     public static let clientName = "KafkaClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: KafkaClient.KafkaClientConfiguration
     let serviceName = "Kafka"
@@ -373,9 +374,9 @@ extension KafkaClient {
     ///
     /// Associates one or more Scram Secrets with an Amazon MSK cluster.
     ///
-    /// - Parameter BatchAssociateScramSecretInput : Associates sasl scram secrets to cluster.
+    /// - Parameter input: Associates sasl scram secrets to cluster. (Type: `BatchAssociateScramSecretInput`)
     ///
-    /// - Returns: `BatchAssociateScramSecretOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateScramSecretOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAssociateScramSecretInput, BatchAssociateScramSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAssociateScramSecretOutput>(BatchAssociateScramSecretOutput.httpOutput(from:), BatchAssociateScramSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAssociateScramSecretInput, BatchAssociateScramSecretOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAssociateScramSecretOutput>())
@@ -446,9 +448,9 @@ extension KafkaClient {
     ///
     /// Disassociates one or more Scram Secrets from an Amazon MSK cluster.
     ///
-    /// - Parameter BatchDisassociateScramSecretInput : Disassociates sasl scram secrets to cluster.
+    /// - Parameter input: Disassociates sasl scram secrets to cluster. (Type: `BatchDisassociateScramSecretInput`)
     ///
-    /// - Returns: `BatchDisassociateScramSecretOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateScramSecretOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +490,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateScramSecretInput, BatchDisassociateScramSecretOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisassociateScramSecretOutput>(BatchDisassociateScramSecretOutput.httpOutput(from:), BatchDisassociateScramSecretOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateScramSecretInput, BatchDisassociateScramSecretOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateScramSecretOutput>())
@@ -519,9 +522,9 @@ extension KafkaClient {
     ///
     /// Creates a new MSK cluster.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +564,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -592,9 +596,9 @@ extension KafkaClient {
     ///
     /// Creates a new MSK cluster.
     ///
-    /// - Parameter CreateClusterV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterV2Input`)
     ///
-    /// - Returns: `CreateClusterV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterV2Input, CreateClusterV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterV2Output>(CreateClusterV2Output.httpOutput(from:), CreateClusterV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterV2Input, CreateClusterV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterV2Output>())
@@ -665,9 +670,9 @@ extension KafkaClient {
     ///
     /// Creates a new MSK configuration.
     ///
-    /// - Parameter CreateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfigurationInput`)
     ///
-    /// - Returns: `CreateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,6 +712,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationInput, CreateConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationOutput>(CreateConfigurationOutput.httpOutput(from:), CreateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationOutput>())
@@ -738,9 +744,9 @@ extension KafkaClient {
     ///
     /// Creates the replicator.
     ///
-    /// - Parameter CreateReplicatorInput : Creates a replicator using the specified configuration.
+    /// - Parameter input: Creates a replicator using the specified configuration. (Type: `CreateReplicatorInput`)
     ///
-    /// - Returns: `CreateReplicatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReplicatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,6 +787,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReplicatorInput, CreateReplicatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReplicatorOutput>(CreateReplicatorOutput.httpOutput(from:), CreateReplicatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReplicatorInput, CreateReplicatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReplicatorOutput>())
@@ -812,9 +819,9 @@ extension KafkaClient {
     ///
     /// Creates a new MSK VPC connection.
     ///
-    /// - Parameter CreateVpcConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcConnectionInput`)
     ///
-    /// - Returns: `CreateVpcConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,6 +860,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcConnectionInput, CreateVpcConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcConnectionOutput>(CreateVpcConnectionOutput.httpOutput(from:), CreateVpcConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcConnectionInput, CreateVpcConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcConnectionOutput>())
@@ -884,9 +892,9 @@ extension KafkaClient {
     ///
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -921,6 +929,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteClusterInput, DeleteClusterOutput>(DeleteClusterInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -952,9 +961,9 @@ extension KafkaClient {
     ///
     /// Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
     ///
-    /// - Parameter DeleteClusterPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterPolicyInput`)
     ///
-    /// - Returns: `DeleteClusterPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -988,6 +997,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterPolicyOutput>(DeleteClusterPolicyOutput.httpOutput(from:), DeleteClusterPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterPolicyOutput>())
@@ -1019,9 +1029,9 @@ extension KafkaClient {
     ///
     /// Deletes an MSK Configuration.
     ///
-    /// - Parameter DeleteConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationInput`)
     ///
-    /// - Returns: `DeleteConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1055,6 +1065,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationOutput>(DeleteConfigurationOutput.httpOutput(from:), DeleteConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationOutput>())
@@ -1086,9 +1097,9 @@ extension KafkaClient {
     ///
     /// Deletes a replicator.
     ///
-    /// - Parameter DeleteReplicatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReplicatorInput`)
     ///
-    /// - Returns: `DeleteReplicatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReplicatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1126,6 +1137,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteReplicatorInput, DeleteReplicatorOutput>(DeleteReplicatorInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReplicatorOutput>(DeleteReplicatorOutput.httpOutput(from:), DeleteReplicatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReplicatorInput, DeleteReplicatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReplicatorOutput>())
@@ -1157,9 +1169,9 @@ extension KafkaClient {
     ///
     /// Deletes a MSK VPC connection.
     ///
-    /// - Parameter DeleteVpcConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVpcConnectionInput`)
     ///
-    /// - Returns: `DeleteVpcConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVpcConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,6 +1205,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteVpcConnectionInput, DeleteVpcConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVpcConnectionOutput>(DeleteVpcConnectionOutput.httpOutput(from:), DeleteVpcConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVpcConnectionInput, DeleteVpcConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVpcConnectionOutput>())
@@ -1224,9 +1237,9 @@ extension KafkaClient {
     ///
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     ///
-    /// - Parameter DescribeClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterInput`)
     ///
-    /// - Returns: `DescribeClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1261,6 +1274,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOutput>(DescribeClusterOutput.httpOutput(from:), DescribeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterInput, DescribeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterOutput>())
@@ -1292,9 +1306,9 @@ extension KafkaClient {
     ///
     /// Returns a description of the cluster operation specified by the ARN.
     ///
-    /// - Parameter DescribeClusterOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterOperationInput`)
     ///
-    /// - Returns: `DescribeClusterOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1329,6 +1343,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterOperationInput, DescribeClusterOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOperationOutput>(DescribeClusterOperationOutput.httpOutput(from:), DescribeClusterOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterOperationInput, DescribeClusterOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterOperationOutput>())
@@ -1360,9 +1375,9 @@ extension KafkaClient {
     ///
     /// Returns a description of the cluster operation specified by the ARN.
     ///
-    /// - Parameter DescribeClusterOperationV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterOperationV2Input`)
     ///
-    /// - Returns: `DescribeClusterOperationV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOperationV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1399,6 +1414,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterOperationV2Input, DescribeClusterOperationV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOperationV2Output>(DescribeClusterOperationV2Output.httpOutput(from:), DescribeClusterOperationV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterOperationV2Input, DescribeClusterOperationV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterOperationV2Output>())
@@ -1430,9 +1446,9 @@ extension KafkaClient {
     ///
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
     ///
-    /// - Parameter DescribeClusterV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterV2Input`)
     ///
-    /// - Returns: `DescribeClusterV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1467,6 +1483,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterV2Input, DescribeClusterV2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterV2Output>(DescribeClusterV2Output.httpOutput(from:), DescribeClusterV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterV2Input, DescribeClusterV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterV2Output>())
@@ -1498,9 +1515,9 @@ extension KafkaClient {
     ///
     /// Returns a description of this MSK configuration.
     ///
-    /// - Parameter DescribeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationInput`)
     ///
-    /// - Returns: `DescribeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1536,6 +1553,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConfigurationInput, DescribeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationOutput>(DescribeConfigurationOutput.httpOutput(from:), DescribeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationInput, DescribeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationOutput>())
@@ -1567,9 +1585,9 @@ extension KafkaClient {
     ///
     /// Returns a description of this revision of the configuration.
     ///
-    /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationRevisionInput`)
     ///
-    /// - Returns: `DescribeConfigurationRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1605,6 +1623,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConfigurationRevisionInput, DescribeConfigurationRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationRevisionOutput>(DescribeConfigurationRevisionOutput.httpOutput(from:), DescribeConfigurationRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationRevisionInput, DescribeConfigurationRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationRevisionOutput>())
@@ -1636,9 +1655,9 @@ extension KafkaClient {
     ///
     /// Describes a replicator.
     ///
-    /// - Parameter DescribeReplicatorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReplicatorInput`)
     ///
-    /// - Returns: `DescribeReplicatorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReplicatorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1675,6 +1694,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeReplicatorInput, DescribeReplicatorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicatorOutput>(DescribeReplicatorOutput.httpOutput(from:), DescribeReplicatorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicatorInput, DescribeReplicatorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicatorOutput>())
@@ -1706,9 +1726,9 @@ extension KafkaClient {
     ///
     /// Returns a description of this MSK VPC connection.
     ///
-    /// - Parameter DescribeVpcConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVpcConnectionInput`)
     ///
-    /// - Returns: `DescribeVpcConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVpcConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,6 +1764,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeVpcConnectionInput, DescribeVpcConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVpcConnectionOutput>(DescribeVpcConnectionOutput.httpOutput(from:), DescribeVpcConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVpcConnectionInput, DescribeVpcConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVpcConnectionOutput>())
@@ -1775,9 +1796,9 @@ extension KafkaClient {
     ///
     /// A list of brokers that a client application can use to bootstrap. This list doesn't necessarily include all of the brokers in the cluster. The following Python 3.6 example shows how you can use the Amazon Resource Name (ARN) of a cluster to get its bootstrap brokers. If you don't know the ARN of your cluster, you can use the ListClusters operation to get the ARNs of all the clusters in this account and Region.
     ///
-    /// - Parameter GetBootstrapBrokersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBootstrapBrokersInput`)
     ///
-    /// - Returns: `GetBootstrapBrokersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBootstrapBrokersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1812,6 +1833,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBootstrapBrokersInput, GetBootstrapBrokersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBootstrapBrokersOutput>(GetBootstrapBrokersOutput.httpOutput(from:), GetBootstrapBrokersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBootstrapBrokersInput, GetBootstrapBrokersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBootstrapBrokersOutput>())
@@ -1843,9 +1865,9 @@ extension KafkaClient {
     ///
     /// Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
     ///
-    /// - Parameter GetClusterPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetClusterPolicyInput`)
     ///
-    /// - Returns: `GetClusterPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetClusterPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1879,6 +1901,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClusterPolicyInput, GetClusterPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterPolicyOutput>(GetClusterPolicyOutput.httpOutput(from:), GetClusterPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterPolicyInput, GetClusterPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterPolicyOutput>())
@@ -1910,9 +1933,9 @@ extension KafkaClient {
     ///
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
     ///
-    /// - Parameter GetCompatibleKafkaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCompatibleKafkaVersionsInput`)
     ///
-    /// - Returns: `GetCompatibleKafkaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCompatibleKafkaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1950,6 +1973,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCompatibleKafkaVersionsInput, GetCompatibleKafkaVersionsOutput>(GetCompatibleKafkaVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCompatibleKafkaVersionsOutput>(GetCompatibleKafkaVersionsOutput.httpOutput(from:), GetCompatibleKafkaVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCompatibleKafkaVersionsInput, GetCompatibleKafkaVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCompatibleKafkaVersionsOutput>())
@@ -1981,9 +2005,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the VPC connections in this Region.
     ///
-    /// - Parameter ListClientVpcConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClientVpcConnectionsInput`)
     ///
-    /// - Returns: `ListClientVpcConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClientVpcConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2019,6 +2043,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutput>(ListClientVpcConnectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClientVpcConnectionsOutput>(ListClientVpcConnectionsOutput.httpOutput(from:), ListClientVpcConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClientVpcConnectionsInput, ListClientVpcConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClientVpcConnectionsOutput>())
@@ -2050,9 +2075,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///
-    /// - Parameter ListClusterOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterOperationsInput`)
     ///
-    /// - Returns: `ListClusterOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,6 +2112,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClusterOperationsInput, ListClusterOperationsOutput>(ListClusterOperationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterOperationsOutput>(ListClusterOperationsOutput.httpOutput(from:), ListClusterOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterOperationsInput, ListClusterOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterOperationsOutput>())
@@ -2118,9 +2144,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
     ///
-    /// - Parameter ListClusterOperationsV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClusterOperationsV2Input`)
     ///
-    /// - Returns: `ListClusterOperationsV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClusterOperationsV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2158,6 +2184,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClusterOperationsV2Input, ListClusterOperationsV2Output>(ListClusterOperationsV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClusterOperationsV2Output>(ListClusterOperationsV2Output.httpOutput(from:), ListClusterOperationsV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClusterOperationsV2Input, ListClusterOperationsV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClusterOperationsV2Output>())
@@ -2189,9 +2216,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the MSK clusters in the current Region.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2226,6 +2253,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -2257,9 +2285,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the MSK clusters in the current Region.
     ///
-    /// - Parameter ListClustersV2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersV2Input`)
     ///
-    /// - Returns: `ListClustersV2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersV2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2294,6 +2322,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClustersV2Input, ListClustersV2Output>(ListClustersV2Input.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersV2Output>(ListClustersV2Output.httpOutput(from:), ListClustersV2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersV2Input, ListClustersV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersV2Output>())
@@ -2325,9 +2354,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the MSK configurations in this Region.
     ///
-    /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationRevisionsInput`)
     ///
-    /// - Returns: `ListConfigurationRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2364,6 +2393,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput>(ListConfigurationRevisionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationRevisionsOutput>(ListConfigurationRevisionsOutput.httpOutput(from:), ListConfigurationRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationRevisionsOutput>())
@@ -2395,9 +2425,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the MSK configurations in this Region.
     ///
-    /// - Parameter ListConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
     ///
-    /// - Returns: `ListConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2433,6 +2463,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(ListConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationsOutput>(ListConfigurationsOutput.httpOutput(from:), ListConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationsOutput>())
@@ -2464,9 +2495,9 @@ extension KafkaClient {
     ///
     /// Returns a list of Apache Kafka versions.
     ///
-    /// - Parameter ListKafkaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListKafkaVersionsInput`)
     ///
-    /// - Returns: `ListKafkaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListKafkaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2501,6 +2532,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListKafkaVersionsInput, ListKafkaVersionsOutput>(ListKafkaVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListKafkaVersionsOutput>(ListKafkaVersionsOutput.httpOutput(from:), ListKafkaVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListKafkaVersionsInput, ListKafkaVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListKafkaVersionsOutput>())
@@ -2532,9 +2564,9 @@ extension KafkaClient {
     ///
     /// Returns a list of the broker nodes in the cluster.
     ///
-    /// - Parameter ListNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodesInput`)
     ///
-    /// - Returns: `ListNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2569,6 +2601,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNodesInput, ListNodesOutput>(ListNodesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNodesOutput>(ListNodesOutput.httpOutput(from:), ListNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodesInput, ListNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodesOutput>())
@@ -2600,9 +2633,9 @@ extension KafkaClient {
     ///
     /// Lists the replicators.
     ///
-    /// - Parameter ListReplicatorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReplicatorsInput`)
     ///
-    /// - Returns: `ListReplicatorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReplicatorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2640,6 +2673,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListReplicatorsInput, ListReplicatorsOutput>(ListReplicatorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReplicatorsOutput>(ListReplicatorsOutput.httpOutput(from:), ListReplicatorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReplicatorsInput, ListReplicatorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReplicatorsOutput>())
@@ -2671,9 +2705,9 @@ extension KafkaClient {
     ///
     /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
     ///
-    /// - Parameter ListScramSecretsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScramSecretsInput`)
     ///
-    /// - Returns: `ListScramSecretsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScramSecretsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2711,6 +2745,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListScramSecretsInput, ListScramSecretsOutput>(ListScramSecretsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScramSecretsOutput>(ListScramSecretsOutput.httpOutput(from:), ListScramSecretsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScramSecretsInput, ListScramSecretsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScramSecretsOutput>())
@@ -2742,9 +2777,9 @@ extension KafkaClient {
     ///
     /// Returns a list of the tags associated with the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2777,6 +2812,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2808,9 +2844,9 @@ extension KafkaClient {
     ///
     /// Returns a list of all the VPC connections in this Region.
     ///
-    /// - Parameter ListVpcConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVpcConnectionsInput`)
     ///
-    /// - Returns: `ListVpcConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVpcConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2846,6 +2882,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVpcConnectionsInput, ListVpcConnectionsOutput>(ListVpcConnectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVpcConnectionsOutput>(ListVpcConnectionsOutput.httpOutput(from:), ListVpcConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVpcConnectionsInput, ListVpcConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVpcConnectionsOutput>())
@@ -2877,9 +2914,9 @@ extension KafkaClient {
     ///
     /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
     ///
-    /// - Parameter PutClusterPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutClusterPolicyInput`)
     ///
-    /// - Returns: `PutClusterPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutClusterPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2915,6 +2952,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutClusterPolicyOutput>(PutClusterPolicyOutput.httpOutput(from:), PutClusterPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutClusterPolicyOutput>())
@@ -2946,9 +2984,9 @@ extension KafkaClient {
     ///
     /// Reboots brokers.
     ///
-    /// - Parameter RebootBrokerInput : Reboots a node.
+    /// - Parameter input: Reboots a node. (Type: `RebootBrokerInput`)
     ///
-    /// - Returns: `RebootBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2988,6 +3026,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootBrokerInput, RebootBrokerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootBrokerOutput>(RebootBrokerOutput.httpOutput(from:), RebootBrokerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootBrokerInput, RebootBrokerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootBrokerOutput>())
@@ -3019,9 +3058,9 @@ extension KafkaClient {
     ///
     /// Returns empty response.
     ///
-    /// - Parameter RejectClientVpcConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectClientVpcConnectionInput`)
     ///
-    /// - Returns: `RejectClientVpcConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectClientVpcConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3059,6 +3098,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectClientVpcConnectionInput, RejectClientVpcConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectClientVpcConnectionOutput>(RejectClientVpcConnectionOutput.httpOutput(from:), RejectClientVpcConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectClientVpcConnectionInput, RejectClientVpcConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectClientVpcConnectionOutput>())
@@ -3090,9 +3130,9 @@ extension KafkaClient {
     ///
     /// Adds tags to the specified MSK resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3128,6 +3168,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3159,9 +3200,9 @@ extension KafkaClient {
     ///
     /// Removes the tags associated with the keys that are provided in the query.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3195,6 +3236,7 @@ extension KafkaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3226,9 +3268,9 @@ extension KafkaClient {
     ///
     /// Updates the number of broker nodes in the cluster.
     ///
-    /// - Parameter UpdateBrokerCountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrokerCountInput`)
     ///
-    /// - Returns: `UpdateBrokerCountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrokerCountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3266,6 +3308,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrokerCountInput, UpdateBrokerCountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrokerCountOutput>(UpdateBrokerCountOutput.httpOutput(from:), UpdateBrokerCountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrokerCountInput, UpdateBrokerCountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrokerCountOutput>())
@@ -3297,9 +3340,9 @@ extension KafkaClient {
     ///
     /// Updates the EBS storage associated with MSK brokers.
     ///
-    /// - Parameter UpdateBrokerStorageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrokerStorageInput`)
     ///
-    /// - Returns: `UpdateBrokerStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrokerStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3337,6 +3380,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrokerStorageInput, UpdateBrokerStorageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrokerStorageOutput>(UpdateBrokerStorageOutput.httpOutput(from:), UpdateBrokerStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrokerStorageInput, UpdateBrokerStorageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrokerStorageOutput>())
@@ -3368,9 +3412,9 @@ extension KafkaClient {
     ///
     /// Updates EC2 instance type.
     ///
-    /// - Parameter UpdateBrokerTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBrokerTypeInput`)
     ///
-    /// - Returns: `UpdateBrokerTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrokerTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3410,6 +3454,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrokerTypeInput, UpdateBrokerTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrokerTypeOutput>(UpdateBrokerTypeOutput.httpOutput(from:), UpdateBrokerTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrokerTypeInput, UpdateBrokerTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrokerTypeOutput>())
@@ -3441,9 +3486,9 @@ extension KafkaClient {
     ///
     /// Updates the cluster with the configuration that is specified in the request body.
     ///
-    /// - Parameter UpdateClusterConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterConfigurationInput`)
     ///
-    /// - Returns: `UpdateClusterConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3482,6 +3527,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterConfigurationInput, UpdateClusterConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterConfigurationOutput>(UpdateClusterConfigurationOutput.httpOutput(from:), UpdateClusterConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterConfigurationInput, UpdateClusterConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterConfigurationOutput>())
@@ -3513,9 +3559,9 @@ extension KafkaClient {
     ///
     /// Updates the Apache Kafka version for the cluster.
     ///
-    /// - Parameter UpdateClusterKafkaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterKafkaVersionInput`)
     ///
-    /// - Returns: `UpdateClusterKafkaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterKafkaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3555,6 +3601,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterKafkaVersionInput, UpdateClusterKafkaVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterKafkaVersionOutput>(UpdateClusterKafkaVersionOutput.httpOutput(from:), UpdateClusterKafkaVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterKafkaVersionInput, UpdateClusterKafkaVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterKafkaVersionOutput>())
@@ -3586,9 +3633,9 @@ extension KafkaClient {
     ///
     /// Updates an MSK configuration.
     ///
-    /// - Parameter UpdateConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfigurationInput`)
     ///
-    /// - Returns: `UpdateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3627,6 +3674,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationInput, UpdateConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationOutput>(UpdateConfigurationOutput.httpOutput(from:), UpdateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationInput, UpdateConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationOutput>())
@@ -3658,9 +3706,9 @@ extension KafkaClient {
     ///
     /// Updates the cluster's connectivity configuration.
     ///
-    /// - Parameter UpdateConnectivityInput : Request body for UpdateConnectivity.
+    /// - Parameter input: Request body for UpdateConnectivity. (Type: `UpdateConnectivityInput`)
     ///
-    /// - Returns: `UpdateConnectivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3699,6 +3747,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectivityInput, UpdateConnectivityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectivityOutput>(UpdateConnectivityOutput.httpOutput(from:), UpdateConnectivityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectivityInput, UpdateConnectivityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectivityOutput>())
@@ -3730,9 +3779,9 @@ extension KafkaClient {
     ///
     /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
     ///
-    /// - Parameter UpdateMonitoringInput : Request body for UpdateMonitoring.
+    /// - Parameter input: Request body for UpdateMonitoring. (Type: `UpdateMonitoringInput`)
     ///
-    /// - Returns: `UpdateMonitoringOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitoringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3770,6 +3819,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMonitoringInput, UpdateMonitoringOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMonitoringOutput>(UpdateMonitoringOutput.httpOutput(from:), UpdateMonitoringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMonitoringInput, UpdateMonitoringOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMonitoringOutput>())
@@ -3801,9 +3851,9 @@ extension KafkaClient {
     ///
     /// Updates replication info of a replicator.
     ///
-    /// - Parameter UpdateReplicationInfoInput : Update information relating to replication between a given source and target Kafka cluster.
+    /// - Parameter input: Update information relating to replication between a given source and target Kafka cluster. (Type: `UpdateReplicationInfoInput`)
     ///
-    /// - Returns: `UpdateReplicationInfoOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReplicationInfoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3843,6 +3893,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReplicationInfoInput, UpdateReplicationInfoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReplicationInfoOutput>(UpdateReplicationInfoOutput.httpOutput(from:), UpdateReplicationInfoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReplicationInfoInput, UpdateReplicationInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReplicationInfoOutput>())
@@ -3874,9 +3925,9 @@ extension KafkaClient {
     ///
     /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
     ///
-    /// - Parameter UpdateSecurityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSecurityInput`)
     ///
-    /// - Returns: `UpdateSecurityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSecurityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3916,6 +3967,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSecurityInput, UpdateSecurityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSecurityOutput>(UpdateSecurityOutput.httpOutput(from:), UpdateSecurityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSecurityInput, UpdateSecurityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSecurityOutput>())
@@ -3947,9 +3999,9 @@ extension KafkaClient {
     ///
     /// Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
     ///
-    /// - Parameter UpdateStorageInput : Request object for UpdateStorage api. Its used to update the storage attributes for the cluster.
+    /// - Parameter input: Request object for UpdateStorage api. Its used to update the storage attributes for the cluster. (Type: `UpdateStorageInput`)
     ///
-    /// - Returns: `UpdateStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3989,6 +4041,7 @@ extension KafkaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStorageInput, UpdateStorageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStorageOutput>(UpdateStorageOutput.httpOutput(from:), UpdateStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStorageInput, UpdateStorageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStorageOutput>())

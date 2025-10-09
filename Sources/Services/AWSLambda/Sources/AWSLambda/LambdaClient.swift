@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -72,7 +73,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LambdaClient: ClientRuntime.Client {
     public static let clientName = "LambdaClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: LambdaClient.LambdaClientConfiguration
     let serviceName = "Lambda"
@@ -378,9 +379,9 @@ extension LambdaClient {
     ///
     /// Adds permissions to the resource-based policy of a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Use this action to grant layer usage permission to other accounts. You can grant permission to a single account, all accounts in an organization, or all Amazon Web Services accounts. To revoke permission, call [RemoveLayerVersionPermission] with the statement ID that you specified when you added it.
     ///
-    /// - Parameter AddLayerVersionPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddLayerVersionPermissionInput`)
     ///
-    /// - Returns: `AddLayerVersionPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddLayerVersionPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -425,6 +426,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddLayerVersionPermissionOutput>(AddLayerVersionPermissionOutput.httpOutput(from:), AddLayerVersionPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddLayerVersionPermissionInput, AddLayerVersionPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddLayerVersionPermissionOutput>())
@@ -456,9 +458,9 @@ extension LambdaClient {
     ///
     /// Grants a [principal](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html#Principal_specifying) permission to use a function. You can apply the policy at the function level, or specify a qualifier to restrict access to a single version or alias. If you use a qualifier, the invoker must use the full Amazon Resource Name (ARN) of that version or alias to invoke the function. Note: Lambda does not support adding policies to version $LATEST. To grant permission to another account, specify the account ID as the Principal. To grant permission to an organization defined in Organizations, specify the organization ID as the PrincipalOrgID. For Amazon Web Services services, the principal is a domain-style identifier that the service defines, such as s3.amazonaws.com or sns.amazonaws.com. For Amazon Web Services services, you can also specify the ARN of the associated resource as the SourceArn. If you grant permission to a service principal without specifying the source, other accounts could potentially configure resources in their account to invoke your Lambda function. This operation adds a statement to a resource-based permissions policy for the function. For more information about function policies, see [Using resource-based policies for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html).
     ///
-    /// - Parameter AddPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddPermissionInput`)
     ///
-    /// - Returns: `AddPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -503,6 +505,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddPermissionInput, AddPermissionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddPermissionOutput>(AddPermissionOutput.httpOutput(from:), AddPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddPermissionInput, AddPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPermissionOutput>())
@@ -534,9 +537,9 @@ extension LambdaClient {
     ///
     /// Creates an [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html) for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a different version. You can also map an alias to split invocation requests between two versions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives.
     ///
-    /// - Parameter CreateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAliasInput`)
     ///
-    /// - Returns: `CreateAliasOutput` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+    /// - Returns: Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html). (Type: `CreateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -574,6 +577,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAliasOutput>(CreateAliasOutput.httpOutput(from:), CreateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAliasInput, CreateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAliasOutput>())
@@ -605,9 +609,9 @@ extension LambdaClient {
     ///
     /// Creates a code signing configuration. A [code signing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html) defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
     ///
-    /// - Parameter CreateCodeSigningConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCodeSigningConfigInput`)
     ///
-    /// - Returns: `CreateCodeSigningConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCodeSigningConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -642,6 +646,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCodeSigningConfigOutput>(CreateCodeSigningConfigOutput.httpOutput(from:), CreateCodeSigningConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCodeSigningConfigInput, CreateCodeSigningConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCodeSigningConfigOutput>())
@@ -720,9 +725,9 @@ extension LambdaClient {
     ///
     /// * [ Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html#docdb-configuration)
     ///
-    /// - Parameter CreateEventSourceMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventSourceMappingInput`)
     ///
-    /// - Returns: `CreateEventSourceMappingOutput` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    /// - Returns: A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping]. (Type: `CreateEventSourceMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -760,6 +765,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventSourceMappingOutput>(CreateEventSourceMappingOutput.httpOutput(from:), CreateEventSourceMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventSourceMappingInput, CreateEventSourceMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventSourceMappingOutput>())
@@ -791,9 +797,9 @@ extension LambdaClient {
     ///
     /// Creates a Lambda function. To create a function, you need a [deployment package](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html) and an [execution role](https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role). The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. If the deployment package is a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html), then you set the package type to Image. For a container image, the code property must include the URI of a container image in the Amazon ECR registry. You do not need to specify the handler and runtime properties. If the deployment package is a [.zip file archive](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip), then you set the package type to Zip. For a .zip file archive, the code property specifies the location of the .zip file. You must also specify the handler and runtime properties. The code in the deployment package must be compatible with the target instruction set architecture of the function (x86-64 or arm64). If you do not specify the architecture, then the default value is x86-64. When you create a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute or so. During this time, you can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in the response from [GetFunctionConfiguration] indicate when the function is ready to invoke. For more information, see [Lambda function states](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html). A function has an unpublished version, and can have published versions and aliases. The unpublished version changes when you update your function's code and configuration. A published version is a snapshot of your function code and configuration that can't be changed. An alias is a named resource that maps to a version, and can be changed to map to a different version. Use the Publish parameter to create version 1 of your function from its initial configuration. The other parameters let you configure version-specific and function-level settings. You can modify version-specific settings later with [UpdateFunctionConfiguration]. Function-level settings apply to both the unpublished and published versions of the function, and include tags ([TagResource]) and per-function concurrency limits ([PutFunctionConcurrency]). You can use code signing if your deployment package is a .zip file archive. To enable code signing for this function, specify the ARN of a code-signing configuration. When a user attempts to deploy a code package with [UpdateFunctionCode], Lambda checks that the code package has a valid signature from a trusted publisher. The code-signing configuration includes set of signing profiles, which define the trusted publishers for this function. If another Amazon Web Services account or an Amazon Web Services service invokes your function, use [AddPermission] to grant permission by creating a resource-based Identity and Access Management (IAM) policy. You can grant permissions at the function level, on a version, or on an alias. To invoke your function directly, use [Invoke]. To invoke your function in response to events in other Amazon Web Services services, create an event source mapping ([CreateEventSourceMapping]), or configure a function trigger in the other service. For more information, see [Invoking Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-invocation.html).
     ///
-    /// - Parameter CreateFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFunctionInput`)
     ///
-    /// - Returns: `CreateFunctionOutput` : Details about a function's configuration.
+    /// - Returns: Details about a function's configuration. (Type: `CreateFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -835,6 +841,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFunctionInput, CreateFunctionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFunctionOutput>(CreateFunctionOutput.httpOutput(from:), CreateFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFunctionInput, CreateFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFunctionOutput>())
@@ -866,9 +873,9 @@ extension LambdaClient {
     ///
     /// Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
     ///
-    /// - Parameter CreateFunctionUrlConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFunctionUrlConfigInput`)
     ///
-    /// - Returns: `CreateFunctionUrlConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFunctionUrlConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -907,6 +914,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFunctionUrlConfigOutput>(CreateFunctionUrlConfigOutput.httpOutput(from:), CreateFunctionUrlConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFunctionUrlConfigInput, CreateFunctionUrlConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFunctionUrlConfigOutput>())
@@ -938,9 +946,9 @@ extension LambdaClient {
     ///
     /// Deletes a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
-    /// - Parameter DeleteAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAliasInput`)
     ///
-    /// - Returns: `DeleteAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -974,6 +982,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAliasInput, DeleteAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAliasOutput>(DeleteAliasOutput.httpOutput(from:), DeleteAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAliasInput, DeleteAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAliasOutput>())
@@ -1005,9 +1014,9 @@ extension LambdaClient {
     ///
     /// Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
     ///
-    /// - Parameter DeleteCodeSigningConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCodeSigningConfigInput`)
     ///
-    /// - Returns: `DeleteCodeSigningConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCodeSigningConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,6 +1050,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCodeSigningConfigOutput>(DeleteCodeSigningConfigOutput.httpOutput(from:), DeleteCodeSigningConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCodeSigningConfigInput, DeleteCodeSigningConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCodeSigningConfigOutput>())
@@ -1072,9 +1082,9 @@ extension LambdaClient {
     ///
     /// Deletes an [event source mapping](https://docs.aws.amazon.com/lambda/latest/dg/intro-invocation-modes.html). You can get the identifier of a mapping from the output of [ListEventSourceMappings]. When you delete an event source mapping, it enters a Deleting state and might not be completely deleted for several seconds.
     ///
-    /// - Parameter DeleteEventSourceMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventSourceMappingInput`)
     ///
-    /// - Returns: `DeleteEventSourceMappingOutput` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    /// - Returns: A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping]. (Type: `DeleteEventSourceMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1110,6 +1120,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventSourceMappingOutput>(DeleteEventSourceMappingOutput.httpOutput(from:), DeleteEventSourceMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventSourceMappingInput, DeleteEventSourceMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventSourceMappingOutput>())
@@ -1141,9 +1152,9 @@ extension LambdaClient {
     ///
     /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for [DeleteAlias]. To delete Lambda event source mappings that invoke a function, use [DeleteEventSourceMapping]. For Amazon Web Services services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
     ///
-    /// - Parameter DeleteFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionInput`)
     ///
-    /// - Returns: `DeleteFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1179,6 +1190,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteFunctionInput, DeleteFunctionOutput>(DeleteFunctionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionOutput>(DeleteFunctionOutput.httpOutput(from:), DeleteFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionInput, DeleteFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFunctionOutput>())
@@ -1210,9 +1222,9 @@ extension LambdaClient {
     ///
     /// Removes the code signing configuration from the function.
     ///
-    /// - Parameter DeleteFunctionCodeSigningConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionCodeSigningConfigInput`)
     ///
-    /// - Returns: `DeleteFunctionCodeSigningConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionCodeSigningConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1248,6 +1260,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionCodeSigningConfigOutput>(DeleteFunctionCodeSigningConfigOutput.httpOutput(from:), DeleteFunctionCodeSigningConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionCodeSigningConfigInput, DeleteFunctionCodeSigningConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFunctionCodeSigningConfigOutput>())
@@ -1279,9 +1292,9 @@ extension LambdaClient {
     ///
     /// Removes a concurrent execution limit from a function.
     ///
-    /// - Parameter DeleteFunctionConcurrencyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionConcurrencyInput`)
     ///
-    /// - Returns: `DeleteFunctionConcurrencyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionConcurrencyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1316,6 +1329,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionConcurrencyOutput>(DeleteFunctionConcurrencyOutput.httpOutput(from:), DeleteFunctionConcurrencyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionConcurrencyInput, DeleteFunctionConcurrencyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFunctionConcurrencyOutput>())
@@ -1347,9 +1361,9 @@ extension LambdaClient {
     ///
     /// Deletes the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
-    /// - Parameter DeleteFunctionEventInvokeConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionEventInvokeConfigInput`)
     ///
-    /// - Returns: `DeleteFunctionEventInvokeConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionEventInvokeConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1385,6 +1399,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutput>(DeleteFunctionEventInvokeConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionEventInvokeConfigOutput>(DeleteFunctionEventInvokeConfigOutput.httpOutput(from:), DeleteFunctionEventInvokeConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionEventInvokeConfigInput, DeleteFunctionEventInvokeConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFunctionEventInvokeConfigOutput>())
@@ -1416,9 +1431,9 @@ extension LambdaClient {
     ///
     /// Deletes a Lambda function URL. When you delete a function URL, you can't recover it. Creating a new function URL results in a different URL address.
     ///
-    /// - Parameter DeleteFunctionUrlConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFunctionUrlConfigInput`)
     ///
-    /// - Returns: `DeleteFunctionUrlConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFunctionUrlConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1453,6 +1468,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutput>(DeleteFunctionUrlConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFunctionUrlConfigOutput>(DeleteFunctionUrlConfigOutput.httpOutput(from:), DeleteFunctionUrlConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFunctionUrlConfigInput, DeleteFunctionUrlConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFunctionUrlConfigOutput>())
@@ -1484,9 +1500,9 @@ extension LambdaClient {
     ///
     /// Deletes a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
     ///
-    /// - Parameter DeleteLayerVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLayerVersionInput`)
     ///
-    /// - Returns: `DeleteLayerVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLayerVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1518,6 +1534,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLayerVersionInput, DeleteLayerVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLayerVersionOutput>(DeleteLayerVersionOutput.httpOutput(from:), DeleteLayerVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLayerVersionInput, DeleteLayerVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLayerVersionOutput>())
@@ -1549,9 +1566,9 @@ extension LambdaClient {
     ///
     /// Deletes the provisioned concurrency configuration for a function.
     ///
-    /// - Parameter DeleteProvisionedConcurrencyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProvisionedConcurrencyConfigInput`)
     ///
-    /// - Returns: `DeleteProvisionedConcurrencyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProvisionedConcurrencyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1587,6 +1604,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutput>(DeleteProvisionedConcurrencyConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProvisionedConcurrencyConfigOutput>(DeleteProvisionedConcurrencyConfigOutput.httpOutput(from:), DeleteProvisionedConcurrencyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProvisionedConcurrencyConfigInput, DeleteProvisionedConcurrencyConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProvisionedConcurrencyConfigOutput>())
@@ -1618,9 +1636,9 @@ extension LambdaClient {
     ///
     /// Retrieves details about your account's [limits](https://docs.aws.amazon.com/lambda/latest/dg/limits.html) and usage in an Amazon Web Services Region.
     ///
-    /// - Parameter GetAccountSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountSettingsInput`)
     ///
-    /// - Returns: `GetAccountSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1652,6 +1670,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountSettingsOutput>(GetAccountSettingsOutput.httpOutput(from:), GetAccountSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountSettingsInput, GetAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountSettingsOutput>())
@@ -1683,9 +1702,9 @@ extension LambdaClient {
     ///
     /// Returns details about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
-    /// - Parameter GetAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAliasInput`)
     ///
-    /// - Returns: `GetAliasOutput` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+    /// - Returns: Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html). (Type: `GetAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1719,6 +1738,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAliasInput, GetAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAliasOutput>(GetAliasOutput.httpOutput(from:), GetAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAliasInput, GetAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAliasOutput>())
@@ -1750,9 +1770,9 @@ extension LambdaClient {
     ///
     /// Returns information about the specified code signing configuration.
     ///
-    /// - Parameter GetCodeSigningConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCodeSigningConfigInput`)
     ///
-    /// - Returns: `GetCodeSigningConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCodeSigningConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1785,6 +1805,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCodeSigningConfigInput, GetCodeSigningConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCodeSigningConfigOutput>(GetCodeSigningConfigOutput.httpOutput(from:), GetCodeSigningConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCodeSigningConfigInput, GetCodeSigningConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCodeSigningConfigOutput>())
@@ -1816,9 +1837,9 @@ extension LambdaClient {
     ///
     /// Returns details about an event source mapping. You can get the identifier of a mapping from the output of [ListEventSourceMappings].
     ///
-    /// - Parameter GetEventSourceMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventSourceMappingInput`)
     ///
-    /// - Returns: `GetEventSourceMappingOutput` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    /// - Returns: A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping]. (Type: `GetEventSourceMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1852,6 +1873,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventSourceMappingInput, GetEventSourceMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventSourceMappingOutput>(GetEventSourceMappingOutput.httpOutput(from:), GetEventSourceMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventSourceMappingInput, GetEventSourceMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventSourceMappingOutput>())
@@ -1883,9 +1905,9 @@ extension LambdaClient {
     ///
     /// Returns information about the function or function version, with a link to download the deployment package that's valid for 10 minutes. If you specify a function version, only details that are specific to that version are returned.
     ///
-    /// - Parameter GetFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionInput`)
     ///
-    /// - Returns: `GetFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1920,6 +1942,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFunctionInput, GetFunctionOutput>(GetFunctionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionOutput>(GetFunctionOutput.httpOutput(from:), GetFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionInput, GetFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionOutput>())
@@ -1951,9 +1974,9 @@ extension LambdaClient {
     ///
     /// Returns the code signing configuration for the specified function.
     ///
-    /// - Parameter GetFunctionCodeSigningConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionCodeSigningConfigInput`)
     ///
-    /// - Returns: `GetFunctionCodeSigningConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionCodeSigningConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1987,6 +2010,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionCodeSigningConfigOutput>(GetFunctionCodeSigningConfigOutput.httpOutput(from:), GetFunctionCodeSigningConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionCodeSigningConfigInput, GetFunctionCodeSigningConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionCodeSigningConfigOutput>())
@@ -2018,9 +2042,9 @@ extension LambdaClient {
     ///
     /// Returns details about the reserved concurrency configuration for a function. To set a concurrency limit for a function, use [PutFunctionConcurrency].
     ///
-    /// - Parameter GetFunctionConcurrencyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionConcurrencyInput`)
     ///
-    /// - Returns: `GetFunctionConcurrencyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionConcurrencyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2054,6 +2078,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionConcurrencyOutput>(GetFunctionConcurrencyOutput.httpOutput(from:), GetFunctionConcurrencyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionConcurrencyInput, GetFunctionConcurrencyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionConcurrencyOutput>())
@@ -2085,9 +2110,9 @@ extension LambdaClient {
     ///
     /// Returns the version-specific settings of a Lambda function or version. The output includes only options that can vary between versions of a function. To modify these settings, use [UpdateFunctionConfiguration]. To get all of a function's details, including function-level settings, use [GetFunction].
     ///
-    /// - Parameter GetFunctionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionConfigurationInput`)
     ///
-    /// - Returns: `GetFunctionConfigurationOutput` : Details about a function's configuration.
+    /// - Returns: Details about a function's configuration. (Type: `GetFunctionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2122,6 +2147,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutput>(GetFunctionConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionConfigurationOutput>(GetFunctionConfigurationOutput.httpOutput(from:), GetFunctionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionConfigurationInput, GetFunctionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionConfigurationOutput>())
@@ -2153,9 +2179,9 @@ extension LambdaClient {
     ///
     /// Retrieves the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
-    /// - Parameter GetFunctionEventInvokeConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionEventInvokeConfigInput`)
     ///
-    /// - Returns: `GetFunctionEventInvokeConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionEventInvokeConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2190,6 +2216,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutput>(GetFunctionEventInvokeConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionEventInvokeConfigOutput>(GetFunctionEventInvokeConfigOutput.httpOutput(from:), GetFunctionEventInvokeConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionEventInvokeConfigInput, GetFunctionEventInvokeConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionEventInvokeConfigOutput>())
@@ -2221,9 +2248,9 @@ extension LambdaClient {
     ///
     /// Returns your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration.
     ///
-    /// - Parameter GetFunctionRecursionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionRecursionConfigInput`)
     ///
-    /// - Returns: `GetFunctionRecursionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionRecursionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2257,6 +2284,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionRecursionConfigOutput>(GetFunctionRecursionConfigOutput.httpOutput(from:), GetFunctionRecursionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionRecursionConfigInput, GetFunctionRecursionConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionRecursionConfigOutput>())
@@ -2288,9 +2316,9 @@ extension LambdaClient {
     ///
     /// Returns details about a Lambda function URL.
     ///
-    /// - Parameter GetFunctionUrlConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFunctionUrlConfigInput`)
     ///
-    /// - Returns: `GetFunctionUrlConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFunctionUrlConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2325,6 +2353,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutput>(GetFunctionUrlConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFunctionUrlConfigOutput>(GetFunctionUrlConfigOutput.httpOutput(from:), GetFunctionUrlConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFunctionUrlConfigInput, GetFunctionUrlConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFunctionUrlConfigOutput>())
@@ -2356,9 +2385,9 @@ extension LambdaClient {
     ///
     /// Returns information about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html), with a link to download the layer archive that's valid for 10 minutes.
     ///
-    /// - Parameter GetLayerVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLayerVersionInput`)
     ///
-    /// - Returns: `GetLayerVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLayerVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2392,6 +2421,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLayerVersionInput, GetLayerVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLayerVersionOutput>(GetLayerVersionOutput.httpOutput(from:), GetLayerVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLayerVersionInput, GetLayerVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLayerVersionOutput>())
@@ -2423,9 +2453,9 @@ extension LambdaClient {
     ///
     /// Returns information about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html), with a link to download the layer archive that's valid for 10 minutes.
     ///
-    /// - Parameter GetLayerVersionByArnInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLayerVersionByArnInput`)
     ///
-    /// - Returns: `GetLayerVersionByArnOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLayerVersionByArnOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2460,6 +2490,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutput>(GetLayerVersionByArnInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLayerVersionByArnOutput>(GetLayerVersionByArnOutput.httpOutput(from:), GetLayerVersionByArnOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLayerVersionByArnInput, GetLayerVersionByArnOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLayerVersionByArnOutput>())
@@ -2491,9 +2522,9 @@ extension LambdaClient {
     ///
     /// Returns the permission policy for a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). For more information, see [AddLayerVersionPermission].
     ///
-    /// - Parameter GetLayerVersionPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLayerVersionPolicyInput`)
     ///
-    /// - Returns: `GetLayerVersionPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLayerVersionPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2527,6 +2558,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLayerVersionPolicyOutput>(GetLayerVersionPolicyOutput.httpOutput(from:), GetLayerVersionPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLayerVersionPolicyInput, GetLayerVersionPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLayerVersionPolicyOutput>())
@@ -2558,9 +2590,9 @@ extension LambdaClient {
     ///
     /// Returns the [resource-based IAM policy](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html) for a function, version, or alias.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2595,6 +2627,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetPolicyInput, GetPolicyOutput>(GetPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(GetPolicyOutput.httpOutput(from:), GetPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
@@ -2626,9 +2659,9 @@ extension LambdaClient {
     ///
     /// Retrieves the provisioned concurrency configuration for a function's alias or version.
     ///
-    /// - Parameter GetProvisionedConcurrencyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProvisionedConcurrencyConfigInput`)
     ///
-    /// - Returns: `GetProvisionedConcurrencyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProvisionedConcurrencyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2664,6 +2697,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutput>(GetProvisionedConcurrencyConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProvisionedConcurrencyConfigOutput>(GetProvisionedConcurrencyConfigOutput.httpOutput(from:), GetProvisionedConcurrencyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProvisionedConcurrencyConfigInput, GetProvisionedConcurrencyConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProvisionedConcurrencyConfigOutput>())
@@ -2695,9 +2729,9 @@ extension LambdaClient {
     ///
     /// Retrieves the runtime management configuration for a function's version. If the runtime update mode is Manual, this includes the ARN of the runtime version and the runtime update mode. If the runtime update mode is Auto or Function update, this includes the runtime update mode and null is returned for the ARN. For more information, see [Runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html).
     ///
-    /// - Parameter GetRuntimeManagementConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuntimeManagementConfigInput`)
     ///
-    /// - Returns: `GetRuntimeManagementConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuntimeManagementConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2732,6 +2766,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutput>(GetRuntimeManagementConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuntimeManagementConfigOutput>(GetRuntimeManagementConfigOutput.httpOutput(from:), GetRuntimeManagementConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuntimeManagementConfigInput, GetRuntimeManagementConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuntimeManagementConfigOutput>())
@@ -2763,9 +2798,9 @@ extension LambdaClient {
     ///
     /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. theInvocationType is RequestResponse). To invoke a function asynchronously, set InvocationType to Event. Lambda passes the ClientContext object to your function for synchronous invocations only. For [synchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-sync.html), details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the [execution log](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-functions.html) and [trace](https://docs.aws.amazon.com/lambda/latest/dg/lambda-x-ray.html). When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see [Error handling and automatic retries in Lambda](https://docs.aws.amazon.com/lambda/latest/dg/invocation-retries.html). For [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html), Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a [dead-letter queue](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq). The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, [quota](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html) errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the [lambda:InvokeFunction](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awslambda.html) action. For details on how to set up permissions for cross-account invocations, see [Granting function access to other accounts](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#permissions-resource-xaccountinvoke).
     ///
-    /// - Parameter InvokeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeInput`)
     ///
-    /// - Returns: `InvokeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2830,6 +2865,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeInput, InvokeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeOutput>(InvokeOutput.httpOutput(from:), InvokeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeInput, InvokeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeOutput>())
@@ -2862,9 +2898,9 @@ extension LambdaClient {
     /// For asynchronous function invocation, use [Invoke]. Invokes a function asynchronously. If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
     @available(*, deprecated)
     ///
-    /// - Parameter InvokeAsyncInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeAsyncInput`)
     ///
-    /// - Returns: `InvokeAsyncOutput` : A success response (202 Accepted) indicates that the request is queued for invocation.
+    /// - Returns: A success response (202 Accepted) indicates that the request is queued for invocation. (Type: `InvokeAsyncOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2902,6 +2938,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeAsyncInput, InvokeAsyncOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeAsyncOutput>(InvokeAsyncOutput.httpOutput(from:), InvokeAsyncOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeAsyncInput, InvokeAsyncOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeAsyncOutput>())
@@ -2933,9 +2970,9 @@ extension LambdaClient {
     ///
     /// Configure your Lambda functions to stream response payloads back to clients. For more information, see [Configuring a Lambda function to stream responses](https://docs.aws.amazon.com/lambda/latest/dg/configuration-response-streaming.html). This operation requires permission for the [lambda:InvokeFunction](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awslambda.html) action. For details on how to set up permissions for cross-account invocations, see [Granting function access to other accounts](https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html#permissions-resource-xaccountinvoke).
     ///
-    /// - Parameter InvokeWithResponseStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeWithResponseStreamInput`)
     ///
-    /// - Returns: `InvokeWithResponseStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeWithResponseStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3000,6 +3037,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeWithResponseStreamOutput>(InvokeWithResponseStreamOutput.httpOutput(from:), InvokeWithResponseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeWithResponseStreamInput, InvokeWithResponseStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeWithResponseStreamOutput>())
@@ -3031,9 +3069,9 @@ extension LambdaClient {
     ///
     /// Returns a list of [aliases](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html) for a Lambda function.
     ///
-    /// - Parameter ListAliasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAliasesInput`)
     ///
-    /// - Returns: `ListAliasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAliasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3068,6 +3106,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAliasesInput, ListAliasesOutput>(ListAliasesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAliasesOutput>(ListAliasesOutput.httpOutput(from:), ListAliasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAliasesInput, ListAliasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAliasesOutput>())
@@ -3099,9 +3138,9 @@ extension LambdaClient {
     ///
     /// Returns a list of [code signing configurations](https://docs.aws.amazon.com/lambda/latest/dg/configuring-codesigning.html). A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call.
     ///
-    /// - Parameter ListCodeSigningConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCodeSigningConfigsInput`)
     ///
-    /// - Returns: `ListCodeSigningConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCodeSigningConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3134,6 +3173,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput>(ListCodeSigningConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCodeSigningConfigsOutput>(ListCodeSigningConfigsOutput.httpOutput(from:), ListCodeSigningConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCodeSigningConfigsInput, ListCodeSigningConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCodeSigningConfigsOutput>())
@@ -3165,9 +3205,9 @@ extension LambdaClient {
     ///
     /// Lists event source mappings. Specify an EventSourceArn to show only event source mappings for a single event source.
     ///
-    /// - Parameter ListEventSourceMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventSourceMappingsInput`)
     ///
-    /// - Returns: `ListEventSourceMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventSourceMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3202,6 +3242,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutput>(ListEventSourceMappingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventSourceMappingsOutput>(ListEventSourceMappingsOutput.httpOutput(from:), ListEventSourceMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventSourceMappingsInput, ListEventSourceMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventSourceMappingsOutput>())
@@ -3233,9 +3274,9 @@ extension LambdaClient {
     ///
     /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
-    /// - Parameter ListFunctionEventInvokeConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionEventInvokeConfigsInput`)
     ///
-    /// - Returns: `ListFunctionEventInvokeConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionEventInvokeConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3270,6 +3311,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput>(ListFunctionEventInvokeConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionEventInvokeConfigsOutput>(ListFunctionEventInvokeConfigsOutput.httpOutput(from:), ListFunctionEventInvokeConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionEventInvokeConfigsInput, ListFunctionEventInvokeConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionEventInvokeConfigsOutput>())
@@ -3301,9 +3343,9 @@ extension LambdaClient {
     ///
     /// Returns a list of Lambda function URLs for the specified function.
     ///
-    /// - Parameter ListFunctionUrlConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionUrlConfigsInput`)
     ///
-    /// - Returns: `ListFunctionUrlConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionUrlConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3338,6 +3380,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput>(ListFunctionUrlConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionUrlConfigsOutput>(ListFunctionUrlConfigsOutput.httpOutput(from:), ListFunctionUrlConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionUrlConfigsInput, ListFunctionUrlConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionUrlConfigsOutput>())
@@ -3369,9 +3412,9 @@ extension LambdaClient {
     ///
     /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. The ListFunctions operation returns a subset of the [FunctionConfiguration] fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use [GetFunction].
     ///
-    /// - Parameter ListFunctionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionsInput`)
     ///
-    /// - Returns: `ListFunctionsOutput` : A list of Lambda functions.
+    /// - Returns: A list of Lambda functions. (Type: `ListFunctionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3405,6 +3448,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionsInput, ListFunctionsOutput>(ListFunctionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionsOutput>(ListFunctionsOutput.httpOutput(from:), ListFunctionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionsInput, ListFunctionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionsOutput>())
@@ -3436,9 +3480,9 @@ extension LambdaClient {
     ///
     /// List the functions that use the specified code signing configuration. You can use this method prior to deleting a code signing configuration, to verify that no functions are using it.
     ///
-    /// - Parameter ListFunctionsByCodeSigningConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFunctionsByCodeSigningConfigInput`)
     ///
-    /// - Returns: `ListFunctionsByCodeSigningConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFunctionsByCodeSigningConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3472,6 +3516,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput>(ListFunctionsByCodeSigningConfigInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFunctionsByCodeSigningConfigOutput>(ListFunctionsByCodeSigningConfigOutput.httpOutput(from:), ListFunctionsByCodeSigningConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFunctionsByCodeSigningConfigInput, ListFunctionsByCodeSigningConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFunctionsByCodeSigningConfigOutput>())
@@ -3503,9 +3548,9 @@ extension LambdaClient {
     ///
     /// Lists the versions of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). Versions that have been deleted aren't listed. Specify a [runtime identifier](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) to list only versions that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layer versions that are compatible with that architecture.
     ///
-    /// - Parameter ListLayerVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLayerVersionsInput`)
     ///
-    /// - Returns: `ListLayerVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLayerVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3540,6 +3585,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLayerVersionsInput, ListLayerVersionsOutput>(ListLayerVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLayerVersionsOutput>(ListLayerVersionsOutput.httpOutput(from:), ListLayerVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLayerVersionsInput, ListLayerVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLayerVersionsOutput>())
@@ -3571,9 +3617,9 @@ extension LambdaClient {
     ///
     /// Lists [Lambda layers](https://docs.aws.amazon.com/lambda/latest/dg/invocation-layers.html) and shows information about the latest version of each. Specify a [runtime identifier](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) to list only layers that indicate that they're compatible with that runtime. Specify a compatible architecture to include only layers that are compatible with that [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     ///
-    /// - Parameter ListLayersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLayersInput`)
     ///
-    /// - Returns: `ListLayersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLayersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3607,6 +3653,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLayersInput, ListLayersOutput>(ListLayersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLayersOutput>(ListLayersOutput.httpOutput(from:), ListLayersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLayersInput, ListLayersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLayersOutput>())
@@ -3638,9 +3685,9 @@ extension LambdaClient {
     ///
     /// Retrieves a list of provisioned concurrency configurations for a function.
     ///
-    /// - Parameter ListProvisionedConcurrencyConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisionedConcurrencyConfigsInput`)
     ///
-    /// - Returns: `ListProvisionedConcurrencyConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisionedConcurrencyConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3675,6 +3722,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput>(ListProvisionedConcurrencyConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProvisionedConcurrencyConfigsOutput>(ListProvisionedConcurrencyConfigsOutput.httpOutput(from:), ListProvisionedConcurrencyConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProvisionedConcurrencyConfigsInput, ListProvisionedConcurrencyConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProvisionedConcurrencyConfigsOutput>())
@@ -3706,9 +3754,9 @@ extension LambdaClient {
     ///
     /// Returns a function, event source mapping, or code signing configuration's [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html). You can also view function tags with [GetFunction].
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3742,6 +3790,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -3773,9 +3822,9 @@ extension LambdaClient {
     ///
     /// Returns a list of [versions](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html), with the version-specific configuration of each. Lambda returns up to 50 versions per call.
     ///
-    /// - Parameter ListVersionsByFunctionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListVersionsByFunctionInput`)
     ///
-    /// - Returns: `ListVersionsByFunctionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListVersionsByFunctionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3810,6 +3859,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutput>(ListVersionsByFunctionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListVersionsByFunctionOutput>(ListVersionsByFunctionOutput.httpOutput(from:), ListVersionsByFunctionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListVersionsByFunctionInput, ListVersionsByFunctionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListVersionsByFunctionOutput>())
@@ -3841,9 +3891,9 @@ extension LambdaClient {
     ///
     /// Creates an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html) from a ZIP archive. Each time you call PublishLayerVersion with the same layer name, a new version is created. Add layers to your function with [CreateFunction] or [UpdateFunctionConfiguration].
     ///
-    /// - Parameter PublishLayerVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishLayerVersionInput`)
     ///
-    /// - Returns: `PublishLayerVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishLayerVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3881,6 +3931,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishLayerVersionInput, PublishLayerVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishLayerVersionOutput>(PublishLayerVersionOutput.httpOutput(from:), PublishLayerVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishLayerVersionInput, PublishLayerVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PublishLayerVersionOutput>())
@@ -3912,9 +3963,9 @@ extension LambdaClient {
     ///
     /// Creates a [version](https://docs.aws.amazon.com/lambda/latest/dg/versioning-aliases.html) from the current code and configuration of a function. Use versions to create a snapshot of your function code and configuration that doesn't change. Lambda doesn't publish a version if the function's configuration and code haven't changed since the last version. Use [UpdateFunctionCode] or [UpdateFunctionConfiguration] to update the function before publishing a version. Clients can invoke versions directly or with an alias. To create an alias, use [CreateAlias].
     ///
-    /// - Parameter PublishVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishVersionInput`)
     ///
-    /// - Returns: `PublishVersionOutput` : Details about a function's configuration.
+    /// - Returns: Details about a function's configuration. (Type: `PublishVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3958,6 +4009,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishVersionInput, PublishVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishVersionOutput>(PublishVersionOutput.httpOutput(from:), PublishVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishVersionInput, PublishVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PublishVersionOutput>())
@@ -3989,9 +4041,9 @@ extension LambdaClient {
     ///
     /// Update the code signing configuration for the function. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
     ///
-    /// - Parameter PutFunctionCodeSigningConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFunctionCodeSigningConfigInput`)
     ///
-    /// - Returns: `PutFunctionCodeSigningConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFunctionCodeSigningConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4030,6 +4082,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFunctionCodeSigningConfigOutput>(PutFunctionCodeSigningConfigOutput.httpOutput(from:), PutFunctionCodeSigningConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFunctionCodeSigningConfigInput, PutFunctionCodeSigningConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFunctionCodeSigningConfigOutput>())
@@ -4061,9 +4114,9 @@ extension LambdaClient {
     ///
     /// Sets the maximum number of simultaneous executions for a function, and reserves capacity for that concurrency level. Concurrency settings apply to the function as a whole, including all published versions and the unpublished version. Reserving concurrency both ensures that your function has capacity to process the specified number of events simultaneously, and prevents it from scaling beyond that level. Use [GetFunction] to see the current setting for a function. Use [GetAccountSettings] to see your Regional concurrency limit. You can reserve concurrency for as many functions as you like, as long as you leave at least 100 simultaneous executions unreserved for functions that aren't configured with a per-function limit. For more information, see [Lambda function scaling](https://docs.aws.amazon.com/lambda/latest/dg/invocation-scaling.html).
     ///
-    /// - Parameter PutFunctionConcurrencyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFunctionConcurrencyInput`)
     ///
-    /// - Returns: `PutFunctionConcurrencyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFunctionConcurrencyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4101,6 +4154,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFunctionConcurrencyOutput>(PutFunctionConcurrencyOutput.httpOutput(from:), PutFunctionConcurrencyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFunctionConcurrencyInput, PutFunctionConcurrencyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFunctionConcurrencyOutput>())
@@ -4132,9 +4186,9 @@ extension LambdaClient {
     ///
     /// Configures options for [asynchronous invocation](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html) on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use [UpdateFunctionEventInvokeConfig]. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with [UpdateFunctionConfiguration]. To send an invocation record to a queue, topic, S3 bucket, function, or event bus, specify a [destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations). You can configure separate destinations for successful invocations (on-success) and events that fail all processing attempts (on-failure). You can configure destinations in addition to or instead of a dead-letter queue. S3 buckets are supported only for on-failure destinations. To retain records of successful invocations, use another destination type.
     ///
-    /// - Parameter PutFunctionEventInvokeConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFunctionEventInvokeConfigInput`)
     ///
-    /// - Returns: `PutFunctionEventInvokeConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFunctionEventInvokeConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4173,6 +4227,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFunctionEventInvokeConfigOutput>(PutFunctionEventInvokeConfigOutput.httpOutput(from:), PutFunctionEventInvokeConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFunctionEventInvokeConfigInput, PutFunctionEventInvokeConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFunctionEventInvokeConfigOutput>())
@@ -4204,9 +4259,9 @@ extension LambdaClient {
     ///
     /// Sets your function's [recursive loop detection](https://docs.aws.amazon.com/lambda/latest/dg/invocation-recursion.html) configuration. When you configure a Lambda function to output to the same service or resource that invokes the function, it's possible to create an infinite recursive loop. For example, a Lambda function might write a message to an Amazon Simple Queue Service (Amazon SQS) queue, which then invokes the same function. This invocation causes the function to write another message to the queue, which in turn invokes the function again. Lambda can detect certain types of recursive loops shortly after they occur. When Lambda detects a recursive loop and your function's recursive loop detection configuration is set to Terminate, it stops your function being invoked and notifies you.
     ///
-    /// - Parameter PutFunctionRecursionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutFunctionRecursionConfigInput`)
     ///
-    /// - Returns: `PutFunctionRecursionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutFunctionRecursionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4244,6 +4299,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutFunctionRecursionConfigOutput>(PutFunctionRecursionConfigOutput.httpOutput(from:), PutFunctionRecursionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutFunctionRecursionConfigInput, PutFunctionRecursionConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutFunctionRecursionConfigOutput>())
@@ -4275,9 +4331,9 @@ extension LambdaClient {
     ///
     /// Adds a provisioned concurrency configuration to a function's alias or version.
     ///
-    /// - Parameter PutProvisionedConcurrencyConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutProvisionedConcurrencyConfigInput`)
     ///
-    /// - Returns: `PutProvisionedConcurrencyConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutProvisionedConcurrencyConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4316,6 +4372,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutProvisionedConcurrencyConfigOutput>(PutProvisionedConcurrencyConfigOutput.httpOutput(from:), PutProvisionedConcurrencyConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutProvisionedConcurrencyConfigInput, PutProvisionedConcurrencyConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutProvisionedConcurrencyConfigOutput>())
@@ -4347,9 +4404,9 @@ extension LambdaClient {
     ///
     /// Sets the runtime management configuration for a function's version. For more information, see [Runtime updates](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html).
     ///
-    /// - Parameter PutRuntimeManagementConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRuntimeManagementConfigInput`)
     ///
-    /// - Returns: `PutRuntimeManagementConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRuntimeManagementConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4388,6 +4445,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRuntimeManagementConfigOutput>(PutRuntimeManagementConfigOutput.httpOutput(from:), PutRuntimeManagementConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRuntimeManagementConfigInput, PutRuntimeManagementConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRuntimeManagementConfigOutput>())
@@ -4419,9 +4477,9 @@ extension LambdaClient {
     ///
     /// Removes a statement from the permissions policy for a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). For more information, see [AddLayerVersionPermission].
     ///
-    /// - Parameter RemoveLayerVersionPermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveLayerVersionPermissionInput`)
     ///
-    /// - Returns: `RemoveLayerVersionPermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveLayerVersionPermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4461,6 +4519,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutput>(RemoveLayerVersionPermissionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveLayerVersionPermissionOutput>(RemoveLayerVersionPermissionOutput.httpOutput(from:), RemoveLayerVersionPermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveLayerVersionPermissionInput, RemoveLayerVersionPermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveLayerVersionPermissionOutput>())
@@ -4492,9 +4551,9 @@ extension LambdaClient {
     ///
     /// Revokes function-use permission from an Amazon Web Services service or another Amazon Web Services account. You can get the ID of the statement from the output of [GetPolicy].
     ///
-    /// - Parameter RemovePermissionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemovePermissionInput`)
     ///
-    /// - Returns: `RemovePermissionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemovePermissionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4534,6 +4593,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<RemovePermissionInput, RemovePermissionOutput>(RemovePermissionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemovePermissionOutput>(RemovePermissionOutput.httpOutput(from:), RemovePermissionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemovePermissionInput, RemovePermissionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemovePermissionOutput>())
@@ -4565,9 +4625,9 @@ extension LambdaClient {
     ///
     /// Adds [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) to a function, event source mapping, or code signing configuration.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4605,6 +4665,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4636,9 +4697,9 @@ extension LambdaClient {
     ///
     /// Removes [tags](https://docs.aws.amazon.com/lambda/latest/dg/tagging.html) from a function, event source mapping, or code signing configuration.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4674,6 +4735,7 @@ extension LambdaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4705,9 +4767,9 @@ extension LambdaClient {
     ///
     /// Updates the configuration of a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
     ///
-    /// - Parameter UpdateAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAliasInput`)
     ///
-    /// - Returns: `UpdateAliasOutput` : Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
+    /// - Returns: Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html). (Type: `UpdateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4750,6 +4812,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAliasInput, UpdateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAliasOutput>(UpdateAliasOutput.httpOutput(from:), UpdateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAliasInput, UpdateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAliasOutput>())
@@ -4781,9 +4844,9 @@ extension LambdaClient {
     ///
     /// Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
     ///
-    /// - Parameter UpdateCodeSigningConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCodeSigningConfigInput`)
     ///
-    /// - Returns: `UpdateCodeSigningConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCodeSigningConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4819,6 +4882,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCodeSigningConfigOutput>(UpdateCodeSigningConfigOutput.httpOutput(from:), UpdateCodeSigningConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCodeSigningConfigInput, UpdateCodeSigningConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCodeSigningConfigOutput>())
@@ -4897,9 +4961,9 @@ extension LambdaClient {
     ///
     /// * [ Amazon DocumentDB](https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html#docdb-configuration)
     ///
-    /// - Parameter UpdateEventSourceMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventSourceMappingInput`)
     ///
-    /// - Returns: `UpdateEventSourceMappingOutput` : A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
+    /// - Returns: A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping]. (Type: `UpdateEventSourceMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4938,6 +5002,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventSourceMappingOutput>(UpdateEventSourceMappingOutput.httpOutput(from:), UpdateEventSourceMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventSourceMappingInput, UpdateEventSourceMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventSourceMappingOutput>())
@@ -4969,9 +5034,9 @@ extension LambdaClient {
     ///
     /// Updates a Lambda function's code. If code signing is enabled for the function, the code package must be signed by a trusted publisher. For more information, see [Configuring code signing for Lambda](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html). If the function's package type is Image, then you must specify the code package in ImageUri as the URI of a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html) in the Amazon ECR registry. If the function's package type is Zip, then you must specify the deployment package as a [.zip file archive](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html#gettingstarted-package-zip). Enter the Amazon S3 bucket and key of the code .zip file location. You can also provide the function code inline using the ZipFile field. The code in the deployment package must be compatible with the target instruction set architecture of the function (x86-64 or arm64). The function's code is locked when you publish a version. You can't modify the code of a published version, only the unpublished version. For a function defined as a container image, Lambda resolves the image tag to an image digest. In Amazon ECR, if you update the image tag to a new image, Lambda does not automatically update the function.
     ///
-    /// - Parameter UpdateFunctionCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionCodeInput`)
     ///
-    /// - Returns: `UpdateFunctionCodeOutput` : Details about a function's configuration.
+    /// - Returns: Details about a function's configuration. (Type: `UpdateFunctionCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5018,6 +5083,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFunctionCodeOutput>(UpdateFunctionCodeOutput.httpOutput(from:), UpdateFunctionCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFunctionCodeInput, UpdateFunctionCodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFunctionCodeOutput>())
@@ -5049,9 +5115,9 @@ extension LambdaClient {
     ///
     /// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus, LastUpdateStatusReason, and LastUpdateStatusReasonCode fields in the response from [GetFunctionConfiguration] indicate when the update is complete and the function is processing events with the new configuration. For more information, see [Lambda function states](https://docs.aws.amazon.com/lambda/latest/dg/functions-states.html). These settings can vary between versions of a function and are locked when you publish a version. You can't modify the configuration of a published version, only the unpublished version. To configure function concurrency, use [PutFunctionConcurrency]. To grant invoke permissions to an Amazon Web Services account or Amazon Web Services service, use [AddPermission].
     ///
-    /// - Parameter UpdateFunctionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionConfigurationInput`)
     ///
-    /// - Returns: `UpdateFunctionConfigurationOutput` : Details about a function's configuration.
+    /// - Returns: Details about a function's configuration. (Type: `UpdateFunctionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5097,6 +5163,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFunctionConfigurationOutput>(UpdateFunctionConfigurationOutput.httpOutput(from:), UpdateFunctionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFunctionConfigurationInput, UpdateFunctionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFunctionConfigurationOutput>())
@@ -5128,9 +5195,9 @@ extension LambdaClient {
     ///
     /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use [PutFunctionEventInvokeConfig].
     ///
-    /// - Parameter UpdateFunctionEventInvokeConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionEventInvokeConfigInput`)
     ///
-    /// - Returns: `UpdateFunctionEventInvokeConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFunctionEventInvokeConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5169,6 +5236,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFunctionEventInvokeConfigOutput>(UpdateFunctionEventInvokeConfigOutput.httpOutput(from:), UpdateFunctionEventInvokeConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFunctionEventInvokeConfigInput, UpdateFunctionEventInvokeConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFunctionEventInvokeConfigOutput>())
@@ -5200,9 +5268,9 @@ extension LambdaClient {
     ///
     /// Updates the configuration for a Lambda function URL.
     ///
-    /// - Parameter UpdateFunctionUrlConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFunctionUrlConfigInput`)
     ///
-    /// - Returns: `UpdateFunctionUrlConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFunctionUrlConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5241,6 +5309,7 @@ extension LambdaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFunctionUrlConfigOutput>(UpdateFunctionUrlConfigOutput.httpOutput(from:), UpdateFunctionUrlConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFunctionUrlConfigInput, UpdateFunctionUrlConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFunctionUrlConfigOutput>())

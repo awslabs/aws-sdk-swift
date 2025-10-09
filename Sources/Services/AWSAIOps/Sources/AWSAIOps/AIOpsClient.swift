@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AIOpsClient: ClientRuntime.Client {
     public static let clientName = "AIOpsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: AIOpsClient.AIOpsClientConfiguration
     let serviceName = "AIOps"
@@ -381,9 +382,9 @@ extension AIOpsClient {
     ///
     /// Currently, you can have one investigation group in each Region in your account. Each investigation in a Region is a part of the investigation group in that Region To create an investigation group and set up CloudWatch investigations, you must be signed in to an IAM principal that has either the AIOpsConsoleAdminPolicy or the AdministratorAccess IAM policy attached, or to an account that has similar permissions. You can configure CloudWatch alarms to start investigations and add events to investigations. If you create your investigation group with CreateInvestigationGroup and you want to enable alarms to do this, you must use PutInvestigationGroupPolicy to create a resource policy that grants this permission to CloudWatch alarms. For more information about configuring CloudWatch alarms, see [Using Amazon CloudWatch alarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html)
     ///
-    /// - Parameter CreateInvestigationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvestigationGroupInput`)
     ///
-    /// - Returns: `CreateInvestigationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvestigationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -424,6 +425,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvestigationGroupInput, CreateInvestigationGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvestigationGroupOutput>(CreateInvestigationGroupOutput.httpOutput(from:), CreateInvestigationGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvestigationGroupInput, CreateInvestigationGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvestigationGroupOutput>())
@@ -455,9 +457,9 @@ extension AIOpsClient {
     ///
     /// Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
     ///
-    /// - Parameter DeleteInvestigationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvestigationGroupInput`)
     ///
-    /// - Returns: `DeleteInvestigationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvestigationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -494,6 +496,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInvestigationGroupInput, DeleteInvestigationGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvestigationGroupOutput>(DeleteInvestigationGroupOutput.httpOutput(from:), DeleteInvestigationGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvestigationGroupInput, DeleteInvestigationGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvestigationGroupOutput>())
@@ -525,9 +528,9 @@ extension AIOpsClient {
     ///
     /// Removes the IAM resource policy from being associated with the investigation group that you specify.
     ///
-    /// - Parameter DeleteInvestigationGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInvestigationGroupPolicyInput`)
     ///
-    /// - Returns: `DeleteInvestigationGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInvestigationGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -564,6 +567,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInvestigationGroupPolicyInput, DeleteInvestigationGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInvestigationGroupPolicyOutput>(DeleteInvestigationGroupPolicyOutput.httpOutput(from:), DeleteInvestigationGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInvestigationGroupPolicyInput, DeleteInvestigationGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInvestigationGroupPolicyOutput>())
@@ -595,9 +599,9 @@ extension AIOpsClient {
     ///
     /// Returns the configuration information for the specified investigation group.
     ///
-    /// - Parameter GetInvestigationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvestigationGroupInput`)
     ///
-    /// - Returns: `GetInvestigationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvestigationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvestigationGroupInput, GetInvestigationGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvestigationGroupOutput>(GetInvestigationGroupOutput.httpOutput(from:), GetInvestigationGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvestigationGroupInput, GetInvestigationGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvestigationGroupOutput>())
@@ -665,9 +670,9 @@ extension AIOpsClient {
     ///
     /// Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, {\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}.
     ///
-    /// - Parameter GetInvestigationGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvestigationGroupPolicyInput`)
     ///
-    /// - Returns: `GetInvestigationGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvestigationGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,6 +709,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetInvestigationGroupPolicyInput, GetInvestigationGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvestigationGroupPolicyOutput>(GetInvestigationGroupPolicyOutput.httpOutput(from:), GetInvestigationGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvestigationGroupPolicyInput, GetInvestigationGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvestigationGroupPolicyOutput>())
@@ -735,9 +741,9 @@ extension AIOpsClient {
     ///
     /// Returns the ARN and name of each investigation group in the account.
     ///
-    /// - Parameter ListInvestigationGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvestigationGroupsInput`)
     ///
-    /// - Returns: `ListInvestigationGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvestigationGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -775,6 +781,7 @@ extension AIOpsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvestigationGroupsInput, ListInvestigationGroupsOutput>(ListInvestigationGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvestigationGroupsOutput>(ListInvestigationGroupsOutput.httpOutput(from:), ListInvestigationGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvestigationGroupsInput, ListInvestigationGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvestigationGroupsOutput>())
@@ -806,9 +813,9 @@ extension AIOpsClient {
     ///
     /// Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -845,6 +852,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -876,9 +884,9 @@ extension AIOpsClient {
     ///
     /// Creates an IAM resource policy and assigns it to the specified investigation group. If you create your investigation group with CreateInvestigationGroup and you want to enable CloudWatch alarms to create investigations and add events to investigations, you must use this operation to create a policy similar to this example.  { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent" ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount": "account-id" }, "ArnLike": { "aws:SourceArn": "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] }
     ///
-    /// - Parameter PutInvestigationGroupPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInvestigationGroupPolicyInput`)
     ///
-    /// - Returns: `PutInvestigationGroupPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInvestigationGroupPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -918,6 +926,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInvestigationGroupPolicyInput, PutInvestigationGroupPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInvestigationGroupPolicyOutput>(PutInvestigationGroupPolicyOutput.httpOutput(from:), PutInvestigationGroupPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInvestigationGroupPolicyInput, PutInvestigationGroupPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInvestigationGroupPolicyOutput>())
@@ -949,9 +958,9 @@ extension AIOpsClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -991,6 +1000,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1022,9 +1032,9 @@ extension AIOpsClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,6 +1072,7 @@ extension AIOpsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1093,9 +1104,9 @@ extension AIOpsClient {
     ///
     /// Updates the configuration of the specified investigation group.
     ///
-    /// - Parameter UpdateInvestigationGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInvestigationGroupInput`)
     ///
-    /// - Returns: `UpdateInvestigationGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInvestigationGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1135,6 +1146,7 @@ extension AIOpsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInvestigationGroupInput, UpdateInvestigationGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInvestigationGroupOutput>(UpdateInvestigationGroupOutput.httpOutput(from:), UpdateInvestigationGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInvestigationGroupInput, UpdateInvestigationGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInvestigationGroupOutput>())

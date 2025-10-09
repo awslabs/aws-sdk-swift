@@ -96,6 +96,8 @@ extension ChimeSDKMeetingsClientTypes {
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
     ///
+    /// * If meeting features is defined as Video:MaxResolution:None but Content:MaxResolution is defined as something other than None and attendee capabilities are not defined in the API request, then the default attendee video capability is set to Receive and attendee content capability is set to SendReceive. This is because content SendReceive requires video to be at least Receive.
+    ///
     /// * When you change an audio capability from None or Receive to Send or SendReceive , and an attendee unmutes their microphone, audio flows from the attendee to the other meeting participants.
     ///
     /// * When you change a video or content capability from None or Receive to Send or SendReceive , and the attendee turns on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
@@ -135,6 +137,8 @@ extension ChimeSDKMeetingsClientTypes {
         /// * If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.
         ///
         /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
+        ///
+        /// * If meeting features is defined as Video:MaxResolution:None but Content:MaxResolution is defined as something other than None and attendee capabilities are not defined in the API request, then the default attendee video capability is set to Receive and attendee content capability is set to SendReceive. This is because content SendReceive requires video to be at least Receive.
         ///
         /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
         ///
@@ -659,6 +663,8 @@ public struct CreateAttendeeInput: Swift.Sendable {
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
     ///
+    /// * If meeting features is defined as Video:MaxResolution:None but Content:MaxResolution is defined as something other than None and attendee capabilities are not defined in the API request, then the default attendee video capability is set to Receive and attendee content capability is set to SendReceive. This is because content SendReceive requires video to be at least Receive.
+    ///
     /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
     ///
     /// * When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
@@ -694,6 +700,35 @@ public struct CreateAttendeeOutput: Swift.Sendable {
         attendee: ChimeSDKMeetingsClientTypes.Attendee? = nil
     ) {
         self.attendee = attendee
+    }
+}
+
+extension ChimeSDKMeetingsClientTypes {
+
+    public enum MediaPlacementNetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4Only
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaPlacementNetworkType] {
+            return [
+                .dualStack,
+                .ipv4Only
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "DualStack"
+            case .ipv4Only: return "Ipv4Only"
+            case let .sdkUnknown(s): return s
+            }
+        }
     }
 }
 
@@ -874,6 +909,8 @@ public struct CreateMeetingInput: Swift.Sendable {
     /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
     /// This member is required.
     public var externalMeetingId: Swift.String?
+    /// The type of network for the media placement. Either IPv4 only or dual-stack (IPv4 and IPv6).
+    public var mediaPlacementNetworkType: ChimeSDKMeetingsClientTypes.MediaPlacementNetworkType?
     /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
     /// This member is required.
     public var mediaRegion: Swift.String?
@@ -904,6 +941,7 @@ public struct CreateMeetingInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         externalMeetingId: Swift.String? = nil,
+        mediaPlacementNetworkType: ChimeSDKMeetingsClientTypes.MediaPlacementNetworkType? = nil,
         mediaRegion: Swift.String? = nil,
         meetingFeatures: ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration? = nil,
         meetingHostId: Swift.String? = nil,
@@ -914,6 +952,7 @@ public struct CreateMeetingInput: Swift.Sendable {
     ) {
         self.clientRequestToken = clientRequestToken
         self.externalMeetingId = externalMeetingId
+        self.mediaPlacementNetworkType = mediaPlacementNetworkType
         self.mediaRegion = mediaRegion
         self.meetingFeatures = meetingFeatures
         self.meetingHostId = meetingHostId
@@ -926,7 +965,7 @@ public struct CreateMeetingInput: Swift.Sendable {
 
 extension CreateMeetingInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMeetingInput(mediaRegion: \(Swift.String(describing: mediaRegion)), meetingFeatures: \(Swift.String(describing: meetingFeatures)), notificationsConfiguration: \(Swift.String(describing: notificationsConfiguration)), primaryMeetingId: \(Swift.String(describing: primaryMeetingId)), tags: \(Swift.String(describing: tags)), tenantIds: \(Swift.String(describing: tenantIds)), clientRequestToken: \"CONTENT_REDACTED\", externalMeetingId: \"CONTENT_REDACTED\", meetingHostId: \"CONTENT_REDACTED\")"}
+        "CreateMeetingInput(mediaPlacementNetworkType: \(Swift.String(describing: mediaPlacementNetworkType)), mediaRegion: \(Swift.String(describing: mediaRegion)), meetingFeatures: \(Swift.String(describing: meetingFeatures)), notificationsConfiguration: \(Swift.String(describing: notificationsConfiguration)), primaryMeetingId: \(Swift.String(describing: primaryMeetingId)), tags: \(Swift.String(describing: tags)), tenantIds: \(Swift.String(describing: tenantIds)), clientRequestToken: \"CONTENT_REDACTED\", externalMeetingId: \"CONTENT_REDACTED\", meetingHostId: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKMeetingsClientTypes {
@@ -1045,6 +1084,8 @@ public struct CreateMeetingWithAttendeesInput: Swift.Sendable {
     /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
     /// This member is required.
     public var externalMeetingId: Swift.String?
+    /// The type of network for the media placement. Either IPv4 only or dual-stack (IPv4 and IPv6).
+    public var mediaPlacementNetworkType: ChimeSDKMeetingsClientTypes.MediaPlacementNetworkType?
     /// The Region in which to create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in Amazon Web Services GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
     /// This member is required.
     public var mediaRegion: Swift.String?
@@ -1065,6 +1106,7 @@ public struct CreateMeetingWithAttendeesInput: Swift.Sendable {
         attendees: [ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem]? = nil,
         clientRequestToken: Swift.String? = nil,
         externalMeetingId: Swift.String? = nil,
+        mediaPlacementNetworkType: ChimeSDKMeetingsClientTypes.MediaPlacementNetworkType? = nil,
         mediaRegion: Swift.String? = nil,
         meetingFeatures: ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration? = nil,
         meetingHostId: Swift.String? = nil,
@@ -1076,6 +1118,7 @@ public struct CreateMeetingWithAttendeesInput: Swift.Sendable {
         self.attendees = attendees
         self.clientRequestToken = clientRequestToken
         self.externalMeetingId = externalMeetingId
+        self.mediaPlacementNetworkType = mediaPlacementNetworkType
         self.mediaRegion = mediaRegion
         self.meetingFeatures = meetingFeatures
         self.meetingHostId = meetingHostId
@@ -1088,7 +1131,7 @@ public struct CreateMeetingWithAttendeesInput: Swift.Sendable {
 
 extension CreateMeetingWithAttendeesInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMeetingWithAttendeesInput(attendees: \(Swift.String(describing: attendees)), mediaRegion: \(Swift.String(describing: mediaRegion)), meetingFeatures: \(Swift.String(describing: meetingFeatures)), notificationsConfiguration: \(Swift.String(describing: notificationsConfiguration)), primaryMeetingId: \(Swift.String(describing: primaryMeetingId)), tags: \(Swift.String(describing: tags)), tenantIds: \(Swift.String(describing: tenantIds)), clientRequestToken: \"CONTENT_REDACTED\", externalMeetingId: \"CONTENT_REDACTED\", meetingHostId: \"CONTENT_REDACTED\")"}
+        "CreateMeetingWithAttendeesInput(attendees: \(Swift.String(describing: attendees)), mediaPlacementNetworkType: \(Swift.String(describing: mediaPlacementNetworkType)), mediaRegion: \(Swift.String(describing: mediaRegion)), meetingFeatures: \(Swift.String(describing: meetingFeatures)), notificationsConfiguration: \(Swift.String(describing: notificationsConfiguration)), primaryMeetingId: \(Swift.String(describing: primaryMeetingId)), tags: \(Swift.String(describing: tags)), tenantIds: \(Swift.String(describing: tenantIds)), clientRequestToken: \"CONTENT_REDACTED\", externalMeetingId: \"CONTENT_REDACTED\", meetingHostId: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateMeetingWithAttendeesOutput: Swift.Sendable {
@@ -2242,6 +2285,7 @@ extension CreateMeetingInput {
         guard let value else { return }
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["ExternalMeetingId"].write(value.externalMeetingId)
+        try writer["MediaPlacementNetworkType"].write(value.mediaPlacementNetworkType)
         try writer["MediaRegion"].write(value.mediaRegion)
         try writer["MeetingFeatures"].write(value.meetingFeatures, with: ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration.write(value:to:))
         try writer["MeetingHostId"].write(value.meetingHostId)
@@ -2259,6 +2303,7 @@ extension CreateMeetingWithAttendeesInput {
         try writer["Attendees"].writeList(value.attendees, memberWritingClosure: ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ClientRequestToken"].write(value.clientRequestToken)
         try writer["ExternalMeetingId"].write(value.externalMeetingId)
+        try writer["MediaPlacementNetworkType"].write(value.mediaPlacementNetworkType)
         try writer["MediaRegion"].write(value.mediaRegion)
         try writer["MeetingFeatures"].write(value.meetingFeatures, with: ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration.write(value:to:))
         try writer["MeetingHostId"].write(value.meetingHostId)

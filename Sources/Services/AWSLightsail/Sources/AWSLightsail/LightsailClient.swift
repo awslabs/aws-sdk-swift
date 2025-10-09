@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LightsailClient: ClientRuntime.Client {
     public static let clientName = "LightsailClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: LightsailClient.LightsailClientConfiguration
     let serviceName = "Lightsail"
@@ -374,9 +375,9 @@ extension LightsailClient {
     ///
     /// Allocates a static IP address.
     ///
-    /// - Parameter AllocateStaticIpInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllocateStaticIpInput`)
     ///
-    /// - Returns: `AllocateStaticIpOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AllocateStaticIpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllocateStaticIpInput, AllocateStaticIpOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllocateStaticIpOutput>(AllocateStaticIpOutput.httpOutput(from:), AllocateStaticIpOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllocateStaticIpInput, AllocateStaticIpOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllocateStaticIpOutput>())
@@ -449,9 +451,9 @@ extension LightsailClient {
     ///
     /// Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certificate. Use the CreateCertificate action to create a certificate that you can attach to your distribution. Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any Amazon Web Services Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
     ///
-    /// - Parameter AttachCertificateToDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachCertificateToDistributionInput`)
     ///
-    /// - Returns: `AttachCertificateToDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachCertificateToDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +490,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachCertificateToDistributionOutput>(AttachCertificateToDistributionOutput.httpOutput(from:), AttachCertificateToDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachCertificateToDistributionInput, AttachCertificateToDistributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachCertificateToDistributionOutput>())
@@ -522,9 +525,9 @@ extension LightsailClient {
     ///
     /// Attaches a block storage disk to a running or stopped Lightsail instance and exposes it to the instance with the specified disk name. The attach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter AttachDiskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachDiskInput`)
     ///
-    /// - Returns: `AttachDiskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachDiskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,6 +566,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachDiskInput, AttachDiskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachDiskOutput>(AttachDiskOutput.httpOutput(from:), AttachDiskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachDiskInput, AttachDiskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachDiskOutput>())
@@ -597,9 +601,9 @@ extension LightsailClient {
     ///
     /// Attaches one or more Lightsail instances to a load balancer. After some time, the instances are attached to the load balancer and the health check status is available. The attach instances to load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter AttachInstancesToLoadBalancerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachInstancesToLoadBalancerInput`)
     ///
-    /// - Returns: `AttachInstancesToLoadBalancerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachInstancesToLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,6 +642,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachInstancesToLoadBalancerOutput>(AttachInstancesToLoadBalancerOutput.httpOutput(from:), AttachInstancesToLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachInstancesToLoadBalancerInput, AttachInstancesToLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachInstancesToLoadBalancerOutput>())
@@ -672,9 +677,9 @@ extension LightsailClient {
     ///
     /// Attaches a Transport Layer Security (TLS) certificate to your load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). Once you create and validate your certificate, you can attach it to your load balancer. You can also use this API to rotate the certificates on your account. Use the AttachLoadBalancerTlsCertificate action with the non-attached certificate, and it will replace the existing one and become the attached certificate. The AttachLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter AttachLoadBalancerTlsCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachLoadBalancerTlsCertificateInput`)
     ///
-    /// - Returns: `AttachLoadBalancerTlsCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachLoadBalancerTlsCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,6 +718,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachLoadBalancerTlsCertificateOutput>(AttachLoadBalancerTlsCertificateOutput.httpOutput(from:), AttachLoadBalancerTlsCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachLoadBalancerTlsCertificateInput, AttachLoadBalancerTlsCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachLoadBalancerTlsCertificateOutput>())
@@ -747,9 +753,9 @@ extension LightsailClient {
     ///
     /// Attaches a static IP address to a specific Amazon Lightsail instance.
     ///
-    /// - Parameter AttachStaticIpInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AttachStaticIpInput`)
     ///
-    /// - Returns: `AttachStaticIpOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AttachStaticIpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,6 +794,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AttachStaticIpInput, AttachStaticIpOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AttachStaticIpOutput>(AttachStaticIpOutput.httpOutput(from:), AttachStaticIpOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AttachStaticIpInput, AttachStaticIpOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AttachStaticIpOutput>())
@@ -822,9 +829,9 @@ extension LightsailClient {
     ///
     /// Closes ports for a specific Amazon Lightsail instance. The CloseInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CloseInstancePublicPortsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CloseInstancePublicPortsInput`)
     ///
-    /// - Returns: `CloseInstancePublicPortsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CloseInstancePublicPortsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -863,6 +870,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CloseInstancePublicPortsOutput>(CloseInstancePublicPortsOutput.httpOutput(from:), CloseInstancePublicPortsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CloseInstancePublicPortsInput, CloseInstancePublicPortsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CloseInstancePublicPortsOutput>())
@@ -897,9 +905,9 @@ extension LightsailClient {
     ///
     /// Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an automatic snapshot of an instance or disk as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot, be sure to define the source region, source snapshot name, and target snapshot name parameters. When copying an automatic snapshot, be sure to define the source region, source resource name, target snapshot name, and either the restore date or the use latest restorable auto snapshot parameters.
     ///
-    /// - Parameter CopySnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopySnapshotInput`)
     ///
-    /// - Returns: `CopySnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopySnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -938,6 +946,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopySnapshotInput, CopySnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopySnapshotOutput>(CopySnapshotOutput.httpOutput(from:), CopySnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopySnapshotInput, CopySnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopySnapshotOutput>())
@@ -972,9 +981,9 @@ extension LightsailClient {
     ///
     /// Creates an Amazon Lightsail bucket. A bucket is a cloud storage resource available in the Lightsail object storage service. Use buckets to store objects such as data and its descriptive metadata. For more information about buckets, see [Buckets in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/buckets-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     ///
-    /// - Parameter CreateBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketInput`)
     ///
-    /// - Returns: `CreateBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,6 +1019,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketInput, CreateBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketOutput>(CreateBucketOutput.httpOutput(from:), CreateBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketInput, CreateBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBucketOutput>())
@@ -1044,9 +1054,9 @@ extension LightsailClient {
     ///
     /// Creates a new access key for the specified Amazon Lightsail bucket. Access keys consist of an access key ID and corresponding secret access key. Access keys grant full programmatic access to the specified bucket and its objects. You can have a maximum of two access keys per bucket. Use the [GetBucketAccessKeys](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBucketAccessKeys.html) action to get a list of current access keys for a specific bucket. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide. The secretAccessKey value is returned only in response to the CreateBucketAccessKey action. You can get a secret access key only when you first create an access key; you cannot get the secret access key later. If you lose the secret access key, you must create a new access key.
     ///
-    /// - Parameter CreateBucketAccessKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBucketAccessKeyInput`)
     ///
-    /// - Returns: `CreateBucketAccessKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBucketAccessKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1083,6 +1093,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBucketAccessKeyOutput>(CreateBucketAccessKeyOutput.httpOutput(from:), CreateBucketAccessKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBucketAccessKeyInput, CreateBucketAccessKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBucketAccessKeyOutput>())
@@ -1117,9 +1128,9 @@ extension LightsailClient {
     ///
     /// Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN) distribution and a container service. After the certificate is valid, use the AttachCertificateToDistribution action to use the certificate and its domains with your distribution. Or use the UpdateContainerService action to use the certificate and its domains with your container service. Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any Amazon Web Services Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
     ///
-    /// - Parameter CreateCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCertificateInput`)
     ///
-    /// - Returns: `CreateCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1156,6 +1167,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCertificateInput, CreateCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCertificateOutput>(CreateCertificateOutput.httpOutput(from:), CreateCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCertificateInput, CreateCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCertificateOutput>())
@@ -1190,9 +1202,9 @@ extension LightsailClient {
     ///
     /// Creates an AWS CloudFormation stack, which creates a new Amazon EC2 instance from an exported Amazon Lightsail snapshot. This operation results in a CloudFormation stack record that can be used to track the AWS CloudFormation stack created. Use the get cloud formation stack records operation to get a list of the CloudFormation stacks created. Wait until after your new Amazon EC2 instance is created before running the create cloud formation stack operation again with the same export snapshot record.
     ///
-    /// - Parameter CreateCloudFormationStackInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudFormationStackInput`)
     ///
-    /// - Returns: `CreateCloudFormationStackOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudFormationStackOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1231,6 +1243,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudFormationStackOutput>(CreateCloudFormationStackOutput.httpOutput(from:), CreateCloudFormationStackOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudFormationStackInput, CreateCloudFormationStackOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudFormationStackOutput>())
@@ -1265,9 +1278,9 @@ extension LightsailClient {
     ///
     /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     ///
-    /// - Parameter CreateContactMethodInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContactMethodInput`)
     ///
-    /// - Returns: `CreateContactMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContactMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,6 +1318,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContactMethodInput, CreateContactMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContactMethodOutput>(CreateContactMethodOutput.httpOutput(from:), CreateContactMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContactMethodInput, CreateContactMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContactMethodOutput>())
@@ -1339,9 +1353,9 @@ extension LightsailClient {
     ///
     /// Creates an Amazon Lightsail container service. A Lightsail container service is a compute resource to which you can deploy containers. For more information, see [Container services in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-container-services) in the Lightsail Dev Guide.
     ///
-    /// - Parameter CreateContainerServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContainerServiceInput`)
     ///
-    /// - Returns: `CreateContainerServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContainerServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1378,6 +1392,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerServiceInput, CreateContainerServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContainerServiceOutput>(CreateContainerServiceOutput.httpOutput(from:), CreateContainerServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerServiceInput, CreateContainerServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerServiceOutput>())
@@ -1412,9 +1427,9 @@ extension LightsailClient {
     ///
     /// Creates a deployment for your Amazon Lightsail container service. A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration. You can deploy containers to your container service using container images from a public registry such as Amazon ECR Public, or from your local machine. For more information, see [Creating container images for your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-container-images) in the Amazon Lightsail Developer Guide.
     ///
-    /// - Parameter CreateContainerServiceDeploymentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContainerServiceDeploymentInput`)
     ///
-    /// - Returns: `CreateContainerServiceDeploymentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContainerServiceDeploymentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,6 +1466,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContainerServiceDeploymentOutput>(CreateContainerServiceDeploymentOutput.httpOutput(from:), CreateContainerServiceDeploymentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerServiceDeploymentInput, CreateContainerServiceDeploymentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerServiceDeploymentOutput>())
@@ -1485,9 +1501,9 @@ extension LightsailClient {
     ///
     /// Creates a temporary set of log in credentials that you can use to log in to the Docker process on your local machine. After you're logged in, you can use the native Docker commands to push your local container images to the container image registry of your Amazon Lightsail account so that you can use them with your Lightsail container service. The log in credentials expire 12 hours after they are created, at which point you will need to create a new set of log in credentials. You can only push container images to the container service registry of your Lightsail account. You cannot pull container images or perform any other container image management actions on the container service registry. After you push your container images to the container image registry of your Lightsail account, use the RegisterContainerImage action to register the pushed images to a specific Lightsail container service. This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see [Pushing and managing container images on your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-pushing-container-images) in the Amazon Lightsail Developer Guide.
     ///
-    /// - Parameter CreateContainerServiceRegistryLoginInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateContainerServiceRegistryLoginInput`)
     ///
-    /// - Returns: `CreateContainerServiceRegistryLoginOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateContainerServiceRegistryLoginOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1524,6 +1540,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateContainerServiceRegistryLoginOutput>(CreateContainerServiceRegistryLoginOutput.httpOutput(from:), CreateContainerServiceRegistryLoginOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateContainerServiceRegistryLoginInput, CreateContainerServiceRegistryLoginOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateContainerServiceRegistryLoginOutput>())
@@ -1558,9 +1575,9 @@ extension LightsailClient {
     ///
     /// Creates a block storage disk that can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateDiskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDiskInput`)
     ///
-    /// - Returns: `CreateDiskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDiskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1599,6 +1616,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDiskInput, CreateDiskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDiskOutput>(CreateDiskOutput.httpOutput(from:), CreateDiskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDiskInput, CreateDiskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDiskOutput>())
@@ -1633,9 +1651,9 @@ extension LightsailClient {
     ///
     /// Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting disk can be attached to an Amazon Lightsail instance in the same Availability Zone (us-east-2a). The create disk from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateDiskFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDiskFromSnapshotInput`)
     ///
-    /// - Returns: `CreateDiskFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDiskFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1674,6 +1692,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDiskFromSnapshotOutput>(CreateDiskFromSnapshotOutput.httpOutput(from:), CreateDiskFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDiskFromSnapshotInput, CreateDiskFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDiskFromSnapshotOutput>())
@@ -1708,9 +1727,9 @@ extension LightsailClient {
     ///
     /// Creates a snapshot of a block storage disk. You can use snapshots for backups, to make copies of disks, and to save data before shutting down a Lightsail instance. You can take a snapshot of an attached disk that is in use; however, snapshots only capture data that has been written to your disk at the time the snapshot command is issued. This may exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the disk long enough to take a snapshot, your snapshot should be complete. Nevertheless, if you cannot pause all file writes to the disk, you should unmount the disk from within the Lightsail instance, issue the create disk snapshot command, and then remount the disk to ensure a consistent and complete snapshot. You may remount and use your disk while the snapshot status is pending. You can also use this operation to create a snapshot of an instance's system volume. You might want to do this, for example, to recover data from the system volume of a botched instance or to create a backup of the system volume like you would for a block storage disk. To create a snapshot of a system volume, just define the instance name parameter when issuing the snapshot command, and a snapshot of the defined instance's system volume will be created. After the snapshot is available, you can create a block storage disk from the snapshot and attach it to a running instance to access the data on the disk. The create disk snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateDiskSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDiskSnapshotInput`)
     ///
-    /// - Returns: `CreateDiskSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDiskSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1749,6 +1768,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDiskSnapshotOutput>(CreateDiskSnapshotOutput.httpOutput(from:), CreateDiskSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDiskSnapshotInput, CreateDiskSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDiskSnapshotOutput>())
@@ -1783,9 +1803,9 @@ extension LightsailClient {
     ///
     /// Creates an Amazon Lightsail content delivery network (CDN) distribution. A distribution is a globally distributed network of caching servers that improve the performance of your website or web application hosted on a Lightsail instance. For more information, see [Content delivery networks in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-content-delivery-network-distributions).
     ///
-    /// - Parameter CreateDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDistributionInput`)
     ///
-    /// - Returns: `CreateDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1822,6 +1842,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDistributionInput, CreateDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDistributionOutput>(CreateDistributionOutput.httpOutput(from:), CreateDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDistributionInput, CreateDistributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDistributionOutput>())
@@ -1856,9 +1877,9 @@ extension LightsailClient {
     ///
     /// Creates a domain resource for the specified domain (example.com). The create domain operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1897,6 +1918,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -1931,9 +1953,9 @@ extension LightsailClient {
     ///
     /// Creates one of the following domain name system (DNS) records in a domain DNS zone: Address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The create domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateDomainEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainEntryInput`)
     ///
-    /// - Returns: `CreateDomainEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1972,6 +1994,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainEntryInput, CreateDomainEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainEntryOutput>(CreateDomainEntryOutput.httpOutput(from:), CreateDomainEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainEntryInput, CreateDomainEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainEntryOutput>())
@@ -2006,9 +2029,9 @@ extension LightsailClient {
     ///
     /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based Amazon DCV session to the virtual computer's application. The secondary URL initiates a web-based Amazon DCV session to the virtual computer's operating session. Use StartGUISession to open the session.
     ///
-    /// - Parameter CreateGUISessionAccessDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGUISessionAccessDetailsInput`)
     ///
-    /// - Returns: `CreateGUISessionAccessDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGUISessionAccessDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2045,6 +2068,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGUISessionAccessDetailsOutput>(CreateGUISessionAccessDetailsOutput.httpOutput(from:), CreateGUISessionAccessDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGUISessionAccessDetailsInput, CreateGUISessionAccessDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGUISessionAccessDetailsOutput>())
@@ -2079,9 +2103,9 @@ extension LightsailClient {
     ///
     /// Creates a snapshot of a specific virtual private server, or instance. You can use a snapshot to create a new instance that is based on that snapshot. The create instance snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateInstanceSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstanceSnapshotInput`)
     ///
-    /// - Returns: `CreateInstanceSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstanceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2120,6 +2144,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstanceSnapshotOutput>(CreateInstanceSnapshotOutput.httpOutput(from:), CreateInstanceSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstanceSnapshotInput, CreateInstanceSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstanceSnapshotOutput>())
@@ -2154,9 +2179,9 @@ extension LightsailClient {
     ///
     /// Creates one or more Amazon Lightsail instances. The create instances operation supports tag-based access control via request tags. For more information, see the [Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstancesInput`)
     ///
-    /// - Returns: `CreateInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2195,6 +2220,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstancesInput, CreateInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstancesOutput>(CreateInstancesOutput.httpOutput(from:), CreateInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstancesInput, CreateInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstancesOutput>())
@@ -2229,9 +2255,9 @@ extension LightsailClient {
     ///
     /// Creates one or more new instances from a manual or automatic snapshot of an instance. The create instances from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by instance snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateInstancesFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInstancesFromSnapshotInput`)
     ///
-    /// - Returns: `CreateInstancesFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInstancesFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2270,6 +2296,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInstancesFromSnapshotOutput>(CreateInstancesFromSnapshotOutput.httpOutput(from:), CreateInstancesFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInstancesFromSnapshotInput, CreateInstancesFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInstancesFromSnapshotOutput>())
@@ -2304,9 +2331,9 @@ extension LightsailClient {
     ///
     /// Creates a custom SSH key pair that you can use with an Amazon Lightsail instance. Use the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html) action to create a Lightsail default key pair in an Amazon Web Services Region where a default key pair does not currently exist. The create key pair operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateKeyPairInput`)
     ///
-    /// - Returns: `CreateKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2345,6 +2372,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateKeyPairInput, CreateKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateKeyPairOutput>(CreateKeyPairOutput.httpOutput(from:), CreateKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateKeyPairInput, CreateKeyPairOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateKeyPairOutput>())
@@ -2379,9 +2407,9 @@ extension LightsailClient {
     ///
     /// Creates a Lightsail load balancer. To learn more about deciding whether to load balance your application, see [Configure your Lightsail instances for load balancing](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-lightsail-instances-for-load-balancing). You can create up to 5 load balancers per AWS Region in your account. When you create a load balancer, you can specify a unique name and port settings. To change additional load balancer settings, use the UpdateLoadBalancerAttribute operation. The create load balancer operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateLoadBalancerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLoadBalancerInput`)
     ///
-    /// - Returns: `CreateLoadBalancerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2420,6 +2448,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoadBalancerOutput>(CreateLoadBalancerOutput.httpOutput(from:), CreateLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoadBalancerInput, CreateLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoadBalancerOutput>())
@@ -2454,9 +2483,9 @@ extension LightsailClient {
     ///
     /// Creates an SSL/TLS certificate for an Amazon Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). The CreateLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateLoadBalancerTlsCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLoadBalancerTlsCertificateInput`)
     ///
-    /// - Returns: `CreateLoadBalancerTlsCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLoadBalancerTlsCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2495,6 +2524,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLoadBalancerTlsCertificateOutput>(CreateLoadBalancerTlsCertificateOutput.httpOutput(from:), CreateLoadBalancerTlsCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLoadBalancerTlsCertificateInput, CreateLoadBalancerTlsCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLoadBalancerTlsCertificateOutput>())
@@ -2529,9 +2559,9 @@ extension LightsailClient {
     ///
     /// Creates a new database in Amazon Lightsail. The create relational database operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateRelationalDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRelationalDatabaseInput`)
     ///
-    /// - Returns: `CreateRelationalDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRelationalDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2570,6 +2600,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRelationalDatabaseOutput>(CreateRelationalDatabaseOutput.httpOutput(from:), CreateRelationalDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRelationalDatabaseInput, CreateRelationalDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRelationalDatabaseOutput>())
@@ -2604,9 +2635,9 @@ extension LightsailClient {
     ///
     /// Creates a new database from an existing database snapshot in Amazon Lightsail. You can create a new database from a snapshot in if something goes wrong with your original database, or to change it to a different plan, such as a high availability or standard plan. The create relational database from snapshot operation supports tag-based access control via request tags and resource tags applied to the resource identified by relationalDatabaseSnapshotName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateRelationalDatabaseFromSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRelationalDatabaseFromSnapshotInput`)
     ///
-    /// - Returns: `CreateRelationalDatabaseFromSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRelationalDatabaseFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2645,6 +2676,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRelationalDatabaseFromSnapshotOutput>(CreateRelationalDatabaseFromSnapshotOutput.httpOutput(from:), CreateRelationalDatabaseFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRelationalDatabaseFromSnapshotInput, CreateRelationalDatabaseFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRelationalDatabaseFromSnapshotOutput>())
@@ -2679,9 +2711,9 @@ extension LightsailClient {
     ///
     /// Creates a snapshot of your database in Amazon Lightsail. You can use snapshots for backups, to make copies of a database, and to save data before deleting a database. The create relational database snapshot operation supports tag-based access control via request tags. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter CreateRelationalDatabaseSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRelationalDatabaseSnapshotInput`)
     ///
-    /// - Returns: `CreateRelationalDatabaseSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRelationalDatabaseSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2720,6 +2752,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRelationalDatabaseSnapshotOutput>(CreateRelationalDatabaseSnapshotOutput.httpOutput(from:), CreateRelationalDatabaseSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRelationalDatabaseSnapshotInput, CreateRelationalDatabaseSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRelationalDatabaseSnapshotOutput>())
@@ -2754,9 +2787,9 @@ extension LightsailClient {
     ///
     /// Deletes an alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
     ///
-    /// - Parameter DeleteAlarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAlarmInput`)
     ///
-    /// - Returns: `DeleteAlarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2794,6 +2827,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlarmInput, DeleteAlarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlarmOutput>(DeleteAlarmOutput.httpOutput(from:), DeleteAlarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlarmInput, DeleteAlarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlarmOutput>())
@@ -2828,9 +2862,9 @@ extension LightsailClient {
     ///
     /// Deletes an automatic snapshot of an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     ///
-    /// - Parameter DeleteAutoSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAutoSnapshotInput`)
     ///
-    /// - Returns: `DeleteAutoSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAutoSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2868,6 +2902,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAutoSnapshotOutput>(DeleteAutoSnapshotOutput.httpOutput(from:), DeleteAutoSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAutoSnapshotInput, DeleteAutoSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAutoSnapshotOutput>())
@@ -2902,9 +2937,9 @@ extension LightsailClient {
     ///
     /// Deletes a Amazon Lightsail bucket. When you delete your bucket, the bucket name is released and can be reused for a new bucket in your account or another Amazon Web Services account.
     ///
-    /// - Parameter DeleteBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketInput`)
     ///
-    /// - Returns: `DeleteBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2941,6 +2976,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBucketInput, DeleteBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketOutput>(DeleteBucketOutput.httpOutput(from:), DeleteBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketInput, DeleteBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketOutput>())
@@ -2975,9 +3011,9 @@ extension LightsailClient {
     ///
     /// Deletes an access key for the specified Amazon Lightsail bucket. We recommend that you delete an access key if the secret access key is compromised. For more information about access keys, see [Creating access keys for a bucket in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-creating-bucket-access-keys) in the Amazon Lightsail Developer Guide.
     ///
-    /// - Parameter DeleteBucketAccessKeyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBucketAccessKeyInput`)
     ///
-    /// - Returns: `DeleteBucketAccessKeyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBucketAccessKeyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3014,6 +3050,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBucketAccessKeyOutput>(DeleteBucketAccessKeyOutput.httpOutput(from:), DeleteBucketAccessKeyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBucketAccessKeyInput, DeleteBucketAccessKeyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBucketAccessKeyOutput>())
@@ -3048,9 +3085,9 @@ extension LightsailClient {
     ///
     /// Deletes an SSL/TLS certificate for your Amazon Lightsail content delivery network (CDN) distribution. Certificates that are currently attached to a distribution cannot be deleted. Use the DetachCertificateFromDistribution action to detach a certificate from a distribution.
     ///
-    /// - Parameter DeleteCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCertificateInput`)
     ///
-    /// - Returns: `DeleteCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3087,6 +3124,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCertificateInput, DeleteCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCertificateOutput>(DeleteCertificateOutput.httpOutput(from:), DeleteCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCertificateInput, DeleteCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCertificateOutput>())
@@ -3121,9 +3159,9 @@ extension LightsailClient {
     ///
     /// Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     ///
-    /// - Parameter DeleteContactMethodInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContactMethodInput`)
     ///
-    /// - Returns: `DeleteContactMethodOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContactMethodOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3161,6 +3199,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContactMethodInput, DeleteContactMethodOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContactMethodOutput>(DeleteContactMethodOutput.httpOutput(from:), DeleteContactMethodOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContactMethodInput, DeleteContactMethodOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContactMethodOutput>())
@@ -3195,9 +3234,9 @@ extension LightsailClient {
     ///
     /// Deletes a container image that is registered to your Amazon Lightsail container service.
     ///
-    /// - Parameter DeleteContainerImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContainerImageInput`)
     ///
-    /// - Returns: `DeleteContainerImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContainerImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3234,6 +3273,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerImageInput, DeleteContainerImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContainerImageOutput>(DeleteContainerImageOutput.httpOutput(from:), DeleteContainerImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerImageInput, DeleteContainerImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerImageOutput>())
@@ -3268,9 +3308,9 @@ extension LightsailClient {
     ///
     /// Deletes your Amazon Lightsail container service.
     ///
-    /// - Parameter DeleteContainerServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteContainerServiceInput`)
     ///
-    /// - Returns: `DeleteContainerServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteContainerServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3307,6 +3347,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteContainerServiceOutput>(DeleteContainerServiceOutput.httpOutput(from:), DeleteContainerServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteContainerServiceInput, DeleteContainerServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteContainerServiceOutput>())
@@ -3341,9 +3382,9 @@ extension LightsailClient {
     ///
     /// Deletes the specified block storage disk. The disk must be in the available state (not attached to a Lightsail instance). The disk may remain in the deleting state for several minutes. The delete disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteDiskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDiskInput`)
     ///
-    /// - Returns: `DeleteDiskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDiskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3382,6 +3423,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDiskInput, DeleteDiskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDiskOutput>(DeleteDiskOutput.httpOutput(from:), DeleteDiskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDiskInput, DeleteDiskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDiskOutput>())
@@ -3416,9 +3458,9 @@ extension LightsailClient {
     ///
     /// Deletes the specified disk snapshot. When you make periodic snapshots of a disk, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the disk. The delete disk snapshot operation supports tag-based access control via resource tags applied to the resource identified by disk snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteDiskSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDiskSnapshotInput`)
     ///
-    /// - Returns: `DeleteDiskSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDiskSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3457,6 +3499,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDiskSnapshotOutput>(DeleteDiskSnapshotOutput.httpOutput(from:), DeleteDiskSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDiskSnapshotInput, DeleteDiskSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDiskSnapshotOutput>())
@@ -3491,9 +3534,9 @@ extension LightsailClient {
     ///
     /// Deletes your Amazon Lightsail content delivery network (CDN) distribution.
     ///
-    /// - Parameter DeleteDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDistributionInput`)
     ///
-    /// - Returns: `DeleteDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3530,6 +3573,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDistributionInput, DeleteDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDistributionOutput>(DeleteDistributionOutput.httpOutput(from:), DeleteDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDistributionInput, DeleteDistributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDistributionOutput>())
@@ -3564,9 +3608,9 @@ extension LightsailClient {
     ///
     /// Deletes the specified domain recordset and all of its domain records. The delete domain operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3605,6 +3649,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -3639,9 +3684,9 @@ extension LightsailClient {
     ///
     /// Deletes a specific domain entry. The delete domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteDomainEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainEntryInput`)
     ///
-    /// - Returns: `DeleteDomainEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3680,6 +3725,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainEntryOutput>(DeleteDomainEntryOutput.httpOutput(from:), DeleteDomainEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainEntryInput, DeleteDomainEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainEntryOutput>())
@@ -3714,9 +3760,9 @@ extension LightsailClient {
     ///
     /// Deletes an Amazon Lightsail instance. The delete instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceInput`)
     ///
-    /// - Returns: `DeleteInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3755,6 +3801,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceInput, DeleteInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceOutput>(DeleteInstanceOutput.httpOutput(from:), DeleteInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceInput, DeleteInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceOutput>())
@@ -3789,9 +3836,9 @@ extension LightsailClient {
     ///
     /// Deletes a specific snapshot of a virtual private server (or instance). The delete instance snapshot operation supports tag-based access control via resource tags applied to the resource identified by instance snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteInstanceSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInstanceSnapshotInput`)
     ///
-    /// - Returns: `DeleteInstanceSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInstanceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3830,6 +3877,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInstanceSnapshotOutput>(DeleteInstanceSnapshotOutput.httpOutput(from:), DeleteInstanceSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInstanceSnapshotInput, DeleteInstanceSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInstanceSnapshotOutput>())
@@ -3864,9 +3912,9 @@ extension LightsailClient {
     ///
     /// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the [ImportKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_ImportKeyPair.html) and [CreateKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateKeyPair.html) actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the [DownloadDefaultKeyPair](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_DownloadDefaultKeyPair.html) API. The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pair name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKeyPairInput`)
     ///
-    /// - Returns: `DeleteKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3905,6 +3953,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteKeyPairInput, DeleteKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKeyPairOutput>(DeleteKeyPairOutput.httpOutput(from:), DeleteKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKeyPairInput, DeleteKeyPairOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKeyPairOutput>())
@@ -3939,9 +3988,9 @@ extension LightsailClient {
     ///
     /// Deletes the known host key or certificate used by the Amazon Lightsail browser-based SSH or RDP clients to authenticate an instance. This operation enables the Lightsail browser-based SSH or RDP clients to connect to the instance after a host key mismatch. Perform this operation only if you were expecting the host key or certificate mismatch or if you are familiar with the new host key or certificate on the instance. For more information, see [Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP client](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-troubleshooting-browser-based-ssh-rdp-client-connection).
     ///
-    /// - Parameter DeleteKnownHostKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteKnownHostKeysInput`)
     ///
-    /// - Returns: `DeleteKnownHostKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteKnownHostKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3980,6 +4029,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteKnownHostKeysOutput>(DeleteKnownHostKeysOutput.httpOutput(from:), DeleteKnownHostKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteKnownHostKeysInput, DeleteKnownHostKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteKnownHostKeysOutput>())
@@ -4014,9 +4064,9 @@ extension LightsailClient {
     ///
     /// Deletes a Lightsail load balancer and all its associated SSL/TLS certificates. Once the load balancer is deleted, you will need to create a new load balancer, create a new certificate, and verify domain ownership again. The delete load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteLoadBalancerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLoadBalancerInput`)
     ///
-    /// - Returns: `DeleteLoadBalancerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4055,6 +4105,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerOutput>(DeleteLoadBalancerOutput.httpOutput(from:), DeleteLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoadBalancerInput, DeleteLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoadBalancerOutput>())
@@ -4089,9 +4140,9 @@ extension LightsailClient {
     ///
     /// Deletes an SSL/TLS certificate associated with a Lightsail load balancer. The DeleteLoadBalancerTlsCertificate operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteLoadBalancerTlsCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLoadBalancerTlsCertificateInput`)
     ///
-    /// - Returns: `DeleteLoadBalancerTlsCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLoadBalancerTlsCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4130,6 +4181,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLoadBalancerTlsCertificateOutput>(DeleteLoadBalancerTlsCertificateOutput.httpOutput(from:), DeleteLoadBalancerTlsCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLoadBalancerTlsCertificateInput, DeleteLoadBalancerTlsCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLoadBalancerTlsCertificateOutput>())
@@ -4164,9 +4216,9 @@ extension LightsailClient {
     ///
     /// Deletes a database in Amazon Lightsail. The delete relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteRelationalDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRelationalDatabaseInput`)
     ///
-    /// - Returns: `DeleteRelationalDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRelationalDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4205,6 +4257,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRelationalDatabaseOutput>(DeleteRelationalDatabaseOutput.httpOutput(from:), DeleteRelationalDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRelationalDatabaseInput, DeleteRelationalDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRelationalDatabaseOutput>())
@@ -4239,9 +4292,9 @@ extension LightsailClient {
     ///
     /// Deletes a database snapshot in Amazon Lightsail. The delete relational database snapshot operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DeleteRelationalDatabaseSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRelationalDatabaseSnapshotInput`)
     ///
-    /// - Returns: `DeleteRelationalDatabaseSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRelationalDatabaseSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4280,6 +4333,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRelationalDatabaseSnapshotOutput>(DeleteRelationalDatabaseSnapshotOutput.httpOutput(from:), DeleteRelationalDatabaseSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRelationalDatabaseSnapshotInput, DeleteRelationalDatabaseSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRelationalDatabaseSnapshotOutput>())
@@ -4314,9 +4368,9 @@ extension LightsailClient {
     ///
     /// Detaches an SSL/TLS certificate from your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is detached, your distribution stops accepting traffic for all of the domains that are associated with the certificate.
     ///
-    /// - Parameter DetachCertificateFromDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachCertificateFromDistributionInput`)
     ///
-    /// - Returns: `DetachCertificateFromDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachCertificateFromDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4353,6 +4407,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachCertificateFromDistributionOutput>(DetachCertificateFromDistributionOutput.httpOutput(from:), DetachCertificateFromDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachCertificateFromDistributionInput, DetachCertificateFromDistributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachCertificateFromDistributionOutput>())
@@ -4387,9 +4442,9 @@ extension LightsailClient {
     ///
     /// Detaches a stopped block storage disk from a Lightsail instance. Make sure to unmount any file systems on the device within your operating system before stopping the instance and detaching the disk. The detach disk operation supports tag-based access control via resource tags applied to the resource identified by disk name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DetachDiskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachDiskInput`)
     ///
-    /// - Returns: `DetachDiskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachDiskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4428,6 +4483,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachDiskInput, DetachDiskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachDiskOutput>(DetachDiskOutput.httpOutput(from:), DetachDiskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachDiskInput, DetachDiskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachDiskOutput>())
@@ -4462,9 +4518,9 @@ extension LightsailClient {
     ///
     /// Detaches the specified instances from a Lightsail load balancer. This operation waits until the instances are no longer needed before they are detached from the load balancer. The detach instances from load balancer operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter DetachInstancesFromLoadBalancerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachInstancesFromLoadBalancerInput`)
     ///
-    /// - Returns: `DetachInstancesFromLoadBalancerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachInstancesFromLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4503,6 +4559,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachInstancesFromLoadBalancerOutput>(DetachInstancesFromLoadBalancerOutput.httpOutput(from:), DetachInstancesFromLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachInstancesFromLoadBalancerInput, DetachInstancesFromLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachInstancesFromLoadBalancerOutput>())
@@ -4537,9 +4594,9 @@ extension LightsailClient {
     ///
     /// Detaches a static IP from the Amazon Lightsail instance to which it is attached.
     ///
-    /// - Parameter DetachStaticIpInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DetachStaticIpInput`)
     ///
-    /// - Returns: `DetachStaticIpOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DetachStaticIpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4578,6 +4635,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DetachStaticIpInput, DetachStaticIpOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DetachStaticIpOutput>(DetachStaticIpOutput.httpOutput(from:), DetachStaticIpOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DetachStaticIpInput, DetachStaticIpOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DetachStaticIpOutput>())
@@ -4612,9 +4670,9 @@ extension LightsailClient {
     ///
     /// Disables an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     ///
-    /// - Parameter DisableAddOnInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableAddOnInput`)
     ///
-    /// - Returns: `DisableAddOnOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableAddOnOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4652,6 +4710,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableAddOnInput, DisableAddOnOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableAddOnOutput>(DisableAddOnOutput.httpOutput(from:), DisableAddOnOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAddOnInput, DisableAddOnOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAddOnOutput>())
@@ -4686,9 +4745,9 @@ extension LightsailClient {
     ///
     /// Downloads the regional Amazon Lightsail default key pair. This action also creates a Lightsail default key pair if a default key pair does not currently exist in the Amazon Web Services Region.
     ///
-    /// - Parameter DownloadDefaultKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DownloadDefaultKeyPairInput`)
     ///
-    /// - Returns: `DownloadDefaultKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DownloadDefaultKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4727,6 +4786,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DownloadDefaultKeyPairOutput>(DownloadDefaultKeyPairOutput.httpOutput(from:), DownloadDefaultKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DownloadDefaultKeyPairInput, DownloadDefaultKeyPairOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DownloadDefaultKeyPairOutput>())
@@ -4761,9 +4821,9 @@ extension LightsailClient {
     ///
     /// Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     ///
-    /// - Parameter EnableAddOnInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableAddOnInput`)
     ///
-    /// - Returns: `EnableAddOnOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableAddOnOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4801,6 +4861,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableAddOnInput, EnableAddOnOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableAddOnOutput>(EnableAddOnOutput.httpOutput(from:), EnableAddOnOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAddOnInput, EnableAddOnOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAddOnOutput>())
@@ -4835,9 +4896,9 @@ extension LightsailClient {
     ///
     /// Exports an Amazon Lightsail instance or block storage disk snapshot to Amazon Elastic Compute Cloud (Amazon EC2). This operation results in an export snapshot record that can be used with the create cloud formation stack operation to create new Amazon EC2 instances. Exported instance snapshots appear in Amazon EC2 as Amazon Machine Images (AMIs), and the instance system disk appears as an Amazon Elastic Block Store (Amazon EBS) volume. Exported disk snapshots appear in Amazon EC2 as Amazon EBS volumes. Snapshots are exported to the same Amazon Web Services Region in Amazon EC2 as the source Lightsail snapshot. The export snapshot operation supports tag-based access control via resource tags applied to the resource identified by source snapshot name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags). Use the get instance snapshots or get disk snapshots operations to get a list of snapshots that you can export to Amazon EC2.
     ///
-    /// - Parameter ExportSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportSnapshotInput`)
     ///
-    /// - Returns: `ExportSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4876,6 +4937,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportSnapshotInput, ExportSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportSnapshotOutput>(ExportSnapshotOutput.httpOutput(from:), ExportSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportSnapshotInput, ExportSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportSnapshotOutput>())
@@ -4910,9 +4972,9 @@ extension LightsailClient {
     ///
     /// Returns the names of all active (not deleted) resources.
     ///
-    /// - Parameter GetActiveNamesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetActiveNamesInput`)
     ///
-    /// - Returns: `GetActiveNamesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetActiveNamesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4951,6 +5013,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetActiveNamesInput, GetActiveNamesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetActiveNamesOutput>(GetActiveNamesOutput.httpOutput(from:), GetActiveNamesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetActiveNamesInput, GetActiveNamesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetActiveNamesOutput>())
@@ -4985,9 +5048,9 @@ extension LightsailClient {
     ///
     /// Returns information about the configured alarms. Specify an alarm name in your request to return information about a specific alarm, or specify a monitored resource name to return information about all alarms for a specific resource. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
     ///
-    /// - Parameter GetAlarmsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAlarmsInput`)
     ///
-    /// - Returns: `GetAlarmsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAlarmsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5026,6 +5089,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAlarmsInput, GetAlarmsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAlarmsOutput>(GetAlarmsOutput.httpOutput(from:), GetAlarmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAlarmsInput, GetAlarmsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAlarmsOutput>())
@@ -5060,9 +5124,9 @@ extension LightsailClient {
     ///
     /// Returns the available automatic snapshots for an instance or disk. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-automatic-snapshots).
     ///
-    /// - Parameter GetAutoSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAutoSnapshotsInput`)
     ///
-    /// - Returns: `GetAutoSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAutoSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5100,6 +5164,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutoSnapshotsOutput>(GetAutoSnapshotsOutput.httpOutput(from:), GetAutoSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutoSnapshotsInput, GetAutoSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAutoSnapshotsOutput>())
@@ -5134,9 +5199,9 @@ extension LightsailClient {
     ///
     /// Returns the list of available instance images, or blueprints. You can use a blueprint to create a new instance already running a specific operating system, as well as a preinstalled app or development stack. The software each instance is running depends on the blueprint image you choose. Use active blueprints when creating new instances. Inactive blueprints are listed to support customers with existing instances and are not necessarily available to create new instances. Blueprints are marked inactive when they become outdated due to operating system updates or new application releases.
     ///
-    /// - Parameter GetBlueprintsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBlueprintsInput`)
     ///
-    /// - Returns: `GetBlueprintsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5175,6 +5240,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlueprintsInput, GetBlueprintsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBlueprintsOutput>(GetBlueprintsOutput.httpOutput(from:), GetBlueprintsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintsInput, GetBlueprintsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintsOutput>())
@@ -5209,9 +5275,9 @@ extension LightsailClient {
     ///
     /// Returns the existing access key IDs for the specified Amazon Lightsail bucket. This action does not return the secret access key value of an access key. You can get a secret access key only when you create it from the response of the [CreateBucketAccessKey](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateBucketAccessKey.html) action. If you lose the secret access key, you must create a new access key.
     ///
-    /// - Parameter GetBucketAccessKeysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketAccessKeysInput`)
     ///
-    /// - Returns: `GetBucketAccessKeysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketAccessKeysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5248,6 +5314,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketAccessKeysOutput>(GetBucketAccessKeysOutput.httpOutput(from:), GetBucketAccessKeysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketAccessKeysInput, GetBucketAccessKeysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketAccessKeysOutput>())
@@ -5282,9 +5349,9 @@ extension LightsailClient {
     ///
     /// Returns the bundles that you can apply to a Amazon Lightsail bucket. The bucket bundle specifies the monthly cost, storage quota, and data transfer quota for a bucket. Use the [UpdateBucketBundle](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html) action to update the bundle for a bucket.
     ///
-    /// - Parameter GetBucketBundlesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketBundlesInput`)
     ///
-    /// - Returns: `GetBucketBundlesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketBundlesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5320,6 +5387,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBucketBundlesInput, GetBucketBundlesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketBundlesOutput>(GetBucketBundlesOutput.httpOutput(from:), GetBucketBundlesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketBundlesInput, GetBucketBundlesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketBundlesOutput>())
@@ -5354,9 +5422,9 @@ extension LightsailClient {
     ///
     /// Returns the data points of a specific metric for an Amazon Lightsail bucket. Metrics report the utilization of a bucket. View and collect metric data regularly to monitor the number of objects stored in a bucket (including object versions) and the storage space used by those objects.
     ///
-    /// - Parameter GetBucketMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketMetricDataInput`)
     ///
-    /// - Returns: `GetBucketMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5393,6 +5461,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketMetricDataOutput>(GetBucketMetricDataOutput.httpOutput(from:), GetBucketMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketMetricDataInput, GetBucketMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketMetricDataOutput>())
@@ -5427,9 +5496,9 @@ extension LightsailClient {
     ///
     /// Returns information about one or more Amazon Lightsail buckets. The information returned includes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access feature for your Lightsail buckets. For more information about buckets, see [Buckets in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/buckets-in-amazon-lightsail) in the Amazon Lightsail Developer Guide.
     ///
-    /// - Parameter GetBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBucketsInput`)
     ///
-    /// - Returns: `GetBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBucketsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5466,6 +5535,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBucketsInput, GetBucketsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBucketsOutput>(GetBucketsOutput.httpOutput(from:), GetBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBucketsInput, GetBucketsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBucketsOutput>())
@@ -5500,9 +5570,9 @@ extension LightsailClient {
     ///
     /// Returns the bundles that you can apply to an Amazon Lightsail instance when you create it. A bundle describes the specifications of an instance, such as the monthly cost, amount of memory, the number of vCPUs, amount of storage space, and monthly network data transfer quota. Bundles are referred to as instance plans in the Lightsail console.
     ///
-    /// - Parameter GetBundlesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBundlesInput`)
     ///
-    /// - Returns: `GetBundlesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBundlesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5541,6 +5611,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBundlesInput, GetBundlesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBundlesOutput>(GetBundlesOutput.httpOutput(from:), GetBundlesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBundlesInput, GetBundlesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBundlesOutput>())
@@ -5575,9 +5646,9 @@ extension LightsailClient {
     ///
     /// Returns information about one or more Amazon Lightsail SSL/TLS certificates. To get a summary of a certificate, omit includeCertificateDetails from your request. The response will include only the certificate Amazon Resource Name (ARN), certificate name, domain name, and tags.
     ///
-    /// - Parameter GetCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCertificatesInput`)
     ///
-    /// - Returns: `GetCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5614,6 +5685,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCertificatesInput, GetCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCertificatesOutput>(GetCertificatesOutput.httpOutput(from:), GetCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCertificatesInput, GetCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCertificatesOutput>())
@@ -5648,9 +5720,9 @@ extension LightsailClient {
     ///
     /// Returns the CloudFormation stack record created as a result of the create cloud formation stack operation. An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail snapshot.
     ///
-    /// - Parameter GetCloudFormationStackRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudFormationStackRecordsInput`)
     ///
-    /// - Returns: `GetCloudFormationStackRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudFormationStackRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5689,6 +5761,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudFormationStackRecordsOutput>(GetCloudFormationStackRecordsOutput.httpOutput(from:), GetCloudFormationStackRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudFormationStackRecordsInput, GetCloudFormationStackRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudFormationStackRecordsOutput>())
@@ -5723,9 +5796,9 @@ extension LightsailClient {
     ///
     /// Returns information about the configured contact methods. Specify a protocol in your request to return information about a specific contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications).
     ///
-    /// - Parameter GetContactMethodsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContactMethodsInput`)
     ///
-    /// - Returns: `GetContactMethodsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContactMethodsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5764,6 +5837,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContactMethodsInput, GetContactMethodsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContactMethodsOutput>(GetContactMethodsOutput.httpOutput(from:), GetContactMethodsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContactMethodsInput, GetContactMethodsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContactMethodsOutput>())
@@ -5798,9 +5872,9 @@ extension LightsailClient {
     ///
     /// Returns information about Amazon Lightsail containers, such as the current version of the Lightsail Control (lightsailctl) plugin.
     ///
-    /// - Parameter GetContainerAPIMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerAPIMetadataInput`)
     ///
-    /// - Returns: `GetContainerAPIMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerAPIMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5835,6 +5909,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContainerAPIMetadataOutput>(GetContainerAPIMetadataOutput.httpOutput(from:), GetContainerAPIMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContainerAPIMetadataInput, GetContainerAPIMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerAPIMetadataOutput>())
@@ -5869,9 +5944,9 @@ extension LightsailClient {
     ///
     /// Returns the container images that are registered to your Amazon Lightsail container service. If you created a deployment on your Lightsail container service that uses container images from a public registry like Docker Hub, those images are not returned as part of this action. Those images are not registered to your Lightsail container service.
     ///
-    /// - Parameter GetContainerImagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerImagesInput`)
     ///
-    /// - Returns: `GetContainerImagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerImagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5908,6 +5983,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContainerImagesInput, GetContainerImagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContainerImagesOutput>(GetContainerImagesOutput.httpOutput(from:), GetContainerImagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContainerImagesInput, GetContainerImagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerImagesOutput>())
@@ -5942,9 +6018,9 @@ extension LightsailClient {
     ///
     /// Returns the log events of a container of your Amazon Lightsail container service. If your container service has more than one node (i.e., a scale greater than 1), then the log events that are returned for the specified container are merged from all nodes on your container service. Container logs are retained for a certain amount of time. For more information, see [Amazon Lightsail endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter GetContainerLogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerLogInput`)
     ///
-    /// - Returns: `GetContainerLogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerLogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5982,6 +6058,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContainerLogInput, GetContainerLogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContainerLogOutput>(GetContainerLogOutput.httpOutput(from:), GetContainerLogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContainerLogInput, GetContainerLogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerLogOutput>())
@@ -6016,9 +6093,9 @@ extension LightsailClient {
     ///
     /// Returns the deployments for your Amazon Lightsail container service A deployment specifies the settings, such as the ports and launch command, of containers that are deployed to your container service. The deployments are ordered by version in ascending order. The newest version is listed at the top of the response. A set number of deployments are kept before the oldest one is replaced with the newest one. For more information, see [Amazon Lightsail endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/lightsail.html) in the Amazon Web Services General Reference.
     ///
-    /// - Parameter GetContainerServiceDeploymentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerServiceDeploymentsInput`)
     ///
-    /// - Returns: `GetContainerServiceDeploymentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerServiceDeploymentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6055,6 +6132,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContainerServiceDeploymentsOutput>(GetContainerServiceDeploymentsOutput.httpOutput(from:), GetContainerServiceDeploymentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContainerServiceDeploymentsInput, GetContainerServiceDeploymentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerServiceDeploymentsOutput>())
@@ -6089,9 +6167,9 @@ extension LightsailClient {
     ///
     /// Returns the data points of a specific metric of your Amazon Lightsail container service. Metrics report the utilization of your resources. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
-    /// - Parameter GetContainerServiceMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerServiceMetricDataInput`)
     ///
-    /// - Returns: `GetContainerServiceMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerServiceMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6129,6 +6207,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContainerServiceMetricDataOutput>(GetContainerServiceMetricDataOutput.httpOutput(from:), GetContainerServiceMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContainerServiceMetricDataInput, GetContainerServiceMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerServiceMetricDataOutput>())
@@ -6163,9 +6242,9 @@ extension LightsailClient {
     ///
     /// Returns the list of powers that can be specified for your Amazon Lightsail container services. The power specifies the amount of memory, the number of vCPUs, and the base price of the container service.
     ///
-    /// - Parameter GetContainerServicePowersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerServicePowersInput`)
     ///
-    /// - Returns: `GetContainerServicePowersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerServicePowersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6202,6 +6281,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContainerServicePowersOutput>(GetContainerServicePowersOutput.httpOutput(from:), GetContainerServicePowersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContainerServicePowersInput, GetContainerServicePowersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerServicePowersOutput>())
@@ -6236,9 +6316,9 @@ extension LightsailClient {
     ///
     /// Returns information about one or more of your Amazon Lightsail container services.
     ///
-    /// - Parameter GetContainerServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetContainerServicesInput`)
     ///
-    /// - Returns: `GetContainerServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetContainerServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6276,6 +6356,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetContainerServicesInput, GetContainerServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetContainerServicesOutput>(GetContainerServicesOutput.httpOutput(from:), GetContainerServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetContainerServicesInput, GetContainerServicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetContainerServicesOutput>())
@@ -6310,9 +6391,9 @@ extension LightsailClient {
     ///
     /// Retrieves information about the cost estimate for a specified resource. A cost estimate will not generate for a resource that has been deleted.
     ///
-    /// - Parameter GetCostEstimateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCostEstimateInput`)
     ///
-    /// - Returns: `GetCostEstimateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCostEstimateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6349,6 +6430,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCostEstimateInput, GetCostEstimateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCostEstimateOutput>(GetCostEstimateOutput.httpOutput(from:), GetCostEstimateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCostEstimateInput, GetCostEstimateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCostEstimateOutput>())
@@ -6383,9 +6465,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific block storage disk.
     ///
-    /// - Parameter GetDiskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDiskInput`)
     ///
-    /// - Returns: `GetDiskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDiskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6424,6 +6506,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDiskInput, GetDiskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDiskOutput>(GetDiskOutput.httpOutput(from:), GetDiskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDiskInput, GetDiskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDiskOutput>())
@@ -6458,9 +6541,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific block storage disk snapshot.
     ///
-    /// - Parameter GetDiskSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDiskSnapshotInput`)
     ///
-    /// - Returns: `GetDiskSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDiskSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6499,6 +6582,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDiskSnapshotOutput>(GetDiskSnapshotOutput.httpOutput(from:), GetDiskSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDiskSnapshotInput, GetDiskSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDiskSnapshotOutput>())
@@ -6533,9 +6617,9 @@ extension LightsailClient {
     ///
     /// Returns information about all block storage disk snapshots in your AWS account and region.
     ///
-    /// - Parameter GetDiskSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDiskSnapshotsInput`)
     ///
-    /// - Returns: `GetDiskSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDiskSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6574,6 +6658,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDiskSnapshotsOutput>(GetDiskSnapshotsOutput.httpOutput(from:), GetDiskSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDiskSnapshotsInput, GetDiskSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDiskSnapshotsOutput>())
@@ -6608,9 +6693,9 @@ extension LightsailClient {
     ///
     /// Returns information about all block storage disks in your AWS account and region.
     ///
-    /// - Parameter GetDisksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDisksInput`)
     ///
-    /// - Returns: `GetDisksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDisksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6649,6 +6734,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDisksInput, GetDisksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDisksOutput>(GetDisksOutput.httpOutput(from:), GetDisksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDisksInput, GetDisksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDisksOutput>())
@@ -6683,9 +6769,9 @@ extension LightsailClient {
     ///
     /// Returns the bundles that can be applied to your Amazon Lightsail content delivery network (CDN) distributions. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution.
     ///
-    /// - Parameter GetDistributionBundlesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionBundlesInput`)
     ///
-    /// - Returns: `GetDistributionBundlesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionBundlesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6722,6 +6808,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionBundlesOutput>(GetDistributionBundlesOutput.httpOutput(from:), GetDistributionBundlesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionBundlesInput, GetDistributionBundlesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDistributionBundlesOutput>())
@@ -6756,9 +6843,9 @@ extension LightsailClient {
     ///
     /// Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail content delivery network (CDN) distribution.
     ///
-    /// - Parameter GetDistributionLatestCacheResetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionLatestCacheResetInput`)
     ///
-    /// - Returns: `GetDistributionLatestCacheResetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionLatestCacheResetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6795,6 +6882,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionLatestCacheResetOutput>(GetDistributionLatestCacheResetOutput.httpOutput(from:), GetDistributionLatestCacheResetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionLatestCacheResetInput, GetDistributionLatestCacheResetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDistributionLatestCacheResetOutput>())
@@ -6829,9 +6917,9 @@ extension LightsailClient {
     ///
     /// Returns the data points of a specific metric for an Amazon Lightsail content delivery network (CDN) distribution. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
-    /// - Parameter GetDistributionMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionMetricDataInput`)
     ///
-    /// - Returns: `GetDistributionMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6868,6 +6956,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionMetricDataOutput>(GetDistributionMetricDataOutput.httpOutput(from:), GetDistributionMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionMetricDataInput, GetDistributionMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDistributionMetricDataOutput>())
@@ -6902,9 +6991,9 @@ extension LightsailClient {
     ///
     /// Returns information about one or more of your Amazon Lightsail content delivery network (CDN) distributions.
     ///
-    /// - Parameter GetDistributionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDistributionsInput`)
     ///
-    /// - Returns: `GetDistributionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDistributionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6941,6 +7030,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDistributionsInput, GetDistributionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDistributionsOutput>(GetDistributionsOutput.httpOutput(from:), GetDistributionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDistributionsInput, GetDistributionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDistributionsOutput>())
@@ -6975,9 +7065,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific domain recordset.
     ///
-    /// - Parameter GetDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainInput`)
     ///
-    /// - Returns: `GetDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7016,6 +7106,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainInput, GetDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainOutput>(GetDomainOutput.httpOutput(from:), GetDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainInput, GetDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainOutput>())
@@ -7050,9 +7141,9 @@ extension LightsailClient {
     ///
     /// Returns a list of all domains in the user's account.
     ///
-    /// - Parameter GetDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainsInput`)
     ///
-    /// - Returns: `GetDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7091,6 +7182,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDomainsInput, GetDomainsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainsOutput>(GetDomainsOutput.httpOutput(from:), GetDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainsInput, GetDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainsOutput>())
@@ -7125,9 +7217,9 @@ extension LightsailClient {
     ///
     /// Returns all export snapshot records created as a result of the export snapshot operation. An export snapshot record can be used to create a new Amazon EC2 instance and its related resources with the [CreateCloudFormationStack](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_CreateCloudFormationStack.html) action.
     ///
-    /// - Parameter GetExportSnapshotRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExportSnapshotRecordsInput`)
     ///
-    /// - Returns: `GetExportSnapshotRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExportSnapshotRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7166,6 +7258,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExportSnapshotRecordsOutput>(GetExportSnapshotRecordsOutput.httpOutput(from:), GetExportSnapshotRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExportSnapshotRecordsInput, GetExportSnapshotRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExportSnapshotRecordsOutput>())
@@ -7200,9 +7293,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific Amazon Lightsail instance, which is a virtual private server.
     ///
-    /// - Parameter GetInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceInput`)
     ///
-    /// - Returns: `GetInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7241,6 +7334,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceInput, GetInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceOutput>(GetInstanceOutput.httpOutput(from:), GetInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceInput, GetInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceOutput>())
@@ -7275,9 +7369,9 @@ extension LightsailClient {
     ///
     /// Returns temporary SSH keys you can use to connect to a specific virtual private server, or instance. The get instance access details operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter GetInstanceAccessDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceAccessDetailsInput`)
     ///
-    /// - Returns: `GetInstanceAccessDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceAccessDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7316,6 +7410,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceAccessDetailsOutput>(GetInstanceAccessDetailsOutput.httpOutput(from:), GetInstanceAccessDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceAccessDetailsInput, GetInstanceAccessDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceAccessDetailsOutput>())
@@ -7350,9 +7445,9 @@ extension LightsailClient {
     ///
     /// Returns the data points for the specified Amazon Lightsail instance metric, given an instance name. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
-    /// - Parameter GetInstanceMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceMetricDataInput`)
     ///
-    /// - Returns: `GetInstanceMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7391,6 +7486,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceMetricDataOutput>(GetInstanceMetricDataOutput.httpOutput(from:), GetInstanceMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceMetricDataInput, GetInstanceMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceMetricDataOutput>())
@@ -7425,9 +7521,9 @@ extension LightsailClient {
     ///
     /// Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses allowed to connect to the instance through the ports, and the protocol.
     ///
-    /// - Parameter GetInstancePortStatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstancePortStatesInput`)
     ///
-    /// - Returns: `GetInstancePortStatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstancePortStatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7466,6 +7562,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstancePortStatesOutput>(GetInstancePortStatesOutput.httpOutput(from:), GetInstancePortStatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstancePortStatesInput, GetInstancePortStatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstancePortStatesOutput>())
@@ -7500,9 +7597,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific instance snapshot.
     ///
-    /// - Parameter GetInstanceSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceSnapshotInput`)
     ///
-    /// - Returns: `GetInstanceSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7541,6 +7638,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceSnapshotOutput>(GetInstanceSnapshotOutput.httpOutput(from:), GetInstanceSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceSnapshotInput, GetInstanceSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceSnapshotOutput>())
@@ -7575,9 +7673,9 @@ extension LightsailClient {
     ///
     /// Returns all instance snapshots for the user's account.
     ///
-    /// - Parameter GetInstanceSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceSnapshotsInput`)
     ///
-    /// - Returns: `GetInstanceSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7616,6 +7714,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceSnapshotsOutput>(GetInstanceSnapshotsOutput.httpOutput(from:), GetInstanceSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceSnapshotsInput, GetInstanceSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceSnapshotsOutput>())
@@ -7650,9 +7749,9 @@ extension LightsailClient {
     ///
     /// Returns the state of a specific instance. Works on one instance at a time.
     ///
-    /// - Parameter GetInstanceStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstanceStateInput`)
     ///
-    /// - Returns: `GetInstanceStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstanceStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7691,6 +7790,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstanceStateInput, GetInstanceStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstanceStateOutput>(GetInstanceStateOutput.httpOutput(from:), GetInstanceStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstanceStateInput, GetInstanceStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstanceStateOutput>())
@@ -7725,9 +7825,9 @@ extension LightsailClient {
     ///
     /// Returns information about all Amazon Lightsail virtual private servers, or instances.
     ///
-    /// - Parameter GetInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInstancesInput`)
     ///
-    /// - Returns: `GetInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7766,6 +7866,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInstancesInput, GetInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInstancesOutput>(GetInstancesOutput.httpOutput(from:), GetInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInstancesInput, GetInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInstancesOutput>())
@@ -7800,9 +7901,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific key pair.
     ///
-    /// - Parameter GetKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyPairInput`)
     ///
-    /// - Returns: `GetKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7841,6 +7942,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKeyPairInput, GetKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyPairOutput>(GetKeyPairOutput.httpOutput(from:), GetKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyPairInput, GetKeyPairOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyPairOutput>())
@@ -7875,9 +7977,9 @@ extension LightsailClient {
     ///
     /// Returns information about all key pairs in the user's account.
     ///
-    /// - Parameter GetKeyPairsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetKeyPairsInput`)
     ///
-    /// - Returns: `GetKeyPairsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetKeyPairsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7916,6 +8018,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetKeyPairsInput, GetKeyPairsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetKeyPairsOutput>(GetKeyPairsOutput.httpOutput(from:), GetKeyPairsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetKeyPairsInput, GetKeyPairsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetKeyPairsOutput>())
@@ -7950,9 +8053,9 @@ extension LightsailClient {
     ///
     /// Returns information about the specified Lightsail load balancer.
     ///
-    /// - Parameter GetLoadBalancerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoadBalancerInput`)
     ///
-    /// - Returns: `GetLoadBalancerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoadBalancerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7991,6 +8094,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoadBalancerInput, GetLoadBalancerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoadBalancerOutput>(GetLoadBalancerOutput.httpOutput(from:), GetLoadBalancerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoadBalancerInput, GetLoadBalancerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoadBalancerOutput>())
@@ -8025,9 +8129,9 @@ extension LightsailClient {
     ///
     /// Returns information about health metrics for your Lightsail load balancer. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
-    /// - Parameter GetLoadBalancerMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoadBalancerMetricDataInput`)
     ///
-    /// - Returns: `GetLoadBalancerMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoadBalancerMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8066,6 +8170,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoadBalancerMetricDataOutput>(GetLoadBalancerMetricDataOutput.httpOutput(from:), GetLoadBalancerMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoadBalancerMetricDataInput, GetLoadBalancerMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoadBalancerMetricDataOutput>())
@@ -8100,9 +8205,9 @@ extension LightsailClient {
     ///
     /// Returns information about the TLS certificates that are associated with the specified Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). You can have a maximum of 2 certificates associated with a Lightsail load balancer. One is active and the other is inactive.
     ///
-    /// - Parameter GetLoadBalancerTlsCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoadBalancerTlsCertificatesInput`)
     ///
-    /// - Returns: `GetLoadBalancerTlsCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoadBalancerTlsCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8141,6 +8246,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoadBalancerTlsCertificatesOutput>(GetLoadBalancerTlsCertificatesOutput.httpOutput(from:), GetLoadBalancerTlsCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoadBalancerTlsCertificatesInput, GetLoadBalancerTlsCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoadBalancerTlsCertificatesOutput>())
@@ -8175,9 +8281,9 @@ extension LightsailClient {
     ///
     /// Returns a list of TLS security policies that you can apply to Lightsail load balancers. For more information about load balancer TLS security policies, see [Configuring TLS security policies on your Amazon Lightsail load balancers](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configure-load-balancer-tls-security-policy) in the Amazon Lightsail Developer Guide.
     ///
-    /// - Parameter GetLoadBalancerTlsPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoadBalancerTlsPoliciesInput`)
     ///
-    /// - Returns: `GetLoadBalancerTlsPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoadBalancerTlsPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8214,6 +8320,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoadBalancerTlsPoliciesOutput>(GetLoadBalancerTlsPoliciesOutput.httpOutput(from:), GetLoadBalancerTlsPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoadBalancerTlsPoliciesInput, GetLoadBalancerTlsPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoadBalancerTlsPoliciesOutput>())
@@ -8248,9 +8355,9 @@ extension LightsailClient {
     ///
     /// Returns information about all load balancers in an account.
     ///
-    /// - Parameter GetLoadBalancersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLoadBalancersInput`)
     ///
-    /// - Returns: `GetLoadBalancersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLoadBalancersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8289,6 +8396,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLoadBalancersInput, GetLoadBalancersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLoadBalancersOutput>(GetLoadBalancersOutput.httpOutput(from:), GetLoadBalancersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLoadBalancersInput, GetLoadBalancersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLoadBalancersOutput>())
@@ -8323,9 +8431,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific operation. Operations include events such as when you create an instance, allocate a static IP, attach a static IP, and so on.
     ///
-    /// - Parameter GetOperationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOperationInput`)
     ///
-    /// - Returns: `GetOperationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8364,6 +8472,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOperationInput, GetOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOperationOutput>(GetOperationOutput.httpOutput(from:), GetOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOperationInput, GetOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOperationOutput>())
@@ -8398,9 +8507,9 @@ extension LightsailClient {
     ///
     /// Returns information about all operations. Results are returned from oldest to newest, up to a maximum of 200. Results can be paged by making each subsequent call to GetOperations use the maximum (last) statusChangedAt value from the previous request.
     ///
-    /// - Parameter GetOperationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOperationsInput`)
     ///
-    /// - Returns: `GetOperationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8439,6 +8548,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOperationsInput, GetOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOperationsOutput>(GetOperationsOutput.httpOutput(from:), GetOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOperationsInput, GetOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOperationsOutput>())
@@ -8473,9 +8583,9 @@ extension LightsailClient {
     ///
     /// Gets operations for a specific resource (an instance or a static IP).
     ///
-    /// - Parameter GetOperationsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOperationsForResourceInput`)
     ///
-    /// - Returns: `GetOperationsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOperationsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8514,6 +8624,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOperationsForResourceOutput>(GetOperationsForResourceOutput.httpOutput(from:), GetOperationsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOperationsForResourceInput, GetOperationsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOperationsForResourceOutput>())
@@ -8548,9 +8659,9 @@ extension LightsailClient {
     ///
     /// Returns a list of all valid regions for Amazon Lightsail. Use the include availability zones parameter to also return the Availability Zones in a region.
     ///
-    /// - Parameter GetRegionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRegionsInput`)
     ///
-    /// - Returns: `GetRegionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8589,6 +8700,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRegionsInput, GetRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRegionsOutput>(GetRegionsOutput.httpOutput(from:), GetRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRegionsInput, GetRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRegionsOutput>())
@@ -8623,9 +8735,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific database in Amazon Lightsail.
     ///
-    /// - Parameter GetRelationalDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8664,6 +8776,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseOutput>(GetRelationalDatabaseOutput.httpOutput(from:), GetRelationalDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseInput, GetRelationalDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseOutput>())
@@ -8698,9 +8811,9 @@ extension LightsailClient {
     ///
     /// Returns a list of available database blueprints in Amazon Lightsail. A blueprint describes the major engine version of a database. You can use a blueprint ID to create a new database that runs a specific database engine.
     ///
-    /// - Parameter GetRelationalDatabaseBlueprintsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseBlueprintsInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseBlueprintsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8739,6 +8852,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseBlueprintsOutput>(GetRelationalDatabaseBlueprintsOutput.httpOutput(from:), GetRelationalDatabaseBlueprintsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseBlueprintsInput, GetRelationalDatabaseBlueprintsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseBlueprintsOutput>())
@@ -8773,9 +8887,9 @@ extension LightsailClient {
     ///
     /// Returns the list of bundles that are available in Amazon Lightsail. A bundle describes the performance specifications for a database. You can use a bundle ID to create a new database with explicit performance specifications.
     ///
-    /// - Parameter GetRelationalDatabaseBundlesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseBundlesInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseBundlesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseBundlesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8814,6 +8928,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseBundlesOutput>(GetRelationalDatabaseBundlesOutput.httpOutput(from:), GetRelationalDatabaseBundlesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseBundlesInput, GetRelationalDatabaseBundlesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseBundlesOutput>())
@@ -8848,9 +8963,9 @@ extension LightsailClient {
     ///
     /// Returns a list of events for a specific database in Amazon Lightsail.
     ///
-    /// - Parameter GetRelationalDatabaseEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseEventsInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8889,6 +9004,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseEventsOutput>(GetRelationalDatabaseEventsOutput.httpOutput(from:), GetRelationalDatabaseEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseEventsInput, GetRelationalDatabaseEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseEventsOutput>())
@@ -8923,9 +9039,9 @@ extension LightsailClient {
     ///
     /// Returns a list of log events for a database in Amazon Lightsail.
     ///
-    /// - Parameter GetRelationalDatabaseLogEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseLogEventsInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseLogEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseLogEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8964,6 +9080,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseLogEventsOutput>(GetRelationalDatabaseLogEventsOutput.httpOutput(from:), GetRelationalDatabaseLogEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseLogEventsInput, GetRelationalDatabaseLogEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseLogEventsOutput>())
@@ -8998,9 +9115,9 @@ extension LightsailClient {
     ///
     /// Returns a list of available log streams for a specific database in Amazon Lightsail.
     ///
-    /// - Parameter GetRelationalDatabaseLogStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseLogStreamsInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseLogStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseLogStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9039,6 +9156,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseLogStreamsOutput>(GetRelationalDatabaseLogStreamsOutput.httpOutput(from:), GetRelationalDatabaseLogStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseLogStreamsInput, GetRelationalDatabaseLogStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseLogStreamsOutput>())
@@ -9073,9 +9191,9 @@ extension LightsailClient {
     ///
     /// Returns the current, previous, or pending versions of the master user password for a Lightsail database. The GetRelationalDatabaseMasterUserPassword operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName.
     ///
-    /// - Parameter GetRelationalDatabaseMasterUserPasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseMasterUserPasswordInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseMasterUserPasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseMasterUserPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9114,6 +9232,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseMasterUserPasswordOutput>(GetRelationalDatabaseMasterUserPasswordOutput.httpOutput(from:), GetRelationalDatabaseMasterUserPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseMasterUserPasswordInput, GetRelationalDatabaseMasterUserPasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseMasterUserPasswordOutput>())
@@ -9148,9 +9267,9 @@ extension LightsailClient {
     ///
     /// Returns the data points of the specified metric for a database in Amazon Lightsail. Metrics report the utilization of your resources, and the error counts generated by them. Monitor and collect metric data regularly to maintain the reliability, availability, and performance of your resources.
     ///
-    /// - Parameter GetRelationalDatabaseMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseMetricDataInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9189,6 +9308,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseMetricDataOutput>(GetRelationalDatabaseMetricDataOutput.httpOutput(from:), GetRelationalDatabaseMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseMetricDataInput, GetRelationalDatabaseMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseMetricDataOutput>())
@@ -9223,9 +9343,9 @@ extension LightsailClient {
     ///
     /// Returns all of the runtime parameters offered by the underlying database software, or engine, for a specific database in Amazon Lightsail. In addition to the parameter names and values, this operation returns other information about each parameter. This information includes whether changes require a reboot, whether the parameter is modifiable, the allowed values, and the data types.
     ///
-    /// - Parameter GetRelationalDatabaseParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseParametersInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9264,6 +9384,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseParametersOutput>(GetRelationalDatabaseParametersOutput.httpOutput(from:), GetRelationalDatabaseParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseParametersInput, GetRelationalDatabaseParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseParametersOutput>())
@@ -9298,9 +9419,9 @@ extension LightsailClient {
     ///
     /// Returns information about a specific database snapshot in Amazon Lightsail.
     ///
-    /// - Parameter GetRelationalDatabaseSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseSnapshotInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9339,6 +9460,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseSnapshotOutput>(GetRelationalDatabaseSnapshotOutput.httpOutput(from:), GetRelationalDatabaseSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseSnapshotInput, GetRelationalDatabaseSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseSnapshotOutput>())
@@ -9373,9 +9495,9 @@ extension LightsailClient {
     ///
     /// Returns information about all of your database snapshots in Amazon Lightsail.
     ///
-    /// - Parameter GetRelationalDatabaseSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabaseSnapshotsInput`)
     ///
-    /// - Returns: `GetRelationalDatabaseSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabaseSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9414,6 +9536,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabaseSnapshotsOutput>(GetRelationalDatabaseSnapshotsOutput.httpOutput(from:), GetRelationalDatabaseSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabaseSnapshotsInput, GetRelationalDatabaseSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabaseSnapshotsOutput>())
@@ -9448,9 +9571,9 @@ extension LightsailClient {
     ///
     /// Returns information about all of your databases in Amazon Lightsail.
     ///
-    /// - Parameter GetRelationalDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelationalDatabasesInput`)
     ///
-    /// - Returns: `GetRelationalDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelationalDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9489,6 +9612,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelationalDatabasesOutput>(GetRelationalDatabasesOutput.httpOutput(from:), GetRelationalDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelationalDatabasesInput, GetRelationalDatabasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelationalDatabasesOutput>())
@@ -9523,9 +9647,9 @@ extension LightsailClient {
     ///
     /// Returns detailed information for five of the most recent SetupInstanceHttps requests that were ran on the target instance.
     ///
-    /// - Parameter GetSetupHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSetupHistoryInput`)
     ///
-    /// - Returns: `GetSetupHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSetupHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9562,6 +9686,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSetupHistoryOutput>(GetSetupHistoryOutput.httpOutput(from:), GetSetupHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSetupHistoryInput, GetSetupHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSetupHistoryOutput>())
@@ -9596,9 +9721,9 @@ extension LightsailClient {
     ///
     /// Returns information about an Amazon Lightsail static IP.
     ///
-    /// - Parameter GetStaticIpInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStaticIpInput`)
     ///
-    /// - Returns: `GetStaticIpOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStaticIpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9637,6 +9762,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStaticIpInput, GetStaticIpOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStaticIpOutput>(GetStaticIpOutput.httpOutput(from:), GetStaticIpOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStaticIpInput, GetStaticIpOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStaticIpOutput>())
@@ -9671,9 +9797,9 @@ extension LightsailClient {
     ///
     /// Returns information about all static IPs in the user's account.
     ///
-    /// - Parameter GetStaticIpsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStaticIpsInput`)
     ///
-    /// - Returns: `GetStaticIpsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStaticIpsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9712,6 +9838,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetStaticIpsInput, GetStaticIpsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStaticIpsOutput>(GetStaticIpsOutput.httpOutput(from:), GetStaticIpsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStaticIpsInput, GetStaticIpsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStaticIpsOutput>())
@@ -9746,9 +9873,9 @@ extension LightsailClient {
     ///
     /// Imports a public SSH key from a specific key pair.
     ///
-    /// - Parameter ImportKeyPairInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportKeyPairInput`)
     ///
-    /// - Returns: `ImportKeyPairOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportKeyPairOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9787,6 +9914,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportKeyPairInput, ImportKeyPairOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportKeyPairOutput>(ImportKeyPairOutput.httpOutput(from:), ImportKeyPairOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportKeyPairInput, ImportKeyPairOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportKeyPairOutput>())
@@ -9821,9 +9949,9 @@ extension LightsailClient {
     ///
     /// Returns a Boolean value indicating whether your Lightsail VPC is peered.
     ///
-    /// - Parameter IsVpcPeeredInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `IsVpcPeeredInput`)
     ///
-    /// - Returns: `IsVpcPeeredOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `IsVpcPeeredOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9862,6 +9990,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<IsVpcPeeredInput, IsVpcPeeredOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<IsVpcPeeredOutput>(IsVpcPeeredOutput.httpOutput(from:), IsVpcPeeredOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<IsVpcPeeredInput, IsVpcPeeredOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<IsVpcPeeredOutput>())
@@ -9896,9 +10025,9 @@ extension LightsailClient {
     ///
     /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. The OpenInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter OpenInstancePublicPortsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `OpenInstancePublicPortsInput`)
     ///
-    /// - Returns: `OpenInstancePublicPortsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `OpenInstancePublicPortsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9937,6 +10066,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<OpenInstancePublicPortsOutput>(OpenInstancePublicPortsOutput.httpOutput(from:), OpenInstancePublicPortsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<OpenInstancePublicPortsInput, OpenInstancePublicPortsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<OpenInstancePublicPortsOutput>())
@@ -9971,9 +10101,9 @@ extension LightsailClient {
     ///
     /// Peers the Lightsail VPC with the user's default VPC.
     ///
-    /// - Parameter PeerVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PeerVpcInput`)
     ///
-    /// - Returns: `PeerVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PeerVpcOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10012,6 +10142,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PeerVpcInput, PeerVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PeerVpcOutput>(PeerVpcOutput.httpOutput(from:), PeerVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PeerVpcInput, PeerVpcOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PeerVpcOutput>())
@@ -10046,9 +10177,9 @@ extension LightsailClient {
     ///
     /// Creates or updates an alarm, and associates it with the specified metric. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms). When this action creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. The alarm is then evaluated with the updated configuration.
     ///
-    /// - Parameter PutAlarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAlarmInput`)
     ///
-    /// - Returns: `PutAlarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAlarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10086,6 +10217,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAlarmInput, PutAlarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAlarmOutput>(PutAlarmOutput.httpOutput(from:), PutAlarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAlarmInput, PutAlarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAlarmOutput>())
@@ -10120,9 +10252,9 @@ extension LightsailClient {
     ///
     /// Opens ports for a specific Amazon Lightsail instance, and specifies the IP addresses allowed to connect to the instance through the ports, and the protocol. This action also closes all currently open ports that are not included in the request. Include all of the ports and the protocols you want to open in your PutInstancePublicPortsrequest. Or use the OpenInstancePublicPorts action to open ports without closing currently open ports. The PutInstancePublicPorts action supports tag-based access control via resource tags applied to the resource identified by instanceName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter PutInstancePublicPortsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInstancePublicPortsInput`)
     ///
-    /// - Returns: `PutInstancePublicPortsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInstancePublicPortsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10161,6 +10293,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInstancePublicPortsOutput>(PutInstancePublicPortsOutput.httpOutput(from:), PutInstancePublicPortsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInstancePublicPortsInput, PutInstancePublicPortsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInstancePublicPortsOutput>())
@@ -10195,9 +10328,9 @@ extension LightsailClient {
     ///
     /// Restarts a specific instance. The reboot instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter RebootInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootInstanceInput`)
     ///
-    /// - Returns: `RebootInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10236,6 +10369,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootInstanceInput, RebootInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootInstanceOutput>(RebootInstanceOutput.httpOutput(from:), RebootInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootInstanceInput, RebootInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootInstanceOutput>())
@@ -10270,9 +10404,9 @@ extension LightsailClient {
     ///
     /// Restarts a specific database in Amazon Lightsail. The reboot relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter RebootRelationalDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootRelationalDatabaseInput`)
     ///
-    /// - Returns: `RebootRelationalDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootRelationalDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10311,6 +10445,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootRelationalDatabaseOutput>(RebootRelationalDatabaseOutput.httpOutput(from:), RebootRelationalDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootRelationalDatabaseInput, RebootRelationalDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootRelationalDatabaseOutput>())
@@ -10345,9 +10480,9 @@ extension LightsailClient {
     ///
     /// Registers a container image to your Amazon Lightsail container service. This action is not required if you install and use the Lightsail Control (lightsailctl) plugin to push container images to your Lightsail container service. For more information, see [Pushing and managing container images on your Amazon Lightsail container services](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-pushing-container-images) in the Amazon Lightsail Developer Guide.
     ///
-    /// - Parameter RegisterContainerImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterContainerImageInput`)
     ///
-    /// - Returns: `RegisterContainerImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterContainerImageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10384,6 +10519,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterContainerImageInput, RegisterContainerImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterContainerImageOutput>(RegisterContainerImageOutput.httpOutput(from:), RegisterContainerImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterContainerImageInput, RegisterContainerImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterContainerImageOutput>())
@@ -10418,9 +10554,9 @@ extension LightsailClient {
     ///
     /// Deletes a specific static IP from your account.
     ///
-    /// - Parameter ReleaseStaticIpInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReleaseStaticIpInput`)
     ///
-    /// - Returns: `ReleaseStaticIpOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReleaseStaticIpOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10459,6 +10595,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReleaseStaticIpOutput>(ReleaseStaticIpOutput.httpOutput(from:), ReleaseStaticIpOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReleaseStaticIpInput, ReleaseStaticIpOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReleaseStaticIpOutput>())
@@ -10493,9 +10630,9 @@ extension LightsailClient {
     ///
     /// Deletes currently cached content from your Amazon Lightsail content delivery network (CDN) distribution. After resetting the cache, the next time a content request is made, your distribution pulls, serves, and caches it from the origin.
     ///
-    /// - Parameter ResetDistributionCacheInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetDistributionCacheInput`)
     ///
-    /// - Returns: `ResetDistributionCacheOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetDistributionCacheOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10532,6 +10669,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetDistributionCacheOutput>(ResetDistributionCacheOutput.httpOutput(from:), ResetDistributionCacheOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetDistributionCacheInput, ResetDistributionCacheOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetDistributionCacheOutput>())
@@ -10566,9 +10704,9 @@ extension LightsailClient {
     ///
     /// Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see [Notifications in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-notifications). A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired. Notifications are not sent to an email contact method until after it is verified, and confirmed as valid.
     ///
-    /// - Parameter SendContactMethodVerificationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendContactMethodVerificationInput`)
     ///
-    /// - Returns: `SendContactMethodVerificationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendContactMethodVerificationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10606,6 +10744,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendContactMethodVerificationOutput>(SendContactMethodVerificationOutput.httpOutput(from:), SendContactMethodVerificationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendContactMethodVerificationInput, SendContactMethodVerificationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendContactMethodVerificationOutput>())
@@ -10640,9 +10779,9 @@ extension LightsailClient {
     ///
     /// Sets the IP address type for an Amazon Lightsail resource. Use this action to enable dual-stack for a resource, which enables IPv4 and IPv6 for the specified resource. Alternately, you can use this action to disable dual-stack, and enable IPv4 only.
     ///
-    /// - Parameter SetIpAddressTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetIpAddressTypeInput`)
     ///
-    /// - Returns: `SetIpAddressTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetIpAddressTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10681,6 +10820,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetIpAddressTypeOutput>(SetIpAddressTypeOutput.httpOutput(from:), SetIpAddressTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetIpAddressTypeInput, SetIpAddressTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetIpAddressTypeOutput>())
@@ -10715,9 +10855,9 @@ extension LightsailClient {
     ///
     /// Sets the Amazon Lightsail resources that can access the specified Lightsail bucket. Lightsail buckets currently support setting access for Lightsail instances in the same Amazon Web Services Region.
     ///
-    /// - Parameter SetResourceAccessForBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetResourceAccessForBucketInput`)
     ///
-    /// - Returns: `SetResourceAccessForBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetResourceAccessForBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10754,6 +10894,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetResourceAccessForBucketOutput>(SetResourceAccessForBucketOutput.httpOutput(from:), SetResourceAccessForBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetResourceAccessForBucketInput, SetResourceAccessForBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetResourceAccessForBucketOutput>())
@@ -10788,9 +10929,9 @@ extension LightsailClient {
     ///
     /// Creates an SSL/TLS certificate that secures traffic for your website. After the certificate is created, it is installed on the specified Lightsail instance. If you provide more than one domain name in the request, at least one name must be less than or equal to 63 characters in length.
     ///
-    /// - Parameter SetupInstanceHttpsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetupInstanceHttpsInput`)
     ///
-    /// - Returns: `SetupInstanceHttpsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetupInstanceHttpsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10827,6 +10968,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetupInstanceHttpsOutput>(SetupInstanceHttpsOutput.httpOutput(from:), SetupInstanceHttpsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetupInstanceHttpsInput, SetupInstanceHttpsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetupInstanceHttpsOutput>())
@@ -10861,9 +11003,9 @@ extension LightsailClient {
     ///
     /// Initiates a graphical user interface (GUI) session that’s used to access a virtual computer’s operating system and application. The session will be active for 1 hour. Use this action to resume the session after it expires.
     ///
-    /// - Parameter StartGUISessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartGUISessionInput`)
     ///
-    /// - Returns: `StartGUISessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartGUISessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10900,6 +11042,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartGUISessionInput, StartGUISessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartGUISessionOutput>(StartGUISessionOutput.httpOutput(from:), StartGUISessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartGUISessionInput, StartGUISessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartGUISessionOutput>())
@@ -10934,9 +11077,9 @@ extension LightsailClient {
     ///
     /// Starts a specific Amazon Lightsail instance from a stopped state. To restart an instance, use the reboot instance operation. When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-create-static-ip). The start instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter StartInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartInstanceInput`)
     ///
-    /// - Returns: `StartInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10975,6 +11118,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartInstanceInput, StartInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartInstanceOutput>(StartInstanceOutput.httpOutput(from:), StartInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartInstanceInput, StartInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartInstanceOutput>())
@@ -11009,9 +11153,9 @@ extension LightsailClient {
     ///
     /// Starts a specific database from a stopped state in Amazon Lightsail. To restart a database, use the reboot relational database operation. The start relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter StartRelationalDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRelationalDatabaseInput`)
     ///
-    /// - Returns: `StartRelationalDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRelationalDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11050,6 +11194,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRelationalDatabaseOutput>(StartRelationalDatabaseOutput.httpOutput(from:), StartRelationalDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRelationalDatabaseInput, StartRelationalDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRelationalDatabaseOutput>())
@@ -11084,9 +11229,9 @@ extension LightsailClient {
     ///
     /// Terminates a web-based Amazon DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
     ///
-    /// - Parameter StopGUISessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopGUISessionInput`)
     ///
-    /// - Returns: `StopGUISessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopGUISessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11123,6 +11268,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopGUISessionInput, StopGUISessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopGUISessionOutput>(StopGUISessionOutput.httpOutput(from:), StopGUISessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopGUISessionInput, StopGUISessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopGUISessionOutput>())
@@ -11157,9 +11303,9 @@ extension LightsailClient {
     ///
     /// Stops a specific Amazon Lightsail instance that is currently running. When you start a stopped instance, Lightsail assigns a new public IP address to the instance. To use the same IP address after stopping and starting an instance, create a static IP address and attach it to the instance. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/lightsail-create-static-ip). The stop instance operation supports tag-based access control via resource tags applied to the resource identified by instance name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter StopInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopInstanceInput`)
     ///
-    /// - Returns: `StopInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11198,6 +11344,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopInstanceInput, StopInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopInstanceOutput>(StopInstanceOutput.httpOutput(from:), StopInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopInstanceInput, StopInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopInstanceOutput>())
@@ -11232,9 +11379,9 @@ extension LightsailClient {
     ///
     /// Stops a specific database that is currently running in Amazon Lightsail. If you don't manually start your database instance after it has been stopped for seven consecutive days, Amazon Lightsail automatically starts it for you. This action helps ensure that your database instance doesn't fall behind on any required maintenance updates. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter StopRelationalDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopRelationalDatabaseInput`)
     ///
-    /// - Returns: `StopRelationalDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopRelationalDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11273,6 +11420,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRelationalDatabaseOutput>(StopRelationalDatabaseOutput.httpOutput(from:), StopRelationalDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRelationalDatabaseInput, StopRelationalDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopRelationalDatabaseOutput>())
@@ -11307,9 +11455,9 @@ extension LightsailClient {
     ///
     /// Adds one or more tags to the specified Amazon Lightsail resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-tags). The tag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11348,6 +11496,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -11382,9 +11531,9 @@ extension LightsailClient {
     ///
     /// Tests an alarm by displaying a banner on the Amazon Lightsail console. If a notification trigger is configured for the specified alarm, the test also sends a notification to the notification protocol (Email and/or SMS) configured for the alarm. An alarm is used to monitor a single metric for one of your resources. When a metric condition is met, the alarm can notify you by email, SMS text message, and a banner displayed on the Amazon Lightsail console. For more information, see [Alarms in Amazon Lightsail](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-alarms).
     ///
-    /// - Parameter TestAlarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TestAlarmInput`)
     ///
-    /// - Returns: `TestAlarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TestAlarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11423,6 +11572,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestAlarmInput, TestAlarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestAlarmOutput>(TestAlarmOutput.httpOutput(from:), TestAlarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestAlarmInput, TestAlarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestAlarmOutput>())
@@ -11457,9 +11607,9 @@ extension LightsailClient {
     ///
     /// Unpeers the Lightsail VPC from the user's default VPC.
     ///
-    /// - Parameter UnpeerVpcInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnpeerVpcInput`)
     ///
-    /// - Returns: `UnpeerVpcOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnpeerVpcOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11498,6 +11648,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnpeerVpcInput, UnpeerVpcOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnpeerVpcOutput>(UnpeerVpcOutput.httpOutput(from:), UnpeerVpcOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnpeerVpcInput, UnpeerVpcOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnpeerVpcOutput>())
@@ -11532,9 +11683,9 @@ extension LightsailClient {
     ///
     /// Deletes the specified set of tag keys and their values from the specified Amazon Lightsail resource. The untag resource operation supports tag-based access control via request tags and resource tags applied to the resource identified by resource name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11573,6 +11724,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -11607,9 +11759,9 @@ extension LightsailClient {
     ///
     /// Updates an existing Amazon Lightsail bucket. Use this action to update the configuration of an existing bucket, such as versioning, public accessibility, and the Amazon Web Services accounts that can access the bucket.
     ///
-    /// - Parameter UpdateBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBucketInput`)
     ///
-    /// - Returns: `UpdateBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11646,6 +11798,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBucketInput, UpdateBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBucketOutput>(UpdateBucketOutput.httpOutput(from:), UpdateBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBucketInput, UpdateBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBucketOutput>())
@@ -11680,9 +11833,9 @@ extension LightsailClient {
     ///
     /// Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You can update a bucket's bundle only one time within a monthly Amazon Web Services billing cycle. To determine if you can update a bucket's bundle, use the [GetBuckets](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetBuckets.html) action. The ableToUpdateBundle parameter in the response will indicate whether you can currently update a bucket's bundle. Update a bucket's bundle if it's consistently going over its storage space or data transfer quota, or if a bucket's usage is consistently in the lower range of its storage space or data transfer quota. Due to the unpredictable usage fluctuations that a bucket might experience, we strongly recommend that you update a bucket's bundle only as a long-term strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle that will provide the bucket with ample storage space and data transfer for a long time to come.
     ///
-    /// - Parameter UpdateBucketBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBucketBundleInput`)
     ///
-    /// - Returns: `UpdateBucketBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBucketBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11719,6 +11872,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBucketBundleOutput>(UpdateBucketBundleOutput.httpOutput(from:), UpdateBucketBundleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBucketBundleInput, UpdateBucketBundleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBucketBundleOutput>())
@@ -11753,9 +11907,9 @@ extension LightsailClient {
     ///
     /// Updates the configuration of your Amazon Lightsail container service, such as its power, scale, and public domain names.
     ///
-    /// - Parameter UpdateContainerServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateContainerServiceInput`)
     ///
-    /// - Returns: `UpdateContainerServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateContainerServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11792,6 +11946,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateContainerServiceOutput>(UpdateContainerServiceOutput.httpOutput(from:), UpdateContainerServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateContainerServiceInput, UpdateContainerServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateContainerServiceOutput>())
@@ -11826,9 +11981,9 @@ extension LightsailClient {
     ///
     /// Updates an existing Amazon Lightsail content delivery network (CDN) distribution. Use this action to update the configuration of your existing distribution.
     ///
-    /// - Parameter UpdateDistributionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDistributionInput`)
     ///
-    /// - Returns: `UpdateDistributionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDistributionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11865,6 +12020,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDistributionInput, UpdateDistributionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDistributionOutput>(UpdateDistributionOutput.httpOutput(from:), UpdateDistributionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDistributionInput, UpdateDistributionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDistributionOutput>())
@@ -11899,9 +12055,9 @@ extension LightsailClient {
     ///
     /// Updates the bundle of your Amazon Lightsail content delivery network (CDN) distribution. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution. Update your distribution's bundle if your distribution is going over its monthly network transfer quota and is incurring an overage fee. You can update your distribution's bundle only one time within your monthly Amazon Web Services billing cycle. To determine if you can update your distribution's bundle, use the GetDistributions action. The ableToUpdateBundle parameter in the result will indicate whether you can currently update your distribution's bundle.
     ///
-    /// - Parameter UpdateDistributionBundleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDistributionBundleInput`)
     ///
-    /// - Returns: `UpdateDistributionBundleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDistributionBundleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11938,6 +12094,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDistributionBundleOutput>(UpdateDistributionBundleOutput.httpOutput(from:), UpdateDistributionBundleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDistributionBundleInput, UpdateDistributionBundleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDistributionBundleOutput>())
@@ -11972,9 +12129,9 @@ extension LightsailClient {
     ///
     /// Updates a domain recordset after it is created. The update domain entry operation supports tag-based access control via resource tags applied to the resource identified by domain name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter UpdateDomainEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainEntryInput`)
     ///
-    /// - Returns: `UpdateDomainEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12013,6 +12170,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainEntryOutput>(UpdateDomainEntryOutput.httpOutput(from:), UpdateDomainEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainEntryInput, UpdateDomainEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainEntryOutput>())
@@ -12047,9 +12205,9 @@ extension LightsailClient {
     ///
     /// Modifies the Amazon Lightsail instance metadata parameters on a running or stopped instance. When you modify the parameters on a running instance, the GetInstance or GetInstances API operation initially responds with a state of pending. After the parameter modifications are successfully applied, the state changes to applied in subsequent GetInstance or GetInstances API calls. For more information, see [Use IMDSv2 with an Amazon Lightsail instance](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-configuring-instance-metadata-service) in the Amazon Lightsail Developer Guide.
     ///
-    /// - Parameter UpdateInstanceMetadataOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInstanceMetadataOptionsInput`)
     ///
-    /// - Returns: `UpdateInstanceMetadataOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInstanceMetadataOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12088,6 +12246,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInstanceMetadataOptionsOutput>(UpdateInstanceMetadataOptionsOutput.httpOutput(from:), UpdateInstanceMetadataOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInstanceMetadataOptionsInput, UpdateInstanceMetadataOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInstanceMetadataOptionsOutput>())
@@ -12122,9 +12281,9 @@ extension LightsailClient {
     ///
     /// Updates the specified attribute for a load balancer. You can only update one attribute at a time. The update load balancer attribute operation supports tag-based access control via resource tags applied to the resource identified by load balancer name. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter UpdateLoadBalancerAttributeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLoadBalancerAttributeInput`)
     ///
-    /// - Returns: `UpdateLoadBalancerAttributeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLoadBalancerAttributeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12163,6 +12322,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLoadBalancerAttributeOutput>(UpdateLoadBalancerAttributeOutput.httpOutput(from:), UpdateLoadBalancerAttributeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLoadBalancerAttributeInput, UpdateLoadBalancerAttributeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLoadBalancerAttributeOutput>())
@@ -12197,9 +12357,9 @@ extension LightsailClient {
     ///
     /// Allows the update of one or more attributes of a database in Amazon Lightsail. Updates are applied immediately, or in cases where the updates could result in an outage, are applied during the database's predefined maintenance window. The update relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter UpdateRelationalDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRelationalDatabaseInput`)
     ///
-    /// - Returns: `UpdateRelationalDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRelationalDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12238,6 +12398,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRelationalDatabaseOutput>(UpdateRelationalDatabaseOutput.httpOutput(from:), UpdateRelationalDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRelationalDatabaseInput, UpdateRelationalDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRelationalDatabaseOutput>())
@@ -12272,9 +12433,9 @@ extension LightsailClient {
     ///
     /// Allows the update of one or more parameters of a database in Amazon Lightsail. Parameter updates don't cause outages; therefore, their application is not subject to the preferred maintenance window. However, there are two ways in which parameter updates are applied: dynamic or pending-reboot. Parameters marked with a dynamic apply type are applied immediately. Parameters marked with a pending-reboot apply type are applied only after the database is rebooted using the reboot relational database operation. The update relational database parameters operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the [Amazon Lightsail Developer Guide](https://docs.aws.amazon.com/lightsail/latest/userguide/amazon-lightsail-controlling-access-using-tags).
     ///
-    /// - Parameter UpdateRelationalDatabaseParametersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRelationalDatabaseParametersInput`)
     ///
-    /// - Returns: `UpdateRelationalDatabaseParametersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRelationalDatabaseParametersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12313,6 +12474,7 @@ extension LightsailClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRelationalDatabaseParametersOutput>(UpdateRelationalDatabaseParametersOutput.httpOutput(from:), UpdateRelationalDatabaseParametersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRelationalDatabaseParametersInput, UpdateRelationalDatabaseParametersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRelationalDatabaseParametersOutput>())

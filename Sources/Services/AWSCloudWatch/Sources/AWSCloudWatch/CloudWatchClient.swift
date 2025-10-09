@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 @_spi(SmithyReadWrite) import class SmithyFormURL.Writer
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudWatchClient: ClientRuntime.Client {
     public static let clientName = "CloudWatchClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudWatchClient.CloudWatchClientConfiguration
     let serviceName = "CloudWatch"
@@ -372,9 +373,9 @@ extension CloudWatchClient {
     ///
     /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) operation after using DeleteAlarms. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
     ///
-    /// - Parameter DeleteAlarmsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAlarmsInput`)
     ///
-    /// - Returns: `DeleteAlarmsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlarmsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -406,6 +407,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlarmsOutput>(DeleteAlarmsOutput.httpOutput(from:), DeleteAlarmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlarmsInput, DeleteAlarmsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlarmsOutput>())
@@ -439,9 +441,9 @@ extension CloudWatchClient {
     ///
     /// Deletes the specified anomaly detection model from your account. For more information about how to delete an anomaly detection model, see [Deleting an anomaly detection model](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Anomaly_Detection_Alarm.html#Delete_Anomaly_Detection_Model) in the CloudWatch User Guide.
     ///
-    /// - Parameter DeleteAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAnomalyDetectorInput`)
     ///
-    /// - Returns: `DeleteAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -477,6 +479,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAnomalyDetectorOutput>(DeleteAnomalyDetectorOutput.httpOutput(from:), DeleteAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAnomalyDetectorInput, DeleteAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAnomalyDetectorOutput>())
@@ -510,9 +513,9 @@ extension CloudWatchClient {
     ///
     /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, no dashboards are deleted.
     ///
-    /// - Parameter DeleteDashboardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDashboardsInput`)
     ///
-    /// - Returns: `DeleteDashboardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDashboardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -547,6 +550,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDashboardsOutput>(DeleteDashboardsOutput.httpOutput(from:), DeleteDashboardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDashboardsInput, DeleteDashboardsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDashboardsOutput>())
@@ -580,9 +584,9 @@ extension CloudWatchClient {
     ///
     /// Permanently deletes the specified Contributor Insights rules. If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available.
     ///
-    /// - Parameter DeleteInsightRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInsightRulesInput`)
     ///
-    /// - Returns: `DeleteInsightRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInsightRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -615,6 +619,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInsightRulesOutput>(DeleteInsightRulesOutput.httpOutput(from:), DeleteInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInsightRulesInput, DeleteInsightRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInsightRulesOutput>())
@@ -648,9 +653,9 @@ extension CloudWatchClient {
     ///
     /// Permanently deletes the metric stream that you specify.
     ///
-    /// - Parameter DeleteMetricStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMetricStreamInput`)
     ///
-    /// - Returns: `DeleteMetricStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMetricStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -684,6 +689,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMetricStreamOutput>(DeleteMetricStreamOutput.httpOutput(from:), DeleteMetricStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMetricStreamInput, DeleteMetricStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMetricStreamOutput>())
@@ -717,9 +723,9 @@ extension CloudWatchClient {
     ///
     /// Returns the information of the current alarm contributors that are in ALARM state. This operation returns details about the individual time series that contribute to the alarm's state.
     ///
-    /// - Parameter DescribeAlarmContributorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlarmContributorsInput`)
     ///
-    /// - Returns: `DescribeAlarmContributorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlarmContributorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -752,6 +758,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmContributorsOutput>(DescribeAlarmContributorsOutput.httpOutput(from:), DescribeAlarmContributorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmContributorsInput, DescribeAlarmContributorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmContributorsOutput>())
@@ -785,9 +792,9 @@ extension CloudWatchClient {
     ///
     /// Retrieves the history for the specified alarm. You can filter the results by date range or item type. If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm. To use this operation and return information about a composite alarm, you must be signed on with the cloudwatch:DescribeAlarmHistory permission that is scoped to *. You can't return information about composite alarms if your cloudwatch:DescribeAlarmHistory permission has a narrower scope.
     ///
-    /// - Parameter DescribeAlarmHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlarmHistoryInput`)
     ///
-    /// - Returns: `DescribeAlarmHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlarmHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -819,6 +826,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmHistoryOutput>(DescribeAlarmHistoryOutput.httpOutput(from:), DescribeAlarmHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmHistoryInput, DescribeAlarmHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmHistoryOutput>())
@@ -852,9 +860,9 @@ extension CloudWatchClient {
     ///
     /// Retrieves the specified alarms. You can filter the results by specifying a prefix for the alarm name, the alarm state, or a prefix for any action. To use this operation and return information about composite alarms, you must be signed on with the cloudwatch:DescribeAlarms permission that is scoped to *. You can't return information about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope.
     ///
-    /// - Parameter DescribeAlarmsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlarmsInput`)
     ///
-    /// - Returns: `DescribeAlarmsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlarmsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -886,6 +894,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmsOutput>(DescribeAlarmsOutput.httpOutput(from:), DescribeAlarmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmsInput, DescribeAlarmsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmsOutput>())
@@ -919,9 +928,9 @@ extension CloudWatchClient {
     ///
     /// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the specified metric.
     ///
-    /// - Parameter DescribeAlarmsForMetricInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlarmsForMetricInput`)
     ///
-    /// - Returns: `DescribeAlarmsForMetricOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlarmsForMetricOutput`)
     public func describeAlarmsForMetric(input: DescribeAlarmsForMetricInput) async throws -> DescribeAlarmsForMetricOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -948,6 +957,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmsForMetricOutput>(DescribeAlarmsForMetricOutput.httpOutput(from:), DescribeAlarmsForMetricOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmsForMetricInput, DescribeAlarmsForMetricOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmsForMetricOutput>())
@@ -981,9 +991,9 @@ extension CloudWatchClient {
     ///
     /// Lists the anomaly detection models that you have created in your account. For single metric anomaly detectors, you can list all of the models in your account or filter the results to only the models that are related to a certain namespace, metric name, or metric dimension. For metric math anomaly detectors, you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array. This will return all metric math anomaly detectors in your account.
     ///
-    /// - Parameter DescribeAnomalyDetectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAnomalyDetectorsInput`)
     ///
-    /// - Returns: `DescribeAnomalyDetectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAnomalyDetectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1018,6 +1028,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAnomalyDetectorsOutput>(DescribeAnomalyDetectorsOutput.httpOutput(from:), DescribeAnomalyDetectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAnomalyDetectorsInput, DescribeAnomalyDetectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAnomalyDetectorsOutput>())
@@ -1051,9 +1062,9 @@ extension CloudWatchClient {
     ///
     /// Returns a list of all the Contributor Insights rules in your account. For more information about Contributor Insights, see [Using Contributor Insights to Analyze High-Cardinality Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html).
     ///
-    /// - Parameter DescribeInsightRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInsightRulesInput`)
     ///
-    /// - Returns: `DescribeInsightRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInsightRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1085,6 +1096,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInsightRulesOutput>(DescribeInsightRulesOutput.httpOutput(from:), DescribeInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInsightRulesInput, DescribeInsightRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInsightRulesOutput>())
@@ -1118,9 +1130,9 @@ extension CloudWatchClient {
     ///
     /// Disables the actions for the specified alarms. When an alarm's actions are disabled, the alarm actions do not execute when the alarm state changes.
     ///
-    /// - Parameter DisableAlarmActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableAlarmActionsInput`)
     ///
-    /// - Returns: `DisableAlarmActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableAlarmActionsOutput`)
     public func disableAlarmActions(input: DisableAlarmActionsInput) async throws -> DisableAlarmActionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1147,6 +1159,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableAlarmActionsOutput>(DisableAlarmActionsOutput.httpOutput(from:), DisableAlarmActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableAlarmActionsInput, DisableAlarmActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableAlarmActionsOutput>())
@@ -1180,9 +1193,9 @@ extension CloudWatchClient {
     ///
     /// Disables the specified Contributor Insights rules. When rules are disabled, they do not analyze log groups and do not incur costs.
     ///
-    /// - Parameter DisableInsightRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableInsightRulesInput`)
     ///
-    /// - Returns: `DisableInsightRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableInsightRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1215,6 +1228,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableInsightRulesOutput>(DisableInsightRulesOutput.httpOutput(from:), DisableInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableInsightRulesInput, DisableInsightRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableInsightRulesOutput>())
@@ -1248,9 +1262,9 @@ extension CloudWatchClient {
     ///
     /// Enables the actions for the specified alarms.
     ///
-    /// - Parameter EnableAlarmActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableAlarmActionsInput`)
     ///
-    /// - Returns: `EnableAlarmActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableAlarmActionsOutput`)
     public func enableAlarmActions(input: EnableAlarmActionsInput) async throws -> EnableAlarmActionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1277,6 +1291,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableAlarmActionsOutput>(EnableAlarmActionsOutput.httpOutput(from:), EnableAlarmActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableAlarmActionsInput, EnableAlarmActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableAlarmActionsOutput>())
@@ -1310,9 +1325,9 @@ extension CloudWatchClient {
     ///
     /// Enables the specified Contributor Insights rules. When rules are enabled, they immediately begin analyzing log data.
     ///
-    /// - Parameter EnableInsightRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableInsightRulesInput`)
     ///
-    /// - Returns: `EnableInsightRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableInsightRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1346,6 +1361,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableInsightRulesOutput>(EnableInsightRulesOutput.httpOutput(from:), EnableInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableInsightRulesInput, EnableInsightRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableInsightRulesOutput>())
@@ -1379,9 +1395,9 @@ extension CloudWatchClient {
     ///
     /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy.
     ///
-    /// - Parameter GetDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDashboardInput`)
     ///
-    /// - Returns: `GetDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1415,6 +1431,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDashboardInput, GetDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDashboardOutput>(GetDashboardOutput.httpOutput(from:), GetDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDashboardInput, GetDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDashboardOutput>())
@@ -1462,9 +1479,9 @@ extension CloudWatchClient {
     ///
     /// * Average -- the average value from all contributors during the time period represented by that data point.
     ///
-    /// - Parameter GetInsightRuleReportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInsightRuleReportInput`)
     ///
-    /// - Returns: `GetInsightRuleReportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInsightRuleReportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1498,6 +1515,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInsightRuleReportOutput>(GetInsightRuleReportOutput.httpOutput(from:), GetInsightRuleReportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInsightRuleReportInput, GetInsightRuleReportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInsightRuleReportOutput>())
@@ -1542,9 +1560,9 @@ extension CloudWatchClient {
     ///
     /// Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. If you omit Unit in your request, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions. Using Metrics Insights queries with metric math You can't mix a Metric Insights query and metric math syntax in the same expression, but you can reference results from a Metrics Insights query within other Metric math expressions. A Metrics Insights query without a GROUP BY clause returns a single time-series (TS), and can be used as input for a metric math expression that expects a single time series. A Metrics Insights query with a GROUP BY clause returns an array of time-series (TS[]), and can be used as input for a metric math expression that expects an array of time series.
     ///
-    /// - Parameter GetMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricDataInput`)
     ///
-    /// - Returns: `GetMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1576,6 +1594,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricDataInput, GetMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricDataOutput>(GetMetricDataOutput.httpOutput(from:), GetMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricDataInput, GetMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricDataOutput>())
@@ -1627,9 +1646,9 @@ extension CloudWatchClient {
     ///
     /// Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. CloudWatch started retaining 5-minute and 1-hour metric data as of July 9, 2016. For information about metrics and dimensions supported by Amazon Web Services services, see the [Amazon CloudWatch Metrics and Dimensions Reference](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html) in the Amazon CloudWatch User Guide.
     ///
-    /// - Parameter GetMetricStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricStatisticsInput`)
     ///
-    /// - Returns: `GetMetricStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1664,6 +1683,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricStatisticsOutput>(GetMetricStatisticsOutput.httpOutput(from:), GetMetricStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricStatisticsInput, GetMetricStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricStatisticsOutput>())
@@ -1697,9 +1717,9 @@ extension CloudWatchClient {
     ///
     /// Returns information about the metric stream that you specify.
     ///
-    /// - Parameter GetMetricStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricStreamInput`)
     ///
-    /// - Returns: `GetMetricStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1735,6 +1755,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricStreamInput, GetMetricStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricStreamOutput>(GetMetricStreamOutput.httpOutput(from:), GetMetricStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricStreamInput, GetMetricStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricStreamOutput>())
@@ -1772,9 +1793,9 @@ extension CloudWatchClient {
     ///
     /// * Up to 100 KB uncompressed payload.
     ///
-    /// - Parameter GetMetricWidgetImageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetricWidgetImageInput`)
     ///
-    /// - Returns: `GetMetricWidgetImageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetricWidgetImageOutput`)
     public func getMetricWidgetImage(input: GetMetricWidgetImageInput) async throws -> GetMetricWidgetImageOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1801,6 +1822,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetricWidgetImageOutput>(GetMetricWidgetImageOutput.httpOutput(from:), GetMetricWidgetImageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetricWidgetImageInput, GetMetricWidgetImageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetricWidgetImageOutput>())
@@ -1834,9 +1856,9 @@ extension CloudWatchClient {
     ///
     /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results.
     ///
-    /// - Parameter ListDashboardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDashboardsInput`)
     ///
-    /// - Returns: `ListDashboardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDashboardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1869,6 +1891,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDashboardsInput, ListDashboardsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDashboardsOutput>(ListDashboardsOutput.httpOutput(from:), ListDashboardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDashboardsInput, ListDashboardsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDashboardsOutput>())
@@ -1902,9 +1925,9 @@ extension CloudWatchClient {
     ///
     /// Returns a list that contains the number of managed Contributor Insights rules in your account.
     ///
-    /// - Parameter ListManagedInsightRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedInsightRulesInput`)
     ///
-    /// - Returns: `ListManagedInsightRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedInsightRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1938,6 +1961,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedInsightRulesOutput>(ListManagedInsightRulesOutput.httpOutput(from:), ListManagedInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedInsightRulesInput, ListManagedInsightRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedInsightRulesOutput>())
@@ -1971,9 +1995,9 @@ extension CloudWatchClient {
     ///
     /// Returns a list of metric streams in this account.
     ///
-    /// - Parameter ListMetricStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetricStreamsInput`)
     ///
-    /// - Returns: `ListMetricStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetricStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2008,6 +2032,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricStreamsOutput>(ListMetricStreamsOutput.httpOutput(from:), ListMetricStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricStreamsInput, ListMetricStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricStreamsOutput>())
@@ -2041,9 +2066,9 @@ extension CloudWatchClient {
     ///
     /// List the specified metrics. You can use the returned metrics with [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html) or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html) to get statistical data. Up to 500 results are returned for any one call. To retrieve additional results, use the returned token with subsequent calls. After you create a metric, allow up to 15 minutes for the metric to appear. To see metric statistics sooner, use [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html) or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html). If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view metrics from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). ListMetrics doesn't return information about metrics if those metrics haven't reported data in the past two weeks. To retrieve those metrics, use [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html) or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html).
     ///
-    /// - Parameter ListMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetricsInput`)
     ///
-    /// - Returns: `ListMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2076,6 +2101,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetricsInput, ListMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetricsOutput>(ListMetricsOutput.httpOutput(from:), ListMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetricsInput, ListMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetricsOutput>())
@@ -2109,9 +2135,9 @@ extension CloudWatchClient {
     ///
     /// Displays the tags associated with a CloudWatch resource. Currently, alarms and Contributor Insights rules support tagging.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2145,6 +2171,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2178,9 +2205,9 @@ extension CloudWatchClient {
     ///
     /// Creates an anomaly detection model for a CloudWatch metric. You can use the model to display a band of expected normal values when the metric is graphed. If you have enabled unified cross-account observability, and this account is a monitoring account, the metric can be in the same account or a source account. You can specify the account ID in the object you specify in the SingleMetricAnomalyDetector parameter. For more information, see [CloudWatch Anomaly Detection](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Anomaly_Detection.html).
     ///
-    /// - Parameter PutAnomalyDetectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAnomalyDetectorInput`)
     ///
-    /// - Returns: `PutAnomalyDetectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAnomalyDetectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2216,6 +2243,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAnomalyDetectorOutput>(PutAnomalyDetectorOutput.httpOutput(from:), PutAnomalyDetectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAnomalyDetectorInput, PutAnomalyDetectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAnomalyDetectorOutput>())
@@ -2260,9 +2288,9 @@ extension CloudWatchClient {
     ///
     /// It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. For a composite alarm, this initial time after creation is the only time that the alarm can be in INSUFFICIENT_DATA state. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. To use this operation, you must be signed on with the cloudwatch:PutCompositeAlarm permission that is scoped to *. You can't create a composite alarms if your cloudwatch:PutCompositeAlarm permission has a narrower scope. If you are an IAM user, you must have iam:CreateServiceLinkedRole to create a composite alarm that has Systems Manager OpsItem actions.
     ///
-    /// - Parameter PutCompositeAlarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutCompositeAlarmInput`)
     ///
-    /// - Returns: `PutCompositeAlarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutCompositeAlarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2294,6 +2322,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutCompositeAlarmOutput>(PutCompositeAlarmOutput.httpOutput(from:), PutCompositeAlarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutCompositeAlarmInput, PutCompositeAlarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutCompositeAlarmOutput>())
@@ -2327,9 +2356,9 @@ extension CloudWatchClient {
     ///
     /// Creates a dashboard if it does not already exist, or updates an existing dashboard. If you update a dashboard, the entire contents are replaced with what you specify here. All dashboards in your account are global, not region-specific. A simple way to create a dashboard using PutDashboard is to copy an existing dashboard. To copy an existing dashboard using the console, you can load the dashboard and then use the View/edit source command in the Actions menu to display the JSON block for that dashboard. Another way to copy a dashboard is to use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard. When you create a dashboard with PutDashboard, a good practice is to add a text widget at the top of the dashboard with a message that the dashboard was created by script and should not be changed in the console. This message could also point console users to the location of the DashboardBody script or the CloudFormation template used to create the dashboard.
     ///
-    /// - Parameter PutDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDashboardInput`)
     ///
-    /// - Returns: `PutDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2363,6 +2392,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDashboardInput, PutDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDashboardOutput>(PutDashboardOutput.httpOutput(from:), PutDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDashboardInput, PutDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDashboardOutput>())
@@ -2396,9 +2426,9 @@ extension CloudWatchClient {
     ///
     /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see [Using Contributor Insights to Analyze High-Cardinality Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html). If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available.
     ///
-    /// - Parameter PutInsightRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInsightRuleInput`)
     ///
-    /// - Returns: `PutInsightRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInsightRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2432,6 +2462,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInsightRuleInput, PutInsightRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInsightRuleOutput>(PutInsightRuleOutput.httpOutput(from:), PutInsightRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInsightRuleInput, PutInsightRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInsightRuleOutput>())
@@ -2465,9 +2496,9 @@ extension CloudWatchClient {
     ///
     /// Creates a managed Contributor Insights rule for a specified Amazon Web Services resource. When you enable a managed rule, you create a Contributor Insights rule that collects data from Amazon Web Services services. You cannot edit these rules with PutInsightRule. The rules can be enabled, disabled, and deleted using EnableInsightRules, DisableInsightRules, and DeleteInsightRules. If a previously created managed rule is currently disabled, a subsequent call to this API will re-enable it. Use ListManagedInsightRules to describe all available rules.
     ///
-    /// - Parameter PutManagedInsightRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutManagedInsightRulesInput`)
     ///
-    /// - Returns: `PutManagedInsightRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutManagedInsightRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,6 +2531,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutManagedInsightRulesOutput>(PutManagedInsightRulesOutput.httpOutput(from:), PutManagedInsightRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutManagedInsightRulesInput, PutManagedInsightRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutManagedInsightRulesOutput>())
@@ -2544,9 +2576,9 @@ extension CloudWatchClient {
     ///
     /// * The account where you are creating the alarm (the monitoring account) must already have a service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a monitoring account in [ Cross-account cross-Region CloudWatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Cross-Account-Cross-Region.html#enable-cross-account-cross-Region).
     ///
-    /// - Parameter PutMetricAlarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMetricAlarmInput`)
     ///
-    /// - Returns: `PutMetricAlarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMetricAlarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2578,6 +2610,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetricAlarmOutput>(PutMetricAlarmOutput.httpOutput(from:), PutMetricAlarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricAlarmInput, PutMetricAlarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricAlarmOutput>())
@@ -2615,9 +2648,9 @@ extension CloudWatchClient {
     ///
     /// * The Min and Max are equal, and Sum is equal to Min multiplied by SampleCount.
     ///
-    /// - Parameter PutMetricDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMetricDataInput`)
     ///
-    /// - Returns: `PutMetricDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMetricDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2652,6 +2685,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricDataInput, PutMetricDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetricDataOutput>(PutMetricDataOutput.httpOutput(from:), PutMetricDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricDataInput, PutMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricDataOutput>())
@@ -2694,9 +2728,9 @@ extension CloudWatchClient {
     ///
     /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use the StatisticsConfigurations parameter to have the metric stream send additional statistics in the stream. Streaming additional statistics incurs additional costs. For more information, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/). When you use PutMetricStream to create a new metric stream, the stream is created in the running state. If you use it to update an existing stream, the state of the stream is not changed. If you are using CloudWatch cross-account observability and you create a metric stream in a monitoring account, you can choose whether to include metrics from source accounts in the stream. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
     ///
-    /// - Parameter PutMetricStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMetricStreamInput`)
     ///
-    /// - Returns: `PutMetricStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMetricStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2732,6 +2766,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMetricStreamInput, PutMetricStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMetricStreamOutput>(PutMetricStreamOutput.httpOutput(from:), PutMetricStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMetricStreamInput, PutMetricStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMetricStreamOutput>())
@@ -2765,9 +2800,9 @@ extension CloudWatchClient {
     ///
     /// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within seconds. Because the metric alarm state change happens quickly, it is typically only visible in the alarm's History tab in the Amazon CloudWatch console or through [DescribeAlarmHistory](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarmHistory.html). If you use SetAlarmState on a composite alarm, the composite alarm is not guaranteed to return to its actual state. It returns to its actual state only once any of its children alarms change state. It is also reevaluated if you update its configuration. If an alarm triggers EC2 Auto Scaling policies or application Auto Scaling policies, you must include information in the StateReasonData parameter to enable the policy to take the correct action.
     ///
-    /// - Parameter SetAlarmStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetAlarmStateInput`)
     ///
-    /// - Returns: `SetAlarmStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetAlarmStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2800,6 +2835,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetAlarmStateInput, SetAlarmStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetAlarmStateOutput>(SetAlarmStateOutput.httpOutput(from:), SetAlarmStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetAlarmStateInput, SetAlarmStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetAlarmStateOutput>())
@@ -2833,9 +2869,9 @@ extension CloudWatchClient {
     ///
     /// Starts the streaming of metrics for one or more of your metric streams.
     ///
-    /// - Parameter StartMetricStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMetricStreamsInput`)
     ///
-    /// - Returns: `StartMetricStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMetricStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2869,6 +2905,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetricStreamsOutput>(StartMetricStreamsOutput.httpOutput(from:), StartMetricStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetricStreamsInput, StartMetricStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetricStreamsOutput>())
@@ -2902,9 +2939,9 @@ extension CloudWatchClient {
     ///
     /// Stops the streaming of metrics for one or more of your metric streams.
     ///
-    /// - Parameter StopMetricStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopMetricStreamsInput`)
     ///
-    /// - Returns: `StopMetricStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopMetricStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2938,6 +2975,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMetricStreamsOutput>(StopMetricStreamsOutput.httpOutput(from:), StopMetricStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMetricStreamsInput, StopMetricStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMetricStreamsOutput>())
@@ -2971,9 +3009,9 @@ extension CloudWatchClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3009,6 +3047,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3042,9 +3081,9 @@ extension CloudWatchClient {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3080,6 +3119,7 @@ extension CloudWatchClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

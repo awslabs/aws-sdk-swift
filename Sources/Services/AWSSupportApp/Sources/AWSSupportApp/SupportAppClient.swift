@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SupportAppClient: ClientRuntime.Client {
     public static let clientName = "SupportAppClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SupportAppClient.SupportAppClientConfiguration
     let serviceName = "Support App"
@@ -378,9 +379,9 @@ extension SupportAppClient {
     ///
     /// A Slack channel can have up to 100 Amazon Web Services accounts. This means that only 100 accounts can add the same Slack channel to the Amazon Web Services Support App. We recommend that you only add the accounts that you need to manage support cases for your organization. This can reduce the notifications about case updates that you receive in the Slack channel. We recommend that you choose a private Slack channel so that only members in that channel have read and write access to your support cases. Anyone in your Slack channel can create, update, or resolve support cases for your account. Users require an invitation to join private channels.
     ///
-    /// - Parameter CreateSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `CreateSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -430,6 +431,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSlackChannelConfigurationOutput>(CreateSlackChannelConfigurationOutput.httpOutput(from:), CreateSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSlackChannelConfigurationInput, CreateSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSlackChannelConfigurationOutput>())
@@ -461,9 +463,9 @@ extension SupportAppClient {
     ///
     /// Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
-    /// - Parameter DeleteAccountAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountAliasInput`)
     ///
-    /// - Returns: `DeleteAccountAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -496,6 +498,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountAliasOutput>(DeleteAccountAliasOutput.httpOutput(from:), DeleteAccountAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountAliasInput, DeleteAccountAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountAliasOutput>())
@@ -527,9 +530,9 @@ extension SupportAppClient {
     ///
     /// Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't delete your Slack channel.
     ///
-    /// - Parameter DeleteSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `DeleteSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -579,6 +582,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlackChannelConfigurationOutput>(DeleteSlackChannelConfigurationOutput.httpOutput(from:), DeleteSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlackChannelConfigurationInput, DeleteSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackChannelConfigurationOutput>())
@@ -610,9 +614,9 @@ extension SupportAppClient {
     ///
     /// Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't delete your Slack workspace.
     ///
-    /// - Parameter DeleteSlackWorkspaceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSlackWorkspaceConfigurationInput`)
     ///
-    /// - Returns: `DeleteSlackWorkspaceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSlackWorkspaceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -662,6 +666,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSlackWorkspaceConfigurationInput, DeleteSlackWorkspaceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSlackWorkspaceConfigurationOutput>(DeleteSlackWorkspaceConfigurationOutput.httpOutput(from:), DeleteSlackWorkspaceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSlackWorkspaceConfigurationInput, DeleteSlackWorkspaceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSlackWorkspaceConfigurationOutput>())
@@ -693,9 +698,9 @@ extension SupportAppClient {
     ///
     /// Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
-    /// - Parameter GetAccountAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountAliasInput`)
     ///
-    /// - Returns: `GetAccountAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -726,6 +731,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountAliasInput, GetAccountAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountAliasOutput>(GetAccountAliasOutput.httpOutput(from:), GetAccountAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountAliasInput, GetAccountAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountAliasOutput>())
@@ -757,9 +763,9 @@ extension SupportAppClient {
     ///
     /// Lists the Slack channel configurations for an Amazon Web Services account.
     ///
-    /// - Parameter ListSlackChannelConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSlackChannelConfigurationsInput`)
     ///
-    /// - Returns: `ListSlackChannelConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSlackChannelConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -794,6 +800,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSlackChannelConfigurationsOutput>(ListSlackChannelConfigurationsOutput.httpOutput(from:), ListSlackChannelConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSlackChannelConfigurationsInput, ListSlackChannelConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSlackChannelConfigurationsOutput>())
@@ -825,9 +832,9 @@ extension SupportAppClient {
     ///
     /// Lists the Slack workspace configurations for an Amazon Web Services account.
     ///
-    /// - Parameter ListSlackWorkspaceConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSlackWorkspaceConfigurationsInput`)
     ///
-    /// - Returns: `ListSlackWorkspaceConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSlackWorkspaceConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -862,6 +869,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSlackWorkspaceConfigurationsOutput>(ListSlackWorkspaceConfigurationsOutput.httpOutput(from:), ListSlackWorkspaceConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSlackWorkspaceConfigurationsInput, ListSlackWorkspaceConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSlackWorkspaceConfigurationsOutput>())
@@ -893,9 +901,9 @@ extension SupportAppClient {
     ///
     /// Creates or updates an individual alias for each Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
     ///
-    /// - Parameter PutAccountAliasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAccountAliasInput`)
     ///
-    /// - Returns: `PutAccountAliasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAccountAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -931,6 +939,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAccountAliasInput, PutAccountAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAccountAliasOutput>(PutAccountAliasOutput.httpOutput(from:), PutAccountAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAccountAliasInput, PutAccountAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAccountAliasOutput>())
@@ -973,9 +982,9 @@ extension SupportAppClient {
     ///
     /// * Configure a Slack channel to use the Amazon Web Services Support App for support cases for that account. For more information, see [Configuring a Slack channel](https://docs.aws.amazon.com/awssupport/latest/user/add-your-slack-channel.html).
     ///
-    /// - Parameter RegisterSlackWorkspaceForOrganizationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterSlackWorkspaceForOrganizationInput`)
     ///
-    /// - Returns: `RegisterSlackWorkspaceForOrganizationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterSlackWorkspaceForOrganizationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1025,6 +1034,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterSlackWorkspaceForOrganizationInput, RegisterSlackWorkspaceForOrganizationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterSlackWorkspaceForOrganizationOutput>(RegisterSlackWorkspaceForOrganizationOutput.httpOutput(from:), RegisterSlackWorkspaceForOrganizationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterSlackWorkspaceForOrganizationInput, RegisterSlackWorkspaceForOrganizationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterSlackWorkspaceForOrganizationOutput>())
@@ -1056,9 +1066,9 @@ extension SupportAppClient {
     ///
     /// Updates the configuration for a Slack channel, such as case update notifications.
     ///
-    /// - Parameter UpdateSlackChannelConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSlackChannelConfigurationInput`)
     ///
-    /// - Returns: `UpdateSlackChannelConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSlackChannelConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1108,6 +1118,7 @@ extension SupportAppClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSlackChannelConfigurationOutput>(UpdateSlackChannelConfigurationOutput.httpOutput(from:), UpdateSlackChannelConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSlackChannelConfigurationInput, UpdateSlackChannelConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSlackChannelConfigurationOutput>())

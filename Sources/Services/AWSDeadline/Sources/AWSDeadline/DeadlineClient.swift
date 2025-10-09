@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -70,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DeadlineClient: ClientRuntime.Client {
     public static let clientName = "DeadlineClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: DeadlineClient.DeadlineClientConfiguration
     let serviceName = "deadline"
@@ -376,9 +377,9 @@ extension DeadlineClient {
     ///
     /// Assigns a farm membership level to a member.
     ///
-    /// - Parameter AssociateMemberToFarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToFarmInput`)
     ///
-    /// - Returns: `AssociateMemberToFarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMemberToFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -417,6 +418,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMemberToFarmInput, AssociateMemberToFarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMemberToFarmOutput>(AssociateMemberToFarmOutput.httpOutput(from:), AssociateMemberToFarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMemberToFarmInput, AssociateMemberToFarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMemberToFarmOutput>())
@@ -448,9 +450,9 @@ extension DeadlineClient {
     ///
     /// Assigns a fleet membership level to a member.
     ///
-    /// - Parameter AssociateMemberToFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToFleetInput`)
     ///
-    /// - Returns: `AssociateMemberToFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMemberToFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,6 +491,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMemberToFleetInput, AssociateMemberToFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMemberToFleetOutput>(AssociateMemberToFleetOutput.httpOutput(from:), AssociateMemberToFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMemberToFleetInput, AssociateMemberToFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMemberToFleetOutput>())
@@ -520,9 +523,9 @@ extension DeadlineClient {
     ///
     /// Assigns a job membership level to a member
     ///
-    /// - Parameter AssociateMemberToJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToJobInput`)
     ///
-    /// - Returns: `AssociateMemberToJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMemberToJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +564,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMemberToJobInput, AssociateMemberToJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMemberToJobOutput>(AssociateMemberToJobOutput.httpOutput(from:), AssociateMemberToJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMemberToJobInput, AssociateMemberToJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMemberToJobOutput>())
@@ -592,9 +596,9 @@ extension DeadlineClient {
     ///
     /// Assigns a queue membership level to a member
     ///
-    /// - Parameter AssociateMemberToQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateMemberToQueueInput`)
     ///
-    /// - Returns: `AssociateMemberToQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateMemberToQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +637,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateMemberToQueueInput, AssociateMemberToQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateMemberToQueueOutput>(AssociateMemberToQueueOutput.httpOutput(from:), AssociateMemberToQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateMemberToQueueInput, AssociateMemberToQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateMemberToQueueOutput>())
@@ -664,9 +669,9 @@ extension DeadlineClient {
     ///
     /// Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access.
     ///
-    /// - Parameter AssumeFleetRoleForReadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeFleetRoleForReadInput`)
     ///
-    /// - Returns: `AssumeFleetRoleForReadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeFleetRoleForReadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,6 +706,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssumeFleetRoleForReadInput, AssumeFleetRoleForReadOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeFleetRoleForReadOutput>(AssumeFleetRoleForReadOutput.httpOutput(from:), AssumeFleetRoleForReadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeFleetRoleForReadInput, AssumeFleetRoleForReadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeFleetRoleForReadOutput>())
@@ -732,9 +738,9 @@ extension DeadlineClient {
     ///
     /// Get credentials from the fleet role for a worker.
     ///
-    /// - Parameter AssumeFleetRoleForWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeFleetRoleForWorkerInput`)
     ///
-    /// - Returns: `AssumeFleetRoleForWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeFleetRoleForWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -770,6 +776,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssumeFleetRoleForWorkerInput, AssumeFleetRoleForWorkerOutput>(hostPrefix: "scheduling."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeFleetRoleForWorkerOutput>(AssumeFleetRoleForWorkerOutput.httpOutput(from:), AssumeFleetRoleForWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeFleetRoleForWorkerInput, AssumeFleetRoleForWorkerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeFleetRoleForWorkerOutput>())
@@ -801,9 +808,9 @@ extension DeadlineClient {
     ///
     /// Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access.
     ///
-    /// - Parameter AssumeQueueRoleForReadInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeQueueRoleForReadInput`)
     ///
-    /// - Returns: `AssumeQueueRoleForReadOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeQueueRoleForReadOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -838,6 +845,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssumeQueueRoleForReadInput, AssumeQueueRoleForReadOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeQueueRoleForReadOutput>(AssumeQueueRoleForReadOutput.httpOutput(from:), AssumeQueueRoleForReadOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeQueueRoleForReadInput, AssumeQueueRoleForReadOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeQueueRoleForReadOutput>())
@@ -869,9 +877,9 @@ extension DeadlineClient {
     ///
     /// Allows a user to assume a role for a queue.
     ///
-    /// - Parameter AssumeQueueRoleForUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeQueueRoleForUserInput`)
     ///
-    /// - Returns: `AssumeQueueRoleForUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeQueueRoleForUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,6 +914,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssumeQueueRoleForUserInput, AssumeQueueRoleForUserOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeQueueRoleForUserOutput>(AssumeQueueRoleForUserOutput.httpOutput(from:), AssumeQueueRoleForUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeQueueRoleForUserInput, AssumeQueueRoleForUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeQueueRoleForUserOutput>())
@@ -937,9 +946,9 @@ extension DeadlineClient {
     ///
     /// Allows a worker to assume a queue role.
     ///
-    /// - Parameter AssumeQueueRoleForWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssumeQueueRoleForWorkerInput`)
     ///
-    /// - Returns: `AssumeQueueRoleForWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssumeQueueRoleForWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -976,6 +985,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<AssumeQueueRoleForWorkerInput, AssumeQueueRoleForWorkerOutput>(AssumeQueueRoleForWorkerInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssumeQueueRoleForWorkerOutput>(AssumeQueueRoleForWorkerOutput.httpOutput(from:), AssumeQueueRoleForWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssumeQueueRoleForWorkerInput, AssumeQueueRoleForWorkerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssumeQueueRoleForWorkerOutput>())
@@ -1007,9 +1017,9 @@ extension DeadlineClient {
     ///
     /// Get batched job details for a worker.
     ///
-    /// - Parameter BatchGetJobEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetJobEntityInput`)
     ///
-    /// - Returns: `BatchGetJobEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetJobEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1047,6 +1057,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetJobEntityInput, BatchGetJobEntityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetJobEntityOutput>(BatchGetJobEntityOutput.httpOutput(from:), BatchGetJobEntityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetJobEntityInput, BatchGetJobEntityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetJobEntityOutput>())
@@ -1078,9 +1089,9 @@ extension DeadlineClient {
     ///
     /// Copies a job template to an Amazon S3 bucket.
     ///
-    /// - Parameter CopyJobTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CopyJobTemplateInput`)
     ///
-    /// - Returns: `CopyJobTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CopyJobTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1118,6 +1129,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CopyJobTemplateInput, CopyJobTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CopyJobTemplateOutput>(CopyJobTemplateOutput.httpOutput(from:), CopyJobTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CopyJobTemplateInput, CopyJobTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CopyJobTemplateOutput>())
@@ -1149,9 +1161,9 @@ extension DeadlineClient {
     ///
     /// Creates a budget to set spending thresholds for your rendering activity.
     ///
-    /// - Parameter CreateBudgetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBudgetInput`)
     ///
-    /// - Returns: `CreateBudgetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1192,6 +1204,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBudgetInput, CreateBudgetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBudgetOutput>(CreateBudgetOutput.httpOutput(from:), CreateBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBudgetInput, CreateBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBudgetOutput>())
@@ -1223,9 +1236,9 @@ extension DeadlineClient {
     ///
     /// Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
     ///
-    /// - Parameter CreateFarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFarmInput`)
     ///
-    /// - Returns: `CreateFarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1266,6 +1279,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFarmInput, CreateFarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFarmOutput>(CreateFarmOutput.httpOutput(from:), CreateFarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFarmInput, CreateFarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFarmOutput>())
@@ -1297,9 +1311,9 @@ extension DeadlineClient {
     ///
     /// Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1340,6 +1354,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetOutput>(CreateFleetOutput.httpOutput(from:), CreateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
@@ -1371,9 +1386,9 @@ extension DeadlineClient {
     ///
     /// Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see [Deadline Cloud jobs](https://docs.aws.amazon.com/deadline-cloud/latest/userguide/deadline-cloud-jobs.html).
     ///
-    /// - Parameter CreateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1414,6 +1429,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -1445,9 +1461,9 @@ extension DeadlineClient {
     ///
     /// Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud.
     ///
-    /// - Parameter CreateLicenseEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLicenseEndpointInput`)
     ///
-    /// - Returns: `CreateLicenseEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLicenseEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1488,6 +1504,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLicenseEndpointInput, CreateLicenseEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLicenseEndpointOutput>(CreateLicenseEndpointOutput.httpOutput(from:), CreateLicenseEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLicenseEndpointInput, CreateLicenseEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLicenseEndpointOutput>())
@@ -1519,9 +1536,9 @@ extension DeadlineClient {
     ///
     /// Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help manage workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues. You must add the amountRequirementName to a step in a job template to declare the limit requirement.
     ///
-    /// - Parameter CreateLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLimitInput`)
     ///
-    /// - Returns: `CreateLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1562,6 +1579,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLimitInput, CreateLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLimitOutput>(CreateLimitOutput.httpOutput(from:), CreateLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLimitInput, CreateLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLimitOutput>())
@@ -1593,9 +1611,9 @@ extension DeadlineClient {
     ///
     /// Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results.
     ///
-    /// - Parameter CreateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1635,6 +1653,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMonitorInput, CreateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMonitorOutput>(CreateMonitorOutput.httpOutput(from:), CreateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMonitorInput, CreateMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMonitorOutput>())
@@ -1666,9 +1685,9 @@ extension DeadlineClient {
     ///
     /// Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
     ///
-    /// - Parameter CreateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueInput`)
     ///
-    /// - Returns: `CreateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1709,6 +1728,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueInput, CreateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueOutput>(CreateQueueOutput.httpOutput(from:), CreateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueInput, CreateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueOutput>())
@@ -1740,9 +1760,9 @@ extension DeadlineClient {
     ///
     /// Creates an environment for a queue that defines how jobs in the queue run.
     ///
-    /// - Parameter CreateQueueEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueEnvironmentInput`)
     ///
-    /// - Returns: `CreateQueueEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1783,6 +1803,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueEnvironmentInput, CreateQueueEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueEnvironmentOutput>(CreateQueueEnvironmentOutput.httpOutput(from:), CreateQueueEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueEnvironmentInput, CreateQueueEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueEnvironmentOutput>())
@@ -1814,9 +1835,9 @@ extension DeadlineClient {
     ///
     /// Creates an association between a queue and a fleet.
     ///
-    /// - Parameter CreateQueueFleetAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueFleetAssociationInput`)
     ///
-    /// - Returns: `CreateQueueFleetAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueFleetAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1854,6 +1875,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueFleetAssociationInput, CreateQueueFleetAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueFleetAssociationOutput>(CreateQueueFleetAssociationOutput.httpOutput(from:), CreateQueueFleetAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueFleetAssociationInput, CreateQueueFleetAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueFleetAssociationOutput>())
@@ -1885,9 +1907,9 @@ extension DeadlineClient {
     ///
     /// Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same amountRequirementName to the same queue.
     ///
-    /// - Parameter CreateQueueLimitAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateQueueLimitAssociationInput`)
     ///
-    /// - Returns: `CreateQueueLimitAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateQueueLimitAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1925,6 +1947,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateQueueLimitAssociationInput, CreateQueueLimitAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateQueueLimitAssociationOutput>(CreateQueueLimitAssociationOutput.httpOutput(from:), CreateQueueLimitAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateQueueLimitAssociationInput, CreateQueueLimitAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateQueueLimitAssociationOutput>())
@@ -1956,9 +1979,9 @@ extension DeadlineClient {
     ///
     /// Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
     ///
-    /// - Parameter CreateStorageProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateStorageProfileInput`)
     ///
-    /// - Returns: `CreateStorageProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateStorageProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1999,6 +2022,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateStorageProfileInput, CreateStorageProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateStorageProfileOutput>(CreateStorageProfileOutput.httpOutput(from:), CreateStorageProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateStorageProfileInput, CreateStorageProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateStorageProfileOutput>())
@@ -2030,9 +2054,9 @@ extension DeadlineClient {
     ///
     /// Creates a worker. A worker tells your instance how much processing power (vCPU), and memory (GiB) you’ll need to assemble the digital assets held within a particular instance. You can specify certain instance types to use, or let the worker know which instances types to exclude. Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to CreateWorker before the field updates, you might exceed your fleet's maximum worker count. For example, if your maxWorkerCount is 10 and you currently have 9 workers, making two quick CreateWorker calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
     ///
-    /// - Parameter CreateWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkerInput`)
     ///
-    /// - Returns: `CreateWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2073,6 +2097,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkerInput, CreateWorkerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkerOutput>(CreateWorkerOutput.httpOutput(from:), CreateWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkerInput, CreateWorkerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkerOutput>())
@@ -2104,9 +2129,9 @@ extension DeadlineClient {
     ///
     /// Deletes a budget.
     ///
-    /// - Parameter DeleteBudgetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBudgetInput`)
     ///
-    /// - Returns: `DeleteBudgetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2141,6 +2166,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBudgetInput, DeleteBudgetOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBudgetOutput>(DeleteBudgetOutput.httpOutput(from:), DeleteBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBudgetInput, DeleteBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBudgetOutput>())
@@ -2172,9 +2198,9 @@ extension DeadlineClient {
     ///
     /// Deletes a farm.
     ///
-    /// - Parameter DeleteFarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFarmInput`)
     ///
-    /// - Returns: `DeleteFarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2209,6 +2235,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFarmInput, DeleteFarmOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFarmOutput>(DeleteFarmOutput.httpOutput(from:), DeleteFarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFarmInput, DeleteFarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFarmOutput>())
@@ -2240,9 +2267,9 @@ extension DeadlineClient {
     ///
     /// Deletes a fleet.
     ///
-    /// - Parameter DeleteFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetInput`)
     ///
-    /// - Returns: `DeleteFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2280,6 +2307,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<DeleteFleetInput, DeleteFleetOutput>(DeleteFleetInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetOutput>(DeleteFleetOutput.httpOutput(from:), DeleteFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
@@ -2311,9 +2339,9 @@ extension DeadlineClient {
     ///
     /// Deletes a license endpoint.
     ///
-    /// - Parameter DeleteLicenseEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLicenseEndpointInput`)
     ///
-    /// - Returns: `DeleteLicenseEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLicenseEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2349,6 +2377,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLicenseEndpointInput, DeleteLicenseEndpointOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLicenseEndpointOutput>(DeleteLicenseEndpointOutput.httpOutput(from:), DeleteLicenseEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLicenseEndpointInput, DeleteLicenseEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLicenseEndpointOutput>())
@@ -2380,9 +2409,9 @@ extension DeadlineClient {
     ///
     /// Removes a limit from the specified farm. Before you delete a limit you must use the DeleteQueueLimitAssociation operation to remove the association with any queues.
     ///
-    /// - Parameter DeleteLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLimitInput`)
     ///
-    /// - Returns: `DeleteLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2416,6 +2445,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLimitInput, DeleteLimitOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLimitOutput>(DeleteLimitOutput.httpOutput(from:), DeleteLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLimitInput, DeleteLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLimitOutput>())
@@ -2447,9 +2477,9 @@ extension DeadlineClient {
     ///
     /// Deletes a metered product.
     ///
-    /// - Parameter DeleteMeteredProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMeteredProductInput`)
     ///
-    /// - Returns: `DeleteMeteredProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMeteredProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2484,6 +2514,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMeteredProductInput, DeleteMeteredProductOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMeteredProductOutput>(DeleteMeteredProductOutput.httpOutput(from:), DeleteMeteredProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMeteredProductInput, DeleteMeteredProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMeteredProductOutput>())
@@ -2515,9 +2546,9 @@ extension DeadlineClient {
     ///
     /// Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and attach farms to the monitor.
     ///
-    /// - Parameter DeleteMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitorInput`)
     ///
-    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2552,6 +2583,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMonitorInput, DeleteMonitorOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMonitorOutput>(DeleteMonitorOutput.httpOutput(from:), DeleteMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMonitorInput, DeleteMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMonitorOutput>())
@@ -2583,9 +2615,9 @@ extension DeadlineClient {
     ///
     /// Deletes a queue. You can't recover the jobs in a queue if you delete the queue. Deleting the queue also deletes the jobs in that queue.
     ///
-    /// - Parameter DeleteQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueInput`)
     ///
-    /// - Returns: `DeleteQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2621,6 +2653,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueueInput, DeleteQueueOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueOutput>(DeleteQueueOutput.httpOutput(from:), DeleteQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueInput, DeleteQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueOutput>())
@@ -2652,9 +2685,9 @@ extension DeadlineClient {
     ///
     /// Deletes a queue environment.
     ///
-    /// - Parameter DeleteQueueEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueEnvironmentInput`)
     ///
-    /// - Returns: `DeleteQueueEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2688,6 +2721,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueueEnvironmentInput, DeleteQueueEnvironmentOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueEnvironmentOutput>(DeleteQueueEnvironmentOutput.httpOutput(from:), DeleteQueueEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueEnvironmentInput, DeleteQueueEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueEnvironmentOutput>())
@@ -2719,9 +2753,9 @@ extension DeadlineClient {
     ///
     /// Deletes a queue-fleet association.
     ///
-    /// - Parameter DeleteQueueFleetAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueFleetAssociationInput`)
     ///
-    /// - Returns: `DeleteQueueFleetAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueFleetAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2757,6 +2791,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueueFleetAssociationInput, DeleteQueueFleetAssociationOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueFleetAssociationOutput>(DeleteQueueFleetAssociationOutput.httpOutput(from:), DeleteQueueFleetAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueFleetAssociationInput, DeleteQueueFleetAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueFleetAssociationOutput>())
@@ -2788,9 +2823,9 @@ extension DeadlineClient {
     ///
     /// Removes the association between a queue and a limit. You must use the UpdateQueueLimitAssociation operation to set the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_USAGE_AND_CANCEL_TASKS. The status does not change immediately. Use the GetQueueLimitAssociation operation to see if the status changed to STOPPED before deleting the association.
     ///
-    /// - Parameter DeleteQueueLimitAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueueLimitAssociationInput`)
     ///
-    /// - Returns: `DeleteQueueLimitAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueueLimitAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2826,6 +2861,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteQueueLimitAssociationInput, DeleteQueueLimitAssociationOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueueLimitAssociationOutput>(DeleteQueueLimitAssociationOutput.httpOutput(from:), DeleteQueueLimitAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueueLimitAssociationInput, DeleteQueueLimitAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueueLimitAssociationOutput>())
@@ -2857,9 +2893,9 @@ extension DeadlineClient {
     ///
     /// Deletes a storage profile.
     ///
-    /// - Parameter DeleteStorageProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteStorageProfileInput`)
     ///
-    /// - Returns: `DeleteStorageProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteStorageProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2893,6 +2929,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteStorageProfileInput, DeleteStorageProfileOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteStorageProfileOutput>(DeleteStorageProfileOutput.httpOutput(from:), DeleteStorageProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteStorageProfileInput, DeleteStorageProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteStorageProfileOutput>())
@@ -2924,9 +2961,9 @@ extension DeadlineClient {
     ///
     /// Deletes a worker.
     ///
-    /// - Parameter DeleteWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkerInput`)
     ///
-    /// - Returns: `DeleteWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2962,6 +2999,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkerInput, DeleteWorkerOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkerOutput>(DeleteWorkerOutput.httpOutput(from:), DeleteWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkerInput, DeleteWorkerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkerOutput>())
@@ -2993,9 +3031,9 @@ extension DeadlineClient {
     ///
     /// Disassociates a member from a farm.
     ///
-    /// - Parameter DisassociateMemberFromFarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMemberFromFarmInput`)
     ///
-    /// - Returns: `DisassociateMemberFromFarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMemberFromFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3030,6 +3068,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateMemberFromFarmInput, DisassociateMemberFromFarmOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMemberFromFarmOutput>(DisassociateMemberFromFarmOutput.httpOutput(from:), DisassociateMemberFromFarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMemberFromFarmInput, DisassociateMemberFromFarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMemberFromFarmOutput>())
@@ -3061,9 +3100,9 @@ extension DeadlineClient {
     ///
     /// Disassociates a member from a fleet.
     ///
-    /// - Parameter DisassociateMemberFromFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMemberFromFleetInput`)
     ///
-    /// - Returns: `DisassociateMemberFromFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMemberFromFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3099,6 +3138,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateMemberFromFleetInput, DisassociateMemberFromFleetOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMemberFromFleetOutput>(DisassociateMemberFromFleetOutput.httpOutput(from:), DisassociateMemberFromFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMemberFromFleetInput, DisassociateMemberFromFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMemberFromFleetOutput>())
@@ -3130,9 +3170,9 @@ extension DeadlineClient {
     ///
     /// Disassociates a member from a job.
     ///
-    /// - Parameter DisassociateMemberFromJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMemberFromJobInput`)
     ///
-    /// - Returns: `DisassociateMemberFromJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMemberFromJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3167,6 +3207,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateMemberFromJobInput, DisassociateMemberFromJobOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMemberFromJobOutput>(DisassociateMemberFromJobOutput.httpOutput(from:), DisassociateMemberFromJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMemberFromJobInput, DisassociateMemberFromJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMemberFromJobOutput>())
@@ -3198,9 +3239,9 @@ extension DeadlineClient {
     ///
     /// Disassociates a member from a queue.
     ///
-    /// - Parameter DisassociateMemberFromQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateMemberFromQueueInput`)
     ///
-    /// - Returns: `DisassociateMemberFromQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateMemberFromQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3236,6 +3277,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateMemberFromQueueInput, DisassociateMemberFromQueueOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateMemberFromQueueOutput>(DisassociateMemberFromQueueOutput.httpOutput(from:), DisassociateMemberFromQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateMemberFromQueueInput, DisassociateMemberFromQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateMemberFromQueueOutput>())
@@ -3267,9 +3309,9 @@ extension DeadlineClient {
     ///
     /// Get a budget.
     ///
-    /// - Parameter GetBudgetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBudgetInput`)
     ///
-    /// - Returns: `GetBudgetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3304,6 +3346,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBudgetInput, GetBudgetOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBudgetOutput>(GetBudgetOutput.httpOutput(from:), GetBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBudgetInput, GetBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBudgetOutput>())
@@ -3335,9 +3378,9 @@ extension DeadlineClient {
     ///
     /// Get a farm.
     ///
-    /// - Parameter GetFarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFarmInput`)
     ///
-    /// - Returns: `GetFarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3372,6 +3415,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFarmInput, GetFarmOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFarmOutput>(GetFarmOutput.httpOutput(from:), GetFarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFarmInput, GetFarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFarmOutput>())
@@ -3403,9 +3447,9 @@ extension DeadlineClient {
     ///
     /// Get a fleet.
     ///
-    /// - Parameter GetFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFleetInput`)
     ///
-    /// - Returns: `GetFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3440,6 +3484,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFleetInput, GetFleetOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFleetOutput>(GetFleetOutput.httpOutput(from:), GetFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFleetInput, GetFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFleetOutput>())
@@ -3471,9 +3516,9 @@ extension DeadlineClient {
     ///
     /// Gets a Deadline Cloud job.
     ///
-    /// - Parameter GetJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobInput`)
     ///
-    /// - Returns: `GetJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3508,6 +3553,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobInput, GetJobOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobOutput>(GetJobOutput.httpOutput(from:), GetJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobInput, GetJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobOutput>())
@@ -3539,9 +3585,9 @@ extension DeadlineClient {
     ///
     /// Gets a licence endpoint.
     ///
-    /// - Parameter GetLicenseEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLicenseEndpointInput`)
     ///
-    /// - Returns: `GetLicenseEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLicenseEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3576,6 +3622,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLicenseEndpointInput, GetLicenseEndpointOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLicenseEndpointOutput>(GetLicenseEndpointOutput.httpOutput(from:), GetLicenseEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLicenseEndpointInput, GetLicenseEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLicenseEndpointOutput>())
@@ -3607,9 +3654,9 @@ extension DeadlineClient {
     ///
     /// Gets information about a specific limit.
     ///
-    /// - Parameter GetLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLimitInput`)
     ///
-    /// - Returns: `GetLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3644,6 +3691,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLimitInput, GetLimitOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLimitOutput>(GetLimitOutput.httpOutput(from:), GetLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLimitInput, GetLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLimitOutput>())
@@ -3675,9 +3723,9 @@ extension DeadlineClient {
     ///
     /// Gets information about the specified monitor.
     ///
-    /// - Parameter GetMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMonitorInput`)
     ///
-    /// - Returns: `GetMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3712,6 +3760,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMonitorInput, GetMonitorOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMonitorOutput>(GetMonitorOutput.httpOutput(from:), GetMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMonitorInput, GetMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMonitorOutput>())
@@ -3743,9 +3792,9 @@ extension DeadlineClient {
     ///
     /// Gets a queue.
     ///
-    /// - Parameter GetQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueInput`)
     ///
-    /// - Returns: `GetQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3780,6 +3829,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueueInput, GetQueueOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueOutput>(GetQueueOutput.httpOutput(from:), GetQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueInput, GetQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueOutput>())
@@ -3811,9 +3861,9 @@ extension DeadlineClient {
     ///
     /// Gets a queue environment.
     ///
-    /// - Parameter GetQueueEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueEnvironmentInput`)
     ///
-    /// - Returns: `GetQueueEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3848,6 +3898,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueueEnvironmentInput, GetQueueEnvironmentOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueEnvironmentOutput>(GetQueueEnvironmentOutput.httpOutput(from:), GetQueueEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueEnvironmentInput, GetQueueEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueEnvironmentOutput>())
@@ -3879,9 +3930,9 @@ extension DeadlineClient {
     ///
     /// Gets a queue-fleet association.
     ///
-    /// - Parameter GetQueueFleetAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueFleetAssociationInput`)
     ///
-    /// - Returns: `GetQueueFleetAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueFleetAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3916,6 +3967,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueueFleetAssociationInput, GetQueueFleetAssociationOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueFleetAssociationOutput>(GetQueueFleetAssociationOutput.httpOutput(from:), GetQueueFleetAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueFleetAssociationInput, GetQueueFleetAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueFleetAssociationOutput>())
@@ -3947,9 +3999,9 @@ extension DeadlineClient {
     ///
     /// Gets information about a specific association between a queue and a limit.
     ///
-    /// - Parameter GetQueueLimitAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueueLimitAssociationInput`)
     ///
-    /// - Returns: `GetQueueLimitAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueueLimitAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3984,6 +4036,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetQueueLimitAssociationInput, GetQueueLimitAssociationOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueueLimitAssociationOutput>(GetQueueLimitAssociationOutput.httpOutput(from:), GetQueueLimitAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueueLimitAssociationInput, GetQueueLimitAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueueLimitAssociationOutput>())
@@ -4015,9 +4068,9 @@ extension DeadlineClient {
     ///
     /// Gets a session.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4052,6 +4105,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -4083,9 +4137,9 @@ extension DeadlineClient {
     ///
     /// Gets a session action for the job.
     ///
-    /// - Parameter GetSessionActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionActionInput`)
     ///
-    /// - Returns: `GetSessionActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4120,6 +4174,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionActionInput, GetSessionActionOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionActionOutput>(GetSessionActionOutput.httpOutput(from:), GetSessionActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionActionInput, GetSessionActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionActionOutput>())
@@ -4151,9 +4206,9 @@ extension DeadlineClient {
     ///
     /// Gets a set of statistics for queues or farms. Before you can call the GetSessionStatisticsAggregation operation, you must first call the StartSessionsStatisticsAggregation operation. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
     ///
-    /// - Parameter GetSessionsStatisticsAggregationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionsStatisticsAggregationInput`)
     ///
-    /// - Returns: `GetSessionsStatisticsAggregationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionsStatisticsAggregationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4189,6 +4244,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSessionsStatisticsAggregationInput, GetSessionsStatisticsAggregationOutput>(GetSessionsStatisticsAggregationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionsStatisticsAggregationOutput>(GetSessionsStatisticsAggregationOutput.httpOutput(from:), GetSessionsStatisticsAggregationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionsStatisticsAggregationInput, GetSessionsStatisticsAggregationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionsStatisticsAggregationOutput>())
@@ -4220,9 +4276,9 @@ extension DeadlineClient {
     ///
     /// Gets a step.
     ///
-    /// - Parameter GetStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStepInput`)
     ///
-    /// - Returns: `GetStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4257,6 +4313,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStepInput, GetStepOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStepOutput>(GetStepOutput.httpOutput(from:), GetStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStepInput, GetStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStepOutput>())
@@ -4288,9 +4345,9 @@ extension DeadlineClient {
     ///
     /// Gets a storage profile.
     ///
-    /// - Parameter GetStorageProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageProfileInput`)
     ///
-    /// - Returns: `GetStorageProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4325,6 +4382,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStorageProfileInput, GetStorageProfileOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageProfileOutput>(GetStorageProfileOutput.httpOutput(from:), GetStorageProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageProfileInput, GetStorageProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageProfileOutput>())
@@ -4356,9 +4414,9 @@ extension DeadlineClient {
     ///
     /// Gets a storage profile for a queue.
     ///
-    /// - Parameter GetStorageProfileForQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetStorageProfileForQueueInput`)
     ///
-    /// - Returns: `GetStorageProfileForQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetStorageProfileForQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4393,6 +4451,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetStorageProfileForQueueInput, GetStorageProfileForQueueOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetStorageProfileForQueueOutput>(GetStorageProfileForQueueOutput.httpOutput(from:), GetStorageProfileForQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetStorageProfileForQueueInput, GetStorageProfileForQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetStorageProfileForQueueOutput>())
@@ -4424,9 +4483,9 @@ extension DeadlineClient {
     ///
     /// Gets a task.
     ///
-    /// - Parameter GetTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTaskInput`)
     ///
-    /// - Returns: `GetTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4461,6 +4520,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTaskInput, GetTaskOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTaskOutput>(GetTaskOutput.httpOutput(from:), GetTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTaskInput, GetTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTaskOutput>())
@@ -4492,9 +4552,9 @@ extension DeadlineClient {
     ///
     /// Gets a worker.
     ///
-    /// - Parameter GetWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkerInput`)
     ///
-    /// - Returns: `GetWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4529,6 +4589,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWorkerInput, GetWorkerOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkerOutput>(GetWorkerOutput.httpOutput(from:), GetWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkerInput, GetWorkerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkerOutput>())
@@ -4560,9 +4621,9 @@ extension DeadlineClient {
     ///
     /// A list of the available metered products.
     ///
-    /// - Parameter ListAvailableMeteredProductsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAvailableMeteredProductsInput`)
     ///
-    /// - Returns: `ListAvailableMeteredProductsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAvailableMeteredProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4595,6 +4656,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAvailableMeteredProductsInput, ListAvailableMeteredProductsOutput>(ListAvailableMeteredProductsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAvailableMeteredProductsOutput>(ListAvailableMeteredProductsOutput.httpOutput(from:), ListAvailableMeteredProductsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAvailableMeteredProductsInput, ListAvailableMeteredProductsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAvailableMeteredProductsOutput>())
@@ -4626,9 +4688,9 @@ extension DeadlineClient {
     ///
     /// A list of budgets in a farm.
     ///
-    /// - Parameter ListBudgetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBudgetsInput`)
     ///
-    /// - Returns: `ListBudgetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBudgetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4664,6 +4726,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBudgetsInput, ListBudgetsOutput>(ListBudgetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBudgetsOutput>(ListBudgetsOutput.httpOutput(from:), ListBudgetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBudgetsInput, ListBudgetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBudgetsOutput>())
@@ -4695,9 +4758,9 @@ extension DeadlineClient {
     ///
     /// Lists the members of a farm.
     ///
-    /// - Parameter ListFarmMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFarmMembersInput`)
     ///
-    /// - Returns: `ListFarmMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFarmMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4733,6 +4796,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFarmMembersInput, ListFarmMembersOutput>(ListFarmMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFarmMembersOutput>(ListFarmMembersOutput.httpOutput(from:), ListFarmMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFarmMembersInput, ListFarmMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFarmMembersOutput>())
@@ -4764,9 +4828,9 @@ extension DeadlineClient {
     ///
     /// Lists farms.
     ///
-    /// - Parameter ListFarmsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFarmsInput`)
     ///
-    /// - Returns: `ListFarmsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFarmsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4801,6 +4865,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFarmsInput, ListFarmsOutput>(ListFarmsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFarmsOutput>(ListFarmsOutput.httpOutput(from:), ListFarmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFarmsInput, ListFarmsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFarmsOutput>())
@@ -4832,9 +4897,9 @@ extension DeadlineClient {
     ///
     /// Lists fleet members.
     ///
-    /// - Parameter ListFleetMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetMembersInput`)
     ///
-    /// - Returns: `ListFleetMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4870,6 +4935,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFleetMembersInput, ListFleetMembersOutput>(ListFleetMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetMembersOutput>(ListFleetMembersOutput.httpOutput(from:), ListFleetMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetMembersInput, ListFleetMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetMembersOutput>())
@@ -4901,9 +4967,9 @@ extension DeadlineClient {
     ///
     /// Lists fleets.
     ///
-    /// - Parameter ListFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetsInput`)
     ///
-    /// - Returns: `ListFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4939,6 +5005,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFleetsInput, ListFleetsOutput>(ListFleetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetsOutput>(ListFleetsOutput.httpOutput(from:), ListFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsInput, ListFleetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetsOutput>())
@@ -4970,9 +5037,9 @@ extension DeadlineClient {
     ///
     /// Lists members on a job.
     ///
-    /// - Parameter ListJobMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobMembersInput`)
     ///
-    /// - Returns: `ListJobMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5008,6 +5075,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobMembersInput, ListJobMembersOutput>(ListJobMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobMembersOutput>(ListJobMembersOutput.httpOutput(from:), ListJobMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobMembersInput, ListJobMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobMembersOutput>())
@@ -5039,9 +5107,9 @@ extension DeadlineClient {
     ///
     /// Lists parameter definitions of a job.
     ///
-    /// - Parameter ListJobParameterDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobParameterDefinitionsInput`)
     ///
-    /// - Returns: `ListJobParameterDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobParameterDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5077,6 +5145,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobParameterDefinitionsInput, ListJobParameterDefinitionsOutput>(ListJobParameterDefinitionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobParameterDefinitionsOutput>(ListJobParameterDefinitionsOutput.httpOutput(from:), ListJobParameterDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobParameterDefinitionsInput, ListJobParameterDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobParameterDefinitionsOutput>())
@@ -5108,9 +5177,9 @@ extension DeadlineClient {
     ///
     /// Lists jobs.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5146,6 +5215,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -5177,9 +5247,9 @@ extension DeadlineClient {
     ///
     /// Lists license endpoints.
     ///
-    /// - Parameter ListLicenseEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLicenseEndpointsInput`)
     ///
-    /// - Returns: `ListLicenseEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLicenseEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5215,6 +5285,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLicenseEndpointsInput, ListLicenseEndpointsOutput>(ListLicenseEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLicenseEndpointsOutput>(ListLicenseEndpointsOutput.httpOutput(from:), ListLicenseEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLicenseEndpointsInput, ListLicenseEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLicenseEndpointsOutput>())
@@ -5246,9 +5317,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of limits defined in the specified farm.
     ///
-    /// - Parameter ListLimitsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLimitsInput`)
     ///
-    /// - Returns: `ListLimitsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5284,6 +5355,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLimitsInput, ListLimitsOutput>(ListLimitsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLimitsOutput>(ListLimitsOutput.httpOutput(from:), ListLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLimitsInput, ListLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLimitsOutput>())
@@ -5315,9 +5387,9 @@ extension DeadlineClient {
     ///
     /// Lists metered products.
     ///
-    /// - Parameter ListMeteredProductsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMeteredProductsInput`)
     ///
-    /// - Returns: `ListMeteredProductsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMeteredProductsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5353,6 +5425,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMeteredProductsInput, ListMeteredProductsOutput>(ListMeteredProductsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMeteredProductsOutput>(ListMeteredProductsOutput.httpOutput(from:), ListMeteredProductsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMeteredProductsInput, ListMeteredProductsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMeteredProductsOutput>())
@@ -5384,9 +5457,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of your monitors in Deadline Cloud.
     ///
-    /// - Parameter ListMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5421,6 +5494,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMonitorsInput, ListMonitorsOutput>(ListMonitorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitorsOutput>(ListMonitorsOutput.httpOutput(from:), ListMonitorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitorsInput, ListMonitorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitorsOutput>())
@@ -5452,9 +5526,9 @@ extension DeadlineClient {
     ///
     /// Lists queue environments.
     ///
-    /// - Parameter ListQueueEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueueEnvironmentsInput`)
     ///
-    /// - Returns: `ListQueueEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueueEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5490,6 +5564,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueueEnvironmentsInput, ListQueueEnvironmentsOutput>(ListQueueEnvironmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueueEnvironmentsOutput>(ListQueueEnvironmentsOutput.httpOutput(from:), ListQueueEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueueEnvironmentsInput, ListQueueEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueEnvironmentsOutput>())
@@ -5521,9 +5596,9 @@ extension DeadlineClient {
     ///
     /// Lists queue-fleet associations.
     ///
-    /// - Parameter ListQueueFleetAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueueFleetAssociationsInput`)
     ///
-    /// - Returns: `ListQueueFleetAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueueFleetAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5558,6 +5633,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueueFleetAssociationsInput, ListQueueFleetAssociationsOutput>(ListQueueFleetAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueueFleetAssociationsOutput>(ListQueueFleetAssociationsOutput.httpOutput(from:), ListQueueFleetAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueueFleetAssociationsInput, ListQueueFleetAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueFleetAssociationsOutput>())
@@ -5589,9 +5665,9 @@ extension DeadlineClient {
     ///
     /// Gets a list of the associations between queues and limits defined in a farm.
     ///
-    /// - Parameter ListQueueLimitAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueueLimitAssociationsInput`)
     ///
-    /// - Returns: `ListQueueLimitAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueueLimitAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5626,6 +5702,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueueLimitAssociationsInput, ListQueueLimitAssociationsOutput>(ListQueueLimitAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueueLimitAssociationsOutput>(ListQueueLimitAssociationsOutput.httpOutput(from:), ListQueueLimitAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueueLimitAssociationsInput, ListQueueLimitAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueLimitAssociationsOutput>())
@@ -5657,9 +5734,9 @@ extension DeadlineClient {
     ///
     /// Lists the members in a queue.
     ///
-    /// - Parameter ListQueueMembersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueueMembersInput`)
     ///
-    /// - Returns: `ListQueueMembersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueueMembersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5695,6 +5772,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueueMembersInput, ListQueueMembersOutput>(ListQueueMembersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueueMembersOutput>(ListQueueMembersOutput.httpOutput(from:), ListQueueMembersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueueMembersInput, ListQueueMembersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueueMembersOutput>())
@@ -5726,9 +5804,9 @@ extension DeadlineClient {
     ///
     /// Lists queues.
     ///
-    /// - Parameter ListQueuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueuesInput`)
     ///
-    /// - Returns: `ListQueuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5764,6 +5842,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListQueuesInput, ListQueuesOutput>(ListQueuesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueuesOutput>(ListQueuesOutput.httpOutput(from:), ListQueuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueuesInput, ListQueuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueuesOutput>())
@@ -5795,9 +5874,9 @@ extension DeadlineClient {
     ///
     /// Lists session actions.
     ///
-    /// - Parameter ListSessionActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionActionsInput`)
     ///
-    /// - Returns: `ListSessionActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5833,6 +5912,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSessionActionsInput, ListSessionActionsOutput>(ListSessionActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionActionsOutput>(ListSessionActionsOutput.httpOutput(from:), ListSessionActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionActionsInput, ListSessionActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionActionsOutput>())
@@ -5864,9 +5944,9 @@ extension DeadlineClient {
     ///
     /// Lists sessions.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5902,6 +5982,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSessionsInput, ListSessionsOutput>(ListSessionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionsOutput>(ListSessionsOutput.httpOutput(from:), ListSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
@@ -5933,9 +6014,9 @@ extension DeadlineClient {
     ///
     /// Lists sessions for a worker.
     ///
-    /// - Parameter ListSessionsForWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsForWorkerInput`)
     ///
-    /// - Returns: `ListSessionsForWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsForWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5971,6 +6052,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSessionsForWorkerInput, ListSessionsForWorkerOutput>(ListSessionsForWorkerInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionsForWorkerOutput>(ListSessionsForWorkerOutput.httpOutput(from:), ListSessionsForWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsForWorkerInput, ListSessionsForWorkerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsForWorkerOutput>())
@@ -6002,9 +6084,9 @@ extension DeadlineClient {
     ///
     /// Lists step consumers.
     ///
-    /// - Parameter ListStepConsumersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStepConsumersInput`)
     ///
-    /// - Returns: `ListStepConsumersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStepConsumersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6040,6 +6122,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStepConsumersInput, ListStepConsumersOutput>(ListStepConsumersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStepConsumersOutput>(ListStepConsumersOutput.httpOutput(from:), ListStepConsumersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStepConsumersInput, ListStepConsumersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStepConsumersOutput>())
@@ -6071,9 +6154,9 @@ extension DeadlineClient {
     ///
     /// Lists the dependencies for a step.
     ///
-    /// - Parameter ListStepDependenciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStepDependenciesInput`)
     ///
-    /// - Returns: `ListStepDependenciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStepDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6109,6 +6192,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStepDependenciesInput, ListStepDependenciesOutput>(ListStepDependenciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStepDependenciesOutput>(ListStepDependenciesOutput.httpOutput(from:), ListStepDependenciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStepDependenciesInput, ListStepDependenciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStepDependenciesOutput>())
@@ -6140,9 +6224,9 @@ extension DeadlineClient {
     ///
     /// Lists steps for a job.
     ///
-    /// - Parameter ListStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStepsInput`)
     ///
-    /// - Returns: `ListStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6178,6 +6262,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStepsInput, ListStepsOutput>(ListStepsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStepsOutput>(ListStepsOutput.httpOutput(from:), ListStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStepsInput, ListStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStepsOutput>())
@@ -6209,9 +6294,9 @@ extension DeadlineClient {
     ///
     /// Lists storage profiles.
     ///
-    /// - Parameter ListStorageProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStorageProfilesInput`)
     ///
-    /// - Returns: `ListStorageProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStorageProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6247,6 +6332,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStorageProfilesInput, ListStorageProfilesOutput>(ListStorageProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStorageProfilesOutput>(ListStorageProfilesOutput.httpOutput(from:), ListStorageProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStorageProfilesInput, ListStorageProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStorageProfilesOutput>())
@@ -6278,9 +6364,9 @@ extension DeadlineClient {
     ///
     /// Lists storage profiles for a queue.
     ///
-    /// - Parameter ListStorageProfilesForQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListStorageProfilesForQueueInput`)
     ///
-    /// - Returns: `ListStorageProfilesForQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListStorageProfilesForQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6316,6 +6402,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListStorageProfilesForQueueInput, ListStorageProfilesForQueueOutput>(ListStorageProfilesForQueueInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListStorageProfilesForQueueOutput>(ListStorageProfilesForQueueOutput.httpOutput(from:), ListStorageProfilesForQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListStorageProfilesForQueueInput, ListStorageProfilesForQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListStorageProfilesForQueueOutput>())
@@ -6347,9 +6434,9 @@ extension DeadlineClient {
     ///
     /// Lists tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6384,6 +6471,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -6415,9 +6503,9 @@ extension DeadlineClient {
     ///
     /// Lists tasks for a job.
     ///
-    /// - Parameter ListTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTasksInput`)
     ///
-    /// - Returns: `ListTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6453,6 +6541,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTasksInput, ListTasksOutput>(ListTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTasksOutput>(ListTasksOutput.httpOutput(from:), ListTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTasksInput, ListTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTasksOutput>())
@@ -6484,9 +6573,9 @@ extension DeadlineClient {
     ///
     /// Lists workers.
     ///
-    /// - Parameter ListWorkersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkersInput`)
     ///
-    /// - Returns: `ListWorkersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6522,6 +6611,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWorkersInput, ListWorkersOutput>(ListWorkersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkersOutput>(ListWorkersOutput.httpOutput(from:), ListWorkersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkersInput, ListWorkersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkersOutput>())
@@ -6553,9 +6643,9 @@ extension DeadlineClient {
     ///
     /// Adds a metered product.
     ///
-    /// - Parameter PutMeteredProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMeteredProductInput`)
     ///
-    /// - Returns: `PutMeteredProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMeteredProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6590,6 +6680,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutMeteredProductInput, PutMeteredProductOutput>(hostPrefix: "management."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMeteredProductOutput>(PutMeteredProductOutput.httpOutput(from:), PutMeteredProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMeteredProductInput, PutMeteredProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMeteredProductOutput>())
@@ -6621,9 +6712,9 @@ extension DeadlineClient {
     ///
     /// Searches for jobs.
     ///
-    /// - Parameter SearchJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchJobsInput`)
     ///
-    /// - Returns: `SearchJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6661,6 +6752,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchJobsInput, SearchJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchJobsOutput>(SearchJobsOutput.httpOutput(from:), SearchJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchJobsInput, SearchJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchJobsOutput>())
@@ -6692,9 +6784,9 @@ extension DeadlineClient {
     ///
     /// Searches for steps.
     ///
-    /// - Parameter SearchStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchStepsInput`)
     ///
-    /// - Returns: `SearchStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6732,6 +6824,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchStepsInput, SearchStepsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchStepsOutput>(SearchStepsOutput.httpOutput(from:), SearchStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchStepsInput, SearchStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchStepsOutput>())
@@ -6763,9 +6856,9 @@ extension DeadlineClient {
     ///
     /// Searches for tasks.
     ///
-    /// - Parameter SearchTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTasksInput`)
     ///
-    /// - Returns: `SearchTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6803,6 +6896,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchTasksInput, SearchTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTasksOutput>(SearchTasksOutput.httpOutput(from:), SearchTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTasksInput, SearchTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTasksOutput>())
@@ -6834,9 +6928,9 @@ extension DeadlineClient {
     ///
     /// Searches for workers.
     ///
-    /// - Parameter SearchWorkersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchWorkersInput`)
     ///
-    /// - Returns: `SearchWorkersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchWorkersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6874,6 +6968,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchWorkersInput, SearchWorkersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchWorkersOutput>(SearchWorkersOutput.httpOutput(from:), SearchWorkersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchWorkersInput, SearchWorkersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchWorkersOutput>())
@@ -6905,9 +7000,9 @@ extension DeadlineClient {
     ///
     /// Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the GetSessionsStatisticsAggregation operation. You can only have one running aggregation for your Deadline Cloud farm. Call the GetSessionsStatisticsAggregation operation and check the status field to see if an aggregation is running. Statistics are available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
     ///
-    /// - Parameter StartSessionsStatisticsAggregationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSessionsStatisticsAggregationInput`)
     ///
-    /// - Returns: `StartSessionsStatisticsAggregationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSessionsStatisticsAggregationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6945,6 +7040,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSessionsStatisticsAggregationInput, StartSessionsStatisticsAggregationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSessionsStatisticsAggregationOutput>(StartSessionsStatisticsAggregationOutput.httpOutput(from:), StartSessionsStatisticsAggregationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSessionsStatisticsAggregationInput, StartSessionsStatisticsAggregationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSessionsStatisticsAggregationOutput>())
@@ -6976,9 +7072,9 @@ extension DeadlineClient {
     ///
     /// Tags a resource using the resource's ARN and desired tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7017,6 +7113,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -7048,9 +7145,9 @@ extension DeadlineClient {
     ///
     /// Removes a tag from a resource using the resource's ARN and tag to remove.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7087,6 +7184,7 @@ extension DeadlineClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -7118,9 +7216,9 @@ extension DeadlineClient {
     ///
     /// Updates a budget that sets spending thresholds for rendering activity.
     ///
-    /// - Parameter UpdateBudgetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateBudgetInput`)
     ///
-    /// - Returns: `UpdateBudgetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBudgetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7160,6 +7258,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBudgetInput, UpdateBudgetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBudgetOutput>(UpdateBudgetOutput.httpOutput(from:), UpdateBudgetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBudgetInput, UpdateBudgetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBudgetOutput>())
@@ -7191,9 +7290,9 @@ extension DeadlineClient {
     ///
     /// Updates a farm.
     ///
-    /// - Parameter UpdateFarmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFarmInput`)
     ///
-    /// - Returns: `UpdateFarmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFarmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7231,6 +7330,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFarmInput, UpdateFarmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFarmOutput>(UpdateFarmOutput.httpOutput(from:), UpdateFarmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFarmInput, UpdateFarmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFarmOutput>())
@@ -7262,9 +7362,9 @@ extension DeadlineClient {
     ///
     /// Updates a fleet.
     ///
-    /// - Parameter UpdateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFleetInput`)
     ///
-    /// - Returns: `UpdateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7305,6 +7405,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFleetInput, UpdateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFleetOutput>(UpdateFleetOutput.httpOutput(from:), UpdateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFleetInput, UpdateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFleetOutput>())
@@ -7336,9 +7437,9 @@ extension DeadlineClient {
     ///
     /// Updates a job. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived. An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
     ///
-    /// - Parameter UpdateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateJobInput`)
     ///
-    /// - Returns: `UpdateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7379,6 +7480,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateJobInput, UpdateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateJobOutput>(UpdateJobOutput.httpOutput(from:), UpdateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateJobInput, UpdateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateJobOutput>())
@@ -7410,9 +7512,9 @@ extension DeadlineClient {
     ///
     /// Updates the properties of the specified limit.
     ///
-    /// - Parameter UpdateLimitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLimitInput`)
     ///
-    /// - Returns: `UpdateLimitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLimitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7450,6 +7552,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLimitInput, UpdateLimitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLimitOutput>(UpdateLimitOutput.httpOutput(from:), UpdateLimitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLimitInput, UpdateLimitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLimitOutput>())
@@ -7481,9 +7584,9 @@ extension DeadlineClient {
     ///
     /// Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call UpdateMonitor.
     ///
-    /// - Parameter UpdateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitorInput`)
     ///
-    /// - Returns: `UpdateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7521,6 +7624,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMonitorInput, UpdateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMonitorOutput>(UpdateMonitorOutput.httpOutput(from:), UpdateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMonitorInput, UpdateMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMonitorOutput>())
@@ -7552,9 +7656,9 @@ extension DeadlineClient {
     ///
     /// Updates a queue.
     ///
-    /// - Parameter UpdateQueueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueInput`)
     ///
-    /// - Returns: `UpdateQueueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7594,6 +7698,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueInput, UpdateQueueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueOutput>(UpdateQueueOutput.httpOutput(from:), UpdateQueueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueInput, UpdateQueueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueOutput>())
@@ -7625,9 +7730,9 @@ extension DeadlineClient {
     ///
     /// Updates the queue environment.
     ///
-    /// - Parameter UpdateQueueEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueEnvironmentInput`)
     ///
-    /// - Returns: `UpdateQueueEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7667,6 +7772,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueEnvironmentInput, UpdateQueueEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueEnvironmentOutput>(UpdateQueueEnvironmentOutput.httpOutput(from:), UpdateQueueEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueEnvironmentInput, UpdateQueueEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueEnvironmentOutput>())
@@ -7698,9 +7804,9 @@ extension DeadlineClient {
     ///
     /// Updates a queue-fleet association.
     ///
-    /// - Parameter UpdateQueueFleetAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueFleetAssociationInput`)
     ///
-    /// - Returns: `UpdateQueueFleetAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueFleetAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7738,6 +7844,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueFleetAssociationInput, UpdateQueueFleetAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueFleetAssociationOutput>(UpdateQueueFleetAssociationOutput.httpOutput(from:), UpdateQueueFleetAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueFleetAssociationInput, UpdateQueueFleetAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueFleetAssociationOutput>())
@@ -7769,9 +7876,9 @@ extension DeadlineClient {
     ///
     /// Updates the status of the queue. If you set the status to one of the STOP_LIMIT_USAGE* values, there will be a delay before the status transitions to the STOPPED state.
     ///
-    /// - Parameter UpdateQueueLimitAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateQueueLimitAssociationInput`)
     ///
-    /// - Returns: `UpdateQueueLimitAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateQueueLimitAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7809,6 +7916,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateQueueLimitAssociationInput, UpdateQueueLimitAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateQueueLimitAssociationOutput>(UpdateQueueLimitAssociationOutput.httpOutput(from:), UpdateQueueLimitAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateQueueLimitAssociationInput, UpdateQueueLimitAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateQueueLimitAssociationOutput>())
@@ -7840,9 +7948,9 @@ extension DeadlineClient {
     ///
     /// Updates a session.
     ///
-    /// - Parameter UpdateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSessionInput`)
     ///
-    /// - Returns: `UpdateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7883,6 +7991,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSessionInput, UpdateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSessionOutput>(UpdateSessionOutput.httpOutput(from:), UpdateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSessionInput, UpdateSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSessionOutput>())
@@ -7914,9 +8023,9 @@ extension DeadlineClient {
     ///
     /// Updates a step.
     ///
-    /// - Parameter UpdateStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStepInput`)
     ///
-    /// - Returns: `UpdateStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7957,6 +8066,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStepInput, UpdateStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStepOutput>(UpdateStepOutput.httpOutput(from:), UpdateStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStepInput, UpdateStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStepOutput>())
@@ -7988,9 +8098,9 @@ extension DeadlineClient {
     ///
     /// Updates a storage profile.
     ///
-    /// - Parameter UpdateStorageProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateStorageProfileInput`)
     ///
-    /// - Returns: `UpdateStorageProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateStorageProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8030,6 +8140,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStorageProfileInput, UpdateStorageProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStorageProfileOutput>(UpdateStorageProfileOutput.httpOutput(from:), UpdateStorageProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStorageProfileInput, UpdateStorageProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStorageProfileOutput>())
@@ -8061,9 +8172,9 @@ extension DeadlineClient {
     ///
     /// Updates a task.
     ///
-    /// - Parameter UpdateTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTaskInput`)
     ///
-    /// - Returns: `UpdateTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8104,6 +8215,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTaskInput, UpdateTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTaskOutput>(UpdateTaskOutput.httpOutput(from:), UpdateTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTaskInput, UpdateTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTaskOutput>())
@@ -8135,9 +8247,9 @@ extension DeadlineClient {
     ///
     /// Updates a worker.
     ///
-    /// - Parameter UpdateWorkerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkerInput`)
     ///
-    /// - Returns: `UpdateWorkerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8176,6 +8288,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkerInput, UpdateWorkerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkerOutput>(UpdateWorkerOutput.httpOutput(from:), UpdateWorkerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkerInput, UpdateWorkerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkerOutput>())
@@ -8207,9 +8320,9 @@ extension DeadlineClient {
     ///
     /// Updates the schedule for a worker.
     ///
-    /// - Parameter UpdateWorkerScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkerScheduleInput`)
     ///
-    /// - Returns: `UpdateWorkerScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkerScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8248,6 +8361,7 @@ extension DeadlineClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkerScheduleInput, UpdateWorkerScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkerScheduleOutput>(UpdateWorkerScheduleOutput.httpOutput(from:), UpdateWorkerScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkerScheduleInput, UpdateWorkerScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkerScheduleOutput>())

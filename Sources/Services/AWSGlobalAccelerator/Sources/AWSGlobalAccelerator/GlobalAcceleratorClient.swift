@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GlobalAcceleratorClient: ClientRuntime.Client {
     public static let clientName = "GlobalAcceleratorClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: GlobalAcceleratorClient.GlobalAcceleratorClientConfiguration
     let serviceName = "Global Accelerator"
@@ -373,9 +374,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Associate a virtual private cloud (VPC) subnet endpoint with your custom routing accelerator. The listener port range must be large enough to support the number of IP addresses that can be specified in your subnet. The number of ports required is: subnet size times the number of ports per destination EC2 instances. For example, a subnet defined as /24 requires a listener port range of at least 255 ports. Note: You must have enough remaining listener ports available to map to the subnet ports, or the call will fail with a LimitExceededException. By default, all destinations in a subnet in a custom routing accelerator cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation.
     ///
-    /// - Parameter AddCustomRoutingEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddCustomRoutingEndpointsInput`)
     ///
-    /// - Returns: `AddCustomRoutingEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddCustomRoutingEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddCustomRoutingEndpointsOutput>(AddCustomRoutingEndpointsOutput.httpOutput(from:), AddCustomRoutingEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddCustomRoutingEndpointsInput, AddCustomRoutingEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddCustomRoutingEndpointsOutput>())
@@ -454,9 +456,9 @@ extension GlobalAcceleratorClient {
     ///
     /// For information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see [ Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter AddEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddEndpointsInput`)
     ///
-    /// - Returns: `AddEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -493,6 +495,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddEndpointsInput, AddEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddEndpointsOutput>(AddEndpointsOutput.httpOutput(from:), AddEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddEndpointsInput, AddEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddEndpointsOutput>())
@@ -527,9 +530,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Advertises an IPv4 address range that is provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP). It can take a few minutes before traffic to the specified addresses starts routing to Amazon Web Services because of propagation delays. To stop advertising the BYOIP address range, use [ WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter AdvertiseByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AdvertiseByoipCidrInput`)
     ///
-    /// - Returns: `AdvertiseByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AdvertiseByoipCidrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -565,6 +568,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AdvertiseByoipCidrOutput>(AdvertiseByoipCidrOutput.httpOutput(from:), AdvertiseByoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AdvertiseByoipCidrInput, AdvertiseByoipCidrOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AdvertiseByoipCidrOutput>())
@@ -599,9 +603,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that can receive traffic for a custom routing accelerator. You can allow traffic to all destinations in the subnet endpoint, or allow traffic to a specified list of destination IP addresses and ports in the subnet. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
-    /// - Parameter AllowCustomRoutingTrafficInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AllowCustomRoutingTrafficInput`)
     ///
-    /// - Returns: `AllowCustomRoutingTrafficOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AllowCustomRoutingTrafficOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -635,6 +639,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AllowCustomRoutingTrafficOutput>(AllowCustomRoutingTrafficOutput.httpOutput(from:), AllowCustomRoutingTrafficOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AllowCustomRoutingTrafficInput, AllowCustomRoutingTrafficOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AllowCustomRoutingTrafficOutput>())
@@ -669,9 +674,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create an accelerator. An accelerator includes one or more listeners that process inbound connections and direct traffic to one or more endpoint groups, each of which includes endpoints, such as Network Load Balancers. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
-    /// - Parameter CreateAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAcceleratorInput`)
     ///
-    /// - Returns: `CreateAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,6 +713,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAcceleratorOutput>(CreateAcceleratorOutput.httpOutput(from:), CreateAcceleratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAcceleratorInput, CreateAcceleratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAcceleratorOutput>())
@@ -742,9 +748,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create a cross-account attachment in Global Accelerator. You create a cross-account attachment to specify the principals who have permission to work with resources in accelerators in their own account. You specify, in the same attachment, the resources that are shared. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator. For account numbers that are listed as principals, to work with a resource listed in the attachment, you must sign in to an account specified as a principal. Then, you can work with resources that are listed, with any of your accelerators. If an accelerator ARN is listed in the cross-account attachment as a principal, anyone with permission to make updates to the accelerator can work with resources that are listed in the attachment. Specify each principal and resource separately. To specify two CIDR address pools, list them individually under Resources, and so on. For a command line operation, for example, you might use a statement like the following:  "Resources": [{"Cidr": "169.254.60.0/24"},{"Cidr": "169.254.59.0/24"}] For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter CreateCrossAccountAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCrossAccountAttachmentInput`)
     ///
-    /// - Returns: `CreateCrossAccountAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCrossAccountAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,6 +787,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCrossAccountAttachmentOutput>(CreateCrossAccountAttachmentOutput.httpOutput(from:), CreateCrossAccountAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCrossAccountAttachmentInput, CreateCrossAccountAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCrossAccountAttachmentOutput>())
@@ -815,9 +822,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create a custom routing accelerator. A custom routing accelerator directs traffic to one of possibly thousands of Amazon EC2 instance destinations running in a single or multiple virtual private clouds (VPC) subnet endpoints. Be aware that, by default, all destination EC2 instances in a VPC subnet endpoint cannot receive traffic. To enable all destinations to receive traffic, or to specify individual port mappings that can receive traffic, see the [ AllowCustomRoutingTraffic](https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html) operation. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
-    /// - Parameter CreateCustomRoutingAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomRoutingAcceleratorInput`)
     ///
-    /// - Returns: `CreateCustomRoutingAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomRoutingAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -854,6 +861,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomRoutingAcceleratorOutput>(CreateCustomRoutingAcceleratorOutput.httpOutput(from:), CreateCustomRoutingAcceleratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomRoutingAcceleratorInput, CreateCustomRoutingAcceleratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomRoutingAcceleratorOutput>())
@@ -888,9 +896,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create an endpoint group for the specified listener for a custom routing accelerator. An endpoint group is a collection of endpoints in one Amazon Web Services Region.
     ///
-    /// - Parameter CreateCustomRoutingEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomRoutingEndpointGroupInput`)
     ///
-    /// - Returns: `CreateCustomRoutingEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomRoutingEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,6 +938,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomRoutingEndpointGroupOutput>(CreateCustomRoutingEndpointGroupOutput.httpOutput(from:), CreateCustomRoutingEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomRoutingEndpointGroupInput, CreateCustomRoutingEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomRoutingEndpointGroupOutput>())
@@ -964,9 +973,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create a listener to process inbound connections from clients to a custom routing accelerator. Connections arrive to assigned static IP addresses on the port range that you specify.
     ///
-    /// - Parameter CreateCustomRoutingListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCustomRoutingListenerInput`)
     ///
-    /// - Returns: `CreateCustomRoutingListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCustomRoutingListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1003,6 +1012,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCustomRoutingListenerOutput>(CreateCustomRoutingListenerOutput.httpOutput(from:), CreateCustomRoutingListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCustomRoutingListenerInput, CreateCustomRoutingListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCustomRoutingListenerOutput>())
@@ -1037,9 +1047,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create an endpoint group for the specified listener. An endpoint group is a collection of endpoints in one Amazon Web Services Region. A resource must be valid and active when you add it as an endpoint. For more information about endpoint types and requirements for endpoints that you can add to Global Accelerator, see [ Endpoints for standard accelerators](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter CreateEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEndpointGroupInput`)
     ///
-    /// - Returns: `CreateEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1078,6 +1088,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEndpointGroupOutput>(CreateEndpointGroupOutput.httpOutput(from:), CreateEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEndpointGroupInput, CreateEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEndpointGroupOutput>())
@@ -1112,9 +1123,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Create a listener to process inbound connections from clients to an accelerator. Connections arrive to assigned static IP addresses on a port, port range, or list of port ranges that you specify.
     ///
-    /// - Parameter CreateListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateListenerInput`)
     ///
-    /// - Returns: `CreateListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1151,6 +1162,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateListenerInput, CreateListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateListenerOutput>(CreateListenerOutput.httpOutput(from:), CreateListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateListenerInput, CreateListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateListenerOutput>())
@@ -1185,9 +1197,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete an accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create an accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. Alternatively, you can bring your own IP address ranges to Global Accelerator and assign IP addresses from those ranges. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter DeleteAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAcceleratorInput`)
     ///
-    /// - Returns: `DeleteAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1224,6 +1236,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAcceleratorOutput>(DeleteAcceleratorOutput.httpOutput(from:), DeleteAcceleratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAcceleratorInput, DeleteAcceleratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAcceleratorOutput>())
@@ -1258,9 +1271,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete a cross-account attachment. When you delete an attachment, Global Accelerator revokes the permission to use the resources in the attachment from all principals in the list of principals. Global Accelerator revokes the permission for specific resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter DeleteCrossAccountAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCrossAccountAttachmentInput`)
     ///
-    /// - Returns: `DeleteCrossAccountAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCrossAccountAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1296,6 +1309,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCrossAccountAttachmentOutput>(DeleteCrossAccountAttachmentOutput.httpOutput(from:), DeleteCrossAccountAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCrossAccountAttachmentInput, DeleteCrossAccountAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCrossAccountAttachmentOutput>())
@@ -1330,9 +1344,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete a custom routing accelerator. Before you can delete an accelerator, you must disable it and remove all dependent resources (listeners and endpoint groups). To disable the accelerator, update the accelerator to set Enabled to false. When you create a custom routing accelerator, by default, Global Accelerator provides you with a set of two static IP addresses. The IP addresses are assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete an accelerator, you lose the static IP addresses that are assigned to the accelerator, so you can no longer route traffic by using them. As a best practice, ensure that you have permissions in place to avoid inadvertently deleting accelerators. You can use IAM policies with Global Accelerator to limit the users who have permissions to delete an accelerator. For more information, see [Identity and access management](https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter DeleteCustomRoutingAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomRoutingAcceleratorInput`)
     ///
-    /// - Returns: `DeleteCustomRoutingAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomRoutingAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,6 +1383,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingAcceleratorOutput>(DeleteCustomRoutingAcceleratorOutput.httpOutput(from:), DeleteCustomRoutingAcceleratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomRoutingAcceleratorInput, DeleteCustomRoutingAcceleratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomRoutingAcceleratorOutput>())
@@ -1403,9 +1418,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete an endpoint group from a listener for a custom routing accelerator.
     ///
-    /// - Parameter DeleteCustomRoutingEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomRoutingEndpointGroupInput`)
     ///
-    /// - Returns: `DeleteCustomRoutingEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomRoutingEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,6 +1454,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingEndpointGroupOutput>(DeleteCustomRoutingEndpointGroupOutput.httpOutput(from:), DeleteCustomRoutingEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomRoutingEndpointGroupInput, DeleteCustomRoutingEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomRoutingEndpointGroupOutput>())
@@ -1473,9 +1489,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete a listener for a custom routing accelerator.
     ///
-    /// - Parameter DeleteCustomRoutingListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCustomRoutingListenerInput`)
     ///
-    /// - Returns: `DeleteCustomRoutingListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCustomRoutingListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1510,6 +1526,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCustomRoutingListenerOutput>(DeleteCustomRoutingListenerOutput.httpOutput(from:), DeleteCustomRoutingListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCustomRoutingListenerInput, DeleteCustomRoutingListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCustomRoutingListenerOutput>())
@@ -1544,9 +1561,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete an endpoint group from a listener.
     ///
-    /// - Parameter DeleteEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEndpointGroupInput`)
     ///
-    /// - Returns: `DeleteEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1580,6 +1597,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEndpointGroupOutput>(DeleteEndpointGroupOutput.httpOutput(from:), DeleteEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEndpointGroupInput, DeleteEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEndpointGroupOutput>())
@@ -1614,9 +1632,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Delete a listener from an accelerator.
     ///
-    /// - Parameter DeleteListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteListenerInput`)
     ///
-    /// - Returns: `DeleteListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1651,6 +1669,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteListenerInput, DeleteListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteListenerOutput>(DeleteListenerOutput.httpOutput(from:), DeleteListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteListenerInput, DeleteListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteListenerOutput>())
@@ -1685,9 +1704,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a VPC subnet endpoint that cannot receive traffic for a custom routing accelerator. You can deny traffic to all destinations in the VPC endpoint, or deny traffic to a specified list of destination IP addresses and ports. Note that you cannot specify IP addresses or ports outside of the range that you configured for the endpoint group. After you make changes, you can verify that the updates are complete by checking the status of your accelerator: the status changes from IN_PROGRESS to DEPLOYED.
     ///
-    /// - Parameter DenyCustomRoutingTrafficInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DenyCustomRoutingTrafficInput`)
     ///
-    /// - Returns: `DenyCustomRoutingTrafficOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DenyCustomRoutingTrafficOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,6 +1740,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DenyCustomRoutingTrafficOutput>(DenyCustomRoutingTrafficOutput.httpOutput(from:), DenyCustomRoutingTrafficOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DenyCustomRoutingTrafficInput, DenyCustomRoutingTrafficOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DenyCustomRoutingTrafficOutput>())
@@ -1755,9 +1775,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Releases the specified address range that you provisioned to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it by using [WithdrawByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html) and you must not have any accelerators that are using static IP addresses allocated from its address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter DeprovisionByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprovisionByoipCidrInput`)
     ///
-    /// - Returns: `DeprovisionByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprovisionByoipCidrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1793,6 +1813,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprovisionByoipCidrOutput>(DeprovisionByoipCidrOutput.httpOutput(from:), DeprovisionByoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprovisionByoipCidrInput, DeprovisionByoipCidrOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprovisionByoipCidrOutput>())
@@ -1827,9 +1848,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe an accelerator.
     ///
-    /// - Parameter DescribeAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAcceleratorInput`)
     ///
-    /// - Returns: `DescribeAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1863,6 +1884,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAcceleratorOutput>(DescribeAcceleratorOutput.httpOutput(from:), DescribeAcceleratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAcceleratorInput, DescribeAcceleratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAcceleratorOutput>())
@@ -1897,9 +1919,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe the attributes of an accelerator.
     ///
-    /// - Parameter DescribeAcceleratorAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAcceleratorAttributesInput`)
     ///
-    /// - Returns: `DescribeAcceleratorAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAcceleratorAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1933,6 +1955,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAcceleratorAttributesOutput>(DescribeAcceleratorAttributesOutput.httpOutput(from:), DescribeAcceleratorAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAcceleratorAttributesInput, DescribeAcceleratorAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAcceleratorAttributesOutput>())
@@ -1967,9 +1990,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Gets configuration information about a cross-account attachment.
     ///
-    /// - Parameter DescribeCrossAccountAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCrossAccountAttachmentInput`)
     ///
-    /// - Returns: `DescribeCrossAccountAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCrossAccountAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2004,6 +2027,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCrossAccountAttachmentOutput>(DescribeCrossAccountAttachmentOutput.httpOutput(from:), DescribeCrossAccountAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCrossAccountAttachmentInput, DescribeCrossAccountAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCrossAccountAttachmentOutput>())
@@ -2038,9 +2062,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe a custom routing accelerator.
     ///
-    /// - Parameter DescribeCustomRoutingAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomRoutingAcceleratorInput`)
     ///
-    /// - Returns: `DescribeCustomRoutingAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomRoutingAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2074,6 +2098,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingAcceleratorOutput>(DescribeCustomRoutingAcceleratorOutput.httpOutput(from:), DescribeCustomRoutingAcceleratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomRoutingAcceleratorInput, DescribeCustomRoutingAcceleratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomRoutingAcceleratorOutput>())
@@ -2108,9 +2133,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe the attributes of a custom routing accelerator.
     ///
-    /// - Parameter DescribeCustomRoutingAcceleratorAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomRoutingAcceleratorAttributesInput`)
     ///
-    /// - Returns: `DescribeCustomRoutingAcceleratorAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomRoutingAcceleratorAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2144,6 +2169,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingAcceleratorAttributesOutput>(DescribeCustomRoutingAcceleratorAttributesOutput.httpOutput(from:), DescribeCustomRoutingAcceleratorAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomRoutingAcceleratorAttributesInput, DescribeCustomRoutingAcceleratorAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomRoutingAcceleratorAttributesOutput>())
@@ -2178,9 +2204,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe an endpoint group for a custom routing accelerator.
     ///
-    /// - Parameter DescribeCustomRoutingEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomRoutingEndpointGroupInput`)
     ///
-    /// - Returns: `DescribeCustomRoutingEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomRoutingEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2214,6 +2240,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingEndpointGroupOutput>(DescribeCustomRoutingEndpointGroupOutput.httpOutput(from:), DescribeCustomRoutingEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomRoutingEndpointGroupInput, DescribeCustomRoutingEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomRoutingEndpointGroupOutput>())
@@ -2248,9 +2275,9 @@ extension GlobalAcceleratorClient {
     ///
     /// The description of a listener for a custom routing accelerator.
     ///
-    /// - Parameter DescribeCustomRoutingListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCustomRoutingListenerInput`)
     ///
-    /// - Returns: `DescribeCustomRoutingListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCustomRoutingListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2284,6 +2311,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCustomRoutingListenerOutput>(DescribeCustomRoutingListenerOutput.httpOutput(from:), DescribeCustomRoutingListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCustomRoutingListenerInput, DescribeCustomRoutingListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCustomRoutingListenerOutput>())
@@ -2318,9 +2346,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe an endpoint group.
     ///
-    /// - Parameter DescribeEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEndpointGroupInput`)
     ///
-    /// - Returns: `DescribeEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2354,6 +2382,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEndpointGroupOutput>(DescribeEndpointGroupOutput.httpOutput(from:), DescribeEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEndpointGroupInput, DescribeEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEndpointGroupOutput>())
@@ -2388,9 +2417,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Describe a listener.
     ///
-    /// - Parameter DescribeListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeListenerInput`)
     ///
-    /// - Returns: `DescribeListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2424,6 +2453,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeListenerInput, DescribeListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeListenerOutput>(DescribeListenerOutput.httpOutput(from:), DescribeListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeListenerInput, DescribeListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeListenerOutput>())
@@ -2458,9 +2488,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the accelerators for an Amazon Web Services account.
     ///
-    /// - Parameter ListAcceleratorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAcceleratorsInput`)
     ///
-    /// - Returns: `ListAcceleratorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAcceleratorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2494,6 +2524,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAcceleratorsOutput>(ListAcceleratorsOutput.httpOutput(from:), ListAcceleratorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAcceleratorsInput, ListAcceleratorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAcceleratorsOutput>())
@@ -2528,9 +2559,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Lists the IP address ranges that were specified in calls to [ProvisionByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/ProvisionByoipCidr.html), including the current state and a history of state changes.
     ///
-    /// - Parameter ListByoipCidrsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListByoipCidrsInput`)
     ///
-    /// - Returns: `ListByoipCidrsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListByoipCidrsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2565,6 +2596,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListByoipCidrsOutput>(ListByoipCidrsOutput.httpOutput(from:), ListByoipCidrsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListByoipCidrsInput, ListByoipCidrsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListByoipCidrsOutput>())
@@ -2599,9 +2631,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the cross-account attachments that have been created in Global Accelerator.
     ///
-    /// - Parameter ListCrossAccountAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrossAccountAttachmentsInput`)
     ///
-    /// - Returns: `ListCrossAccountAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrossAccountAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2636,6 +2668,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCrossAccountAttachmentsOutput>(ListCrossAccountAttachmentsOutput.httpOutput(from:), ListCrossAccountAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrossAccountAttachmentsInput, ListCrossAccountAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrossAccountAttachmentsOutput>())
@@ -2670,9 +2703,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the accounts that have cross-account resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter ListCrossAccountResourceAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrossAccountResourceAccountsInput`)
     ///
-    /// - Returns: `ListCrossAccountResourceAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrossAccountResourceAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2705,6 +2738,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCrossAccountResourceAccountsOutput>(ListCrossAccountResourceAccountsOutput.httpOutput(from:), ListCrossAccountResourceAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrossAccountResourceAccountsInput, ListCrossAccountResourceAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrossAccountResourceAccountsOutput>())
@@ -2739,9 +2773,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the cross-account resources available to work with.
     ///
-    /// - Parameter ListCrossAccountResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCrossAccountResourcesInput`)
     ///
-    /// - Returns: `ListCrossAccountResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCrossAccountResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2777,6 +2811,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCrossAccountResourcesOutput>(ListCrossAccountResourcesOutput.httpOutput(from:), ListCrossAccountResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCrossAccountResourcesInput, ListCrossAccountResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCrossAccountResourcesOutput>())
@@ -2811,9 +2846,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the custom routing accelerators for an Amazon Web Services account.
     ///
-    /// - Parameter ListCustomRoutingAcceleratorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingAcceleratorsInput`)
     ///
-    /// - Returns: `ListCustomRoutingAcceleratorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingAcceleratorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2847,6 +2882,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomRoutingAcceleratorsOutput>(ListCustomRoutingAcceleratorsOutput.httpOutput(from:), ListCustomRoutingAcceleratorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomRoutingAcceleratorsInput, ListCustomRoutingAcceleratorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomRoutingAcceleratorsOutput>())
@@ -2881,9 +2917,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the endpoint groups that are associated with a listener for a custom routing accelerator.
     ///
-    /// - Parameter ListCustomRoutingEndpointGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingEndpointGroupsInput`)
     ///
-    /// - Returns: `ListCustomRoutingEndpointGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingEndpointGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2918,6 +2954,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomRoutingEndpointGroupsOutput>(ListCustomRoutingEndpointGroupsOutput.httpOutput(from:), ListCustomRoutingEndpointGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomRoutingEndpointGroupsInput, ListCustomRoutingEndpointGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomRoutingEndpointGroupsOutput>())
@@ -2952,9 +2989,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the listeners for a custom routing accelerator.
     ///
-    /// - Parameter ListCustomRoutingListenersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingListenersInput`)
     ///
-    /// - Returns: `ListCustomRoutingListenersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingListenersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2989,6 +3026,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomRoutingListenersOutput>(ListCustomRoutingListenersOutput.httpOutput(from:), ListCustomRoutingListenersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomRoutingListenersInput, ListCustomRoutingListenersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomRoutingListenersOutput>())
@@ -3023,9 +3061,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Provides a complete mapping from the public accelerator IP address and port to destination EC2 instance IP addresses and ports in the virtual public cloud (VPC) subnet endpoint for a custom routing accelerator. For each subnet endpoint that you add, Global Accelerator creates a new static port mapping for the accelerator. The port mappings don't change after Global Accelerator generates them, so you can retrieve and cache the full mapping on your servers. If you remove a subnet from your accelerator, Global Accelerator removes (reclaims) the port mappings. If you add a subnet to your accelerator, Global Accelerator creates new port mappings (the existing ones don't change). If you add or remove EC2 instances in your subnet, the port mappings don't change, because the mappings are created when you add the subnet to Global Accelerator. The mappings also include a flag for each destination denoting which destination IP addresses and ports are allowed or denied traffic.
     ///
-    /// - Parameter ListCustomRoutingPortMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingPortMappingsInput`)
     ///
-    /// - Returns: `ListCustomRoutingPortMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingPortMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3061,6 +3099,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomRoutingPortMappingsOutput>(ListCustomRoutingPortMappingsOutput.httpOutput(from:), ListCustomRoutingPortMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomRoutingPortMappingsInput, ListCustomRoutingPortMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomRoutingPortMappingsOutput>())
@@ -3095,9 +3134,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the port mappings for a specific EC2 instance (destination) in a VPC subnet endpoint. The response is the mappings for one destination IP address. This is useful when your subnet endpoint has mappings that span multiple custom routing accelerators in your account, or for scenarios where you only want to list the port mappings for a specific destination instance.
     ///
-    /// - Parameter ListCustomRoutingPortMappingsByDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCustomRoutingPortMappingsByDestinationInput`)
     ///
-    /// - Returns: `ListCustomRoutingPortMappingsByDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCustomRoutingPortMappingsByDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3132,6 +3171,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCustomRoutingPortMappingsByDestinationOutput>(ListCustomRoutingPortMappingsByDestinationOutput.httpOutput(from:), ListCustomRoutingPortMappingsByDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCustomRoutingPortMappingsByDestinationInput, ListCustomRoutingPortMappingsByDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCustomRoutingPortMappingsByDestinationOutput>())
@@ -3166,9 +3206,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the endpoint groups that are associated with a listener.
     ///
-    /// - Parameter ListEndpointGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEndpointGroupsInput`)
     ///
-    /// - Returns: `ListEndpointGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEndpointGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3203,6 +3243,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEndpointGroupsOutput>(ListEndpointGroupsOutput.httpOutput(from:), ListEndpointGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEndpointGroupsInput, ListEndpointGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEndpointGroupsOutput>())
@@ -3237,9 +3278,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List the listeners for an accelerator.
     ///
-    /// - Parameter ListListenersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListListenersInput`)
     ///
-    /// - Returns: `ListListenersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListListenersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3274,6 +3315,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListListenersInput, ListListenersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListListenersOutput>(ListListenersOutput.httpOutput(from:), ListListenersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListListenersInput, ListListenersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListListenersOutput>())
@@ -3308,9 +3350,9 @@ extension GlobalAcceleratorClient {
     ///
     /// List all tags for an accelerator. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3347,6 +3389,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3381,9 +3424,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Provisions an IP address range to use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using [ AdvertiseByoipCidr](https://docs.aws.amazon.com/global-accelerator/latest/api/AdvertiseByoipCidr.html). For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter ProvisionByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionByoipCidrInput`)
     ///
-    /// - Returns: `ProvisionByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionByoipCidrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3419,6 +3462,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvisionByoipCidrOutput>(ProvisionByoipCidrOutput.httpOutput(from:), ProvisionByoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvisionByoipCidrInput, ProvisionByoipCidrOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ProvisionByoipCidrOutput>())
@@ -3453,9 +3497,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Remove endpoints from a custom routing accelerator.
     ///
-    /// - Parameter RemoveCustomRoutingEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveCustomRoutingEndpointsInput`)
     ///
-    /// - Returns: `RemoveCustomRoutingEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveCustomRoutingEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3492,6 +3536,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveCustomRoutingEndpointsOutput>(RemoveCustomRoutingEndpointsOutput.httpOutput(from:), RemoveCustomRoutingEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveCustomRoutingEndpointsInput, RemoveCustomRoutingEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveCustomRoutingEndpointsOutput>())
@@ -3530,9 +3575,9 @@ extension GlobalAcceleratorClient {
     ///
     /// * It's faster, because Global Accelerator doesn't need to resolve any endpoints. With the UpdateEndpointGroup API operation, Global Accelerator must resolve all of the endpoints that remain in the group.
     ///
-    /// - Parameter RemoveEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveEndpointsInput`)
     ///
-    /// - Returns: `RemoveEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3568,6 +3613,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveEndpointsOutput>(RemoveEndpointsOutput.httpOutput(from:), RemoveEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveEndpointsInput, RemoveEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveEndpointsOutput>())
@@ -3602,9 +3648,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Add tags to an accelerator resource. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3638,6 +3684,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3672,9 +3719,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Remove tags from a Global Accelerator resource. When you specify a tag key, the action removes both that key and its associated value. The operation succeeds even if you attempt to remove tags from an accelerator that was already removed. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3708,6 +3755,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3753,9 +3801,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Be aware that static IP addresses remain assigned to your accelerator for as long as it exists, even if you disable the accelerator and it no longer accepts or routes traffic. However, when you delete the accelerator, you lose the static IP addresses that are assigned to it, so you can no longer route traffic by using them. Global Accelerator is a global service that supports endpoints in multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to create, update, or otherwise work with accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI commands.
     ///
-    /// - Parameter UpdateAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAcceleratorInput`)
     ///
-    /// - Returns: `UpdateAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3792,6 +3840,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAcceleratorOutput>(UpdateAcceleratorOutput.httpOutput(from:), UpdateAcceleratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAcceleratorInput, UpdateAcceleratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAcceleratorOutput>())
@@ -3826,9 +3875,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update the attributes for an accelerator.
     ///
-    /// - Parameter UpdateAcceleratorAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAcceleratorAttributesInput`)
     ///
-    /// - Returns: `UpdateAcceleratorAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAcceleratorAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3864,6 +3913,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAcceleratorAttributesOutput>(UpdateAcceleratorAttributesOutput.httpOutput(from:), UpdateAcceleratorAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAcceleratorAttributesInput, UpdateAcceleratorAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAcceleratorAttributesOutput>())
@@ -3898,9 +3948,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update a cross-account attachment to add or remove principals or resources. When you update an attachment to remove a principal (account ID or accelerator) or a resource, Global Accelerator revokes the permission for specific resources. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter UpdateCrossAccountAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCrossAccountAttachmentInput`)
     ///
-    /// - Returns: `UpdateCrossAccountAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCrossAccountAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3937,6 +3987,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCrossAccountAttachmentOutput>(UpdateCrossAccountAttachmentOutput.httpOutput(from:), UpdateCrossAccountAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCrossAccountAttachmentInput, UpdateCrossAccountAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCrossAccountAttachmentOutput>())
@@ -3971,9 +4022,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update a custom routing accelerator.
     ///
-    /// - Parameter UpdateCustomRoutingAcceleratorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomRoutingAcceleratorInput`)
     ///
-    /// - Returns: `UpdateCustomRoutingAcceleratorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomRoutingAcceleratorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4009,6 +4060,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingAcceleratorOutput>(UpdateCustomRoutingAcceleratorOutput.httpOutput(from:), UpdateCustomRoutingAcceleratorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomRoutingAcceleratorInput, UpdateCustomRoutingAcceleratorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomRoutingAcceleratorOutput>())
@@ -4043,9 +4095,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update the attributes for a custom routing accelerator.
     ///
-    /// - Parameter UpdateCustomRoutingAcceleratorAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomRoutingAcceleratorAttributesInput`)
     ///
-    /// - Returns: `UpdateCustomRoutingAcceleratorAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomRoutingAcceleratorAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4081,6 +4133,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingAcceleratorAttributesOutput>(UpdateCustomRoutingAcceleratorAttributesOutput.httpOutput(from:), UpdateCustomRoutingAcceleratorAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomRoutingAcceleratorAttributesInput, UpdateCustomRoutingAcceleratorAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomRoutingAcceleratorAttributesOutput>())
@@ -4115,9 +4168,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update a listener for a custom routing accelerator.
     ///
-    /// - Parameter UpdateCustomRoutingListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCustomRoutingListenerInput`)
     ///
-    /// - Returns: `UpdateCustomRoutingListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCustomRoutingListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4153,6 +4206,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCustomRoutingListenerOutput>(UpdateCustomRoutingListenerOutput.httpOutput(from:), UpdateCustomRoutingListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCustomRoutingListenerInput, UpdateCustomRoutingListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCustomRoutingListenerOutput>())
@@ -4187,9 +4241,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update an endpoint group. A resource must be valid and active when you add it as an endpoint.
     ///
-    /// - Parameter UpdateEndpointGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEndpointGroupInput`)
     ///
-    /// - Returns: `UpdateEndpointGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEndpointGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4225,6 +4279,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEndpointGroupOutput>(UpdateEndpointGroupOutput.httpOutput(from:), UpdateEndpointGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEndpointGroupInput, UpdateEndpointGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEndpointGroupOutput>())
@@ -4259,9 +4314,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Update a listener.
     ///
-    /// - Parameter UpdateListenerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateListenerInput`)
     ///
-    /// - Returns: `UpdateListenerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateListenerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4297,6 +4352,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateListenerInput, UpdateListenerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateListenerOutput>(UpdateListenerOutput.httpOutput(from:), UpdateListenerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateListenerInput, UpdateListenerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateListenerOutput>())
@@ -4331,9 +4387,9 @@ extension GlobalAcceleratorClient {
     ///
     /// Stops advertising an address range that is provisioned as an address pool. You can perform this operation at most once every 10 seconds, even if you specify different address ranges each time. It can take a few minutes before traffic to the specified addresses stops routing to Amazon Web Services because of propagation delays. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     ///
-    /// - Parameter WithdrawByoipCidrInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `WithdrawByoipCidrInput`)
     ///
-    /// - Returns: `WithdrawByoipCidrOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `WithdrawByoipCidrOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4369,6 +4425,7 @@ extension GlobalAcceleratorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<WithdrawByoipCidrOutput>(WithdrawByoipCidrOutput.httpOutput(from:), WithdrawByoipCidrOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<WithdrawByoipCidrInput, WithdrawByoipCidrOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<WithdrawByoipCidrOutput>())

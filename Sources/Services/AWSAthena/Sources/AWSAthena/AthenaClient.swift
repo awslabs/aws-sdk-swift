@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AthenaClient: ClientRuntime.Client {
     public static let clientName = "AthenaClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: AthenaClient.AthenaClientConfiguration
     let serviceName = "Athena"
@@ -373,9 +374,9 @@ extension AthenaClient {
     ///
     /// Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use [ListNamedQueriesInput] to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under [UnprocessedNamedQueryId]. Named queries differ from executed queries. Use [BatchGetQueryExecutionInput] to get details about each unique query execution, and [ListQueryExecutionsInput] to get a list of query execution IDs.
     ///
-    /// - Parameter BatchGetNamedQueryInput : Contains an array of named query IDs.
+    /// - Parameter input: Contains an array of named query IDs. (Type: `BatchGetNamedQueryInput`)
     ///
-    /// - Returns: `BatchGetNamedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetNamedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +409,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetNamedQueryOutput>(BatchGetNamedQueryOutput.httpOutput(from:), BatchGetNamedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetNamedQueryInput, BatchGetNamedQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetNamedQueryOutput>())
@@ -442,9 +444,9 @@ extension AthenaClient {
     ///
     /// Returns the details of a single prepared statement or a list of up to 256 prepared statements for the array of prepared statement names that you provide. Requires you to have access to the workgroup to which the prepared statements belong. If a prepared statement cannot be retrieved for the name specified, the statement is listed in UnprocessedPreparedStatementNames.
     ///
-    /// - Parameter BatchGetPreparedStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetPreparedStatementInput`)
     ///
-    /// - Returns: `BatchGetPreparedStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetPreparedStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -477,6 +479,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetPreparedStatementOutput>(BatchGetPreparedStatementOutput.httpOutput(from:), BatchGetPreparedStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetPreparedStatementInput, BatchGetPreparedStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetPreparedStatementOutput>())
@@ -511,9 +514,9 @@ extension AthenaClient {
     ///
     /// Returns the details of a single query execution or a list of up to 50 query executions, which you provide as an array of query execution ID strings. Requires you to have access to the workgroup in which the queries ran. To get a list of query execution IDs, use [ListQueryExecutionsInput$WorkGroup]. Query executions differ from named (saved) queries. Use [BatchGetNamedQueryInput] to get details about named queries.
     ///
-    /// - Parameter BatchGetQueryExecutionInput : Contains an array of query execution IDs.
+    /// - Parameter input: Contains an array of query execution IDs. (Type: `BatchGetQueryExecutionInput`)
     ///
-    /// - Returns: `BatchGetQueryExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetQueryExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -546,6 +549,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetQueryExecutionOutput>(BatchGetQueryExecutionOutput.httpOutput(from:), BatchGetQueryExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetQueryExecutionInput, BatchGetQueryExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetQueryExecutionOutput>())
@@ -580,9 +584,9 @@ extension AthenaClient {
     ///
     /// Cancels the capacity reservation with the specified name. Cancelled reservations remain in your account and will be deleted 45 days after cancellation. During the 45 days, you cannot re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags and view it for historical reference.
     ///
-    /// - Parameter CancelCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelCapacityReservationInput`)
     ///
-    /// - Returns: `CancelCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelCapacityReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -615,6 +619,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelCapacityReservationOutput>(CancelCapacityReservationOutput.httpOutput(from:), CancelCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelCapacityReservationInput, CancelCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelCapacityReservationOutput>())
@@ -649,9 +654,9 @@ extension AthenaClient {
     ///
     /// Creates a capacity reservation with the specified name and number of requested data processing units.
     ///
-    /// - Parameter CreateCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCapacityReservationInput`)
     ///
-    /// - Returns: `CreateCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCapacityReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -684,6 +689,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityReservationOutput>(CreateCapacityReservationOutput.httpOutput(from:), CreateCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityReservationInput, CreateCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityReservationOutput>())
@@ -724,9 +730,9 @@ extension AthenaClient {
     ///
     /// * Glue Connection Name with a maximum length of 255 characters and a prefix athenafederatedcatalog_CATALOG_NAME_SANITIZED with length 23 characters.
     ///
-    /// - Parameter CreateDataCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataCatalogInput`)
     ///
-    /// - Returns: `CreateDataCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,6 +765,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataCatalogOutput>(CreateDataCatalogOutput.httpOutput(from:), CreateDataCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataCatalogInput, CreateDataCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataCatalogOutput>())
@@ -793,9 +800,9 @@ extension AthenaClient {
     ///
     /// Creates a named query in the specified workgroup. Requires that you have access to the workgroup.
     ///
-    /// - Parameter CreateNamedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNamedQueryInput`)
     ///
-    /// - Returns: `CreateNamedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNamedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -829,6 +836,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNamedQueryOutput>(CreateNamedQueryOutput.httpOutput(from:), CreateNamedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNamedQueryInput, CreateNamedQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNamedQueryOutput>())
@@ -863,9 +871,9 @@ extension AthenaClient {
     ///
     /// Creates an empty ipynb file in the specified Apache Spark enabled workgroup. Throws an error if a file in the workgroup with the same name already exists.
     ///
-    /// - Parameter CreateNotebookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotebookInput`)
     ///
-    /// - Returns: `CreateNotebookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotebookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,6 +907,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotebookInput, CreateNotebookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotebookOutput>(CreateNotebookOutput.httpOutput(from:), CreateNotebookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotebookInput, CreateNotebookOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotebookOutput>())
@@ -933,9 +942,9 @@ extension AthenaClient {
     ///
     /// Creates a prepared statement for use with SQL queries in Athena.
     ///
-    /// - Parameter CreatePreparedStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePreparedStatementInput`)
     ///
-    /// - Returns: `CreatePreparedStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePreparedStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,6 +977,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePreparedStatementOutput>(CreatePreparedStatementOutput.httpOutput(from:), CreatePreparedStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePreparedStatementInput, CreatePreparedStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePreparedStatementOutput>())
@@ -1002,9 +1012,9 @@ extension AthenaClient {
     ///
     /// Gets an authentication token and the URL at which the notebook can be accessed. During programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh the authentication token. For information about granting programmatic access, see [Grant programmatic access](https://docs.aws.amazon.com/athena/latest/ug/setting-up.html#setting-up-grant-programmatic-access).
     ///
-    /// - Parameter CreatePresignedNotebookUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePresignedNotebookUrlInput`)
     ///
-    /// - Returns: `CreatePresignedNotebookUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePresignedNotebookUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1038,6 +1048,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresignedNotebookUrlOutput>(CreatePresignedNotebookUrlOutput.httpOutput(from:), CreatePresignedNotebookUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresignedNotebookUrlInput, CreatePresignedNotebookUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresignedNotebookUrlOutput>())
@@ -1072,9 +1083,9 @@ extension AthenaClient {
     ///
     /// Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled workgroup or an Athena SQL workgroup.
     ///
-    /// - Parameter CreateWorkGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkGroupInput`)
     ///
-    /// - Returns: `CreateWorkGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1107,6 +1118,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkGroupOutput>(CreateWorkGroupOutput.httpOutput(from:), CreateWorkGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkGroupInput, CreateWorkGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkGroupOutput>())
@@ -1141,9 +1153,9 @@ extension AthenaClient {
     ///
     /// Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be deleted. A deleted reservation is immediately removed from your account and can no longer be referenced, including by its ARN. A deleted reservation cannot be called by GetCapacityReservation, and deleted reservations do not appear in the output of ListCapacityReservations.
     ///
-    /// - Parameter DeleteCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCapacityReservationInput`)
     ///
-    /// - Returns: `DeleteCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCapacityReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1176,6 +1188,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCapacityReservationOutput>(DeleteCapacityReservationOutput.httpOutput(from:), DeleteCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCapacityReservationInput, DeleteCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCapacityReservationOutput>())
@@ -1210,9 +1223,9 @@ extension AthenaClient {
     ///
     /// Deletes a data catalog.
     ///
-    /// - Parameter DeleteDataCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataCatalogInput`)
     ///
-    /// - Returns: `DeleteDataCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1245,6 +1258,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataCatalogOutput>(DeleteDataCatalogOutput.httpOutput(from:), DeleteDataCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataCatalogInput, DeleteDataCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataCatalogOutput>())
@@ -1279,9 +1293,9 @@ extension AthenaClient {
     ///
     /// Deletes the named query if you have access to the workgroup in which the query was saved.
     ///
-    /// - Parameter DeleteNamedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNamedQueryInput`)
     ///
-    /// - Returns: `DeleteNamedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNamedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1315,6 +1329,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNamedQueryOutput>(DeleteNamedQueryOutput.httpOutput(from:), DeleteNamedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNamedQueryInput, DeleteNamedQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNamedQueryOutput>())
@@ -1349,9 +1364,9 @@ extension AthenaClient {
     ///
     /// Deletes the specified notebook.
     ///
-    /// - Parameter DeleteNotebookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotebookInput`)
     ///
-    /// - Returns: `DeleteNotebookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotebookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1385,6 +1400,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNotebookInput, DeleteNotebookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotebookOutput>(DeleteNotebookOutput.httpOutput(from:), DeleteNotebookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotebookInput, DeleteNotebookOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotebookOutput>())
@@ -1419,9 +1435,9 @@ extension AthenaClient {
     ///
     /// Deletes the prepared statement with the specified name from the specified workgroup.
     ///
-    /// - Parameter DeletePreparedStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePreparedStatementInput`)
     ///
-    /// - Returns: `DeletePreparedStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePreparedStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1455,6 +1471,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePreparedStatementOutput>(DeletePreparedStatementOutput.httpOutput(from:), DeletePreparedStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePreparedStatementInput, DeletePreparedStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePreparedStatementOutput>())
@@ -1489,9 +1506,9 @@ extension AthenaClient {
     ///
     /// Deletes the workgroup with the specified name. The primary workgroup cannot be deleted.
     ///
-    /// - Parameter DeleteWorkGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkGroupInput`)
     ///
-    /// - Returns: `DeleteWorkGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1524,6 +1541,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkGroupOutput>(DeleteWorkGroupOutput.httpOutput(from:), DeleteWorkGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkGroupInput, DeleteWorkGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkGroupOutput>())
@@ -1558,9 +1576,9 @@ extension AthenaClient {
     ///
     /// Exports the specified notebook and its metadata.
     ///
-    /// - Parameter ExportNotebookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExportNotebookInput`)
     ///
-    /// - Returns: `ExportNotebookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExportNotebookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,6 +1612,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExportNotebookInput, ExportNotebookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExportNotebookOutput>(ExportNotebookOutput.httpOutput(from:), ExportNotebookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExportNotebookInput, ExportNotebookOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExportNotebookOutput>())
@@ -1628,9 +1647,9 @@ extension AthenaClient {
     ///
     /// Describes a previously submitted calculation execution.
     ///
-    /// - Parameter GetCalculationExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCalculationExecutionInput`)
     ///
-    /// - Returns: `GetCalculationExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCalculationExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1664,6 +1683,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCalculationExecutionOutput>(GetCalculationExecutionOutput.httpOutput(from:), GetCalculationExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCalculationExecutionInput, GetCalculationExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCalculationExecutionOutput>())
@@ -1698,9 +1718,9 @@ extension AthenaClient {
     ///
     /// Retrieves the unencrypted code that was executed for the calculation.
     ///
-    /// - Parameter GetCalculationExecutionCodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCalculationExecutionCodeInput`)
     ///
-    /// - Returns: `GetCalculationExecutionCodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCalculationExecutionCodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1734,6 +1754,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCalculationExecutionCodeOutput>(GetCalculationExecutionCodeOutput.httpOutput(from:), GetCalculationExecutionCodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCalculationExecutionCodeInput, GetCalculationExecutionCodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCalculationExecutionCodeOutput>())
@@ -1768,9 +1789,9 @@ extension AthenaClient {
     ///
     /// Gets the status of a current calculation.
     ///
-    /// - Parameter GetCalculationExecutionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCalculationExecutionStatusInput`)
     ///
-    /// - Returns: `GetCalculationExecutionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCalculationExecutionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1804,6 +1825,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCalculationExecutionStatusOutput>(GetCalculationExecutionStatusOutput.httpOutput(from:), GetCalculationExecutionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCalculationExecutionStatusInput, GetCalculationExecutionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCalculationExecutionStatusOutput>())
@@ -1838,9 +1860,9 @@ extension AthenaClient {
     ///
     /// Gets the capacity assignment configuration for a capacity reservation, if one exists.
     ///
-    /// - Parameter GetCapacityAssignmentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityAssignmentConfigurationInput`)
     ///
-    /// - Returns: `GetCapacityAssignmentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCapacityAssignmentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1873,6 +1895,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityAssignmentConfigurationOutput>(GetCapacityAssignmentConfigurationOutput.httpOutput(from:), GetCapacityAssignmentConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityAssignmentConfigurationInput, GetCapacityAssignmentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityAssignmentConfigurationOutput>())
@@ -1907,9 +1930,9 @@ extension AthenaClient {
     ///
     /// Returns information about the capacity reservation with the specified name.
     ///
-    /// - Parameter GetCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityReservationInput`)
     ///
-    /// - Returns: `GetCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCapacityReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1942,6 +1965,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityReservationOutput>(GetCapacityReservationOutput.httpOutput(from:), GetCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityReservationInput, GetCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityReservationOutput>())
@@ -1976,9 +2000,9 @@ extension AthenaClient {
     ///
     /// Returns the specified data catalog.
     ///
-    /// - Parameter GetDataCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataCatalogInput`)
     ///
-    /// - Returns: `GetDataCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2011,6 +2035,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataCatalogInput, GetDataCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataCatalogOutput>(GetDataCatalogOutput.httpOutput(from:), GetDataCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataCatalogInput, GetDataCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataCatalogOutput>())
@@ -2045,9 +2070,9 @@ extension AthenaClient {
     ///
     /// Returns a database object for the specified database and data catalog.
     ///
-    /// - Parameter GetDatabaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDatabaseInput`)
     ///
-    /// - Returns: `GetDatabaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDatabaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2081,6 +2106,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDatabaseInput, GetDatabaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDatabaseOutput>(GetDatabaseOutput.httpOutput(from:), GetDatabaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDatabaseInput, GetDatabaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDatabaseOutput>())
@@ -2115,9 +2141,9 @@ extension AthenaClient {
     ///
     /// Returns information about a single query. Requires that you have access to the workgroup in which the query was saved.
     ///
-    /// - Parameter GetNamedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNamedQueryInput`)
     ///
-    /// - Returns: `GetNamedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNamedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2150,6 +2176,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetNamedQueryInput, GetNamedQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNamedQueryOutput>(GetNamedQueryOutput.httpOutput(from:), GetNamedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNamedQueryInput, GetNamedQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNamedQueryOutput>())
@@ -2184,9 +2211,9 @@ extension AthenaClient {
     ///
     /// Retrieves notebook metadata for the specified notebook ID.
     ///
-    /// - Parameter GetNotebookMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotebookMetadataInput`)
     ///
-    /// - Returns: `GetNotebookMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotebookMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2220,6 +2247,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNotebookMetadataOutput>(GetNotebookMetadataOutput.httpOutput(from:), GetNotebookMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNotebookMetadataInput, GetNotebookMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNotebookMetadataOutput>())
@@ -2254,9 +2282,9 @@ extension AthenaClient {
     ///
     /// Retrieves the prepared statement with the specified name from the specified workgroup.
     ///
-    /// - Parameter GetPreparedStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPreparedStatementInput`)
     ///
-    /// - Returns: `GetPreparedStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPreparedStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2290,6 +2318,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPreparedStatementOutput>(GetPreparedStatementOutput.httpOutput(from:), GetPreparedStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPreparedStatementInput, GetPreparedStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPreparedStatementOutput>())
@@ -2324,9 +2353,9 @@ extension AthenaClient {
     ///
     /// Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
     ///
-    /// - Parameter GetQueryExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryExecutionInput`)
     ///
-    /// - Returns: `GetQueryExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2359,6 +2388,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryExecutionOutput>(GetQueryExecutionOutput.httpOutput(from:), GetQueryExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryExecutionInput, GetQueryExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryExecutionOutput>())
@@ -2393,9 +2423,9 @@ extension AthenaClient {
     ///
     /// Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see [Working with query results, recent queries, and output files](https://docs.aws.amazon.com/athena/latest/ug/querying.html) in the Amazon Athena User Guide. This request does not execute the query but returns results. Use [StartQueryExecution] to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location. IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied.
     ///
-    /// - Parameter GetQueryResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryResultsInput`)
     ///
-    /// - Returns: `GetQueryResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2429,6 +2459,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueryResultsInput, GetQueryResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryResultsOutput>(GetQueryResultsOutput.httpOutput(from:), GetQueryResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryResultsInput, GetQueryResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryResultsOutput>())
@@ -2463,9 +2494,9 @@ extension AthenaClient {
     ///
     /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as [QueryExecutionStatus$State] is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes. The non-timeline statistics are also not included when a query has row-level filters defined in Lake Formation.
     ///
-    /// - Parameter GetQueryRuntimeStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetQueryRuntimeStatisticsInput`)
     ///
-    /// - Returns: `GetQueryRuntimeStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetQueryRuntimeStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2498,6 +2529,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetQueryRuntimeStatisticsOutput>(GetQueryRuntimeStatisticsOutput.httpOutput(from:), GetQueryRuntimeStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetQueryRuntimeStatisticsInput, GetQueryRuntimeStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetQueryRuntimeStatisticsOutput>())
@@ -2532,9 +2564,9 @@ extension AthenaClient {
     ///
     /// Gets the full details of a previously created session, including the session status and configuration.
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2568,6 +2600,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSessionInput, GetSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -2602,9 +2635,9 @@ extension AthenaClient {
     ///
     /// Gets the current status of a session.
     ///
-    /// - Parameter GetSessionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionStatusInput`)
     ///
-    /// - Returns: `GetSessionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2638,6 +2671,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSessionStatusInput, GetSessionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionStatusOutput>(GetSessionStatusOutput.httpOutput(from:), GetSessionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionStatusInput, GetSessionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionStatusOutput>())
@@ -2672,9 +2706,9 @@ extension AthenaClient {
     ///
     /// Returns table metadata for the specified catalog, database, and table.
     ///
-    /// - Parameter GetTableMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableMetadataInput`)
     ///
-    /// - Returns: `GetTableMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2708,6 +2742,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTableMetadataInput, GetTableMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableMetadataOutput>(GetTableMetadataOutput.httpOutput(from:), GetTableMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableMetadataInput, GetTableMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableMetadataOutput>())
@@ -2742,9 +2777,9 @@ extension AthenaClient {
     ///
     /// Returns information about the workgroup with the specified name.
     ///
-    /// - Parameter GetWorkGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkGroupInput`)
     ///
-    /// - Returns: `GetWorkGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2777,6 +2812,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkGroupInput, GetWorkGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkGroupOutput>(GetWorkGroupOutput.httpOutput(from:), GetWorkGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkGroupInput, GetWorkGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkGroupOutput>())
@@ -2811,9 +2847,9 @@ extension AthenaClient {
     ///
     /// Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the request must specify a value for either Payload or NoteBookS3LocationUri. If neither is specified or both are specified, an InvalidRequestException occurs. The maximum file size that can be imported is 10 megabytes. If an ipynb file with the same name already exists in the workgroup, throws an error.
     ///
-    /// - Parameter ImportNotebookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportNotebookInput`)
     ///
-    /// - Returns: `ImportNotebookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportNotebookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2847,6 +2883,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportNotebookInput, ImportNotebookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportNotebookOutput>(ImportNotebookOutput.httpOutput(from:), ImportNotebookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportNotebookInput, ImportNotebookOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportNotebookOutput>())
@@ -2881,9 +2918,9 @@ extension AthenaClient {
     ///
     /// Returns the supported DPU sizes for the supported application runtimes (for example, Athena notebook version 1).
     ///
-    /// - Parameter ListApplicationDPUSizesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationDPUSizesInput`)
     ///
-    /// - Returns: `ListApplicationDPUSizesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationDPUSizesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2917,6 +2954,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationDPUSizesOutput>(ListApplicationDPUSizesOutput.httpOutput(from:), ListApplicationDPUSizesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationDPUSizesInput, ListApplicationDPUSizesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationDPUSizesOutput>())
@@ -2951,9 +2989,9 @@ extension AthenaClient {
     ///
     /// Lists the calculations that have been submitted to a session in descending order. Newer calculations are listed first; older calculations are listed later.
     ///
-    /// - Parameter ListCalculationExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCalculationExecutionsInput`)
     ///
-    /// - Returns: `ListCalculationExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCalculationExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2987,6 +3025,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCalculationExecutionsOutput>(ListCalculationExecutionsOutput.httpOutput(from:), ListCalculationExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCalculationExecutionsInput, ListCalculationExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCalculationExecutionsOutput>())
@@ -3021,9 +3060,9 @@ extension AthenaClient {
     ///
     /// Lists the capacity reservations for the current account.
     ///
-    /// - Parameter ListCapacityReservationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCapacityReservationsInput`)
     ///
-    /// - Returns: `ListCapacityReservationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCapacityReservationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3056,6 +3095,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCapacityReservationsOutput>(ListCapacityReservationsOutput.httpOutput(from:), ListCapacityReservationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCapacityReservationsInput, ListCapacityReservationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCapacityReservationsOutput>())
@@ -3090,9 +3130,9 @@ extension AthenaClient {
     ///
     /// Lists the data catalogs in the current Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
     ///
-    /// - Parameter ListDataCatalogsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataCatalogsInput`)
     ///
-    /// - Returns: `ListDataCatalogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataCatalogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3125,6 +3165,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataCatalogsOutput>(ListDataCatalogsOutput.httpOutput(from:), ListDataCatalogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataCatalogsInput, ListDataCatalogsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataCatalogsOutput>())
@@ -3159,9 +3200,9 @@ extension AthenaClient {
     ///
     /// Lists the databases in the specified data catalog.
     ///
-    /// - Parameter ListDatabasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatabasesInput`)
     ///
-    /// - Returns: `ListDatabasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatabasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3195,6 +3236,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatabasesInput, ListDatabasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatabasesOutput>(ListDatabasesOutput.httpOutput(from:), ListDatabasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatabasesInput, ListDatabasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatabasesOutput>())
@@ -3229,9 +3271,9 @@ extension AthenaClient {
     ///
     /// Returns a list of engine versions that are available to choose from, including the Auto option.
     ///
-    /// - Parameter ListEngineVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEngineVersionsInput`)
     ///
-    /// - Returns: `ListEngineVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEngineVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3264,6 +3306,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEngineVersionsOutput>(ListEngineVersionsOutput.httpOutput(from:), ListEngineVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEngineVersionsInput, ListEngineVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEngineVersionsOutput>())
@@ -3298,9 +3341,9 @@ extension AthenaClient {
     ///
     /// Lists, in descending order, the executors that joined a session. Newer executors are listed first; older executors are listed later. The result can be optionally filtered by state.
     ///
-    /// - Parameter ListExecutorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExecutorsInput`)
     ///
-    /// - Returns: `ListExecutorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExecutorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3334,6 +3377,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExecutorsInput, ListExecutorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExecutorsOutput>(ListExecutorsOutput.httpOutput(from:), ListExecutorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExecutorsInput, ListExecutorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExecutorsOutput>())
@@ -3368,9 +3412,9 @@ extension AthenaClient {
     ///
     /// Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup.
     ///
-    /// - Parameter ListNamedQueriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNamedQueriesInput`)
     ///
-    /// - Returns: `ListNamedQueriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNamedQueriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3403,6 +3447,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNamedQueriesOutput>(ListNamedQueriesOutput.httpOutput(from:), ListNamedQueriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNamedQueriesInput, ListNamedQueriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNamedQueriesOutput>())
@@ -3437,9 +3482,9 @@ extension AthenaClient {
     ///
     /// Displays the notebook files for the specified workgroup in paginated format.
     ///
-    /// - Parameter ListNotebookMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotebookMetadataInput`)
     ///
-    /// - Returns: `ListNotebookMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotebookMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3473,6 +3518,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotebookMetadataOutput>(ListNotebookMetadataOutput.httpOutput(from:), ListNotebookMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotebookMetadataInput, ListNotebookMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotebookMetadataOutput>())
@@ -3507,9 +3553,9 @@ extension AthenaClient {
     ///
     /// Lists, in descending order, the sessions that have been created in a notebook that are in an active state like CREATING, CREATED, IDLE or BUSY. Newer sessions are listed first; older sessions are listed later.
     ///
-    /// - Parameter ListNotebookSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotebookSessionsInput`)
     ///
-    /// - Returns: `ListNotebookSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotebookSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3543,6 +3589,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotebookSessionsOutput>(ListNotebookSessionsOutput.httpOutput(from:), ListNotebookSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotebookSessionsInput, ListNotebookSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotebookSessionsOutput>())
@@ -3577,9 +3624,9 @@ extension AthenaClient {
     ///
     /// Lists the prepared statements in the specified workgroup.
     ///
-    /// - Parameter ListPreparedStatementsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPreparedStatementsInput`)
     ///
-    /// - Returns: `ListPreparedStatementsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPreparedStatementsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3612,6 +3659,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPreparedStatementsOutput>(ListPreparedStatementsOutput.httpOutput(from:), ListPreparedStatementsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPreparedStatementsInput, ListPreparedStatementsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPreparedStatementsOutput>())
@@ -3646,9 +3694,9 @@ extension AthenaClient {
     ///
     /// Provides a list of available query execution IDs for the queries in the specified workgroup. Athena keeps a query history for 45 days. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran.
     ///
-    /// - Parameter ListQueryExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListQueryExecutionsInput`)
     ///
-    /// - Returns: `ListQueryExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListQueryExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3681,6 +3729,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListQueryExecutionsOutput>(ListQueryExecutionsOutput.httpOutput(from:), ListQueryExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListQueryExecutionsInput, ListQueryExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListQueryExecutionsOutput>())
@@ -3715,9 +3764,9 @@ extension AthenaClient {
     ///
     /// Lists the sessions in a workgroup that are in an active state like CREATING, CREATED, IDLE, or BUSY. Newer sessions are listed first; older sessions are listed later.
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3751,6 +3800,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSessionsInput, ListSessionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionsOutput>(ListSessionsOutput.httpOutput(from:), ListSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
@@ -3785,9 +3835,9 @@ extension AthenaClient {
     ///
     /// Lists the metadata for the tables in the specified data catalog database.
     ///
-    /// - Parameter ListTableMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTableMetadataInput`)
     ///
-    /// - Returns: `ListTableMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTableMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3821,6 +3871,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTableMetadataInput, ListTableMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTableMetadataOutput>(ListTableMetadataOutput.httpOutput(from:), ListTableMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTableMetadataInput, ListTableMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTableMetadataOutput>())
@@ -3855,9 +3906,9 @@ extension AthenaClient {
     ///
     /// Lists the tags associated with an Athena resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3891,6 +3942,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3925,9 +3977,9 @@ extension AthenaClient {
     ///
     /// Lists available workgroups for the account.
     ///
-    /// - Parameter ListWorkGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkGroupsInput`)
     ///
-    /// - Returns: `ListWorkGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3960,6 +4012,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkGroupsOutput>(ListWorkGroupsOutput.httpOutput(from:), ListWorkGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkGroupsInput, ListWorkGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkGroupsOutput>())
@@ -3994,9 +4047,9 @@ extension AthenaClient {
     ///
     /// Puts a new capacity assignment configuration for a specified capacity reservation. If a capacity assignment configuration already exists for the capacity reservation, replaces the existing capacity assignment configuration.
     ///
-    /// - Parameter PutCapacityAssignmentConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutCapacityAssignmentConfigurationInput`)
     ///
-    /// - Returns: `PutCapacityAssignmentConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutCapacityAssignmentConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4029,6 +4082,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutCapacityAssignmentConfigurationOutput>(PutCapacityAssignmentConfigurationOutput.httpOutput(from:), PutCapacityAssignmentConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutCapacityAssignmentConfigurationInput, PutCapacityAssignmentConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutCapacityAssignmentConfigurationOutput>())
@@ -4063,9 +4117,9 @@ extension AthenaClient {
     ///
     /// Submits calculations for execution within a session. You can supply the code to run as an inline code block within the request. The request syntax requires the [StartCalculationExecutionRequest$CodeBlock] parameter or the [CalculationConfiguration$CodeBlock] parameter, but not both. Because [CalculationConfiguration$CodeBlock] is deprecated, use the [StartCalculationExecutionRequest$CodeBlock] parameter instead.
     ///
-    /// - Parameter StartCalculationExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCalculationExecutionInput`)
     ///
-    /// - Returns: `StartCalculationExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCalculationExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4099,6 +4153,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCalculationExecutionOutput>(StartCalculationExecutionOutput.httpOutput(from:), StartCalculationExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCalculationExecutionInput, StartCalculationExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCalculationExecutionOutput>())
@@ -4133,9 +4188,9 @@ extension AthenaClient {
     ///
     /// Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires [GetDataCatalog] permission to the catalog. For code samples using the Amazon Web Services SDK for Java, see [Examples and Code Samples](http://docs.aws.amazon.com/athena/latest/ug/code-samples.html) in the Amazon Athena User Guide.
     ///
-    /// - Parameter StartQueryExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartQueryExecutionInput`)
     ///
-    /// - Returns: `StartQueryExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartQueryExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4170,6 +4225,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartQueryExecutionOutput>(StartQueryExecutionOutput.httpOutput(from:), StartQueryExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartQueryExecutionInput, StartQueryExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartQueryExecutionOutput>())
@@ -4204,9 +4260,9 @@ extension AthenaClient {
     ///
     /// Creates a session for running calculations within a workgroup. The session is ready when it reaches an IDLE state.
     ///
-    /// - Parameter StartSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSessionInput`)
     ///
-    /// - Returns: `StartSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4242,6 +4298,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSessionInput, StartSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSessionOutput>(StartSessionOutput.httpOutput(from:), StartSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSessionInput, StartSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSessionOutput>())
@@ -4276,9 +4333,9 @@ extension AthenaClient {
     ///
     /// Requests the cancellation of a calculation. A StopCalculationExecution call on a calculation that is already in a terminal state (for example, STOPPED, FAILED, or COMPLETED) succeeds but has no effect. Cancelling a calculation is done on a best effort basis. If a calculation cannot be cancelled, you can be charged for its completion. If you are concerned about being charged for a calculation that cannot be cancelled, consider terminating the session in which the calculation is running.
     ///
-    /// - Parameter StopCalculationExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopCalculationExecutionInput`)
     ///
-    /// - Returns: `StopCalculationExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopCalculationExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4312,6 +4369,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopCalculationExecutionOutput>(StopCalculationExecutionOutput.httpOutput(from:), StopCalculationExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopCalculationExecutionInput, StopCalculationExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopCalculationExecutionOutput>())
@@ -4346,9 +4404,9 @@ extension AthenaClient {
     ///
     /// Stops a query execution. Requires you to have access to the workgroup in which the query ran.
     ///
-    /// - Parameter StopQueryExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopQueryExecutionInput`)
     ///
-    /// - Returns: `StopQueryExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopQueryExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4382,6 +4440,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopQueryExecutionOutput>(StopQueryExecutionOutput.httpOutput(from:), StopQueryExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopQueryExecutionInput, StopQueryExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopQueryExecutionOutput>())
@@ -4416,9 +4475,9 @@ extension AthenaClient {
     ///
     /// Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups, data catalogs, or capacity reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4452,6 +4511,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4486,9 +4546,9 @@ extension AthenaClient {
     ///
     /// Terminates an active session. A TerminateSession call on a session that is already inactive (for example, in a FAILED, TERMINATED or TERMINATING state) succeeds but has no effect. Calculations running in the session when TerminateSession is called are forcefully stopped, but may display as FAILED instead of STOPPED.
     ///
-    /// - Parameter TerminateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateSessionInput`)
     ///
-    /// - Returns: `TerminateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4522,6 +4582,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateSessionInput, TerminateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateSessionOutput>(TerminateSessionOutput.httpOutput(from:), TerminateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateSessionInput, TerminateSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateSessionOutput>())
@@ -4556,9 +4617,9 @@ extension AthenaClient {
     ///
     /// Removes one or more tags from an Athena resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4592,6 +4653,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4626,9 +4688,9 @@ extension AthenaClient {
     ///
     /// Updates the number of requested data processing units for the capacity reservation with the specified name.
     ///
-    /// - Parameter UpdateCapacityReservationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCapacityReservationInput`)
     ///
-    /// - Returns: `UpdateCapacityReservationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCapacityReservationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4661,6 +4723,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCapacityReservationOutput>(UpdateCapacityReservationOutput.httpOutput(from:), UpdateCapacityReservationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCapacityReservationInput, UpdateCapacityReservationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCapacityReservationOutput>())
@@ -4695,9 +4758,9 @@ extension AthenaClient {
     ///
     /// Updates the data catalog that has the specified name.
     ///
-    /// - Parameter UpdateDataCatalogInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataCatalogInput`)
     ///
-    /// - Returns: `UpdateDataCatalogOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataCatalogOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4730,6 +4793,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataCatalogOutput>(UpdateDataCatalogOutput.httpOutput(from:), UpdateDataCatalogOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataCatalogInput, UpdateDataCatalogOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataCatalogOutput>())
@@ -4764,9 +4828,9 @@ extension AthenaClient {
     ///
     /// Updates a [NamedQuery] object. The database or workgroup cannot be updated.
     ///
-    /// - Parameter UpdateNamedQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNamedQueryInput`)
     ///
-    /// - Returns: `UpdateNamedQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNamedQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4799,6 +4863,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNamedQueryOutput>(UpdateNamedQueryOutput.httpOutput(from:), UpdateNamedQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNamedQueryInput, UpdateNamedQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNamedQueryOutput>())
@@ -4833,9 +4898,9 @@ extension AthenaClient {
     ///
     /// Updates the contents of a Spark notebook.
     ///
-    /// - Parameter UpdateNotebookInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotebookInput`)
     ///
-    /// - Returns: `UpdateNotebookOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotebookOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4869,6 +4934,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotebookInput, UpdateNotebookOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotebookOutput>(UpdateNotebookOutput.httpOutput(from:), UpdateNotebookOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotebookInput, UpdateNotebookOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotebookOutput>())
@@ -4903,9 +4969,9 @@ extension AthenaClient {
     ///
     /// Updates the metadata for a notebook.
     ///
-    /// - Parameter UpdateNotebookMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotebookMetadataInput`)
     ///
-    /// - Returns: `UpdateNotebookMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotebookMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4939,6 +5005,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotebookMetadataOutput>(UpdateNotebookMetadataOutput.httpOutput(from:), UpdateNotebookMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotebookMetadataInput, UpdateNotebookMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotebookMetadataOutput>())
@@ -4973,9 +5040,9 @@ extension AthenaClient {
     ///
     /// Updates a prepared statement.
     ///
-    /// - Parameter UpdatePreparedStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePreparedStatementInput`)
     ///
-    /// - Returns: `UpdatePreparedStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePreparedStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5009,6 +5076,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePreparedStatementOutput>(UpdatePreparedStatementOutput.httpOutput(from:), UpdatePreparedStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePreparedStatementInput, UpdatePreparedStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePreparedStatementOutput>())
@@ -5043,9 +5111,9 @@ extension AthenaClient {
     ///
     /// Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only ConfigurationUpdates can be specified.
     ///
-    /// - Parameter UpdateWorkGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkGroupInput`)
     ///
-    /// - Returns: `UpdateWorkGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5078,6 +5146,7 @@ extension AthenaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkGroupOutput>(UpdateWorkGroupOutput.httpOutput(from:), UpdateWorkGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkGroupInput, UpdateWorkGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkGroupOutput>())

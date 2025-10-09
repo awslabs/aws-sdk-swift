@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMIncidentsClient: ClientRuntime.Client {
     public static let clientName = "SSMIncidentsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMIncidentsClient.SSMIncidentsClientConfiguration
     let serviceName = "SSM Incidents"
@@ -374,9 +375,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves details about all specified findings for an incident, including descriptive details about each finding. A finding represents a recent application environment change made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be investigated as a potential cause of the incident.
     ///
-    /// - Parameter BatchGetIncidentFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetIncidentFindingsInput`)
     ///
-    /// - Returns: `BatchGetIncidentFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetIncidentFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +415,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetIncidentFindingsInput, BatchGetIncidentFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetIncidentFindingsOutput>(BatchGetIncidentFindingsOutput.httpOutput(from:), BatchGetIncidentFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetIncidentFindingsInput, BatchGetIncidentFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetIncidentFindingsOutput>())
@@ -445,9 +447,9 @@ extension SSMIncidentsClient {
     ///
     /// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key.
     ///
-    /// - Parameter CreateReplicationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReplicationSetInput`)
     ///
-    /// - Returns: `CreateReplicationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReplicationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +489,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReplicationSetInput, CreateReplicationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReplicationSetOutput>(CreateReplicationSetOutput.httpOutput(from:), CreateReplicationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReplicationSetInput, CreateReplicationSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReplicationSetOutput>())
@@ -518,9 +521,9 @@ extension SSMIncidentsClient {
     ///
     /// Creates a response plan that automates the initial response to incidents. A response plan engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning of an incident.
     ///
-    /// - Parameter CreateResponsePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResponsePlanInput`)
     ///
-    /// - Returns: `CreateResponsePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResponsePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +563,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResponsePlanInput, CreateResponsePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResponsePlanOutput>(CreateResponsePlanOutput.httpOutput(from:), CreateResponsePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResponsePlanInput, CreateResponsePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResponsePlanOutput>())
@@ -591,9 +595,9 @@ extension SSMIncidentsClient {
     ///
     /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically.
     ///
-    /// - Parameter CreateTimelineEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTimelineEventInput`)
     ///
-    /// - Returns: `CreateTimelineEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTimelineEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +637,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTimelineEventInput, CreateTimelineEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTimelineEventOutput>(CreateTimelineEventOutput.httpOutput(from:), CreateTimelineEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTimelineEventInput, CreateTimelineEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTimelineEventOutput>())
@@ -664,9 +669,9 @@ extension SSMIncidentsClient {
     ///
     /// Delete an incident record from Incident Manager.
     ///
-    /// - Parameter DeleteIncidentRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIncidentRecordInput`)
     ///
-    /// - Returns: `DeleteIncidentRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIncidentRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -703,6 +708,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIncidentRecordInput, DeleteIncidentRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIncidentRecordOutput>(DeleteIncidentRecordOutput.httpOutput(from:), DeleteIncidentRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIncidentRecordInput, DeleteIncidentRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIncidentRecordOutput>())
@@ -734,9 +740,9 @@ extension SSMIncidentsClient {
     ///
     /// Deletes all Regions in your replication set. Deleting the replication set deletes all Incident Manager data.
     ///
-    /// - Parameter DeleteReplicationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReplicationSetInput`)
     ///
-    /// - Returns: `DeleteReplicationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReplicationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,6 +778,7 @@ extension SSMIncidentsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteReplicationSetInput, DeleteReplicationSetOutput>(DeleteReplicationSetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReplicationSetOutput>(DeleteReplicationSetOutput.httpOutput(from:), DeleteReplicationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReplicationSetInput, DeleteReplicationSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReplicationSetOutput>())
@@ -803,9 +810,9 @@ extension SSMIncidentsClient {
     ///
     /// Deletes the resource policy that Resource Access Manager uses to share your Incident Manager resource.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -843,6 +850,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -874,9 +882,9 @@ extension SSMIncidentsClient {
     ///
     /// Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response plan.
     ///
-    /// - Parameter DeleteResponsePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResponsePlanInput`)
     ///
-    /// - Returns: `DeleteResponsePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResponsePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -913,6 +921,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResponsePlanInput, DeleteResponsePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResponsePlanOutput>(DeleteResponsePlanOutput.httpOutput(from:), DeleteResponsePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResponsePlanInput, DeleteResponsePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResponsePlanOutput>())
@@ -944,9 +953,9 @@ extension SSMIncidentsClient {
     ///
     /// Deletes a timeline event from an incident.
     ///
-    /// - Parameter DeleteTimelineEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTimelineEventInput`)
     ///
-    /// - Returns: `DeleteTimelineEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTimelineEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,6 +992,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTimelineEventInput, DeleteTimelineEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTimelineEventOutput>(DeleteTimelineEventOutput.httpOutput(from:), DeleteTimelineEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTimelineEventInput, DeleteTimelineEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTimelineEventOutput>())
@@ -1014,9 +1024,9 @@ extension SSMIncidentsClient {
     ///
     /// Returns the details for the specified incident record.
     ///
-    /// - Parameter GetIncidentRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIncidentRecordInput`)
     ///
-    /// - Returns: `GetIncidentRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIncidentRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1052,6 +1062,7 @@ extension SSMIncidentsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetIncidentRecordInput, GetIncidentRecordOutput>(GetIncidentRecordInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIncidentRecordOutput>(GetIncidentRecordOutput.httpOutput(from:), GetIncidentRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIncidentRecordInput, GetIncidentRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIncidentRecordOutput>())
@@ -1083,9 +1094,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieve your Incident Manager replication set.
     ///
-    /// - Parameter GetReplicationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReplicationSetInput`)
     ///
-    /// - Returns: `GetReplicationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReplicationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,6 +1132,7 @@ extension SSMIncidentsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetReplicationSetInput, GetReplicationSetOutput>(GetReplicationSetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReplicationSetOutput>(GetReplicationSetOutput.httpOutput(from:), GetReplicationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReplicationSetInput, GetReplicationSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReplicationSetOutput>())
@@ -1152,9 +1164,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves the resource policies attached to the specified response plan.
     ///
-    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePoliciesInput`)
     ///
-    /// - Returns: `GetResourcePoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,6 +1205,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePoliciesOutput>(GetResourcePoliciesOutput.httpOutput(from:), GetResourcePoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePoliciesInput, GetResourcePoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePoliciesOutput>())
@@ -1224,9 +1237,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves the details of the specified response plan.
     ///
-    /// - Parameter GetResponsePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResponsePlanInput`)
     ///
-    /// - Returns: `GetResponsePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResponsePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1262,6 +1275,7 @@ extension SSMIncidentsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetResponsePlanInput, GetResponsePlanOutput>(GetResponsePlanInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResponsePlanOutput>(GetResponsePlanOutput.httpOutput(from:), GetResponsePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResponsePlanInput, GetResponsePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResponsePlanOutput>())
@@ -1293,9 +1307,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves a timeline event based on its ID and incident record.
     ///
-    /// - Parameter GetTimelineEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTimelineEventInput`)
     ///
-    /// - Returns: `GetTimelineEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTimelineEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1331,6 +1345,7 @@ extension SSMIncidentsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTimelineEventInput, GetTimelineEventOutput>(GetTimelineEventInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTimelineEventOutput>(GetTimelineEventOutput.httpOutput(from:), GetTimelineEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTimelineEventInput, GetTimelineEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTimelineEventOutput>())
@@ -1362,9 +1377,9 @@ extension SSMIncidentsClient {
     ///
     /// Retrieves a list of the IDs of findings, plus their last modified times, that have been identified for a specified incident. A finding represents a recent application environment change made by an CloudFormation stack creation or update or an CodeDeploy deployment that can be investigated as a potential cause of the incident.
     ///
-    /// - Parameter ListIncidentFindingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIncidentFindingsInput`)
     ///
-    /// - Returns: `ListIncidentFindingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIncidentFindingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1402,6 +1417,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIncidentFindingsInput, ListIncidentFindingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIncidentFindingsOutput>(ListIncidentFindingsOutput.httpOutput(from:), ListIncidentFindingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIncidentFindingsInput, ListIncidentFindingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIncidentFindingsOutput>())
@@ -1433,9 +1449,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
     ///
-    /// - Parameter ListIncidentRecordsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIncidentRecordsInput`)
     ///
-    /// - Returns: `ListIncidentRecordsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIncidentRecordsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1472,6 +1488,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIncidentRecordsInput, ListIncidentRecordsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIncidentRecordsOutput>(ListIncidentRecordsOutput.httpOutput(from:), ListIncidentRecordsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIncidentRecordsInput, ListIncidentRecordsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIncidentRecordsOutput>())
@@ -1503,9 +1520,9 @@ extension SSMIncidentsClient {
     ///
     /// List all related items for an incident record.
     ///
-    /// - Parameter ListRelatedItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRelatedItemsInput`)
     ///
-    /// - Returns: `ListRelatedItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRelatedItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1542,6 +1559,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRelatedItemsInput, ListRelatedItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRelatedItemsOutput>(ListRelatedItemsOutput.httpOutput(from:), ListRelatedItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRelatedItemsInput, ListRelatedItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRelatedItemsOutput>())
@@ -1573,9 +1591,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists details about the replication set configured in your account.
     ///
-    /// - Parameter ListReplicationSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListReplicationSetsInput`)
     ///
-    /// - Returns: `ListReplicationSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListReplicationSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1612,6 +1630,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListReplicationSetsInput, ListReplicationSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListReplicationSetsOutput>(ListReplicationSetsOutput.httpOutput(from:), ListReplicationSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListReplicationSetsInput, ListReplicationSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListReplicationSetsOutput>())
@@ -1643,9 +1662,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists all response plans in your account.
     ///
-    /// - Parameter ListResponsePlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResponsePlansInput`)
     ///
-    /// - Returns: `ListResponsePlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResponsePlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1682,6 +1701,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResponsePlansInput, ListResponsePlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResponsePlansOutput>(ListResponsePlansOutput.httpOutput(from:), ListResponsePlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResponsePlansInput, ListResponsePlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResponsePlansOutput>())
@@ -1713,9 +1733,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists the tags that are attached to the specified response plan or incident.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1750,6 +1770,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1781,9 +1802,9 @@ extension SSMIncidentsClient {
     ///
     /// Lists timeline events for the specified incident record.
     ///
-    /// - Parameter ListTimelineEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTimelineEventsInput`)
     ///
-    /// - Returns: `ListTimelineEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTimelineEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1820,6 +1841,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTimelineEventsInput, ListTimelineEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTimelineEventsOutput>(ListTimelineEventsOutput.httpOutput(from:), ListTimelineEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTimelineEventsInput, ListTimelineEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTimelineEventsOutput>())
@@ -1851,9 +1873,9 @@ extension SSMIncidentsClient {
     ///
     /// Adds a resource policy to the specified response plan. The resource policy is used to share the response plan using Resource Access Manager (RAM). For more information about cross-account sharing, see [Cross-Region and cross-account incident management](https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-manager-cross-account-cross-region.html).
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1891,6 +1913,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -1922,9 +1945,9 @@ extension SSMIncidentsClient {
     ///
     /// Used to start an incident from CloudWatch alarms, EventBridge events, or manually.
     ///
-    /// - Parameter StartIncidentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartIncidentInput`)
     ///
-    /// - Returns: `StartIncidentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartIncidentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1964,6 +1987,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartIncidentInput, StartIncidentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartIncidentOutput>(StartIncidentOutput.httpOutput(from:), StartIncidentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartIncidentInput, StartIncidentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartIncidentOutput>())
@@ -1995,9 +2019,9 @@ extension SSMIncidentsClient {
     ///
     /// Adds a tag to a response plan.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2037,6 +2061,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2068,9 +2093,9 @@ extension SSMIncidentsClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2107,6 +2132,7 @@ extension SSMIncidentsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2138,9 +2164,9 @@ extension SSMIncidentsClient {
     ///
     /// Update deletion protection to either allow or deny deletion of the final Region in a replication set.
     ///
-    /// - Parameter UpdateDeletionProtectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeletionProtectionInput`)
     ///
-    /// - Returns: `UpdateDeletionProtectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeletionProtectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2179,6 +2205,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeletionProtectionInput, UpdateDeletionProtectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeletionProtectionOutput>(UpdateDeletionProtectionOutput.httpOutput(from:), UpdateDeletionProtectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeletionProtectionInput, UpdateDeletionProtectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeletionProtectionOutput>())
@@ -2210,9 +2237,9 @@ extension SSMIncidentsClient {
     ///
     /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see [Interacting through chat](https://docs.aws.amazon.com/incident-manager/latest/userguide/chat.html#chat-interact).
     ///
-    /// - Parameter UpdateIncidentRecordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIncidentRecordInput`)
     ///
-    /// - Returns: `UpdateIncidentRecordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIncidentRecordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2252,6 +2279,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIncidentRecordInput, UpdateIncidentRecordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIncidentRecordOutput>(UpdateIncidentRecordOutput.httpOutput(from:), UpdateIncidentRecordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIncidentRecordInput, UpdateIncidentRecordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIncidentRecordOutput>())
@@ -2283,9 +2311,9 @@ extension SSMIncidentsClient {
     ///
     /// Add or remove related items from the related items tab of an incident record.
     ///
-    /// - Parameter UpdateRelatedItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRelatedItemsInput`)
     ///
-    /// - Returns: `UpdateRelatedItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRelatedItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2325,6 +2353,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRelatedItemsInput, UpdateRelatedItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRelatedItemsOutput>(UpdateRelatedItemsOutput.httpOutput(from:), UpdateRelatedItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRelatedItemsInput, UpdateRelatedItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRelatedItemsOutput>())
@@ -2356,9 +2385,9 @@ extension SSMIncidentsClient {
     ///
     /// Add or delete Regions from your replication set.
     ///
-    /// - Parameter UpdateReplicationSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReplicationSetInput`)
     ///
-    /// - Returns: `UpdateReplicationSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReplicationSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2398,6 +2427,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReplicationSetInput, UpdateReplicationSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReplicationSetOutput>(UpdateReplicationSetOutput.httpOutput(from:), UpdateReplicationSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReplicationSetInput, UpdateReplicationSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReplicationSetOutput>())
@@ -2429,9 +2459,9 @@ extension SSMIncidentsClient {
     ///
     /// Updates the specified response plan.
     ///
-    /// - Parameter UpdateResponsePlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResponsePlanInput`)
     ///
-    /// - Returns: `UpdateResponsePlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResponsePlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2471,6 +2501,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResponsePlanInput, UpdateResponsePlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResponsePlanOutput>(UpdateResponsePlanOutput.httpOutput(from:), UpdateResponsePlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResponsePlanInput, UpdateResponsePlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResponsePlanOutput>())
@@ -2502,9 +2533,9 @@ extension SSMIncidentsClient {
     ///
     /// Updates a timeline event. You can update events of type Custom Event.
     ///
-    /// - Parameter UpdateTimelineEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTimelineEventInput`)
     ///
-    /// - Returns: `UpdateTimelineEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTimelineEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2544,6 +2575,7 @@ extension SSMIncidentsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTimelineEventInput, UpdateTimelineEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTimelineEventOutput>(UpdateTimelineEventOutput.httpOutput(from:), UpdateTimelineEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTimelineEventInput, UpdateTimelineEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTimelineEventOutput>())

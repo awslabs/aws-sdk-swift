@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ElasticTranscoderClient: ClientRuntime.Client {
     public static let clientName = "ElasticTranscoderClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ElasticTranscoderClient.ElasticTranscoderClientConfiguration
     let serviceName = "Elastic Transcoder"
@@ -372,9 +373,9 @@ extension ElasticTranscoderClient {
     ///
     /// The CancelJob operation cancels an unfinished job. You can only cancel a job that has a status of Submitted. To prevent a pipeline from starting to process a job while you're getting the job identifier, use [UpdatePipelineStatus] to temporarily pause the pipeline.
     ///
-    /// - Parameter CancelJobInput : The CancelJobRequest structure.
+    /// - Parameter input: The CancelJobRequest structure. (Type: `CancelJobInput`)
     ///
-    /// - Returns: `CancelJobOutput` : The response body contains a JSON object. If the job is successfully canceled, the value of Success is true.
+    /// - Returns: The response body contains a JSON object. If the job is successfully canceled, the value of Success is true. (Type: `CancelJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +411,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelJobInput, CancelJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelJobOutput>(CancelJobOutput.httpOutput(from:), CancelJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelJobInput, CancelJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelJobOutput>())
@@ -441,9 +443,9 @@ extension ElasticTranscoderClient {
     ///
     /// When you create a job, Elastic Transcoder returns JSON data that includes the values that you specified plus information about the job that is created. If you have specified more than one output for your jobs (for example, one output for the Kindle Fire and another output for the Apple iPhone 4s), you currently must use the Elastic Transcoder API to list the jobs (as opposed to the AWS Console).
     ///
-    /// - Parameter CreateJobInput : The CreateJobRequest structure.
+    /// - Parameter input: The CreateJobRequest structure. (Type: `CreateJobInput`)
     ///
-    /// - Returns: `CreateJobOutput` : The CreateJobResponse structure.
+    /// - Returns: The CreateJobResponse structure. (Type: `CreateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +484,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobInput, CreateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobOutput>(CreateJobOutput.httpOutput(from:), CreateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobInput, CreateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobOutput>())
@@ -513,9 +516,9 @@ extension ElasticTranscoderClient {
     ///
     /// The CreatePipeline operation creates a pipeline with settings that you specify.
     ///
-    /// - Parameter CreatePipelineInput : The CreatePipelineRequest structure.
+    /// - Parameter input: The CreatePipelineRequest structure. (Type: `CreatePipelineInput`)
     ///
-    /// - Returns: `CreatePipelineOutput` : When you create a pipeline, Elastic Transcoder returns the values that you specified in the request.
+    /// - Returns: When you create a pipeline, Elastic Transcoder returns the values that you specified in the request. (Type: `CreatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -554,6 +557,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePipelineInput, CreatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePipelineOutput>(CreatePipelineOutput.httpOutput(from:), CreatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePipelineInput, CreatePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePipelineOutput>())
@@ -585,9 +589,9 @@ extension ElasticTranscoderClient {
     ///
     /// The CreatePreset operation creates a preset with settings that you specify. Elastic Transcoder checks the CreatePreset settings to ensure that they meet Elastic Transcoder requirements and to determine whether they comply with H.264 standards. If your settings are not valid for Elastic Transcoder, Elastic Transcoder returns an HTTP 400 response (ValidationException) and does not create the preset. If the settings are valid for Elastic Transcoder but aren't strictly compliant with the H.264 standard, Elastic Transcoder creates the preset and returns a warning message in the response. This helps you determine whether your settings comply with the H.264 standard while giving you greater flexibility with respect to the video that Elastic Transcoder produces. Elastic Transcoder uses the H.264 video-compression format. For more information, see the International Telecommunication Union publication Recommendation ITU-T H.264: Advanced video coding for generic audiovisual services.
     ///
-    /// - Parameter CreatePresetInput : The CreatePresetRequest structure.
+    /// - Parameter input: The CreatePresetRequest structure. (Type: `CreatePresetInput`)
     ///
-    /// - Returns: `CreatePresetOutput` : The CreatePresetResponse structure.
+    /// - Returns: The CreatePresetResponse structure. (Type: `CreatePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,6 +629,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePresetInput, CreatePresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePresetOutput>(CreatePresetOutput.httpOutput(from:), CreatePresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePresetInput, CreatePresetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePresetOutput>())
@@ -656,9 +661,9 @@ extension ElasticTranscoderClient {
     ///
     /// The DeletePipeline operation removes a pipeline. You can only delete a pipeline that has never been used or that is not currently in use (doesn't contain any active jobs). If the pipeline is currently in use, DeletePipeline returns an error.
     ///
-    /// - Parameter DeletePipelineInput : The DeletePipelineRequest structure.
+    /// - Parameter input: The DeletePipelineRequest structure. (Type: `DeletePipelineInput`)
     ///
-    /// - Returns: `DeletePipelineOutput` : The DeletePipelineResponse structure.
+    /// - Returns: The DeletePipelineResponse structure. (Type: `DeletePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,6 +699,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePipelineInput, DeletePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePipelineOutput>(DeletePipelineOutput.httpOutput(from:), DeletePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePipelineInput, DeletePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePipelineOutput>())
@@ -725,9 +731,9 @@ extension ElasticTranscoderClient {
     ///
     /// The DeletePreset operation removes a preset that you've added in an AWS region. You can't delete the default presets that are included with Elastic Transcoder.
     ///
-    /// - Parameter DeletePresetInput : The DeletePresetRequest structure.
+    /// - Parameter input: The DeletePresetRequest structure. (Type: `DeletePresetInput`)
     ///
-    /// - Returns: `DeletePresetOutput` : The DeletePresetResponse structure.
+    /// - Returns: The DeletePresetResponse structure. (Type: `DeletePresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -762,6 +768,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePresetInput, DeletePresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePresetOutput>(DeletePresetOutput.httpOutput(from:), DeletePresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePresetInput, DeletePresetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePresetOutput>())
@@ -793,9 +800,9 @@ extension ElasticTranscoderClient {
     ///
     /// The ListJobsByPipeline operation gets a list of the jobs currently in a pipeline. Elastic Transcoder returns all of the jobs currently in the specified pipeline. The response body contains one element for each job that satisfies the search criteria.
     ///
-    /// - Parameter ListJobsByPipelineInput : The ListJobsByPipelineRequest structure.
+    /// - Parameter input: The ListJobsByPipelineRequest structure. (Type: `ListJobsByPipelineInput`)
     ///
-    /// - Returns: `ListJobsByPipelineOutput` : The ListJobsByPipelineResponse structure.
+    /// - Returns: The ListJobsByPipelineResponse structure. (Type: `ListJobsByPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -831,6 +838,7 @@ extension ElasticTranscoderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsByPipelineInput, ListJobsByPipelineOutput>(ListJobsByPipelineInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsByPipelineOutput>(ListJobsByPipelineOutput.httpOutput(from:), ListJobsByPipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsByPipelineInput, ListJobsByPipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsByPipelineOutput>())
@@ -862,9 +870,9 @@ extension ElasticTranscoderClient {
     ///
     /// The ListJobsByStatus operation gets a list of jobs that have a specified status. The response body contains one element for each job that satisfies the search criteria.
     ///
-    /// - Parameter ListJobsByStatusInput : The ListJobsByStatusRequest structure.
+    /// - Parameter input: The ListJobsByStatusRequest structure. (Type: `ListJobsByStatusInput`)
     ///
-    /// - Returns: `ListJobsByStatusOutput` : The ListJobsByStatusResponse structure.
+    /// - Returns: The ListJobsByStatusResponse structure. (Type: `ListJobsByStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -900,6 +908,7 @@ extension ElasticTranscoderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsByStatusInput, ListJobsByStatusOutput>(ListJobsByStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsByStatusOutput>(ListJobsByStatusOutput.httpOutput(from:), ListJobsByStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsByStatusInput, ListJobsByStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsByStatusOutput>())
@@ -931,9 +940,9 @@ extension ElasticTranscoderClient {
     ///
     /// The ListPipelines operation gets a list of the pipelines associated with the current AWS account.
     ///
-    /// - Parameter ListPipelinesInput : The ListPipelineRequest structure.
+    /// - Parameter input: The ListPipelineRequest structure. (Type: `ListPipelinesInput`)
     ///
-    /// - Returns: `ListPipelinesOutput` : A list of the pipelines associated with the current AWS account.
+    /// - Returns: A list of the pipelines associated with the current AWS account. (Type: `ListPipelinesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,6 +977,7 @@ extension ElasticTranscoderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPipelinesInput, ListPipelinesOutput>(ListPipelinesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPipelinesOutput>(ListPipelinesOutput.httpOutput(from:), ListPipelinesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPipelinesInput, ListPipelinesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPipelinesOutput>())
@@ -999,9 +1009,9 @@ extension ElasticTranscoderClient {
     ///
     /// The ListPresets operation gets a list of the default presets included with Elastic Transcoder and the presets that you've added in an AWS region.
     ///
-    /// - Parameter ListPresetsInput : The ListPresetsRequest structure.
+    /// - Parameter input: The ListPresetsRequest structure. (Type: `ListPresetsInput`)
     ///
-    /// - Returns: `ListPresetsOutput` : The ListPresetsResponse structure.
+    /// - Returns: The ListPresetsResponse structure. (Type: `ListPresetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1036,6 +1046,7 @@ extension ElasticTranscoderClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPresetsInput, ListPresetsOutput>(ListPresetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPresetsOutput>(ListPresetsOutput.httpOutput(from:), ListPresetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPresetsInput, ListPresetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPresetsOutput>())
@@ -1067,9 +1078,9 @@ extension ElasticTranscoderClient {
     ///
     /// The ReadJob operation returns detailed information about a job.
     ///
-    /// - Parameter ReadJobInput : The ReadJobRequest structure.
+    /// - Parameter input: The ReadJobRequest structure. (Type: `ReadJobInput`)
     ///
-    /// - Returns: `ReadJobOutput` : The ReadJobResponse structure.
+    /// - Returns: The ReadJobResponse structure. (Type: `ReadJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1104,6 +1115,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReadJobInput, ReadJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReadJobOutput>(ReadJobOutput.httpOutput(from:), ReadJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReadJobInput, ReadJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReadJobOutput>())
@@ -1135,9 +1147,9 @@ extension ElasticTranscoderClient {
     ///
     /// The ReadPipeline operation gets detailed information about a pipeline.
     ///
-    /// - Parameter ReadPipelineInput : The ReadPipelineRequest structure.
+    /// - Parameter input: The ReadPipelineRequest structure. (Type: `ReadPipelineInput`)
     ///
-    /// - Returns: `ReadPipelineOutput` : The ReadPipelineResponse structure.
+    /// - Returns: The ReadPipelineResponse structure. (Type: `ReadPipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1172,6 +1184,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReadPipelineInput, ReadPipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReadPipelineOutput>(ReadPipelineOutput.httpOutput(from:), ReadPipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReadPipelineInput, ReadPipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReadPipelineOutput>())
@@ -1203,9 +1216,9 @@ extension ElasticTranscoderClient {
     ///
     /// The ReadPreset operation gets detailed information about a preset.
     ///
-    /// - Parameter ReadPresetInput : The ReadPresetRequest structure.
+    /// - Parameter input: The ReadPresetRequest structure. (Type: `ReadPresetInput`)
     ///
-    /// - Returns: `ReadPresetOutput` : The ReadPresetResponse structure.
+    /// - Returns: The ReadPresetResponse structure. (Type: `ReadPresetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1240,6 +1253,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ReadPresetInput, ReadPresetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReadPresetOutput>(ReadPresetOutput.httpOutput(from:), ReadPresetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReadPresetInput, ReadPresetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReadPresetOutput>())
@@ -1272,9 +1286,9 @@ extension ElasticTranscoderClient {
     /// The TestRole operation tests the IAM role used to create the pipeline. The TestRole action lets you determine whether the IAM role you are using has sufficient permissions to let Elastic Transcoder perform tasks associated with the transcoding process. The action attempts to assume the specified IAM role, checks read access to the input and output buckets, and tries to send a test notification to Amazon SNS topics that you specify.
     @available(*, deprecated)
     ///
-    /// - Parameter TestRoleInput : The TestRoleRequest structure.
+    /// - Parameter input: The TestRoleRequest structure. (Type: `TestRoleInput`)
     ///
-    /// - Returns: `TestRoleOutput` : The TestRoleResponse structure.
+    /// - Returns: The TestRoleResponse structure. (Type: `TestRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1312,6 +1326,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TestRoleInput, TestRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TestRoleOutput>(TestRoleOutput.httpOutput(from:), TestRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TestRoleInput, TestRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TestRoleOutput>())
@@ -1343,9 +1358,9 @@ extension ElasticTranscoderClient {
     ///
     /// Use the UpdatePipeline operation to update settings for a pipeline. When you change pipeline settings, your changes take effect immediately. Jobs that you have already submitted and that Elastic Transcoder has not started to process are affected in addition to jobs that you submit after you change settings.
     ///
-    /// - Parameter UpdatePipelineInput : The UpdatePipelineRequest structure.
+    /// - Parameter input: The UpdatePipelineRequest structure. (Type: `UpdatePipelineInput`)
     ///
-    /// - Returns: `UpdatePipelineOutput` : When you update a pipeline, Elastic Transcoder returns the values that you specified in the request.
+    /// - Returns: When you update a pipeline, Elastic Transcoder returns the values that you specified in the request. (Type: `UpdatePipelineOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1384,6 +1399,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipelineInput, UpdatePipelineOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipelineOutput>(UpdatePipelineOutput.httpOutput(from:), UpdatePipelineOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipelineInput, UpdatePipelineOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipelineOutput>())
@@ -1415,9 +1431,9 @@ extension ElasticTranscoderClient {
     ///
     /// With the UpdatePipelineNotifications operation, you can update Amazon Simple Notification Service (Amazon SNS) notifications for a pipeline. When you update notifications for a pipeline, Elastic Transcoder returns the values that you specified in the request.
     ///
-    /// - Parameter UpdatePipelineNotificationsInput : The UpdatePipelineNotificationsRequest structure.
+    /// - Parameter input: The UpdatePipelineNotificationsRequest structure. (Type: `UpdatePipelineNotificationsInput`)
     ///
-    /// - Returns: `UpdatePipelineNotificationsOutput` : The UpdatePipelineNotificationsResponse structure.
+    /// - Returns: The UpdatePipelineNotificationsResponse structure. (Type: `UpdatePipelineNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1456,6 +1472,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipelineNotificationsOutput>(UpdatePipelineNotificationsOutput.httpOutput(from:), UpdatePipelineNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipelineNotificationsInput, UpdatePipelineNotificationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipelineNotificationsOutput>())
@@ -1487,9 +1504,9 @@ extension ElasticTranscoderClient {
     ///
     /// The UpdatePipelineStatus operation pauses or reactivates a pipeline, so that the pipeline stops or restarts the processing of jobs. Changing the pipeline status is useful if you want to cancel one or more jobs. You can't cancel jobs after Elastic Transcoder has started processing them; if you pause the pipeline to which you submitted the jobs, you have more time to get the job IDs for the jobs that you want to cancel, and to send a [CancelJob] request.
     ///
-    /// - Parameter UpdatePipelineStatusInput : The UpdatePipelineStatusRequest structure.
+    /// - Parameter input: The UpdatePipelineStatusRequest structure. (Type: `UpdatePipelineStatusInput`)
     ///
-    /// - Returns: `UpdatePipelineStatusOutput` : When you update status for a pipeline, Elastic Transcoder returns the values that you specified in the request.
+    /// - Returns: When you update status for a pipeline, Elastic Transcoder returns the values that you specified in the request. (Type: `UpdatePipelineStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1528,6 +1545,7 @@ extension ElasticTranscoderClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePipelineStatusOutput>(UpdatePipelineStatusOutput.httpOutput(from:), UpdatePipelineStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePipelineStatusInput, UpdatePipelineStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePipelineStatusOutput>())

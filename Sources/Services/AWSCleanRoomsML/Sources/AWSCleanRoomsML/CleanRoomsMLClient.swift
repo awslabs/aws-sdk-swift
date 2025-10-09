@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CleanRoomsMLClient: ClientRuntime.Client {
     public static let clientName = "CleanRoomsMLClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CleanRoomsMLClient.CleanRoomsMLClientConfiguration
     let serviceName = "CleanRoomsML"
@@ -373,9 +374,9 @@ extension CleanRoomsMLClient {
     ///
     /// Submits a request to cancel the trained model job.
     ///
-    /// - Parameter CancelTrainedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTrainedModelInput`)
     ///
-    /// - Returns: `CancelTrainedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTrainedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +412,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<CancelTrainedModelInput, CancelTrainedModelOutput>(CancelTrainedModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelTrainedModelOutput>(CancelTrainedModelOutput.httpOutput(from:), CancelTrainedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelTrainedModelInput, CancelTrainedModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelTrainedModelOutput>())
@@ -442,9 +444,9 @@ extension CleanRoomsMLClient {
     ///
     /// Submits a request to cancel a trained model inference job.
     ///
-    /// - Parameter CancelTrainedModelInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTrainedModelInferenceJobInput`)
     ///
-    /// - Returns: `CancelTrainedModelInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTrainedModelInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -479,6 +481,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelTrainedModelInferenceJobInput, CancelTrainedModelInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelTrainedModelInferenceJobOutput>(CancelTrainedModelInferenceJobOutput.httpOutput(from:), CancelTrainedModelInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelTrainedModelInferenceJobInput, CancelTrainedModelInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelTrainedModelInferenceJobOutput>())
@@ -510,9 +513,9 @@ extension CleanRoomsMLClient {
     ///
     /// Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the [StartAudienceGenerationJob] API.
     ///
-    /// - Parameter CreateAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAudienceModelInput`)
     ///
-    /// - Returns: `CreateAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,6 +553,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAudienceModelInput, CreateAudienceModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAudienceModelOutput>(CreateAudienceModelOutput.httpOutput(from:), CreateAudienceModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAudienceModelInput, CreateAudienceModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAudienceModelOutput>())
@@ -581,9 +585,9 @@ extension CleanRoomsMLClient {
     ///
     /// Defines the information necessary to create a configured audience model.
     ///
-    /// - Parameter CreateConfiguredAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredAudienceModelInput`)
     ///
-    /// - Returns: `CreateConfiguredAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -621,6 +625,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfiguredAudienceModelInput, CreateConfiguredAudienceModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredAudienceModelOutput>(CreateConfiguredAudienceModelOutput.httpOutput(from:), CreateConfiguredAudienceModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredAudienceModelInput, CreateConfiguredAudienceModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredAudienceModelOutput>())
@@ -652,9 +657,9 @@ extension CleanRoomsMLClient {
     ///
     /// Creates a configured model algorithm using a container image stored in an ECR repository.
     ///
-    /// - Parameter CreateConfiguredModelAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredModelAlgorithmInput`)
     ///
-    /// - Returns: `CreateConfiguredModelAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredModelAlgorithmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,6 +696,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfiguredModelAlgorithmInput, CreateConfiguredModelAlgorithmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredModelAlgorithmOutput>(CreateConfiguredModelAlgorithmOutput.httpOutput(from:), CreateConfiguredModelAlgorithmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredModelAlgorithmInput, CreateConfiguredModelAlgorithmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredModelAlgorithmOutput>())
@@ -722,9 +728,9 @@ extension CleanRoomsMLClient {
     ///
     /// Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
     ///
-    /// - Parameter CreateConfiguredModelAlgorithmAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConfiguredModelAlgorithmAssociationInput`)
     ///
-    /// - Returns: `CreateConfiguredModelAlgorithmAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfiguredModelAlgorithmAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,6 +769,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfiguredModelAlgorithmAssociationInput, CreateConfiguredModelAlgorithmAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfiguredModelAlgorithmAssociationOutput>(CreateConfiguredModelAlgorithmAssociationOutput.httpOutput(from:), CreateConfiguredModelAlgorithmAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfiguredModelAlgorithmAssociationInput, CreateConfiguredModelAlgorithmAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfiguredModelAlgorithmAssociationOutput>())
@@ -794,9 +801,9 @@ extension CleanRoomsMLClient {
     ///
     /// Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
     ///
-    /// - Parameter CreateMLInputChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMLInputChannelInput`)
     ///
-    /// - Returns: `CreateMLInputChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMLInputChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -835,6 +842,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMLInputChannelInput, CreateMLInputChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMLInputChannelOutput>(CreateMLInputChannelOutput.httpOutput(from:), CreateMLInputChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMLInputChannelInput, CreateMLInputChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMLInputChannelOutput>())
@@ -866,9 +874,9 @@ extension CleanRoomsMLClient {
     ///
     /// Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
     ///
-    /// - Parameter CreateTrainedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrainedModelInput`)
     ///
-    /// - Returns: `CreateTrainedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrainedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,6 +916,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrainedModelInput, CreateTrainedModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrainedModelOutput>(CreateTrainedModelOutput.httpOutput(from:), CreateTrainedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrainedModelInput, CreateTrainedModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrainedModelOutput>())
@@ -939,9 +948,9 @@ extension CleanRoomsMLClient {
     ///
     /// Defines the information necessary to create a training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation.
     ///
-    /// - Parameter CreateTrainingDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrainingDatasetInput`)
     ///
-    /// - Returns: `CreateTrainingDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrainingDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -977,6 +986,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrainingDatasetInput, CreateTrainingDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrainingDatasetOutput>(CreateTrainingDatasetOutput.httpOutput(from:), CreateTrainingDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrainingDatasetInput, CreateTrainingDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrainingDatasetOutput>())
@@ -1008,9 +1018,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes the specified audience generation job, and removes all data associated with the job.
     ///
-    /// - Parameter DeleteAudienceGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAudienceGenerationJobInput`)
     ///
-    /// - Returns: `DeleteAudienceGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAudienceGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1044,6 +1054,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAudienceGenerationJobInput, DeleteAudienceGenerationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAudienceGenerationJobOutput>(DeleteAudienceGenerationJobOutput.httpOutput(from:), DeleteAudienceGenerationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAudienceGenerationJobInput, DeleteAudienceGenerationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAudienceGenerationJobOutput>())
@@ -1075,9 +1086,9 @@ extension CleanRoomsMLClient {
     ///
     /// Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that depend on the audience model.
     ///
-    /// - Parameter DeleteAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAudienceModelInput`)
     ///
-    /// - Returns: `DeleteAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1111,6 +1122,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAudienceModelInput, DeleteAudienceModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAudienceModelOutput>(DeleteAudienceModelOutput.httpOutput(from:), DeleteAudienceModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAudienceModelInput, DeleteAudienceModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAudienceModelOutput>())
@@ -1142,9 +1154,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes the specified configured audience model. You can't delete a configured audience model if there are any lookalike models that use the configured audience model. If you delete a configured audience model, it will be removed from any collaborations that it is associated to.
     ///
-    /// - Parameter DeleteConfiguredAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredAudienceModelInput`)
     ///
-    /// - Returns: `DeleteConfiguredAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,6 +1190,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredAudienceModelInput, DeleteConfiguredAudienceModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredAudienceModelOutput>(DeleteConfiguredAudienceModelOutput.httpOutput(from:), DeleteConfiguredAudienceModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredAudienceModelInput, DeleteConfiguredAudienceModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredAudienceModelOutput>())
@@ -1209,9 +1222,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes the specified configured audience model policy.
     ///
-    /// - Parameter DeleteConfiguredAudienceModelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredAudienceModelPolicyInput`)
     ///
-    /// - Returns: `DeleteConfiguredAudienceModelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredAudienceModelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1244,6 +1257,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredAudienceModelPolicyInput, DeleteConfiguredAudienceModelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredAudienceModelPolicyOutput>(DeleteConfiguredAudienceModelPolicyOutput.httpOutput(from:), DeleteConfiguredAudienceModelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredAudienceModelPolicyInput, DeleteConfiguredAudienceModelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredAudienceModelPolicyOutput>())
@@ -1275,9 +1289,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes a configured model algorithm.
     ///
-    /// - Parameter DeleteConfiguredModelAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredModelAlgorithmInput`)
     ///
-    /// - Returns: `DeleteConfiguredModelAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredModelAlgorithmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1311,6 +1325,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredModelAlgorithmInput, DeleteConfiguredModelAlgorithmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredModelAlgorithmOutput>(DeleteConfiguredModelAlgorithmOutput.httpOutput(from:), DeleteConfiguredModelAlgorithmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredModelAlgorithmInput, DeleteConfiguredModelAlgorithmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredModelAlgorithmOutput>())
@@ -1342,9 +1357,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes a configured model algorithm association.
     ///
-    /// - Parameter DeleteConfiguredModelAlgorithmAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfiguredModelAlgorithmAssociationInput`)
     ///
-    /// - Returns: `DeleteConfiguredModelAlgorithmAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfiguredModelAlgorithmAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,6 +1394,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfiguredModelAlgorithmAssociationInput, DeleteConfiguredModelAlgorithmAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfiguredModelAlgorithmAssociationOutput>(DeleteConfiguredModelAlgorithmAssociationOutput.httpOutput(from:), DeleteConfiguredModelAlgorithmAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfiguredModelAlgorithmAssociationInput, DeleteConfiguredModelAlgorithmAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfiguredModelAlgorithmAssociationOutput>())
@@ -1410,9 +1426,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes a ML modeling configuration.
     ///
-    /// - Parameter DeleteMLConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMLConfigurationInput`)
     ///
-    /// - Returns: `DeleteMLConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMLConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1446,6 +1462,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMLConfigurationInput, DeleteMLConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMLConfigurationOutput>(DeleteMLConfigurationOutput.httpOutput(from:), DeleteMLConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMLConfigurationInput, DeleteMLConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMLConfigurationOutput>())
@@ -1477,9 +1494,9 @@ extension CleanRoomsMLClient {
     ///
     /// Provides the information necessary to delete an ML input channel.
     ///
-    /// - Parameter DeleteMLInputChannelDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMLInputChannelDataInput`)
     ///
-    /// - Returns: `DeleteMLInputChannelDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMLInputChannelDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1514,6 +1531,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMLInputChannelDataInput, DeleteMLInputChannelDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMLInputChannelDataOutput>(DeleteMLInputChannelDataOutput.httpOutput(from:), DeleteMLInputChannelDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMLInputChannelDataInput, DeleteMLInputChannelDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMLInputChannelDataOutput>())
@@ -1545,9 +1563,9 @@ extension CleanRoomsMLClient {
     ///
     /// Deletes the model artifacts stored by the service.
     ///
-    /// - Parameter DeleteTrainedModelOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrainedModelOutputInput`)
     ///
-    /// - Returns: `DeleteTrainedModelOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrainedModelOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1583,6 +1601,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTrainedModelOutputInput, DeleteTrainedModelOutputOutput>(DeleteTrainedModelOutputInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrainedModelOutputOutput>(DeleteTrainedModelOutputOutput.httpOutput(from:), DeleteTrainedModelOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrainedModelOutputInput, DeleteTrainedModelOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrainedModelOutputOutput>())
@@ -1614,9 +1633,9 @@ extension CleanRoomsMLClient {
     ///
     /// Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation. This action deletes the metadata.
     ///
-    /// - Parameter DeleteTrainingDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrainingDatasetInput`)
     ///
-    /// - Returns: `DeleteTrainingDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrainingDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1650,6 +1669,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrainingDatasetInput, DeleteTrainingDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrainingDatasetOutput>(DeleteTrainingDatasetOutput.httpOutput(from:), DeleteTrainingDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrainingDatasetInput, DeleteTrainingDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrainingDatasetOutput>())
@@ -1681,9 +1701,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about an audience generation job.
     ///
-    /// - Parameter GetAudienceGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAudienceGenerationJobInput`)
     ///
-    /// - Returns: `GetAudienceGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAudienceGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1716,6 +1736,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAudienceGenerationJobInput, GetAudienceGenerationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAudienceGenerationJobOutput>(GetAudienceGenerationJobOutput.httpOutput(from:), GetAudienceGenerationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAudienceGenerationJobInput, GetAudienceGenerationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAudienceGenerationJobOutput>())
@@ -1747,9 +1768,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about an audience model
     ///
-    /// - Parameter GetAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAudienceModelInput`)
     ///
-    /// - Returns: `GetAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1782,6 +1803,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAudienceModelInput, GetAudienceModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAudienceModelOutput>(GetAudienceModelOutput.httpOutput(from:), GetAudienceModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAudienceModelInput, GetAudienceModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAudienceModelOutput>())
@@ -1813,9 +1835,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about the configured model algorithm association in a collaboration.
     ///
-    /// - Parameter GetCollaborationConfiguredModelAlgorithmAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationConfiguredModelAlgorithmAssociationInput`)
     ///
-    /// - Returns: `GetCollaborationConfiguredModelAlgorithmAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationConfiguredModelAlgorithmAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1849,6 +1871,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationConfiguredModelAlgorithmAssociationInput, GetCollaborationConfiguredModelAlgorithmAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationConfiguredModelAlgorithmAssociationOutput>(GetCollaborationConfiguredModelAlgorithmAssociationOutput.httpOutput(from:), GetCollaborationConfiguredModelAlgorithmAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationConfiguredModelAlgorithmAssociationInput, GetCollaborationConfiguredModelAlgorithmAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationConfiguredModelAlgorithmAssociationOutput>())
@@ -1880,9 +1903,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a specific ML input channel in a collaboration.
     ///
-    /// - Parameter GetCollaborationMLInputChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationMLInputChannelInput`)
     ///
-    /// - Returns: `GetCollaborationMLInputChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationMLInputChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1916,6 +1939,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCollaborationMLInputChannelInput, GetCollaborationMLInputChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationMLInputChannelOutput>(GetCollaborationMLInputChannelOutput.httpOutput(from:), GetCollaborationMLInputChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationMLInputChannelInput, GetCollaborationMLInputChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationMLInputChannelOutput>())
@@ -1947,9 +1971,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a trained model in a collaboration.
     ///
-    /// - Parameter GetCollaborationTrainedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCollaborationTrainedModelInput`)
     ///
-    /// - Returns: `GetCollaborationTrainedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCollaborationTrainedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1984,6 +2008,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCollaborationTrainedModelInput, GetCollaborationTrainedModelOutput>(GetCollaborationTrainedModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCollaborationTrainedModelOutput>(GetCollaborationTrainedModelOutput.httpOutput(from:), GetCollaborationTrainedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCollaborationTrainedModelInput, GetCollaborationTrainedModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCollaborationTrainedModelOutput>())
@@ -2015,9 +2040,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a specified configured audience model.
     ///
-    /// - Parameter GetConfiguredAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredAudienceModelInput`)
     ///
-    /// - Returns: `GetConfiguredAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2050,6 +2075,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredAudienceModelInput, GetConfiguredAudienceModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredAudienceModelOutput>(GetConfiguredAudienceModelOutput.httpOutput(from:), GetConfiguredAudienceModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredAudienceModelInput, GetConfiguredAudienceModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredAudienceModelOutput>())
@@ -2081,9 +2107,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a configured audience model policy.
     ///
-    /// - Parameter GetConfiguredAudienceModelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredAudienceModelPolicyInput`)
     ///
-    /// - Returns: `GetConfiguredAudienceModelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredAudienceModelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2116,6 +2142,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredAudienceModelPolicyInput, GetConfiguredAudienceModelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredAudienceModelPolicyOutput>(GetConfiguredAudienceModelPolicyOutput.httpOutput(from:), GetConfiguredAudienceModelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredAudienceModelPolicyInput, GetConfiguredAudienceModelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredAudienceModelPolicyOutput>())
@@ -2147,9 +2174,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a configured model algorithm.
     ///
-    /// - Parameter GetConfiguredModelAlgorithmInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredModelAlgorithmInput`)
     ///
-    /// - Returns: `GetConfiguredModelAlgorithmOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredModelAlgorithmOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2182,6 +2209,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredModelAlgorithmInput, GetConfiguredModelAlgorithmOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredModelAlgorithmOutput>(GetConfiguredModelAlgorithmOutput.httpOutput(from:), GetConfiguredModelAlgorithmOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredModelAlgorithmInput, GetConfiguredModelAlgorithmOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredModelAlgorithmOutput>())
@@ -2213,9 +2241,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a configured model algorithm association.
     ///
-    /// - Parameter GetConfiguredModelAlgorithmAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConfiguredModelAlgorithmAssociationInput`)
     ///
-    /// - Returns: `GetConfiguredModelAlgorithmAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConfiguredModelAlgorithmAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2249,6 +2277,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConfiguredModelAlgorithmAssociationInput, GetConfiguredModelAlgorithmAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConfiguredModelAlgorithmAssociationOutput>(GetConfiguredModelAlgorithmAssociationOutput.httpOutput(from:), GetConfiguredModelAlgorithmAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConfiguredModelAlgorithmAssociationInput, GetConfiguredModelAlgorithmAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConfiguredModelAlgorithmAssociationOutput>())
@@ -2280,9 +2309,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a specific ML configuration.
     ///
-    /// - Parameter GetMLConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLConfigurationInput`)
     ///
-    /// - Returns: `GetMLConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2316,6 +2345,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMLConfigurationInput, GetMLConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLConfigurationOutput>(GetMLConfigurationOutput.httpOutput(from:), GetMLConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLConfigurationInput, GetMLConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLConfigurationOutput>())
@@ -2347,9 +2377,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about an ML input channel.
     ///
-    /// - Parameter GetMLInputChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMLInputChannelInput`)
     ///
-    /// - Returns: `GetMLInputChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMLInputChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2383,6 +2413,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMLInputChannelInput, GetMLInputChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMLInputChannelOutput>(GetMLInputChannelOutput.httpOutput(from:), GetMLInputChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMLInputChannelInput, GetMLInputChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMLInputChannelOutput>())
@@ -2414,9 +2445,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a trained model.
     ///
-    /// - Parameter GetTrainedModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrainedModelInput`)
     ///
-    /// - Returns: `GetTrainedModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrainedModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2451,6 +2482,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTrainedModelInput, GetTrainedModelOutput>(GetTrainedModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrainedModelOutput>(GetTrainedModelOutput.httpOutput(from:), GetTrainedModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrainedModelInput, GetTrainedModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrainedModelOutput>())
@@ -2482,9 +2514,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a trained model inference job.
     ///
-    /// - Parameter GetTrainedModelInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrainedModelInferenceJobInput`)
     ///
-    /// - Returns: `GetTrainedModelInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrainedModelInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2518,6 +2550,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrainedModelInferenceJobInput, GetTrainedModelInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrainedModelInferenceJobOutput>(GetTrainedModelInferenceJobOutput.httpOutput(from:), GetTrainedModelInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrainedModelInferenceJobInput, GetTrainedModelInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrainedModelInferenceJobOutput>())
@@ -2549,9 +2582,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns information about a training dataset.
     ///
-    /// - Parameter GetTrainingDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrainingDatasetInput`)
     ///
-    /// - Returns: `GetTrainingDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrainingDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2584,6 +2617,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTrainingDatasetInput, GetTrainingDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrainingDatasetOutput>(GetTrainingDatasetOutput.httpOutput(from:), GetTrainingDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrainingDatasetInput, GetTrainingDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrainingDatasetOutput>())
@@ -2615,9 +2649,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the audience export jobs.
     ///
-    /// - Parameter ListAudienceExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAudienceExportJobsInput`)
     ///
-    /// - Returns: `ListAudienceExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAudienceExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2650,6 +2684,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAudienceExportJobsInput, ListAudienceExportJobsOutput>(ListAudienceExportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAudienceExportJobsOutput>(ListAudienceExportJobsOutput.httpOutput(from:), ListAudienceExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAudienceExportJobsInput, ListAudienceExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAudienceExportJobsOutput>())
@@ -2681,9 +2716,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of audience generation jobs.
     ///
-    /// - Parameter ListAudienceGenerationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAudienceGenerationJobsInput`)
     ///
-    /// - Returns: `ListAudienceGenerationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAudienceGenerationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2716,6 +2751,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAudienceGenerationJobsInput, ListAudienceGenerationJobsOutput>(ListAudienceGenerationJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAudienceGenerationJobsOutput>(ListAudienceGenerationJobsOutput.httpOutput(from:), ListAudienceGenerationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAudienceGenerationJobsInput, ListAudienceGenerationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAudienceGenerationJobsOutput>())
@@ -2747,9 +2783,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of audience models.
     ///
-    /// - Parameter ListAudienceModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAudienceModelsInput`)
     ///
-    /// - Returns: `ListAudienceModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAudienceModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2782,6 +2818,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAudienceModelsInput, ListAudienceModelsOutput>(ListAudienceModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAudienceModelsOutput>(ListAudienceModelsOutput.httpOutput(from:), ListAudienceModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAudienceModelsInput, ListAudienceModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAudienceModelsOutput>())
@@ -2813,9 +2850,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the configured model algorithm associations in a collaboration.
     ///
-    /// - Parameter ListCollaborationConfiguredModelAlgorithmAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationConfiguredModelAlgorithmAssociationsInput`)
     ///
-    /// - Returns: `ListCollaborationConfiguredModelAlgorithmAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationConfiguredModelAlgorithmAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2849,6 +2886,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationConfiguredModelAlgorithmAssociationsInput, ListCollaborationConfiguredModelAlgorithmAssociationsOutput>(ListCollaborationConfiguredModelAlgorithmAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationConfiguredModelAlgorithmAssociationsOutput>(ListCollaborationConfiguredModelAlgorithmAssociationsOutput.httpOutput(from:), ListCollaborationConfiguredModelAlgorithmAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationConfiguredModelAlgorithmAssociationsInput, ListCollaborationConfiguredModelAlgorithmAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationConfiguredModelAlgorithmAssociationsOutput>())
@@ -2880,9 +2918,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the ML input channels in a collaboration.
     ///
-    /// - Parameter ListCollaborationMLInputChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationMLInputChannelsInput`)
     ///
-    /// - Returns: `ListCollaborationMLInputChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationMLInputChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2916,6 +2954,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationMLInputChannelsInput, ListCollaborationMLInputChannelsOutput>(ListCollaborationMLInputChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationMLInputChannelsOutput>(ListCollaborationMLInputChannelsOutput.httpOutput(from:), ListCollaborationMLInputChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationMLInputChannelsInput, ListCollaborationMLInputChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationMLInputChannelsOutput>())
@@ -2947,9 +2986,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the export jobs for a trained model in a collaboration.
     ///
-    /// - Parameter ListCollaborationTrainedModelExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationTrainedModelExportJobsInput`)
     ///
-    /// - Returns: `ListCollaborationTrainedModelExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationTrainedModelExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2983,6 +3022,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationTrainedModelExportJobsInput, ListCollaborationTrainedModelExportJobsOutput>(ListCollaborationTrainedModelExportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationTrainedModelExportJobsOutput>(ListCollaborationTrainedModelExportJobsOutput.httpOutput(from:), ListCollaborationTrainedModelExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationTrainedModelExportJobsInput, ListCollaborationTrainedModelExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationTrainedModelExportJobsOutput>())
@@ -3014,9 +3054,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of trained model inference jobs in a specified collaboration.
     ///
-    /// - Parameter ListCollaborationTrainedModelInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationTrainedModelInferenceJobsInput`)
     ///
-    /// - Returns: `ListCollaborationTrainedModelInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationTrainedModelInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3050,6 +3090,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationTrainedModelInferenceJobsInput, ListCollaborationTrainedModelInferenceJobsOutput>(ListCollaborationTrainedModelInferenceJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationTrainedModelInferenceJobsOutput>(ListCollaborationTrainedModelInferenceJobsOutput.httpOutput(from:), ListCollaborationTrainedModelInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationTrainedModelInferenceJobsInput, ListCollaborationTrainedModelInferenceJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationTrainedModelInferenceJobsOutput>())
@@ -3081,9 +3122,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the trained models in a collaboration.
     ///
-    /// - Parameter ListCollaborationTrainedModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCollaborationTrainedModelsInput`)
     ///
-    /// - Returns: `ListCollaborationTrainedModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCollaborationTrainedModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3117,6 +3158,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCollaborationTrainedModelsInput, ListCollaborationTrainedModelsOutput>(ListCollaborationTrainedModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCollaborationTrainedModelsOutput>(ListCollaborationTrainedModelsOutput.httpOutput(from:), ListCollaborationTrainedModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCollaborationTrainedModelsInput, ListCollaborationTrainedModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCollaborationTrainedModelsOutput>())
@@ -3148,9 +3190,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of the configured audience models.
     ///
-    /// - Parameter ListConfiguredAudienceModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredAudienceModelsInput`)
     ///
-    /// - Returns: `ListConfiguredAudienceModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredAudienceModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3183,6 +3225,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfiguredAudienceModelsInput, ListConfiguredAudienceModelsOutput>(ListConfiguredAudienceModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredAudienceModelsOutput>(ListConfiguredAudienceModelsOutput.httpOutput(from:), ListConfiguredAudienceModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredAudienceModelsInput, ListConfiguredAudienceModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredAudienceModelsOutput>())
@@ -3214,9 +3257,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of configured model algorithm associations.
     ///
-    /// - Parameter ListConfiguredModelAlgorithmAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredModelAlgorithmAssociationsInput`)
     ///
-    /// - Returns: `ListConfiguredModelAlgorithmAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredModelAlgorithmAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3250,6 +3293,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfiguredModelAlgorithmAssociationsInput, ListConfiguredModelAlgorithmAssociationsOutput>(ListConfiguredModelAlgorithmAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredModelAlgorithmAssociationsOutput>(ListConfiguredModelAlgorithmAssociationsOutput.httpOutput(from:), ListConfiguredModelAlgorithmAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredModelAlgorithmAssociationsInput, ListConfiguredModelAlgorithmAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredModelAlgorithmAssociationsOutput>())
@@ -3281,9 +3325,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of configured model algorithms.
     ///
-    /// - Parameter ListConfiguredModelAlgorithmsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfiguredModelAlgorithmsInput`)
     ///
-    /// - Returns: `ListConfiguredModelAlgorithmsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfiguredModelAlgorithmsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3316,6 +3360,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfiguredModelAlgorithmsInput, ListConfiguredModelAlgorithmsOutput>(ListConfiguredModelAlgorithmsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfiguredModelAlgorithmsOutput>(ListConfiguredModelAlgorithmsOutput.httpOutput(from:), ListConfiguredModelAlgorithmsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfiguredModelAlgorithmsInput, ListConfiguredModelAlgorithmsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfiguredModelAlgorithmsOutput>())
@@ -3347,9 +3392,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of ML input channels.
     ///
-    /// - Parameter ListMLInputChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMLInputChannelsInput`)
     ///
-    /// - Returns: `ListMLInputChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMLInputChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3383,6 +3428,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMLInputChannelsInput, ListMLInputChannelsOutput>(ListMLInputChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMLInputChannelsOutput>(ListMLInputChannelsOutput.httpOutput(from:), ListMLInputChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMLInputChannelsInput, ListMLInputChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMLInputChannelsOutput>())
@@ -3414,9 +3460,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of tags for a provided resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3449,6 +3495,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3480,9 +3527,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of trained model inference jobs that match the request parameters.
     ///
-    /// - Parameter ListTrainedModelInferenceJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainedModelInferenceJobsInput`)
     ///
-    /// - Returns: `ListTrainedModelInferenceJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainedModelInferenceJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3516,6 +3563,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrainedModelInferenceJobsInput, ListTrainedModelInferenceJobsOutput>(ListTrainedModelInferenceJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrainedModelInferenceJobsOutput>(ListTrainedModelInferenceJobsOutput.httpOutput(from:), ListTrainedModelInferenceJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrainedModelInferenceJobsInput, ListTrainedModelInferenceJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrainedModelInferenceJobsOutput>())
@@ -3547,9 +3595,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training.
     ///
-    /// - Parameter ListTrainedModelVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainedModelVersionsInput`)
     ///
-    /// - Returns: `ListTrainedModelVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainedModelVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3584,6 +3632,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>(ListTrainedModelVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrainedModelVersionsOutput>(ListTrainedModelVersionsOutput.httpOutput(from:), ListTrainedModelVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrainedModelVersionsInput, ListTrainedModelVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrainedModelVersionsOutput>())
@@ -3615,9 +3664,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of trained models.
     ///
-    /// - Parameter ListTrainedModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainedModelsInput`)
     ///
-    /// - Returns: `ListTrainedModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainedModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3651,6 +3700,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrainedModelsInput, ListTrainedModelsOutput>(ListTrainedModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrainedModelsOutput>(ListTrainedModelsOutput.httpOutput(from:), ListTrainedModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrainedModelsInput, ListTrainedModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrainedModelsOutput>())
@@ -3682,9 +3732,9 @@ extension CleanRoomsMLClient {
     ///
     /// Returns a list of training datasets.
     ///
-    /// - Parameter ListTrainingDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrainingDatasetsInput`)
     ///
-    /// - Returns: `ListTrainingDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrainingDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3717,6 +3767,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTrainingDatasetsInput, ListTrainingDatasetsOutput>(ListTrainingDatasetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrainingDatasetsOutput>(ListTrainingDatasetsOutput.httpOutput(from:), ListTrainingDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrainingDatasetsInput, ListTrainingDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrainingDatasetsOutput>())
@@ -3748,9 +3799,9 @@ extension CleanRoomsMLClient {
     ///
     /// Create or update the resource policy for a configured audience model.
     ///
-    /// - Parameter PutConfiguredAudienceModelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutConfiguredAudienceModelPolicyInput`)
     ///
-    /// - Returns: `PutConfiguredAudienceModelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutConfiguredAudienceModelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3786,6 +3837,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutConfiguredAudienceModelPolicyInput, PutConfiguredAudienceModelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutConfiguredAudienceModelPolicyOutput>(PutConfiguredAudienceModelPolicyOutput.httpOutput(from:), PutConfiguredAudienceModelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutConfiguredAudienceModelPolicyInput, PutConfiguredAudienceModelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutConfiguredAudienceModelPolicyOutput>())
@@ -3817,9 +3869,9 @@ extension CleanRoomsMLClient {
     ///
     /// Assigns information about an ML configuration.
     ///
-    /// - Parameter PutMLConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutMLConfigurationInput`)
     ///
-    /// - Returns: `PutMLConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutMLConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3855,6 +3907,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutMLConfigurationInput, PutMLConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutMLConfigurationOutput>(PutMLConfigurationOutput.httpOutput(from:), PutMLConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutMLConfigurationInput, PutMLConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutMLConfigurationOutput>())
@@ -3886,9 +3939,9 @@ extension CleanRoomsMLClient {
     ///
     /// Export an audience of a specified size after you have generated an audience.
     ///
-    /// - Parameter StartAudienceExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAudienceExportJobInput`)
     ///
-    /// - Returns: `StartAudienceExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAudienceExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3926,6 +3979,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAudienceExportJobInput, StartAudienceExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAudienceExportJobOutput>(StartAudienceExportJobOutput.httpOutput(from:), StartAudienceExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAudienceExportJobInput, StartAudienceExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAudienceExportJobOutput>())
@@ -3957,9 +4011,9 @@ extension CleanRoomsMLClient {
     ///
     /// Information necessary to start the audience generation job.
     ///
-    /// - Parameter StartAudienceGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAudienceGenerationJobInput`)
     ///
-    /// - Returns: `StartAudienceGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAudienceGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3998,6 +4052,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAudienceGenerationJobInput, StartAudienceGenerationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAudienceGenerationJobOutput>(StartAudienceGenerationJobOutput.httpOutput(from:), StartAudienceGenerationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAudienceGenerationJobInput, StartAudienceGenerationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAudienceGenerationJobOutput>())
@@ -4029,9 +4084,9 @@ extension CleanRoomsMLClient {
     ///
     /// Provides the information necessary to start a trained model export job.
     ///
-    /// - Parameter StartTrainedModelExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTrainedModelExportJobInput`)
     ///
-    /// - Returns: `StartTrainedModelExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTrainedModelExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4069,6 +4124,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTrainedModelExportJobInput, StartTrainedModelExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTrainedModelExportJobOutput>(StartTrainedModelExportJobOutput.httpOutput(from:), StartTrainedModelExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTrainedModelExportJobInput, StartTrainedModelExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTrainedModelExportJobOutput>())
@@ -4100,9 +4156,9 @@ extension CleanRoomsMLClient {
     ///
     /// Defines the information necessary to begin a trained model inference job.
     ///
-    /// - Parameter StartTrainedModelInferenceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTrainedModelInferenceJobInput`)
     ///
-    /// - Returns: `StartTrainedModelInferenceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTrainedModelInferenceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4141,6 +4197,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTrainedModelInferenceJobInput, StartTrainedModelInferenceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTrainedModelInferenceJobOutput>(StartTrainedModelInferenceJobOutput.httpOutput(from:), StartTrainedModelInferenceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTrainedModelInferenceJobInput, StartTrainedModelInferenceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTrainedModelInferenceJobOutput>())
@@ -4172,9 +4229,9 @@ extension CleanRoomsMLClient {
     ///
     /// Adds metadata tags to a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4210,6 +4267,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4241,9 +4299,9 @@ extension CleanRoomsMLClient {
     ///
     /// Removes metadata tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4277,6 +4335,7 @@ extension CleanRoomsMLClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4308,9 +4367,9 @@ extension CleanRoomsMLClient {
     ///
     /// Provides the information necessary to update a configured audience model. Updates that impact audience generation jobs take effect when a new job starts, but do not impact currently running jobs.
     ///
-    /// - Parameter UpdateConfiguredAudienceModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConfiguredAudienceModelInput`)
     ///
-    /// - Returns: `UpdateConfiguredAudienceModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfiguredAudienceModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4347,6 +4406,7 @@ extension CleanRoomsMLClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfiguredAudienceModelInput, UpdateConfiguredAudienceModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfiguredAudienceModelOutput>(UpdateConfiguredAudienceModelOutput.httpOutput(from:), UpdateConfiguredAudienceModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfiguredAudienceModelInput, UpdateConfiguredAudienceModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfiguredAudienceModelOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTEventsClient: ClientRuntime.Client {
     public static let clientName = "IoTEventsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTEventsClient.IoTEventsClientConfiguration
     let serviceName = "IoT Events"
@@ -373,9 +374,9 @@ extension IoTEventsClient {
     ///
     /// Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get notified when the value is outside a specified range. For more information, see [Create an alarm model](https://docs.aws.amazon.com/iotevents/latest/developerguide/create-alarms.html) in the AWS IoT Events Developer Guide.
     ///
-    /// - Parameter CreateAlarmModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAlarmModelInput`)
     ///
-    /// - Returns: `CreateAlarmModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAlarmModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAlarmModelInput, CreateAlarmModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAlarmModelOutput>(CreateAlarmModelOutput.httpOutput(from:), CreateAlarmModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAlarmModelInput, CreateAlarmModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAlarmModelOutput>())
@@ -446,9 +448,9 @@ extension IoTEventsClient {
     ///
     /// Creates a detector model.
     ///
-    /// - Parameter CreateDetectorModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDetectorModelInput`)
     ///
-    /// - Returns: `CreateDetectorModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDetectorModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +490,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDetectorModelInput, CreateDetectorModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDetectorModelOutput>(CreateDetectorModelOutput.httpOutput(from:), CreateDetectorModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDetectorModelInput, CreateDetectorModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDetectorModelOutput>())
@@ -519,9 +522,9 @@ extension IoTEventsClient {
     ///
     /// Creates an input.
     ///
-    /// - Parameter CreateInputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInputInput`)
     ///
-    /// - Returns: `CreateInputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,6 +562,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInputInput, CreateInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInputOutput>(CreateInputOutput.httpOutput(from:), CreateInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInputInput, CreateInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInputOutput>())
@@ -590,9 +594,9 @@ extension IoTEventsClient {
     ///
     /// Deletes an alarm model. Any alarm instances that were created based on this alarm model are also deleted. This action can't be undone.
     ///
-    /// - Parameter DeleteAlarmModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAlarmModelInput`)
     ///
-    /// - Returns: `DeleteAlarmModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAlarmModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,6 +632,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAlarmModelInput, DeleteAlarmModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAlarmModelOutput>(DeleteAlarmModelOutput.httpOutput(from:), DeleteAlarmModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAlarmModelInput, DeleteAlarmModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAlarmModelOutput>())
@@ -659,9 +664,9 @@ extension IoTEventsClient {
     ///
     /// Deletes a detector model. Any active instances of the detector model are also deleted.
     ///
-    /// - Parameter DeleteDetectorModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDetectorModelInput`)
     ///
-    /// - Returns: `DeleteDetectorModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDetectorModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -697,6 +702,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDetectorModelInput, DeleteDetectorModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDetectorModelOutput>(DeleteDetectorModelOutput.httpOutput(from:), DeleteDetectorModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDetectorModelInput, DeleteDetectorModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDetectorModelOutput>())
@@ -728,9 +734,9 @@ extension IoTEventsClient {
     ///
     /// Deletes an input.
     ///
-    /// - Parameter DeleteInputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInputInput`)
     ///
-    /// - Returns: `DeleteInputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -766,6 +772,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteInputInput, DeleteInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInputOutput>(DeleteInputOutput.httpOutput(from:), DeleteInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInputInput, DeleteInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInputOutput>())
@@ -797,9 +804,9 @@ extension IoTEventsClient {
     ///
     /// Retrieves information about an alarm model. If you don't specify a value for the alarmModelVersion parameter, the latest version is returned.
     ///
-    /// - Parameter DescribeAlarmModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAlarmModelInput`)
     ///
-    /// - Returns: `DescribeAlarmModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAlarmModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -835,6 +842,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeAlarmModelInput, DescribeAlarmModelOutput>(DescribeAlarmModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAlarmModelOutput>(DescribeAlarmModelOutput.httpOutput(from:), DescribeAlarmModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAlarmModelInput, DescribeAlarmModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAlarmModelOutput>())
@@ -866,9 +874,9 @@ extension IoTEventsClient {
     ///
     /// Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
     ///
-    /// - Parameter DescribeDetectorModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDetectorModelInput`)
     ///
-    /// - Returns: `DescribeDetectorModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDetectorModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,6 +912,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeDetectorModelInput, DescribeDetectorModelOutput>(DescribeDetectorModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDetectorModelOutput>(DescribeDetectorModelOutput.httpOutput(from:), DescribeDetectorModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDetectorModelInput, DescribeDetectorModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDetectorModelOutput>())
@@ -935,9 +944,9 @@ extension IoTEventsClient {
     ///
     /// Retrieves runtime information about a detector model analysis. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
     ///
-    /// - Parameter DescribeDetectorModelAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDetectorModelAnalysisInput`)
     ///
-    /// - Returns: `DescribeDetectorModelAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDetectorModelAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -972,6 +981,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDetectorModelAnalysisInput, DescribeDetectorModelAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDetectorModelAnalysisOutput>(DescribeDetectorModelAnalysisOutput.httpOutput(from:), DescribeDetectorModelAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDetectorModelAnalysisInput, DescribeDetectorModelAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDetectorModelAnalysisOutput>())
@@ -1003,9 +1013,9 @@ extension IoTEventsClient {
     ///
     /// Describes an input.
     ///
-    /// - Parameter DescribeInputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInputInput`)
     ///
-    /// - Returns: `DescribeInputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1040,6 +1050,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInputInput, DescribeInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInputOutput>(DescribeInputOutput.httpOutput(from:), DescribeInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInputInput, DescribeInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInputOutput>())
@@ -1071,9 +1082,9 @@ extension IoTEventsClient {
     ///
     /// Retrieves the current settings of the AWS IoT Events logging options.
     ///
-    /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLoggingOptionsInput`)
     ///
-    /// - Returns: `DescribeLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,6 +1120,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLoggingOptionsInput, DescribeLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoggingOptionsOutput>(DescribeLoggingOptionsOutput.httpOutput(from:), DescribeLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoggingOptionsInput, DescribeLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoggingOptionsOutput>())
@@ -1140,9 +1152,9 @@ extension IoTEventsClient {
     ///
     /// Retrieves one or more analysis results of the detector model. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
     ///
-    /// - Parameter GetDetectorModelAnalysisResultsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDetectorModelAnalysisResultsInput`)
     ///
-    /// - Returns: `GetDetectorModelAnalysisResultsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDetectorModelAnalysisResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1178,6 +1190,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDetectorModelAnalysisResultsInput, GetDetectorModelAnalysisResultsOutput>(GetDetectorModelAnalysisResultsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDetectorModelAnalysisResultsOutput>(GetDetectorModelAnalysisResultsOutput.httpOutput(from:), GetDetectorModelAnalysisResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDetectorModelAnalysisResultsInput, GetDetectorModelAnalysisResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDetectorModelAnalysisResultsOutput>())
@@ -1209,9 +1222,9 @@ extension IoTEventsClient {
     ///
     /// Lists all the versions of an alarm model. The operation returns only the metadata associated with each alarm model version.
     ///
-    /// - Parameter ListAlarmModelVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAlarmModelVersionsInput`)
     ///
-    /// - Returns: `ListAlarmModelVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAlarmModelVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1247,6 +1260,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAlarmModelVersionsInput, ListAlarmModelVersionsOutput>(ListAlarmModelVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAlarmModelVersionsOutput>(ListAlarmModelVersionsOutput.httpOutput(from:), ListAlarmModelVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlarmModelVersionsInput, ListAlarmModelVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAlarmModelVersionsOutput>())
@@ -1278,9 +1292,9 @@ extension IoTEventsClient {
     ///
     /// Lists the alarm models that you created. The operation returns only the metadata associated with each alarm model.
     ///
-    /// - Parameter ListAlarmModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAlarmModelsInput`)
     ///
-    /// - Returns: `ListAlarmModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAlarmModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1315,6 +1329,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAlarmModelsInput, ListAlarmModelsOutput>(ListAlarmModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAlarmModelsOutput>(ListAlarmModelsOutput.httpOutput(from:), ListAlarmModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAlarmModelsInput, ListAlarmModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAlarmModelsOutput>())
@@ -1346,9 +1361,9 @@ extension IoTEventsClient {
     ///
     /// Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
     ///
-    /// - Parameter ListDetectorModelVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDetectorModelVersionsInput`)
     ///
-    /// - Returns: `ListDetectorModelVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDetectorModelVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1384,6 +1399,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDetectorModelVersionsInput, ListDetectorModelVersionsOutput>(ListDetectorModelVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDetectorModelVersionsOutput>(ListDetectorModelVersionsOutput.httpOutput(from:), ListDetectorModelVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDetectorModelVersionsInput, ListDetectorModelVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDetectorModelVersionsOutput>())
@@ -1415,9 +1431,9 @@ extension IoTEventsClient {
     ///
     /// Lists the detector models you have created. Only the metadata associated with each detector model is returned.
     ///
-    /// - Parameter ListDetectorModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDetectorModelsInput`)
     ///
-    /// - Returns: `ListDetectorModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDetectorModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1452,6 +1468,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDetectorModelsInput, ListDetectorModelsOutput>(ListDetectorModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDetectorModelsOutput>(ListDetectorModelsOutput.httpOutput(from:), ListDetectorModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDetectorModelsInput, ListDetectorModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDetectorModelsOutput>())
@@ -1483,9 +1500,9 @@ extension IoTEventsClient {
     ///
     /// Lists one or more input routings.
     ///
-    /// - Parameter ListInputRoutingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInputRoutingsInput`)
     ///
-    /// - Returns: `ListInputRoutingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInputRoutingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1523,6 +1540,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInputRoutingsInput, ListInputRoutingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInputRoutingsOutput>(ListInputRoutingsOutput.httpOutput(from:), ListInputRoutingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInputRoutingsInput, ListInputRoutingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInputRoutingsOutput>())
@@ -1554,9 +1572,9 @@ extension IoTEventsClient {
     ///
     /// Lists the inputs you have created.
     ///
-    /// - Parameter ListInputsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInputsInput`)
     ///
-    /// - Returns: `ListInputsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInputsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1591,6 +1609,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInputsInput, ListInputsOutput>(ListInputsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInputsOutput>(ListInputsOutput.httpOutput(from:), ListInputsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInputsInput, ListInputsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInputsOutput>())
@@ -1622,9 +1641,9 @@ extension IoTEventsClient {
     ///
     /// Lists the tags (metadata) you have assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1660,6 +1679,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1691,9 +1711,9 @@ extension IoTEventsClient {
     ///
     /// Sets or updates the AWS IoT Events logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. If you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
     ///
-    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLoggingOptionsInput`)
     ///
-    /// - Returns: `PutLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1732,6 +1752,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLoggingOptionsOutput>(PutLoggingOptionsOutput.httpOutput(from:), PutLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLoggingOptionsOutput>())
@@ -1763,9 +1784,9 @@ extension IoTEventsClient {
     ///
     /// Performs an analysis of your detector model. For more information, see [Troubleshooting a detector model](https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-analyze-api.html) in the AWS IoT Events Developer Guide.
     ///
-    /// - Parameter StartDetectorModelAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDetectorModelAnalysisInput`)
     ///
-    /// - Returns: `StartDetectorModelAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDetectorModelAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1803,6 +1824,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDetectorModelAnalysisInput, StartDetectorModelAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDetectorModelAnalysisOutput>(StartDetectorModelAnalysisOutput.httpOutput(from:), StartDetectorModelAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDetectorModelAnalysisInput, StartDetectorModelAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDetectorModelAnalysisOutput>())
@@ -1834,9 +1856,9 @@ extension IoTEventsClient {
     ///
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1876,6 +1898,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1907,9 +1930,9 @@ extension IoTEventsClient {
     ///
     /// Removes the given tags (metadata) from the resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1945,6 +1968,7 @@ extension IoTEventsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1976,9 +2000,9 @@ extension IoTEventsClient {
     ///
     /// Updates an alarm model. Any alarms that were created based on the previous version are deleted and then created again as new data arrives.
     ///
-    /// - Parameter UpdateAlarmModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAlarmModelInput`)
     ///
-    /// - Returns: `UpdateAlarmModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAlarmModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2017,6 +2041,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAlarmModelInput, UpdateAlarmModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAlarmModelOutput>(UpdateAlarmModelOutput.httpOutput(from:), UpdateAlarmModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAlarmModelInput, UpdateAlarmModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAlarmModelOutput>())
@@ -2048,9 +2073,9 @@ extension IoTEventsClient {
     ///
     /// Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.
     ///
-    /// - Parameter UpdateDetectorModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDetectorModelInput`)
     ///
-    /// - Returns: `UpdateDetectorModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDetectorModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2089,6 +2114,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDetectorModelInput, UpdateDetectorModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDetectorModelOutput>(UpdateDetectorModelOutput.httpOutput(from:), UpdateDetectorModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDetectorModelInput, UpdateDetectorModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDetectorModelOutput>())
@@ -2120,9 +2146,9 @@ extension IoTEventsClient {
     ///
     /// Updates an input.
     ///
-    /// - Parameter UpdateInputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInputInput`)
     ///
-    /// - Returns: `UpdateInputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2161,6 +2187,7 @@ extension IoTEventsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInputInput, UpdateInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInputOutput>(UpdateInputOutput.httpOutput(from:), UpdateInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInputInput, UpdateInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInputOutput>())

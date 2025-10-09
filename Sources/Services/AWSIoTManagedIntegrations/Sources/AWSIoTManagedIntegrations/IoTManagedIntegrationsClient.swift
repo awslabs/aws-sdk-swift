@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTManagedIntegrationsClient: ClientRuntime.Client {
     public static let clientName = "IoTManagedIntegrationsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfiguration
     let serviceName = "IoT Managed Integrations"
@@ -375,9 +376,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Creates a new account association via the destination id.
     ///
-    /// - Parameter CreateAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountAssociationInput`)
     ///
-    /// - Returns: `CreateAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +419,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountAssociationInput, CreateAccountAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountAssociationOutput>(CreateAccountAssociationOutput.httpOutput(from:), CreateAccountAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountAssociationInput, CreateAccountAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountAssociationOutput>())
@@ -449,9 +451,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Creates a C2C (cloud-to-cloud) connector.
     ///
-    /// - Parameter CreateCloudConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCloudConnectorInput`)
     ///
-    /// - Returns: `CreateCloudConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCloudConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -490,6 +492,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCloudConnectorOutput>(CreateCloudConnectorOutput.httpOutput(from:), CreateCloudConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCloudConnectorInput, CreateCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCloudConnectorOutput>())
@@ -521,9 +524,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
     ///
-    /// - Parameter CreateConnectorDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorDestinationInput`)
     ///
-    /// - Returns: `CreateConnectorDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +565,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorDestinationInput, CreateConnectorDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorDestinationOutput>(CreateConnectorDestinationOutput.httpOutput(from:), CreateConnectorDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorDestinationInput, CreateConnectorDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorDestinationOutput>())
@@ -593,9 +597,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a product credential locker. This operation will trigger the creation of all the manufacturing resources including the Wi-Fi setup key pair and device certificate.
     ///
-    /// - Parameter CreateCredentialLockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCredentialLockerInput`)
     ///
-    /// - Returns: `CreateCredentialLockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCredentialLockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -636,6 +640,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCredentialLockerInput, CreateCredentialLockerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCredentialLockerOutput>(CreateCredentialLockerOutput.httpOutput(from:), CreateCredentialLockerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCredentialLockerInput, CreateCredentialLockerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCredentialLockerOutput>())
@@ -667,9 +672,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a destination. IoT managed integrations uses the destination to determine where to deliver notifications for a device.
     ///
-    /// - Parameter CreateDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDestinationInput`)
     ///
-    /// - Returns: `CreateDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,6 +713,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDestinationInput, CreateDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDestinationOutput>(CreateDestinationOutput.httpOutput(from:), CreateDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDestinationInput, CreateDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDestinationOutput>())
@@ -739,9 +745,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Set the event log configuration for the account, resource type, or specific resource.
     ///
-    /// - Parameter CreateEventLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEventLogConfigurationInput`)
     ///
-    /// - Returns: `CreateEventLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEventLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,6 +787,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEventLogConfigurationInput, CreateEventLogConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEventLogConfigurationOutput>(CreateEventLogConfigurationOutput.httpOutput(from:), CreateEventLogConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEventLogConfigurationInput, CreateEventLogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEventLogConfigurationOutput>())
@@ -812,9 +819,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a protocol-specific format.
     ///
-    /// - Parameter CreateManagedThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateManagedThingInput`)
     ///
-    /// - Returns: `CreateManagedThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateManagedThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,6 +863,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateManagedThingInput, CreateManagedThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateManagedThingOutput>(CreateManagedThingOutput.httpOutput(from:), CreateManagedThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateManagedThingInput, CreateManagedThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateManagedThingOutput>())
@@ -887,9 +895,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created.
     ///
-    /// - Parameter CreateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNotificationConfigurationInput`)
     ///
-    /// - Returns: `CreateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -928,6 +936,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNotificationConfigurationInput, CreateNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNotificationConfigurationOutput>(CreateNotificationConfigurationOutput.httpOutput(from:), CreateNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNotificationConfigurationInput, CreateNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNotificationConfigurationOutput>())
@@ -959,9 +968,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create an over-the-air (OTA) task to update a device.
     ///
-    /// - Parameter CreateOtaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOtaTaskInput`)
     ///
-    /// - Returns: `CreateOtaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOtaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1002,6 +1011,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOtaTaskInput, CreateOtaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOtaTaskOutput>(CreateOtaTaskOutput.httpOutput(from:), CreateOtaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOtaTaskInput, CreateOtaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOtaTaskOutput>())
@@ -1033,9 +1043,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a configuraiton for the over-the-air (OTA) task.
     ///
-    /// - Parameter CreateOtaTaskConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOtaTaskConfigurationInput`)
     ///
-    /// - Returns: `CreateOtaTaskConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOtaTaskConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1074,6 +1084,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOtaTaskConfigurationInput, CreateOtaTaskConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOtaTaskConfigurationOutput>(CreateOtaTaskConfigurationOutput.httpOutput(from:), CreateOtaTaskConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOtaTaskConfigurationInput, CreateOtaTaskConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOtaTaskConfigurationOutput>())
@@ -1105,9 +1116,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
     ///
-    /// - Parameter CreateProvisioningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProvisioningProfileInput`)
     ///
-    /// - Returns: `CreateProvisioningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProvisioningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1149,6 +1160,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProvisioningProfileInput, CreateProvisioningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProvisioningProfileOutput>(CreateProvisioningProfileOutput.httpOutput(from:), CreateProvisioningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProvisioningProfileInput, CreateProvisioningProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProvisioningProfileOutput>())
@@ -1180,9 +1192,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Remove a third party account and related devices from an end user.
     ///
-    /// - Parameter DeleteAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountAssociationInput`)
     ///
-    /// - Returns: `DeleteAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1218,6 +1230,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountAssociationInput, DeleteAccountAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountAssociationOutput>(DeleteAccountAssociationOutput.httpOutput(from:), DeleteAccountAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountAssociationInput, DeleteAccountAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountAssociationOutput>())
@@ -1249,9 +1262,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a cloud connector.
     ///
-    /// - Parameter DeleteCloudConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCloudConnectorInput`)
     ///
-    /// - Returns: `DeleteCloudConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCloudConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,6 +1299,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCloudConnectorOutput>(DeleteCloudConnectorOutput.httpOutput(from:), DeleteCloudConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCloudConnectorInput, DeleteCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCloudConnectorOutput>())
@@ -1317,9 +1331,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
     ///
-    /// - Parameter DeleteConnectorDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorDestinationInput`)
     ///
-    /// - Returns: `DeleteConnectorDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1354,6 +1368,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectorDestinationInput, DeleteConnectorDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorDestinationOutput>(DeleteConnectorDestinationOutput.httpOutput(from:), DeleteConnectorDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorDestinationInput, DeleteConnectorDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorDestinationOutput>())
@@ -1385,9 +1400,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a credential locker. This operation can't be undone and any existing device won't be able to use IoT managed integrations.
     ///
-    /// - Parameter DeleteCredentialLockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCredentialLockerInput`)
     ///
-    /// - Returns: `DeleteCredentialLockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCredentialLockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1423,6 +1438,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCredentialLockerInput, DeleteCredentialLockerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCredentialLockerOutput>(DeleteCredentialLockerOutput.httpOutput(from:), DeleteCredentialLockerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCredentialLockerInput, DeleteCredentialLockerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCredentialLockerOutput>())
@@ -1454,9 +1470,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Deletes a customer-managed destination specified by id.
     ///
-    /// - Parameter DeleteDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDestinationInput`)
     ///
-    /// - Returns: `DeleteDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1491,6 +1507,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDestinationInput, DeleteDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDestinationOutput>(DeleteDestinationOutput.httpOutput(from:), DeleteDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDestinationInput, DeleteDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDestinationOutput>())
@@ -1522,9 +1539,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete an event log configuration.
     ///
-    /// - Parameter DeleteEventLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEventLogConfigurationInput`)
     ///
-    /// - Returns: `DeleteEventLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEventLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1559,6 +1576,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEventLogConfigurationInput, DeleteEventLogConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEventLogConfigurationOutput>(DeleteEventLogConfigurationOutput.httpOutput(from:), DeleteEventLogConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEventLogConfigurationInput, DeleteEventLogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEventLogConfigurationOutput>())
@@ -1590,9 +1608,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a managed thing. If a controller is deleted, all of the devices connected to it will have their status changed to PENDING. It is not possible to remove a cloud device.
     ///
-    /// - Parameter DeleteManagedThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteManagedThingInput`)
     ///
-    /// - Returns: `DeleteManagedThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteManagedThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1631,6 +1649,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteManagedThingInput, DeleteManagedThingOutput>(DeleteManagedThingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteManagedThingOutput>(DeleteManagedThingOutput.httpOutput(from:), DeleteManagedThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteManagedThingInput, DeleteManagedThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteManagedThingOutput>())
@@ -1662,9 +1681,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Deletes a notification configuration.
     ///
-    /// - Parameter DeleteNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNotificationConfigurationInput`)
     ///
-    /// - Returns: `DeleteNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1699,6 +1718,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNotificationConfigurationInput, DeleteNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNotificationConfigurationOutput>(DeleteNotificationConfigurationOutput.httpOutput(from:), DeleteNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNotificationConfigurationInput, DeleteNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNotificationConfigurationOutput>())
@@ -1730,9 +1750,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete the over-the-air (OTA) task.
     ///
-    /// - Parameter DeleteOtaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOtaTaskInput`)
     ///
-    /// - Returns: `DeleteOtaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOtaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1768,6 +1788,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOtaTaskInput, DeleteOtaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOtaTaskOutput>(DeleteOtaTaskOutput.httpOutput(from:), DeleteOtaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOtaTaskInput, DeleteOtaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOtaTaskOutput>())
@@ -1799,9 +1820,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete the over-the-air (OTA) task configuration.
     ///
-    /// - Parameter DeleteOtaTaskConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOtaTaskConfigurationInput`)
     ///
-    /// - Returns: `DeleteOtaTaskConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOtaTaskConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1836,6 +1857,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOtaTaskConfigurationInput, DeleteOtaTaskConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOtaTaskConfigurationOutput>(DeleteOtaTaskConfigurationOutput.httpOutput(from:), DeleteOtaTaskConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOtaTaskConfigurationInput, DeleteOtaTaskConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOtaTaskConfigurationOutput>())
@@ -1867,9 +1889,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Delete a provisioning profile.
     ///
-    /// - Parameter DeleteProvisioningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProvisioningProfileInput`)
     ///
-    /// - Returns: `DeleteProvisioningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProvisioningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1906,6 +1928,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProvisioningProfileInput, DeleteProvisioningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProvisioningProfileOutput>(DeleteProvisioningProfileOutput.httpOutput(from:), DeleteProvisioningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProvisioningProfileInput, DeleteProvisioningProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProvisioningProfileOutput>())
@@ -1937,9 +1960,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Deregisters an account association, removing the connection between a managed thing and a third-party account.
     ///
-    /// - Parameter DeregisterAccountAssociationInput : Request for deregister a managed thing from account association
+    /// - Parameter input: Request for deregister a managed thing from account association (Type: `DeregisterAccountAssociationInput`)
     ///
-    /// - Returns: `DeregisterAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1977,6 +2000,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterAccountAssociationInput, DeregisterAccountAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterAccountAssociationOutput>(DeregisterAccountAssociationOutput.httpOutput(from:), DeregisterAccountAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterAccountAssociationInput, DeregisterAccountAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterAccountAssociationOutput>())
@@ -2008,9 +2032,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get an account association for an Amazon Web Services account linked to a customer-managed destination.
     ///
-    /// - Parameter GetAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountAssociationInput`)
     ///
-    /// - Returns: `GetAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2046,6 +2070,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountAssociationInput, GetAccountAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountAssociationOutput>(GetAccountAssociationOutput.httpOutput(from:), GetAccountAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountAssociationInput, GetAccountAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountAssociationOutput>())
@@ -2077,9 +2102,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Gets all the information about a connector for a connector developer.
     ///
-    /// - Parameter GetCloudConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCloudConnectorInput`)
     ///
-    /// - Returns: `GetCloudConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCloudConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2114,6 +2139,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCloudConnectorOutput>(GetCloudConnectorOutput.httpOutput(from:), GetCloudConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCloudConnectorInput, GetCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCloudConnectorOutput>())
@@ -2145,9 +2171,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a connector destination of a cloud-to-cloud (C2C) connector connecting to a customer's Amazon Web Services account.
     ///
-    /// - Parameter GetConnectorDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectorDestinationInput`)
     ///
-    /// - Returns: `GetConnectorDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectorDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2182,6 +2208,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectorDestinationInput, GetConnectorDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectorDestinationOutput>(GetConnectorDestinationOutput.httpOutput(from:), GetConnectorDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectorDestinationInput, GetConnectorDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectorDestinationOutput>())
@@ -2213,9 +2240,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get information on an existing credential locker
     ///
-    /// - Parameter GetCredentialLockerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCredentialLockerInput`)
     ///
-    /// - Returns: `GetCredentialLockerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCredentialLockerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2251,6 +2278,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCredentialLockerInput, GetCredentialLockerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCredentialLockerOutput>(GetCredentialLockerOutput.httpOutput(from:), GetCredentialLockerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCredentialLockerInput, GetCredentialLockerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCredentialLockerOutput>())
@@ -2282,9 +2310,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Returns the IoT managed integrations custom endpoint.
     ///
-    /// - Parameter GetCustomEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomEndpointInput`)
     ///
-    /// - Returns: `GetCustomEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2321,6 +2349,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCustomEndpointInput, GetCustomEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomEndpointOutput>(GetCustomEndpointOutput.httpOutput(from:), GetCustomEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomEndpointInput, GetCustomEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomEndpointOutput>())
@@ -2352,9 +2381,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the AWS IoT SiteWise User Guide.
     ///
-    /// - Parameter GetDefaultEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDefaultEncryptionConfigurationInput`)
     ///
-    /// - Returns: `GetDefaultEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDefaultEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2391,6 +2420,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDefaultEncryptionConfigurationInput, GetDefaultEncryptionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDefaultEncryptionConfigurationOutput>(GetDefaultEncryptionConfigurationOutput.httpOutput(from:), GetDefaultEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDefaultEncryptionConfigurationInput, GetDefaultEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDefaultEncryptionConfigurationOutput>())
@@ -2422,9 +2452,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Gets a destination by ID.
     ///
-    /// - Parameter GetDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDestinationInput`)
     ///
-    /// - Returns: `GetDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2459,6 +2489,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDestinationInput, GetDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDestinationOutput>(GetDestinationOutput.httpOutput(from:), GetDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDestinationInput, GetDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDestinationOutput>())
@@ -2490,9 +2521,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the current state of a device discovery.
     ///
-    /// - Parameter GetDeviceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDeviceDiscoveryInput`)
     ///
-    /// - Returns: `GetDeviceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDeviceDiscoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2529,6 +2560,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDeviceDiscoveryInput, GetDeviceDiscoveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDeviceDiscoveryOutput>(GetDeviceDiscoveryOutput.httpOutput(from:), GetDeviceDiscoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDeviceDiscoveryInput, GetDeviceDiscoveryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDeviceDiscoveryOutput>())
@@ -2560,9 +2592,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get an event log configuration.
     ///
-    /// - Parameter GetEventLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEventLogConfigurationInput`)
     ///
-    /// - Returns: `GetEventLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEventLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2597,6 +2629,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEventLogConfigurationInput, GetEventLogConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEventLogConfigurationOutput>(GetEventLogConfigurationOutput.httpOutput(from:), GetEventLogConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEventLogConfigurationInput, GetEventLogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEventLogConfigurationOutput>())
@@ -2628,9 +2661,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a hub configuration.
     ///
-    /// - Parameter GetHubConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetHubConfigurationInput`)
     ///
-    /// - Returns: `GetHubConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetHubConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2666,6 +2699,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHubConfigurationInput, GetHubConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHubConfigurationOutput>(GetHubConfigurationOutput.httpOutput(from:), GetHubConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHubConfigurationInput, GetHubConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHubConfigurationOutput>())
@@ -2697,9 +2731,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the attributes and capabilities associated with a managed thing.
     ///
-    /// - Parameter GetManagedThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingInput`)
     ///
-    /// - Returns: `GetManagedThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2736,6 +2770,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedThingInput, GetManagedThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedThingOutput>(GetManagedThingOutput.httpOutput(from:), GetManagedThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedThingInput, GetManagedThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedThingOutput>())
@@ -2767,9 +2802,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the capabilities for a managed thing using the device ID.
     ///
-    /// - Parameter GetManagedThingCapabilitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingCapabilitiesInput`)
     ///
-    /// - Returns: `GetManagedThingCapabilitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingCapabilitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2806,6 +2841,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedThingCapabilitiesInput, GetManagedThingCapabilitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedThingCapabilitiesOutput>(GetManagedThingCapabilitiesOutput.httpOutput(from:), GetManagedThingCapabilitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedThingCapabilitiesInput, GetManagedThingCapabilitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedThingCapabilitiesOutput>())
@@ -2837,9 +2873,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the connectivity status of a managed thing.
     ///
-    /// - Parameter GetManagedThingConnectivityDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingConnectivityDataInput`)
     ///
-    /// - Returns: `GetManagedThingConnectivityDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingConnectivityDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2876,6 +2912,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedThingConnectivityDataInput, GetManagedThingConnectivityDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedThingConnectivityDataOutput>(GetManagedThingConnectivityDataOutput.httpOutput(from:), GetManagedThingConnectivityDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedThingConnectivityDataInput, GetManagedThingConnectivityDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedThingConnectivityDataOutput>())
@@ -2907,9 +2944,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the metadata information for a managed thing. The managedThingmetadata parameter is used for associating attributes with a managedThing that can be used for grouping over-the-air (OTA) tasks. Name value pairs in metadata can be used in the OtaTargetQueryString parameter for the CreateOtaTask API operation.
     ///
-    /// - Parameter GetManagedThingMetaDataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingMetaDataInput`)
     ///
-    /// - Returns: `GetManagedThingMetaDataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingMetaDataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2946,6 +2983,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedThingMetaDataInput, GetManagedThingMetaDataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedThingMetaDataOutput>(GetManagedThingMetaDataOutput.httpOutput(from:), GetManagedThingMetaDataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedThingMetaDataInput, GetManagedThingMetaDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedThingMetaDataOutput>())
@@ -2977,9 +3015,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Returns the managed thing state for the given device Id.
     ///
-    /// - Parameter GetManagedThingStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingStateInput`)
     ///
-    /// - Returns: `GetManagedThingStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetManagedThingStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3016,6 +3054,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedThingStateInput, GetManagedThingStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedThingStateOutput>(GetManagedThingStateOutput.httpOutput(from:), GetManagedThingStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedThingStateInput, GetManagedThingStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedThingStateOutput>())
@@ -3047,9 +3086,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a notification configuration.
     ///
-    /// - Parameter GetNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNotificationConfigurationInput`)
     ///
-    /// - Returns: `GetNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3084,6 +3123,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetNotificationConfigurationInput, GetNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNotificationConfigurationOutput>(GetNotificationConfigurationOutput.httpOutput(from:), GetNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNotificationConfigurationInput, GetNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNotificationConfigurationOutput>())
@@ -3115,9 +3155,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the over-the-air (OTA) task.
     ///
-    /// - Parameter GetOtaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOtaTaskInput`)
     ///
-    /// - Returns: `GetOtaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOtaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3152,6 +3192,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOtaTaskInput, GetOtaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOtaTaskOutput>(GetOtaTaskOutput.httpOutput(from:), GetOtaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOtaTaskInput, GetOtaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOtaTaskOutput>())
@@ -3183,9 +3224,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a configuraiton for the over-the-air (OTA) task.
     ///
-    /// - Parameter GetOtaTaskConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOtaTaskConfigurationInput`)
     ///
-    /// - Returns: `GetOtaTaskConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOtaTaskConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3220,6 +3261,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOtaTaskConfigurationInput, GetOtaTaskConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOtaTaskConfigurationOutput>(GetOtaTaskConfigurationOutput.httpOutput(from:), GetOtaTaskConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOtaTaskConfigurationInput, GetOtaTaskConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOtaTaskConfigurationOutput>())
@@ -3251,9 +3293,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get a provisioning profile by template name.
     ///
-    /// - Parameter GetProvisioningProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProvisioningProfileInput`)
     ///
-    /// - Returns: `GetProvisioningProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProvisioningProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3290,6 +3332,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProvisioningProfileInput, GetProvisioningProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProvisioningProfileOutput>(GetProvisioningProfileOutput.httpOutput(from:), GetProvisioningProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProvisioningProfileInput, GetProvisioningProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProvisioningProfileOutput>())
@@ -3321,9 +3364,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Get the runtime log configuration for a specific managed thing or for all managed things as a group.
     ///
-    /// - Parameter GetRuntimeLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuntimeLogConfigurationInput`)
     ///
-    /// - Returns: `GetRuntimeLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuntimeLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3358,6 +3401,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRuntimeLogConfigurationInput, GetRuntimeLogConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuntimeLogConfigurationOutput>(GetRuntimeLogConfigurationOutput.httpOutput(from:), GetRuntimeLogConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuntimeLogConfigurationInput, GetRuntimeLogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuntimeLogConfigurationOutput>())
@@ -3389,9 +3433,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Gets a schema version with the provided information.
     ///
-    /// - Parameter GetSchemaVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaVersionInput`)
     ///
-    /// - Returns: `GetSchemaVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3429,6 +3473,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(GetSchemaVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaVersionOutput>(GetSchemaVersionOutput.httpOutput(from:), GetSchemaVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaVersionInput, GetSchemaVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaVersionOutput>())
@@ -3460,9 +3505,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all account associations, with optional filtering by connector destination ID.
     ///
-    /// - Parameter ListAccountAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountAssociationsInput`)
     ///
-    /// - Returns: `ListAccountAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3498,6 +3543,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccountAssociationsInput, ListAccountAssociationsOutput>(ListAccountAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountAssociationsOutput>(ListAccountAssociationsOutput.httpOutput(from:), ListAccountAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountAssociationsInput, ListAccountAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountAssociationsOutput>())
@@ -3529,9 +3575,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Returns a list of connectors based on permissions.
     ///
-    /// - Parameter ListCloudConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCloudConnectorsInput`)
     ///
-    /// - Returns: `ListCloudConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCloudConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3566,6 +3612,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>(ListCloudConnectorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCloudConnectorsOutput>(ListCloudConnectorsOutput.httpOutput(from:), ListCloudConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCloudConnectorsInput, ListCloudConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCloudConnectorsOutput>())
@@ -3597,9 +3644,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all connector destinations, with optional filtering by cloud connector ID.
     ///
-    /// - Parameter ListConnectorDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorDestinationsInput`)
     ///
-    /// - Returns: `ListConnectorDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3634,6 +3681,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectorDestinationsInput, ListConnectorDestinationsOutput>(ListConnectorDestinationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorDestinationsOutput>(ListConnectorDestinationsOutput.httpOutput(from:), ListConnectorDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorDestinationsInput, ListConnectorDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorDestinationsOutput>())
@@ -3665,9 +3713,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List information on an existing credential locker.
     ///
-    /// - Parameter ListCredentialLockersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCredentialLockersInput`)
     ///
-    /// - Returns: `ListCredentialLockersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCredentialLockersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3703,6 +3751,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCredentialLockersInput, ListCredentialLockersOutput>(ListCredentialLockersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCredentialLockersOutput>(ListCredentialLockersOutput.httpOutput(from:), ListCredentialLockersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCredentialLockersInput, ListCredentialLockersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCredentialLockersOutput>())
@@ -3734,9 +3783,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all destination names under one Amazon Web Services account.
     ///
-    /// - Parameter ListDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDestinationsInput`)
     ///
-    /// - Returns: `ListDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3771,6 +3820,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDestinationsInput, ListDestinationsOutput>(ListDestinationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDestinationsOutput>(ListDestinationsOutput.httpOutput(from:), ListDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDestinationsInput, ListDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDestinationsOutput>())
@@ -3802,9 +3852,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all device discovery tasks, with optional filtering by type and status.
     ///
-    /// - Parameter ListDeviceDiscoveriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceDiscoveriesInput`)
     ///
-    /// - Returns: `ListDeviceDiscoveriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceDiscoveriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3841,6 +3891,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeviceDiscoveriesInput, ListDeviceDiscoveriesOutput>(ListDeviceDiscoveriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeviceDiscoveriesOutput>(ListDeviceDiscoveriesOutput.httpOutput(from:), ListDeviceDiscoveriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeviceDiscoveriesInput, ListDeviceDiscoveriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeviceDiscoveriesOutput>())
@@ -3872,9 +3923,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all devices discovered during a specific device discovery task.
     ///
-    /// - Parameter ListDiscoveredDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDiscoveredDevicesInput`)
     ///
-    /// - Returns: `ListDiscoveredDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDiscoveredDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3912,6 +3963,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDiscoveredDevicesInput, ListDiscoveredDevicesOutput>(ListDiscoveredDevicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDiscoveredDevicesOutput>(ListDiscoveredDevicesOutput.httpOutput(from:), ListDiscoveredDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDiscoveredDevicesInput, ListDiscoveredDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveredDevicesOutput>())
@@ -3943,9 +3995,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all event log configurations for an account.
     ///
-    /// - Parameter ListEventLogConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEventLogConfigurationsInput`)
     ///
-    /// - Returns: `ListEventLogConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEventLogConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3980,6 +4032,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEventLogConfigurationsInput, ListEventLogConfigurationsOutput>(ListEventLogConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEventLogConfigurationsOutput>(ListEventLogConfigurationsOutput.httpOutput(from:), ListEventLogConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEventLogConfigurationsInput, ListEventLogConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEventLogConfigurationsOutput>())
@@ -4011,9 +4064,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists all account associations for a specific managed thing.
     ///
-    /// - Parameter ListManagedThingAccountAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedThingAccountAssociationsInput`)
     ///
-    /// - Returns: `ListManagedThingAccountAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedThingAccountAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4048,6 +4101,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedThingAccountAssociationsInput, ListManagedThingAccountAssociationsOutput>(ListManagedThingAccountAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedThingAccountAssociationsOutput>(ListManagedThingAccountAssociationsOutput.httpOutput(from:), ListManagedThingAccountAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedThingAccountAssociationsInput, ListManagedThingAccountAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedThingAccountAssociationsOutput>())
@@ -4079,9 +4133,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List schemas associated with a managed thing.
     ///
-    /// - Parameter ListManagedThingSchemasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedThingSchemasInput`)
     ///
-    /// - Returns: `ListManagedThingSchemasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedThingSchemasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4119,6 +4173,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedThingSchemasInput, ListManagedThingSchemasOutput>(ListManagedThingSchemasInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedThingSchemasOutput>(ListManagedThingSchemasOutput.httpOutput(from:), ListManagedThingSchemasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedThingSchemasInput, ListManagedThingSchemasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedThingSchemasOutput>())
@@ -4150,9 +4205,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Listing all managed things with provision for filters.
     ///
-    /// - Parameter ListManagedThingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListManagedThingsInput`)
     ///
-    /// - Returns: `ListManagedThingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListManagedThingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4189,6 +4244,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListManagedThingsInput, ListManagedThingsOutput>(ListManagedThingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedThingsOutput>(ListManagedThingsOutput.httpOutput(from:), ListManagedThingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedThingsInput, ListManagedThingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedThingsOutput>())
@@ -4220,9 +4276,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all notification configurations.
     ///
-    /// - Parameter ListNotificationConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationConfigurationsInput`)
     ///
-    /// - Returns: `ListNotificationConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4257,6 +4313,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNotificationConfigurationsInput, ListNotificationConfigurationsOutput>(ListNotificationConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotificationConfigurationsOutput>(ListNotificationConfigurationsOutput.httpOutput(from:), ListNotificationConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotificationConfigurationsInput, ListNotificationConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotificationConfigurationsOutput>())
@@ -4288,9 +4345,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all of the over-the-air (OTA) task configurations.
     ///
-    /// - Parameter ListOtaTaskConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOtaTaskConfigurationsInput`)
     ///
-    /// - Returns: `ListOtaTaskConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOtaTaskConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4325,6 +4382,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOtaTaskConfigurationsInput, ListOtaTaskConfigurationsOutput>(ListOtaTaskConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOtaTaskConfigurationsOutput>(ListOtaTaskConfigurationsOutput.httpOutput(from:), ListOtaTaskConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOtaTaskConfigurationsInput, ListOtaTaskConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOtaTaskConfigurationsOutput>())
@@ -4356,9 +4414,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all of the over-the-air (OTA) task executions.
     ///
-    /// - Parameter ListOtaTaskExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOtaTaskExecutionsInput`)
     ///
-    /// - Returns: `ListOtaTaskExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOtaTaskExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4394,6 +4452,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOtaTaskExecutionsInput, ListOtaTaskExecutionsOutput>(ListOtaTaskExecutionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOtaTaskExecutionsOutput>(ListOtaTaskExecutionsOutput.httpOutput(from:), ListOtaTaskExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOtaTaskExecutionsInput, ListOtaTaskExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOtaTaskExecutionsOutput>())
@@ -4425,9 +4484,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List all of the over-the-air (OTA) tasks.
     ///
-    /// - Parameter ListOtaTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOtaTasksInput`)
     ///
-    /// - Returns: `ListOtaTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOtaTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4463,6 +4522,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOtaTasksInput, ListOtaTasksOutput>(ListOtaTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOtaTasksOutput>(ListOtaTasksOutput.httpOutput(from:), ListOtaTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOtaTasksInput, ListOtaTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOtaTasksOutput>())
@@ -4494,9 +4554,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List the provisioning profiles within the Amazon Web Services account.
     ///
-    /// - Parameter ListProvisioningProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProvisioningProfilesInput`)
     ///
-    /// - Returns: `ListProvisioningProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProvisioningProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4533,6 +4593,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProvisioningProfilesInput, ListProvisioningProfilesOutput>(ListProvisioningProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProvisioningProfilesOutput>(ListProvisioningProfilesOutput.httpOutput(from:), ListProvisioningProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProvisioningProfilesInput, ListProvisioningProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProvisioningProfilesOutput>())
@@ -4564,9 +4625,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Lists schema versions with the provided information.
     ///
-    /// - Parameter ListSchemaVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemaVersionsInput`)
     ///
-    /// - Returns: `ListSchemaVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemaVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4603,6 +4664,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(ListSchemaVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemaVersionsOutput>(ListSchemaVersionsOutput.httpOutput(from:), ListSchemaVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemaVersionsInput, ListSchemaVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemaVersionsOutput>())
@@ -4634,9 +4696,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// List tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4670,6 +4732,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4701,9 +4764,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the AWS IoT SiteWise User Guide.
     ///
-    /// - Parameter PutDefaultEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDefaultEncryptionConfigurationInput`)
     ///
-    /// - Returns: `PutDefaultEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDefaultEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4743,6 +4806,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDefaultEncryptionConfigurationInput, PutDefaultEncryptionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDefaultEncryptionConfigurationOutput>(PutDefaultEncryptionConfigurationOutput.httpOutput(from:), PutDefaultEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDefaultEncryptionConfigurationInput, PutDefaultEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDefaultEncryptionConfigurationOutput>())
@@ -4774,9 +4838,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update a hub configuration.
     ///
-    /// - Parameter PutHubConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutHubConfigurationInput`)
     ///
-    /// - Returns: `PutHubConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutHubConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4815,6 +4879,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutHubConfigurationInput, PutHubConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutHubConfigurationOutput>(PutHubConfigurationOutput.httpOutput(from:), PutHubConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutHubConfigurationInput, PutHubConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutHubConfigurationOutput>())
@@ -4846,9 +4911,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Set the runtime log configuration for a specific managed thing or for all managed things as a group.
     ///
-    /// - Parameter PutRuntimeLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRuntimeLogConfigurationInput`)
     ///
-    /// - Returns: `PutRuntimeLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRuntimeLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4886,6 +4951,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRuntimeLogConfigurationInput, PutRuntimeLogConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRuntimeLogConfigurationOutput>(PutRuntimeLogConfigurationOutput.httpOutput(from:), PutRuntimeLogConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRuntimeLogConfigurationInput, PutRuntimeLogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRuntimeLogConfigurationOutput>())
@@ -4917,9 +4983,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
     ///
-    /// - Parameter RegisterAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterAccountAssociationInput`)
     ///
-    /// - Returns: `RegisterAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4958,6 +5024,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterAccountAssociationInput, RegisterAccountAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterAccountAssociationOutput>(RegisterAccountAssociationOutput.httpOutput(from:), RegisterAccountAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterAccountAssociationInput, RegisterAccountAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterAccountAssociationOutput>())
@@ -4989,9 +5056,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
     ///
-    /// - Parameter RegisterCustomEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterCustomEndpointInput`)
     ///
-    /// - Returns: `RegisterCustomEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterCustomEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5028,6 +5095,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RegisterCustomEndpointInput, RegisterCustomEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterCustomEndpointOutput>(RegisterCustomEndpointOutput.httpOutput(from:), RegisterCustomEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterCustomEndpointInput, RegisterCustomEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterCustomEndpointOutput>())
@@ -5059,9 +5127,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Reset a runtime log configuration for a specific managed thing or for all managed things as a group.
     ///
-    /// - Parameter ResetRuntimeLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetRuntimeLogConfigurationInput`)
     ///
-    /// - Returns: `ResetRuntimeLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetRuntimeLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5096,6 +5164,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResetRuntimeLogConfigurationInput, ResetRuntimeLogConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetRuntimeLogConfigurationOutput>(ResetRuntimeLogConfigurationOutput.httpOutput(from:), ResetRuntimeLogConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetRuntimeLogConfigurationInput, ResetRuntimeLogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetRuntimeLogConfigurationOutput>())
@@ -5127,9 +5196,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Relays third-party device events for a connector such as a new device or a device state change event.
     ///
-    /// - Parameter SendConnectorEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendConnectorEventInput`)
     ///
-    /// - Returns: `SendConnectorEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendConnectorEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5168,6 +5237,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendConnectorEventInput, SendConnectorEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendConnectorEventOutput>(SendConnectorEventOutput.httpOutput(from:), SendConnectorEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendConnectorEventInput, SendConnectorEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendConnectorEventOutput>())
@@ -5199,9 +5269,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Send the command to the device represented by the managed thing.
     ///
-    /// - Parameter SendManagedThingCommandInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendManagedThingCommandInput`)
     ///
-    /// - Returns: `SendManagedThingCommandOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendManagedThingCommandOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5241,6 +5311,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendManagedThingCommandInput, SendManagedThingCommandOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendManagedThingCommandOutput>(SendManagedThingCommandOutput.httpOutput(from:), SendManagedThingCommandOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendManagedThingCommandInput, SendManagedThingCommandOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendManagedThingCommandOutput>())
@@ -5272,9 +5343,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Initiates a refresh of an existing account association to update its authorization and connection status.
     ///
-    /// - Parameter StartAccountAssociationRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAccountAssociationRefreshInput`)
     ///
-    /// - Returns: `StartAccountAssociationRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAccountAssociationRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5310,6 +5381,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAccountAssociationRefreshInput, StartAccountAssociationRefreshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAccountAssociationRefreshOutput>(StartAccountAssociationRefreshOutput.httpOutput(from:), StartAccountAssociationRefreshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAccountAssociationRefreshInput, StartAccountAssociationRefreshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAccountAssociationRefreshOutput>())
@@ -5341,9 +5413,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
     ///
-    /// - Parameter StartDeviceDiscoveryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDeviceDiscoveryInput`)
     ///
-    /// - Returns: `StartDeviceDiscoveryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDeviceDiscoveryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5384,6 +5456,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDeviceDiscoveryInput, StartDeviceDiscoveryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDeviceDiscoveryOutput>(StartDeviceDiscoveryOutput.httpOutput(from:), StartDeviceDiscoveryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDeviceDiscoveryInput, StartDeviceDiscoveryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDeviceDiscoveryOutput>())
@@ -5415,9 +5488,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Add tags for the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5455,6 +5528,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5486,9 +5560,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Remove tags for the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5524,6 +5598,7 @@ extension IoTManagedIntegrationsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5555,9 +5630,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Updates the properties of an existing account association.
     ///
-    /// - Parameter UpdateAccountAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountAssociationInput`)
     ///
-    /// - Returns: `UpdateAccountAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5597,6 +5672,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountAssociationInput, UpdateAccountAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountAssociationOutput>(UpdateAccountAssociationOutput.httpOutput(from:), UpdateAccountAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountAssociationInput, UpdateAccountAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountAssociationOutput>())
@@ -5628,9 +5704,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update an existing cloud connector.
     ///
-    /// - Parameter UpdateCloudConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCloudConnectorInput`)
     ///
-    /// - Returns: `UpdateCloudConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCloudConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5668,6 +5744,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCloudConnectorOutput>(UpdateCloudConnectorOutput.httpOutput(from:), UpdateCloudConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCloudConnectorInput, UpdateCloudConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCloudConnectorOutput>())
@@ -5699,9 +5776,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Updates the properties of an existing connector destination.
     ///
-    /// - Parameter UpdateConnectorDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorDestinationInput`)
     ///
-    /// - Returns: `UpdateConnectorDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5739,6 +5816,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorDestinationInput, UpdateConnectorDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorDestinationOutput>(UpdateConnectorDestinationOutput.httpOutput(from:), UpdateConnectorDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorDestinationInput, UpdateConnectorDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorDestinationOutput>())
@@ -5770,9 +5848,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update a destination specified by id.
     ///
-    /// - Parameter UpdateDestinationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDestinationInput`)
     ///
-    /// - Returns: `UpdateDestinationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDestinationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5810,6 +5888,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDestinationInput, UpdateDestinationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDestinationOutput>(UpdateDestinationOutput.httpOutput(from:), UpdateDestinationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDestinationInput, UpdateDestinationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDestinationOutput>())
@@ -5841,9 +5920,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update an event log configuration by log configuration ID.
     ///
-    /// - Parameter UpdateEventLogConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEventLogConfigurationInput`)
     ///
-    /// - Returns: `UpdateEventLogConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEventLogConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5881,6 +5960,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEventLogConfigurationInput, UpdateEventLogConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEventLogConfigurationOutput>(UpdateEventLogConfigurationOutput.httpOutput(from:), UpdateEventLogConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEventLogConfigurationInput, UpdateEventLogConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEventLogConfigurationOutput>())
@@ -5912,9 +5992,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update the attributes and capabilities associated with a managed thing.
     ///
-    /// - Parameter UpdateManagedThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateManagedThingInput`)
     ///
-    /// - Returns: `UpdateManagedThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateManagedThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5955,6 +6035,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateManagedThingInput, UpdateManagedThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateManagedThingOutput>(UpdateManagedThingOutput.httpOutput(from:), UpdateManagedThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateManagedThingInput, UpdateManagedThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateManagedThingOutput>())
@@ -5986,9 +6067,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update a notification configuration.
     ///
-    /// - Parameter UpdateNotificationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNotificationConfigurationInput`)
     ///
-    /// - Returns: `UpdateNotificationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNotificationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6026,6 +6107,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNotificationConfigurationInput, UpdateNotificationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNotificationConfigurationOutput>(UpdateNotificationConfigurationOutput.httpOutput(from:), UpdateNotificationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNotificationConfigurationInput, UpdateNotificationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNotificationConfigurationOutput>())
@@ -6057,9 +6139,9 @@ extension IoTManagedIntegrationsClient {
     ///
     /// Update an over-the-air (OTA) task.
     ///
-    /// - Parameter UpdateOtaTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOtaTaskInput`)
     ///
-    /// - Returns: `UpdateOtaTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOtaTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6097,6 +6179,7 @@ extension IoTManagedIntegrationsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOtaTaskInput, UpdateOtaTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOtaTaskOutput>(UpdateOtaTaskOutput.httpOutput(from:), UpdateOtaTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOtaTaskInput, UpdateOtaTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOtaTaskOutput>())

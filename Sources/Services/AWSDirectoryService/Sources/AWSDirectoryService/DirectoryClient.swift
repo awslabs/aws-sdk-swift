@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DirectoryClient: ClientRuntime.Client {
     public static let clientName = "DirectoryClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: DirectoryClient.DirectoryClientConfiguration
     let serviceName = "Directory"
@@ -373,9 +374,9 @@ extension DirectoryClient {
     ///
     /// Accepts a directory sharing request that was sent from the directory owner account.
     ///
-    /// - Parameter AcceptSharedDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptSharedDirectoryInput`)
     ///
-    /// - Returns: `AcceptSharedDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptSharedDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +412,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptSharedDirectoryOutput>(AcceptSharedDirectoryOutput.httpOutput(from:), AcceptSharedDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptSharedDirectoryInput, AcceptSharedDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptSharedDirectoryOutput>())
@@ -445,9 +447,9 @@ extension DirectoryClient {
     ///
     /// If the DNS server for your self-managed domain uses a publicly addressable IP address, you must add a CIDR address block to correctly route traffic to and from your Microsoft AD on Amazon Web Services. AddIpRoutes adds this address block. You can also use AddIpRoutes to facilitate routing traffic that uses public IP ranges from your Microsoft AD on Amazon Web Services to a peer VPC. Before you call AddIpRoutes, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the AddIpRoutes operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
-    /// - Parameter AddIpRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddIpRoutesInput`)
     ///
-    /// - Returns: `AddIpRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddIpRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +487,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddIpRoutesInput, AddIpRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddIpRoutesOutput>(AddIpRoutesOutput.httpOutput(from:), AddIpRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddIpRoutesInput, AddIpRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddIpRoutesOutput>())
@@ -519,9 +522,9 @@ extension DirectoryClient {
     ///
     /// Adds two domain controllers in the specified Region for the specified directory.
     ///
-    /// - Parameter AddRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddRegionInput`)
     ///
-    /// - Returns: `AddRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -562,6 +565,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddRegionInput, AddRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddRegionOutput>(AddRegionOutput.httpOutput(from:), AddRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddRegionInput, AddRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddRegionOutput>())
@@ -596,9 +600,9 @@ extension DirectoryClient {
     ///
     /// Adds or overwrites one or more tags for the specified directory. Each directory can have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be unique to each resource.
     ///
-    /// - Parameter AddTagsToResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddTagsToResourceInput`)
     ///
-    /// - Returns: `AddTagsToResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddTagsToResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddTagsToResourceOutput>(AddTagsToResourceOutput.httpOutput(from:), AddTagsToResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddTagsToResourceInput, AddTagsToResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddTagsToResourceOutput>())
@@ -668,9 +673,9 @@ extension DirectoryClient {
     ///
     /// Cancels an in-progress schema extension to a Microsoft AD directory. Once a schema extension has started replicating to all domain controllers, the task can no longer be canceled. A schema extension can be canceled during any of the following states; Initializing, CreatingSnapshot, and UpdatingSchema.
     ///
-    /// - Parameter CancelSchemaExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSchemaExtensionInput`)
     ///
-    /// - Returns: `CancelSchemaExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSchemaExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,6 +709,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSchemaExtensionOutput>(CancelSchemaExtensionOutput.httpOutput(from:), CancelSchemaExtensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSchemaExtensionInput, CancelSchemaExtensionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSchemaExtensionOutput>())
@@ -738,9 +744,9 @@ extension DirectoryClient {
     ///
     /// Creates an AD Connector to connect to a self-managed directory. Before you call ConnectDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the ConnectDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
-    /// - Parameter ConnectDirectoryInput : Contains the inputs for the [ConnectDirectory] operation.
+    /// - Parameter input: Contains the inputs for the [ConnectDirectory] operation. (Type: `ConnectDirectoryInput`)
     ///
-    /// - Returns: `ConnectDirectoryOutput` : Contains the results of the [ConnectDirectory] operation.
+    /// - Returns: Contains the results of the [ConnectDirectory] operation. (Type: `ConnectDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -775,6 +781,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConnectDirectoryInput, ConnectDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConnectDirectoryOutput>(ConnectDirectoryOutput.httpOutput(from:), ConnectDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConnectDirectoryInput, ConnectDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConnectDirectoryOutput>())
@@ -809,9 +816,9 @@ extension DirectoryClient {
     ///
     /// Creates an alias for a directory and assigns the alias to the directory. The alias is used to construct the access URL for the directory, such as http://.awsapps.com. After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
     ///
-    /// - Parameter CreateAliasInput : Contains the inputs for the [CreateAlias] operation.
+    /// - Parameter input: Contains the inputs for the [CreateAlias] operation. (Type: `CreateAliasInput`)
     ///
-    /// - Returns: `CreateAliasOutput` : Contains the results of the [CreateAlias] operation.
+    /// - Returns: Contains the results of the [CreateAlias] operation. (Type: `CreateAliasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -847,6 +854,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAliasInput, CreateAliasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAliasOutput>(CreateAliasOutput.httpOutput(from:), CreateAliasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAliasInput, CreateAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAliasOutput>())
@@ -881,9 +889,9 @@ extension DirectoryClient {
     ///
     /// Creates an Active Directory computer object in the specified directory.
     ///
-    /// - Parameter CreateComputerInput : Contains the inputs for the [CreateComputer] operation.
+    /// - Parameter input: Contains the inputs for the [CreateComputer] operation. (Type: `CreateComputerInput`)
     ///
-    /// - Returns: `CreateComputerOutput` : Contains the results for the [CreateComputer] operation.
+    /// - Returns: Contains the results for the [CreateComputer] operation. (Type: `CreateComputerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,6 +930,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComputerInput, CreateComputerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComputerOutput>(CreateComputerOutput.httpOutput(from:), CreateComputerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComputerInput, CreateComputerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComputerOutput>())
@@ -956,9 +965,9 @@ extension DirectoryClient {
     ///
     /// Creates a conditional forwarder associated with your Amazon Web Services directory. Conditional forwarders are required in order to set up a trust relationship with another domain. The conditional forwarder points to the trusted domain.
     ///
-    /// - Parameter CreateConditionalForwarderInput : Initiates the creation of a conditional forwarder for your Directory Service for Microsoft Active Directory. Conditional forwarders are required in order to set up a trust relationship with another domain.
+    /// - Parameter input: Initiates the creation of a conditional forwarder for your Directory Service for Microsoft Active Directory. Conditional forwarders are required in order to set up a trust relationship with another domain. (Type: `CreateConditionalForwarderInput`)
     ///
-    /// - Returns: `CreateConditionalForwarderOutput` : The result of a CreateConditinalForwarder request.
+    /// - Returns: The result of a CreateConditinalForwarder request. (Type: `CreateConditionalForwarderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,6 +1005,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConditionalForwarderOutput>(CreateConditionalForwarderOutput.httpOutput(from:), CreateConditionalForwarderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConditionalForwarderInput, CreateConditionalForwarderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConditionalForwarderOutput>())
@@ -1030,9 +1040,9 @@ extension DirectoryClient {
     ///
     /// Creates a Simple AD directory. For more information, see [Simple Active Directory](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_simple_ad.html) in the Directory Service Admin Guide. Before you call CreateDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
-    /// - Parameter CreateDirectoryInput : Contains the inputs for the [CreateDirectory] operation.
+    /// - Parameter input: Contains the inputs for the [CreateDirectory] operation. (Type: `CreateDirectoryInput`)
     ///
-    /// - Returns: `CreateDirectoryOutput` : Contains the results of the [CreateDirectory] operation.
+    /// - Returns: Contains the results of the [CreateDirectory] operation. (Type: `CreateDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1067,6 +1077,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectoryInput, CreateDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDirectoryOutput>(CreateDirectoryOutput.httpOutput(from:), CreateDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectoryInput, CreateDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectoryOutput>())
@@ -1101,9 +1112,9 @@ extension DirectoryClient {
     ///
     /// Creates a hybrid directory that connects your self-managed Active Directory (AD) infrastructure and Amazon Web Services. You must have a successful directory assessment using [StartADAssessment] to validate your environment compatibility before you use this operation. Updates are applied asynchronously. Use [DescribeDirectories] to monitor the progress of directory creation.
     ///
-    /// - Parameter CreateHybridADInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateHybridADInput`)
     ///
-    /// - Returns: `CreateHybridADOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateHybridADOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1141,6 +1152,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHybridADInput, CreateHybridADOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHybridADOutput>(CreateHybridADOutput.httpOutput(from:), CreateHybridADOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHybridADInput, CreateHybridADOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHybridADOutput>())
@@ -1175,9 +1187,9 @@ extension DirectoryClient {
     ///
     /// Creates a subscription to forward real-time Directory Service domain controller security logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
     ///
-    /// - Parameter CreateLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLogSubscriptionInput`)
     ///
-    /// - Returns: `CreateLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,6 +1226,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLogSubscriptionOutput>(CreateLogSubscriptionOutput.httpOutput(from:), CreateLogSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLogSubscriptionInput, CreateLogSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLogSubscriptionOutput>())
@@ -1248,9 +1261,9 @@ extension DirectoryClient {
     ///
     /// Creates a Microsoft AD directory in the Amazon Web Services Cloud. For more information, see [Managed Microsoft AD](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html) in the Directory Service Admin Guide. Before you call CreateMicrosoftAD, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the CreateMicrosoftAD operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
-    /// - Parameter CreateMicrosoftADInput : Creates an Managed Microsoft AD directory.
+    /// - Parameter input: Creates an Managed Microsoft AD directory. (Type: `CreateMicrosoftADInput`)
     ///
-    /// - Returns: `CreateMicrosoftADOutput` : Result of a CreateMicrosoftAD request.
+    /// - Returns: Result of a CreateMicrosoftAD request. (Type: `CreateMicrosoftADOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,6 +1299,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMicrosoftADOutput>(CreateMicrosoftADOutput.httpOutput(from:), CreateMicrosoftADOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMicrosoftADInput, CreateMicrosoftADOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMicrosoftADOutput>())
@@ -1320,9 +1334,9 @@ extension DirectoryClient {
     ///
     /// Creates a snapshot of a Simple AD or Microsoft AD directory in the Amazon Web Services cloud. You cannot take snapshots of AD Connector directories.
     ///
-    /// - Parameter CreateSnapshotInput : Contains the inputs for the [CreateSnapshot] operation.
+    /// - Parameter input: Contains the inputs for the [CreateSnapshot] operation. (Type: `CreateSnapshotInput`)
     ///
-    /// - Returns: `CreateSnapshotOutput` : Contains the results of the [CreateSnapshot] operation.
+    /// - Returns: Contains the results of the [CreateSnapshot] operation. (Type: `CreateSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1358,6 +1372,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSnapshotInput, CreateSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSnapshotOutput>(CreateSnapshotOutput.httpOutput(from:), CreateSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSnapshotInput, CreateSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSnapshotOutput>())
@@ -1392,9 +1407,9 @@ extension DirectoryClient {
     ///
     /// Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain. You can create either a forest trust or an external trust.
     ///
-    /// - Parameter CreateTrustInput : Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain.
+    /// - Parameter input: Directory Service for Microsoft Active Directory allows you to configure trust relationships. For example, you can establish a trust between your Managed Microsoft AD directory, and your existing self-managed Microsoft Active Directory. This would allow you to provide users and groups access to resources in either domain, with a single set of credentials. This action initiates the creation of the Amazon Web Services side of a trust relationship between an Managed Microsoft AD directory and an external domain. (Type: `CreateTrustInput`)
     ///
-    /// - Returns: `CreateTrustOutput` : The result of a CreateTrust request.
+    /// - Returns: The result of a CreateTrust request. (Type: `CreateTrustOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1431,6 +1446,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrustInput, CreateTrustOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrustOutput>(CreateTrustOutput.httpOutput(from:), CreateTrustOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrustInput, CreateTrustOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrustOutput>())
@@ -1465,9 +1481,9 @@ extension DirectoryClient {
     ///
     /// Deletes a directory assessment and all associated data. This operation permanently removes the assessment results, validation reports, and configuration information. You cannot delete system-initiated assessments. You can delete customer-created assessments even if they are in progress.
     ///
-    /// - Parameter DeleteADAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteADAssessmentInput`)
     ///
-    /// - Returns: `DeleteADAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteADAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,6 +1519,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteADAssessmentOutput>(DeleteADAssessmentOutput.httpOutput(from:), DeleteADAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteADAssessmentInput, DeleteADAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteADAssessmentOutput>())
@@ -1537,9 +1554,9 @@ extension DirectoryClient {
     ///
     /// Deletes a conditional forwarder that has been set up for your Amazon Web Services directory.
     ///
-    /// - Parameter DeleteConditionalForwarderInput : Deletes a conditional forwarder.
+    /// - Parameter input: Deletes a conditional forwarder. (Type: `DeleteConditionalForwarderInput`)
     ///
-    /// - Returns: `DeleteConditionalForwarderOutput` : The result of a DeleteConditionalForwarder request.
+    /// - Returns: The result of a DeleteConditionalForwarder request. (Type: `DeleteConditionalForwarderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1576,6 +1593,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConditionalForwarderOutput>(DeleteConditionalForwarderOutput.httpOutput(from:), DeleteConditionalForwarderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConditionalForwarderInput, DeleteConditionalForwarderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConditionalForwarderOutput>())
@@ -1610,9 +1628,9 @@ extension DirectoryClient {
     ///
     /// Deletes an Directory Service directory. Before you call DeleteDirectory, ensure that all of the required permissions have been explicitly granted through a policy. For details about what permissions are required to run the DeleteDirectory operation, see [Directory Service API Permissions: Actions, Resources, and Conditions Reference](http://docs.aws.amazon.com/directoryservice/latest/admin-guide/UsingWithDS_IAM_ResourcePermissions.html).
     ///
-    /// - Parameter DeleteDirectoryInput : Contains the inputs for the [DeleteDirectory] operation.
+    /// - Parameter input: Contains the inputs for the [DeleteDirectory] operation. (Type: `DeleteDirectoryInput`)
     ///
-    /// - Returns: `DeleteDirectoryOutput` : Contains the results of the [DeleteDirectory] operation.
+    /// - Returns: Contains the results of the [DeleteDirectory] operation. (Type: `DeleteDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,6 +1664,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDirectoryOutput>(DeleteDirectoryOutput.httpOutput(from:), DeleteDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDirectoryInput, DeleteDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDirectoryOutput>())
@@ -1680,9 +1699,9 @@ extension DirectoryClient {
     ///
     /// Deletes the specified log subscription.
     ///
-    /// - Parameter DeleteLogSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLogSubscriptionInput`)
     ///
-    /// - Returns: `DeleteLogSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLogSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1717,6 +1736,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLogSubscriptionOutput>(DeleteLogSubscriptionOutput.httpOutput(from:), DeleteLogSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLogSubscriptionInput, DeleteLogSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLogSubscriptionOutput>())
@@ -1751,9 +1771,9 @@ extension DirectoryClient {
     ///
     /// Deletes a directory snapshot.
     ///
-    /// - Parameter DeleteSnapshotInput : Contains the inputs for the [DeleteSnapshot] operation.
+    /// - Parameter input: Contains the inputs for the [DeleteSnapshot] operation. (Type: `DeleteSnapshotInput`)
     ///
-    /// - Returns: `DeleteSnapshotOutput` : Contains the results of the [DeleteSnapshot] operation.
+    /// - Returns: Contains the results of the [DeleteSnapshot] operation. (Type: `DeleteSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1788,6 +1808,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSnapshotOutput>(DeleteSnapshotOutput.httpOutput(from:), DeleteSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSnapshotInput, DeleteSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSnapshotOutput>())
@@ -1822,9 +1843,9 @@ extension DirectoryClient {
     ///
     /// Deletes an existing trust relationship between your Managed Microsoft AD directory and an external domain.
     ///
-    /// - Parameter DeleteTrustInput : Deletes the local side of an existing trust relationship between the Managed Microsoft AD directory and the external domain.
+    /// - Parameter input: Deletes the local side of an existing trust relationship between the Managed Microsoft AD directory and the external domain. (Type: `DeleteTrustInput`)
     ///
-    /// - Returns: `DeleteTrustOutput` : The result of a DeleteTrust request.
+    /// - Returns: The result of a DeleteTrust request. (Type: `DeleteTrustOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1860,6 +1881,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrustInput, DeleteTrustOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrustOutput>(DeleteTrustOutput.httpOutput(from:), DeleteTrustOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrustInput, DeleteTrustOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrustOutput>())
@@ -1894,9 +1916,9 @@ extension DirectoryClient {
     ///
     /// Deletes from the system the certificate that was registered for secure LDAP or client certificate authentication.
     ///
-    /// - Parameter DeregisterCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterCertificateInput`)
     ///
-    /// - Returns: `DeregisterCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1935,6 +1957,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterCertificateInput, DeregisterCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterCertificateOutput>(DeregisterCertificateOutput.httpOutput(from:), DeregisterCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterCertificateInput, DeregisterCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterCertificateOutput>())
@@ -1969,9 +1992,9 @@ extension DirectoryClient {
     ///
     /// Removes the specified directory as a publisher to the specified Amazon SNS topic.
     ///
-    /// - Parameter DeregisterEventTopicInput : Removes the specified directory as a publisher to the specified Amazon SNS topic.
+    /// - Parameter input: Removes the specified directory as a publisher to the specified Amazon SNS topic. (Type: `DeregisterEventTopicInput`)
     ///
-    /// - Returns: `DeregisterEventTopicOutput` : The result of a DeregisterEventTopic request.
+    /// - Returns: The result of a DeregisterEventTopic request. (Type: `DeregisterEventTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2006,6 +2029,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterEventTopicOutput>(DeregisterEventTopicOutput.httpOutput(from:), DeregisterEventTopicOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterEventTopicInput, DeregisterEventTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterEventTopicOutput>())
@@ -2040,9 +2064,9 @@ extension DirectoryClient {
     ///
     /// Retrieves detailed information about a directory assessment, including its current status, validation results, and configuration details. Use this operation to monitor assessment progress and review results.
     ///
-    /// - Parameter DescribeADAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeADAssessmentInput`)
     ///
-    /// - Returns: `DescribeADAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeADAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2078,6 +2102,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeADAssessmentOutput>(DescribeADAssessmentOutput.httpOutput(from:), DescribeADAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeADAssessmentInput, DescribeADAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeADAssessmentOutput>())
@@ -2112,9 +2137,9 @@ extension DirectoryClient {
     ///
     /// Retrieves detailed information about the certificate authority (CA) enrollment policy for the specified directory. This policy determines how client certificates are automatically enrolled and managed through Amazon Web Services Private Certificate Authority.
     ///
-    /// - Parameter DescribeCAEnrollmentPolicyInput : Contains the inputs for the [DescribeCAEnrollmentPolicy] operation.
+    /// - Parameter input: Contains the inputs for the [DescribeCAEnrollmentPolicy] operation. (Type: `DescribeCAEnrollmentPolicyInput`)
     ///
-    /// - Returns: `DescribeCAEnrollmentPolicyOutput` : Contains the results of the [DescribeCAEnrollmentPolicy] operation.
+    /// - Returns: Contains the results of the [DescribeCAEnrollmentPolicy] operation. (Type: `DescribeCAEnrollmentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2149,6 +2174,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCAEnrollmentPolicyInput, DescribeCAEnrollmentPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCAEnrollmentPolicyOutput>(DescribeCAEnrollmentPolicyOutput.httpOutput(from:), DescribeCAEnrollmentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCAEnrollmentPolicyInput, DescribeCAEnrollmentPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCAEnrollmentPolicyOutput>())
@@ -2183,9 +2209,9 @@ extension DirectoryClient {
     ///
     /// Displays information about the certificate registered for secure LDAP or client certificate authentication.
     ///
-    /// - Parameter DescribeCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeCertificateInput`)
     ///
-    /// - Returns: `DescribeCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2222,6 +2248,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCertificateInput, DescribeCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCertificateOutput>(DescribeCertificateOutput.httpOutput(from:), DescribeCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCertificateInput, DescribeCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCertificateOutput>())
@@ -2256,9 +2283,9 @@ extension DirectoryClient {
     ///
     /// Retrieves information about the type of client authentication for the specified directory, if the type is specified. If no type is specified, information about all client authentication types that are supported for the specified directory is retrieved. Currently, only SmartCard is supported.
     ///
-    /// - Parameter DescribeClientAuthenticationSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClientAuthenticationSettingsInput`)
     ///
-    /// - Returns: `DescribeClientAuthenticationSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClientAuthenticationSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2295,6 +2322,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClientAuthenticationSettingsOutput>(DescribeClientAuthenticationSettingsOutput.httpOutput(from:), DescribeClientAuthenticationSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClientAuthenticationSettingsInput, DescribeClientAuthenticationSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClientAuthenticationSettingsOutput>())
@@ -2329,9 +2357,9 @@ extension DirectoryClient {
     ///
     /// Obtains information about the conditional forwarders for this account. If no input parameters are provided for RemoteDomainNames, this request describes all conditional forwarders for the specified directory ID.
     ///
-    /// - Parameter DescribeConditionalForwardersInput : Describes a conditional forwarder.
+    /// - Parameter input: Describes a conditional forwarder. (Type: `DescribeConditionalForwardersInput`)
     ///
-    /// - Returns: `DescribeConditionalForwardersOutput` : The result of a DescribeConditionalForwarder request.
+    /// - Returns: The result of a DescribeConditionalForwarder request. (Type: `DescribeConditionalForwardersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2368,6 +2396,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConditionalForwardersOutput>(DescribeConditionalForwardersOutput.httpOutput(from:), DescribeConditionalForwardersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConditionalForwardersInput, DescribeConditionalForwardersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConditionalForwardersOutput>())
@@ -2402,9 +2431,9 @@ extension DirectoryClient {
     ///
     /// Obtains information about the directories that belong to this account. You can retrieve information about specific directories by passing the directory identifiers in the DirectoryIds parameter. Otherwise, all directories that belong to the current account are returned. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeDirectoriesResult.NextToken member contains a token that you pass in the next call to [DescribeDirectories] to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
     ///
-    /// - Parameter DescribeDirectoriesInput : Contains the inputs for the [DescribeDirectories] operation.
+    /// - Parameter input: Contains the inputs for the [DescribeDirectories] operation. (Type: `DescribeDirectoriesInput`)
     ///
-    /// - Returns: `DescribeDirectoriesOutput` : Contains the results of the [DescribeDirectories] operation.
+    /// - Returns: Contains the results of the [DescribeDirectories] operation. (Type: `DescribeDirectoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2440,6 +2469,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDirectoriesOutput>(DescribeDirectoriesOutput.httpOutput(from:), DescribeDirectoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectoriesInput, DescribeDirectoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectoriesOutput>())
@@ -2474,9 +2504,9 @@ extension DirectoryClient {
     ///
     /// Obtains status of directory data access enablement through the Directory Service Data API for the specified directory.
     ///
-    /// - Parameter DescribeDirectoryDataAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDirectoryDataAccessInput`)
     ///
-    /// - Returns: `DescribeDirectoryDataAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDirectoryDataAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2512,6 +2542,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDirectoryDataAccessOutput>(DescribeDirectoryDataAccessOutput.httpOutput(from:), DescribeDirectoryDataAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDirectoryDataAccessInput, DescribeDirectoryDataAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDirectoryDataAccessOutput>())
@@ -2546,9 +2577,9 @@ extension DirectoryClient {
     ///
     /// Provides information about any domain controllers in your directory.
     ///
-    /// - Parameter DescribeDomainControllersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDomainControllersInput`)
     ///
-    /// - Returns: `DescribeDomainControllersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDomainControllersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2585,6 +2616,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDomainControllersOutput>(DescribeDomainControllersOutput.httpOutput(from:), DescribeDomainControllersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDomainControllersInput, DescribeDomainControllersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDomainControllersOutput>())
@@ -2619,9 +2651,9 @@ extension DirectoryClient {
     ///
     /// Obtains information about which Amazon SNS topics receive status messages from the specified directory. If no input parameters are provided, such as DirectoryId or TopicName, this request describes all of the associations in the account.
     ///
-    /// - Parameter DescribeEventTopicsInput : Describes event topics.
+    /// - Parameter input: Describes event topics. (Type: `DescribeEventTopicsInput`)
     ///
-    /// - Returns: `DescribeEventTopicsOutput` : The result of a DescribeEventTopic request.
+    /// - Returns: The result of a DescribeEventTopic request. (Type: `DescribeEventTopicsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2656,6 +2688,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEventTopicsOutput>(DescribeEventTopicsOutput.httpOutput(from:), DescribeEventTopicsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEventTopicsInput, DescribeEventTopicsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEventTopicsOutput>())
@@ -2690,9 +2723,9 @@ extension DirectoryClient {
     ///
     /// Retrieves information about update activities for a hybrid directory. This operation provides details about configuration changes, administrator account updates, and self-managed instance settings (IDs and DNS IPs).
     ///
-    /// - Parameter DescribeHybridADUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeHybridADUpdateInput`)
     ///
-    /// - Returns: `DescribeHybridADUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeHybridADUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2729,6 +2762,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeHybridADUpdateOutput>(DescribeHybridADUpdateOutput.httpOutput(from:), DescribeHybridADUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeHybridADUpdateInput, DescribeHybridADUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeHybridADUpdateOutput>())
@@ -2763,9 +2797,9 @@ extension DirectoryClient {
     ///
     /// Describes the status of LDAP security for the specified directory.
     ///
-    /// - Parameter DescribeLDAPSSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLDAPSSettingsInput`)
     ///
-    /// - Returns: `DescribeLDAPSSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLDAPSSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2802,6 +2836,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLDAPSSettingsOutput>(DescribeLDAPSSettingsOutput.httpOutput(from:), DescribeLDAPSSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLDAPSSettingsInput, DescribeLDAPSSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLDAPSSettingsOutput>())
@@ -2836,9 +2871,9 @@ extension DirectoryClient {
     ///
     /// Provides information about the Regions that are configured for multi-Region replication.
     ///
-    /// - Parameter DescribeRegionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRegionsInput`)
     ///
-    /// - Returns: `DescribeRegionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2876,6 +2911,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRegionsInput, DescribeRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRegionsOutput>(DescribeRegionsOutput.httpOutput(from:), DescribeRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRegionsInput, DescribeRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRegionsOutput>())
@@ -2910,9 +2946,9 @@ extension DirectoryClient {
     ///
     /// Retrieves information about the configurable settings for the specified directory.
     ///
-    /// - Parameter DescribeSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSettingsInput`)
     ///
-    /// - Returns: `DescribeSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2949,6 +2985,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSettingsInput, DescribeSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSettingsOutput>(DescribeSettingsOutput.httpOutput(from:), DescribeSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSettingsInput, DescribeSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSettingsOutput>())
@@ -2983,9 +3020,9 @@ extension DirectoryClient {
     ///
     /// Returns the shared directories in your account.
     ///
-    /// - Parameter DescribeSharedDirectoriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSharedDirectoriesInput`)
     ///
-    /// - Returns: `DescribeSharedDirectoriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSharedDirectoriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3022,6 +3059,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSharedDirectoriesOutput>(DescribeSharedDirectoriesOutput.httpOutput(from:), DescribeSharedDirectoriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSharedDirectoriesInput, DescribeSharedDirectoriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSharedDirectoriesOutput>())
@@ -3056,9 +3094,9 @@ extension DirectoryClient {
     ///
     /// Obtains information about the directory snapshots that belong to this account. This operation supports pagination with the use of the NextToken request and response parameters. If more results are available, the DescribeSnapshots.NextToken member contains a token that you pass in the next call to [DescribeSnapshots] to retrieve the next set of items. You can also specify a maximum number of return results with the Limit parameter.
     ///
-    /// - Parameter DescribeSnapshotsInput : Contains the inputs for the [DescribeSnapshots] operation.
+    /// - Parameter input: Contains the inputs for the [DescribeSnapshots] operation. (Type: `DescribeSnapshotsInput`)
     ///
-    /// - Returns: `DescribeSnapshotsOutput` : Contains the results of the [DescribeSnapshots] operation.
+    /// - Returns: Contains the results of the [DescribeSnapshots] operation. (Type: `DescribeSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3094,6 +3132,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSnapshotsOutput>(DescribeSnapshotsOutput.httpOutput(from:), DescribeSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSnapshotsInput, DescribeSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSnapshotsOutput>())
@@ -3128,9 +3167,9 @@ extension DirectoryClient {
     ///
     /// Obtains information about the trust relationships for this account. If no input parameters are provided, such as DirectoryId or TrustIds, this request describes all the trust relationships belonging to the account.
     ///
-    /// - Parameter DescribeTrustsInput : Describes the trust relationships for a particular Managed Microsoft AD directory. If no input parameters are provided, such as directory ID or trust ID, this request describes all the trust relationships.
+    /// - Parameter input: Describes the trust relationships for a particular Managed Microsoft AD directory. If no input parameters are provided, such as directory ID or trust ID, this request describes all the trust relationships. (Type: `DescribeTrustsInput`)
     ///
-    /// - Returns: `DescribeTrustsOutput` : The result of a DescribeTrust request.
+    /// - Returns: The result of a DescribeTrust request. (Type: `DescribeTrustsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3167,6 +3206,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeTrustsInput, DescribeTrustsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTrustsOutput>(DescribeTrustsOutput.httpOutput(from:), DescribeTrustsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTrustsInput, DescribeTrustsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTrustsOutput>())
@@ -3201,9 +3241,9 @@ extension DirectoryClient {
     ///
     /// Describes the updates of a directory for a particular update type.
     ///
-    /// - Parameter DescribeUpdateDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUpdateDirectoryInput`)
     ///
-    /// - Returns: `DescribeUpdateDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUpdateDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3240,6 +3280,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUpdateDirectoryOutput>(DescribeUpdateDirectoryOutput.httpOutput(from:), DescribeUpdateDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUpdateDirectoryInput, DescribeUpdateDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUpdateDirectoryOutput>())
@@ -3274,9 +3315,9 @@ extension DirectoryClient {
     ///
     /// Disables the certificate authority (CA) enrollment policy for the specified directory. This stops automatic certificate enrollment and management for domain-joined clients, but does not affect existing certificates. Disabling the CA enrollment policy prevents new certificates from being automatically enrolled, but existing certificates remain valid and functional until they expire.
     ///
-    /// - Parameter DisableCAEnrollmentPolicyInput : Contains the inputs for the [DisableCAEnrollmentPolicy] operation.
+    /// - Parameter input: Contains the inputs for the [DisableCAEnrollmentPolicy] operation. (Type: `DisableCAEnrollmentPolicyInput`)
     ///
-    /// - Returns: `DisableCAEnrollmentPolicyOutput` : Contains the results of the [DisableCAEnrollmentPolicy] operation.
+    /// - Returns: Contains the results of the [DisableCAEnrollmentPolicy] operation. (Type: `DisableCAEnrollmentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3315,6 +3356,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableCAEnrollmentPolicyInput, DisableCAEnrollmentPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableCAEnrollmentPolicyOutput>(DisableCAEnrollmentPolicyOutput.httpOutput(from:), DisableCAEnrollmentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableCAEnrollmentPolicyInput, DisableCAEnrollmentPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableCAEnrollmentPolicyOutput>())
@@ -3349,9 +3391,9 @@ extension DirectoryClient {
     ///
     /// Disables alternative client authentication methods for the specified directory.
     ///
-    /// - Parameter DisableClientAuthenticationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableClientAuthenticationInput`)
     ///
-    /// - Returns: `DisableClientAuthenticationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableClientAuthenticationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3388,6 +3430,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableClientAuthenticationOutput>(DisableClientAuthenticationOutput.httpOutput(from:), DisableClientAuthenticationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableClientAuthenticationInput, DisableClientAuthenticationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableClientAuthenticationOutput>())
@@ -3422,9 +3465,9 @@ extension DirectoryClient {
     ///
     /// Deactivates access to directory data via the Directory Service Data API for the specified directory. For more information, see [Directory Service Data API Reference](https://docs.aws.amazon.com/directoryservicedata/latest/DirectoryServiceDataAPIReference/Welcome.html).
     ///
-    /// - Parameter DisableDirectoryDataAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableDirectoryDataAccessInput`)
     ///
-    /// - Returns: `DisableDirectoryDataAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableDirectoryDataAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3462,6 +3505,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableDirectoryDataAccessOutput>(DisableDirectoryDataAccessOutput.httpOutput(from:), DisableDirectoryDataAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableDirectoryDataAccessInput, DisableDirectoryDataAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableDirectoryDataAccessOutput>())
@@ -3496,9 +3540,9 @@ extension DirectoryClient {
     ///
     /// Deactivates LDAP secure calls for the specified directory.
     ///
-    /// - Parameter DisableLDAPSInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisableLDAPSInput`)
     ///
-    /// - Returns: `DisableLDAPSOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisableLDAPSOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3536,6 +3580,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableLDAPSInput, DisableLDAPSOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableLDAPSOutput>(DisableLDAPSOutput.httpOutput(from:), DisableLDAPSOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableLDAPSInput, DisableLDAPSOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableLDAPSOutput>())
@@ -3570,9 +3615,9 @@ extension DirectoryClient {
     ///
     /// Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     ///
-    /// - Parameter DisableRadiusInput : Contains the inputs for the [DisableRadius] operation.
+    /// - Parameter input: Contains the inputs for the [DisableRadius] operation. (Type: `DisableRadiusInput`)
     ///
-    /// - Returns: `DisableRadiusOutput` : Contains the results of the [DisableRadius] operation.
+    /// - Returns: Contains the results of the [DisableRadius] operation. (Type: `DisableRadiusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3606,6 +3651,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableRadiusInput, DisableRadiusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableRadiusOutput>(DisableRadiusOutput.httpOutput(from:), DisableRadiusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableRadiusInput, DisableRadiusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableRadiusOutput>())
@@ -3640,9 +3686,9 @@ extension DirectoryClient {
     ///
     /// Disables single-sign on for a directory.
     ///
-    /// - Parameter DisableSsoInput : Contains the inputs for the [DisableSso] operation.
+    /// - Parameter input: Contains the inputs for the [DisableSso] operation. (Type: `DisableSsoInput`)
     ///
-    /// - Returns: `DisableSsoOutput` : Contains the results of the [DisableSso] operation.
+    /// - Returns: Contains the results of the [DisableSso] operation. (Type: `DisableSsoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3678,6 +3724,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableSsoInput, DisableSsoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableSsoOutput>(DisableSsoOutput.httpOutput(from:), DisableSsoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableSsoInput, DisableSsoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisableSsoOutput>())
@@ -3712,9 +3759,9 @@ extension DirectoryClient {
     ///
     /// Enables certificate authority (CA) enrollment policy for the specified directory. This allows domain-joined clients to automatically request and receive certificates from the specified Amazon Web Services Private Certificate Authority. Before enabling CA enrollment, ensure that the PCA connector is properly configured and accessible from the directory. The connector must be in an active state and have the necessary permissions.
     ///
-    /// - Parameter EnableCAEnrollmentPolicyInput : Contains the inputs for the [EnableCAEnrollmentPolicy] operation.
+    /// - Parameter input: Contains the inputs for the [EnableCAEnrollmentPolicy] operation. (Type: `EnableCAEnrollmentPolicyInput`)
     ///
-    /// - Returns: `EnableCAEnrollmentPolicyOutput` : Contains the results of the [EnableCAEnrollmentPolicy] operation.
+    /// - Returns: Contains the results of the [EnableCAEnrollmentPolicy] operation. (Type: `EnableCAEnrollmentPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3754,6 +3801,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableCAEnrollmentPolicyInput, EnableCAEnrollmentPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableCAEnrollmentPolicyOutput>(EnableCAEnrollmentPolicyOutput.httpOutput(from:), EnableCAEnrollmentPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableCAEnrollmentPolicyInput, EnableCAEnrollmentPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableCAEnrollmentPolicyOutput>())
@@ -3788,9 +3836,9 @@ extension DirectoryClient {
     ///
     /// Enables alternative client authentication methods for the specified directory.
     ///
-    /// - Parameter EnableClientAuthenticationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableClientAuthenticationInput`)
     ///
-    /// - Returns: `EnableClientAuthenticationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableClientAuthenticationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3828,6 +3876,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableClientAuthenticationOutput>(EnableClientAuthenticationOutput.httpOutput(from:), EnableClientAuthenticationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableClientAuthenticationInput, EnableClientAuthenticationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableClientAuthenticationOutput>())
@@ -3862,9 +3911,9 @@ extension DirectoryClient {
     ///
     /// Enables access to directory data via the Directory Service Data API for the specified directory. For more information, see [Directory Service Data API Reference](https://docs.aws.amazon.com/directoryservicedata/latest/DirectoryServiceDataAPIReference/Welcome.html).
     ///
-    /// - Parameter EnableDirectoryDataAccessInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableDirectoryDataAccessInput`)
     ///
-    /// - Returns: `EnableDirectoryDataAccessOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableDirectoryDataAccessOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3902,6 +3951,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableDirectoryDataAccessOutput>(EnableDirectoryDataAccessOutput.httpOutput(from:), EnableDirectoryDataAccessOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableDirectoryDataAccessInput, EnableDirectoryDataAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableDirectoryDataAccessOutput>())
@@ -3936,9 +3986,9 @@ extension DirectoryClient {
     ///
     /// Activates the switch for the specific directory to always use LDAP secure calls.
     ///
-    /// - Parameter EnableLDAPSInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EnableLDAPSInput`)
     ///
-    /// - Returns: `EnableLDAPSOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EnableLDAPSOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3977,6 +4027,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableLDAPSInput, EnableLDAPSOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableLDAPSOutput>(EnableLDAPSOutput.httpOutput(from:), EnableLDAPSOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableLDAPSInput, EnableLDAPSOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableLDAPSOutput>())
@@ -4011,9 +4062,9 @@ extension DirectoryClient {
     ///
     /// Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User Service (RADIUS) server for an AD Connector or Microsoft AD directory.
     ///
-    /// - Parameter EnableRadiusInput : Contains the inputs for the [EnableRadius] operation.
+    /// - Parameter input: Contains the inputs for the [EnableRadius] operation. (Type: `EnableRadiusInput`)
     ///
-    /// - Returns: `EnableRadiusOutput` : Contains the results of the [EnableRadius] operation.
+    /// - Returns: Contains the results of the [EnableRadius] operation. (Type: `EnableRadiusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4049,6 +4100,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableRadiusInput, EnableRadiusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableRadiusOutput>(EnableRadiusOutput.httpOutput(from:), EnableRadiusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableRadiusInput, EnableRadiusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableRadiusOutput>())
@@ -4083,9 +4135,9 @@ extension DirectoryClient {
     ///
     /// Enables single sign-on for a directory. Single sign-on allows users in your directory to access certain Amazon Web Services services from a computer joined to the directory without having to enter their credentials separately.
     ///
-    /// - Parameter EnableSsoInput : Contains the inputs for the [EnableSso] operation.
+    /// - Parameter input: Contains the inputs for the [EnableSso] operation. (Type: `EnableSsoInput`)
     ///
-    /// - Returns: `EnableSsoOutput` : Contains the results of the [EnableSso] operation.
+    /// - Returns: Contains the results of the [EnableSso] operation. (Type: `EnableSsoOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4121,6 +4173,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableSsoInput, EnableSsoOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableSsoOutput>(EnableSsoOutput.httpOutput(from:), EnableSsoOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableSsoInput, EnableSsoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EnableSsoOutput>())
@@ -4155,9 +4208,9 @@ extension DirectoryClient {
     ///
     /// Obtains directory limit information for the current Region.
     ///
-    /// - Parameter GetDirectoryLimitsInput : Contains the inputs for the [GetDirectoryLimits] operation.
+    /// - Parameter input: Contains the inputs for the [GetDirectoryLimits] operation. (Type: `GetDirectoryLimitsInput`)
     ///
-    /// - Returns: `GetDirectoryLimitsOutput` : Contains the results of the [GetDirectoryLimits] operation.
+    /// - Returns: Contains the results of the [GetDirectoryLimits] operation. (Type: `GetDirectoryLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4191,6 +4244,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDirectoryLimitsOutput>(GetDirectoryLimitsOutput.httpOutput(from:), GetDirectoryLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDirectoryLimitsInput, GetDirectoryLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDirectoryLimitsOutput>())
@@ -4225,9 +4279,9 @@ extension DirectoryClient {
     ///
     /// Obtains the manual snapshot limits for a directory.
     ///
-    /// - Parameter GetSnapshotLimitsInput : Contains the inputs for the [GetSnapshotLimits] operation.
+    /// - Parameter input: Contains the inputs for the [GetSnapshotLimits] operation. (Type: `GetSnapshotLimitsInput`)
     ///
-    /// - Returns: `GetSnapshotLimitsOutput` : Contains the results of the [GetSnapshotLimits] operation.
+    /// - Returns: Contains the results of the [GetSnapshotLimits] operation. (Type: `GetSnapshotLimitsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4261,6 +4315,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSnapshotLimitsOutput>(GetSnapshotLimitsOutput.httpOutput(from:), GetSnapshotLimitsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSnapshotLimitsInput, GetSnapshotLimitsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSnapshotLimitsOutput>())
@@ -4295,9 +4350,9 @@ extension DirectoryClient {
     ///
     /// Retrieves a list of directory assessments for the specified directory or all assessments in your account. Use this operation to monitor assessment status and manage multiple assessments.
     ///
-    /// - Parameter ListADAssessmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListADAssessmentsInput`)
     ///
-    /// - Returns: `ListADAssessmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListADAssessmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4333,6 +4388,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListADAssessmentsOutput>(ListADAssessmentsOutput.httpOutput(from:), ListADAssessmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListADAssessmentsInput, ListADAssessmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListADAssessmentsOutput>())
@@ -4367,9 +4423,9 @@ extension DirectoryClient {
     ///
     /// For the specified directory, lists all the certificates registered for a secure LDAP or client certificate authentication.
     ///
-    /// - Parameter ListCertificatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCertificatesInput`)
     ///
-    /// - Returns: `ListCertificatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCertificatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4406,6 +4462,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCertificatesInput, ListCertificatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCertificatesOutput>(ListCertificatesOutput.httpOutput(from:), ListCertificatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCertificatesInput, ListCertificatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCertificatesOutput>())
@@ -4440,9 +4497,9 @@ extension DirectoryClient {
     ///
     /// Lists the address blocks that you have added to a directory.
     ///
-    /// - Parameter ListIpRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIpRoutesInput`)
     ///
-    /// - Returns: `ListIpRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIpRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4478,6 +4535,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIpRoutesInput, ListIpRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIpRoutesOutput>(ListIpRoutesOutput.httpOutput(from:), ListIpRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIpRoutesInput, ListIpRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIpRoutesOutput>())
@@ -4512,9 +4570,9 @@ extension DirectoryClient {
     ///
     /// Lists the active log subscriptions for the Amazon Web Services account.
     ///
-    /// - Parameter ListLogSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLogSubscriptionsInput`)
     ///
-    /// - Returns: `ListLogSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLogSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4549,6 +4607,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLogSubscriptionsOutput>(ListLogSubscriptionsOutput.httpOutput(from:), ListLogSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLogSubscriptionsInput, ListLogSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLogSubscriptionsOutput>())
@@ -4583,9 +4642,9 @@ extension DirectoryClient {
     ///
     /// Lists all schema extensions applied to a Microsoft AD Directory.
     ///
-    /// - Parameter ListSchemaExtensionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemaExtensionsInput`)
     ///
-    /// - Returns: `ListSchemaExtensionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemaExtensionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4620,6 +4679,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemaExtensionsOutput>(ListSchemaExtensionsOutput.httpOutput(from:), ListSchemaExtensionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemaExtensionsInput, ListSchemaExtensionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemaExtensionsOutput>())
@@ -4654,9 +4714,9 @@ extension DirectoryClient {
     ///
     /// Lists all tags on a directory.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4692,6 +4752,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4726,9 +4787,9 @@ extension DirectoryClient {
     ///
     /// Registers a certificate for a secure LDAP or client certificate authentication.
     ///
-    /// - Parameter RegisterCertificateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterCertificateInput`)
     ///
-    /// - Returns: `RegisterCertificateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterCertificateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4768,6 +4829,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterCertificateInput, RegisterCertificateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterCertificateOutput>(RegisterCertificateOutput.httpOutput(from:), RegisterCertificateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterCertificateInput, RegisterCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterCertificateOutput>())
@@ -4802,9 +4864,9 @@ extension DirectoryClient {
     ///
     /// Associates a directory with an Amazon SNS topic. This establishes the directory as a publisher to the specified Amazon SNS topic. You can then receive email or text (SMS) messages when the status of your directory changes. You get notified if your directory goes from an Active status to an Impaired or Inoperable status. You also receive a notification when the directory returns to an Active status.
     ///
-    /// - Parameter RegisterEventTopicInput : Registers a new event topic.
+    /// - Parameter input: Registers a new event topic. (Type: `RegisterEventTopicInput`)
     ///
-    /// - Returns: `RegisterEventTopicOutput` : The result of a RegisterEventTopic request.
+    /// - Returns: The result of a RegisterEventTopic request. (Type: `RegisterEventTopicOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4839,6 +4901,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterEventTopicInput, RegisterEventTopicOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterEventTopicOutput>(RegisterEventTopicOutput.httpOutput(from:), RegisterEventTopicOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterEventTopicInput, RegisterEventTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterEventTopicOutput>())
@@ -4873,9 +4936,9 @@ extension DirectoryClient {
     ///
     /// Rejects a directory sharing request that was sent from the directory owner account.
     ///
-    /// - Parameter RejectSharedDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectSharedDirectoryInput`)
     ///
-    /// - Returns: `RejectSharedDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectSharedDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4911,6 +4974,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectSharedDirectoryOutput>(RejectSharedDirectoryOutput.httpOutput(from:), RejectSharedDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectSharedDirectoryInput, RejectSharedDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectSharedDirectoryOutput>())
@@ -4945,9 +5009,9 @@ extension DirectoryClient {
     ///
     /// Removes IP address blocks from a directory.
     ///
-    /// - Parameter RemoveIpRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveIpRoutesInput`)
     ///
-    /// - Returns: `RemoveIpRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveIpRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4983,6 +5047,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveIpRoutesOutput>(RemoveIpRoutesOutput.httpOutput(from:), RemoveIpRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveIpRoutesInput, RemoveIpRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveIpRoutesOutput>())
@@ -5017,9 +5082,9 @@ extension DirectoryClient {
     ///
     /// Stops all replication and removes the domain controllers from the specified Region. You cannot remove the primary Region with this operation. Instead, use the DeleteDirectory API.
     ///
-    /// - Parameter RemoveRegionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveRegionInput`)
     ///
-    /// - Returns: `RemoveRegionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveRegionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5056,6 +5121,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveRegionInput, RemoveRegionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveRegionOutput>(RemoveRegionOutput.httpOutput(from:), RemoveRegionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveRegionInput, RemoveRegionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveRegionOutput>())
@@ -5090,9 +5156,9 @@ extension DirectoryClient {
     ///
     /// Removes tags from a directory.
     ///
-    /// - Parameter RemoveTagsFromResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveTagsFromResourceInput`)
     ///
-    /// - Returns: `RemoveTagsFromResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTagsFromResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5127,6 +5193,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTagsFromResourceOutput>(RemoveTagsFromResourceOutput.httpOutput(from:), RemoveTagsFromResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTagsFromResourceInput, RemoveTagsFromResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTagsFromResourceOutput>())
@@ -5165,9 +5232,9 @@ extension DirectoryClient {
     ///
     /// * For Managed Microsoft AD, you can only reset the password for a user that is in an OU based off of the NetBIOS name that you typed when you created your directory. For example, you cannot reset the password for a user in the Amazon Web Services Reserved OU. For more information about the OU structure for an Managed Microsoft AD directory, see [What Gets Created](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_getting_started_what_gets_created.html) in the Directory Service Administration Guide.
     ///
-    /// - Parameter ResetUserPasswordInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetUserPasswordInput`)
     ///
-    /// - Returns: `ResetUserPasswordOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetUserPasswordOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5205,6 +5272,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetUserPasswordOutput>(ResetUserPasswordOutput.httpOutput(from:), ResetUserPasswordOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetUserPasswordInput, ResetUserPasswordOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetUserPasswordOutput>())
@@ -5239,9 +5307,9 @@ extension DirectoryClient {
     ///
     /// Restores a directory using an existing directory snapshot. When you restore a directory from a snapshot, any changes made to the directory after the snapshot date are overwritten. This action returns as soon as the restore operation is initiated. You can monitor the progress of the restore operation by calling the [DescribeDirectories] operation with the directory identifier. When the DirectoryDescription.Stage value changes to Active, the restore operation is complete.
     ///
-    /// - Parameter RestoreFromSnapshotInput : An object representing the inputs for the [RestoreFromSnapshot] operation.
+    /// - Parameter input: An object representing the inputs for the [RestoreFromSnapshot] operation. (Type: `RestoreFromSnapshotInput`)
     ///
-    /// - Returns: `RestoreFromSnapshotOutput` : Contains the results of the [RestoreFromSnapshot] operation.
+    /// - Returns: Contains the results of the [RestoreFromSnapshot] operation. (Type: `RestoreFromSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5276,6 +5344,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreFromSnapshotOutput>(RestoreFromSnapshotOutput.httpOutput(from:), RestoreFromSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreFromSnapshotInput, RestoreFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreFromSnapshotOutput>())
@@ -5310,9 +5379,9 @@ extension DirectoryClient {
     ///
     /// Shares a specified directory (DirectoryId) in your Amazon Web Services account (directory owner) with another Amazon Web Services account (directory consumer). With this operation you can use your directory from any Amazon Web Services account and from any Amazon VPC within an Amazon Web Services Region. When you share your Managed Microsoft AD directory, Directory Service creates a shared directory in the directory consumer account. This shared directory contains the metadata to provide access to the directory within the directory owner account. The shared directory is visible in all VPCs in the directory consumer account. The ShareMethod parameter determines whether the specified directory can be shared between Amazon Web Services accounts inside the same Amazon Web Services organization (ORGANIZATIONS). It also determines whether you can share the directory with any other Amazon Web Services account either inside or outside of the organization (HANDSHAKE). The ShareNotes parameter is only used when HANDSHAKE is called, which sends a directory sharing request to the directory consumer.
     ///
-    /// - Parameter ShareDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ShareDirectoryInput`)
     ///
-    /// - Returns: `ShareDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ShareDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5353,6 +5422,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ShareDirectoryInput, ShareDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ShareDirectoryOutput>(ShareDirectoryOutput.httpOutput(from:), ShareDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ShareDirectoryInput, ShareDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ShareDirectoryOutput>())
@@ -5387,9 +5457,9 @@ extension DirectoryClient {
     ///
     /// Initiates a directory assessment to validate your self-managed AD environment for hybrid domain join. The assessment checks compatibility and connectivity of the self-managed AD environment. A directory assessment is automatically created when you create a hybrid directory. There are two types of assessments: CUSTOMER and SYSTEM. Your Amazon Web Services account has a limit of 100 CUSTOMER directory assessments. The assessment process typically takes 30 minutes or more to complete. The assessment process is asynchronous and you can monitor it with DescribeADAssessment. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps, meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410]. Note: You must provide exactly one DirectoryId or AssessmentConfiguration.
     ///
-    /// - Parameter StartADAssessmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartADAssessmentInput`)
     ///
-    /// - Returns: `StartADAssessmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartADAssessmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5426,6 +5496,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartADAssessmentInput, StartADAssessmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartADAssessmentOutput>(StartADAssessmentOutput.httpOutput(from:), StartADAssessmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartADAssessmentInput, StartADAssessmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartADAssessmentOutput>())
@@ -5460,9 +5531,9 @@ extension DirectoryClient {
     ///
     /// Applies a schema extension to a Microsoft AD directory.
     ///
-    /// - Parameter StartSchemaExtensionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSchemaExtensionInput`)
     ///
-    /// - Returns: `StartSchemaExtensionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSchemaExtensionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5499,6 +5570,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSchemaExtensionOutput>(StartSchemaExtensionOutput.httpOutput(from:), StartSchemaExtensionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSchemaExtensionInput, StartSchemaExtensionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSchemaExtensionOutput>())
@@ -5533,9 +5605,9 @@ extension DirectoryClient {
     ///
     /// Stops the directory sharing between the directory owner and consumer accounts.
     ///
-    /// - Parameter UnshareDirectoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnshareDirectoryInput`)
     ///
-    /// - Returns: `UnshareDirectoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnshareDirectoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5571,6 +5643,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnshareDirectoryInput, UnshareDirectoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnshareDirectoryOutput>(UnshareDirectoryOutput.httpOutput(from:), UnshareDirectoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnshareDirectoryInput, UnshareDirectoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnshareDirectoryOutput>())
@@ -5605,9 +5678,9 @@ extension DirectoryClient {
     ///
     /// Updates a conditional forwarder that has been set up for your Amazon Web Services directory.
     ///
-    /// - Parameter UpdateConditionalForwarderInput : Updates a conditional forwarder.
+    /// - Parameter input: Updates a conditional forwarder. (Type: `UpdateConditionalForwarderInput`)
     ///
-    /// - Returns: `UpdateConditionalForwarderOutput` : The result of an UpdateConditionalForwarder request.
+    /// - Returns: The result of an UpdateConditionalForwarder request. (Type: `UpdateConditionalForwarderOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5644,6 +5717,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConditionalForwarderOutput>(UpdateConditionalForwarderOutput.httpOutput(from:), UpdateConditionalForwarderOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConditionalForwarderInput, UpdateConditionalForwarderOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConditionalForwarderOutput>())
@@ -5676,11 +5750,11 @@ extension DirectoryClient {
 
     /// Performs the `UpdateDirectorySetup` operation on the `Directory` service.
     ///
-    /// Updates the directory for a particular update type.
+    /// Updates directory configuration for the specified update type.
     ///
-    /// - Parameter UpdateDirectorySetupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDirectorySetupInput`)
     ///
-    /// - Returns: `UpdateDirectorySetupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDirectorySetupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5720,6 +5794,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDirectorySetupOutput>(UpdateDirectorySetupOutput.httpOutput(from:), UpdateDirectorySetupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectorySetupInput, UpdateDirectorySetupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectorySetupOutput>())
@@ -5754,9 +5829,9 @@ extension DirectoryClient {
     ///
     /// Updates the configuration of an existing hybrid directory. You can recover hybrid directory administrator account or modify self-managed instance settings. Updates are applied asynchronously. Use [DescribeHybridADUpdate] to monitor the progress of configuration changes. The InstanceIds must have a one-to-one correspondence with CustomerDnsIps, meaning that if the IP address for instance i-10243410 is 10.24.34.100 and the IP address for instance i-10243420 is 10.24.34.200, then the input arrays must maintain the same order relationship, either [10.24.34.100, 10.24.34.200] paired with [i-10243410, i-10243420] or [10.24.34.200, 10.24.34.100] paired with [i-10243420, i-10243410]. You must provide at least one update to [UpdateHybridADRequest$HybridAdministratorAccountUpdate] or [UpdateHybridADRequest$SelfManagedInstancesSettings].
     ///
-    /// - Parameter UpdateHybridADInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateHybridADInput`)
     ///
-    /// - Returns: `UpdateHybridADOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateHybridADOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5793,6 +5868,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateHybridADInput, UpdateHybridADOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateHybridADOutput>(UpdateHybridADOutput.httpOutput(from:), UpdateHybridADOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateHybridADInput, UpdateHybridADOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateHybridADOutput>())
@@ -5827,9 +5903,9 @@ extension DirectoryClient {
     ///
     /// Adds or removes domain controllers to or from the directory. Based on the difference between current value and new value (provided through this API call), domain controllers will be added or removed. It may take up to 45 minutes for any new domain controllers to become fully active once the requested number of domain controllers is updated. During this time, you cannot make another update request.
     ///
-    /// - Parameter UpdateNumberOfDomainControllersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNumberOfDomainControllersInput`)
     ///
-    /// - Returns: `UpdateNumberOfDomainControllersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNumberOfDomainControllersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5867,6 +5943,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNumberOfDomainControllersOutput>(UpdateNumberOfDomainControllersOutput.httpOutput(from:), UpdateNumberOfDomainControllersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNumberOfDomainControllersInput, UpdateNumberOfDomainControllersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNumberOfDomainControllersOutput>())
@@ -5901,9 +5978,9 @@ extension DirectoryClient {
     ///
     /// Updates the Remote Authentication Dial In User Service (RADIUS) server information for an AD Connector or Microsoft AD directory.
     ///
-    /// - Parameter UpdateRadiusInput : Contains the inputs for the [UpdateRadius] operation.
+    /// - Parameter input: Contains the inputs for the [UpdateRadius] operation. (Type: `UpdateRadiusInput`)
     ///
-    /// - Returns: `UpdateRadiusOutput` : Contains the results of the [UpdateRadius] operation.
+    /// - Returns: Contains the results of the [UpdateRadius] operation. (Type: `UpdateRadiusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5938,6 +6015,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRadiusInput, UpdateRadiusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRadiusOutput>(UpdateRadiusOutput.httpOutput(from:), UpdateRadiusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRadiusInput, UpdateRadiusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRadiusOutput>())
@@ -5972,9 +6050,9 @@ extension DirectoryClient {
     ///
     /// Updates the configurable settings for the specified directory.
     ///
-    /// - Parameter UpdateSettingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSettingsInput`)
     ///
-    /// - Returns: `UpdateSettingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSettingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6013,6 +6091,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSettingsInput, UpdateSettingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSettingsOutput>(UpdateSettingsOutput.httpOutput(from:), UpdateSettingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSettingsInput, UpdateSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSettingsOutput>())
@@ -6047,9 +6126,9 @@ extension DirectoryClient {
     ///
     /// Updates the trust that has been set up between your Managed Microsoft AD directory and an self-managed Active Directory.
     ///
-    /// - Parameter UpdateTrustInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrustInput`)
     ///
-    /// - Returns: `UpdateTrustOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrustOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6084,6 +6163,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrustInput, UpdateTrustOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrustOutput>(UpdateTrustOutput.httpOutput(from:), UpdateTrustOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrustInput, UpdateTrustOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrustOutput>())
@@ -6118,9 +6198,9 @@ extension DirectoryClient {
     ///
     /// Directory Service for Microsoft Active Directory allows you to configure and verify trust relationships. This action verifies a trust relationship between your Managed Microsoft AD directory and an external domain.
     ///
-    /// - Parameter VerifyTrustInput : Initiates the verification of an existing trust relationship between an Managed Microsoft AD directory and an external domain.
+    /// - Parameter input: Initiates the verification of an existing trust relationship between an Managed Microsoft AD directory and an external domain. (Type: `VerifyTrustInput`)
     ///
-    /// - Returns: `VerifyTrustOutput` : Result of a VerifyTrust request.
+    /// - Returns: Result of a VerifyTrust request. (Type: `VerifyTrustOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6156,6 +6236,7 @@ extension DirectoryClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<VerifyTrustInput, VerifyTrustOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<VerifyTrustOutput>(VerifyTrustOutput.httpOutput(from:), VerifyTrustOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<VerifyTrustInput, VerifyTrustOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<VerifyTrustOutput>())

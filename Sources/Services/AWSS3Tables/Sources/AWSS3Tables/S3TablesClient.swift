@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3TablesClient: ClientRuntime.Client {
     public static let clientName = "S3TablesClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: S3TablesClient.S3TablesClientConfiguration
     let serviceName = "S3Tables"
@@ -373,9 +374,9 @@ extension S3TablesClient {
     ///
     /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see [Create a namespace](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace-create.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:CreateNamespace permission to use this operation.
     ///
-    /// - Parameter CreateNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNamespaceInput`)
     ///
-    /// - Returns: `CreateNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +415,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNamespaceInput, CreateNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNamespaceOutput>(CreateNamespaceOutput.httpOutput(from:), CreateNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNamespaceInput, CreateNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNamespaceOutput>())
@@ -454,9 +456,9 @@ extension S3TablesClient {
     ///
     /// Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see [Permissions requirements for S3 Tables SSE-KMS encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-kms-permissions.html).
     ///
-    /// - Parameter CreateTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTableInput`)
     ///
-    /// - Returns: `CreateTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -495,6 +497,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableInput, CreateTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTableOutput>(CreateTableOutput.httpOutput(from:), CreateTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableInput, CreateTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableOutput>())
@@ -530,9 +533,9 @@ extension S3TablesClient {
     ///
     /// * If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission.
     ///
-    /// - Parameter CreateTableBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTableBucketInput`)
     ///
-    /// - Returns: `CreateTableBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTableBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -571,6 +574,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTableBucketInput, CreateTableBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTableBucketOutput>(CreateTableBucketOutput.httpOutput(from:), CreateTableBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTableBucketInput, CreateTableBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTableBucketOutput>())
@@ -602,9 +606,9 @@ extension S3TablesClient {
     ///
     /// Deletes a namespace. For more information, see [Delete a namespace](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace-delete.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteNamespace permission to use this operation.
     ///
-    /// - Parameter DeleteNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNamespaceInput`)
     ///
-    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -640,6 +644,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNamespaceInput, DeleteNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNamespaceOutput>(DeleteNamespaceOutput.httpOutput(from:), DeleteNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNamespaceInput, DeleteNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNamespaceOutput>())
@@ -671,9 +676,9 @@ extension S3TablesClient {
     ///
     /// Deletes a table. For more information, see [Deleting an Amazon S3 table](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-delete.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTable permission to use this operation.
     ///
-    /// - Parameter DeleteTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableInput`)
     ///
-    /// - Returns: `DeleteTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -710,6 +715,7 @@ extension S3TablesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTableInput, DeleteTableOutput>(DeleteTableInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableOutput>(DeleteTableOutput.httpOutput(from:), DeleteTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableInput, DeleteTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableOutput>())
@@ -741,9 +747,9 @@ extension S3TablesClient {
     ///
     /// Deletes a table bucket. For more information, see [Deleting a table bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-buckets-delete.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTableBucket permission to use this operation.
     ///
-    /// - Parameter DeleteTableBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableBucketInput`)
     ///
-    /// - Returns: `DeleteTableBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -779,6 +785,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTableBucketInput, DeleteTableBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableBucketOutput>(DeleteTableBucketOutput.httpOutput(from:), DeleteTableBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableBucketInput, DeleteTableBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableBucketOutput>())
@@ -810,9 +817,9 @@ extension S3TablesClient {
     ///
     /// Deletes the encryption configuration for a table bucket. Permissions You must have the s3tables:DeleteTableBucketEncryption permission to use this operation.
     ///
-    /// - Parameter DeleteTableBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableBucketEncryptionInput`)
     ///
-    /// - Returns: `DeleteTableBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableBucketEncryptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -848,6 +855,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTableBucketEncryptionInput, DeleteTableBucketEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableBucketEncryptionOutput>(DeleteTableBucketEncryptionOutput.httpOutput(from:), DeleteTableBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableBucketEncryptionInput, DeleteTableBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableBucketEncryptionOutput>())
@@ -879,9 +887,9 @@ extension S3TablesClient {
     ///
     /// Deletes a table bucket policy. For more information, see [Deleting a table bucket policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-bucket-policy.html#table-bucket-policy-delete) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTableBucketPolicy permission to use this operation.
     ///
-    /// - Parameter DeleteTableBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTableBucketPolicyInput`)
     ///
-    /// - Returns: `DeleteTableBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTableBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -917,6 +925,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTableBucketPolicyInput, DeleteTableBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTableBucketPolicyOutput>(DeleteTableBucketPolicyOutput.httpOutput(from:), DeleteTableBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTableBucketPolicyInput, DeleteTableBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTableBucketPolicyOutput>())
@@ -948,9 +957,9 @@ extension S3TablesClient {
     ///
     /// Deletes a table policy. For more information, see [Deleting a table policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-table-policy.html#table-policy-delete) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:DeleteTablePolicy permission to use this operation.
     ///
-    /// - Parameter DeleteTablePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTablePolicyInput`)
     ///
-    /// - Returns: `DeleteTablePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTablePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -986,6 +995,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTablePolicyInput, DeleteTablePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTablePolicyOutput>(DeleteTablePolicyOutput.httpOutput(from:), DeleteTablePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTablePolicyInput, DeleteTablePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTablePolicyOutput>())
@@ -1017,9 +1027,9 @@ extension S3TablesClient {
     ///
     /// Gets details about a namespace. For more information, see [Table namespaces](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetNamespace permission to use this operation.
     ///
-    /// - Parameter GetNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNamespaceInput`)
     ///
-    /// - Returns: `GetNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1056,6 +1066,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetNamespaceInput, GetNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNamespaceOutput>(GetNamespaceOutput.httpOutput(from:), GetNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNamespaceInput, GetNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNamespaceOutput>())
@@ -1087,9 +1098,9 @@ extension S3TablesClient {
     ///
     /// Gets details about a table. For more information, see [S3 Tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-tables.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTable permission to use this operation.
     ///
-    /// - Parameter GetTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableInput`)
     ///
-    /// - Returns: `GetTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1127,6 +1138,7 @@ extension S3TablesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTableInput, GetTableOutput>(GetTableInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableOutput>(GetTableOutput.httpOutput(from:), GetTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableInput, GetTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableOutput>())
@@ -1158,9 +1170,9 @@ extension S3TablesClient {
     ///
     /// Gets details on a table bucket. For more information, see [Viewing details about an Amazon S3 table bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-buckets-details.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableBucket permission to use this operation.
     ///
-    /// - Parameter GetTableBucketInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableBucketInput`)
     ///
-    /// - Returns: `GetTableBucketOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableBucketOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1197,6 +1209,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableBucketInput, GetTableBucketOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableBucketOutput>(GetTableBucketOutput.httpOutput(from:), GetTableBucketOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableBucketInput, GetTableBucketOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableBucketOutput>())
@@ -1228,9 +1241,9 @@ extension S3TablesClient {
     ///
     /// Gets the encryption configuration for a table bucket. Permissions You must have the s3tables:GetTableBucketEncryption permission to use this operation.
     ///
-    /// - Parameter GetTableBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableBucketEncryptionInput`)
     ///
-    /// - Returns: `GetTableBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableBucketEncryptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1266,6 +1279,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableBucketEncryptionInput, GetTableBucketEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableBucketEncryptionOutput>(GetTableBucketEncryptionOutput.httpOutput(from:), GetTableBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableBucketEncryptionInput, GetTableBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableBucketEncryptionOutput>())
@@ -1297,9 +1311,9 @@ extension S3TablesClient {
     ///
     /// Gets details about a maintenance configuration for a given table bucket. For more information, see [Amazon S3 table bucket maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-table-buckets-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableBucketMaintenanceConfiguration permission to use this operation.
     ///
-    /// - Parameter GetTableBucketMaintenanceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableBucketMaintenanceConfigurationInput`)
     ///
-    /// - Returns: `GetTableBucketMaintenanceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableBucketMaintenanceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1335,6 +1349,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableBucketMaintenanceConfigurationInput, GetTableBucketMaintenanceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableBucketMaintenanceConfigurationOutput>(GetTableBucketMaintenanceConfigurationOutput.httpOutput(from:), GetTableBucketMaintenanceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableBucketMaintenanceConfigurationInput, GetTableBucketMaintenanceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableBucketMaintenanceConfigurationOutput>())
@@ -1366,9 +1381,9 @@ extension S3TablesClient {
     ///
     /// Gets details about a table bucket policy. For more information, see [Viewing a table bucket policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-bucket-policy.html#table-bucket-policy-get) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableBucketPolicy permission to use this operation.
     ///
-    /// - Parameter GetTableBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableBucketPolicyInput`)
     ///
-    /// - Returns: `GetTableBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,6 +1419,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableBucketPolicyInput, GetTableBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableBucketPolicyOutput>(GetTableBucketPolicyOutput.httpOutput(from:), GetTableBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableBucketPolicyInput, GetTableBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableBucketPolicyOutput>())
@@ -1435,9 +1451,9 @@ extension S3TablesClient {
     ///
     /// Gets the encryption configuration for a table. Permissions You must have the s3tables:GetTableEncryption permission to use this operation.
     ///
-    /// - Parameter GetTableEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableEncryptionInput`)
     ///
-    /// - Returns: `GetTableEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableEncryptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1473,6 +1489,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableEncryptionInput, GetTableEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableEncryptionOutput>(GetTableEncryptionOutput.httpOutput(from:), GetTableEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableEncryptionInput, GetTableEncryptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableEncryptionOutput>())
@@ -1508,9 +1525,9 @@ extension S3TablesClient {
     ///
     /// * You must have the s3tables:GetTableData permission to use set the compaction strategy to sort or zorder.
     ///
-    /// - Parameter GetTableMaintenanceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableMaintenanceConfigurationInput`)
     ///
-    /// - Returns: `GetTableMaintenanceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableMaintenanceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1546,6 +1563,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableMaintenanceConfigurationInput, GetTableMaintenanceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableMaintenanceConfigurationOutput>(GetTableMaintenanceConfigurationOutput.httpOutput(from:), GetTableMaintenanceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableMaintenanceConfigurationInput, GetTableMaintenanceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableMaintenanceConfigurationOutput>())
@@ -1577,9 +1595,9 @@ extension S3TablesClient {
     ///
     /// Gets the status of a maintenance job for a table. For more information, see [S3 Tables maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTableMaintenanceJobStatus permission to use this operation.
     ///
-    /// - Parameter GetTableMaintenanceJobStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableMaintenanceJobStatusInput`)
     ///
-    /// - Returns: `GetTableMaintenanceJobStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableMaintenanceJobStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1615,6 +1633,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableMaintenanceJobStatusInput, GetTableMaintenanceJobStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableMaintenanceJobStatusOutput>(GetTableMaintenanceJobStatusOutput.httpOutput(from:), GetTableMaintenanceJobStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableMaintenanceJobStatusInput, GetTableMaintenanceJobStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableMaintenanceJobStatusOutput>())
@@ -1646,9 +1665,9 @@ extension S3TablesClient {
     ///
     /// Gets the location of the table metadata. Permissions You must have the s3tables:GetTableMetadataLocation permission to use this operation.
     ///
-    /// - Parameter GetTableMetadataLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTableMetadataLocationInput`)
     ///
-    /// - Returns: `GetTableMetadataLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTableMetadataLocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1684,6 +1703,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTableMetadataLocationInput, GetTableMetadataLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTableMetadataLocationOutput>(GetTableMetadataLocationOutput.httpOutput(from:), GetTableMetadataLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTableMetadataLocationInput, GetTableMetadataLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTableMetadataLocationOutput>())
@@ -1715,9 +1735,9 @@ extension S3TablesClient {
     ///
     /// Gets details about a table policy. For more information, see [Viewing a table policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-table-policy.html#table-policy-get) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:GetTablePolicy permission to use this operation.
     ///
-    /// - Parameter GetTablePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTablePolicyInput`)
     ///
-    /// - Returns: `GetTablePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTablePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1753,6 +1773,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTablePolicyInput, GetTablePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTablePolicyOutput>(GetTablePolicyOutput.httpOutput(from:), GetTablePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTablePolicyInput, GetTablePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTablePolicyOutput>())
@@ -1784,9 +1805,9 @@ extension S3TablesClient {
     ///
     /// Lists the namespaces within a table bucket. For more information, see [Table namespaces](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-namespace.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:ListNamespaces permission to use this operation.
     ///
-    /// - Parameter ListNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNamespacesInput`)
     ///
-    /// - Returns: `ListNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1824,6 +1845,7 @@ extension S3TablesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNamespacesInput, ListNamespacesOutput>(ListNamespacesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNamespacesOutput>(ListNamespacesOutput.httpOutput(from:), ListNamespacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNamespacesInput, ListNamespacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNamespacesOutput>())
@@ -1855,9 +1877,9 @@ extension S3TablesClient {
     ///
     /// Lists table buckets for your account. For more information, see [S3 Table buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-buckets.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:ListTableBuckets permission to use this operation.
     ///
-    /// - Parameter ListTableBucketsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTableBucketsInput`)
     ///
-    /// - Returns: `ListTableBucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTableBucketsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1895,6 +1917,7 @@ extension S3TablesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTableBucketsInput, ListTableBucketsOutput>(ListTableBucketsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTableBucketsOutput>(ListTableBucketsOutput.httpOutput(from:), ListTableBucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTableBucketsInput, ListTableBucketsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTableBucketsOutput>())
@@ -1926,9 +1949,9 @@ extension S3TablesClient {
     ///
     /// List tables in the given table bucket. For more information, see [S3 Tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-tables.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:ListTables permission to use this operation.
     ///
-    /// - Parameter ListTablesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTablesInput`)
     ///
-    /// - Returns: `ListTablesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTablesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,6 +1988,7 @@ extension S3TablesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTablesInput, ListTablesOutput>(ListTablesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTablesOutput>(ListTablesOutput.httpOutput(from:), ListTablesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTablesInput, ListTablesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTablesOutput>())
@@ -1996,9 +2020,9 @@ extension S3TablesClient {
     ///
     /// Sets the encryption configuration for a table bucket. Permissions You must have the s3tables:PutTableBucketEncryption permission to use this operation. If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see [Permissions requirements for S3 Tables SSE-KMS encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-kms-permissions.html) in the Amazon Simple Storage Service User Guide.
     ///
-    /// - Parameter PutTableBucketEncryptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTableBucketEncryptionInput`)
     ///
-    /// - Returns: `PutTableBucketEncryptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTableBucketEncryptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2037,6 +2061,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTableBucketEncryptionInput, PutTableBucketEncryptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTableBucketEncryptionOutput>(PutTableBucketEncryptionOutput.httpOutput(from:), PutTableBucketEncryptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTableBucketEncryptionInput, PutTableBucketEncryptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTableBucketEncryptionOutput>())
@@ -2068,9 +2093,9 @@ extension S3TablesClient {
     ///
     /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see [Amazon S3 table bucket maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-table-buckets-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTableBucketMaintenanceConfiguration permission to use this operation.
     ///
-    /// - Parameter PutTableBucketMaintenanceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTableBucketMaintenanceConfigurationInput`)
     ///
-    /// - Returns: `PutTableBucketMaintenanceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTableBucketMaintenanceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2109,6 +2134,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTableBucketMaintenanceConfigurationInput, PutTableBucketMaintenanceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTableBucketMaintenanceConfigurationOutput>(PutTableBucketMaintenanceConfigurationOutput.httpOutput(from:), PutTableBucketMaintenanceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTableBucketMaintenanceConfigurationInput, PutTableBucketMaintenanceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTableBucketMaintenanceConfigurationOutput>())
@@ -2140,9 +2166,9 @@ extension S3TablesClient {
     ///
     /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket. For more information, see [Adding a table bucket policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-bucket-policy.html#table-bucket-policy-add) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTableBucketPolicy permission to use this operation.
     ///
-    /// - Parameter PutTableBucketPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTableBucketPolicyInput`)
     ///
-    /// - Returns: `PutTableBucketPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTableBucketPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2181,6 +2207,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTableBucketPolicyInput, PutTableBucketPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTableBucketPolicyOutput>(PutTableBucketPolicyOutput.httpOutput(from:), PutTableBucketPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTableBucketPolicyInput, PutTableBucketPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTableBucketPolicyOutput>())
@@ -2212,9 +2239,9 @@ extension S3TablesClient {
     ///
     /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see [S3 Tables maintenance](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-maintenance.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation.
     ///
-    /// - Parameter PutTableMaintenanceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTableMaintenanceConfigurationInput`)
     ///
-    /// - Returns: `PutTableMaintenanceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTableMaintenanceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2253,6 +2280,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTableMaintenanceConfigurationInput, PutTableMaintenanceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTableMaintenanceConfigurationOutput>(PutTableMaintenanceConfigurationOutput.httpOutput(from:), PutTableMaintenanceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTableMaintenanceConfigurationInput, PutTableMaintenanceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTableMaintenanceConfigurationOutput>())
@@ -2284,9 +2312,9 @@ extension S3TablesClient {
     ///
     /// Creates a new maintenance configuration or replaces an existing table policy for a table. For more information, see [Adding a table policy](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-table-policy.html#table-policy-add) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:PutTablePolicy permission to use this operation.
     ///
-    /// - Parameter PutTablePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTablePolicyInput`)
     ///
-    /// - Returns: `PutTablePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTablePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2325,6 +2353,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTablePolicyInput, PutTablePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTablePolicyOutput>(PutTablePolicyOutput.httpOutput(from:), PutTablePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTablePolicyInput, PutTablePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTablePolicyOutput>())
@@ -2356,9 +2385,9 @@ extension S3TablesClient {
     ///
     /// Renames a table or a namespace. For more information, see [S3 Tables](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-tables-tables.html) in the Amazon Simple Storage Service User Guide. Permissions You must have the s3tables:RenameTable permission to use this operation.
     ///
-    /// - Parameter RenameTableInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RenameTableInput`)
     ///
-    /// - Returns: `RenameTableOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RenameTableOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2397,6 +2426,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RenameTableInput, RenameTableOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RenameTableOutput>(RenameTableOutput.httpOutput(from:), RenameTableOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RenameTableInput, RenameTableOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RenameTableOutput>())
@@ -2428,9 +2458,9 @@ extension S3TablesClient {
     ///
     /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz. Permissions You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.
     ///
-    /// - Parameter UpdateTableMetadataLocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTableMetadataLocationInput`)
     ///
-    /// - Returns: `UpdateTableMetadataLocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTableMetadataLocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2469,6 +2499,7 @@ extension S3TablesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTableMetadataLocationInput, UpdateTableMetadataLocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTableMetadataLocationOutput>(UpdateTableMetadataLocationOutput.httpOutput(from:), UpdateTableMetadataLocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTableMetadataLocationInput, UpdateTableMetadataLocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTableMetadataLocationOutput>())

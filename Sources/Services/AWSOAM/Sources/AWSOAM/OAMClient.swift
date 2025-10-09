@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OAMClient: ClientRuntime.Client {
     public static let clientName = "OAMClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: OAMClient.OAMClientConfiguration
     let serviceName = "OAM"
@@ -372,9 +373,9 @@ extension OAMClient {
     ///
     /// Creates a link between a source account and a sink that you have created in a monitoring account. After the link is created, data is sent from the source account to the monitoring account. When you create a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. Before you create a link, you must create a sink in the monitoring account and create a sink policy in that account. The sink policy must permit the source account to link to it. You can grant permission to source accounts by granting permission to an entire organization or to individual accounts. For more information, see [CreateSink](https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html) and [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html). Each monitoring account can be linked to as many as 100,000 source accounts. Each source account can be linked to as many as five monitoring accounts.
     ///
-    /// - Parameter CreateLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLinkInput`)
     ///
-    /// - Returns: `CreateLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLinkInput, CreateLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLinkOutput>(CreateLinkOutput.httpOutput(from:), CreateLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLinkInput, CreateLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLinkOutput>())
@@ -443,9 +445,9 @@ extension OAMClient {
     ///
     /// Use this to create a sink in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data. After you create a sink, you must create a sink policy that allows source accounts to attach to it. For more information, see [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html). Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
     ///
-    /// - Parameter CreateSinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSinkInput`)
     ///
-    /// - Returns: `CreateSinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +485,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSinkInput, CreateSinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSinkOutput>(CreateSinkOutput.httpOutput(from:), CreateSinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSinkInput, CreateSinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSinkOutput>())
@@ -514,9 +517,9 @@ extension OAMClient {
     ///
     /// Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
     ///
-    /// - Parameter DeleteLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLinkInput`)
     ///
-    /// - Returns: `DeleteLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,6 +556,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLinkInput, DeleteLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLinkOutput>(DeleteLinkOutput.httpOutput(from:), DeleteLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLinkInput, DeleteLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLinkOutput>())
@@ -584,9 +588,9 @@ extension OAMClient {
     ///
     /// Deletes a sink. You must delete all links to a sink before you can delete that sink.
     ///
-    /// - Parameter DeleteSinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSinkInput`)
     ///
-    /// - Returns: `DeleteSinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -624,6 +628,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSinkInput, DeleteSinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSinkOutput>(DeleteSinkOutput.httpOutput(from:), DeleteSinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSinkInput, DeleteSinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSinkOutput>())
@@ -655,9 +660,9 @@ extension OAMClient {
     ///
     /// Returns complete information about one link. To use this operation, provide the link ARN. To retrieve a list of link ARNs, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
     ///
-    /// - Parameter GetLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinkInput`)
     ///
-    /// - Returns: `GetLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,6 +699,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLinkInput, GetLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLinkOutput>(GetLinkOutput.httpOutput(from:), GetLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLinkInput, GetLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLinkOutput>())
@@ -725,9 +731,9 @@ extension OAMClient {
     ///
     /// Returns complete information about one monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html).
     ///
-    /// - Parameter GetSinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSinkInput`)
     ///
-    /// - Returns: `GetSinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -764,6 +770,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSinkInput, GetSinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSinkOutput>(GetSinkOutput.httpOutput(from:), GetSinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSinkInput, GetSinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSinkOutput>())
@@ -795,9 +802,9 @@ extension OAMClient {
     ///
     /// Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
     ///
-    /// - Parameter GetSinkPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSinkPolicyInput`)
     ///
-    /// - Returns: `GetSinkPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSinkPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -834,6 +841,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSinkPolicyInput, GetSinkPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSinkPolicyOutput>(GetSinkPolicyOutput.httpOutput(from:), GetSinkPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSinkPolicyInput, GetSinkPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSinkPolicyOutput>())
@@ -865,9 +873,9 @@ extension OAMClient {
     ///
     /// Returns a list of source account links that are linked to this monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html). To find a list of links for one source account, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
     ///
-    /// - Parameter ListAttachedLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachedLinksInput`)
     ///
-    /// - Returns: `ListAttachedLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttachedLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -904,6 +912,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAttachedLinksInput, ListAttachedLinksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachedLinksOutput>(ListAttachedLinksOutput.httpOutput(from:), ListAttachedLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachedLinksInput, ListAttachedLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachedLinksOutput>())
@@ -935,9 +944,9 @@ extension OAMClient {
     ///
     /// Use this operation in a source account to return a list of links to monitoring account sinks that this source account has. To find a list of links for one monitoring account sink, use [ListAttachedLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListAttachedLinks.html) from within the monitoring account.
     ///
-    /// - Parameter ListLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLinksInput`)
     ///
-    /// - Returns: `ListLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -973,6 +982,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLinksInput, ListLinksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLinksOutput>(ListLinksOutput.httpOutput(from:), ListLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLinksInput, ListLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLinksOutput>())
@@ -1004,9 +1014,9 @@ extension OAMClient {
     ///
     /// Use this operation in a monitoring account to return the list of sinks created in that account.
     ///
-    /// - Parameter ListSinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSinksInput`)
     ///
-    /// - Returns: `ListSinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1042,6 +1052,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSinksInput, ListSinksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSinksOutput>(ListSinksOutput.httpOutput(from:), ListSinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSinksInput, ListSinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSinksOutput>())
@@ -1073,9 +1084,9 @@ extension OAMClient {
     ///
     /// Displays the tags associated with a resource. Both sinks and links support tagging.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1107,6 +1118,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1153,9 +1165,9 @@ extension OAMClient {
     ///
     /// See the examples in this section to see how to specify permitted source accounts and data types.
     ///
-    /// - Parameter PutSinkPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSinkPolicyInput`)
     ///
-    /// - Returns: `PutSinkPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSinkPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1192,6 +1204,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSinkPolicyInput, PutSinkPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSinkPolicyOutput>(PutSinkPolicyOutput.httpOutput(from:), PutSinkPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSinkPolicyInput, PutSinkPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSinkPolicyOutput>())
@@ -1223,9 +1236,9 @@ extension OAMClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:ResourceTag permission does not allow you to tag and untag links and sinks.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1261,6 +1274,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1292,9 +1306,9 @@ extension OAMClient {
     ///
     /// Removes one or more tags from the specified resource. Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:TagResource permission does not allow you to tag and untag links and sinks.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1327,6 +1341,7 @@ extension OAMClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1358,9 +1373,9 @@ extension OAMClient {
     ///
     /// Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation. When you update a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account. To update the list of tags associated with the sink, use [TagResource](https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html).
     ///
-    /// - Parameter UpdateLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLinkInput`)
     ///
-    /// - Returns: `UpdateLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1397,6 +1412,7 @@ extension OAMClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLinkInput, UpdateLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLinkOutput>(UpdateLinkOutput.httpOutput(from:), UpdateLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLinkInput, UpdateLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLinkOutput>())

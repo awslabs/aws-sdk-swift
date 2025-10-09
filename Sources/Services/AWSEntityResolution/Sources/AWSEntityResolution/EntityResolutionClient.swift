@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EntityResolutionClient: ClientRuntime.Client {
     public static let clientName = "EntityResolutionClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: EntityResolutionClient.EntityResolutionClientConfiguration
     let serviceName = "EntityResolution"
@@ -375,9 +376,9 @@ extension EntityResolutionClient {
     ///
     /// Adds a policy statement object. To retrieve a list of existing policy statements, use the GetPolicy API.
     ///
-    /// - Parameter AddPolicyStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddPolicyStatementInput`)
     ///
-    /// - Returns: `AddPolicyStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddPolicyStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -416,6 +417,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddPolicyStatementInput, AddPolicyStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddPolicyStatementOutput>(AddPolicyStatementOutput.httpOutput(from:), AddPolicyStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddPolicyStatementInput, AddPolicyStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPolicyStatementOutput>())
@@ -447,9 +449,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes multiple unique IDs in a matching workflow.
     ///
-    /// - Parameter BatchDeleteUniqueIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteUniqueIdInput`)
     ///
-    /// - Returns: `BatchDeleteUniqueIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteUniqueIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +485,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.HeaderMiddleware<BatchDeleteUniqueIdInput, BatchDeleteUniqueIdOutput>(BatchDeleteUniqueIdInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteUniqueIdOutput>(BatchDeleteUniqueIdOutput.httpOutput(from:), BatchDeleteUniqueIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteUniqueIdInput, BatchDeleteUniqueIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteUniqueIdOutput>())
@@ -514,9 +517,9 @@ extension EntityResolutionClient {
     ///
     /// Creates an IdMappingWorkflow object which stores the configuration of the data processing job to be run. Each IdMappingWorkflow must have a unique workflow name. To modify an existing workflow, use the UpdateIdMappingWorkflow API. Incremental processing is not supported for ID mapping workflows.
     ///
-    /// - Parameter CreateIdMappingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdMappingWorkflowInput`)
     ///
-    /// - Returns: `CreateIdMappingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdMappingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -555,6 +558,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdMappingWorkflowInput, CreateIdMappingWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdMappingWorkflowOutput>(CreateIdMappingWorkflowOutput.httpOutput(from:), CreateIdMappingWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdMappingWorkflowInput, CreateIdMappingWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdMappingWorkflowOutput>())
@@ -586,9 +590,9 @@ extension EntityResolutionClient {
     ///
     /// Creates an ID namespace object which will help customers provide metadata explaining their dataset and how to use it. Each ID namespace must have a unique name. To modify an existing ID namespace, use the UpdateIdNamespace API.
     ///
-    /// - Parameter CreateIdNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIdNamespaceInput`)
     ///
-    /// - Returns: `CreateIdNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIdNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -627,6 +631,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdNamespaceInput, CreateIdNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdNamespaceOutput>(CreateIdNamespaceOutput.httpOutput(from:), CreateIdNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdNamespaceInput, CreateIdNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdNamespaceOutput>())
@@ -658,9 +663,9 @@ extension EntityResolutionClient {
     ///
     /// Creates a matching workflow that defines the configuration for a data processing job. The workflow name must be unique. To modify an existing workflow, use UpdateMatchingWorkflow. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///
-    /// - Parameter CreateMatchingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMatchingWorkflowInput`)
     ///
-    /// - Returns: `CreateMatchingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMatchingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -699,6 +704,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMatchingWorkflowInput, CreateMatchingWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMatchingWorkflowOutput>(CreateMatchingWorkflowOutput.httpOutput(from:), CreateMatchingWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMatchingWorkflowInput, CreateMatchingWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMatchingWorkflowOutput>())
@@ -730,9 +736,9 @@ extension EntityResolutionClient {
     ///
     /// Creates a schema mapping, which defines the schema of the input customer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
     ///
-    /// - Parameter CreateSchemaMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSchemaMappingInput`)
     ///
-    /// - Returns: `CreateSchemaMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSchemaMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,6 +777,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSchemaMappingInput, CreateSchemaMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSchemaMappingOutput>(CreateSchemaMappingOutput.httpOutput(from:), CreateSchemaMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSchemaMappingInput, CreateSchemaMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSchemaMappingOutput>())
@@ -802,9 +809,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the IdMappingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
-    /// - Parameter DeleteIdMappingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdMappingWorkflowInput`)
     ///
-    /// - Returns: `DeleteIdMappingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdMappingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -839,6 +846,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIdMappingWorkflowInput, DeleteIdMappingWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdMappingWorkflowOutput>(DeleteIdMappingWorkflowOutput.httpOutput(from:), DeleteIdMappingWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdMappingWorkflowInput, DeleteIdMappingWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdMappingWorkflowOutput>())
@@ -870,9 +878,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the IdNamespace with a given name.
     ///
-    /// - Parameter DeleteIdNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIdNamespaceInput`)
     ///
-    /// - Returns: `DeleteIdNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -906,6 +914,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteIdNamespaceInput, DeleteIdNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdNamespaceOutput>(DeleteIdNamespaceOutput.httpOutput(from:), DeleteIdNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdNamespaceInput, DeleteIdNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdNamespaceOutput>())
@@ -937,9 +946,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
-    /// - Parameter DeleteMatchingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMatchingWorkflowInput`)
     ///
-    /// - Returns: `DeleteMatchingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMatchingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -974,6 +983,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMatchingWorkflowInput, DeleteMatchingWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMatchingWorkflowOutput>(DeleteMatchingWorkflowOutput.httpOutput(from:), DeleteMatchingWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMatchingWorkflowInput, DeleteMatchingWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMatchingWorkflowOutput>())
@@ -1005,9 +1015,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the policy statement.
     ///
-    /// - Parameter DeletePolicyStatementInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePolicyStatementInput`)
     ///
-    /// - Returns: `DeletePolicyStatementOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePolicyStatementOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,6 +1053,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePolicyStatementInput, DeletePolicyStatementOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePolicyStatementOutput>(DeletePolicyStatementOutput.httpOutput(from:), DeletePolicyStatementOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePolicyStatementInput, DeletePolicyStatementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePolicyStatementOutput>())
@@ -1074,9 +1085,9 @@ extension EntityResolutionClient {
     ///
     /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a MatchingWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     ///
-    /// - Parameter DeleteSchemaMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSchemaMappingInput`)
     ///
-    /// - Returns: `DeleteSchemaMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSchemaMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1111,6 +1122,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSchemaMappingInput, DeleteSchemaMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSchemaMappingOutput>(DeleteSchemaMappingOutput.httpOutput(from:), DeleteSchemaMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSchemaMappingInput, DeleteSchemaMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSchemaMappingOutput>())
@@ -1142,9 +1154,9 @@ extension EntityResolutionClient {
     ///
     /// Generates or retrieves Match IDs for records using a rule-based matching workflow. When you call this operation, it processes your records against the workflow's matching rules to identify potential matches. For existing records, it retrieves their Match IDs and associated rules. For records without matches, it generates new Match IDs. The operation saves results to Amazon S3. The processing type (processingType) you choose affects both the accuracy and response time of the operation. Additional charges apply for each API call, whether made through the Entity Resolution console or directly via the API. The rule-based matching workflow must exist and be active before calling this operation.
     ///
-    /// - Parameter GenerateMatchIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateMatchIdInput`)
     ///
-    /// - Returns: `GenerateMatchIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateMatchIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1182,6 +1194,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateMatchIdInput, GenerateMatchIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateMatchIdOutput>(GenerateMatchIdOutput.httpOutput(from:), GenerateMatchIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateMatchIdInput, GenerateMatchIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateMatchIdOutput>())
@@ -1213,9 +1226,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the status, metrics, and errors (if there are any) that are associated with a job.
     ///
-    /// - Parameter GetIdMappingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdMappingJobInput`)
     ///
-    /// - Returns: `GetIdMappingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdMappingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1250,6 +1263,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdMappingJobInput, GetIdMappingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdMappingJobOutput>(GetIdMappingJobOutput.httpOutput(from:), GetIdMappingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdMappingJobInput, GetIdMappingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdMappingJobOutput>())
@@ -1281,9 +1295,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the IdMappingWorkflow with a given name, if it exists.
     ///
-    /// - Parameter GetIdMappingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdMappingWorkflowInput`)
     ///
-    /// - Returns: `GetIdMappingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdMappingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1318,6 +1332,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdMappingWorkflowInput, GetIdMappingWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdMappingWorkflowOutput>(GetIdMappingWorkflowOutput.httpOutput(from:), GetIdMappingWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdMappingWorkflowInput, GetIdMappingWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdMappingWorkflowOutput>())
@@ -1349,9 +1364,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the IdNamespace with a given name, if it exists.
     ///
-    /// - Parameter GetIdNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIdNamespaceInput`)
     ///
-    /// - Returns: `GetIdNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIdNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1386,6 +1401,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIdNamespaceInput, GetIdNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdNamespaceOutput>(GetIdNamespaceOutput.httpOutput(from:), GetIdNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdNamespaceInput, GetIdNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdNamespaceOutput>())
@@ -1417,9 +1433,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
     ///
-    /// - Parameter GetMatchIdInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMatchIdInput`)
     ///
-    /// - Returns: `GetMatchIdOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMatchIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1457,6 +1473,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMatchIdInput, GetMatchIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMatchIdOutput>(GetMatchIdOutput.httpOutput(from:), GetMatchIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMatchIdInput, GetMatchIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMatchIdOutput>())
@@ -1488,9 +1505,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the status, metrics, and errors (if there are any) that are associated with a job.
     ///
-    /// - Parameter GetMatchingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMatchingJobInput`)
     ///
-    /// - Returns: `GetMatchingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMatchingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1525,6 +1542,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMatchingJobInput, GetMatchingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMatchingJobOutput>(GetMatchingJobOutput.httpOutput(from:), GetMatchingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMatchingJobInput, GetMatchingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMatchingJobOutput>())
@@ -1556,9 +1574,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the MatchingWorkflow with a given name, if it exists.
     ///
-    /// - Parameter GetMatchingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMatchingWorkflowInput`)
     ///
-    /// - Returns: `GetMatchingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMatchingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1593,6 +1611,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMatchingWorkflowInput, GetMatchingWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMatchingWorkflowOutput>(GetMatchingWorkflowOutput.httpOutput(from:), GetMatchingWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMatchingWorkflowInput, GetMatchingWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMatchingWorkflowOutput>())
@@ -1624,9 +1643,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the resource-based policy.
     ///
-    /// - Parameter GetPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPolicyInput`)
     ///
-    /// - Returns: `GetPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1661,6 +1680,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPolicyInput, GetPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPolicyOutput>(GetPolicyOutput.httpOutput(from:), GetPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPolicyInput, GetPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPolicyOutput>())
@@ -1692,9 +1712,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the ProviderService of a given name.
     ///
-    /// - Parameter GetProviderServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProviderServiceInput`)
     ///
-    /// - Returns: `GetProviderServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProviderServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1729,6 +1749,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProviderServiceInput, GetProviderServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProviderServiceOutput>(GetProviderServiceOutput.httpOutput(from:), GetProviderServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProviderServiceInput, GetProviderServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProviderServiceOutput>())
@@ -1760,9 +1781,9 @@ extension EntityResolutionClient {
     ///
     /// Returns the SchemaMapping of a given name.
     ///
-    /// - Parameter GetSchemaMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSchemaMappingInput`)
     ///
-    /// - Returns: `GetSchemaMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSchemaMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1797,6 +1818,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSchemaMappingInput, GetSchemaMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSchemaMappingOutput>(GetSchemaMappingOutput.httpOutput(from:), GetSchemaMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSchemaMappingInput, GetSchemaMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSchemaMappingOutput>())
@@ -1828,9 +1850,9 @@ extension EntityResolutionClient {
     ///
     /// Lists all ID mapping jobs for a given workflow.
     ///
-    /// - Parameter ListIdMappingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdMappingJobsInput`)
     ///
-    /// - Returns: `ListIdMappingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdMappingJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1866,6 +1888,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdMappingJobsInput, ListIdMappingJobsOutput>(ListIdMappingJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdMappingJobsOutput>(ListIdMappingJobsOutput.httpOutput(from:), ListIdMappingJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdMappingJobsInput, ListIdMappingJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdMappingJobsOutput>())
@@ -1897,9 +1920,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all the IdMappingWorkflows that have been created for an Amazon Web Services account.
     ///
-    /// - Parameter ListIdMappingWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdMappingWorkflowsInput`)
     ///
-    /// - Returns: `ListIdMappingWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdMappingWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1934,6 +1957,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdMappingWorkflowsInput, ListIdMappingWorkflowsOutput>(ListIdMappingWorkflowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdMappingWorkflowsOutput>(ListIdMappingWorkflowsOutput.httpOutput(from:), ListIdMappingWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdMappingWorkflowsInput, ListIdMappingWorkflowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdMappingWorkflowsOutput>())
@@ -1965,9 +1989,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all ID namespaces.
     ///
-    /// - Parameter ListIdNamespacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdNamespacesInput`)
     ///
-    /// - Returns: `ListIdNamespacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdNamespacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2002,6 +2026,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdNamespacesInput, ListIdNamespacesOutput>(ListIdNamespacesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdNamespacesOutput>(ListIdNamespacesOutput.httpOutput(from:), ListIdNamespacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdNamespacesInput, ListIdNamespacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdNamespacesOutput>())
@@ -2033,9 +2058,9 @@ extension EntityResolutionClient {
     ///
     /// Lists all jobs for a given workflow.
     ///
-    /// - Parameter ListMatchingJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMatchingJobsInput`)
     ///
-    /// - Returns: `ListMatchingJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMatchingJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2071,6 +2096,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMatchingJobsInput, ListMatchingJobsOutput>(ListMatchingJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMatchingJobsOutput>(ListMatchingJobsOutput.httpOutput(from:), ListMatchingJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMatchingJobsInput, ListMatchingJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMatchingJobsOutput>())
@@ -2102,9 +2128,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account.
     ///
-    /// - Parameter ListMatchingWorkflowsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMatchingWorkflowsInput`)
     ///
-    /// - Returns: `ListMatchingWorkflowsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMatchingWorkflowsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2139,6 +2165,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMatchingWorkflowsInput, ListMatchingWorkflowsOutput>(ListMatchingWorkflowsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMatchingWorkflowsOutput>(ListMatchingWorkflowsOutput.httpOutput(from:), ListMatchingWorkflowsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMatchingWorkflowsInput, ListMatchingWorkflowsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMatchingWorkflowsOutput>())
@@ -2170,9 +2197,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all the ProviderServices that are available in this Amazon Web Services Region.
     ///
-    /// - Parameter ListProviderServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProviderServicesInput`)
     ///
-    /// - Returns: `ListProviderServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProviderServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2207,6 +2234,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProviderServicesInput, ListProviderServicesOutput>(ListProviderServicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProviderServicesOutput>(ListProviderServicesOutput.httpOutput(from:), ListProviderServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProviderServicesInput, ListProviderServicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProviderServicesOutput>())
@@ -2238,9 +2266,9 @@ extension EntityResolutionClient {
     ///
     /// Returns a list of all the SchemaMappings that have been created for an Amazon Web Services account.
     ///
-    /// - Parameter ListSchemaMappingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchemaMappingsInput`)
     ///
-    /// - Returns: `ListSchemaMappingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchemaMappingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2275,6 +2303,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSchemaMappingsInput, ListSchemaMappingsOutput>(ListSchemaMappingsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchemaMappingsOutput>(ListSchemaMappingsOutput.httpOutput(from:), ListSchemaMappingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchemaMappingsInput, ListSchemaMappingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchemaMappingsOutput>())
@@ -2306,9 +2335,9 @@ extension EntityResolutionClient {
     ///
     /// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2341,6 +2370,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2372,9 +2402,9 @@ extension EntityResolutionClient {
     ///
     /// Updates the resource-based policy.
     ///
-    /// - Parameter PutPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutPolicyInput`)
     ///
-    /// - Returns: `PutPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2413,6 +2443,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutPolicyInput, PutPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutPolicyOutput>(PutPolicyOutput.httpOutput(from:), PutPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutPolicyInput, PutPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutPolicyOutput>())
@@ -2444,9 +2475,9 @@ extension EntityResolutionClient {
     ///
     /// Starts the IdMappingJob of a workflow. The workflow must have previously been created using the CreateIdMappingWorkflow endpoint.
     ///
-    /// - Parameter StartIdMappingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartIdMappingJobInput`)
     ///
-    /// - Returns: `StartIdMappingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartIdMappingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2486,6 +2517,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartIdMappingJobInput, StartIdMappingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartIdMappingJobOutput>(StartIdMappingJobOutput.httpOutput(from:), StartIdMappingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartIdMappingJobInput, StartIdMappingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartIdMappingJobOutput>())
@@ -2517,9 +2549,9 @@ extension EntityResolutionClient {
     ///
     /// Starts the MatchingJob of a workflow. The workflow must have previously been created using the CreateMatchingWorkflow endpoint.
     ///
-    /// - Parameter StartMatchingJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMatchingJobInput`)
     ///
-    /// - Returns: `StartMatchingJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMatchingJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2556,6 +2588,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMatchingJobInput, StartMatchingJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMatchingJobOutput>(StartMatchingJobOutput.httpOutput(from:), StartMatchingJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMatchingJobInput, StartMatchingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMatchingJobOutput>())
@@ -2587,9 +2620,9 @@ extension EntityResolutionClient {
     ///
     /// Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2625,6 +2658,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2656,9 +2690,9 @@ extension EntityResolutionClient {
     ///
     /// Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2691,6 +2725,7 @@ extension EntityResolutionClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2722,9 +2757,9 @@ extension EntityResolutionClient {
     ///
     /// Updates an existing IdMappingWorkflow. This method is identical to CreateIdMappingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the IdMappingWorkflow must already exist for the method to succeed. Incremental processing is not supported for ID mapping workflows.
     ///
-    /// - Parameter UpdateIdMappingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdMappingWorkflowInput`)
     ///
-    /// - Returns: `UpdateIdMappingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdMappingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2762,6 +2797,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdMappingWorkflowInput, UpdateIdMappingWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdMappingWorkflowOutput>(UpdateIdMappingWorkflowOutput.httpOutput(from:), UpdateIdMappingWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdMappingWorkflowInput, UpdateIdMappingWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdMappingWorkflowOutput>())
@@ -2793,9 +2829,9 @@ extension EntityResolutionClient {
     ///
     /// Updates an existing ID namespace.
     ///
-    /// - Parameter UpdateIdNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIdNamespaceInput`)
     ///
-    /// - Returns: `UpdateIdNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIdNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2833,6 +2869,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdNamespaceInput, UpdateIdNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdNamespaceOutput>(UpdateIdNamespaceOutput.httpOutput(from:), UpdateIdNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdNamespaceInput, UpdateIdNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdNamespaceOutput>())
@@ -2864,9 +2901,9 @@ extension EntityResolutionClient {
     ///
     /// Updates an existing matching workflow. The workflow must already exist for this operation to succeed. For workflows where resolutionType is ML_MATCHING or PROVIDER, incremental processing is not supported.
     ///
-    /// - Parameter UpdateMatchingWorkflowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMatchingWorkflowInput`)
     ///
-    /// - Returns: `UpdateMatchingWorkflowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMatchingWorkflowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2904,6 +2941,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMatchingWorkflowInput, UpdateMatchingWorkflowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMatchingWorkflowOutput>(UpdateMatchingWorkflowOutput.httpOutput(from:), UpdateMatchingWorkflowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMatchingWorkflowInput, UpdateMatchingWorkflowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMatchingWorkflowOutput>())
@@ -2935,9 +2973,9 @@ extension EntityResolutionClient {
     ///
     /// Updates a schema mapping. A schema is immutable if it is being used by a workflow. Therefore, you can't update a schema mapping if it's associated with a workflow.
     ///
-    /// - Parameter UpdateSchemaMappingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSchemaMappingInput`)
     ///
-    /// - Returns: `UpdateSchemaMappingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSchemaMappingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2976,6 +3014,7 @@ extension EntityResolutionClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSchemaMappingInput, UpdateSchemaMappingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSchemaMappingOutput>(UpdateSchemaMappingOutput.httpOutput(from:), UpdateSchemaMappingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSchemaMappingInput, UpdateSchemaMappingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSchemaMappingOutput>())

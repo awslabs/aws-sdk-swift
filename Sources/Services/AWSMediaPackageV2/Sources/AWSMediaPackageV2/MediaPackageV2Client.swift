@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageV2Client: ClientRuntime.Client {
     public static let clientName = "MediaPackageV2Client"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageV2Client.MediaPackageV2ClientConfiguration
     let serviceName = "MediaPackageV2"
@@ -375,9 +376,9 @@ extension MediaPackageV2Client {
     ///
     /// Cancels an in-progress harvest job.
     ///
-    /// - Parameter CancelHarvestJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelHarvestJobInput`)
     ///
-    /// - Returns: `CancelHarvestJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelHarvestJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +415,7 @@ extension MediaPackageV2Client {
         builder.serialize(ClientRuntime.HeaderMiddleware<CancelHarvestJobInput, CancelHarvestJobOutput>(CancelHarvestJobInput.headerProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelHarvestJobOutput>(CancelHarvestJobOutput.httpOutput(from:), CancelHarvestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelHarvestJobInput, CancelHarvestJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelHarvestJobOutput>())
@@ -445,9 +447,9 @@ extension MediaPackageV2Client {
     ///
     /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
     ///
-    /// - Parameter CreateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelInput`)
     ///
-    /// - Returns: `CreateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,6 +491,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelInput, CreateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelOutput>(CreateChannelOutput.httpOutput(from:), CreateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelInput, CreateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelOutput>())
@@ -520,9 +523,9 @@ extension MediaPackageV2Client {
     ///
     /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
     ///
-    /// - Parameter CreateChannelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateChannelGroupInput`)
     ///
-    /// - Returns: `CreateChannelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateChannelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -564,6 +567,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateChannelGroupOutput>(CreateChannelGroupOutput.httpOutput(from:), CreateChannelGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateChannelGroupInput, CreateChannelGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateChannelGroupOutput>())
@@ -595,9 +599,9 @@ extension MediaPackageV2Client {
     ///
     /// Creates a new harvest job to export content from a MediaPackage v2 channel to an S3 bucket.
     ///
-    /// - Parameter CreateHarvestJobInput : The request object for creating a new harvest job.
+    /// - Parameter input: The request object for creating a new harvest job. (Type: `CreateHarvestJobInput`)
     ///
-    /// - Returns: `CreateHarvestJobOutput` : The response object returned after creating a harvest job.
+    /// - Returns: The response object returned after creating a harvest job. (Type: `CreateHarvestJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -639,6 +643,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateHarvestJobInput, CreateHarvestJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateHarvestJobOutput>(CreateHarvestJobOutput.httpOutput(from:), CreateHarvestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateHarvestJobInput, CreateHarvestJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateHarvestJobOutput>())
@@ -670,9 +675,9 @@ extension MediaPackageV2Client {
     ///
     /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
     ///
-    /// - Parameter CreateOriginEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateOriginEndpointInput`)
     ///
-    /// - Returns: `CreateOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -714,6 +719,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateOriginEndpointOutput>(CreateOriginEndpointOutput.httpOutput(from:), CreateOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateOriginEndpointInput, CreateOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateOriginEndpointOutput>())
@@ -745,9 +751,9 @@ extension MediaPackageV2Client {
     ///
     /// Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
     ///
-    /// - Parameter DeleteChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelInput`)
     ///
-    /// - Returns: `DeleteChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,6 +788,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(DeleteChannelOutput.httpOutput(from:), DeleteChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelInput, DeleteChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
@@ -813,9 +820,9 @@ extension MediaPackageV2Client {
     ///
     /// Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
     ///
-    /// - Parameter DeleteChannelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelGroupInput`)
     ///
-    /// - Returns: `DeleteChannelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,6 +857,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelGroupInput, DeleteChannelGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelGroupOutput>(DeleteChannelGroupOutput.httpOutput(from:), DeleteChannelGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelGroupInput, DeleteChannelGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelGroupOutput>())
@@ -881,9 +889,9 @@ extension MediaPackageV2Client {
     ///
     /// Delete a channel policy.
     ///
-    /// - Parameter DeleteChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteChannelPolicyInput`)
     ///
-    /// - Returns: `DeleteChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteChannelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -918,6 +926,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteChannelPolicyInput, DeleteChannelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteChannelPolicyOutput>(DeleteChannelPolicyOutput.httpOutput(from:), DeleteChannelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteChannelPolicyInput, DeleteChannelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteChannelPolicyOutput>())
@@ -949,9 +958,9 @@ extension MediaPackageV2Client {
     ///
     /// Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
     ///
-    /// - Parameter DeleteOriginEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOriginEndpointInput`)
     ///
-    /// - Returns: `DeleteOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,6 +994,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointOutput>(DeleteOriginEndpointOutput.httpOutput(from:), DeleteOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOriginEndpointInput, DeleteOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOriginEndpointOutput>())
@@ -1016,9 +1026,9 @@ extension MediaPackageV2Client {
     ///
     /// Delete an origin endpoint policy.
     ///
-    /// - Parameter DeleteOriginEndpointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteOriginEndpointPolicyInput`)
     ///
-    /// - Returns: `DeleteOriginEndpointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteOriginEndpointPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1053,6 +1063,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteOriginEndpointPolicyInput, DeleteOriginEndpointPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteOriginEndpointPolicyOutput>(DeleteOriginEndpointPolicyOutput.httpOutput(from:), DeleteOriginEndpointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteOriginEndpointPolicyInput, DeleteOriginEndpointPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteOriginEndpointPolicyOutput>())
@@ -1084,9 +1095,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage.
     ///
-    /// - Parameter GetChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelInput`)
     ///
-    /// - Returns: `GetChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1121,6 +1132,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChannelInput, GetChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelOutput>(GetChannelOutput.httpOutput(from:), GetChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelInput, GetChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelOutput>())
@@ -1152,9 +1164,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage.
     ///
-    /// - Parameter GetChannelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelGroupInput`)
     ///
-    /// - Returns: `GetChannelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1189,6 +1201,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChannelGroupInput, GetChannelGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelGroupOutput>(GetChannelGroupOutput.httpOutput(from:), GetChannelGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelGroupInput, GetChannelGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelGroupOutput>())
@@ -1220,9 +1233,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
     ///
-    /// - Parameter GetChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetChannelPolicyInput`)
     ///
-    /// - Returns: `GetChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetChannelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1257,6 +1270,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetChannelPolicyInput, GetChannelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetChannelPolicyOutput>(GetChannelPolicyOutput.httpOutput(from:), GetChannelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetChannelPolicyInput, GetChannelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetChannelPolicyOutput>())
@@ -1288,9 +1302,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves the details of a specific harvest job.
     ///
-    /// - Parameter GetHarvestJobInput : The request object for retrieving a specific harvest job.
+    /// - Parameter input: The request object for retrieving a specific harvest job. (Type: `GetHarvestJobInput`)
     ///
-    /// - Returns: `GetHarvestJobOutput` : The response object containing the details of the requested harvest job.
+    /// - Returns: The response object containing the details of the requested harvest job. (Type: `GetHarvestJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1325,6 +1339,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetHarvestJobInput, GetHarvestJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetHarvestJobOutput>(GetHarvestJobOutput.httpOutput(from:), GetHarvestJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetHarvestJobInput, GetHarvestJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetHarvestJobOutput>())
@@ -1356,9 +1371,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
     ///
-    /// - Parameter GetOriginEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginEndpointInput`)
     ///
-    /// - Returns: `GetOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1393,6 +1408,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginEndpointInput, GetOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginEndpointOutput>(GetOriginEndpointOutput.httpOutput(from:), GetOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginEndpointInput, GetOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOriginEndpointOutput>())
@@ -1424,9 +1440,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
     ///
-    /// - Parameter GetOriginEndpointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetOriginEndpointPolicyInput`)
     ///
-    /// - Returns: `GetOriginEndpointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetOriginEndpointPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1461,6 +1477,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOriginEndpointPolicyInput, GetOriginEndpointPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOriginEndpointPolicyOutput>(GetOriginEndpointPolicyOutput.httpOutput(from:), GetOriginEndpointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOriginEndpointPolicyInput, GetOriginEndpointPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOriginEndpointPolicyOutput>())
@@ -1492,9 +1509,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves all channel groups that are configured in Elemental MediaPackage.
     ///
-    /// - Parameter ListChannelGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelGroupsInput`)
     ///
-    /// - Returns: `ListChannelGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1529,6 +1546,7 @@ extension MediaPackageV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelGroupsInput, ListChannelGroupsOutput>(ListChannelGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelGroupsOutput>(ListChannelGroupsOutput.httpOutput(from:), ListChannelGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelGroupsInput, ListChannelGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelGroupsOutput>())
@@ -1560,9 +1578,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage.
     ///
-    /// - Parameter ListChannelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListChannelsInput`)
     ///
-    /// - Returns: `ListChannelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListChannelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1598,6 +1616,7 @@ extension MediaPackageV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListChannelsInput, ListChannelsOutput>(ListChannelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(ListChannelsOutput.httpOutput(from:), ListChannelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListChannelsInput, ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListChannelsOutput>())
@@ -1629,9 +1648,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves a list of harvest jobs that match the specified criteria.
     ///
-    /// - Parameter ListHarvestJobsInput : The request object for listing harvest jobs.
+    /// - Parameter input: The request object for listing harvest jobs. (Type: `ListHarvestJobsInput`)
     ///
-    /// - Returns: `ListHarvestJobsOutput` : The response object containing the list of harvest jobs that match the specified criteria.
+    /// - Returns: The response object containing the list of harvest jobs that match the specified criteria. (Type: `ListHarvestJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1667,6 +1686,7 @@ extension MediaPackageV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListHarvestJobsInput, ListHarvestJobsOutput>(ListHarvestJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListHarvestJobsOutput>(ListHarvestJobsOutput.httpOutput(from:), ListHarvestJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListHarvestJobsInput, ListHarvestJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListHarvestJobsOutput>())
@@ -1698,9 +1718,9 @@ extension MediaPackageV2Client {
     ///
     /// Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
     ///
-    /// - Parameter ListOriginEndpointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOriginEndpointsInput`)
     ///
-    /// - Returns: `ListOriginEndpointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOriginEndpointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1736,6 +1756,7 @@ extension MediaPackageV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>(ListOriginEndpointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOriginEndpointsOutput>(ListOriginEndpointsOutput.httpOutput(from:), ListOriginEndpointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOriginEndpointsInput, ListOriginEndpointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOriginEndpointsOutput>())
@@ -1767,9 +1788,9 @@ extension MediaPackageV2Client {
     ///
     /// Lists the tags assigned to a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1800,6 +1821,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1831,9 +1853,9 @@ extension MediaPackageV2Client {
     ///
     /// Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
     ///
-    /// - Parameter PutChannelPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutChannelPolicyInput`)
     ///
-    /// - Returns: `PutChannelPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutChannelPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,6 +1894,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutChannelPolicyOutput>(PutChannelPolicyOutput.httpOutput(from:), PutChannelPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutChannelPolicyInput, PutChannelPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutChannelPolicyOutput>())
@@ -1903,9 +1926,9 @@ extension MediaPackageV2Client {
     ///
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
     ///
-    /// - Parameter PutOriginEndpointPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutOriginEndpointPolicyInput`)
     ///
-    /// - Returns: `PutOriginEndpointPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutOriginEndpointPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1944,6 +1967,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutOriginEndpointPolicyOutput>(PutOriginEndpointPolicyOutput.httpOutput(from:), PutOriginEndpointPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutOriginEndpointPolicyInput, PutOriginEndpointPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutOriginEndpointPolicyOutput>())
@@ -1975,9 +1999,9 @@ extension MediaPackageV2Client {
     ///
     /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content. Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
     ///
-    /// - Parameter ResetChannelStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetChannelStateInput`)
     ///
-    /// - Returns: `ResetChannelStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetChannelStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2013,6 +2037,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResetChannelStateInput, ResetChannelStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetChannelStateOutput>(ResetChannelStateOutput.httpOutput(from:), ResetChannelStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetChannelStateInput, ResetChannelStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetChannelStateOutput>())
@@ -2044,9 +2069,9 @@ extension MediaPackageV2Client {
     ///
     /// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin endpoint. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpoint.
     ///
-    /// - Parameter ResetOriginEndpointStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResetOriginEndpointStateInput`)
     ///
-    /// - Returns: `ResetOriginEndpointStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResetOriginEndpointStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2082,6 +2107,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ResetOriginEndpointStateInput, ResetOriginEndpointStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResetOriginEndpointStateOutput>(ResetOriginEndpointStateOutput.httpOutput(from:), ResetOriginEndpointStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResetOriginEndpointStateInput, ResetOriginEndpointStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResetOriginEndpointStateOutput>())
@@ -2113,9 +2139,9 @@ extension MediaPackageV2Client {
     ///
     /// Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2149,6 +2175,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2180,9 +2207,9 @@ extension MediaPackageV2Client {
     ///
     /// Removes one or more tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2214,6 +2241,7 @@ extension MediaPackageV2Client {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2245,9 +2273,9 @@ extension MediaPackageV2Client {
     ///
     /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
-    /// - Parameter UpdateChannelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelInput`)
     ///
-    /// - Returns: `UpdateChannelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2287,6 +2315,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelInput, UpdateChannelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelOutput>(UpdateChannelOutput.httpOutput(from:), UpdateChannelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelInput, UpdateChannelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelOutput>())
@@ -2318,9 +2347,9 @@ extension MediaPackageV2Client {
     ///
     /// Update the specified channel group. You can edit the description on a channel group for easier identification later from the AWS Elemental MediaPackage console. You can't edit the name of the channel group. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
-    /// - Parameter UpdateChannelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateChannelGroupInput`)
     ///
-    /// - Returns: `UpdateChannelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateChannelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2360,6 +2389,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateChannelGroupInput, UpdateChannelGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateChannelGroupOutput>(UpdateChannelGroupOutput.httpOutput(from:), UpdateChannelGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateChannelGroupInput, UpdateChannelGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateChannelGroupOutput>())
@@ -2391,9 +2421,9 @@ extension MediaPackageV2Client {
     ///
     /// Update the specified origin endpoint. Edit the packaging preferences on an endpoint to optimize the viewing experience. You can't edit the name of the endpoint. Any edits you make that impact the video output may not be reflected for a few minutes.
     ///
-    /// - Parameter UpdateOriginEndpointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateOriginEndpointInput`)
     ///
-    /// - Returns: `UpdateOriginEndpointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateOriginEndpointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2434,6 +2464,7 @@ extension MediaPackageV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateOriginEndpointOutput>(UpdateOriginEndpointOutput.httpOutput(from:), UpdateOriginEndpointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateOriginEndpointInput, UpdateOriginEndpointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateOriginEndpointOutput>())

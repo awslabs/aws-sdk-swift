@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -65,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AmplifyBackendClient: ClientRuntime.Client {
     public static let clientName = "AmplifyBackendClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: AmplifyBackendClient.AmplifyBackendClientConfiguration
     let serviceName = "AmplifyBackend"
@@ -371,9 +372,9 @@ extension AmplifyBackendClient {
     ///
     /// This operation clones an existing backend.
     ///
-    /// - Parameter CloneBackendInput : The request body for CloneBackend.
+    /// - Parameter input: The request body for CloneBackend. (Type: `CloneBackendInput`)
     ///
-    /// - Returns: `CloneBackendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CloneBackendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +411,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CloneBackendInput, CloneBackendOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CloneBackendOutput>(CloneBackendOutput.httpOutput(from:), CloneBackendOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CloneBackendInput, CloneBackendOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CloneBackendOutput>())
@@ -441,9 +443,9 @@ extension AmplifyBackendClient {
     ///
     /// This operation creates a backend for an Amplify app. Backends are automatically created at the time of app creation.
     ///
-    /// - Parameter CreateBackendInput : The request body for CreateBackend.
+    /// - Parameter input: The request body for CreateBackend. (Type: `CreateBackendInput`)
     ///
-    /// - Returns: `CreateBackendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -480,6 +482,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackendInput, CreateBackendOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackendOutput>(CreateBackendOutput.httpOutput(from:), CreateBackendOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackendInput, CreateBackendOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackendOutput>())
@@ -511,9 +514,9 @@ extension AmplifyBackendClient {
     ///
     /// Creates a new backend API resource.
     ///
-    /// - Parameter CreateBackendAPIInput : The request body for CreateBackendAPI.
+    /// - Parameter input: The request body for CreateBackendAPI. (Type: `CreateBackendAPIInput`)
     ///
-    /// - Returns: `CreateBackendAPIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendAPIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -550,6 +553,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackendAPIInput, CreateBackendAPIOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackendAPIOutput>(CreateBackendAPIOutput.httpOutput(from:), CreateBackendAPIOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackendAPIInput, CreateBackendAPIOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackendAPIOutput>())
@@ -581,9 +585,9 @@ extension AmplifyBackendClient {
     ///
     /// Creates a new backend authentication resource.
     ///
-    /// - Parameter CreateBackendAuthInput : The request body for CreateBackendAuth.
+    /// - Parameter input: The request body for CreateBackendAuth. (Type: `CreateBackendAuthInput`)
     ///
-    /// - Returns: `CreateBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -620,6 +624,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackendAuthInput, CreateBackendAuthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackendAuthOutput>(CreateBackendAuthOutput.httpOutput(from:), CreateBackendAuthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackendAuthInput, CreateBackendAuthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackendAuthOutput>())
@@ -651,9 +656,9 @@ extension AmplifyBackendClient {
     ///
     /// Creates a config object for a backend.
     ///
-    /// - Parameter CreateBackendConfigInput : The request body for CreateBackendConfig.
+    /// - Parameter input: The request body for CreateBackendConfig. (Type: `CreateBackendConfigInput`)
     ///
-    /// - Returns: `CreateBackendConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -690,6 +695,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackendConfigInput, CreateBackendConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackendConfigOutput>(CreateBackendConfigOutput.httpOutput(from:), CreateBackendConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackendConfigInput, CreateBackendConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackendConfigOutput>())
@@ -721,9 +727,9 @@ extension AmplifyBackendClient {
     ///
     /// Creates a backend storage resource.
     ///
-    /// - Parameter CreateBackendStorageInput : The request body for CreateBackendStorage.
+    /// - Parameter input: The request body for CreateBackendStorage. (Type: `CreateBackendStorageInput`)
     ///
-    /// - Returns: `CreateBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -760,6 +766,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBackendStorageInput, CreateBackendStorageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBackendStorageOutput>(CreateBackendStorageOutput.httpOutput(from:), CreateBackendStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBackendStorageInput, CreateBackendStorageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBackendStorageOutput>())
@@ -791,9 +798,9 @@ extension AmplifyBackendClient {
     ///
     /// Generates a one-time challenge code to authenticate a user into your Amplify Admin UI.
     ///
-    /// - Parameter CreateTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTokenInput`)
     ///
-    /// - Returns: `CreateTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -827,6 +834,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTokenInput, CreateTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTokenOutput>(CreateTokenOutput.httpOutput(from:), CreateTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTokenInput, CreateTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTokenOutput>())
@@ -858,9 +866,9 @@ extension AmplifyBackendClient {
     ///
     /// Removes an existing environment from your Amplify project.
     ///
-    /// - Parameter DeleteBackendInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBackendInput`)
     ///
-    /// - Returns: `DeleteBackendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -894,6 +902,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBackendInput, DeleteBackendOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackendOutput>(DeleteBackendOutput.httpOutput(from:), DeleteBackendOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackendInput, DeleteBackendOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackendOutput>())
@@ -925,9 +934,9 @@ extension AmplifyBackendClient {
     ///
     /// Deletes an existing backend API resource.
     ///
-    /// - Parameter DeleteBackendAPIInput : The request body for DeleteBackendAPI.
+    /// - Parameter input: The request body for DeleteBackendAPI. (Type: `DeleteBackendAPIInput`)
     ///
-    /// - Returns: `DeleteBackendAPIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackendAPIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -964,6 +973,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackendAPIOutput>(DeleteBackendAPIOutput.httpOutput(from:), DeleteBackendAPIOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackendAPIInput, DeleteBackendAPIOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackendAPIOutput>())
@@ -995,9 +1005,9 @@ extension AmplifyBackendClient {
     ///
     /// Deletes an existing backend authentication resource.
     ///
-    /// - Parameter DeleteBackendAuthInput : The request body for DeleteBackendAuth.
+    /// - Parameter input: The request body for DeleteBackendAuth. (Type: `DeleteBackendAuthInput`)
     ///
-    /// - Returns: `DeleteBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1034,6 +1044,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackendAuthOutput>(DeleteBackendAuthOutput.httpOutput(from:), DeleteBackendAuthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackendAuthInput, DeleteBackendAuthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackendAuthOutput>())
@@ -1065,9 +1076,9 @@ extension AmplifyBackendClient {
     ///
     /// Removes the specified backend storage resource.
     ///
-    /// - Parameter DeleteBackendStorageInput : The request body for DeleteBackendStorage.
+    /// - Parameter input: The request body for DeleteBackendStorage. (Type: `DeleteBackendStorageInput`)
     ///
-    /// - Returns: `DeleteBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1104,6 +1115,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBackendStorageOutput>(DeleteBackendStorageOutput.httpOutput(from:), DeleteBackendStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBackendStorageInput, DeleteBackendStorageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBackendStorageOutput>())
@@ -1135,9 +1147,9 @@ extension AmplifyBackendClient {
     ///
     /// Deletes the challenge token based on the given appId and sessionId.
     ///
-    /// - Parameter DeleteTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTokenInput`)
     ///
-    /// - Returns: `DeleteTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1171,6 +1183,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTokenInput, DeleteTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTokenOutput>(DeleteTokenOutput.httpOutput(from:), DeleteTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTokenInput, DeleteTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTokenOutput>())
@@ -1202,9 +1215,9 @@ extension AmplifyBackendClient {
     ///
     /// Generates a model schema for an existing backend API resource.
     ///
-    /// - Parameter GenerateBackendAPIModelsInput : The request body for GenerateBackendAPIModels.
+    /// - Parameter input: The request body for GenerateBackendAPIModels. (Type: `GenerateBackendAPIModelsInput`)
     ///
-    /// - Returns: `GenerateBackendAPIModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateBackendAPIModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1241,6 +1254,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateBackendAPIModelsOutput>(GenerateBackendAPIModelsOutput.httpOutput(from:), GenerateBackendAPIModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateBackendAPIModelsInput, GenerateBackendAPIModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateBackendAPIModelsOutput>())
@@ -1272,9 +1286,9 @@ extension AmplifyBackendClient {
     ///
     /// Provides project-level details for your Amplify UI project.
     ///
-    /// - Parameter GetBackendInput : The request body for GetBackend.
+    /// - Parameter input: The request body for GetBackend. (Type: `GetBackendInput`)
     ///
-    /// - Returns: `GetBackendOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1311,6 +1325,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBackendInput, GetBackendOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackendOutput>(GetBackendOutput.httpOutput(from:), GetBackendOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackendInput, GetBackendOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackendOutput>())
@@ -1342,9 +1357,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets the details for a backend API.
     ///
-    /// - Parameter GetBackendAPIInput : The request body for GetBackendAPI.
+    /// - Parameter input: The request body for GetBackendAPI. (Type: `GetBackendAPIInput`)
     ///
-    /// - Returns: `GetBackendAPIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendAPIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1381,6 +1396,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBackendAPIInput, GetBackendAPIOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackendAPIOutput>(GetBackendAPIOutput.httpOutput(from:), GetBackendAPIOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackendAPIInput, GetBackendAPIOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackendAPIOutput>())
@@ -1412,9 +1428,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets a model introspection schema for an existing backend API resource.
     ///
-    /// - Parameter GetBackendAPIModelsInput : The request body for GetBackendAPIModels.
+    /// - Parameter input: The request body for GetBackendAPIModels. (Type: `GetBackendAPIModelsInput`)
     ///
-    /// - Returns: `GetBackendAPIModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendAPIModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,6 +1467,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackendAPIModelsOutput>(GetBackendAPIModelsOutput.httpOutput(from:), GetBackendAPIModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackendAPIModelsInput, GetBackendAPIModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackendAPIModelsOutput>())
@@ -1482,9 +1499,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets a backend auth details.
     ///
-    /// - Parameter GetBackendAuthInput : The request body for GetBackendAuth.
+    /// - Parameter input: The request body for GetBackendAuth. (Type: `GetBackendAuthInput`)
     ///
-    /// - Returns: `GetBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1521,6 +1538,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBackendAuthInput, GetBackendAuthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackendAuthOutput>(GetBackendAuthOutput.httpOutput(from:), GetBackendAuthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackendAuthInput, GetBackendAuthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackendAuthOutput>())
@@ -1552,9 +1570,9 @@ extension AmplifyBackendClient {
     ///
     /// Returns information about a specific job.
     ///
-    /// - Parameter GetBackendJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetBackendJobInput`)
     ///
-    /// - Returns: `GetBackendJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1588,6 +1606,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetBackendJobInput, GetBackendJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackendJobOutput>(GetBackendJobOutput.httpOutput(from:), GetBackendJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackendJobInput, GetBackendJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackendJobOutput>())
@@ -1619,9 +1638,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets details for a backend storage resource.
     ///
-    /// - Parameter GetBackendStorageInput : The request body for GetBackendStorage.
+    /// - Parameter input: The request body for GetBackendStorage. (Type: `GetBackendStorageInput`)
     ///
-    /// - Returns: `GetBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1658,6 +1677,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBackendStorageInput, GetBackendStorageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBackendStorageOutput>(GetBackendStorageOutput.httpOutput(from:), GetBackendStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBackendStorageInput, GetBackendStorageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBackendStorageOutput>())
@@ -1689,9 +1709,9 @@ extension AmplifyBackendClient {
     ///
     /// Gets the challenge token based on the given appId and sessionId.
     ///
-    /// - Parameter GetTokenInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTokenInput`)
     ///
-    /// - Returns: `GetTokenOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1725,6 +1745,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTokenInput, GetTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTokenOutput>(GetTokenOutput.httpOutput(from:), GetTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTokenInput, GetTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTokenOutput>())
@@ -1756,9 +1777,9 @@ extension AmplifyBackendClient {
     ///
     /// Imports an existing backend authentication resource.
     ///
-    /// - Parameter ImportBackendAuthInput : The request body for ImportBackendAuth.
+    /// - Parameter input: The request body for ImportBackendAuth. (Type: `ImportBackendAuthInput`)
     ///
-    /// - Returns: `ImportBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1795,6 +1816,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportBackendAuthInput, ImportBackendAuthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportBackendAuthOutput>(ImportBackendAuthOutput.httpOutput(from:), ImportBackendAuthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportBackendAuthInput, ImportBackendAuthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportBackendAuthOutput>())
@@ -1826,9 +1848,9 @@ extension AmplifyBackendClient {
     ///
     /// Imports an existing backend storage resource.
     ///
-    /// - Parameter ImportBackendStorageInput : The request body for ImportBackendStorage.
+    /// - Parameter input: The request body for ImportBackendStorage. (Type: `ImportBackendStorageInput`)
     ///
-    /// - Returns: `ImportBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1865,6 +1887,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportBackendStorageInput, ImportBackendStorageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportBackendStorageOutput>(ImportBackendStorageOutput.httpOutput(from:), ImportBackendStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportBackendStorageInput, ImportBackendStorageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportBackendStorageOutput>())
@@ -1896,9 +1919,9 @@ extension AmplifyBackendClient {
     ///
     /// Lists the jobs for the backend of an Amplify app.
     ///
-    /// - Parameter ListBackendJobsInput : The request body for ListBackendJobs.
+    /// - Parameter input: The request body for ListBackendJobs. (Type: `ListBackendJobsInput`)
     ///
-    /// - Returns: `ListBackendJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBackendJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1935,6 +1958,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBackendJobsInput, ListBackendJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBackendJobsOutput>(ListBackendJobsOutput.httpOutput(from:), ListBackendJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBackendJobsInput, ListBackendJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBackendJobsOutput>())
@@ -1966,9 +1990,9 @@ extension AmplifyBackendClient {
     ///
     /// The list of S3 buckets in your account.
     ///
-    /// - Parameter ListS3BucketsInput : The request body for S3Buckets.
+    /// - Parameter input: The request body for S3Buckets. (Type: `ListS3BucketsInput`)
     ///
-    /// - Returns: `ListS3BucketsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListS3BucketsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2005,6 +2029,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListS3BucketsInput, ListS3BucketsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListS3BucketsOutput>(ListS3BucketsOutput.httpOutput(from:), ListS3BucketsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListS3BucketsInput, ListS3BucketsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListS3BucketsOutput>())
@@ -2036,9 +2061,9 @@ extension AmplifyBackendClient {
     ///
     /// Removes all backend environments from your Amplify project.
     ///
-    /// - Parameter RemoveAllBackendsInput : The request body for RemoveAllBackends.
+    /// - Parameter input: The request body for RemoveAllBackends. (Type: `RemoveAllBackendsInput`)
     ///
-    /// - Returns: `RemoveAllBackendsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveAllBackendsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2075,6 +2100,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveAllBackendsOutput>(RemoveAllBackendsOutput.httpOutput(from:), RemoveAllBackendsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveAllBackendsInput, RemoveAllBackendsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveAllBackendsOutput>())
@@ -2106,9 +2132,9 @@ extension AmplifyBackendClient {
     ///
     /// Removes the AWS resources required to access the Amplify Admin UI.
     ///
-    /// - Parameter RemoveBackendConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveBackendConfigInput`)
     ///
-    /// - Returns: `RemoveBackendConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveBackendConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2142,6 +2168,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveBackendConfigInput, RemoveBackendConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveBackendConfigOutput>(RemoveBackendConfigOutput.httpOutput(from:), RemoveBackendConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveBackendConfigInput, RemoveBackendConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveBackendConfigOutput>())
@@ -2173,9 +2200,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates an existing backend API resource.
     ///
-    /// - Parameter UpdateBackendAPIInput : The request body for UpdateBackendAPI.
+    /// - Parameter input: The request body for UpdateBackendAPI. (Type: `UpdateBackendAPIInput`)
     ///
-    /// - Returns: `UpdateBackendAPIOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendAPIOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2212,6 +2239,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBackendAPIOutput>(UpdateBackendAPIOutput.httpOutput(from:), UpdateBackendAPIOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBackendAPIInput, UpdateBackendAPIOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBackendAPIOutput>())
@@ -2243,9 +2271,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates an existing backend authentication resource.
     ///
-    /// - Parameter UpdateBackendAuthInput : The request body for UpdateBackendAuth.
+    /// - Parameter input: The request body for UpdateBackendAuth. (Type: `UpdateBackendAuthInput`)
     ///
-    /// - Returns: `UpdateBackendAuthOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendAuthOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2282,6 +2310,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBackendAuthOutput>(UpdateBackendAuthOutput.httpOutput(from:), UpdateBackendAuthOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBackendAuthInput, UpdateBackendAuthOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBackendAuthOutput>())
@@ -2313,9 +2342,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates the AWS resources required to access the Amplify Admin UI.
     ///
-    /// - Parameter UpdateBackendConfigInput : The request body for UpdateBackendConfig.
+    /// - Parameter input: The request body for UpdateBackendConfig. (Type: `UpdateBackendConfigInput`)
     ///
-    /// - Returns: `UpdateBackendConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2352,6 +2381,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBackendConfigOutput>(UpdateBackendConfigOutput.httpOutput(from:), UpdateBackendConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBackendConfigInput, UpdateBackendConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBackendConfigOutput>())
@@ -2383,9 +2413,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates a specific job.
     ///
-    /// - Parameter UpdateBackendJobInput : The request body for GetBackendJob.
+    /// - Parameter input: The request body for GetBackendJob. (Type: `UpdateBackendJobInput`)
     ///
-    /// - Returns: `UpdateBackendJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2422,6 +2452,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBackendJobInput, UpdateBackendJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBackendJobOutput>(UpdateBackendJobOutput.httpOutput(from:), UpdateBackendJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBackendJobInput, UpdateBackendJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBackendJobOutput>())
@@ -2453,9 +2484,9 @@ extension AmplifyBackendClient {
     ///
     /// Updates an existing backend storage resource.
     ///
-    /// - Parameter UpdateBackendStorageInput : The request body for UpdateBackendStorage.
+    /// - Parameter input: The request body for UpdateBackendStorage. (Type: `UpdateBackendStorageInput`)
     ///
-    /// - Returns: `UpdateBackendStorageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBackendStorageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2492,6 +2523,7 @@ extension AmplifyBackendClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBackendStorageOutput>(UpdateBackendStorageOutput.httpOutput(from:), UpdateBackendStorageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBackendStorageInput, UpdateBackendStorageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBackendStorageOutput>())

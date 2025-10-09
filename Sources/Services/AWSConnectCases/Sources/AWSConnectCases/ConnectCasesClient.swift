@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectCasesClient: ClientRuntime.Client {
     public static let clientName = "ConnectCasesClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectCasesClient.ConnectCasesClientConfiguration
     let serviceName = "ConnectCases"
@@ -374,9 +375,9 @@ extension ConnectCasesClient {
     ///
     /// Gets a batch of case rules. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter BatchGetCaseRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetCaseRuleInput`)
     ///
-    /// - Returns: `BatchGetCaseRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetCaseRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +415,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetCaseRuleInput, BatchGetCaseRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetCaseRuleOutput>(BatchGetCaseRuleOutput.httpOutput(from:), BatchGetCaseRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetCaseRuleInput, BatchGetCaseRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetCaseRuleOutput>())
@@ -445,9 +447,9 @@ extension ConnectCasesClient {
     ///
     /// Returns the description for the list of fields in the request parameters.
     ///
-    /// - Parameter BatchGetFieldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetFieldInput`)
     ///
-    /// - Returns: `BatchGetFieldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +487,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetFieldInput, BatchGetFieldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetFieldOutput>(BatchGetFieldOutput.httpOutput(from:), BatchGetFieldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetFieldInput, BatchGetFieldOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetFieldOutput>())
@@ -516,9 +519,9 @@ extension ConnectCasesClient {
     ///
     /// Creates and updates a set of field options for a single select field in a Cases domain.
     ///
-    /// - Parameter BatchPutFieldOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutFieldOptionsInput`)
     ///
-    /// - Returns: `BatchPutFieldOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutFieldOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +560,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutFieldOptionsInput, BatchPutFieldOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutFieldOptionsOutput>(BatchPutFieldOptionsOutput.httpOutput(from:), BatchPutFieldOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutFieldOptionsInput, BatchPutFieldOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutFieldOptionsOutput>())
@@ -592,9 +596,9 @@ extension ConnectCasesClient {
     ///
     /// * title
     ///
-    /// - Parameter CreateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseInput`)
     ///
-    /// - Returns: `CreateCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCaseInput, CreateCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCaseOutput>(CreateCaseOutput.httpOutput(from:), CreateCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCaseInput, CreateCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCaseOutput>())
@@ -665,9 +670,9 @@ extension ConnectCasesClient {
     ///
     /// Creates a new case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter CreateCaseRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCaseRuleInput`)
     ///
-    /// - Returns: `CreateCaseRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCaseRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,6 +712,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCaseRuleInput, CreateCaseRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCaseRuleOutput>(CreateCaseRuleOutput.httpOutput(from:), CreateCaseRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCaseRuleInput, CreateCaseRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCaseRuleOutput>())
@@ -738,9 +744,9 @@ extension ConnectCasesClient {
     ///
     /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -779,6 +785,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -810,9 +817,9 @@ extension ConnectCasesClient {
     ///
     /// Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
     ///
-    /// - Parameter CreateFieldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFieldInput`)
     ///
-    /// - Returns: `CreateFieldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -852,6 +859,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFieldInput, CreateFieldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFieldOutput>(CreateFieldOutput.httpOutput(from:), CreateFieldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFieldInput, CreateFieldOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFieldOutput>())
@@ -890,9 +898,9 @@ extension ConnectCasesClient {
     ///
     /// Title and Status fields cannot be part of layouts since they are not configurable.
     ///
-    /// - Parameter CreateLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLayoutInput`)
     ///
-    /// - Returns: `CreateLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,6 +940,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLayoutInput, CreateLayoutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLayoutOutput>(CreateLayoutOutput.httpOutput(from:), CreateLayoutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLayoutInput, CreateLayoutOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLayoutOutput>())
@@ -969,9 +978,9 @@ extension ConnectCasesClient {
     ///
     /// * The type field is reserved for internal use only.
     ///
-    /// - Parameter CreateRelatedItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRelatedItemInput`)
     ///
-    /// - Returns: `CreateRelatedItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRelatedItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1010,6 +1019,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelatedItemInput, CreateRelatedItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRelatedItemOutput>(CreateRelatedItemOutput.httpOutput(from:), CreateRelatedItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRelatedItemInput, CreateRelatedItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRelatedItemOutput>())
@@ -1049,9 +1059,9 @@ extension ConnectCasesClient {
     ///
     /// * [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
     ///
-    /// - Parameter CreateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTemplateInput`)
     ///
-    /// - Returns: `CreateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1091,6 +1101,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTemplateInput, CreateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTemplateOutput>(CreateTemplateOutput.httpOutput(from:), CreateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTemplateInput, CreateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTemplateOutput>())
@@ -1129,11 +1140,11 @@ extension ConnectCasesClient {
     /// * Perform any operations that require the CaseID
     ///
     ///
-    /// This action is irreversible. Once you delete a case, you cannot recover its data.
+    /// This action is irreversible. After you delete a case, you cannot recover its data.
     ///
-    /// - Parameter DeleteCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCaseInput`)
     ///
-    /// - Returns: `DeleteCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1168,6 +1179,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCaseInput, DeleteCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCaseOutput>(DeleteCaseOutput.httpOutput(from:), DeleteCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCaseInput, DeleteCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCaseOutput>())
@@ -1199,9 +1211,9 @@ extension ConnectCasesClient {
     ///
     /// Deletes a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter DeleteCaseRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCaseRuleInput`)
     ///
-    /// - Returns: `DeleteCaseRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCaseRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1236,6 +1248,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCaseRuleInput, DeleteCaseRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCaseRuleOutput>(DeleteCaseRuleOutput.httpOutput(from:), DeleteCaseRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCaseRuleInput, DeleteCaseRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCaseRuleOutput>())
@@ -1267,9 +1280,9 @@ extension ConnectCasesClient {
     ///
     /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,6 +1318,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainInput, DeleteDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -1360,9 +1374,9 @@ extension ConnectCasesClient {
     ///
     /// * Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
     ///
-    /// - Parameter DeleteFieldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFieldInput`)
     ///
-    /// - Returns: `DeleteFieldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1399,6 +1413,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFieldInput, DeleteFieldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFieldOutput>(DeleteFieldOutput.httpOutput(from:), DeleteFieldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFieldInput, DeleteFieldOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFieldOutput>())
@@ -1436,9 +1451,9 @@ extension ConnectCasesClient {
     ///
     /// * Deleted layouts are not included in the ListLayouts response.
     ///
-    /// - Parameter DeleteLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLayoutInput`)
     ///
-    /// - Returns: `DeleteLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1474,6 +1489,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLayoutInput, DeleteLayoutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLayoutOutput>(DeleteLayoutOutput.httpOutput(from:), DeleteLayoutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLayoutInput, DeleteLayoutOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLayoutOutput>())
@@ -1505,9 +1521,9 @@ extension ConnectCasesClient {
     ///
     /// Deletes the related item resource under a case. This API cannot be used on a FILE type related attachment. To delete this type of file, use the [DeleteAttachedFile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteAttachedFile.html) API
     ///
-    /// - Parameter DeleteRelatedItemInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRelatedItemInput`)
     ///
-    /// - Returns: `DeleteRelatedItemOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRelatedItemOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1542,6 +1558,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRelatedItemInput, DeleteRelatedItemOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRelatedItemOutput>(DeleteRelatedItemOutput.httpOutput(from:), DeleteRelatedItemOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRelatedItemInput, DeleteRelatedItemOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRelatedItemOutput>())
@@ -1581,9 +1598,9 @@ extension ConnectCasesClient {
     ///
     /// * Deleted templates are not included in the ListTemplates response.
     ///
-    /// - Parameter DeleteTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTemplateInput`)
     ///
-    /// - Returns: `DeleteTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1619,6 +1636,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTemplateInput, DeleteTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTemplateOutput>(DeleteTemplateOutput.httpOutput(from:), DeleteTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTemplateInput, DeleteTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTemplateOutput>())
@@ -1650,9 +1668,9 @@ extension ConnectCasesClient {
     ///
     /// Returns information about a specific case if it exists.
     ///
-    /// - Parameter GetCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseInput`)
     ///
-    /// - Returns: `GetCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1690,6 +1708,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCaseInput, GetCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseOutput>(GetCaseOutput.httpOutput(from:), GetCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseInput, GetCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseOutput>())
@@ -1721,9 +1740,9 @@ extension ConnectCasesClient {
     ///
     /// Returns the audit history about a specific case if it exists.
     ///
-    /// - Parameter GetCaseAuditEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseAuditEventsInput`)
     ///
-    /// - Returns: `GetCaseAuditEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseAuditEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1761,6 +1780,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCaseAuditEventsInput, GetCaseAuditEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseAuditEventsOutput>(GetCaseAuditEventsOutput.httpOutput(from:), GetCaseAuditEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseAuditEventsInput, GetCaseAuditEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseAuditEventsOutput>())
@@ -1792,9 +1812,9 @@ extension ConnectCasesClient {
     ///
     /// Returns the case event publishing configuration.
     ///
-    /// - Parameter GetCaseEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCaseEventConfigurationInput`)
     ///
-    /// - Returns: `GetCaseEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCaseEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1829,6 +1849,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCaseEventConfigurationInput, GetCaseEventConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCaseEventConfigurationOutput>(GetCaseEventConfigurationOutput.httpOutput(from:), GetCaseEventConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCaseEventConfigurationInput, GetCaseEventConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCaseEventConfigurationOutput>())
@@ -1860,9 +1881,9 @@ extension ConnectCasesClient {
     ///
     /// Returns information about a specific domain if it exists.
     ///
-    /// - Parameter GetDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainInput`)
     ///
-    /// - Returns: `GetDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1897,6 +1918,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainInput, GetDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainOutput>(GetDomainOutput.httpOutput(from:), GetDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainInput, GetDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainOutput>())
@@ -1928,9 +1950,9 @@ extension ConnectCasesClient {
     ///
     /// Returns the details for the requested layout.
     ///
-    /// - Parameter GetLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLayoutInput`)
     ///
-    /// - Returns: `GetLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,6 +1987,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLayoutInput, GetLayoutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLayoutOutput>(GetLayoutOutput.httpOutput(from:), GetLayoutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLayoutInput, GetLayoutOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLayoutOutput>())
@@ -2004,9 +2027,9 @@ extension ConnectCasesClient {
     ///
     /// * [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
     ///
-    /// - Parameter GetTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTemplateInput`)
     ///
-    /// - Returns: `GetTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2041,6 +2064,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemplateInput, GetTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemplateOutput>(GetTemplateOutput.httpOutput(from:), GetTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemplateInput, GetTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTemplateOutput>())
@@ -2072,9 +2096,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all case rules in a Cases domain. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter ListCaseRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCaseRulesInput`)
     ///
-    /// - Returns: `ListCaseRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCaseRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2110,6 +2134,7 @@ extension ConnectCasesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCaseRulesInput, ListCaseRulesOutput>(ListCaseRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCaseRulesOutput>(ListCaseRulesOutput.httpOutput(from:), ListCaseRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCaseRulesInput, ListCaseRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCaseRulesOutput>())
@@ -2141,9 +2166,9 @@ extension ConnectCasesClient {
     ///
     /// Lists cases for a given contact.
     ///
-    /// - Parameter ListCasesForContactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCasesForContactInput`)
     ///
-    /// - Returns: `ListCasesForContactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCasesForContactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2181,6 +2206,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCasesForContactInput, ListCasesForContactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCasesForContactOutput>(ListCasesForContactOutput.httpOutput(from:), ListCasesForContactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCasesForContactInput, ListCasesForContactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCasesForContactOutput>())
@@ -2212,9 +2238,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2249,6 +2275,7 @@ extension ConnectCasesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainsInput, ListDomainsOutput>(ListDomainsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -2280,9 +2307,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all of the field options for a field identifier in the domain.
     ///
-    /// - Parameter ListFieldOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFieldOptionsInput`)
     ///
-    /// - Returns: `ListFieldOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFieldOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2318,6 +2345,7 @@ extension ConnectCasesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFieldOptionsInput, ListFieldOptionsOutput>(ListFieldOptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFieldOptionsOutput>(ListFieldOptionsOutput.httpOutput(from:), ListFieldOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFieldOptionsInput, ListFieldOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFieldOptionsOutput>())
@@ -2349,9 +2377,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all fields in a Cases domain.
     ///
-    /// - Parameter ListFieldsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFieldsInput`)
     ///
-    /// - Returns: `ListFieldsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFieldsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2387,6 +2415,7 @@ extension ConnectCasesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFieldsInput, ListFieldsOutput>(ListFieldsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFieldsOutput>(ListFieldsOutput.httpOutput(from:), ListFieldsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFieldsInput, ListFieldsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFieldsOutput>())
@@ -2418,9 +2447,9 @@ extension ConnectCasesClient {
     ///
     /// Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
     ///
-    /// - Parameter ListLayoutsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLayoutsInput`)
     ///
-    /// - Returns: `ListLayoutsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLayoutsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2456,6 +2485,7 @@ extension ConnectCasesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLayoutsInput, ListLayoutsOutput>(ListLayoutsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLayoutsOutput>(ListLayoutsOutput.httpOutput(from:), ListLayoutsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLayoutsInput, ListLayoutsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLayoutsOutput>())
@@ -2487,9 +2517,9 @@ extension ConnectCasesClient {
     ///
     /// Lists tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2524,6 +2554,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2563,9 +2594,9 @@ extension ConnectCasesClient {
     ///
     /// * [UpdateTemplate](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html)
     ///
-    /// - Parameter ListTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplatesInput`)
     ///
-    /// - Returns: `ListTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2601,6 +2632,7 @@ extension ConnectCasesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTemplatesInput, ListTemplatesOutput>(ListTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplatesOutput>(ListTemplatesOutput.httpOutput(from:), ListTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplatesInput, ListTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplatesOutput>())
@@ -2632,9 +2664,9 @@ extension ConnectCasesClient {
     ///
     /// Adds case event publishing configuration. For a complete list of fields you can add to the event message, see [Create case fields](https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html) in the Amazon Connect Administrator Guide
     ///
-    /// - Parameter PutCaseEventConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutCaseEventConfigurationInput`)
     ///
-    /// - Returns: `PutCaseEventConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutCaseEventConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2673,6 +2705,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutCaseEventConfigurationInput, PutCaseEventConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutCaseEventConfigurationOutput>(PutCaseEventConfigurationOutput.httpOutput(from:), PutCaseEventConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutCaseEventConfigurationInput, PutCaseEventConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutCaseEventConfigurationOutput>())
@@ -2700,13 +2733,101 @@ extension ConnectCasesClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `SearchAllRelatedItems` operation on the `ConnectCases` service.
+    ///
+    /// Searches for related items across all cases within a domain. This is a global search operation that returns related items from multiple cases, unlike the case-specific [SearchRelatedItems](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchRelatedItems.html) API. Use cases Following are common uses cases for this API:
+    ///
+    /// * Find cases with similar issues across the domain. For example, search for all cases containing comments about "product defect" to identify patterns and existing solutions.
+    ///
+    /// * Locate all cases associated with specific contacts or orders. For example, find all cases linked to a contactArn to understand the complete customer journey.
+    ///
+    /// * Monitor SLA compliance across cases. For example, search for all cases with "Active" SLA status to prioritize remediation efforts.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * This API returns case IDs, not complete case objects. To retrieve full case details, you must make additional calls to the [GetCase](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetCase.html) API for each returned case ID.
+    ///
+    /// * This API searches across related items content, not case fields. Use the [SearchCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchCases.html) API to search within case field values.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SearchAllRelatedItemsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SearchAllRelatedItemsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
+    public func searchAllRelatedItems(input: SearchAllRelatedItemsInput) async throws -> SearchAllRelatedItemsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "searchAllRelatedItems")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "cases")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput>(SearchAllRelatedItemsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SearchAllRelatedItemsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchAllRelatedItemsOutput>(SearchAllRelatedItemsOutput.httpOutput(from:), SearchAllRelatedItemsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SearchAllRelatedItemsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("ConnectCases", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SearchAllRelatedItemsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SearchAllRelatedItemsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SearchAllRelatedItemsInput, SearchAllRelatedItemsOutput>(serviceID: serviceName, version: ConnectCasesClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ConnectCases")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SearchAllRelatedItems")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `SearchCases` operation on the `ConnectCases` service.
     ///
     /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents. For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
     ///
-    /// - Parameter SearchCasesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchCasesInput`)
     ///
-    /// - Returns: `SearchCasesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchCasesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2744,6 +2865,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchCasesInput, SearchCasesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchCasesOutput>(SearchCasesOutput.httpOutput(from:), SearchCasesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchCasesInput, SearchCasesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchCasesOutput>())
@@ -2775,9 +2897,9 @@ extension ConnectCasesClient {
     ///
     /// Searches for related items that are associated with a case. If no filters are provided, this returns all related items associated with a case.
     ///
-    /// - Parameter SearchRelatedItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchRelatedItemsInput`)
     ///
-    /// - Returns: `SearchRelatedItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchRelatedItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2815,6 +2937,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchRelatedItemsInput, SearchRelatedItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchRelatedItemsOutput>(SearchRelatedItemsOutput.httpOutput(from:), SearchRelatedItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchRelatedItemsInput, SearchRelatedItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchRelatedItemsOutput>())
@@ -2846,9 +2969,9 @@ extension ConnectCasesClient {
     ///
     /// Adds tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2886,6 +3009,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2917,9 +3041,9 @@ extension ConnectCasesClient {
     ///
     /// Untags a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2955,6 +3079,7 @@ extension ConnectCasesClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2986,9 +3111,9 @@ extension ConnectCasesClient {
     ///
     /// If you provide a value for PerformedBy.UserArn you must also have [connect:DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the User ARN resource that you provide Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
     ///
-    /// - Parameter UpdateCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseInput`)
     ///
-    /// - Returns: `UpdateCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3026,6 +3151,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCaseInput, UpdateCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCaseOutput>(UpdateCaseOutput.httpOutput(from:), UpdateCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCaseInput, UpdateCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCaseOutput>())
@@ -3057,9 +3183,9 @@ extension ConnectCasesClient {
     ///
     /// Updates a case rule. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     ///
-    /// - Parameter UpdateCaseRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCaseRuleInput`)
     ///
-    /// - Returns: `UpdateCaseRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCaseRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3098,6 +3224,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCaseRuleInput, UpdateCaseRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCaseRuleOutput>(UpdateCaseRuleOutput.httpOutput(from:), UpdateCaseRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCaseRuleInput, UpdateCaseRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCaseRuleOutput>())
@@ -3129,9 +3256,9 @@ extension ConnectCasesClient {
     ///
     /// Updates the properties of an existing field.
     ///
-    /// - Parameter UpdateFieldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFieldInput`)
     ///
-    /// - Returns: `UpdateFieldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFieldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3170,6 +3297,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFieldInput, UpdateFieldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFieldOutput>(UpdateFieldOutput.httpOutput(from:), UpdateFieldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFieldInput, UpdateFieldOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFieldOutput>())
@@ -3201,9 +3329,9 @@ extension ConnectCasesClient {
     ///
     /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. Title and Status fields cannot be part of layouts because they are not configurable.
     ///
-    /// - Parameter UpdateLayoutInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLayoutInput`)
     ///
-    /// - Returns: `UpdateLayoutOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLayoutOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3243,6 +3371,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLayoutInput, UpdateLayoutOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLayoutOutput>(UpdateLayoutOutput.httpOutput(from:), UpdateLayoutOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLayoutInput, UpdateLayoutOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLayoutOutput>())
@@ -3282,9 +3411,9 @@ extension ConnectCasesClient {
     ///
     /// * [ListTemplates](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_ListTemplates.html)
     ///
-    /// - Parameter UpdateTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTemplateInput`)
     ///
-    /// - Returns: `UpdateTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3323,6 +3452,7 @@ extension ConnectCasesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTemplateInput, UpdateTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTemplateOutput>(UpdateTemplateOutput.httpOutput(from:), UpdateTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTemplateInput, UpdateTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTemplateOutput>())

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockDataAutomationClient: ClientRuntime.Client {
     public static let clientName = "BedrockDataAutomationClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockDataAutomationClient.BedrockDataAutomationClientConfiguration
     let serviceName = "Bedrock Data Automation"
@@ -373,9 +374,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Creates an Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter CreateBlueprintInput : Create Blueprint Request
+    /// - Parameter input: Create Blueprint Request (Type: `CreateBlueprintInput`)
     ///
-    /// - Returns: `CreateBlueprintOutput` : Create Blueprint Response
+    /// - Returns: Create Blueprint Response (Type: `CreateBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBlueprintInput, CreateBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBlueprintOutput>(CreateBlueprintOutput.httpOutput(from:), CreateBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBlueprintInput, CreateBlueprintOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBlueprintOutput>())
@@ -446,9 +448,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter CreateBlueprintVersionInput : Create Blueprint Version Request
+    /// - Parameter input: Create Blueprint Version Request (Type: `CreateBlueprintVersionInput`)
     ///
-    /// - Returns: `CreateBlueprintVersionOutput` : Create Blueprint Version Response
+    /// - Returns: Create Blueprint Version Response (Type: `CreateBlueprintVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +490,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBlueprintVersionInput, CreateBlueprintVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBlueprintVersionOutput>(CreateBlueprintVersionOutput.httpOutput(from:), CreateBlueprintVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBlueprintVersionInput, CreateBlueprintVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBlueprintVersionOutput>())
@@ -519,9 +522,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Creates an Amazon Bedrock Data Automation Project
     ///
-    /// - Parameter CreateDataAutomationProjectInput : Create DataAutomationProject Request
+    /// - Parameter input: Create DataAutomationProject Request (Type: `CreateDataAutomationProjectInput`)
     ///
-    /// - Returns: `CreateDataAutomationProjectOutput` : Create DataAutomationProject Response
+    /// - Returns: Create DataAutomationProject Response (Type: `CreateDataAutomationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +564,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataAutomationProjectInput, CreateDataAutomationProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataAutomationProjectOutput>(CreateDataAutomationProjectOutput.httpOutput(from:), CreateDataAutomationProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataAutomationProjectInput, CreateDataAutomationProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataAutomationProjectOutput>())
@@ -592,9 +596,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Deletes an existing Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter DeleteBlueprintInput : Delete Blueprint Request
+    /// - Parameter input: Delete Blueprint Request (Type: `DeleteBlueprintInput`)
     ///
-    /// - Returns: `DeleteBlueprintOutput` : Delete Blueprint Response
+    /// - Returns: Delete Blueprint Response (Type: `DeleteBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -630,6 +634,7 @@ extension BedrockDataAutomationClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(DeleteBlueprintInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBlueprintOutput>(DeleteBlueprintOutput.httpOutput(from:), DeleteBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBlueprintInput, DeleteBlueprintOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBlueprintOutput>())
@@ -661,9 +666,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Deletes an existing Amazon Bedrock Data Automation Project
     ///
-    /// - Parameter DeleteDataAutomationProjectInput : Delete DataAutomationProject Request
+    /// - Parameter input: Delete DataAutomationProject Request (Type: `DeleteDataAutomationProjectInput`)
     ///
-    /// - Returns: `DeleteDataAutomationProjectOutput` : Delete DataAutomationProject Response
+    /// - Returns: Delete DataAutomationProject Response (Type: `DeleteDataAutomationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +703,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataAutomationProjectInput, DeleteDataAutomationProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataAutomationProjectOutput>(DeleteDataAutomationProjectOutput.httpOutput(from:), DeleteDataAutomationProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataAutomationProjectInput, DeleteDataAutomationProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataAutomationProjectOutput>())
@@ -729,9 +735,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Gets an existing Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter GetBlueprintInput : Get Blueprint Request
+    /// - Parameter input: Get Blueprint Request (Type: `GetBlueprintInput`)
     ///
-    /// - Returns: `GetBlueprintOutput` : Get Blueprint Response
+    /// - Returns: Get Blueprint Response (Type: `GetBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -769,6 +775,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetBlueprintInput, GetBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetBlueprintOutput>(GetBlueprintOutput.httpOutput(from:), GetBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetBlueprintInput, GetBlueprintOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetBlueprintOutput>())
@@ -800,9 +807,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Gets an existing Amazon Bedrock Data Automation Project
     ///
-    /// - Parameter GetDataAutomationProjectInput : Get DataAutomationProject Request
+    /// - Parameter input: Get DataAutomationProject Request (Type: `GetDataAutomationProjectInput`)
     ///
-    /// - Returns: `GetDataAutomationProjectOutput` : Get DataAutomationProject Response
+    /// - Returns: Get DataAutomationProject Response (Type: `GetDataAutomationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +847,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetDataAutomationProjectInput, GetDataAutomationProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataAutomationProjectOutput>(GetDataAutomationProjectOutput.httpOutput(from:), GetDataAutomationProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataAutomationProjectInput, GetDataAutomationProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataAutomationProjectOutput>())
@@ -871,9 +879,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Lists all existing Amazon Bedrock Data Automation Blueprints
     ///
-    /// - Parameter ListBlueprintsInput : List Blueprint Request
+    /// - Parameter input: List Blueprint Request (Type: `ListBlueprintsInput`)
     ///
-    /// - Returns: `ListBlueprintsOutput` : List Blueprint Response
+    /// - Returns: List Blueprint Response (Type: `ListBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,6 +919,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListBlueprintsInput, ListBlueprintsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBlueprintsOutput>(ListBlueprintsOutput.httpOutput(from:), ListBlueprintsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBlueprintsInput, ListBlueprintsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBlueprintsOutput>())
@@ -942,9 +951,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Lists all existing Amazon Bedrock Data Automation Projects
     ///
-    /// - Parameter ListDataAutomationProjectsInput : List DataAutomationProject Request
+    /// - Parameter input: List DataAutomationProject Request (Type: `ListDataAutomationProjectsInput`)
     ///
-    /// - Returns: `ListDataAutomationProjectsOutput` : List DataAutomationProject Response
+    /// - Returns: List DataAutomationProject Response (Type: `ListDataAutomationProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -982,6 +991,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataAutomationProjectsInput, ListDataAutomationProjectsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataAutomationProjectsOutput>(ListDataAutomationProjectsOutput.httpOutput(from:), ListDataAutomationProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataAutomationProjectsInput, ListDataAutomationProjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataAutomationProjectsOutput>())
@@ -1013,9 +1023,9 @@ extension BedrockDataAutomationClient {
     ///
     /// List tags for an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1053,6 +1063,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1084,9 +1095,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Tag an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,6 +1136,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1156,9 +1168,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Untag an Amazon Bedrock Data Automation resource
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1196,6 +1208,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1227,9 +1240,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Updates an existing Amazon Bedrock Data Automation Blueprint
     ///
-    /// - Parameter UpdateBlueprintInput : Update Blueprint Request
+    /// - Parameter input: Update Blueprint Request (Type: `UpdateBlueprintInput`)
     ///
-    /// - Returns: `UpdateBlueprintOutput` : Update Blueprint Response
+    /// - Returns: Update Blueprint Response (Type: `UpdateBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1268,6 +1281,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBlueprintOutput>(UpdateBlueprintOutput.httpOutput(from:), UpdateBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBlueprintInput, UpdateBlueprintOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBlueprintOutput>())
@@ -1299,9 +1313,9 @@ extension BedrockDataAutomationClient {
     ///
     /// Updates an existing Amazon Bedrock Data Automation Project
     ///
-    /// - Parameter UpdateDataAutomationProjectInput : Update DataAutomationProject Request
+    /// - Parameter input: Update DataAutomationProject Request (Type: `UpdateDataAutomationProjectInput`)
     ///
-    /// - Returns: `UpdateDataAutomationProjectOutput` : Update DataAutomationProject Response
+    /// - Returns: Update DataAutomationProject Response (Type: `UpdateDataAutomationProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1341,6 +1355,7 @@ extension BedrockDataAutomationClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataAutomationProjectInput, UpdateDataAutomationProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataAutomationProjectOutput>(UpdateDataAutomationProjectOutput.httpOutput(from:), UpdateDataAutomationProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataAutomationProjectInput, UpdateDataAutomationProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataAutomationProjectOutput>())

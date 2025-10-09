@@ -462,18 +462,22 @@ public struct IpRouteLimitExceededException: ClientRuntime.ModeledError, AWSClie
 
 extension DirectoryClientTypes {
 
-    /// IP address block. This is often the address block of the DNS server used for your self-managed domain.
+    /// Contains the IP address block. This is often the address block of the DNS server used for your self-managed domain.
     public struct IpRoute: Swift.Sendable {
-        /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your self-managed domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
+        /// IP address block in CIDR format, such as 10.0.0.0/24. This is often the address block of the DNS server used for your self-managed domain. For a single IP address, use a CIDR address block with /32. For example, 10.0.0.0/32.
         public var cidrIp: Swift.String?
+        /// IPv6 address block in CIDR format, such as 2001:db8::/32. This is often the address block of the DNS server used for your self-managed domain. For a single IPv6 address, use a CIDR address block with /128. For example, 2001:db8::1/128.
+        public var cidrIpv6: Swift.String?
         /// Description of the address block.
         public var description: Swift.String?
 
         public init(
             cidrIp: Swift.String? = nil,
+            cidrIpv6: Swift.String? = nil,
             description: Swift.String? = nil
         ) {
             self.cidrIp = cidrIp
+            self.cidrIpv6 = cidrIpv6
             self.description = description
         }
     }
@@ -1502,6 +1506,8 @@ extension DirectoryClientTypes {
     public struct ConditionalForwarder: Swift.Sendable {
         /// The IP addresses of the remote DNS server associated with RemoteDomainName. This is the IP address of the DNS server that your conditional forwarder points to.
         public var dnsIpAddrs: [Swift.String]?
+        /// The IPv6 addresses of the remote DNS server associated with RemoteDomainName. This is the IPv6 address of the DNS server that your conditional forwarder points to.
+        public var dnsIpv6Addrs: [Swift.String]?
         /// The fully qualified domain name (FQDN) of the remote domains pointed to by the conditional forwarder.
         public var remoteDomainName: Swift.String?
         /// The replication scope of the conditional forwarder. The only allowed value is Domain, which will replicate the conditional forwarder to all of the domain controllers for your Amazon Web Services directory.
@@ -1509,10 +1515,12 @@ extension DirectoryClientTypes {
 
         public init(
             dnsIpAddrs: [Swift.String]? = nil,
+            dnsIpv6Addrs: [Swift.String]? = nil,
             remoteDomainName: Swift.String? = nil,
             replicationScope: DirectoryClientTypes.ReplicationScope? = nil
         ) {
             self.dnsIpAddrs = dnsIpAddrs
+            self.dnsIpv6Addrs = dnsIpv6Addrs
             self.remoteDomainName = remoteDomainName
             self.replicationScope = replicationScope
         }
@@ -1549,11 +1557,12 @@ public struct DirectoryLimitExceededException: ClientRuntime.ModeledError, AWSCl
 
 extension DirectoryClientTypes {
 
-    /// Contains information for the [ConnectDirectory] operation when an AD Connector directory is being created.
+    /// Contains connection settings for creating an AD Connector with the [ConnectDirectory] action.
     public struct DirectoryConnectSettings: Swift.Sendable {
-        /// A list of one or more IP addresses of DNS servers or domain controllers in your self-managed directory.
-        /// This member is required.
+        /// The IP addresses of DNS servers or domain controllers in your self-managed directory.
         public var customerDnsIps: [Swift.String]?
+        /// The IPv6 addresses of DNS servers or domain controllers in your self-managed directory.
+        public var customerDnsIpsV6: [Swift.String]?
         /// The user name of an account in your self-managed directory that is used to connect to the directory. This account must have the following permissions:
         ///
         /// * Read users and groups
@@ -1571,15 +1580,49 @@ extension DirectoryClientTypes {
         public var vpcId: Swift.String?
 
         public init(
-            customerDnsIps: [Swift.String]? = nil,
+            customerDnsIps: [Swift.String]? = [],
+            customerDnsIpsV6: [Swift.String]? = nil,
             customerUserName: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.customerDnsIps = customerDnsIps
+            self.customerDnsIpsV6 = customerDnsIpsV6
             self.customerUserName = customerUserName
             self.subnetIds = subnetIds
             self.vpcId = vpcId
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualStack
+        case ipv4Only
+        case ipv6Only
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dualStack,
+                .ipv4Only,
+                .ipv6Only
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualStack: return "Dual-stack"
+            case .ipv4Only: return "IPv4"
+            case .ipv6Only: return "IPv6"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -1623,6 +1666,8 @@ public struct ConnectDirectoryInput: Swift.Sendable {
     /// The fully qualified name of your self-managed directory, such as corp.example.com.
     /// This member is required.
     public var name: Swift.String?
+    /// The network type for your directory. The default value is IPv4 or IPv6 based on the provided subnet capabilities.
+    public var networkType: DirectoryClientTypes.NetworkType?
     /// The password for your self-managed user account.
     /// This member is required.
     public var password: Swift.String?
@@ -1638,6 +1683,7 @@ public struct ConnectDirectoryInput: Swift.Sendable {
         connectSettings: DirectoryClientTypes.DirectoryConnectSettings? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        networkType: DirectoryClientTypes.NetworkType? = nil,
         password: Swift.String? = nil,
         shortName: Swift.String? = nil,
         size: DirectoryClientTypes.DirectorySize? = nil,
@@ -1646,6 +1692,7 @@ public struct ConnectDirectoryInput: Swift.Sendable {
         self.connectSettings = connectSettings
         self.description = description
         self.name = name
+        self.networkType = networkType
         self.password = password
         self.shortName = shortName
         self.size = size
@@ -1655,7 +1702,7 @@ public struct ConnectDirectoryInput: Swift.Sendable {
 
 extension ConnectDirectoryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConnectDirectoryInput(connectSettings: \(Swift.String(describing: connectSettings)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), shortName: \(Swift.String(describing: shortName)), size: \(Swift.String(describing: size)), tags: \(Swift.String(describing: tags)), password: \"CONTENT_REDACTED\")"}
+        "ConnectDirectoryInput(connectSettings: \(Swift.String(describing: connectSettings)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkType: \(Swift.String(describing: networkType)), shortName: \(Swift.String(describing: shortName)), size: \(Swift.String(describing: size)), tags: \(Swift.String(describing: tags)), password: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the results of the [ConnectDirectory] operation.
@@ -1758,8 +1805,9 @@ public struct CreateConditionalForwarderInput: Swift.Sendable {
     /// This member is required.
     public var directoryId: Swift.String?
     /// The IP addresses of the remote DNS server associated with RemoteDomainName.
-    /// This member is required.
     public var dnsIpAddrs: [Swift.String]?
+    /// The IPv6 addresses of the remote DNS server associated with RemoteDomainName.
+    public var dnsIpv6Addrs: [Swift.String]?
     /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
     /// This member is required.
     public var remoteDomainName: Swift.String?
@@ -1767,10 +1815,12 @@ public struct CreateConditionalForwarderInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         dnsIpAddrs: [Swift.String]? = nil,
+        dnsIpv6Addrs: [Swift.String]? = nil,
         remoteDomainName: Swift.String? = nil
     ) {
         self.directoryId = directoryId
         self.dnsIpAddrs = dnsIpAddrs
+        self.dnsIpv6Addrs = dnsIpv6Addrs
         self.remoteDomainName = remoteDomainName
     }
 }
@@ -1788,6 +1838,8 @@ public struct CreateDirectoryInput: Swift.Sendable {
     /// The fully qualified name for the directory, such as corp.example.com.
     /// This member is required.
     public var name: Swift.String?
+    /// The network type for your directory. Simple AD supports IPv4 and Dual-stack only.
+    public var networkType: DirectoryClientTypes.NetworkType?
     /// The password for the directory administrator. The directory creation process creates a directory administrator account with the user name Administrator and this password. If you need to change the password for the administrator account, you can use the [ResetUserPassword] API call. The regex pattern for this string is made up of the following conditions:
     ///
     /// * Length (?=^.{8,64}$) – Must be between 8 and 64 characters
@@ -1820,6 +1872,7 @@ public struct CreateDirectoryInput: Swift.Sendable {
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        networkType: DirectoryClientTypes.NetworkType? = nil,
         password: Swift.String? = nil,
         shortName: Swift.String? = nil,
         size: DirectoryClientTypes.DirectorySize? = nil,
@@ -1828,6 +1881,7 @@ public struct CreateDirectoryInput: Swift.Sendable {
     ) {
         self.description = description
         self.name = name
+        self.networkType = networkType
         self.password = password
         self.shortName = shortName
         self.size = size
@@ -1838,7 +1892,7 @@ public struct CreateDirectoryInput: Swift.Sendable {
 
 extension CreateDirectoryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateDirectoryInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), shortName: \(Swift.String(describing: shortName)), size: \(Swift.String(describing: size)), tags: \(Swift.String(describing: tags)), vpcSettings: \(Swift.String(describing: vpcSettings)), password: \"CONTENT_REDACTED\")"}
+        "CreateDirectoryInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), networkType: \(Swift.String(describing: networkType)), shortName: \(Swift.String(describing: shortName)), size: \(Swift.String(describing: size)), tags: \(Swift.String(describing: tags)), vpcSettings: \(Swift.String(describing: vpcSettings)), password: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the results of the [CreateDirectory] operation.
@@ -1939,12 +1993,14 @@ extension DirectoryClientTypes {
 
     public enum DirectoryEdition: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case enterprise
+        case hybrid
         case standard
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DirectoryEdition] {
             return [
                 .enterprise,
+                .hybrid,
                 .standard
             ]
         }
@@ -1957,6 +2013,7 @@ extension DirectoryClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .enterprise: return "Enterprise"
+            case .hybrid: return "Hybrid"
             case .standard: return "Standard"
             case let .sdkUnknown(s): return s
             }
@@ -1973,6 +2030,8 @@ public struct CreateMicrosoftADInput: Swift.Sendable {
     /// The fully qualified domain name for the Managed Microsoft AD directory, such as corp.example.com. This name will resolve inside your VPC only. It does not need to be publicly resolvable.
     /// This member is required.
     public var name: Swift.String?
+    /// The network type for your domain. The default value is IPv4 or IPv6 based on the provided subnet capabilities.
+    public var networkType: DirectoryClientTypes.NetworkType?
     /// The password for the default administrative user named Admin. If you need to change the password for the administrator account, you can use the [ResetUserPassword] API call.
     /// This member is required.
     public var password: Swift.String?
@@ -1988,6 +2047,7 @@ public struct CreateMicrosoftADInput: Swift.Sendable {
         description: Swift.String? = nil,
         edition: DirectoryClientTypes.DirectoryEdition? = nil,
         name: Swift.String? = nil,
+        networkType: DirectoryClientTypes.NetworkType? = nil,
         password: Swift.String? = nil,
         shortName: Swift.String? = nil,
         tags: [DirectoryClientTypes.Tag]? = nil,
@@ -1996,6 +2056,7 @@ public struct CreateMicrosoftADInput: Swift.Sendable {
         self.description = description
         self.edition = edition
         self.name = name
+        self.networkType = networkType
         self.password = password
         self.shortName = shortName
         self.tags = tags
@@ -2005,7 +2066,7 @@ public struct CreateMicrosoftADInput: Swift.Sendable {
 
 extension CreateMicrosoftADInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateMicrosoftADInput(description: \(Swift.String(describing: description)), edition: \(Swift.String(describing: edition)), name: \(Swift.String(describing: name)), shortName: \(Swift.String(describing: shortName)), tags: \(Swift.String(describing: tags)), vpcSettings: \(Swift.String(describing: vpcSettings)), password: \"CONTENT_REDACTED\")"}
+        "CreateMicrosoftADInput(description: \(Swift.String(describing: description)), edition: \(Swift.String(describing: edition)), name: \(Swift.String(describing: name)), networkType: \(Swift.String(describing: networkType)), shortName: \(Swift.String(describing: shortName)), tags: \(Swift.String(describing: tags)), vpcSettings: \(Swift.String(describing: vpcSettings)), password: \"CONTENT_REDACTED\")"}
 }
 
 /// Result of a CreateMicrosoftAD request.
@@ -2171,6 +2232,8 @@ extension DirectoryClientTypes {
 public struct CreateTrustInput: Swift.Sendable {
     /// The IP addresses of the remote DNS server associated with RemoteDomainName.
     public var conditionalForwarderIpAddrs: [Swift.String]?
+    /// The IPv6 addresses of the remote DNS server associated with RemoteDomainName.
+    public var conditionalForwarderIpv6Addrs: [Swift.String]?
     /// The Directory ID of the Managed Microsoft AD directory for which to establish the trust relationship.
     /// This member is required.
     public var directoryId: Swift.String?
@@ -2190,6 +2253,7 @@ public struct CreateTrustInput: Swift.Sendable {
 
     public init(
         conditionalForwarderIpAddrs: [Swift.String]? = nil,
+        conditionalForwarderIpv6Addrs: [Swift.String]? = nil,
         directoryId: Swift.String? = nil,
         remoteDomainName: Swift.String? = nil,
         selectiveAuth: DirectoryClientTypes.SelectiveAuth? = nil,
@@ -2198,6 +2262,7 @@ public struct CreateTrustInput: Swift.Sendable {
         trustType: DirectoryClientTypes.TrustType? = nil
     ) {
         self.conditionalForwarderIpAddrs = conditionalForwarderIpAddrs
+        self.conditionalForwarderIpv6Addrs = conditionalForwarderIpv6Addrs
         self.directoryId = directoryId
         self.remoteDomainName = remoteDomainName
         self.selectiveAuth = selectiveAuth
@@ -2209,7 +2274,7 @@ public struct CreateTrustInput: Swift.Sendable {
 
 extension CreateTrustInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateTrustInput(conditionalForwarderIpAddrs: \(Swift.String(describing: conditionalForwarderIpAddrs)), directoryId: \(Swift.String(describing: directoryId)), remoteDomainName: \(Swift.String(describing: remoteDomainName)), selectiveAuth: \(Swift.String(describing: selectiveAuth)), trustDirection: \(Swift.String(describing: trustDirection)), trustType: \(Swift.String(describing: trustType)), trustPassword: \"CONTENT_REDACTED\")"}
+        "CreateTrustInput(conditionalForwarderIpAddrs: \(Swift.String(describing: conditionalForwarderIpAddrs)), conditionalForwarderIpv6Addrs: \(Swift.String(describing: conditionalForwarderIpv6Addrs)), directoryId: \(Swift.String(describing: directoryId)), remoteDomainName: \(Swift.String(describing: remoteDomainName)), selectiveAuth: \(Swift.String(describing: selectiveAuth)), trustDirection: \(Swift.String(describing: trustDirection)), trustType: \(Swift.String(describing: trustType)), trustPassword: \"CONTENT_REDACTED\")"}
 }
 
 /// The result of a CreateTrust request.
@@ -2679,10 +2744,12 @@ extension DirectoryClientTypes {
 
     /// Contains information about an AD Connector directory.
     public struct DirectoryConnectSettingsDescription: Swift.Sendable {
-        /// A list of the Availability Zones that the directory is in.
+        /// The Availability Zones that the directory is in.
         public var availabilityZones: [Swift.String]?
         /// The IP addresses of the AD Connector servers.
         public var connectIps: [Swift.String]?
+        /// The IPv6 addresses of the AD Connector servers.
+        public var connectIpsV6: [Swift.String]?
         /// The user name of the service account in your self-managed directory.
         public var customerUserName: Swift.String?
         /// The security group identifier for the AD Connector directory.
@@ -2695,6 +2762,7 @@ extension DirectoryClientTypes {
         public init(
             availabilityZones: [Swift.String]? = nil,
             connectIps: [Swift.String]? = nil,
+            connectIpsV6: [Swift.String]? = nil,
             customerUserName: Swift.String? = nil,
             securityGroupId: Swift.String? = nil,
             subnetIds: [Swift.String]? = nil,
@@ -2702,6 +2770,7 @@ extension DirectoryClientTypes {
         ) {
             self.availabilityZones = availabilityZones
             self.connectIps = connectIps
+            self.connectIpsV6 = connectIpsV6
             self.customerUserName = customerUserName
             self.securityGroupId = securityGroupId
             self.subnetIds = subnetIds
@@ -2805,8 +2874,10 @@ extension DirectoryClientTypes {
         public var radiusPort: Swift.Int?
         /// The maximum number of times that communication with the RADIUS server is retried after the initial attempt.
         public var radiusRetries: Swift.Int
-        /// An array of strings that contains the fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RADIUS server load balancer.
+        /// The fully qualified domain name (FQDN) or IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of your RADIUS server load balancer.
         public var radiusServers: [Swift.String]?
+        /// The IPv6 addresses of the RADIUS server endpoints or RADIUS server load balancer.
+        public var radiusServersIpv6: [Swift.String]?
         /// The amount of time, in seconds, to wait for the RADIUS server to respond.
         public var radiusTimeout: Swift.Int?
         /// Required for enabling RADIUS on the directory.
@@ -2820,6 +2891,7 @@ extension DirectoryClientTypes {
             radiusPort: Swift.Int? = nil,
             radiusRetries: Swift.Int = 0,
             radiusServers: [Swift.String]? = nil,
+            radiusServersIpv6: [Swift.String]? = nil,
             radiusTimeout: Swift.Int? = nil,
             sharedSecret: Swift.String? = nil,
             useSameUsername: Swift.Bool = false
@@ -2829,6 +2901,7 @@ extension DirectoryClientTypes {
             self.radiusPort = radiusPort
             self.radiusRetries = radiusRetries
             self.radiusServers = radiusServers
+            self.radiusServersIpv6 = radiusServersIpv6
             self.radiusTimeout = radiusTimeout
             self.sharedSecret = sharedSecret
             self.useSameUsername = useSameUsername
@@ -2838,7 +2911,7 @@ extension DirectoryClientTypes {
 
 extension DirectoryClientTypes.RadiusSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RadiusSettings(authenticationProtocol: \(Swift.String(describing: authenticationProtocol)), displayLabel: \(Swift.String(describing: displayLabel)), radiusPort: \(Swift.String(describing: radiusPort)), radiusRetries: \(Swift.String(describing: radiusRetries)), radiusServers: \(Swift.String(describing: radiusServers)), radiusTimeout: \(Swift.String(describing: radiusTimeout)), useSameUsername: \(Swift.String(describing: useSameUsername)), sharedSecret: \"CONTENT_REDACTED\")"}
+        "RadiusSettings(authenticationProtocol: \(Swift.String(describing: authenticationProtocol)), displayLabel: \(Swift.String(describing: displayLabel)), radiusPort: \(Swift.String(describing: radiusPort)), radiusRetries: \(Swift.String(describing: radiusRetries)), radiusServers: \(Swift.String(describing: radiusServers)), radiusServersIpv6: \(Swift.String(describing: radiusServersIpv6)), radiusTimeout: \(Swift.String(describing: radiusTimeout)), useSameUsername: \(Swift.String(describing: useSameUsername)), sharedSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension DirectoryClientTypes {
@@ -2902,7 +2975,7 @@ extension DirectoryClientTypes {
 
 extension DirectoryClientTypes {
 
-    /// Describes the directory owner account details that have been shared to the directory consumer account.
+    /// Contains the directory owner account details shared with the directory consumer account.
     public struct OwnerDirectoryDescription: Swift.Sendable {
         /// Identifier of the directory owner account.
         public var accountId: Swift.String?
@@ -2910,9 +2983,13 @@ extension DirectoryClientTypes {
         public var directoryId: Swift.String?
         /// IP address of the directory’s domain controllers.
         public var dnsIpAddrs: [Swift.String]?
-        /// A [RadiusSettings] object that contains information about the RADIUS server.
+        /// IPv6 addresses of the directory’s domain controllers.
+        public var dnsIpv6Addrs: [Swift.String]?
+        /// Network type of the directory in the directory owner account.
+        public var networkType: DirectoryClientTypes.NetworkType?
+        /// Information about the [RadiusSettings] object server configuration.
         public var radiusSettings: DirectoryClientTypes.RadiusSettings?
-        /// Information about the status of the RADIUS server.
+        /// The status of the RADIUS server.
         public var radiusStatus: DirectoryClientTypes.RadiusStatus?
         /// Information about the VPC settings for the directory.
         public var vpcSettings: DirectoryClientTypes.DirectoryVpcSettingsDescription?
@@ -2921,6 +2998,8 @@ extension DirectoryClientTypes {
             accountId: Swift.String? = nil,
             directoryId: Swift.String? = nil,
             dnsIpAddrs: [Swift.String]? = nil,
+            dnsIpv6Addrs: [Swift.String]? = nil,
+            networkType: DirectoryClientTypes.NetworkType? = nil,
             radiusSettings: DirectoryClientTypes.RadiusSettings? = nil,
             radiusStatus: DirectoryClientTypes.RadiusStatus? = nil,
             vpcSettings: DirectoryClientTypes.DirectoryVpcSettingsDescription? = nil
@@ -2928,6 +3007,8 @@ extension DirectoryClientTypes {
             self.accountId = accountId
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
+            self.dnsIpv6Addrs = dnsIpv6Addrs
+            self.networkType = networkType
             self.radiusSettings = radiusSettings
             self.radiusStatus = radiusStatus
             self.vpcSettings = vpcSettings
@@ -3052,11 +3133,11 @@ extension DirectoryClientTypes {
 
     /// Contains information about an Directory Service directory.
     public struct DirectoryDescription: Swift.Sendable {
-        /// The access URL for the directory, such as http://.awsapps.com. If no alias has been created for the directory,  is the directory identifier, such as d-XXXXXXXXXX.
+        /// The access URL for the directory, such as http://.awsapps.com. If no alias exists,  is the directory identifier, such as d-XXXXXXXXXX.
         public var accessUrl: Swift.String?
-        /// The alias for the directory. If no alias has been created for the directory, the alias is the directory identifier, such as d-XXXXXXXXXX.
+        /// The alias for the directory. If no alias exists, the alias is the directory identifier, such as d-XXXXXXXXXX.
         public var alias: Swift.String?
-        /// A [DirectoryConnectSettingsDescription] object that contains additional information about an AD Connector directory. This member is only present if the directory is an AD Connector directory.
+        /// [DirectoryConnectSettingsDescription] object that contains additional information about an AD Connector directory. Present only for AD Connector directories.
         public var connectSettings: DirectoryClientTypes.DirectoryConnectSettingsDescription?
         /// The description for the directory.
         public var description: Swift.String?
@@ -3064,21 +3145,25 @@ extension DirectoryClientTypes {
         public var desiredNumberOfDomainControllers: Swift.Int?
         /// The directory identifier.
         public var directoryId: Swift.String?
-        /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of the DNS servers or domain controllers in your self-managed directory to which the AD Connector is connected.
+        /// The IP addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IP addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IP addresses of self-managed directory to which the AD Connector is connected.
         public var dnsIpAddrs: [Swift.String]?
+        /// The IPv6 addresses of the DNS servers for the directory. For a Simple AD or Microsoft AD directory, these are the IPv6 addresses of the Simple AD or Microsoft AD directory servers. For an AD Connector directory, these are the IPv6 addresses of the DNS servers or domain controllers in your self-managed directory to which the AD Connector is connected.
+        public var dnsIpv6Addrs: [Swift.String]?
         /// The edition associated with this directory.
         public var edition: DirectoryClientTypes.DirectoryEdition?
         /// Contains information about the hybrid directory configuration for the directory, including Amazon Web Services System Manager managed node identifiers and DNS IPs.
         public var hybridSettings: DirectoryClientTypes.HybridSettingsDescription?
-        /// Specifies when the directory was created.
+        /// The date and time when the directory was created.
         public var launchTime: Foundation.Date?
         /// The fully qualified name of the directory.
         public var name: Swift.String?
+        /// The network type of the directory.
+        public var networkType: DirectoryClientTypes.NetworkType?
         /// The operating system (OS) version of the directory.
         public var osVersion: DirectoryClientTypes.OSVersion?
         /// Describes the Managed Microsoft AD directory in the directory owner account.
         public var ownerDirectoryDescription: DirectoryClientTypes.OwnerDirectoryDescription?
-        /// A [RadiusSettings] object that contains information about the RADIUS server configured for this directory.
+        /// Information about the [RadiusSettings] object configured for this directory.
         public var radiusSettings: DirectoryClientTypes.RadiusSettings?
         /// The status of the RADIUS MFA server connection.
         public var radiusStatus: DirectoryClientTypes.RadiusStatus?
@@ -3094,17 +3179,17 @@ extension DirectoryClientTypes {
         public var shortName: Swift.String?
         /// The directory size.
         public var size: DirectoryClientTypes.DirectorySize?
-        /// Indicates if single sign-on is enabled for the directory. For more information, see [EnableSso] and [DisableSso].
+        /// Indicates whether single sign-on is enabled for the directory. For more information, see [EnableSso] and [DisableSso].
         public var ssoEnabled: Swift.Bool
         /// The current stage of the directory.
         public var stage: DirectoryClientTypes.DirectoryStage?
-        /// The date and time that the stage was last updated.
+        /// The date and time when the stage was last updated.
         public var stageLastUpdatedDateTime: Foundation.Date?
         /// Additional information about the directory stage.
         public var stageReason: Swift.String?
         /// The directory type.
         public var type: DirectoryClientTypes.DirectoryType?
-        /// A [DirectoryVpcSettingsDescription] object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed Microsoft AD directory.
+        /// A [DirectoryVpcSettingsDescription] object that contains additional information about a directory. Present only for Simple AD and Managed Microsoft AD directories.
         public var vpcSettings: DirectoryClientTypes.DirectoryVpcSettingsDescription?
 
         public init(
@@ -3115,10 +3200,12 @@ extension DirectoryClientTypes {
             desiredNumberOfDomainControllers: Swift.Int? = nil,
             directoryId: Swift.String? = nil,
             dnsIpAddrs: [Swift.String]? = nil,
+            dnsIpv6Addrs: [Swift.String]? = nil,
             edition: DirectoryClientTypes.DirectoryEdition? = nil,
             hybridSettings: DirectoryClientTypes.HybridSettingsDescription? = nil,
             launchTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            networkType: DirectoryClientTypes.NetworkType? = nil,
             osVersion: DirectoryClientTypes.OSVersion? = nil,
             ownerDirectoryDescription: DirectoryClientTypes.OwnerDirectoryDescription? = nil,
             radiusSettings: DirectoryClientTypes.RadiusSettings? = nil,
@@ -3143,10 +3230,12 @@ extension DirectoryClientTypes {
             self.desiredNumberOfDomainControllers = desiredNumberOfDomainControllers
             self.directoryId = directoryId
             self.dnsIpAddrs = dnsIpAddrs
+            self.dnsIpv6Addrs = dnsIpv6Addrs
             self.edition = edition
             self.hybridSettings = hybridSettings
             self.launchTime = launchTime
             self.name = name
+            self.networkType = networkType
             self.osVersion = osVersion
             self.ownerDirectoryDescription = ownerDirectoryDescription
             self.radiusSettings = radiusSettings
@@ -3169,7 +3258,7 @@ extension DirectoryClientTypes {
 
 extension DirectoryClientTypes.DirectoryDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DirectoryDescription(accessUrl: \(Swift.String(describing: accessUrl)), alias: \(Swift.String(describing: alias)), connectSettings: \(Swift.String(describing: connectSettings)), description: \(Swift.String(describing: description)), desiredNumberOfDomainControllers: \(Swift.String(describing: desiredNumberOfDomainControllers)), directoryId: \(Swift.String(describing: directoryId)), dnsIpAddrs: \(Swift.String(describing: dnsIpAddrs)), edition: \(Swift.String(describing: edition)), hybridSettings: \(Swift.String(describing: hybridSettings)), launchTime: \(Swift.String(describing: launchTime)), name: \(Swift.String(describing: name)), osVersion: \(Swift.String(describing: osVersion)), ownerDirectoryDescription: \(Swift.String(describing: ownerDirectoryDescription)), radiusSettings: \(Swift.String(describing: radiusSettings)), radiusStatus: \(Swift.String(describing: radiusStatus)), regionsInfo: \(Swift.String(describing: regionsInfo)), shareMethod: \(Swift.String(describing: shareMethod)), shareStatus: \(Swift.String(describing: shareStatus)), shortName: \(Swift.String(describing: shortName)), size: \(Swift.String(describing: size)), ssoEnabled: \(Swift.String(describing: ssoEnabled)), stage: \(Swift.String(describing: stage)), stageLastUpdatedDateTime: \(Swift.String(describing: stageLastUpdatedDateTime)), stageReason: \(Swift.String(describing: stageReason)), type: \(Swift.String(describing: type)), vpcSettings: \(Swift.String(describing: vpcSettings)), shareNotes: \"CONTENT_REDACTED\")"}
+        "DirectoryDescription(accessUrl: \(Swift.String(describing: accessUrl)), alias: \(Swift.String(describing: alias)), connectSettings: \(Swift.String(describing: connectSettings)), description: \(Swift.String(describing: description)), desiredNumberOfDomainControllers: \(Swift.String(describing: desiredNumberOfDomainControllers)), directoryId: \(Swift.String(describing: directoryId)), dnsIpAddrs: \(Swift.String(describing: dnsIpAddrs)), dnsIpv6Addrs: \(Swift.String(describing: dnsIpv6Addrs)), edition: \(Swift.String(describing: edition)), hybridSettings: \(Swift.String(describing: hybridSettings)), launchTime: \(Swift.String(describing: launchTime)), name: \(Swift.String(describing: name)), networkType: \(Swift.String(describing: networkType)), osVersion: \(Swift.String(describing: osVersion)), ownerDirectoryDescription: \(Swift.String(describing: ownerDirectoryDescription)), radiusSettings: \(Swift.String(describing: radiusSettings)), radiusStatus: \(Swift.String(describing: radiusStatus)), regionsInfo: \(Swift.String(describing: regionsInfo)), shareMethod: \(Swift.String(describing: shareMethod)), shareStatus: \(Swift.String(describing: shareStatus)), shortName: \(Swift.String(describing: shortName)), size: \(Swift.String(describing: size)), ssoEnabled: \(Swift.String(describing: ssoEnabled)), stage: \(Swift.String(describing: stage)), stageLastUpdatedDateTime: \(Swift.String(describing: stageLastUpdatedDateTime)), stageReason: \(Swift.String(describing: stageReason)), type: \(Swift.String(describing: type)), vpcSettings: \(Swift.String(describing: vpcSettings)), shareNotes: \"CONTENT_REDACTED\")"}
 }
 
 /// Contains the results of the [DescribeDirectories] operation.
@@ -3292,6 +3381,8 @@ extension DirectoryClientTypes {
         public var directoryId: Swift.String?
         /// The IP address of the domain controller.
         public var dnsIpAddr: Swift.String?
+        /// The IPv6 address of the domain controller.
+        public var dnsIpv6Addr: Swift.String?
         /// Identifies a specific domain controller in the directory.
         public var domainControllerId: Swift.String?
         /// Specifies when the domain controller was created.
@@ -3311,6 +3402,7 @@ extension DirectoryClientTypes {
             availabilityZone: Swift.String? = nil,
             directoryId: Swift.String? = nil,
             dnsIpAddr: Swift.String? = nil,
+            dnsIpv6Addr: Swift.String? = nil,
             domainControllerId: Swift.String? = nil,
             launchTime: Foundation.Date? = nil,
             status: DirectoryClientTypes.DomainControllerStatus? = nil,
@@ -3322,6 +3414,7 @@ extension DirectoryClientTypes {
             self.availabilityZone = availabilityZone
             self.directoryId = directoryId
             self.dnsIpAddr = dnsIpAddr
+            self.dnsIpv6Addr = dnsIpv6Addr
             self.domainControllerId = domainControllerId
             self.launchTime = launchTime
             self.status = status
@@ -4314,12 +4407,16 @@ public struct DescribeTrustsOutput: Swift.Sendable {
 extension DirectoryClientTypes {
 
     public enum UpdateType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case network
         case os
+        case size
         case sdkUnknown(Swift.String)
 
         public static var allCases: [UpdateType] {
             return [
-                .os
+                .network,
+                .os,
+                .size
             ]
         }
 
@@ -4330,7 +4427,9 @@ extension DirectoryClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .network: return "NETWORK"
             case .os: return "OS"
+            case .size: return "SIZE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5169,6 +5268,8 @@ extension DirectoryClientTypes {
         public var addedDateTime: Foundation.Date?
         /// IP address block in the [IpRoute].
         public var cidrIp: Swift.String?
+        /// IPv6 address block in the [IpRoute].
+        public var cidrIpv6: Swift.String?
         /// Description of the [IpRouteInfo].
         public var description: Swift.String?
         /// Identifier (ID) of the directory associated with the IP addresses.
@@ -5181,6 +5282,7 @@ extension DirectoryClientTypes {
         public init(
             addedDateTime: Foundation.Date? = nil,
             cidrIp: Swift.String? = nil,
+            cidrIpv6: Swift.String? = nil,
             description: Swift.String? = nil,
             directoryId: Swift.String? = nil,
             ipRouteStatusMsg: DirectoryClientTypes.IpRouteStatusMsg? = nil,
@@ -5188,6 +5290,7 @@ extension DirectoryClientTypes {
         ) {
             self.addedDateTime = addedDateTime
             self.cidrIp = cidrIp
+            self.cidrIpv6 = cidrIpv6
             self.description = description
             self.directoryId = directoryId
             self.ipRouteStatusMsg = ipRouteStatusMsg
@@ -5540,17 +5643,20 @@ public struct RejectSharedDirectoryOutput: Swift.Sendable {
 
 public struct RemoveIpRoutesInput: Swift.Sendable {
     /// IP address blocks that you want to remove.
-    /// This member is required.
     public var cidrIps: [Swift.String]?
+    /// IPv6 address blocks that you want to remove.
+    public var cidrIpv6s: [Swift.String]?
     /// Identifier (ID) of the directory from which you want to remove the IP addresses.
     /// This member is required.
     public var directoryId: Swift.String?
 
     public init(
         cidrIps: [Swift.String]? = nil,
+        cidrIpv6s: [Swift.String]? = nil,
         directoryId: Swift.String? = nil
     ) {
         self.cidrIps = cidrIps
+        self.cidrIpv6s = cidrIpv6s
         self.directoryId = directoryId
     }
 }
@@ -5998,8 +6104,9 @@ public struct UpdateConditionalForwarderInput: Swift.Sendable {
     /// This member is required.
     public var directoryId: Swift.String?
     /// The updated IP addresses of the remote DNS server associated with the conditional forwarder.
-    /// This member is required.
     public var dnsIpAddrs: [Swift.String]?
+    /// The updated IPv6 addresses of the remote DNS server associated with the conditional forwarder.
+    public var dnsIpv6Addrs: [Swift.String]?
     /// The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
     /// This member is required.
     public var remoteDomainName: Swift.String?
@@ -6007,10 +6114,12 @@ public struct UpdateConditionalForwarderInput: Swift.Sendable {
     public init(
         directoryId: Swift.String? = nil,
         dnsIpAddrs: [Swift.String]? = nil,
+        dnsIpv6Addrs: [Swift.String]? = nil,
         remoteDomainName: Swift.String? = nil
     ) {
         self.directoryId = directoryId
         self.dnsIpAddrs = dnsIpAddrs
+        self.dnsIpv6Addrs = dnsIpv6Addrs
         self.remoteDomainName = remoteDomainName
     }
 }
@@ -6021,26 +6130,68 @@ public struct UpdateConditionalForwarderOutput: Swift.Sendable {
     public init() { }
 }
 
+extension DirectoryClientTypes {
+
+    /// Contains the directory size configuration for update operations.
+    public struct DirectorySizeUpdateSettings: Swift.Sendable {
+        /// The target directory size for the update operation.
+        public var directorySize: DirectoryClientTypes.DirectorySize?
+
+        public init(
+            directorySize: DirectoryClientTypes.DirectorySize? = nil
+        ) {
+            self.directorySize = directorySize
+        }
+    }
+}
+
+extension DirectoryClientTypes {
+
+    /// Contains the network configuration for directory update operations.
+    public struct NetworkUpdateSettings: Swift.Sendable {
+        /// IPv6 addresses of DNS servers or domain controllers in the self-managed directory. Required only when updating an AD Connector directory.
+        public var customerDnsIpsV6: [Swift.String]?
+        /// The target network type for the directory update.
+        public var networkType: DirectoryClientTypes.NetworkType?
+
+        public init(
+            customerDnsIpsV6: [Swift.String]? = nil,
+            networkType: DirectoryClientTypes.NetworkType? = nil
+        ) {
+            self.customerDnsIpsV6 = customerDnsIpsV6
+            self.networkType = networkType
+        }
+    }
+}
+
 public struct UpdateDirectorySetupInput: Swift.Sendable {
-    /// The boolean that specifies if a snapshot for the directory needs to be taken before updating the directory.
+    /// Specifies whether to create a directory snapshot before performing the update.
     public var createSnapshotBeforeUpdate: Swift.Bool?
-    /// The identifier of the directory on which you want to perform the update.
+    /// The identifier of the directory to update.
     /// This member is required.
     public var directoryId: Swift.String?
-    /// The settings for the OS update that needs to be performed on the directory.
+    /// Directory size configuration to apply during the update operation.
+    public var directorySizeUpdateSettings: DirectoryClientTypes.DirectorySizeUpdateSettings?
+    /// Network configuration to apply during the directory update operation.
+    public var networkUpdateSettings: DirectoryClientTypes.NetworkUpdateSettings?
+    /// Operating system configuration to apply during the directory update operation.
     public var osUpdateSettings: DirectoryClientTypes.OSUpdateSettings?
-    /// The type of update that needs to be performed on the directory. For example, OS.
+    /// The type of update to perform on the directory.
     /// This member is required.
     public var updateType: DirectoryClientTypes.UpdateType?
 
     public init(
         createSnapshotBeforeUpdate: Swift.Bool? = false,
         directoryId: Swift.String? = nil,
+        directorySizeUpdateSettings: DirectoryClientTypes.DirectorySizeUpdateSettings? = nil,
+        networkUpdateSettings: DirectoryClientTypes.NetworkUpdateSettings? = nil,
         osUpdateSettings: DirectoryClientTypes.OSUpdateSettings? = nil,
         updateType: DirectoryClientTypes.UpdateType? = nil
     ) {
         self.createSnapshotBeforeUpdate = createSnapshotBeforeUpdate
         self.directoryId = directoryId
+        self.directorySizeUpdateSettings = directorySizeUpdateSettings
+        self.networkUpdateSettings = networkUpdateSettings
         self.osUpdateSettings = osUpdateSettings
         self.updateType = updateType
     }
@@ -6971,6 +7122,7 @@ extension ConnectDirectoryInput {
         try writer["ConnectSettings"].write(value.connectSettings, with: DirectoryClientTypes.DirectoryConnectSettings.write(value:to:))
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+        try writer["NetworkType"].write(value.networkType)
         try writer["Password"].write(value.password)
         try writer["ShortName"].write(value.shortName)
         try writer["Size"].write(value.size)
@@ -7005,6 +7157,7 @@ extension CreateConditionalForwarderInput {
         guard let value else { return }
         try writer["DirectoryId"].write(value.directoryId)
         try writer["DnsIpAddrs"].writeList(value.dnsIpAddrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DnsIpv6Addrs"].writeList(value.dnsIpv6Addrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RemoteDomainName"].write(value.remoteDomainName)
     }
 }
@@ -7015,6 +7168,7 @@ extension CreateDirectoryInput {
         guard let value else { return }
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+        try writer["NetworkType"].write(value.networkType)
         try writer["Password"].write(value.password)
         try writer["ShortName"].write(value.shortName)
         try writer["Size"].write(value.size)
@@ -7049,6 +7203,7 @@ extension CreateMicrosoftADInput {
         try writer["Description"].write(value.description)
         try writer["Edition"].write(value.edition)
         try writer["Name"].write(value.name)
+        try writer["NetworkType"].write(value.networkType)
         try writer["Password"].write(value.password)
         try writer["ShortName"].write(value.shortName)
         try writer["Tags"].writeList(value.tags, memberWritingClosure: DirectoryClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -7070,6 +7225,7 @@ extension CreateTrustInput {
     static func write(value: CreateTrustInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConditionalForwarderIpAddrs"].writeList(value.conditionalForwarderIpAddrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ConditionalForwarderIpv6Addrs"].writeList(value.conditionalForwarderIpv6Addrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DirectoryId"].write(value.directoryId)
         try writer["RemoteDomainName"].write(value.remoteDomainName)
         try writer["SelectiveAuth"].write(value.selectiveAuth)
@@ -7530,6 +7686,7 @@ extension RemoveIpRoutesInput {
     static func write(value: RemoveIpRoutesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CidrIps"].writeList(value.cidrIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CidrIpv6s"].writeList(value.cidrIpv6s, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DirectoryId"].write(value.directoryId)
     }
 }
@@ -7615,6 +7772,7 @@ extension UpdateConditionalForwarderInput {
         guard let value else { return }
         try writer["DirectoryId"].write(value.directoryId)
         try writer["DnsIpAddrs"].writeList(value.dnsIpAddrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DnsIpv6Addrs"].writeList(value.dnsIpv6Addrs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RemoteDomainName"].write(value.remoteDomainName)
     }
 }
@@ -7625,6 +7783,8 @@ extension UpdateDirectorySetupInput {
         guard let value else { return }
         try writer["CreateSnapshotBeforeUpdate"].write(value.createSnapshotBeforeUpdate)
         try writer["DirectoryId"].write(value.directoryId)
+        try writer["DirectorySizeUpdateSettings"].write(value.directorySizeUpdateSettings, with: DirectoryClientTypes.DirectorySizeUpdateSettings.write(value:to:))
+        try writer["NetworkUpdateSettings"].write(value.networkUpdateSettings, with: DirectoryClientTypes.NetworkUpdateSettings.write(value:to:))
         try writer["OSUpdateSettings"].write(value.osUpdateSettings, with: DirectoryClientTypes.OSUpdateSettings.write(value:to:))
         try writer["UpdateType"].write(value.updateType)
     }
@@ -10712,6 +10872,7 @@ extension DirectoryClientTypes.ConditionalForwarder {
         var value = DirectoryClientTypes.ConditionalForwarder()
         value.remoteDomainName = try reader["RemoteDomainName"].readIfPresent()
         value.dnsIpAddrs = try reader["DnsIpAddrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsIpv6Addrs = try reader["DnsIpv6Addrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicationScope = try reader["ReplicationScope"].readIfPresent()
         return value
     }
@@ -10731,6 +10892,7 @@ extension DirectoryClientTypes.DirectoryDescription {
         value.accessUrl = try reader["AccessUrl"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.dnsIpAddrs = try reader["DnsIpAddrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsIpv6Addrs = try reader["DnsIpv6Addrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.stage = try reader["Stage"].readIfPresent()
         value.shareStatus = try reader["ShareStatus"].readIfPresent()
         value.shareMethod = try reader["ShareMethod"].readIfPresent()
@@ -10749,6 +10911,7 @@ extension DirectoryClientTypes.DirectoryDescription {
         value.regionsInfo = try reader["RegionsInfo"].readIfPresent(with: DirectoryClientTypes.RegionsInfo.read(from:))
         value.osVersion = try reader["OsVersion"].readIfPresent()
         value.hybridSettings = try reader["HybridSettings"].readIfPresent(with: DirectoryClientTypes.HybridSettingsDescription.read(from:))
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -10783,9 +10946,11 @@ extension DirectoryClientTypes.OwnerDirectoryDescription {
         value.directoryId = try reader["DirectoryId"].readIfPresent()
         value.accountId = try reader["AccountId"].readIfPresent()
         value.dnsIpAddrs = try reader["DnsIpAddrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dnsIpv6Addrs = try reader["DnsIpv6Addrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcSettings = try reader["VpcSettings"].readIfPresent(with: DirectoryClientTypes.DirectoryVpcSettingsDescription.read(from:))
         value.radiusSettings = try reader["RadiusSettings"].readIfPresent(with: DirectoryClientTypes.RadiusSettings.read(from:))
         value.radiusStatus = try reader["RadiusStatus"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -10799,6 +10964,7 @@ extension DirectoryClientTypes.RadiusSettings {
         try writer["RadiusPort"].write(value.radiusPort)
         try writer["RadiusRetries"].write(value.radiusRetries)
         try writer["RadiusServers"].writeList(value.radiusServers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RadiusServersIpv6"].writeList(value.radiusServersIpv6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RadiusTimeout"].write(value.radiusTimeout)
         try writer["SharedSecret"].write(value.sharedSecret)
         try writer["UseSameUsername"].write(value.useSameUsername)
@@ -10808,6 +10974,7 @@ extension DirectoryClientTypes.RadiusSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DirectoryClientTypes.RadiusSettings()
         value.radiusServers = try reader["RadiusServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.radiusServersIpv6 = try reader["RadiusServersIpv6"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.radiusPort = try reader["RadiusPort"].readIfPresent()
         value.radiusTimeout = try reader["RadiusTimeout"].readIfPresent()
         value.radiusRetries = try reader["RadiusRetries"].readIfPresent() ?? 0
@@ -10843,6 +11010,7 @@ extension DirectoryClientTypes.DirectoryConnectSettingsDescription {
         value.securityGroupId = try reader["SecurityGroupId"].readIfPresent()
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.connectIps = try reader["ConnectIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectIpsV6 = try reader["ConnectIpsV6"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10855,6 +11023,7 @@ extension DirectoryClientTypes.DomainController {
         value.directoryId = try reader["DirectoryId"].readIfPresent()
         value.domainControllerId = try reader["DomainControllerId"].readIfPresent()
         value.dnsIpAddr = try reader["DnsIpAddr"].readIfPresent()
+        value.dnsIpv6Addr = try reader["DnsIpv6Addr"].readIfPresent()
         value.vpcId = try reader["VpcId"].readIfPresent()
         value.subnetId = try reader["SubnetId"].readIfPresent()
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
@@ -11131,6 +11300,7 @@ extension DirectoryClientTypes.IpRouteInfo {
         var value = DirectoryClientTypes.IpRouteInfo()
         value.directoryId = try reader["DirectoryId"].readIfPresent()
         value.cidrIp = try reader["CidrIp"].readIfPresent()
+        value.cidrIpv6 = try reader["CidrIpv6"].readIfPresent()
         value.ipRouteStatusMsg = try reader["IpRouteStatusMsg"].readIfPresent()
         value.addedDateTime = try reader["AddedDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.ipRouteStatusReason = try reader["IpRouteStatusReason"].readIfPresent()
@@ -11189,6 +11359,7 @@ extension DirectoryClientTypes.IpRoute {
     static func write(value: DirectoryClientTypes.IpRoute?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CidrIp"].write(value.cidrIp)
+        try writer["CidrIpv6"].write(value.cidrIpv6)
         try writer["Description"].write(value.description)
     }
 }
@@ -11198,6 +11369,7 @@ extension DirectoryClientTypes.DirectoryConnectSettings {
     static func write(value: DirectoryClientTypes.DirectoryConnectSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CustomerDnsIps"].writeList(value.customerDnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["CustomerUserName"].write(value.customerUserName)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcId"].write(value.vpcId)
@@ -11231,6 +11403,23 @@ extension DirectoryClientTypes.UnshareTarget {
         guard let value else { return }
         try writer["Id"].write(value.id)
         try writer["Type"].write(value.type)
+    }
+}
+
+extension DirectoryClientTypes.DirectorySizeUpdateSettings {
+
+    static func write(value: DirectoryClientTypes.DirectorySizeUpdateSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectorySize"].write(value.directorySize)
+    }
+}
+
+extension DirectoryClientTypes.NetworkUpdateSettings {
+
+    static func write(value: DirectoryClientTypes.NetworkUpdateSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomerDnsIpsV6"].writeList(value.customerDnsIpsV6, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NetworkType"].write(value.networkType)
     }
 }
 

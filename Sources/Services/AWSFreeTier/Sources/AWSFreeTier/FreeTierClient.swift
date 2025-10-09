@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FreeTierClient: ClientRuntime.Client {
     public static let clientName = "FreeTierClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: FreeTierClient.FreeTierClientConfiguration
     let serviceName = "FreeTier"
@@ -373,9 +374,9 @@ extension FreeTierClient {
     ///
     /// Returns a specific activity record that is available to the customer.
     ///
-    /// - Parameter GetAccountActivityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountActivityInput`)
     ///
-    /// - Returns: `GetAccountActivityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountActivityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -410,6 +411,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountActivityInput, GetAccountActivityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountActivityOutput>(GetAccountActivityOutput.httpOutput(from:), GetAccountActivityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountActivityInput, GetAccountActivityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountActivityOutput>())
@@ -444,9 +446,9 @@ extension FreeTierClient {
     ///
     /// This returns all of the information related to the state of the account plan related to Free Tier.
     ///
-    /// - Parameter GetAccountPlanStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountPlanStateInput`)
     ///
-    /// - Returns: `GetAccountPlanStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountPlanStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +484,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccountPlanStateInput, GetAccountPlanStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountPlanStateOutput>(GetAccountPlanStateOutput.httpOutput(from:), GetAccountPlanStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountPlanStateInput, GetAccountPlanStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountPlanStateOutput>())
@@ -516,9 +519,9 @@ extension FreeTierClient {
     ///
     /// Returns a list of all Free Tier usage objects that match your filters.
     ///
-    /// - Parameter GetFreeTierUsageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFreeTierUsageInput`)
     ///
-    /// - Returns: `GetFreeTierUsageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFreeTierUsageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,6 +555,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFreeTierUsageOutput>(GetFreeTierUsageOutput.httpOutput(from:), GetFreeTierUsageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFreeTierUsageInput, GetFreeTierUsageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFreeTierUsageOutput>())
@@ -586,9 +590,9 @@ extension FreeTierClient {
     ///
     /// Returns a list of activities that are available. This operation supports pagination and filtering by status.
     ///
-    /// - Parameter ListAccountActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountActivitiesInput`)
     ///
-    /// - Returns: `ListAccountActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,6 +626,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAccountActivitiesInput, ListAccountActivitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountActivitiesOutput>(ListAccountActivitiesOutput.httpOutput(from:), ListAccountActivitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountActivitiesInput, ListAccountActivitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountActivitiesOutput>())
@@ -656,9 +661,9 @@ extension FreeTierClient {
     ///
     /// The account plan type for the Amazon Web Services account.
     ///
-    /// - Parameter UpgradeAccountPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpgradeAccountPlanInput`)
     ///
-    /// - Returns: `UpgradeAccountPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpgradeAccountPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -694,6 +699,7 @@ extension FreeTierClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpgradeAccountPlanInput, UpgradeAccountPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpgradeAccountPlanOutput>(UpgradeAccountPlanOutput.httpOutput(from:), UpgradeAccountPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpgradeAccountPlanInput, UpgradeAccountPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpgradeAccountPlanOutput>())

@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CognitoIdentityClient: ClientRuntime.Client {
     public static let clientName = "CognitoIdentityClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityClient.CognitoIdentityClientConfiguration
     let serviceName = "Cognito Identity"
@@ -388,9 +389,9 @@ extension CognitoIdentityClient {
     ///
     /// If you don't provide a value for a parameter, Amazon Cognito sets it to its default value. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter CreateIdentityPoolInput : Input to the CreateIdentityPool action.
+    /// - Parameter input: Input to the CreateIdentityPool action. (Type: `CreateIdentityPoolInput`)
     ///
-    /// - Returns: `CreateIdentityPoolOutput` : An object representing an Amazon Cognito identity pool.
+    /// - Returns: An object representing an Amazon Cognito identity pool. (Type: `CreateIdentityPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -427,6 +428,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIdentityPoolOutput>(CreateIdentityPoolOutput.httpOutput(from:), CreateIdentityPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIdentityPoolInput, CreateIdentityPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIdentityPoolOutput>())
@@ -461,9 +463,9 @@ extension CognitoIdentityClient {
     ///
     /// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter DeleteIdentitiesInput : Input to the DeleteIdentities action.
+    /// - Parameter input: Input to the DeleteIdentities action. (Type: `DeleteIdentitiesInput`)
     ///
-    /// - Returns: `DeleteIdentitiesOutput` : Returned in response to a successful DeleteIdentities operation.
+    /// - Returns: Returned in response to a successful DeleteIdentities operation. (Type: `DeleteIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -497,6 +499,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdentitiesOutput>(DeleteIdentitiesOutput.httpOutput(from:), DeleteIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentitiesInput, DeleteIdentitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentitiesOutput>())
@@ -531,9 +534,9 @@ extension CognitoIdentityClient {
     ///
     /// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter DeleteIdentityPoolInput : Input to the DeleteIdentityPool action.
+    /// - Parameter input: Input to the DeleteIdentityPool action. (Type: `DeleteIdentityPoolInput`)
     ///
-    /// - Returns: `DeleteIdentityPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIdentityPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,6 +572,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIdentityPoolOutput>(DeleteIdentityPoolOutput.httpOutput(from:), DeleteIdentityPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIdentityPoolInput, DeleteIdentityPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIdentityPoolOutput>())
@@ -603,9 +607,9 @@ extension CognitoIdentityClient {
     ///
     /// Returns metadata related to the given identity, including when the identity was created and any associated linked logins. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter DescribeIdentityInput : Input to the DescribeIdentity action.
+    /// - Parameter input: Input to the DescribeIdentity action. (Type: `DescribeIdentityInput`)
     ///
-    /// - Returns: `DescribeIdentityOutput` : A description of the identity.
+    /// - Returns: A description of the identity. (Type: `DescribeIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -641,6 +645,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIdentityInput, DescribeIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdentityOutput>(DescribeIdentityOutput.httpOutput(from:), DescribeIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityInput, DescribeIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityOutput>())
@@ -675,9 +680,9 @@ extension CognitoIdentityClient {
     ///
     /// Gets details about a particular identity pool, including the pool name, ID description, creation date, and current number of users. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter DescribeIdentityPoolInput : Input to the DescribeIdentityPool action.
+    /// - Parameter input: Input to the DescribeIdentityPool action. (Type: `DescribeIdentityPoolInput`)
     ///
-    /// - Returns: `DescribeIdentityPoolOutput` : An object representing an Amazon Cognito identity pool.
+    /// - Returns: An object representing an Amazon Cognito identity pool. (Type: `DescribeIdentityPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,6 +718,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdentityPoolOutput>(DescribeIdentityPoolOutput.httpOutput(from:), DescribeIdentityPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityPoolInput, DescribeIdentityPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityPoolOutput>())
@@ -747,9 +753,9 @@ extension CognitoIdentityClient {
     ///
     /// Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to Security Token Service with the appropriate role for the token. This is a public API. You do not need any credentials to call this API.
     ///
-    /// - Parameter GetCredentialsForIdentityInput : Input to the GetCredentialsForIdentity action.
+    /// - Parameter input: Input to the GetCredentialsForIdentity action. (Type: `GetCredentialsForIdentityInput`)
     ///
-    /// - Returns: `GetCredentialsForIdentityOutput` : Returned in response to a successful GetCredentialsForIdentity operation.
+    /// - Returns: Returned in response to a successful GetCredentialsForIdentity operation. (Type: `GetCredentialsForIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,6 +792,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCredentialsForIdentityOutput>(GetCredentialsForIdentityOutput.httpOutput(from:), GetCredentialsForIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCredentialsForIdentityOutput>())
@@ -820,9 +827,9 @@ extension CognitoIdentityClient {
     ///
     /// Generates (or retrieves) IdentityID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API.
     ///
-    /// - Parameter GetIdInput : Input to the GetId action.
+    /// - Parameter input: Input to the GetId action. (Type: `GetIdInput`)
     ///
-    /// - Returns: `GetIdOutput` : Returned in response to a GetId request.
+    /// - Returns: Returned in response to a GetId request. (Type: `GetIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -859,6 +866,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdInput, GetIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdOutput>(GetIdOutput.httpOutput(from:), GetIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdInput, GetIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdOutput>())
@@ -893,9 +901,9 @@ extension CognitoIdentityClient {
     ///
     /// Gets the roles for an identity pool. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter GetIdentityPoolRolesInput : Input to the GetIdentityPoolRoles action.
+    /// - Parameter input: Input to the GetIdentityPoolRoles action. (Type: `GetIdentityPoolRolesInput`)
     ///
-    /// - Returns: `GetIdentityPoolRolesOutput` : Returned in response to a successful GetIdentityPoolRoles operation.
+    /// - Returns: Returned in response to a successful GetIdentityPoolRoles operation. (Type: `GetIdentityPoolRolesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,6 +940,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdentityPoolRolesOutput>(GetIdentityPoolRolesOutput.httpOutput(from:), GetIdentityPoolRolesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdentityPoolRolesInput, GetIdentityPoolRolesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdentityPoolRolesOutput>())
@@ -966,9 +975,9 @@ extension CognitoIdentityClient {
     ///
     /// Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returned by [GetId]. You can optionally add additional logins for the identity. Supplying multiple logins creates an implicit link. The OpenID token is valid for 10 minutes. This is a public API. You do not need any credentials to call this API.
     ///
-    /// - Parameter GetOpenIdTokenInput : Input to the GetOpenIdToken action.
+    /// - Parameter input: Input to the GetOpenIdToken action. (Type: `GetOpenIdTokenInput`)
     ///
-    /// - Returns: `GetOpenIdTokenOutput` : Returned in response to a successful GetOpenIdToken request.
+    /// - Returns: Returned in response to a successful GetOpenIdToken request. (Type: `GetOpenIdTokenOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1004,6 +1013,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOpenIdTokenOutput>(GetOpenIdTokenOutput.httpOutput(from:), GetOpenIdTokenOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpenIdTokenInput, GetOpenIdTokenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpenIdTokenOutput>())
@@ -1038,9 +1048,9 @@ extension CognitoIdentityClient {
     ///
     /// Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a user authenticated by your backend authentication process. Supplying multiple logins will create an implicit linked account. You can only specify one developer provider as part of the Logins map, which is linked to the identity pool. The developer provider is the "domain" by which Cognito will refer to your users. You can use GetOpenIdTokenForDeveloperIdentity to create a new identity and to link new logins (that is, user credentials issued by a public provider or developer provider) to an existing identity. When you want to create a new identity, the IdentityId should be null. When you want to associate a new login with an existing authenticated/unauthenticated identity, you can do so by providing the existing IdentityId. This API will create the identity in the specified IdentityPoolId. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter GetOpenIdTokenForDeveloperIdentityInput : Input to the GetOpenIdTokenForDeveloperIdentity action.
+    /// - Parameter input: Input to the GetOpenIdTokenForDeveloperIdentity action. (Type: `GetOpenIdTokenForDeveloperIdentityInput`)
     ///
-    /// - Returns: `GetOpenIdTokenForDeveloperIdentityOutput` : Returned in response to a successful GetOpenIdTokenForDeveloperIdentity request.
+    /// - Returns: Returned in response to a successful GetOpenIdTokenForDeveloperIdentity request. (Type: `GetOpenIdTokenForDeveloperIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1078,6 +1088,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOpenIdTokenForDeveloperIdentityOutput>(GetOpenIdTokenForDeveloperIdentityOutput.httpOutput(from:), GetOpenIdTokenForDeveloperIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOpenIdTokenForDeveloperIdentityInput, GetOpenIdTokenForDeveloperIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetOpenIdTokenForDeveloperIdentityOutput>())
@@ -1112,9 +1123,9 @@ extension CognitoIdentityClient {
     ///
     /// Use GetPrincipalTagAttributeMap to list all mappings between PrincipalTags and user attributes.
     ///
-    /// - Parameter GetPrincipalTagAttributeMapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPrincipalTagAttributeMapInput`)
     ///
-    /// - Returns: `GetPrincipalTagAttributeMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPrincipalTagAttributeMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,6 +1161,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPrincipalTagAttributeMapOutput>(GetPrincipalTagAttributeMapOutput.httpOutput(from:), GetPrincipalTagAttributeMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPrincipalTagAttributeMapInput, GetPrincipalTagAttributeMapOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPrincipalTagAttributeMapOutput>())
@@ -1184,9 +1196,9 @@ extension CognitoIdentityClient {
     ///
     /// Lists the identities in an identity pool. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter ListIdentitiesInput : Input to the ListIdentities action.
+    /// - Parameter input: Input to the ListIdentities action. (Type: `ListIdentitiesInput`)
     ///
-    /// - Returns: `ListIdentitiesOutput` : The response to a ListIdentities request.
+    /// - Returns: The response to a ListIdentities request. (Type: `ListIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1222,6 +1234,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIdentitiesInput, ListIdentitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentitiesOutput>(ListIdentitiesOutput.httpOutput(from:), ListIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentitiesInput, ListIdentitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentitiesOutput>())
@@ -1256,9 +1269,9 @@ extension CognitoIdentityClient {
     ///
     /// Lists all of the Cognito identity pools registered for your account. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter ListIdentityPoolsInput : Input to the ListIdentityPools action.
+    /// - Parameter input: Input to the ListIdentityPools action. (Type: `ListIdentityPoolsInput`)
     ///
-    /// - Returns: `ListIdentityPoolsOutput` : The result of a successful ListIdentityPools action.
+    /// - Returns: The result of a successful ListIdentityPools action. (Type: `ListIdentityPoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1294,6 +1307,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityPoolsOutput>(ListIdentityPoolsOutput.httpOutput(from:), ListIdentityPoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityPoolsInput, ListIdentityPoolsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityPoolsOutput>())
@@ -1328,9 +1342,9 @@ extension CognitoIdentityClient {
     ///
     /// Lists the tags that are assigned to an Amazon Cognito identity pool. A tag is a label that you can apply to identity pools to categorize and manage them in different ways, such as by purpose, owner, environment, or other criteria. You can use this action up to 10 times per second, per account.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1366,6 +1380,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1400,9 +1415,9 @@ extension CognitoIdentityClient {
     ///
     /// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise, a ResourceConflictException is thrown. LookupDeveloperIdentity is intended for low-throughput control plane operations: for example, to enable customer service to locate an identity ID by username. If you are using it for higher-volume operations such as user authentication, your requests are likely to be throttled. [GetOpenIdTokenForDeveloperIdentity] is a better option for higher-volume operations for user authentication. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter LookupDeveloperIdentityInput : Input to the LookupDeveloperIdentityInput action.
+    /// - Parameter input: Input to the LookupDeveloperIdentityInput action. (Type: `LookupDeveloperIdentityInput`)
     ///
-    /// - Returns: `LookupDeveloperIdentityOutput` : Returned in response to a successful LookupDeveloperIdentity action.
+    /// - Returns: Returned in response to a successful LookupDeveloperIdentity action. (Type: `LookupDeveloperIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1439,6 +1454,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<LookupDeveloperIdentityOutput>(LookupDeveloperIdentityOutput.httpOutput(from:), LookupDeveloperIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<LookupDeveloperIdentityInput, LookupDeveloperIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<LookupDeveloperIdentityOutput>())
@@ -1473,9 +1489,9 @@ extension CognitoIdentityClient {
     ///
     /// Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. The number of linked logins is limited to 20. So, the number of linked logins for the source user, SourceUserIdentifier, and the destination user, DestinationUserIdentifier, together should not be larger than 20. Otherwise, an exception will be thrown. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter MergeDeveloperIdentitiesInput : Input to the MergeDeveloperIdentities action.
+    /// - Parameter input: Input to the MergeDeveloperIdentities action. (Type: `MergeDeveloperIdentitiesInput`)
     ///
-    /// - Returns: `MergeDeveloperIdentitiesOutput` : Returned in response to a successful MergeDeveloperIdentities action.
+    /// - Returns: Returned in response to a successful MergeDeveloperIdentities action. (Type: `MergeDeveloperIdentitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1512,6 +1528,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MergeDeveloperIdentitiesOutput>(MergeDeveloperIdentitiesOutput.httpOutput(from:), MergeDeveloperIdentitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MergeDeveloperIdentitiesInput, MergeDeveloperIdentitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MergeDeveloperIdentitiesOutput>())
@@ -1546,9 +1563,9 @@ extension CognitoIdentityClient {
     ///
     /// Sets the roles for an identity pool. These roles are used when making calls to [GetCredentialsForIdentity] action. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter SetIdentityPoolRolesInput : Input to the SetIdentityPoolRoles action.
+    /// - Parameter input: Input to the SetIdentityPoolRoles action. (Type: `SetIdentityPoolRolesInput`)
     ///
-    /// - Returns: `SetIdentityPoolRolesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetIdentityPoolRolesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,6 +1603,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetIdentityPoolRolesOutput>(SetIdentityPoolRolesOutput.httpOutput(from:), SetIdentityPoolRolesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetIdentityPoolRolesInput, SetIdentityPoolRolesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetIdentityPoolRolesOutput>())
@@ -1620,9 +1638,9 @@ extension CognitoIdentityClient {
     ///
     /// You can use this operation to use default (username and clientID) attribute or custom attribute mappings.
     ///
-    /// - Parameter SetPrincipalTagAttributeMapInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SetPrincipalTagAttributeMapInput`)
     ///
-    /// - Returns: `SetPrincipalTagAttributeMapOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SetPrincipalTagAttributeMapOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1658,6 +1676,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SetPrincipalTagAttributeMapOutput>(SetPrincipalTagAttributeMapOutput.httpOutput(from:), SetPrincipalTagAttributeMapOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SetPrincipalTagAttributeMapInput, SetPrincipalTagAttributeMapOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SetPrincipalTagAttributeMapOutput>())
@@ -1692,9 +1711,9 @@ extension CognitoIdentityClient {
     ///
     /// Assigns a set of tags to the specified Amazon Cognito identity pool. A tag is a label that you can use to categorize and manage identity pools in different ways, such as by purpose, owner, environment, or other criteria. Each tag consists of a key and value, both of which you define. A key is a general category for more specific values. For example, if you have two versions of an identity pool, one for testing and another for production, you might assign an Environment tag key to both identity pools. The value of this key might be Test for one identity pool and Production for the other. Tags are useful for cost tracking and access control. You can activate your tags so that they appear on the Billing and Cost Management console, where you can track the costs associated with your identity pools. In an IAM policy, you can constrain permissions for identity pools based on specific tags or tag values. You can use this action up to 5 times per second, per account. An identity pool can have as many as 50 tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,6 +1749,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1764,9 +1784,9 @@ extension CognitoIdentityClient {
     ///
     /// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter UnlinkDeveloperIdentityInput : Input to the UnlinkDeveloperIdentity action.
+    /// - Parameter input: Input to the UnlinkDeveloperIdentity action. (Type: `UnlinkDeveloperIdentityInput`)
     ///
-    /// - Returns: `UnlinkDeveloperIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnlinkDeveloperIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1803,6 +1823,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnlinkDeveloperIdentityOutput>(UnlinkDeveloperIdentityOutput.httpOutput(from:), UnlinkDeveloperIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnlinkDeveloperIdentityInput, UnlinkDeveloperIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnlinkDeveloperIdentityOutput>())
@@ -1837,9 +1858,9 @@ extension CognitoIdentityClient {
     ///
     /// Unlinks a federated identity from an existing account. Unlinked logins will be considered new identities next time they are seen. Removing the last linked login will make this identity inaccessible. This is a public API. You do not need any credentials to call this API.
     ///
-    /// - Parameter UnlinkIdentityInput : Input to the UnlinkIdentity action.
+    /// - Parameter input: Input to the UnlinkIdentity action. (Type: `UnlinkIdentityInput`)
     ///
-    /// - Returns: `UnlinkIdentityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnlinkIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1875,6 +1896,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnlinkIdentityInput, UnlinkIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnlinkIdentityOutput>(UnlinkIdentityOutput.httpOutput(from:), UnlinkIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnlinkIdentityInput, UnlinkIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnlinkIdentityOutput>())
@@ -1909,9 +1931,9 @@ extension CognitoIdentityClient {
     ///
     /// Removes the specified tags from the specified Amazon Cognito identity pool. You can use this action up to 5 times per second, per account
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1947,6 +1969,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1981,9 +2004,9 @@ extension CognitoIdentityClient {
     ///
     /// Updates the configuration of an identity pool. If you don't provide a value for a parameter, Amazon Cognito sets it to its default value. You must use Amazon Web Services developer credentials to call this operation.
     ///
-    /// - Parameter UpdateIdentityPoolInput : An object representing an Amazon Cognito identity pool.
+    /// - Parameter input: An object representing an Amazon Cognito identity pool. (Type: `UpdateIdentityPoolInput`)
     ///
-    /// - Returns: `UpdateIdentityPoolOutput` : An object representing an Amazon Cognito identity pool.
+    /// - Returns: An object representing an Amazon Cognito identity pool. (Type: `UpdateIdentityPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2022,6 +2045,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIdentityPoolOutput>(UpdateIdentityPoolOutput.httpOutput(from:), UpdateIdentityPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIdentityPoolInput, UpdateIdentityPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIdentityPoolOutput>())

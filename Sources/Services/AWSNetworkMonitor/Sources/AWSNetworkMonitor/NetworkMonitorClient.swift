@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkMonitorClient: ClientRuntime.Client {
     public static let clientName = "NetworkMonitorClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkMonitorClient.NetworkMonitorClientConfiguration
     let serviceName = "NetworkMonitor"
@@ -386,9 +387,9 @@ extension NetworkMonitorClient {
     ///
     /// * (Optional) tags —Key-value pairs created and assigned to the probe.
     ///
-    /// - Parameter CreateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -428,6 +429,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMonitorInput, CreateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMonitorOutput>(CreateMonitorOutput.httpOutput(from:), CreateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMonitorInput, CreateMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMonitorOutput>())
@@ -459,9 +461,9 @@ extension NetworkMonitorClient {
     ///
     /// Create a probe within a monitor. Once you create a probe, and it begins monitoring your network traffic, you'll incur billing charges for that probe. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names. Note the name of the monitorName you want to create the probe for.
     ///
-    /// - Parameter CreateProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProbeInput`)
     ///
-    /// - Returns: `CreateProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -501,6 +503,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProbeInput, CreateProbeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProbeOutput>(CreateProbeOutput.httpOutput(from:), CreateProbeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProbeInput, CreateProbeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProbeOutput>())
@@ -532,9 +535,9 @@ extension NetworkMonitorClient {
     ///
     /// Deletes a specified monitor. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names.
     ///
-    /// - Parameter DeleteMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitorInput`)
     ///
-    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,6 +572,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMonitorInput, DeleteMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMonitorOutput>(DeleteMonitorOutput.httpOutput(from:), DeleteMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMonitorInput, DeleteMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMonitorOutput>())
@@ -600,9 +604,9 @@ extension NetworkMonitorClient {
     ///
     /// Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing fees for that probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can only delete a single probe at a time using this action.
     ///
-    /// - Parameter DeleteProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProbeInput`)
     ///
-    /// - Returns: `DeleteProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,6 +642,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProbeInput, DeleteProbeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProbeOutput>(DeleteProbeOutput.httpOutput(from:), DeleteProbeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProbeInput, DeleteProbeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProbeOutput>())
@@ -669,9 +674,9 @@ extension NetworkMonitorClient {
     ///
     /// Returns details about a specific monitor. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names.
     ///
-    /// - Parameter GetMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMonitorInput`)
     ///
-    /// - Returns: `GetMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,6 +711,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMonitorInput, GetMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMonitorOutput>(GetMonitorOutput.httpOutput(from:), GetMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMonitorInput, GetMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMonitorOutput>())
@@ -737,9 +743,9 @@ extension NetworkMonitorClient {
     ///
     /// Returns the details about a probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs.
     ///
-    /// - Parameter GetProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProbeInput`)
     ///
-    /// - Returns: `GetProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,6 +780,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProbeInput, GetProbeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProbeOutput>(GetProbeOutput.httpOutput(from:), GetProbeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProbeInput, GetProbeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProbeOutput>())
@@ -805,9 +812,9 @@ extension NetworkMonitorClient {
     ///
     /// Returns a list of all of your monitors.
     ///
-    /// - Parameter ListMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,6 +849,7 @@ extension NetworkMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMonitorsInput, ListMonitorsOutput>(ListMonitorsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitorsOutput>(ListMonitorsOutput.httpOutput(from:), ListMonitorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitorsInput, ListMonitorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitorsOutput>())
@@ -873,9 +881,9 @@ extension NetworkMonitorClient {
     ///
     /// Lists the tags assigned to this resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -911,6 +919,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -942,9 +951,9 @@ extension NetworkMonitorClient {
     ///
     /// Adds key-value pairs to a monitor or probe.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -983,6 +992,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1014,9 +1024,9 @@ extension NetworkMonitorClient {
     ///
     /// Removes a key-value pair from a monitor or probe.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1053,6 +1063,7 @@ extension NetworkMonitorClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1084,9 +1095,9 @@ extension NetworkMonitorClient {
     ///
     /// Updates the aggregationPeriod for a monitor. Monitors support an aggregationPeriod of either 30 or 60 seconds. This action requires the monitorName and probeId parameter. Run ListMonitors to get a list of monitor names.
     ///
-    /// - Parameter UpdateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateMonitorInput`)
     ///
-    /// - Returns: `UpdateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1125,6 +1136,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateMonitorInput, UpdateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateMonitorOutput>(UpdateMonitorOutput.httpOutput(from:), UpdateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateMonitorInput, UpdateMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateMonitorOutput>())
@@ -1168,9 +1180,9 @@ extension NetworkMonitorClient {
     ///
     /// * (Optional) tags —Key-value pairs created and assigned to the probe.
     ///
-    /// - Parameter UpdateProbeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProbeInput`)
     ///
-    /// - Returns: `UpdateProbeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProbeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1209,6 +1221,7 @@ extension NetworkMonitorClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProbeInput, UpdateProbeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProbeOutput>(UpdateProbeOutput.httpOutput(from:), UpdateProbeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProbeInput, UpdateProbeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProbeOutput>())

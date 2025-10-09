@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -75,7 +76,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockRuntimeClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockRuntimeClient.BedrockRuntimeClientConfiguration
     let serviceName = "Bedrock Runtime"
@@ -381,9 +382,9 @@ extension BedrockRuntimeClient {
     ///
     /// The action to apply a guardrail. For troubleshooting some of the common errors you might encounter when using the ApplyGuardrail API, see [Troubleshooting Amazon Bedrock API Error Codes](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html) in the Amazon Bedrock User Guide
     ///
-    /// - Parameter ApplyGuardrailInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ApplyGuardrailInput`)
     ///
-    /// - Returns: `ApplyGuardrailOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ApplyGuardrailOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -392,6 +393,7 @@ extension BedrockRuntimeClient {
     /// - `InternalServerException` : An internal server error occurred. For troubleshooting this error, see [InternalFailure](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-internal-failure) in the Amazon Bedrock User Guide
     /// - `ResourceNotFoundException` : The specified resource ARN was not found. For troubleshooting this error, see [ResourceNotFound](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-resource-not-found) in the Amazon Bedrock User Guide
     /// - `ServiceQuotaExceededException` : Your request exceeds the service quota for your account. You can view your quotas at [Viewing service quotas](https://docs.aws.amazon.com/servicequotas/latest/userguide/gs-request-quota.html). You can resubmit your request later.
+    /// - `ServiceUnavailableException` : The service isn't currently available. For troubleshooting this error, see [ServiceUnavailable](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-service-unavailable) in the Amazon Bedrock User Guide
     /// - `ThrottlingException` : Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see [ThrottlingException](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-throttling-exception) in the Amazon Bedrock User Guide
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error, see [ValidationError](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html#ts-validation-error) in the Amazon Bedrock User Guide
     public func applyGuardrail(input: ApplyGuardrailInput) async throws -> ApplyGuardrailOutput {
@@ -422,6 +424,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ApplyGuardrailOutput>(ApplyGuardrailOutput.httpOutput(from:), ApplyGuardrailOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ApplyGuardrailInput, ApplyGuardrailOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ApplyGuardrailOutput>())
@@ -454,9 +457,9 @@ extension BedrockRuntimeClient {
     ///
     /// Sends messages to the specified Amazon Bedrock model. Converse provides a consistent interface that works with all models that support messages. This allows you to write code once and use it with different models. If a model has unique inference parameters, you can also pass those unique parameters to the model. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see [Use a prompt from Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-use.html). For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide For example code, see Converse API examples in the Amazon Bedrock User Guide. This operation requires permission for the bedrock:InvokeModel action. To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the base inference actions ([InvokeModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_InvokeModel.html) and [InvokeModelWithResponseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_InvokeModelWithResponseStream.html)). For more information see [Deny access for inference on specific models](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-deny-inference). For troubleshooting some of the common errors you might encounter when using the Converse API, see [Troubleshooting Amazon Bedrock API Error Codes](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html) in the Amazon Bedrock User Guide
     ///
-    /// - Parameter ConverseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConverseInput`)
     ///
-    /// - Returns: `ConverseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConverseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -498,6 +501,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConverseInput, ConverseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConverseOutput>(ConverseOutput.httpOutput(from:), ConverseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConverseInput, ConverseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConverseOutput>())
@@ -530,9 +534,9 @@ extension BedrockRuntimeClient {
     ///
     /// Sends messages to the specified Amazon Bedrock model and returns the response in a stream. ConverseStream provides a consistent API that works with all Amazon Bedrock models that support messages. This allows you to write code once and use it with different models. Should a model have unique inference parameters, you can also pass those unique parameters to the model. To find out if a model supports streaming, call [GetFoundationModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html) and check the responseStreamingSupported field in the response. The CLI doesn't support streaming operations in Amazon Bedrock, including ConverseStream. Amazon Bedrock doesn't store any text, images, or documents that you provide as content. The data is only used to generate the response. You can submit a prompt by including it in the messages field, specifying the modelId of a foundation model or inference profile to run inference on it, and including any other fields that are relevant to your use case. You can also submit a prompt from Prompt management by specifying the ARN of the prompt version and including a map of variables to values in the promptVariables field. You can append more messages to the prompt by using the messages field. If you use a prompt from Prompt management, you can't include the following fields in the request: additionalModelRequestFields, inferenceConfig, system, or toolConfig. Instead, these fields must be defined through Prompt management. For more information, see [Use a prompt from Prompt management](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-use.html). For information about the Converse API, see Use the Converse API in the Amazon Bedrock User Guide. To use a guardrail, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide. To use a tool with a model, see Tool use (Function calling) in the Amazon Bedrock User Guide For example code, see Conversation streaming example in the Amazon Bedrock User Guide. This operation requires permission for the bedrock:InvokeModelWithResponseStream action. To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the base inference actions ([InvokeModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_InvokeModel.html) and [InvokeModelWithResponseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_InvokeModelWithResponseStream.html)). For more information see [Deny access for inference on specific models](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-deny-inference). For troubleshooting some of the common errors you might encounter when using the ConverseStream API, see [Troubleshooting Amazon Bedrock API Error Codes](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html) in the Amazon Bedrock User Guide
     ///
-    /// - Parameter ConverseStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ConverseStreamInput`)
     ///
-    /// - Returns: `ConverseStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConverseStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -574,6 +578,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConverseStreamInput, ConverseStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConverseStreamOutput>(ConverseStreamOutput.httpOutput(from:), ConverseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConverseStreamInput, ConverseStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConverseStreamOutput>())
@@ -619,9 +624,9 @@ extension BedrockRuntimeClient {
     ///
     /// * [Converse](https://docs.aws.amazon.com/bedrock/latest/API/API_runtime_Converse.html) - Sends conversation-based inference requests to foundation models
     ///
-    /// - Parameter CountTokensInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CountTokensInput`)
     ///
-    /// - Returns: `CountTokensOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CountTokensOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -660,6 +665,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CountTokensInput, CountTokensOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CountTokensOutput>(CountTokensOutput.httpOutput(from:), CountTokensOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CountTokensInput, CountTokensOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CountTokensOutput>())
@@ -692,9 +698,9 @@ extension BedrockRuntimeClient {
     ///
     /// Retrieve information about an asynchronous invocation.
     ///
-    /// - Parameter GetAsyncInvokeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAsyncInvokeInput`)
     ///
-    /// - Returns: `GetAsyncInvokeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAsyncInvokeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -728,6 +734,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAsyncInvokeOutput>(GetAsyncInvokeOutput.httpOutput(from:), GetAsyncInvokeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAsyncInvokeInput, GetAsyncInvokeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAsyncInvokeOutput>())
@@ -760,9 +767,9 @@ extension BedrockRuntimeClient {
     ///
     /// Invokes the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. You use model inference to generate text, images, and embeddings. For example code, see Invoke model code examples in the Amazon Bedrock User Guide. This operation requires permission for the bedrock:InvokeModel action. To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions ([Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) and [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html)). For more information see [Deny access for inference on specific models](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-deny-inference). For troubleshooting some of the common errors you might encounter when using the InvokeModel API, see [Troubleshooting Amazon Bedrock API Error Codes](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html) in the Amazon Bedrock User Guide
     ///
-    /// - Parameter InvokeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeModelInput`)
     ///
-    /// - Returns: `InvokeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -806,6 +813,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeModelInput, InvokeModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelOutput>(InvokeModelOutput.httpOutput(from:), InvokeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelInput, InvokeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelOutput>())
@@ -838,9 +846,9 @@ extension BedrockRuntimeClient {
     ///
     /// Invoke the specified Amazon Bedrock model to run inference using the bidirectional stream. The response is returned in a stream that remains open for 8 minutes. A single session can contain multiple prompts and responses from the model. The prompts to the model are provided as audio files and the model's responses are spoken back to the user and transcribed. It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
     ///
-    /// - Parameter InvokeModelWithBidirectionalStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeModelWithBidirectionalStreamInput`)
     ///
-    /// - Returns: `InvokeModelWithBidirectionalStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeModelWithBidirectionalStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -885,6 +893,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelWithBidirectionalStreamOutput>(InvokeModelWithBidirectionalStreamOutput.httpOutput(from:), InvokeModelWithBidirectionalStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelWithBidirectionalStreamInput, InvokeModelWithBidirectionalStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelWithBidirectionalStreamOutput>())
@@ -917,9 +926,9 @@ extension BedrockRuntimeClient {
     ///
     /// Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream. To see if a model supports streaming, call [GetFoundationModel](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_GetFoundationModel.html) and check the responseStreamingSupported field in the response. The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream. For example code, see Invoke model with streaming code example in the Amazon Bedrock User Guide. This operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action. To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions ([Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) and [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html)). For more information see [Deny access for inference on specific models](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-deny-inference). For troubleshooting some of the common errors you might encounter when using the InvokeModelWithResponseStream API, see [Troubleshooting Amazon Bedrock API Error Codes](https://docs.aws.amazon.com/bedrock/latest/userguide/troubleshooting-api-error-codes.html) in the Amazon Bedrock User Guide
     ///
-    /// - Parameter InvokeModelWithResponseStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeModelWithResponseStreamInput`)
     ///
-    /// - Returns: `InvokeModelWithResponseStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeModelWithResponseStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -964,6 +973,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeModelWithResponseStreamOutput>(InvokeModelWithResponseStreamOutput.httpOutput(from:), InvokeModelWithResponseStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeModelWithResponseStreamInput, InvokeModelWithResponseStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeModelWithResponseStreamOutput>())
@@ -996,9 +1006,9 @@ extension BedrockRuntimeClient {
     ///
     /// Lists asynchronous invocations.
     ///
-    /// - Parameter ListAsyncInvokesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAsyncInvokesInput`)
     ///
-    /// - Returns: `ListAsyncInvokesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAsyncInvokesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1033,6 +1043,7 @@ extension BedrockRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>(ListAsyncInvokesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAsyncInvokesOutput>(ListAsyncInvokesOutput.httpOutput(from:), ListAsyncInvokesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAsyncInvokesInput, ListAsyncInvokesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAsyncInvokesOutput>())
@@ -1065,9 +1076,9 @@ extension BedrockRuntimeClient {
     ///
     /// Starts an asynchronous invocation. This operation requires permission for the bedrock:InvokeModel action. To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions ([Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) and [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html)). For more information see [Deny access for inference on specific models](https://docs.aws.amazon.com/bedrock/latest/userguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-deny-inference).
     ///
-    /// - Parameter StartAsyncInvokeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAsyncInvokeInput`)
     ///
-    /// - Returns: `StartAsyncInvokeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAsyncInvokeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1109,6 +1120,7 @@ extension BedrockRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAsyncInvokeOutput>(StartAsyncInvokeOutput.httpOutput(from:), StartAsyncInvokeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAsyncInvokeInput, StartAsyncInvokeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAsyncInvokeOutput>())

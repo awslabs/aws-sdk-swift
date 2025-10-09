@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SSMGuiConnectClient: ClientRuntime.Client {
     public static let clientName = "SSMGuiConnectClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SSMGuiConnectClient.SSMGuiConnectClientConfiguration
     let serviceName = "SSM GuiConnect"
@@ -372,9 +373,9 @@ extension SSMGuiConnectClient {
     ///
     /// Deletes the preferences for recording RDP connections.
     ///
-    /// - Parameter DeleteConnectionRecordingPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionRecordingPreferencesInput`)
     ///
-    /// - Returns: `DeleteConnectionRecordingPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionRecordingPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -415,6 +416,7 @@ extension SSMGuiConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectionRecordingPreferencesInput, DeleteConnectionRecordingPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionRecordingPreferencesOutput>(DeleteConnectionRecordingPreferencesOutput.httpOutput(from:), DeleteConnectionRecordingPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionRecordingPreferencesInput, DeleteConnectionRecordingPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionRecordingPreferencesOutput>())
@@ -446,9 +448,9 @@ extension SSMGuiConnectClient {
     ///
     /// Returns the preferences specified for recording RDP connections in the requesting Amazon Web Services account and Amazon Web Services Region.
     ///
-    /// - Parameter GetConnectionRecordingPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionRecordingPreferencesInput`)
     ///
-    /// - Returns: `GetConnectionRecordingPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionRecordingPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +487,7 @@ extension SSMGuiConnectClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectionRecordingPreferencesInput, GetConnectionRecordingPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionRecordingPreferencesOutput>(GetConnectionRecordingPreferencesOutput.httpOutput(from:), GetConnectionRecordingPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionRecordingPreferencesInput, GetConnectionRecordingPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionRecordingPreferencesOutput>())
@@ -516,9 +519,9 @@ extension SSMGuiConnectClient {
     ///
     /// Updates the preferences for recording RDP connections.
     ///
-    /// - Parameter UpdateConnectionRecordingPreferencesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionRecordingPreferencesInput`)
     ///
-    /// - Returns: `UpdateConnectionRecordingPreferencesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionRecordingPreferencesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -559,6 +562,7 @@ extension SSMGuiConnectClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionRecordingPreferencesInput, UpdateConnectionRecordingPreferencesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionRecordingPreferencesOutput>(UpdateConnectionRecordingPreferencesOutput.httpOutput(from:), UpdateConnectionRecordingPreferencesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionRecordingPreferencesInput, UpdateConnectionRecordingPreferencesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionRecordingPreferencesOutput>())

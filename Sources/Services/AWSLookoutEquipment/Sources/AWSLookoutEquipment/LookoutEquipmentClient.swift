@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LookoutEquipmentClient: ClientRuntime.Client {
     public static let clientName = "LookoutEquipmentClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: LookoutEquipmentClient.LookoutEquipmentClientConfiguration
     let serviceName = "LookoutEquipment"
@@ -374,9 +375,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a container for a collection of data being ingested for analysis. The dataset contains the metadata describing where the data is and what the data actually looks like. For example, it contains the location of the data source, the data schema, and other information. A dataset also contains any tags associated with the ingested data.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +415,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -448,9 +450,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a scheduled inference. Scheduling an inference is setting up a continuous real-time inference plan to analyze new measurement data. When setting up the schedule, you provide an S3 bucket location for the input data, assign it a delimiter between separate entries in the data, set an offset delay if desired, and set the frequency of inferencing. You must also provide an S3 bucket location for the output data.
     ///
-    /// - Parameter CreateInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInferenceSchedulerInput`)
     ///
-    /// - Returns: `CreateInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -489,6 +491,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInferenceSchedulerOutput>(CreateInferenceSchedulerOutput.httpOutput(from:), CreateInferenceSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInferenceSchedulerInput, CreateInferenceSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInferenceSchedulerOutput>())
@@ -523,9 +526,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a label for an event.
     ///
-    /// - Parameter CreateLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLabelInput`)
     ///
-    /// - Returns: `CreateLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -564,6 +567,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLabelInput, CreateLabelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLabelOutput>(CreateLabelOutput.httpOutput(from:), CreateLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLabelInput, CreateLabelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLabelOutput>())
@@ -598,9 +602,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a group of labels.
     ///
-    /// - Parameter CreateLabelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLabelGroupInput`)
     ///
-    /// - Returns: `CreateLabelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLabelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -638,6 +642,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLabelGroupOutput>(CreateLabelGroupOutput.httpOutput(from:), CreateLabelGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLabelGroupInput, CreateLabelGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLabelGroupOutput>())
@@ -672,9 +677,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
     ///
-    /// - Parameter CreateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateModelInput`)
     ///
-    /// - Returns: `CreateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,6 +718,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateModelInput, CreateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateModelOutput>(CreateModelOutput.httpOutput(from:), CreateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateModelInput, CreateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateModelOutput>())
@@ -747,9 +753,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a retraining scheduler on the specified model.
     ///
-    /// - Parameter CreateRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRetrainingSchedulerInput`)
     ///
-    /// - Returns: `CreateRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -787,6 +793,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRetrainingSchedulerOutput>(CreateRetrainingSchedulerOutput.httpOutput(from:), CreateRetrainingSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRetrainingSchedulerOutput>())
@@ -821,9 +828,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -860,6 +867,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -894,9 +902,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted.
     ///
-    /// - Parameter DeleteInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteInferenceSchedulerInput`)
     ///
-    /// - Returns: `DeleteInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -933,6 +941,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteInferenceSchedulerOutput>(DeleteInferenceSchedulerOutput.httpOutput(from:), DeleteInferenceSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteInferenceSchedulerInput, DeleteInferenceSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteInferenceSchedulerOutput>())
@@ -967,9 +976,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a label.
     ///
-    /// - Parameter DeleteLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLabelInput`)
     ///
-    /// - Returns: `DeleteLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,6 +1015,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLabelInput, DeleteLabelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLabelOutput>(DeleteLabelOutput.httpOutput(from:), DeleteLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLabelInput, DeleteLabelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLabelOutput>())
@@ -1040,9 +1050,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a group of labels.
     ///
-    /// - Parameter DeleteLabelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLabelGroupInput`)
     ///
-    /// - Returns: `DeleteLabelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLabelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1079,6 +1089,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLabelGroupOutput>(DeleteLabelGroupOutput.httpOutput(from:), DeleteLabelGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLabelGroupInput, DeleteLabelGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLabelGroupOutput>())
@@ -1113,9 +1124,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
     ///
-    /// - Parameter DeleteModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteModelInput`)
     ///
-    /// - Returns: `DeleteModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,6 +1163,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteModelInput, DeleteModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteModelOutput>(DeleteModelOutput.httpOutput(from:), DeleteModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteModelInput, DeleteModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteModelOutput>())
@@ -1186,9 +1198,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes the resource policy attached to the resource.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1225,6 +1237,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -1259,9 +1272,9 @@ extension LookoutEquipmentClient {
     ///
     /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status.
     ///
-    /// - Parameter DeleteRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRetrainingSchedulerInput`)
     ///
-    /// - Returns: `DeleteRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1298,6 +1311,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRetrainingSchedulerOutput>(DeleteRetrainingSchedulerOutput.httpOutput(from:), DeleteRetrainingSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRetrainingSchedulerOutput>())
@@ -1332,9 +1346,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status.
     ///
-    /// - Parameter DescribeDataIngestionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDataIngestionJobInput`)
     ///
-    /// - Returns: `DescribeDataIngestionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDataIngestionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1370,6 +1384,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDataIngestionJobOutput>(DescribeDataIngestionJobOutput.httpOutput(from:), DescribeDataIngestionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDataIngestionJobInput, DescribeDataIngestionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDataIngestionJobOutput>())
@@ -1404,9 +1419,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a JSON description of the data in each time series dataset, including names, column names, and data types.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1442,6 +1457,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -1476,9 +1492,9 @@ extension LookoutEquipmentClient {
     ///
     /// Specifies information about the inference scheduler being used, including name, model, status, and associated metadata
     ///
-    /// - Parameter DescribeInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInferenceSchedulerInput`)
     ///
-    /// - Returns: `DescribeInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1514,6 +1530,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInferenceSchedulerOutput>(DescribeInferenceSchedulerOutput.httpOutput(from:), DescribeInferenceSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInferenceSchedulerInput, DescribeInferenceSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInferenceSchedulerOutput>())
@@ -1548,9 +1565,9 @@ extension LookoutEquipmentClient {
     ///
     /// Returns the name of the label.
     ///
-    /// - Parameter DescribeLabelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLabelInput`)
     ///
-    /// - Returns: `DescribeLabelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLabelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1586,6 +1603,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLabelInput, DescribeLabelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLabelOutput>(DescribeLabelOutput.httpOutput(from:), DescribeLabelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLabelInput, DescribeLabelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLabelOutput>())
@@ -1620,9 +1638,9 @@ extension LookoutEquipmentClient {
     ///
     /// Returns information about the label group.
     ///
-    /// - Parameter DescribeLabelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLabelGroupInput`)
     ///
-    /// - Returns: `DescribeLabelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLabelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1658,6 +1676,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLabelGroupOutput>(DescribeLabelGroupOutput.httpOutput(from:), DescribeLabelGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLabelGroupInput, DescribeLabelGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLabelGroupOutput>())
@@ -1692,9 +1711,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on.
     ///
-    /// - Parameter DescribeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelInput`)
     ///
-    /// - Returns: `DescribeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1730,6 +1749,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelInput, DescribeModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelOutput>(DescribeModelOutput.httpOutput(from:), DescribeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelInput, DescribeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelOutput>())
@@ -1764,9 +1784,9 @@ extension LookoutEquipmentClient {
     ///
     /// Retrieves information about a specific machine learning model version.
     ///
-    /// - Parameter DescribeModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeModelVersionInput`)
     ///
-    /// - Returns: `DescribeModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1802,6 +1822,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeModelVersionOutput>(DescribeModelVersionOutput.httpOutput(from:), DescribeModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeModelVersionInput, DescribeModelVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeModelVersionOutput>())
@@ -1836,9 +1857,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides the details of a resource policy attached to a resource.
     ///
-    /// - Parameter DescribeResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeResourcePolicyInput`)
     ///
-    /// - Returns: `DescribeResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1874,6 +1895,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutput>(DescribeResourcePolicyOutput.httpOutput(from:), DescribeResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeResourcePolicyInput, DescribeResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeResourcePolicyOutput>())
@@ -1908,9 +1930,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters.
     ///
-    /// - Parameter DescribeRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRetrainingSchedulerInput`)
     ///
-    /// - Returns: `DescribeRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1946,6 +1968,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRetrainingSchedulerOutput>(DescribeRetrainingSchedulerOutput.httpOutput(from:), DescribeRetrainingSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRetrainingSchedulerOutput>())
@@ -1980,9 +2003,9 @@ extension LookoutEquipmentClient {
     ///
     /// Imports a dataset.
     ///
-    /// - Parameter ImportDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportDatasetInput`)
     ///
-    /// - Returns: `ImportDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,6 +2044,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportDatasetInput, ImportDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportDatasetOutput>(ImportDatasetOutput.httpOutput(from:), ImportDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportDatasetInput, ImportDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportDatasetOutput>())
@@ -2055,9 +2079,9 @@ extension LookoutEquipmentClient {
     ///
     /// Imports a model that has been trained successfully.
     ///
-    /// - Parameter ImportModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportModelVersionInput`)
     ///
-    /// - Returns: `ImportModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2096,6 +2120,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportModelVersionInput, ImportModelVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportModelVersionOutput>(ImportModelVersionOutput.httpOutput(from:), ImportModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportModelVersionInput, ImportModelVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportModelVersionOutput>())
@@ -2130,9 +2155,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location of the input data, status, and so on.
     ///
-    /// - Parameter ListDataIngestionJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataIngestionJobsInput`)
     ///
-    /// - Returns: `ListDataIngestionJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataIngestionJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2167,6 +2192,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataIngestionJobsOutput>(ListDataIngestionJobsOutput.httpOutput(from:), ListDataIngestionJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataIngestionJobsInput, ListDataIngestionJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataIngestionJobsOutput>())
@@ -2201,9 +2227,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all datasets currently available in your account, filtering on the dataset name.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2238,6 +2264,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetsInput, ListDatasetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -2272,9 +2299,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all inference events that have been found for the specified inference scheduler.
     ///
-    /// - Parameter ListInferenceEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceEventsInput`)
     ///
-    /// - Returns: `ListInferenceEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2310,6 +2337,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInferenceEventsOutput>(ListInferenceEventsOutput.httpOutput(from:), ListInferenceEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInferenceEventsInput, ListInferenceEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInferenceEventsOutput>())
@@ -2344,9 +2372,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all inference executions that have been performed by the specified inference scheduler.
     ///
-    /// - Parameter ListInferenceExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceExecutionsInput`)
     ///
-    /// - Returns: `ListInferenceExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2382,6 +2410,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInferenceExecutionsOutput>(ListInferenceExecutionsOutput.httpOutput(from:), ListInferenceExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInferenceExecutionsInput, ListInferenceExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInferenceExecutionsOutput>())
@@ -2416,9 +2445,9 @@ extension LookoutEquipmentClient {
     ///
     /// Retrieves a list of all inference schedulers currently available for your account.
     ///
-    /// - Parameter ListInferenceSchedulersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInferenceSchedulersInput`)
     ///
-    /// - Returns: `ListInferenceSchedulersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInferenceSchedulersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2453,6 +2482,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInferenceSchedulersOutput>(ListInferenceSchedulersOutput.httpOutput(from:), ListInferenceSchedulersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInferenceSchedulersInput, ListInferenceSchedulersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInferenceSchedulersOutput>())
@@ -2487,9 +2517,9 @@ extension LookoutEquipmentClient {
     ///
     /// Returns a list of the label groups.
     ///
-    /// - Parameter ListLabelGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLabelGroupsInput`)
     ///
-    /// - Returns: `ListLabelGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLabelGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2524,6 +2554,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLabelGroupsOutput>(ListLabelGroupsOutput.httpOutput(from:), ListLabelGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLabelGroupsInput, ListLabelGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLabelGroupsOutput>())
@@ -2558,9 +2589,9 @@ extension LookoutEquipmentClient {
     ///
     /// Provides a list of labels.
     ///
-    /// - Parameter ListLabelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLabelsInput`)
     ///
-    /// - Returns: `ListLabelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLabelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2595,6 +2626,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListLabelsInput, ListLabelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLabelsOutput>(ListLabelsOutput.httpOutput(from:), ListLabelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLabelsInput, ListLabelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLabelsOutput>())
@@ -2629,9 +2661,9 @@ extension LookoutEquipmentClient {
     ///
     /// Generates a list of all model versions for a given model, including the model version, model version ARN, and status. To list a subset of versions, use the MaxModelVersion and MinModelVersion fields.
     ///
-    /// - Parameter ListModelVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelVersionsInput`)
     ///
-    /// - Returns: `ListModelVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2667,6 +2699,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelVersionsInput, ListModelVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelVersionsOutput>(ListModelVersionsOutput.httpOutput(from:), ListModelVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelVersionsInput, ListModelVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelVersionsOutput>())
@@ -2701,9 +2734,9 @@ extension LookoutEquipmentClient {
     ///
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
     ///
-    /// - Parameter ListModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListModelsInput`)
     ///
-    /// - Returns: `ListModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2738,6 +2771,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListModelsInput, ListModelsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListModelsOutput>(ListModelsOutput.httpOutput(from:), ListModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListModelsInput, ListModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListModelsOutput>())
@@ -2772,9 +2806,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
     ///
-    /// - Parameter ListRetrainingSchedulersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRetrainingSchedulersInput`)
     ///
-    /// - Returns: `ListRetrainingSchedulersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRetrainingSchedulersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2809,6 +2843,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRetrainingSchedulersOutput>(ListRetrainingSchedulersOutput.httpOutput(from:), ListRetrainingSchedulersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRetrainingSchedulersOutput>())
@@ -2843,9 +2878,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
     ///
-    /// - Parameter ListSensorStatisticsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSensorStatisticsInput`)
     ///
-    /// - Returns: `ListSensorStatisticsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSensorStatisticsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2881,6 +2916,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSensorStatisticsOutput>(ListSensorStatisticsOutput.httpOutput(from:), ListSensorStatisticsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSensorStatisticsInput, ListSensorStatisticsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSensorStatisticsOutput>())
@@ -2915,9 +2951,9 @@ extension LookoutEquipmentClient {
     ///
     /// Lists all the tags for a specified resource, including key and value.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2953,6 +2989,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2987,9 +3024,9 @@ extension LookoutEquipmentClient {
     ///
     /// Creates a resource control policy for a given resource.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3028,6 +3065,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -3062,9 +3100,9 @@ extension LookoutEquipmentClient {
     ///
     /// Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
     ///
-    /// - Parameter StartDataIngestionJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataIngestionJobInput`)
     ///
-    /// - Returns: `StartDataIngestionJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataIngestionJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3103,6 +3141,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataIngestionJobOutput>(StartDataIngestionJobOutput.httpOutput(from:), StartDataIngestionJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataIngestionJobInput, StartDataIngestionJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataIngestionJobOutput>())
@@ -3137,9 +3176,9 @@ extension LookoutEquipmentClient {
     ///
     /// Starts an inference scheduler.
     ///
-    /// - Parameter StartInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartInferenceSchedulerInput`)
     ///
-    /// - Returns: `StartInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3176,6 +3215,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartInferenceSchedulerOutput>(StartInferenceSchedulerOutput.httpOutput(from:), StartInferenceSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartInferenceSchedulerInput, StartInferenceSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartInferenceSchedulerOutput>())
@@ -3210,9 +3250,9 @@ extension LookoutEquipmentClient {
     ///
     /// Starts a retraining scheduler.
     ///
-    /// - Parameter StartRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRetrainingSchedulerInput`)
     ///
-    /// - Returns: `StartRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3249,6 +3289,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRetrainingSchedulerOutput>(StartRetrainingSchedulerOutput.httpOutput(from:), StartRetrainingSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRetrainingSchedulerOutput>())
@@ -3283,9 +3324,9 @@ extension LookoutEquipmentClient {
     ///
     /// Stops an inference scheduler.
     ///
-    /// - Parameter StopInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopInferenceSchedulerInput`)
     ///
-    /// - Returns: `StopInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3322,6 +3363,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopInferenceSchedulerOutput>(StopInferenceSchedulerOutput.httpOutput(from:), StopInferenceSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopInferenceSchedulerInput, StopInferenceSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopInferenceSchedulerOutput>())
@@ -3356,9 +3398,9 @@ extension LookoutEquipmentClient {
     ///
     /// Stops a retraining scheduler.
     ///
-    /// - Parameter StopRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopRetrainingSchedulerInput`)
     ///
-    /// - Returns: `StopRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3395,6 +3437,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopRetrainingSchedulerOutput>(StopRetrainingSchedulerOutput.httpOutput(from:), StopRetrainingSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopRetrainingSchedulerOutput>())
@@ -3429,9 +3472,9 @@ extension LookoutEquipmentClient {
     ///
     /// Associates a given tag to a resource in your account. A tag is a key-value pair which can be added to an Amazon Lookout for Equipment resource as metadata. Tags can be used for organizing your resources as well as helping you to search and filter by tag. Multiple tags can be added to a resource, either when you create it, or later. Up to 50 tags can be associated with each resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3468,6 +3511,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3502,9 +3546,9 @@ extension LookoutEquipmentClient {
     ///
     /// Removes a specific tag from a given resource. The tag is specified by its key.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3540,6 +3584,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3574,9 +3619,9 @@ extension LookoutEquipmentClient {
     ///
     /// Sets the active model version for a given machine learning model.
     ///
-    /// - Parameter UpdateActiveModelVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateActiveModelVersionInput`)
     ///
-    /// - Returns: `UpdateActiveModelVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateActiveModelVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3613,6 +3658,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateActiveModelVersionOutput>(UpdateActiveModelVersionOutput.httpOutput(from:), UpdateActiveModelVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateActiveModelVersionInput, UpdateActiveModelVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateActiveModelVersionOutput>())
@@ -3647,9 +3693,9 @@ extension LookoutEquipmentClient {
     ///
     /// Updates an inference scheduler.
     ///
-    /// - Parameter UpdateInferenceSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateInferenceSchedulerInput`)
     ///
-    /// - Returns: `UpdateInferenceSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateInferenceSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3686,6 +3732,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateInferenceSchedulerOutput>(UpdateInferenceSchedulerOutput.httpOutput(from:), UpdateInferenceSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateInferenceSchedulerInput, UpdateInferenceSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateInferenceSchedulerOutput>())
@@ -3720,9 +3767,9 @@ extension LookoutEquipmentClient {
     ///
     /// Updates the label group.
     ///
-    /// - Parameter UpdateLabelGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLabelGroupInput`)
     ///
-    /// - Returns: `UpdateLabelGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLabelGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3759,6 +3806,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLabelGroupOutput>(UpdateLabelGroupOutput.httpOutput(from:), UpdateLabelGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLabelGroupInput, UpdateLabelGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLabelGroupOutput>())
@@ -3793,9 +3841,9 @@ extension LookoutEquipmentClient {
     ///
     /// Updates a model in the account.
     ///
-    /// - Parameter UpdateModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateModelInput`)
     ///
-    /// - Returns: `UpdateModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3832,6 +3880,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateModelInput, UpdateModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateModelOutput>(UpdateModelOutput.httpOutput(from:), UpdateModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateModelInput, UpdateModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateModelOutput>())
@@ -3866,9 +3915,9 @@ extension LookoutEquipmentClient {
     ///
     /// Updates a retraining scheduler.
     ///
-    /// - Parameter UpdateRetrainingSchedulerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRetrainingSchedulerInput`)
     ///
-    /// - Returns: `UpdateRetrainingSchedulerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRetrainingSchedulerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3905,6 +3954,7 @@ extension LookoutEquipmentClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRetrainingSchedulerOutput>(UpdateRetrainingSchedulerOutput.httpOutput(from:), UpdateRetrainingSchedulerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRetrainingSchedulerOutput>())

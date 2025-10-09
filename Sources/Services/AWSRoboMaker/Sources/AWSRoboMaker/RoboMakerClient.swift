@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class RoboMakerClient: ClientRuntime.Client {
     public static let clientName = "RoboMakerClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: RoboMakerClient.RoboMakerClientConfiguration
     let serviceName = "RoboMaker"
@@ -374,9 +375,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Deletes one or more worlds in a batch operation.
     ///
-    /// - Parameter BatchDeleteWorldsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteWorldsInput`)
     ///
-    /// - Returns: `BatchDeleteWorldsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteWorldsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteWorldsOutput>(BatchDeleteWorldsOutput.httpOutput(from:), BatchDeleteWorldsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteWorldsInput, BatchDeleteWorldsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteWorldsOutput>())
@@ -443,9 +445,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes one or more simulation jobs.
     ///
-    /// - Parameter BatchDescribeSimulationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDescribeSimulationJobInput`)
     ///
-    /// - Returns: `BatchDescribeSimulationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDescribeSimulationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +484,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDescribeSimulationJobOutput>(BatchDescribeSimulationJobOutput.httpOutput(from:), BatchDescribeSimulationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDescribeSimulationJobInput, BatchDescribeSimulationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDescribeSimulationJobOutput>())
@@ -514,9 +517,9 @@ extension RoboMakerClient {
     /// This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Cancels the specified deployment job.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter CancelDeploymentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelDeploymentJobInput`)
     ///
-    /// - Returns: `CancelDeploymentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelDeploymentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,6 +556,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelDeploymentJobOutput>(CancelDeploymentJobOutput.httpOutput(from:), CancelDeploymentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelDeploymentJobInput, CancelDeploymentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelDeploymentJobOutput>())
@@ -584,9 +588,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Cancels the specified simulation job.
     ///
-    /// - Parameter CancelSimulationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSimulationJobInput`)
     ///
-    /// - Returns: `CancelSimulationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSimulationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +627,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelSimulationJobInput, CancelSimulationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSimulationJobOutput>(CancelSimulationJobOutput.httpOutput(from:), CancelSimulationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSimulationJobInput, CancelSimulationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSimulationJobOutput>())
@@ -654,9 +659,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
     ///
-    /// - Parameter CancelSimulationJobBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSimulationJobBatchInput`)
     ///
-    /// - Returns: `CancelSimulationJobBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSimulationJobBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,6 +698,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSimulationJobBatchOutput>(CancelSimulationJobBatchOutput.httpOutput(from:), CancelSimulationJobBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSimulationJobBatchInput, CancelSimulationJobBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSimulationJobBatchOutput>())
@@ -724,9 +730,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Cancels the specified export job.
     ///
-    /// - Parameter CancelWorldExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelWorldExportJobInput`)
     ///
-    /// - Returns: `CancelWorldExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelWorldExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -763,6 +769,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelWorldExportJobOutput>(CancelWorldExportJobOutput.httpOutput(from:), CancelWorldExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelWorldExportJobInput, CancelWorldExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelWorldExportJobOutput>())
@@ -794,9 +801,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Cancels the specified world generator job.
     ///
-    /// - Parameter CancelWorldGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelWorldGenerationJobInput`)
     ///
-    /// - Returns: `CancelWorldGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelWorldGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -833,6 +840,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelWorldGenerationJobOutput>(CancelWorldGenerationJobOutput.httpOutput(from:), CancelWorldGenerationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelWorldGenerationJobInput, CancelWorldGenerationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelWorldGenerationJobOutput>())
@@ -865,9 +873,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-january2022) page. Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see [Creating a Robot Application Version](https://docs.aws.amazon.com/robomaker/latest/dg/create-robot-application-version.html). After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter CreateDeploymentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeploymentJobInput`)
     ///
-    /// - Returns: `CreateDeploymentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeploymentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -908,6 +916,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeploymentJobOutput>(CreateDeploymentJobOutput.httpOutput(from:), CreateDeploymentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeploymentJobInput, CreateDeploymentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeploymentJobOutput>())
@@ -940,9 +949,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-january2022) page. Creates a fleet, a logical group of robots running the same robot application.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter CreateFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFleetInput`)
     ///
-    /// - Returns: `CreateFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -979,6 +988,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFleetInput, CreateFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFleetOutput>(CreateFleetOutput.httpOutput(from:), CreateFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFleetInput, CreateFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFleetOutput>())
@@ -1011,9 +1021,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-january2022) page. Creates a robot.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter CreateRobotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRobotInput`)
     ///
-    /// - Returns: `CreateRobotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRobotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1051,6 +1061,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRobotInput, CreateRobotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRobotOutput>(CreateRobotOutput.httpOutput(from:), CreateRobotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRobotInput, CreateRobotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRobotOutput>())
@@ -1082,9 +1093,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Creates a robot application.
     ///
-    /// - Parameter CreateRobotApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRobotApplicationInput`)
     ///
-    /// - Returns: `CreateRobotApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRobotApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1123,6 +1134,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRobotApplicationOutput>(CreateRobotApplicationOutput.httpOutput(from:), CreateRobotApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRobotApplicationInput, CreateRobotApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRobotApplicationOutput>())
@@ -1154,9 +1166,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Creates a version of a robot application.
     ///
-    /// - Parameter CreateRobotApplicationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRobotApplicationVersionInput`)
     ///
-    /// - Returns: `CreateRobotApplicationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRobotApplicationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1194,6 +1206,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRobotApplicationVersionOutput>(CreateRobotApplicationVersionOutput.httpOutput(from:), CreateRobotApplicationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRobotApplicationVersionInput, CreateRobotApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRobotApplicationVersionOutput>())
@@ -1225,9 +1238,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Creates a simulation application.
     ///
-    /// - Parameter CreateSimulationApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSimulationApplicationInput`)
     ///
-    /// - Returns: `CreateSimulationApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSimulationApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1266,6 +1279,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSimulationApplicationOutput>(CreateSimulationApplicationOutput.httpOutput(from:), CreateSimulationApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSimulationApplicationInput, CreateSimulationApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSimulationApplicationOutput>())
@@ -1297,9 +1311,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Creates a simulation application with a specific revision id.
     ///
-    /// - Parameter CreateSimulationApplicationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSimulationApplicationVersionInput`)
     ///
-    /// - Returns: `CreateSimulationApplicationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSimulationApplicationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1337,6 +1351,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSimulationApplicationVersionOutput>(CreateSimulationApplicationVersionOutput.httpOutput(from:), CreateSimulationApplicationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSimulationApplicationVersionInput, CreateSimulationApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSimulationApplicationVersionOutput>())
@@ -1368,9 +1383,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Creates a simulation job. After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
     ///
-    /// - Parameter CreateSimulationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSimulationJobInput`)
     ///
-    /// - Returns: `CreateSimulationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSimulationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,6 +1426,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSimulationJobInput, CreateSimulationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSimulationJobOutput>(CreateSimulationJobOutput.httpOutput(from:), CreateSimulationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSimulationJobInput, CreateSimulationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSimulationJobOutput>())
@@ -1442,9 +1458,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Creates a world export job.
     ///
-    /// - Parameter CreateWorldExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorldExportJobInput`)
     ///
-    /// - Returns: `CreateWorldExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorldExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1484,6 +1500,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorldExportJobOutput>(CreateWorldExportJobOutput.httpOutput(from:), CreateWorldExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorldExportJobInput, CreateWorldExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorldExportJobOutput>())
@@ -1515,9 +1532,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Creates worlds using the specified template.
     ///
-    /// - Parameter CreateWorldGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorldGenerationJobInput`)
     ///
-    /// - Returns: `CreateWorldGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorldGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1558,6 +1575,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorldGenerationJobOutput>(CreateWorldGenerationJobOutput.httpOutput(from:), CreateWorldGenerationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorldGenerationJobInput, CreateWorldGenerationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorldGenerationJobOutput>())
@@ -1589,9 +1607,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Creates a world template.
     ///
-    /// - Parameter CreateWorldTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorldTemplateInput`)
     ///
-    /// - Returns: `CreateWorldTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorldTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1630,6 +1648,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorldTemplateOutput>(CreateWorldTemplateOutput.httpOutput(from:), CreateWorldTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorldTemplateInput, CreateWorldTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorldTemplateOutput>())
@@ -1662,9 +1681,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Deletes a fleet.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter DeleteFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFleetInput`)
     ///
-    /// - Returns: `DeleteFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1700,6 +1719,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFleetInput, DeleteFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFleetOutput>(DeleteFleetOutput.httpOutput(from:), DeleteFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFleetInput, DeleteFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFleetOutput>())
@@ -1732,9 +1752,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Deletes a robot.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter DeleteRobotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRobotInput`)
     ///
-    /// - Returns: `DeleteRobotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRobotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1770,6 +1790,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRobotInput, DeleteRobotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRobotOutput>(DeleteRobotOutput.httpOutput(from:), DeleteRobotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRobotInput, DeleteRobotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRobotOutput>())
@@ -1801,9 +1822,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Deletes a robot application.
     ///
-    /// - Parameter DeleteRobotApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRobotApplicationInput`)
     ///
-    /// - Returns: `DeleteRobotApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRobotApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1839,6 +1860,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRobotApplicationOutput>(DeleteRobotApplicationOutput.httpOutput(from:), DeleteRobotApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRobotApplicationInput, DeleteRobotApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRobotApplicationOutput>())
@@ -1870,9 +1892,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Deletes a simulation application.
     ///
-    /// - Parameter DeleteSimulationApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSimulationApplicationInput`)
     ///
-    /// - Returns: `DeleteSimulationApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSimulationApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1908,6 +1930,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSimulationApplicationOutput>(DeleteSimulationApplicationOutput.httpOutput(from:), DeleteSimulationApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSimulationApplicationInput, DeleteSimulationApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSimulationApplicationOutput>())
@@ -1939,9 +1962,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Deletes a world template.
     ///
-    /// - Parameter DeleteWorldTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorldTemplateInput`)
     ///
-    /// - Returns: `DeleteWorldTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorldTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1978,6 +2001,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorldTemplateOutput>(DeleteWorldTemplateOutput.httpOutput(from:), DeleteWorldTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorldTemplateInput, DeleteWorldTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorldTemplateOutput>())
@@ -2010,9 +2034,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Deregisters a robot.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter DeregisterRobotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterRobotInput`)
     ///
-    /// - Returns: `DeregisterRobotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterRobotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2049,6 +2073,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterRobotInput, DeregisterRobotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterRobotOutput>(DeregisterRobotOutput.httpOutput(from:), DeregisterRobotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterRobotInput, DeregisterRobotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterRobotOutput>())
@@ -2081,9 +2106,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Describes a deployment job.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter DescribeDeploymentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeploymentJobInput`)
     ///
-    /// - Returns: `DescribeDeploymentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeploymentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2120,6 +2145,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeploymentJobOutput>(DescribeDeploymentJobOutput.httpOutput(from:), DescribeDeploymentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeploymentJobInput, DescribeDeploymentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeploymentJobOutput>())
@@ -2152,9 +2178,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Describes a fleet.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter DescribeFleetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFleetInput`)
     ///
-    /// - Returns: `DescribeFleetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFleetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2191,6 +2217,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeFleetInput, DescribeFleetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFleetOutput>(DescribeFleetOutput.httpOutput(from:), DescribeFleetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFleetInput, DescribeFleetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFleetOutput>())
@@ -2223,9 +2250,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Describes a robot.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter DescribeRobotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRobotInput`)
     ///
-    /// - Returns: `DescribeRobotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRobotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2262,6 +2289,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRobotInput, DescribeRobotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRobotOutput>(DescribeRobotOutput.httpOutput(from:), DescribeRobotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRobotInput, DescribeRobotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRobotOutput>())
@@ -2293,9 +2321,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes a robot application.
     ///
-    /// - Parameter DescribeRobotApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRobotApplicationInput`)
     ///
-    /// - Returns: `DescribeRobotApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRobotApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2332,6 +2360,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRobotApplicationOutput>(DescribeRobotApplicationOutput.httpOutput(from:), DescribeRobotApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRobotApplicationInput, DescribeRobotApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRobotApplicationOutput>())
@@ -2363,9 +2392,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes a simulation application.
     ///
-    /// - Parameter DescribeSimulationApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSimulationApplicationInput`)
     ///
-    /// - Returns: `DescribeSimulationApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSimulationApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2402,6 +2431,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSimulationApplicationOutput>(DescribeSimulationApplicationOutput.httpOutput(from:), DescribeSimulationApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSimulationApplicationInput, DescribeSimulationApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSimulationApplicationOutput>())
@@ -2433,9 +2463,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes a simulation job.
     ///
-    /// - Parameter DescribeSimulationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSimulationJobInput`)
     ///
-    /// - Returns: `DescribeSimulationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSimulationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2472,6 +2502,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSimulationJobOutput>(DescribeSimulationJobOutput.httpOutput(from:), DescribeSimulationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSimulationJobInput, DescribeSimulationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSimulationJobOutput>())
@@ -2503,9 +2534,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes a simulation job batch.
     ///
-    /// - Parameter DescribeSimulationJobBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSimulationJobBatchInput`)
     ///
-    /// - Returns: `DescribeSimulationJobBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSimulationJobBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2541,6 +2572,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSimulationJobBatchOutput>(DescribeSimulationJobBatchOutput.httpOutput(from:), DescribeSimulationJobBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSimulationJobBatchInput, DescribeSimulationJobBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSimulationJobBatchOutput>())
@@ -2572,9 +2604,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes a world.
     ///
-    /// - Parameter DescribeWorldInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorldInput`)
     ///
-    /// - Returns: `DescribeWorldOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorldOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2611,6 +2643,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorldInput, DescribeWorldOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorldOutput>(DescribeWorldOutput.httpOutput(from:), DescribeWorldOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorldInput, DescribeWorldOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorldOutput>())
@@ -2642,9 +2675,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes a world export job.
     ///
-    /// - Parameter DescribeWorldExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorldExportJobInput`)
     ///
-    /// - Returns: `DescribeWorldExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorldExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2681,6 +2714,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorldExportJobOutput>(DescribeWorldExportJobOutput.httpOutput(from:), DescribeWorldExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorldExportJobInput, DescribeWorldExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorldExportJobOutput>())
@@ -2712,9 +2746,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes a world generation job.
     ///
-    /// - Parameter DescribeWorldGenerationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorldGenerationJobInput`)
     ///
-    /// - Returns: `DescribeWorldGenerationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorldGenerationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2751,6 +2785,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorldGenerationJobOutput>(DescribeWorldGenerationJobOutput.httpOutput(from:), DescribeWorldGenerationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorldGenerationJobInput, DescribeWorldGenerationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorldGenerationJobOutput>())
@@ -2782,9 +2817,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Describes a world template.
     ///
-    /// - Parameter DescribeWorldTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWorldTemplateInput`)
     ///
-    /// - Returns: `DescribeWorldTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWorldTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2821,6 +2856,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWorldTemplateOutput>(DescribeWorldTemplateOutput.httpOutput(from:), DescribeWorldTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWorldTemplateInput, DescribeWorldTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWorldTemplateOutput>())
@@ -2852,9 +2888,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Gets the world template body.
     ///
-    /// - Parameter GetWorldTemplateBodyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorldTemplateBodyInput`)
     ///
-    /// - Returns: `GetWorldTemplateBodyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorldTemplateBodyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2891,6 +2927,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorldTemplateBodyOutput>(GetWorldTemplateBodyOutput.httpOutput(from:), GetWorldTemplateBodyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorldTemplateBodyInput, GetWorldTemplateBodyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorldTemplateBodyOutput>())
@@ -2923,9 +2960,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter ListDeploymentJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeploymentJobsInput`)
     ///
-    /// - Returns: `ListDeploymentJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeploymentJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2962,6 +2999,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeploymentJobsOutput>(ListDeploymentJobsOutput.httpOutput(from:), ListDeploymentJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeploymentJobsInput, ListDeploymentJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeploymentJobsOutput>())
@@ -2994,9 +3032,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter ListFleetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFleetsInput`)
     ///
-    /// - Returns: `ListFleetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFleetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3033,6 +3071,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFleetsInput, ListFleetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFleetsOutput>(ListFleetsOutput.httpOutput(from:), ListFleetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFleetsInput, ListFleetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFleetsOutput>())
@@ -3064,9 +3103,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Returns a list of robot application. You can optionally provide filters to retrieve specific robot applications.
     ///
-    /// - Parameter ListRobotApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRobotApplicationsInput`)
     ///
-    /// - Returns: `ListRobotApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRobotApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3102,6 +3141,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRobotApplicationsOutput>(ListRobotApplicationsOutput.httpOutput(from:), ListRobotApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRobotApplicationsInput, ListRobotApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRobotApplicationsOutput>())
@@ -3134,9 +3174,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Returns a list of robots. You can optionally provide filters to retrieve specific robots.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter ListRobotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRobotsInput`)
     ///
-    /// - Returns: `ListRobotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRobotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3173,6 +3213,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRobotsInput, ListRobotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRobotsOutput>(ListRobotsOutput.httpOutput(from:), ListRobotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRobotsInput, ListRobotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRobotsOutput>())
@@ -3204,9 +3245,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
     ///
-    /// - Parameter ListSimulationApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSimulationApplicationsInput`)
     ///
-    /// - Returns: `ListSimulationApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSimulationApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3242,6 +3283,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSimulationApplicationsOutput>(ListSimulationApplicationsOutput.httpOutput(from:), ListSimulationApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSimulationApplicationsInput, ListSimulationApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSimulationApplicationsOutput>())
@@ -3273,9 +3315,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
     ///
-    /// - Parameter ListSimulationJobBatchesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSimulationJobBatchesInput`)
     ///
-    /// - Returns: `ListSimulationJobBatchesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSimulationJobBatchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3310,6 +3352,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSimulationJobBatchesOutput>(ListSimulationJobBatchesOutput.httpOutput(from:), ListSimulationJobBatchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSimulationJobBatchesInput, ListSimulationJobBatchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSimulationJobBatchesOutput>())
@@ -3341,9 +3384,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
     ///
-    /// - Parameter ListSimulationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSimulationJobsInput`)
     ///
-    /// - Returns: `ListSimulationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSimulationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3379,6 +3422,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSimulationJobsInput, ListSimulationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSimulationJobsOutput>(ListSimulationJobsOutput.httpOutput(from:), ListSimulationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSimulationJobsInput, ListSimulationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSimulationJobsOutput>())
@@ -3410,9 +3454,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Lists all tags on a AWS RoboMaker resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3446,6 +3490,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3477,9 +3522,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Lists world export jobs.
     ///
-    /// - Parameter ListWorldExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorldExportJobsInput`)
     ///
-    /// - Returns: `ListWorldExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorldExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3515,6 +3560,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorldExportJobsOutput>(ListWorldExportJobsOutput.httpOutput(from:), ListWorldExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorldExportJobsInput, ListWorldExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorldExportJobsOutput>())
@@ -3546,9 +3592,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Lists world generator jobs.
     ///
-    /// - Parameter ListWorldGenerationJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorldGenerationJobsInput`)
     ///
-    /// - Returns: `ListWorldGenerationJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorldGenerationJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3584,6 +3630,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorldGenerationJobsOutput>(ListWorldGenerationJobsOutput.httpOutput(from:), ListWorldGenerationJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorldGenerationJobsInput, ListWorldGenerationJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorldGenerationJobsOutput>())
@@ -3615,9 +3662,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Lists world templates.
     ///
-    /// - Parameter ListWorldTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorldTemplatesInput`)
     ///
-    /// - Returns: `ListWorldTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorldTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3653,6 +3700,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorldTemplatesOutput>(ListWorldTemplatesOutput.httpOutput(from:), ListWorldTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorldTemplatesInput, ListWorldTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorldTemplatesOutput>())
@@ -3684,9 +3732,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Lists worlds.
     ///
-    /// - Parameter ListWorldsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorldsInput`)
     ///
-    /// - Returns: `ListWorldsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorldsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3722,6 +3770,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorldsInput, ListWorldsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorldsOutput>(ListWorldsOutput.httpOutput(from:), ListWorldsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorldsInput, ListWorldsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorldsOutput>())
@@ -3754,9 +3803,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Registers a robot with a fleet. This API is no longer supported and will throw an error if used. For more information, see the January 31, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-january2022) page.
     @available(*, deprecated, message: "AWS RoboMaker is unable to process this request as the support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter RegisterRobotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterRobotInput`)
     ///
-    /// - Returns: `RegisterRobotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterRobotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3794,6 +3843,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterRobotInput, RegisterRobotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterRobotOutput>(RegisterRobotOutput.httpOutput(from:), RegisterRobotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterRobotInput, RegisterRobotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterRobotOutput>())
@@ -3825,9 +3875,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Restarts a running simulation job.
     ///
-    /// - Parameter RestartSimulationJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestartSimulationJobInput`)
     ///
-    /// - Returns: `RestartSimulationJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestartSimulationJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3865,6 +3915,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RestartSimulationJobInput, RestartSimulationJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestartSimulationJobOutput>(RestartSimulationJobOutput.httpOutput(from:), RestartSimulationJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestartSimulationJobInput, RestartSimulationJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestartSimulationJobOutput>())
@@ -3896,9 +3947,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
     ///
-    /// - Parameter StartSimulationJobBatchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartSimulationJobBatchInput`)
     ///
-    /// - Returns: `StartSimulationJobBatchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartSimulationJobBatchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3937,6 +3988,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartSimulationJobBatchOutput>(StartSimulationJobBatchOutput.httpOutput(from:), StartSimulationJobBatchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartSimulationJobBatchInput, StartSimulationJobBatchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartSimulationJobBatchOutput>())
@@ -3969,9 +4021,9 @@ extension RoboMakerClient {
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). This API is no longer supported. For more information, see the May 2, 2022 update in the [Support policy](https://docs.aws.amazon.com/robomaker/latest/dg/chapter-support-policy.html#software-support-policy-may2022) page. Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robots were added after a deployment.
     @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     ///
-    /// - Parameter SyncDeploymentJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SyncDeploymentJobInput`)
     ///
-    /// - Returns: `SyncDeploymentJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SyncDeploymentJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4012,6 +4064,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SyncDeploymentJobOutput>(SyncDeploymentJobOutput.httpOutput(from:), SyncDeploymentJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SyncDeploymentJobInput, SyncDeploymentJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SyncDeploymentJobOutput>())
@@ -4043,9 +4096,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings. For information about the rules that apply to tag keys and tag values, see [User-Defined Tag Restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/allocation-tag-restrictions.html) in the AWS Billing and Cost Management User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4082,6 +4135,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4113,9 +4167,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use [TagResource](https://docs.aws.amazon.com/robomaker/latest/dg/API_TagResource.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4150,6 +4204,7 @@ extension RoboMakerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4181,9 +4236,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Updates a robot application.
     ///
-    /// - Parameter UpdateRobotApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRobotApplicationInput`)
     ///
-    /// - Returns: `UpdateRobotApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRobotApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4221,6 +4276,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRobotApplicationOutput>(UpdateRobotApplicationOutput.httpOutput(from:), UpdateRobotApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRobotApplicationInput, UpdateRobotApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRobotApplicationOutput>())
@@ -4252,9 +4308,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Updates a simulation application.
     ///
-    /// - Parameter UpdateSimulationApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSimulationApplicationInput`)
     ///
-    /// - Returns: `UpdateSimulationApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSimulationApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4292,6 +4348,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSimulationApplicationOutput>(UpdateSimulationApplicationOutput.httpOutput(from:), UpdateSimulationApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSimulationApplicationInput, UpdateSimulationApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSimulationApplicationOutput>())
@@ -4323,9 +4380,9 @@ extension RoboMakerClient {
     ///
     /// End of support notice: On September 10, 2025, Amazon Web Services will discontinue support for Amazon Web Services RoboMaker. After September 10, 2025, you will no longer be able to access the Amazon Web Services RoboMaker console or Amazon Web Services RoboMaker resources. For more information on transitioning to Batch to help run containerized simulations, visit [https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/](https://aws.amazon.com/blogs/hpc/run-simulations-using-multiple-containers-in-a-single-aws-batch-job/). Updates a world template.
     ///
-    /// - Parameter UpdateWorldTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorldTemplateInput`)
     ///
-    /// - Returns: `UpdateWorldTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorldTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4362,6 +4419,7 @@ extension RoboMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorldTemplateOutput>(UpdateWorldTemplateOutput.httpOutput(from:), UpdateWorldTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorldTemplateInput, UpdateWorldTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorldTemplateOutput>())

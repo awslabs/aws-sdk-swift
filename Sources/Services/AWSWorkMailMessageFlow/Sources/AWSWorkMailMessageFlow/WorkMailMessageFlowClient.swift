@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkMailMessageFlowClient: ClientRuntime.Client {
     public static let clientName = "WorkMailMessageFlowClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkMailMessageFlowClient.WorkMailMessageFlowClientConfiguration
     let serviceName = "WorkMailMessageFlow"
@@ -372,9 +373,9 @@ extension WorkMailMessageFlowClient {
     ///
     /// Retrieves the raw content of an in-transit email message, in MIME format.
     ///
-    /// - Parameter GetRawMessageContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRawMessageContentInput`)
     ///
-    /// - Returns: `GetRawMessageContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRawMessageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -405,6 +406,7 @@ extension WorkMailMessageFlowClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRawMessageContentInput, GetRawMessageContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRawMessageContentOutput>(GetRawMessageContentOutput.httpOutput(from:), GetRawMessageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRawMessageContentInput, GetRawMessageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRawMessageContentOutput>())
@@ -436,9 +438,9 @@ extension WorkMailMessageFlowClient {
     ///
     /// Updates the raw content of an in-transit email message, in MIME format. This example describes how to update in-transit email message. For more information and examples for using this API, see [ Updating message content with AWS Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/update-with-lambda.html). Updates to an in-transit message only appear when you call PutRawMessageContent from an AWS Lambda function configured with a synchronous [ Run Lambda](https://docs.aws.amazon.com/workmail/latest/adminguide/lambda.html#synchronous-rules) rule. If you call PutRawMessageContent on a delivered or sent message, the message remains unchanged, even though [GetRawMessageContent](https://docs.aws.amazon.com/workmail/latest/APIReference/API_messageflow_GetRawMessageContent.html) returns an updated message.
     ///
-    /// - Parameter PutRawMessageContentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutRawMessageContentInput`)
     ///
-    /// - Returns: `PutRawMessageContentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutRawMessageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +483,7 @@ extension WorkMailMessageFlowClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutRawMessageContentInput, PutRawMessageContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutRawMessageContentOutput>(PutRawMessageContentOutput.httpOutput(from:), PutRawMessageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutRawMessageContentInput, PutRawMessageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutRawMessageContentOutput>())

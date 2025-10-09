@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PanoramaClient: ClientRuntime.Client {
     public static let clientName = "PanoramaClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: PanoramaClient.PanoramaClientConfiguration
     let serviceName = "Panorama"
@@ -373,9 +374,9 @@ extension PanoramaClient {
     ///
     /// Creates an application instance and deploys it to a device.
     ///
-    /// - Parameter CreateApplicationInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInstanceInput`)
     ///
-    /// - Returns: `CreateApplicationInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInstanceInput, CreateApplicationInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationInstanceOutput>(CreateApplicationInstanceOutput.httpOutput(from:), CreateApplicationInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInstanceInput, CreateApplicationInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationInstanceOutput>())
@@ -443,9 +445,9 @@ extension PanoramaClient {
     ///
     /// Creates a job to run on a device. A job can update a device's software or reboot it.
     ///
-    /// - Parameter CreateJobForDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateJobForDevicesInput`)
     ///
-    /// - Returns: `CreateJobForDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateJobForDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +485,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateJobForDevicesInput, CreateJobForDevicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateJobForDevicesOutput>(CreateJobForDevicesOutput.httpOutput(from:), CreateJobForDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateJobForDevicesInput, CreateJobForDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateJobForDevicesOutput>())
@@ -514,9 +517,9 @@ extension PanoramaClient {
     ///
     /// Creates a camera stream node.
     ///
-    /// - Parameter CreateNodeFromTemplateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNodeFromTemplateJobInput`)
     ///
-    /// - Returns: `CreateNodeFromTemplateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNodeFromTemplateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,6 +556,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNodeFromTemplateJobInput, CreateNodeFromTemplateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNodeFromTemplateJobOutput>(CreateNodeFromTemplateJobOutput.httpOutput(from:), CreateNodeFromTemplateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNodeFromTemplateJobInput, CreateNodeFromTemplateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNodeFromTemplateJobOutput>())
@@ -584,9 +588,9 @@ extension PanoramaClient {
     ///
     /// Creates a package and storage location in an Amazon S3 access point.
     ///
-    /// - Parameter CreatePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePackageInput`)
     ///
-    /// - Returns: `CreatePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +627,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackageInput, CreatePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackageOutput>(CreatePackageOutput.httpOutput(from:), CreatePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackageInput, CreatePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackageOutput>())
@@ -654,9 +659,9 @@ extension PanoramaClient {
     ///
     /// Imports a node package.
     ///
-    /// - Parameter CreatePackageImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePackageImportJobInput`)
     ///
-    /// - Returns: `CreatePackageImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackageImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -693,6 +698,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackageImportJobInput, CreatePackageImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackageImportJobOutput>(CreatePackageImportJobOutput.httpOutput(from:), CreatePackageImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackageImportJobInput, CreatePackageImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackageImportJobOutput>())
@@ -724,9 +730,9 @@ extension PanoramaClient {
     ///
     /// Deletes a device.
     ///
-    /// - Parameter DeleteDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceInput`)
     ///
-    /// - Returns: `DeleteDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,6 +767,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeviceInput, DeleteDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeviceOutput>(DeleteDeviceOutput.httpOutput(from:), DeleteDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeviceInput, DeleteDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeviceOutput>())
@@ -792,9 +799,9 @@ extension PanoramaClient {
     ///
     /// Deletes a package. To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
     ///
-    /// - Parameter DeletePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackageInput`)
     ///
-    /// - Returns: `DeletePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -830,6 +837,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePackageInput, DeletePackageOutput>(DeletePackageInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackageOutput>(DeletePackageOutput.httpOutput(from:), DeletePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackageInput, DeletePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackageOutput>())
@@ -861,9 +869,9 @@ extension PanoramaClient {
     ///
     /// Deregisters a package version.
     ///
-    /// - Parameter DeregisterPackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterPackageVersionInput`)
     ///
-    /// - Returns: `DeregisterPackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterPackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -899,6 +907,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeregisterPackageVersionInput, DeregisterPackageVersionOutput>(DeregisterPackageVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterPackageVersionOutput>(DeregisterPackageVersionOutput.httpOutput(from:), DeregisterPackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterPackageVersionInput, DeregisterPackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterPackageVersionOutput>())
@@ -930,9 +939,9 @@ extension PanoramaClient {
     ///
     /// Returns information about an application instance on a device.
     ///
-    /// - Parameter DescribeApplicationInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationInstanceInput`)
     ///
-    /// - Returns: `DescribeApplicationInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,6 +976,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationInstanceInput, DescribeApplicationInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationInstanceOutput>(DescribeApplicationInstanceOutput.httpOutput(from:), DescribeApplicationInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationInstanceInput, DescribeApplicationInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationInstanceOutput>())
@@ -998,9 +1008,9 @@ extension PanoramaClient {
     ///
     /// Returns information about an application instance's configuration manifest.
     ///
-    /// - Parameter DescribeApplicationInstanceDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationInstanceDetailsInput`)
     ///
-    /// - Returns: `DescribeApplicationInstanceDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationInstanceDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1035,6 +1045,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeApplicationInstanceDetailsInput, DescribeApplicationInstanceDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationInstanceDetailsOutput>(DescribeApplicationInstanceDetailsOutput.httpOutput(from:), DescribeApplicationInstanceDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationInstanceDetailsInput, DescribeApplicationInstanceDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationInstanceDetailsOutput>())
@@ -1066,9 +1077,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a device.
     ///
-    /// - Parameter DescribeDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeviceInput`)
     ///
-    /// - Returns: `DescribeDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1102,6 +1113,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDeviceInput, DescribeDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeviceOutput>(DescribeDeviceOutput.httpOutput(from:), DescribeDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeviceOutput>())
@@ -1133,9 +1145,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a device job.
     ///
-    /// - Parameter DescribeDeviceJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeviceJobInput`)
     ///
-    /// - Returns: `DescribeDeviceJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeviceJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1170,6 +1182,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDeviceJobInput, DescribeDeviceJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeviceJobOutput>(DescribeDeviceJobOutput.httpOutput(from:), DescribeDeviceJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeviceJobInput, DescribeDeviceJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeviceJobOutput>())
@@ -1201,9 +1214,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a node.
     ///
-    /// - Parameter DescribeNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNodeInput`)
     ///
-    /// - Returns: `DescribeNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1239,6 +1252,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeNodeInput, DescribeNodeOutput>(DescribeNodeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNodeOutput>(DescribeNodeOutput.httpOutput(from:), DescribeNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNodeInput, DescribeNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNodeOutput>())
@@ -1270,9 +1284,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a job to create a camera stream node.
     ///
-    /// - Parameter DescribeNodeFromTemplateJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNodeFromTemplateJobInput`)
     ///
-    /// - Returns: `DescribeNodeFromTemplateJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNodeFromTemplateJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1306,6 +1320,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNodeFromTemplateJobInput, DescribeNodeFromTemplateJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNodeFromTemplateJobOutput>(DescribeNodeFromTemplateJobOutput.httpOutput(from:), DescribeNodeFromTemplateJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNodeFromTemplateJobInput, DescribeNodeFromTemplateJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNodeFromTemplateJobOutput>())
@@ -1337,9 +1352,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a package.
     ///
-    /// - Parameter DescribePackageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageInput`)
     ///
-    /// - Returns: `DescribePackageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1374,6 +1389,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePackageInput, DescribePackageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackageOutput>(DescribePackageOutput.httpOutput(from:), DescribePackageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackageInput, DescribePackageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackageOutput>())
@@ -1405,9 +1421,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a package import job.
     ///
-    /// - Parameter DescribePackageImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageImportJobInput`)
     ///
-    /// - Returns: `DescribePackageImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1441,6 +1457,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePackageImportJobInput, DescribePackageImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackageImportJobOutput>(DescribePackageImportJobOutput.httpOutput(from:), DescribePackageImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackageImportJobInput, DescribePackageImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackageImportJobOutput>())
@@ -1472,9 +1489,9 @@ extension PanoramaClient {
     ///
     /// Returns information about a package version.
     ///
-    /// - Parameter DescribePackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackageVersionInput`)
     ///
-    /// - Returns: `DescribePackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1510,6 +1527,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribePackageVersionInput, DescribePackageVersionOutput>(DescribePackageVersionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackageVersionOutput>(DescribePackageVersionOutput.httpOutput(from:), DescribePackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackageVersionInput, DescribePackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackageVersionOutput>())
@@ -1541,9 +1559,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of application instance dependencies.
     ///
-    /// - Parameter ListApplicationInstanceDependenciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationInstanceDependenciesInput`)
     ///
-    /// - Returns: `ListApplicationInstanceDependenciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationInstanceDependenciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1576,6 +1594,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutput>(ListApplicationInstanceDependenciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationInstanceDependenciesOutput>(ListApplicationInstanceDependenciesOutput.httpOutput(from:), ListApplicationInstanceDependenciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationInstanceDependenciesInput, ListApplicationInstanceDependenciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationInstanceDependenciesOutput>())
@@ -1607,9 +1626,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of application node instances.
     ///
-    /// - Parameter ListApplicationInstanceNodeInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationInstanceNodeInstancesInput`)
     ///
-    /// - Returns: `ListApplicationInstanceNodeInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationInstanceNodeInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1642,6 +1661,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutput>(ListApplicationInstanceNodeInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationInstanceNodeInstancesOutput>(ListApplicationInstanceNodeInstancesOutput.httpOutput(from:), ListApplicationInstanceNodeInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationInstanceNodeInstancesInput, ListApplicationInstanceNodeInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationInstanceNodeInstancesOutput>())
@@ -1673,9 +1693,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of application instances.
     ///
-    /// - Parameter ListApplicationInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationInstancesInput`)
     ///
-    /// - Returns: `ListApplicationInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1708,6 +1728,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListApplicationInstancesInput, ListApplicationInstancesOutput>(ListApplicationInstancesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationInstancesOutput>(ListApplicationInstancesOutput.httpOutput(from:), ListApplicationInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationInstancesInput, ListApplicationInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationInstancesOutput>())
@@ -1739,9 +1760,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of devices.
     ///
-    /// - Parameter ListDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesInput`)
     ///
-    /// - Returns: `ListDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1776,6 +1797,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDevicesInput, ListDevicesOutput>(ListDevicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesOutput>(ListDevicesOutput.httpOutput(from:), ListDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesInput, ListDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesOutput>())
@@ -1807,9 +1829,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of jobs.
     ///
-    /// - Parameter ListDevicesJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesJobsInput`)
     ///
-    /// - Returns: `ListDevicesJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1845,6 +1867,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDevicesJobsInput, ListDevicesJobsOutput>(ListDevicesJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesJobsOutput>(ListDevicesJobsOutput.httpOutput(from:), ListDevicesJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesJobsInput, ListDevicesJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesJobsOutput>())
@@ -1876,9 +1899,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of camera stream node jobs.
     ///
-    /// - Parameter ListNodeFromTemplateJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodeFromTemplateJobsInput`)
     ///
-    /// - Returns: `ListNodeFromTemplateJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodeFromTemplateJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1913,6 +1936,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutput>(ListNodeFromTemplateJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNodeFromTemplateJobsOutput>(ListNodeFromTemplateJobsOutput.httpOutput(from:), ListNodeFromTemplateJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodeFromTemplateJobsInput, ListNodeFromTemplateJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodeFromTemplateJobsOutput>())
@@ -1944,9 +1968,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of nodes.
     ///
-    /// - Parameter ListNodesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodesInput`)
     ///
-    /// - Returns: `ListNodesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1980,6 +2004,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNodesInput, ListNodesOutput>(ListNodesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNodesOutput>(ListNodesOutput.httpOutput(from:), ListNodesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodesInput, ListNodesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodesOutput>())
@@ -2011,9 +2036,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of package import jobs.
     ///
-    /// - Parameter ListPackageImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackageImportJobsInput`)
     ///
-    /// - Returns: `ListPackageImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackageImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2048,6 +2073,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackageImportJobsInput, ListPackageImportJobsOutput>(ListPackageImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackageImportJobsOutput>(ListPackageImportJobsOutput.httpOutput(from:), ListPackageImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackageImportJobsInput, ListPackageImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackageImportJobsOutput>())
@@ -2079,9 +2105,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of packages.
     ///
-    /// - Parameter ListPackagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackagesInput`)
     ///
-    /// - Returns: `ListPackagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2117,6 +2143,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackagesInput, ListPackagesOutput>(ListPackagesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackagesOutput>(ListPackagesOutput.httpOutput(from:), ListPackagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackagesInput, ListPackagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackagesOutput>())
@@ -2148,9 +2175,9 @@ extension PanoramaClient {
     ///
     /// Returns a list of tags for a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2183,6 +2210,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2214,9 +2242,9 @@ extension PanoramaClient {
     ///
     /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
     ///
-    /// - Parameter ProvisionDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ProvisionDeviceInput`)
     ///
-    /// - Returns: `ProvisionDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ProvisionDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2254,6 +2282,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ProvisionDeviceInput, ProvisionDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ProvisionDeviceOutput>(ProvisionDeviceOutput.httpOutput(from:), ProvisionDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ProvisionDeviceInput, ProvisionDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ProvisionDeviceOutput>())
@@ -2285,9 +2314,9 @@ extension PanoramaClient {
     ///
     /// Registers a package version.
     ///
-    /// - Parameter RegisterPackageVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterPackageVersionInput`)
     ///
-    /// - Returns: `RegisterPackageVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterPackageVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2324,6 +2353,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterPackageVersionInput, RegisterPackageVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterPackageVersionOutput>(RegisterPackageVersionOutput.httpOutput(from:), RegisterPackageVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterPackageVersionInput, RegisterPackageVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterPackageVersionOutput>())
@@ -2355,9 +2385,9 @@ extension PanoramaClient {
     ///
     /// Removes an application instance.
     ///
-    /// - Parameter RemoveApplicationInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveApplicationInstanceInput`)
     ///
-    /// - Returns: `RemoveApplicationInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveApplicationInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2392,6 +2422,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RemoveApplicationInstanceInput, RemoveApplicationInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveApplicationInstanceOutput>(RemoveApplicationInstanceOutput.httpOutput(from:), RemoveApplicationInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveApplicationInstanceInput, RemoveApplicationInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveApplicationInstanceOutput>())
@@ -2423,9 +2454,9 @@ extension PanoramaClient {
     ///
     /// Signal camera nodes to stop or resume.
     ///
-    /// - Parameter SignalApplicationInstanceNodeInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SignalApplicationInstanceNodeInstancesInput`)
     ///
-    /// - Returns: `SignalApplicationInstanceNodeInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SignalApplicationInstanceNodeInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2462,6 +2493,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SignalApplicationInstanceNodeInstancesInput, SignalApplicationInstanceNodeInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SignalApplicationInstanceNodeInstancesOutput>(SignalApplicationInstanceNodeInstancesOutput.httpOutput(from:), SignalApplicationInstanceNodeInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SignalApplicationInstanceNodeInstancesInput, SignalApplicationInstanceNodeInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SignalApplicationInstanceNodeInstancesOutput>())
@@ -2493,9 +2525,9 @@ extension PanoramaClient {
     ///
     /// Tags a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2531,6 +2563,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2562,9 +2595,9 @@ extension PanoramaClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2598,6 +2631,7 @@ extension PanoramaClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2629,9 +2663,9 @@ extension PanoramaClient {
     ///
     /// Updates a device's metadata.
     ///
-    /// - Parameter UpdateDeviceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceMetadataInput`)
     ///
-    /// - Returns: `UpdateDeviceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2669,6 +2703,7 @@ extension PanoramaClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeviceMetadataInput, UpdateDeviceMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeviceMetadataOutput>(UpdateDeviceMetadataOutput.httpOutput(from:), UpdateDeviceMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeviceMetadataInput, UpdateDeviceMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeviceMetadataOutput>())

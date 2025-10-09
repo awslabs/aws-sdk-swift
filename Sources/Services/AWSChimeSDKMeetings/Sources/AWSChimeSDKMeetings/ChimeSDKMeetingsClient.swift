@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ChimeSDKMeetingsClient: ClientRuntime.Client {
     public static let clientName = "ChimeSDKMeetingsClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ChimeSDKMeetingsClient.ChimeSDKMeetingsClientConfiguration
     let serviceName = "Chime SDK Meetings"
@@ -371,11 +372,11 @@ extension ChimeSDKMeetingsClient {
 extension ChimeSDKMeetingsClient {
     /// Performs the `BatchCreateAttendee` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter BatchCreateAttendeeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchCreateAttendeeInput`)
     ///
-    /// - Returns: `BatchCreateAttendeeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchCreateAttendeeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +419,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchCreateAttendeeOutput>(BatchCreateAttendeeOutput.httpOutput(from:), BatchCreateAttendeeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchCreateAttendeeInput, BatchCreateAttendeeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchCreateAttendeeOutput>())
@@ -455,13 +457,15 @@ extension ChimeSDKMeetingsClient {
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
     ///
+    /// * If meeting features is defined as Video:MaxResolution:None but Content:MaxResolution is defined as something other than None and attendee capabilities are not defined in the API request, then the default attendee video capability is set to Receive and attendee content capability is set to SendReceive. This is because content SendReceive requires video to be at least Receive.
+    ///
     /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
     ///
     /// * When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     ///
-    /// - Parameter BatchUpdateAttendeeCapabilitiesExceptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchUpdateAttendeeCapabilitiesExceptInput`)
     ///
-    /// - Returns: `BatchUpdateAttendeeCapabilitiesExceptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchUpdateAttendeeCapabilitiesExceptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -503,6 +507,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchUpdateAttendeeCapabilitiesExceptInput, BatchUpdateAttendeeCapabilitiesExceptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchUpdateAttendeeCapabilitiesExceptOutput>(BatchUpdateAttendeeCapabilitiesExceptOutput.httpOutput(from:), BatchUpdateAttendeeCapabilitiesExceptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchUpdateAttendeeCapabilitiesExceptInput, BatchUpdateAttendeeCapabilitiesExceptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchUpdateAttendeeCapabilitiesExceptOutput>())
@@ -532,11 +537,11 @@ extension ChimeSDKMeetingsClient {
 
     /// Performs the `CreateAttendee` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter CreateAttendeeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAttendeeInput`)
     ///
-    /// - Returns: `CreateAttendeeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAttendeeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -578,6 +583,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAttendeeInput, CreateAttendeeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAttendeeOutput>(CreateAttendeeOutput.httpOutput(from:), CreateAttendeeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAttendeeInput, CreateAttendeeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAttendeeOutput>())
@@ -607,11 +613,15 @@ extension ChimeSDKMeetingsClient {
 
     /// Performs the `CreateMeeting` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions) and [Using meeting Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html), both in the Amazon Chime SDK Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. If you use this API in conjuction with the and APIs, and you don't specify the MeetingFeatures.Content.MaxResolution or MeetingFeatures.Video.MaxResolution parameters, the following defaults are used:
     ///
-    /// - Parameter CreateMeetingInput : [no documentation found]
+    /// * Content.MaxResolution: FHD
     ///
-    /// - Returns: `CreateMeetingOutput` : [no documentation found]
+    /// * Video.MaxResolution: HD
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateMeetingInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateMeetingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,6 +663,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMeetingInput, CreateMeetingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMeetingOutput>(CreateMeetingOutput.httpOutput(from:), CreateMeetingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMeetingInput, CreateMeetingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMeetingOutput>())
@@ -682,11 +693,15 @@ extension ChimeSDKMeetingsClient {
 
     /// Performs the `CreateMeetingWithAttendees` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Amazon Chime SDK Media Regions](https://docs.aws.amazon.com/chime/latest/dg/chime-sdk-meetings-regions.html) in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see [Available Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions) and [Using meeting Regions](https://docs.aws.amazon.com/chime-sdk/latest/dg/chime-sdk-meetings-regions.html), both in the Amazon Chime SDK Developer Guide. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime SDK Developer Guide. If you use this API in conjuction with the and APIs, and you don't specify the MeetingFeatures.Content.MaxResolution or MeetingFeatures.Video.MaxResolution parameters, the following defaults are used:
     ///
-    /// - Parameter CreateMeetingWithAttendeesInput : [no documentation found]
+    /// * Content.MaxResolution: FHD
     ///
-    /// - Returns: `CreateMeetingWithAttendeesOutput` : [no documentation found]
+    /// * Video.MaxResolution: HD
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateMeetingWithAttendeesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateMeetingWithAttendeesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -729,6 +744,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMeetingWithAttendeesOutput>(CreateMeetingWithAttendeesOutput.httpOutput(from:), CreateMeetingWithAttendeesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMeetingWithAttendeesInput, CreateMeetingWithAttendeesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMeetingWithAttendeesOutput>())
@@ -758,11 +774,11 @@ extension ChimeSDKMeetingsClient {
 
     /// Performs the `DeleteAttendee` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter DeleteAttendeeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAttendeeInput`)
     ///
-    /// - Returns: `DeleteAttendeeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAttendeeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -799,6 +815,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAttendeeInput, DeleteAttendeeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttendeeOutput>(DeleteAttendeeOutput.httpOutput(from:), DeleteAttendeeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttendeeInput, DeleteAttendeeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttendeeOutput>())
@@ -828,11 +845,11 @@ extension ChimeSDKMeetingsClient {
 
     /// Performs the `DeleteMeeting` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees, disconnects all clients, and prevents new clients from joining the meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter DeleteMeetingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMeetingInput`)
     ///
-    /// - Returns: `DeleteMeetingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMeetingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -869,6 +886,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteMeetingInput, DeleteMeetingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMeetingOutput>(DeleteMeetingOutput.httpOutput(from:), DeleteMeetingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMeetingInput, DeleteMeetingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMeetingOutput>())
@@ -898,11 +916,11 @@ extension ChimeSDKMeetingsClient {
 
     /// Performs the `GetAttendee` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter GetAttendeeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAttendeeInput`)
     ///
-    /// - Returns: `GetAttendeeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAttendeeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -939,6 +957,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAttendeeInput, GetAttendeeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAttendeeOutput>(GetAttendeeOutput.httpOutput(from:), GetAttendeeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAttendeeInput, GetAttendeeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAttendeeOutput>())
@@ -968,11 +987,11 @@ extension ChimeSDKMeetingsClient {
 
     /// Performs the `GetMeeting` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter GetMeetingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMeetingInput`)
     ///
-    /// - Returns: `GetMeetingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMeetingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1009,6 +1028,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMeetingInput, GetMeetingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMeetingOutput>(GetMeetingOutput.httpOutput(from:), GetMeetingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMeetingInput, GetMeetingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMeetingOutput>())
@@ -1038,11 +1058,11 @@ extension ChimeSDKMeetingsClient {
 
     /// Performs the `ListAttendees` operation on the `ChimeSDKMeetings` service.
     ///
-    /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
+    /// Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see [Using the Amazon Chime SDK](https://docs.aws.amazon.com/chime-sdk/latest/dg/meetings-sdk.html) in the Amazon Chime Developer Guide.
     ///
-    /// - Parameter ListAttendeesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttendeesInput`)
     ///
-    /// - Returns: `ListAttendeesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttendeesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1080,6 +1100,7 @@ extension ChimeSDKMeetingsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAttendeesInput, ListAttendeesOutput>(ListAttendeesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttendeesOutput>(ListAttendeesOutput.httpOutput(from:), ListAttendeesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttendeesInput, ListAttendeesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttendeesOutput>())
@@ -1111,9 +1132,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Returns a list of the tags available for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,6 +1173,7 @@ extension ChimeSDKMeetingsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1183,9 +1205,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Starts transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. If you specify an invalid configuration, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide. By default, Amazon Transcribe may use and store audio content processed by the service to develop and improve Amazon Web Services AI/ML services as further described in section 50 of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/). Using Amazon Transcribe may be subject to federal and state laws or regulations regarding the recording or interception of electronic communications. It is your and your end users’ responsibility to comply with all applicable laws regarding the recording, including properly notifying all participants in a recorded session or communication that the session or communication is being recorded, and obtaining all necessary consents. You can opt out from Amazon Web Services using audio content to develop and improve AWS AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
     ///
-    /// - Parameter StartMeetingTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMeetingTranscriptionInput`)
     ///
-    /// - Returns: `StartMeetingTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMeetingTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1228,6 +1250,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMeetingTranscriptionOutput>(StartMeetingTranscriptionOutput.httpOutput(from:), StartMeetingTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMeetingTranscriptionInput, StartMeetingTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMeetingTranscriptionOutput>())
@@ -1259,9 +1282,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// Stops transcription for the specified meetingId. For more information, refer to [ Using Amazon Chime SDK live transcription ](https://docs.aws.amazon.com/chime-sdk/latest/dg/meeting-transcription.html) in the Amazon Chime SDK Developer Guide. By default, Amazon Transcribe may use and store audio content processed by the service to develop and improve Amazon Web Services AI/ML services as further described in section 50 of the [Amazon Web Services Service Terms](https://aws.amazon.com/service-terms/). Using Amazon Transcribe may be subject to federal and state laws or regulations regarding the recording or interception of electronic communications. It is your and your end users’ responsibility to comply with all applicable laws regarding the recording, including properly notifying all participants in a recorded session or communication that the session or communication is being recorded, and obtaining all necessary consents. You can opt out from Amazon Web Services using audio content to develop and improve Amazon Web Services AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
     ///
-    /// - Parameter StopMeetingTranscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopMeetingTranscriptionInput`)
     ///
-    /// - Returns: `StopMeetingTranscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopMeetingTranscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1300,6 +1323,7 @@ extension ChimeSDKMeetingsClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutput>(StopMeetingTranscriptionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopMeetingTranscriptionOutput>(StopMeetingTranscriptionOutput.httpOutput(from:), StopMeetingTranscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopMeetingTranscriptionInput, StopMeetingTranscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopMeetingTranscriptionOutput>())
@@ -1331,9 +1355,9 @@ extension ChimeSDKMeetingsClient {
     ///
     /// The resource that supports tags.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1376,6 +1400,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1415,9 +1440,9 @@ extension ChimeSDKMeetingsClient {
     /// Minimum permissions In addition to the tag:UntagResources permission required by this operation, you must also have the remove tags permission defined by the service that created the resource. For example, to remove the tags from an Amazon EC2 instance using the UntagResources operation, you must have both of the following permissions: tag:UntagResource
     ///     ChimeSDKMeetings:DeleteTags
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1459,6 +1484,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1496,13 +1522,15 @@ extension ChimeSDKMeetingsClient {
     ///
     /// * You can't set content capabilities to SendReceive or Receive unless you also set video capabilities to SendReceive or Receive. If you don't set the video capability to receive, the response will contain an HTTP 400 Bad Request status code. However, you can set your video capability to receive and you set your content capability to not receive.
     ///
+    /// * If meeting features is defined as Video:MaxResolution:None but Content:MaxResolution is defined as something other than None and attendee capabilities are not defined in the API request, then the default attendee video capability is set to Receive and attendee content capability is set to SendReceive. This is because content SendReceive requires video to be at least Receive.
+    ///
     /// * When you change an audio capability from None or Receive to Send or SendReceive , and if the attendee left their microphone unmuted, audio will flow from the attendee to the other meeting participants.
     ///
     /// * When you change a video or content capability from None or Receive to Send or SendReceive , and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
     ///
-    /// - Parameter UpdateAttendeeCapabilitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAttendeeCapabilitiesInput`)
     ///
-    /// - Returns: `UpdateAttendeeCapabilitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAttendeeCapabilitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1543,6 +1571,7 @@ extension ChimeSDKMeetingsClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAttendeeCapabilitiesInput, UpdateAttendeeCapabilitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAttendeeCapabilitiesOutput>(UpdateAttendeeCapabilitiesOutput.httpOutput(from:), UpdateAttendeeCapabilitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAttendeeCapabilitiesInput, UpdateAttendeeCapabilitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAttendeeCapabilitiesOutput>())

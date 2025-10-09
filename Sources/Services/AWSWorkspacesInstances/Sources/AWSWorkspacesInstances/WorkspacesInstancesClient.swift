@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class WorkspacesInstancesClient: ClientRuntime.Client {
     public static let clientName = "WorkspacesInstancesClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: WorkspacesInstancesClient.WorkspacesInstancesClientConfiguration
     let serviceName = "Workspaces Instances"
@@ -373,9 +374,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Attaches a volume to a WorkSpace Instance.
     ///
-    /// - Parameter AssociateVolumeInput : Specifies volume attachment parameters.
+    /// - Parameter input: Specifies volume attachment parameters. (Type: `AssociateVolumeInput`)
     ///
-    /// - Returns: `AssociateVolumeOutput` : Confirms volume attachment.
+    /// - Returns: Confirms volume attachment. (Type: `AssociateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateVolumeInput, AssociateVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateVolumeOutput>(AssociateVolumeOutput.httpOutput(from:), AssociateVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateVolumeInput, AssociateVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateVolumeOutput>())
@@ -446,9 +448,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Creates a new volume for WorkSpace Instances.
     ///
-    /// - Parameter CreateVolumeInput : Specifies volume creation parameters.
+    /// - Parameter input: Specifies volume creation parameters. (Type: `CreateVolumeInput`)
     ///
-    /// - Returns: `CreateVolumeOutput` : Returns the created volume identifier.
+    /// - Returns: Returns the created volume identifier. (Type: `CreateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,6 +488,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVolumeInput, CreateVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVolumeOutput>(CreateVolumeOutput.httpOutput(from:), CreateVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVolumeInput, CreateVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVolumeOutput>())
@@ -520,9 +523,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Launches a new WorkSpace Instance with specified configuration parameters, enabling programmatic workspace deployment.
     ///
-    /// - Parameter CreateWorkspaceInstanceInput : Defines the configuration parameters for creating a new WorkSpaces Instance.
+    /// - Parameter input: Defines the configuration parameters for creating a new WorkSpaces Instance. (Type: `CreateWorkspaceInstanceInput`)
     ///
-    /// - Returns: `CreateWorkspaceInstanceOutput` : Returns the unique identifier for the newly created WorkSpaces Instance.
+    /// - Returns: Returns the unique identifier for the newly created WorkSpaces Instance. (Type: `CreateWorkspaceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +563,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspaceInstanceInput, CreateWorkspaceInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspaceInstanceOutput>(CreateWorkspaceInstanceOutput.httpOutput(from:), CreateWorkspaceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspaceInstanceInput, CreateWorkspaceInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspaceInstanceOutput>())
@@ -594,9 +598,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Deletes a specified volume.
     ///
-    /// - Parameter DeleteVolumeInput : Specifies the volume to delete.
+    /// - Parameter input: Specifies the volume to delete. (Type: `DeleteVolumeInput`)
     ///
-    /// - Returns: `DeleteVolumeOutput` : Confirms volume deletion.
+    /// - Returns: Confirms volume deletion. (Type: `DeleteVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +637,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVolumeInput, DeleteVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVolumeOutput>(DeleteVolumeOutput.httpOutput(from:), DeleteVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVolumeInput, DeleteVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVolumeOutput>())
@@ -667,9 +672,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Deletes the specified WorkSpace
     ///
-    /// - Parameter DeleteWorkspaceInstanceInput : The WorkSpace to delete
+    /// - Parameter input: The WorkSpace to delete (Type: `DeleteWorkspaceInstanceInput`)
     ///
-    /// - Returns: `DeleteWorkspaceInstanceOutput` : Confirms the successful deletion of the specified WorkSpace Instance.
+    /// - Returns: Confirms the successful deletion of the specified WorkSpace Instance. (Type: `DeleteWorkspaceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -706,6 +711,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWorkspaceInstanceInput, DeleteWorkspaceInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkspaceInstanceOutput>(DeleteWorkspaceInstanceOutput.httpOutput(from:), DeleteWorkspaceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkspaceInstanceInput, DeleteWorkspaceInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkspaceInstanceOutput>())
@@ -740,9 +746,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Detaches a volume from a WorkSpace Instance.
     ///
-    /// - Parameter DisassociateVolumeInput : Specifies volume detachment parameters.
+    /// - Parameter input: Specifies volume detachment parameters. (Type: `DisassociateVolumeInput`)
     ///
-    /// - Returns: `DisassociateVolumeOutput` : Confirms volume detachment.
+    /// - Returns: Confirms volume detachment. (Type: `DisassociateVolumeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -779,6 +785,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateVolumeInput, DisassociateVolumeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateVolumeOutput>(DisassociateVolumeOutput.httpOutput(from:), DisassociateVolumeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateVolumeInput, DisassociateVolumeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateVolumeOutput>())
@@ -813,9 +820,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves detailed information about a specific WorkSpace Instance.
     ///
-    /// - Parameter GetWorkspaceInstanceInput : Identifies the WorkSpaces Instance to retrieve detailed information for.
+    /// - Parameter input: Identifies the WorkSpaces Instance to retrieve detailed information for. (Type: `GetWorkspaceInstanceInput`)
     ///
-    /// - Returns: `GetWorkspaceInstanceOutput` : Provides comprehensive details about the requested WorkSpaces Instance.
+    /// - Returns: Provides comprehensive details about the requested WorkSpaces Instance. (Type: `GetWorkspaceInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -851,6 +858,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWorkspaceInstanceInput, GetWorkspaceInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkspaceInstanceOutput>(GetWorkspaceInstanceOutput.httpOutput(from:), GetWorkspaceInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkspaceInstanceInput, GetWorkspaceInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkspaceInstanceOutput>())
@@ -885,9 +893,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves a list of instance types supported by Amazon WorkSpaces Instances, enabling precise workspace infrastructure configuration.
     ///
-    /// - Parameter ListInstanceTypesInput : Defines input parameters for retrieving supported WorkSpaces Instances instance types.
+    /// - Parameter input: Defines input parameters for retrieving supported WorkSpaces Instances instance types. (Type: `ListInstanceTypesInput`)
     ///
-    /// - Returns: `ListInstanceTypesOutput` : Contains the list of instance types supported by WorkSpaces Instances.
+    /// - Returns: Contains the list of instance types supported by WorkSpaces Instances. (Type: `ListInstanceTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,6 +930,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInstanceTypesInput, ListInstanceTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInstanceTypesOutput>(ListInstanceTypesOutput.httpOutput(from:), ListInstanceTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInstanceTypesInput, ListInstanceTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInstanceTypesOutput>())
@@ -956,9 +965,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves a list of AWS regions supported by Amazon WorkSpaces Instances, enabling region discovery for workspace deployments.
     ///
-    /// - Parameter ListRegionsInput : Defines input parameters for retrieving supported WorkSpaces Instances regions.
+    /// - Parameter input: Defines input parameters for retrieving supported WorkSpaces Instances regions. (Type: `ListRegionsInput`)
     ///
-    /// - Returns: `ListRegionsOutput` : Contains the list of supported AWS regions for WorkSpaces Instances.
+    /// - Returns: Contains the list of supported AWS regions for WorkSpaces Instances. (Type: `ListRegionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -993,6 +1002,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRegionsInput, ListRegionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRegionsOutput>(ListRegionsOutput.httpOutput(from:), ListRegionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRegionsInput, ListRegionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRegionsOutput>())
@@ -1027,9 +1037,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves tags for a WorkSpace Instance.
     ///
-    /// - Parameter ListTagsForResourceInput : Specifies the WorkSpace Instance to retrieve tags for.
+    /// - Parameter input: Specifies the WorkSpace Instance to retrieve tags for. (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : Returns the list of tags for the specified WorkSpace Instance.
+    /// - Returns: Returns the list of tags for the specified WorkSpace Instance. (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1065,6 +1075,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1099,9 +1110,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Retrieves a collection of WorkSpaces Instances based on specified filters.
     ///
-    /// - Parameter ListWorkspaceInstancesInput : Defines filters and pagination parameters for retrieving WorkSpaces Instances.
+    /// - Parameter input: Defines filters and pagination parameters for retrieving WorkSpaces Instances. (Type: `ListWorkspaceInstancesInput`)
     ///
-    /// - Returns: `ListWorkspaceInstancesOutput` : Contains the list of WorkSpaces Instances matching the specified criteria.
+    /// - Returns: Contains the list of WorkSpaces Instances matching the specified criteria. (Type: `ListWorkspaceInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,6 +1147,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkspaceInstancesInput, ListWorkspaceInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkspaceInstancesOutput>(ListWorkspaceInstancesOutput.httpOutput(from:), ListWorkspaceInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkspaceInstancesInput, ListWorkspaceInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkspaceInstancesOutput>())
@@ -1170,9 +1182,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Adds tags to a WorkSpace Instance.
     ///
-    /// - Parameter TagResourceInput : Specifies tags to add to a WorkSpace Instance.
+    /// - Parameter input: Specifies tags to add to a WorkSpace Instance. (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : Confirms successful tag addition.
+    /// - Returns: Confirms successful tag addition. (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,6 +1220,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1242,9 +1255,9 @@ extension WorkspacesInstancesClient {
     ///
     /// Removes tags from a WorkSpace Instance.
     ///
-    /// - Parameter UntagResourceInput : Specifies tags to remove from a WorkSpace Instance.
+    /// - Parameter input: Specifies tags to remove from a WorkSpace Instance. (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : Confirms successful tag removal.
+    /// - Returns: Confirms successful tag removal. (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1280,6 +1293,7 @@ extension WorkspacesInstancesClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

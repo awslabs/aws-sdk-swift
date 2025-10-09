@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MediaPackageVodClient: ClientRuntime.Client {
     public static let clientName = "MediaPackageVodClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaPackageVodClient.MediaPackageVodClientConfiguration
     let serviceName = "MediaPackage Vod"
@@ -372,9 +373,9 @@ extension MediaPackageVodClient {
     ///
     /// Changes the packaging group's properities to configure log subscription
     ///
-    /// - Parameter ConfigureLogsInput : The option to configure log subscription.
+    /// - Parameter input: The option to configure log subscription. (Type: `ConfigureLogsInput`)
     ///
-    /// - Returns: `ConfigureLogsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ConfigureLogsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ConfigureLogsInput, ConfigureLogsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ConfigureLogsOutput>(ConfigureLogsOutput.httpOutput(from:), ConfigureLogsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ConfigureLogsInput, ConfigureLogsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ConfigureLogsOutput>())
@@ -444,9 +446,9 @@ extension MediaPackageVodClient {
     ///
     /// Creates a new MediaPackage VOD Asset resource.
     ///
-    /// - Parameter CreateAssetInput : A new MediaPackage VOD Asset configuration.
+    /// - Parameter input: A new MediaPackage VOD Asset configuration. (Type: `CreateAssetInput`)
     ///
-    /// - Returns: `CreateAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +487,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetInput, CreateAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssetOutput>(CreateAssetOutput.httpOutput(from:), CreateAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssetInput, CreateAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssetOutput>())
@@ -516,9 +519,9 @@ extension MediaPackageVodClient {
     ///
     /// Creates a new MediaPackage VOD PackagingConfiguration resource.
     ///
-    /// - Parameter CreatePackagingConfigurationInput : A new MediaPackage VOD PackagingConfiguration resource configuration.
+    /// - Parameter input: A new MediaPackage VOD PackagingConfiguration resource configuration. (Type: `CreatePackagingConfigurationInput`)
     ///
-    /// - Returns: `CreatePackagingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackagingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +560,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackagingConfigurationInput, CreatePackagingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackagingConfigurationOutput>(CreatePackagingConfigurationOutput.httpOutput(from:), CreatePackagingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackagingConfigurationInput, CreatePackagingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackagingConfigurationOutput>())
@@ -588,9 +592,9 @@ extension MediaPackageVodClient {
     ///
     /// Creates a new MediaPackage VOD PackagingGroup resource.
     ///
-    /// - Parameter CreatePackagingGroupInput : A new MediaPackage VOD PackagingGroup resource configuration.
+    /// - Parameter input: A new MediaPackage VOD PackagingGroup resource configuration. (Type: `CreatePackagingGroupInput`)
     ///
-    /// - Returns: `CreatePackagingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePackagingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,6 +633,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePackagingGroupInput, CreatePackagingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePackagingGroupOutput>(CreatePackagingGroupOutput.httpOutput(from:), CreatePackagingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePackagingGroupInput, CreatePackagingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePackagingGroupOutput>())
@@ -660,9 +665,9 @@ extension MediaPackageVodClient {
     ///
     /// Deletes an existing MediaPackage VOD Asset resource.
     ///
-    /// - Parameter DeleteAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetInput`)
     ///
-    /// - Returns: `DeleteAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +703,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetInput, DeleteAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetOutput>(DeleteAssetOutput.httpOutput(from:), DeleteAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetInput, DeleteAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetOutput>())
@@ -729,9 +735,9 @@ extension MediaPackageVodClient {
     ///
     /// Deletes a MediaPackage VOD PackagingConfiguration resource.
     ///
-    /// - Parameter DeletePackagingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackagingConfigurationInput`)
     ///
-    /// - Returns: `DeletePackagingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackagingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -767,6 +773,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePackagingConfigurationInput, DeletePackagingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackagingConfigurationOutput>(DeletePackagingConfigurationOutput.httpOutput(from:), DeletePackagingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackagingConfigurationInput, DeletePackagingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackagingConfigurationOutput>())
@@ -798,9 +805,9 @@ extension MediaPackageVodClient {
     ///
     /// Deletes a MediaPackage VOD PackagingGroup resource.
     ///
-    /// - Parameter DeletePackagingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePackagingGroupInput`)
     ///
-    /// - Returns: `DeletePackagingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePackagingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -836,6 +843,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePackagingGroupInput, DeletePackagingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePackagingGroupOutput>(DeletePackagingGroupOutput.httpOutput(from:), DeletePackagingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePackagingGroupInput, DeletePackagingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePackagingGroupOutput>())
@@ -867,9 +875,9 @@ extension MediaPackageVodClient {
     ///
     /// Returns a description of a MediaPackage VOD Asset resource.
     ///
-    /// - Parameter DescribeAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetInput`)
     ///
-    /// - Returns: `DescribeAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -905,6 +913,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAssetInput, DescribeAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetOutput>(DescribeAssetOutput.httpOutput(from:), DescribeAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetInput, DescribeAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetOutput>())
@@ -936,9 +945,9 @@ extension MediaPackageVodClient {
     ///
     /// Returns a description of a MediaPackage VOD PackagingConfiguration resource.
     ///
-    /// - Parameter DescribePackagingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackagingConfigurationInput`)
     ///
-    /// - Returns: `DescribePackagingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackagingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -974,6 +983,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePackagingConfigurationInput, DescribePackagingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackagingConfigurationOutput>(DescribePackagingConfigurationOutput.httpOutput(from:), DescribePackagingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackagingConfigurationInput, DescribePackagingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackagingConfigurationOutput>())
@@ -1005,9 +1015,9 @@ extension MediaPackageVodClient {
     ///
     /// Returns a description of a MediaPackage VOD PackagingGroup resource.
     ///
-    /// - Parameter DescribePackagingGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePackagingGroupInput`)
     ///
-    /// - Returns: `DescribePackagingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePackagingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1043,6 +1053,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePackagingGroupInput, DescribePackagingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePackagingGroupOutput>(DescribePackagingGroupOutput.httpOutput(from:), DescribePackagingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePackagingGroupInput, DescribePackagingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePackagingGroupOutput>())
@@ -1074,9 +1085,9 @@ extension MediaPackageVodClient {
     ///
     /// Returns a collection of MediaPackage VOD Asset resources.
     ///
-    /// - Parameter ListAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetsInput`)
     ///
-    /// - Returns: `ListAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1113,6 +1124,7 @@ extension MediaPackageVodClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetsInput, ListAssetsOutput>(ListAssetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetsOutput>(ListAssetsOutput.httpOutput(from:), ListAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetsInput, ListAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetsOutput>())
@@ -1144,9 +1156,9 @@ extension MediaPackageVodClient {
     ///
     /// Returns a collection of MediaPackage VOD PackagingConfiguration resources.
     ///
-    /// - Parameter ListPackagingConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackagingConfigurationsInput`)
     ///
-    /// - Returns: `ListPackagingConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackagingConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1183,6 +1195,7 @@ extension MediaPackageVodClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackagingConfigurationsInput, ListPackagingConfigurationsOutput>(ListPackagingConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackagingConfigurationsOutput>(ListPackagingConfigurationsOutput.httpOutput(from:), ListPackagingConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackagingConfigurationsInput, ListPackagingConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackagingConfigurationsOutput>())
@@ -1214,9 +1227,9 @@ extension MediaPackageVodClient {
     ///
     /// Returns a collection of MediaPackage VOD PackagingGroup resources.
     ///
-    /// - Parameter ListPackagingGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPackagingGroupsInput`)
     ///
-    /// - Returns: `ListPackagingGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPackagingGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1253,6 +1266,7 @@ extension MediaPackageVodClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPackagingGroupsInput, ListPackagingGroupsOutput>(ListPackagingGroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPackagingGroupsOutput>(ListPackagingGroupsOutput.httpOutput(from:), ListPackagingGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPackagingGroupsInput, ListPackagingGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPackagingGroupsOutput>())
@@ -1284,9 +1298,9 @@ extension MediaPackageVodClient {
     ///
     /// Returns a list of the tags assigned to the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -1312,6 +1326,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1343,9 +1358,9 @@ extension MediaPackageVodClient {
     ///
     /// Adds tags to the specified resource. You can specify one or more tags to add.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1374,6 +1389,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1405,9 +1421,9 @@ extension MediaPackageVodClient {
     ///
     /// Removes tags from the specified resource. You can specify one or more tags to remove.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -1434,6 +1450,7 @@ extension MediaPackageVodClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1465,9 +1482,9 @@ extension MediaPackageVodClient {
     ///
     /// Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
     ///
-    /// - Parameter UpdatePackagingGroupInput : A MediaPackage VOD PackagingGroup resource configuration.
+    /// - Parameter input: A MediaPackage VOD PackagingGroup resource configuration. (Type: `UpdatePackagingGroupInput`)
     ///
-    /// - Returns: `UpdatePackagingGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePackagingGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1506,6 +1523,7 @@ extension MediaPackageVodClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePackagingGroupInput, UpdatePackagingGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePackagingGroupOutput>(UpdatePackagingGroupOutput.httpOutput(from:), UpdatePackagingGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePackagingGroupInput, UpdatePackagingGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePackagingGroupOutput>())

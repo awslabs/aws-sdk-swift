@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class Cloud9Client: ClientRuntime.Client {
     public static let clientName = "Cloud9Client"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: Cloud9Client.Cloud9ClientConfiguration
     let serviceName = "Cloud9"
@@ -372,9 +373,9 @@ extension Cloud9Client {
     ///
     /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter CreateEnvironmentEC2Input : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentEC2Input`)
     ///
-    /// - Returns: `CreateEnvironmentEC2Output` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentEC2Output`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentEC2Input, CreateEnvironmentEC2Output>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentEC2Output>(CreateEnvironmentEC2Output.httpOutput(from:), CreateEnvironmentEC2OutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentEC2Input, CreateEnvironmentEC2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentEC2Output>())
@@ -446,9 +448,9 @@ extension Cloud9Client {
     ///
     /// Adds an environment member to an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter CreateEnvironmentMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentMembershipInput`)
     ///
-    /// - Returns: `CreateEnvironmentMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -486,6 +488,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentMembershipInput, CreateEnvironmentMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentMembershipOutput>(CreateEnvironmentMembershipOutput.httpOutput(from:), CreateEnvironmentMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentMembershipInput, CreateEnvironmentMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentMembershipOutput>())
@@ -520,9 +523,9 @@ extension Cloud9Client {
     ///
     /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +563,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -594,9 +598,9 @@ extension Cloud9Client {
     ///
     /// Deletes an environment member from a development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter DeleteEnvironmentMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentMembershipInput`)
     ///
-    /// - Returns: `DeleteEnvironmentMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteEnvironmentMembershipInput, DeleteEnvironmentMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentMembershipOutput>(DeleteEnvironmentMembershipOutput.httpOutput(from:), DeleteEnvironmentMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentMembershipInput, DeleteEnvironmentMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentMembershipOutput>())
@@ -668,9 +673,9 @@ extension Cloud9Client {
     ///
     /// Gets information about environment members for an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter DescribeEnvironmentMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEnvironmentMembershipsInput`)
     ///
-    /// - Returns: `DescribeEnvironmentMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEnvironmentMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -708,6 +713,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentMembershipsOutput>(DescribeEnvironmentMembershipsOutput.httpOutput(from:), DescribeEnvironmentMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentMembershipsInput, DescribeEnvironmentMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentMembershipsOutput>())
@@ -742,9 +748,9 @@ extension Cloud9Client {
     ///
     /// Gets status information for an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter DescribeEnvironmentStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEnvironmentStatusInput`)
     ///
-    /// - Returns: `DescribeEnvironmentStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEnvironmentStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -782,6 +788,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentStatusInput, DescribeEnvironmentStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentStatusOutput>(DescribeEnvironmentStatusOutput.httpOutput(from:), DescribeEnvironmentStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentStatusInput, DescribeEnvironmentStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentStatusOutput>())
@@ -816,9 +823,9 @@ extension Cloud9Client {
     ///
     /// Gets information about Cloud9 development environments. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter DescribeEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEnvironmentsInput`)
     ///
-    /// - Returns: `DescribeEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,6 +863,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEnvironmentsOutput>(DescribeEnvironmentsOutput.httpOutput(from:), DescribeEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEnvironmentsInput, DescribeEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEnvironmentsOutput>())
@@ -890,9 +898,9 @@ extension Cloud9Client {
     ///
     /// Gets a list of Cloud9 development environment identifiers. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/) Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,6 +938,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -964,9 +973,9 @@ extension Cloud9Client {
     ///
     /// Gets a list of the tags associated with an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1000,6 +1009,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1034,9 +1044,9 @@ extension Cloud9Client {
     ///
     /// Adds tags to an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/) Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1071,6 +1081,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1105,9 +1116,9 @@ extension Cloud9Client {
     ///
     /// Removes tags from an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,6 +1153,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1176,9 +1188,9 @@ extension Cloud9Client {
     ///
     /// Changes the settings of an existing Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1216,6 +1228,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
@@ -1250,9 +1263,9 @@ extension Cloud9Client {
     ///
     /// Changes the settings of an existing environment member for an Cloud9 development environment. Cloud9 is no longer available to new customers. Existing customers of Cloud9 can continue to use the service as normal. [Learn more"](http://aws.amazon.com/blogs/devops/how-to-migrate-from-aws-cloud9-to-aws-ide-toolkits-or-aws-cloudshell/)
     ///
-    /// - Parameter UpdateEnvironmentMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentMembershipInput`)
     ///
-    /// - Returns: `UpdateEnvironmentMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1290,6 +1303,7 @@ extension Cloud9Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentMembershipInput, UpdateEnvironmentMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentMembershipOutput>(UpdateEnvironmentMembershipOutput.httpOutput(from:), UpdateEnvironmentMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentMembershipInput, UpdateEnvironmentMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentMembershipOutput>())

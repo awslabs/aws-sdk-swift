@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class KinesisAnalyticsV2Client: ClientRuntime.Client {
     public static let clientName = "KinesisAnalyticsV2Client"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: KinesisAnalyticsV2Client.KinesisAnalyticsV2ClientConfiguration
     let serviceName = "Kinesis Analytics V2"
@@ -373,9 +374,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Adds an Amazon CloudWatch log stream to monitor application configuration errors.
     ///
-    /// - Parameter AddApplicationCloudWatchLoggingOptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddApplicationCloudWatchLoggingOptionInput`)
     ///
-    /// - Returns: `AddApplicationCloudWatchLoggingOptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddApplicationCloudWatchLoggingOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddApplicationCloudWatchLoggingOptionInput, AddApplicationCloudWatchLoggingOptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddApplicationCloudWatchLoggingOptionOutput>(AddApplicationCloudWatchLoggingOptionOutput.httpOutput(from:), AddApplicationCloudWatchLoggingOptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddApplicationCloudWatchLoggingOptionInput, AddApplicationCloudWatchLoggingOptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddApplicationCloudWatchLoggingOptionOutput>())
@@ -446,9 +448,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Adds a streaming source to your SQL-based Kinesis Data Analytics application. You can add a streaming source when you create an application, or you can use this operation to add a streaming source after you create an application. For more information, see [CreateApplication]. Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the [DescribeApplication] operation to find the current application version.
     ///
-    /// - Parameter AddApplicationInputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddApplicationInputInput`)
     ///
-    /// - Returns: `AddApplicationInputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddApplicationInputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +487,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddApplicationInputInput, AddApplicationInputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddApplicationInputOutput>(AddApplicationInputOutput.httpOutput(from:), AddApplicationInputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddApplicationInputInput, AddApplicationInputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddApplicationInputOutput>())
@@ -519,9 +522,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Adds an [InputProcessingConfiguration] to a SQL-based Kinesis Data Analytics application. An input processor pre-processes records on the input stream before the application's SQL code executes. Currently, the only input processor available is [Amazon Lambda](https://docs.aws.amazon.com/lambda/).
     ///
-    /// - Parameter AddApplicationInputProcessingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddApplicationInputProcessingConfigurationInput`)
     ///
-    /// - Returns: `AddApplicationInputProcessingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddApplicationInputProcessingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +560,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddApplicationInputProcessingConfigurationInput, AddApplicationInputProcessingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddApplicationInputProcessingConfigurationOutput>(AddApplicationInputProcessingConfigurationOutput.httpOutput(from:), AddApplicationInputProcessingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddApplicationInputProcessingConfigurationInput, AddApplicationInputProcessingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddApplicationInputProcessingConfigurationOutput>())
@@ -591,9 +595,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Adds an external destination to your SQL-based Kinesis Data Analytics application. If you want Kinesis Data Analytics to deliver data from an in-application stream within your application to an external destination (such as an Kinesis data stream, a Kinesis Data Firehose delivery stream, or an Amazon Lambda function), you add the relevant configuration to your application using this operation. You can configure one or more outputs for your application. Each output configuration maps an in-application stream and an external destination. You can use one of the output configurations to deliver data from your in-application error stream to an external destination so that you can analyze the errors. Any configuration update, including adding a streaming source using this operation, results in a new version of the application. You can use the [DescribeApplication] operation to find the current application version.
     ///
-    /// - Parameter AddApplicationOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddApplicationOutputInput`)
     ///
-    /// - Returns: `AddApplicationOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddApplicationOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,6 +633,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddApplicationOutputInput, AddApplicationOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddApplicationOutputOutput>(AddApplicationOutputOutput.httpOutput(from:), AddApplicationOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddApplicationOutputInput, AddApplicationOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddApplicationOutputOutput>())
@@ -663,9 +668,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Adds a reference data source to an existing SQL-based Kinesis Data Analytics application. Kinesis Data Analytics reads reference data (that is, an Amazon S3 object) and creates an in-application table within your application. In the request, you provide the source (S3 bucket name and object key name), name of the in-application table to create, and the necessary mapping information that describes how data in an Amazon S3 object maps to columns in the resulting in-application table.
     ///
-    /// - Parameter AddApplicationReferenceDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddApplicationReferenceDataSourceInput`)
     ///
-    /// - Returns: `AddApplicationReferenceDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddApplicationReferenceDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,6 +706,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddApplicationReferenceDataSourceInput, AddApplicationReferenceDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddApplicationReferenceDataSourceOutput>(AddApplicationReferenceDataSourceOutput.httpOutput(from:), AddApplicationReferenceDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddApplicationReferenceDataSourceInput, AddApplicationReferenceDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddApplicationReferenceDataSourceOutput>())
@@ -739,9 +745,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// * When a VPC is added to a Managed Service for Apache Flink application, the application can no longer be accessed from the Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
     ///
-    /// - Parameter AddApplicationVpcConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddApplicationVpcConfigurationInput`)
     ///
-    /// - Returns: `AddApplicationVpcConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddApplicationVpcConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,6 +783,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddApplicationVpcConfigurationInput, AddApplicationVpcConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddApplicationVpcConfigurationOutput>(AddApplicationVpcConfigurationOutput.httpOutput(from:), AddApplicationVpcConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddApplicationVpcConfigurationInput, AddApplicationVpcConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddApplicationVpcConfigurationOutput>())
@@ -811,9 +818,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Creates a Managed Service for Apache Flink application. For information about creating a Managed Service for Apache Flink application, see [Creating an Application](https://docs.aws.amazon.com/kinesisanalytics/latest/java/getting-started.html).
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -852,6 +859,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -886,9 +894,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Creates and returns a URL that you can use to connect to an application's extension. The IAM role or user used to call this API defines the permissions to access the extension. After the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request that attempts to connect to the extension. You control the amount of time that the URL will be valid using the SessionExpirationDurationInSeconds parameter. If you do not provide this parameter, the returned URL is valid for twelve hours. The URL that you get from a call to CreateApplicationPresignedUrl must be used within 3 minutes to be valid. If you first try to use the URL after the 3-minute limit expires, the service returns an HTTP 403 Forbidden error.
     ///
-    /// - Parameter CreateApplicationPresignedUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationPresignedUrlInput`)
     ///
-    /// - Returns: `CreateApplicationPresignedUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationPresignedUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,6 +930,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationPresignedUrlInput, CreateApplicationPresignedUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationPresignedUrlOutput>(CreateApplicationPresignedUrlOutput.httpOutput(from:), CreateApplicationPresignedUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationPresignedUrlInput, CreateApplicationPresignedUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationPresignedUrlOutput>())
@@ -956,9 +965,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Creates a snapshot of the application's state data.
     ///
-    /// - Parameter CreateApplicationSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationSnapshotInput`)
     ///
-    /// - Returns: `CreateApplicationSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,6 +1005,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationSnapshotInput, CreateApplicationSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationSnapshotOutput>(CreateApplicationSnapshotOutput.httpOutput(from:), CreateApplicationSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationSnapshotInput, CreateApplicationSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationSnapshotOutput>())
@@ -1030,9 +1040,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,6 +1079,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -1103,9 +1114,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Deletes an Amazon CloudWatch log stream from an SQL-based Kinesis Data Analytics application.
     ///
-    /// - Parameter DeleteApplicationCloudWatchLoggingOptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationCloudWatchLoggingOptionInput`)
     ///
-    /// - Returns: `DeleteApplicationCloudWatchLoggingOptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationCloudWatchLoggingOptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,6 +1153,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationCloudWatchLoggingOptionInput, DeleteApplicationCloudWatchLoggingOptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationCloudWatchLoggingOptionOutput>(DeleteApplicationCloudWatchLoggingOptionOutput.httpOutput(from:), DeleteApplicationCloudWatchLoggingOptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationCloudWatchLoggingOptionInput, DeleteApplicationCloudWatchLoggingOptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationCloudWatchLoggingOptionOutput>())
@@ -1176,9 +1188,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Deletes an [InputProcessingConfiguration] from an input.
     ///
-    /// - Parameter DeleteApplicationInputProcessingConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInputProcessingConfigurationInput`)
     ///
-    /// - Returns: `DeleteApplicationInputProcessingConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationInputProcessingConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,6 +1226,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInputProcessingConfigurationInput, DeleteApplicationInputProcessingConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationInputProcessingConfigurationOutput>(DeleteApplicationInputProcessingConfigurationOutput.httpOutput(from:), DeleteApplicationInputProcessingConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInputProcessingConfigurationInput, DeleteApplicationInputProcessingConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationInputProcessingConfigurationOutput>())
@@ -1248,9 +1261,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Deletes the output destination configuration from your SQL-based Kinesis Data Analytics application's configuration. Kinesis Data Analytics will no longer write data from the corresponding in-application stream to the external output destination.
     ///
-    /// - Parameter DeleteApplicationOutputInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationOutputInput`)
     ///
-    /// - Returns: `DeleteApplicationOutputOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutputOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1286,6 +1299,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationOutputInput, DeleteApplicationOutputOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutputOutput>(DeleteApplicationOutputOutput.httpOutput(from:), DeleteApplicationOutputOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationOutputInput, DeleteApplicationOutputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutputOutput>())
@@ -1320,9 +1334,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Deletes a reference data source configuration from the specified SQL-based Kinesis Data Analytics application's configuration. If the application is running, Kinesis Data Analytics immediately removes the in-application table that you created using the [AddApplicationReferenceDataSource] operation.
     ///
-    /// - Parameter DeleteApplicationReferenceDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationReferenceDataSourceInput`)
     ///
-    /// - Returns: `DeleteApplicationReferenceDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationReferenceDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1358,6 +1372,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationReferenceDataSourceInput, DeleteApplicationReferenceDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationReferenceDataSourceOutput>(DeleteApplicationReferenceDataSourceOutput.httpOutput(from:), DeleteApplicationReferenceDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationReferenceDataSourceInput, DeleteApplicationReferenceDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationReferenceDataSourceOutput>())
@@ -1392,9 +1407,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Deletes a snapshot of application state.
     ///
-    /// - Parameter DeleteApplicationSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationSnapshotInput`)
     ///
-    /// - Returns: `DeleteApplicationSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1431,6 +1446,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationSnapshotInput, DeleteApplicationSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationSnapshotOutput>(DeleteApplicationSnapshotOutput.httpOutput(from:), DeleteApplicationSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationSnapshotInput, DeleteApplicationSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationSnapshotOutput>())
@@ -1465,9 +1481,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Removes a VPC configuration from a Managed Service for Apache Flink application.
     ///
-    /// - Parameter DeleteApplicationVpcConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationVpcConfigurationInput`)
     ///
-    /// - Returns: `DeleteApplicationVpcConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationVpcConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1503,6 +1519,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationVpcConfigurationInput, DeleteApplicationVpcConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationVpcConfigurationOutput>(DeleteApplicationVpcConfigurationOutput.httpOutput(from:), DeleteApplicationVpcConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationVpcConfigurationInput, DeleteApplicationVpcConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationVpcConfigurationOutput>())
@@ -1537,9 +1554,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Returns information about a specific Managed Service for Apache Flink application. If you want to retrieve a list of all applications in your account, use the [ListApplications] operation.
     ///
-    /// - Parameter DescribeApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationInput`)
     ///
-    /// - Returns: `DescribeApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1573,6 +1590,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationInput, DescribeApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationOutput>(DescribeApplicationOutput.httpOutput(from:), DescribeApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationInput, DescribeApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationOutput>())
@@ -1607,9 +1625,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Provides a detailed description of a specified application operation. To see a list of all the operations of an application, invoke the [ListApplicationOperations] operation. This operation is supported only for Managed Service for Apache Flink.
     ///
-    /// - Parameter DescribeApplicationOperationInput : A request for information about a specific operation that was performed on a Managed Service for Apache Flink application.
+    /// - Parameter input: A request for information about a specific operation that was performed on a Managed Service for Apache Flink application. (Type: `DescribeApplicationOperationInput`)
     ///
-    /// - Returns: `DescribeApplicationOperationOutput` : Provides details of the operation that corresponds to the operation ID on a Managed Service for Apache Flink application.
+    /// - Returns: Provides details of the operation that corresponds to the operation ID on a Managed Service for Apache Flink application. (Type: `DescribeApplicationOperationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1643,6 +1661,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationOperationInput, DescribeApplicationOperationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationOperationOutput>(DescribeApplicationOperationOutput.httpOutput(from:), DescribeApplicationOperationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationOperationInput, DescribeApplicationOperationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationOperationOutput>())
@@ -1677,9 +1696,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Returns information about a snapshot of application state data.
     ///
-    /// - Parameter DescribeApplicationSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationSnapshotInput`)
     ///
-    /// - Returns: `DescribeApplicationSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1713,6 +1732,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationSnapshotInput, DescribeApplicationSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationSnapshotOutput>(DescribeApplicationSnapshotOutput.httpOutput(from:), DescribeApplicationSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationSnapshotInput, DescribeApplicationSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationSnapshotOutput>())
@@ -1747,9 +1767,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the [ListApplicationVersions] operation. This operation is supported only for Managed Service for Apache Flink.
     ///
-    /// - Parameter DescribeApplicationVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationVersionInput`)
     ///
-    /// - Returns: `DescribeApplicationVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1783,6 +1803,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationVersionInput, DescribeApplicationVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationVersionOutput>(DescribeApplicationVersionOutput.httpOutput(from:), DescribeApplicationVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationVersionInput, DescribeApplicationVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationVersionOutput>())
@@ -1817,9 +1838,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Infers a schema for a SQL-based Kinesis Data Analytics application by evaluating sample records on the specified streaming source (Kinesis data stream or Kinesis Data Firehose delivery stream) or Amazon S3 object. In the response, the operation returns the inferred schema and also the sample records that the operation used to infer the schema. You can use the inferred schema when configuring a streaming source for your application. When you create an application using the Kinesis Data Analytics console, the console uses this operation to infer a schema and show it in the console user interface.
     ///
-    /// - Parameter DiscoverInputSchemaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DiscoverInputSchemaInput`)
     ///
-    /// - Returns: `DiscoverInputSchemaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DiscoverInputSchemaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1856,6 +1877,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DiscoverInputSchemaInput, DiscoverInputSchemaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DiscoverInputSchemaOutput>(DiscoverInputSchemaOutput.httpOutput(from:), DiscoverInputSchemaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DiscoverInputSchemaInput, DiscoverInputSchemaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DiscoverInputSchemaOutput>())
@@ -1890,9 +1912,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Lists all the operations performed for the specified application such as UpdateApplication, StartApplication etc. The response also includes a summary of the operation. To get the complete description of a specific operation, invoke the [DescribeApplicationOperation] operation. This operation is supported only for Managed Service for Apache Flink.
     ///
-    /// - Parameter ListApplicationOperationsInput : A request for a list of operations performed on an application.
+    /// - Parameter input: A request for a list of operations performed on an application. (Type: `ListApplicationOperationsInput`)
     ///
-    /// - Returns: `ListApplicationOperationsOutput` : A response that returns a list of operations for an application.
+    /// - Returns: A response that returns a list of operations for an application. (Type: `ListApplicationOperationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1926,6 +1948,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationOperationsInput, ListApplicationOperationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationOperationsOutput>(ListApplicationOperationsOutput.httpOutput(from:), ListApplicationOperationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationOperationsInput, ListApplicationOperationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationOperationsOutput>())
@@ -1960,9 +1983,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Lists information about the current application snapshots.
     ///
-    /// - Parameter ListApplicationSnapshotsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationSnapshotsInput`)
     ///
-    /// - Returns: `ListApplicationSnapshotsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationSnapshotsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1995,6 +2018,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationSnapshotsInput, ListApplicationSnapshotsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationSnapshotsOutput>(ListApplicationSnapshotsOutput.httpOutput(from:), ListApplicationSnapshotsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationSnapshotsInput, ListApplicationSnapshotsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationSnapshotsOutput>())
@@ -2029,9 +2053,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration associated with each version. To get the complete description of a specific application version, invoke the [DescribeApplicationVersion] operation. This operation is supported only for Managed Service for Apache Flink.
     ///
-    /// - Parameter ListApplicationVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationVersionsInput`)
     ///
-    /// - Returns: `ListApplicationVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2065,6 +2089,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationVersionsInput, ListApplicationVersionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationVersionsOutput>(ListApplicationVersionsOutput.httpOutput(from:), ListApplicationVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationVersionsInput, ListApplicationVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationVersionsOutput>())
@@ -2099,9 +2124,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use [DescribeApplication].
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2133,6 +2158,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -2167,9 +2193,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Retrieves the list of key-value tags assigned to the application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2203,6 +2229,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2237,9 +2264,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status or in the running status. You can roll back an application only if it is in the UPDATING, AUTOSCALING, or RUNNING statuses. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request.
     ///
-    /// - Parameter RollbackApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RollbackApplicationInput`)
     ///
-    /// - Returns: `RollbackApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RollbackApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2276,6 +2303,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RollbackApplicationInput, RollbackApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RollbackApplicationOutput>(RollbackApplicationOutput.httpOutput(from:), RollbackApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RollbackApplicationInput, RollbackApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RollbackApplicationOutput>())
@@ -2310,9 +2338,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to start your application.
     ///
-    /// - Parameter StartApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartApplicationInput`)
     ///
-    /// - Returns: `StartApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2348,6 +2376,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartApplicationInput, StartApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartApplicationOutput>(StartApplicationOutput.httpOutput(from:), StartApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartApplicationInput, StartApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartApplicationOutput>())
@@ -2382,9 +2411,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force parameter to true. You can use the [DescribeApplication] operation to find the application status. Managed Service for Apache Flink takes a snapshot when the application is stopped, unless Force is set to true.
     ///
-    /// - Parameter StopApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopApplicationInput`)
     ///
-    /// - Returns: `StopApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2421,6 +2450,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopApplicationInput, StopApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopApplicationOutput>(StopApplicationOutput.httpOutput(from:), StopApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopApplicationInput, StopApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopApplicationOutput>())
@@ -2455,9 +2485,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Adds one or more key-value tags to a Managed Service for Apache Flink application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2493,6 +2523,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2527,9 +2558,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Removes one or more tags from a Managed Service for Apache Flink application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2565,6 +2596,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2599,9 +2631,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Updates an existing Managed Service for Apache Flink application. Using this operation, you can update application code, input configuration, and output configuration. Managed Service for Apache Flink updates the ApplicationVersionId each time you update your application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2640,6 +2672,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -2674,9 +2707,9 @@ extension KinesisAnalyticsV2Client {
     ///
     /// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING. If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException. The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance, the service will apply the configuration update the next time it schedules maintenance for the application. This means that you might not see the maintenance configuration update applied to the maintenance process that follows a successful invocation of this operation, but to the following maintenance process instead. To see the current maintenance configuration of your application, invoke the [DescribeApplication] operation. For information about application maintenance, see [Managed Service for Apache Flink for Apache Flink Maintenance](https://docs.aws.amazon.com/kinesisanalytics/latest/java/maintenance.html). This operation is supported only for Managed Service for Apache Flink.
     ///
-    /// - Parameter UpdateApplicationMaintenanceConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationMaintenanceConfigurationInput`)
     ///
-    /// - Returns: `UpdateApplicationMaintenanceConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationMaintenanceConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2712,6 +2745,7 @@ extension KinesisAnalyticsV2Client {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationMaintenanceConfigurationInput, UpdateApplicationMaintenanceConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationMaintenanceConfigurationOutput>(UpdateApplicationMaintenanceConfigurationOutput.httpOutput(from:), UpdateApplicationMaintenanceConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationMaintenanceConfigurationInput, UpdateApplicationMaintenanceConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationMaintenanceConfigurationOutput>())

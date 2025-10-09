@@ -15,7 +15,7 @@ import PackageDescription
 
 // MARK: - Dynamic Content
 
-let clientRuntimeVersion: Version = "0.158.0"
+let clientRuntimeVersion: Version = "0.163.0"
 let crtVersion: Version = "0.54.0"
 
 let excludeRuntimeUnitTests = false
@@ -574,6 +574,7 @@ private var runtimeTargets: [Target] {
                 .SmithyIdentity,
                 .SmithyRetriesAPI,
                 .SmithyRetries,
+                .SmithyTimestamps,
                 .AWSSDKCommon,
                 .AWSSDKHTTPAuth,
                 .AWSSDKChecksums,

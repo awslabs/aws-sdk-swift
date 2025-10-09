@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ForecastClient: ClientRuntime.Client {
     public static let clientName = "ForecastClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ForecastClient.ForecastClientConfiguration
     let serviceName = "forecast"
@@ -391,9 +392,9 @@ extension ForecastClient {
     ///
     /// When upgrading or retraining a predictor, only specify values for the ReferencePredictorArn and PredictorName.
     ///
-    /// - Parameter CreateAutoPredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAutoPredictorInput`)
     ///
-    /// - Returns: `CreateAutoPredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAutoPredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -429,6 +430,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAutoPredictorInput, CreateAutoPredictorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAutoPredictorOutput>(CreateAutoPredictorOutput.httpOutput(from:), CreateAutoPredictorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAutoPredictorInput, CreateAutoPredictorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAutoPredictorOutput>())
@@ -472,9 +474,9 @@ extension ForecastClient {
     ///
     /// After creating a dataset, you import your training data into it and add the dataset to a dataset group. You use the dataset group to create a predictor. For more information, see [Importing datasets](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html). To get a list of all your datasets, use the [ListDatasets](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasets.html) operation. For example Forecast datasets, see the [Amazon Forecast Sample GitHub repository](https://github.com/aws-samples/amazon-forecast-samples). The Status of a dataset must be ACTIVE before you can import training data. Use the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation to get the status.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -508,6 +510,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -542,9 +545,9 @@ extension ForecastClient {
     ///
     /// Creates a dataset group, which holds a collection of related datasets. You can add datasets to the dataset group when you create the dataset group, or later by using the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation. After creating a dataset group and adding datasets, you use the dataset group when you create a predictor. For more information, see [Dataset groups](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html). To get a list of all your datasets groups, use the [ListDatasetGroups](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetGroups.html) operation. The Status of a dataset group must be ACTIVE before you can use the dataset group to create a predictor. To get the status, use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation.
     ///
-    /// - Parameter CreateDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetGroupInput`)
     ///
-    /// - Returns: `CreateDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -580,6 +583,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetGroupOutput>(CreateDatasetGroupOutput.httpOutput(from:), CreateDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetGroupInput, CreateDatasetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetGroupOutput>())
@@ -614,9 +618,9 @@ extension ForecastClient {
     ///
     /// Imports your training data to an Amazon Forecast dataset. You provide the location of your training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon Resource Name (ARN) of the dataset that you want to import the data to. You must specify a [DataSource](https://docs.aws.amazon.com/forecast/latest/dg/API_DataSource.html) object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and processes it in an internal Amazon Web Services system. For more information, see [Set up permissions](https://docs.aws.amazon.com/forecast/latest/dg/aws-forecast-iam-roles.html). The training data must be in CSV or Parquet format. The delimiter must be a comma (,). You can specify the path to a specific file, the S3 bucket, or to a folder in the S3 bucket. For the latter two cases, Amazon Forecast imports all files up to the limit of 10,000 files. Because dataset imports are not aggregated, your most recent dataset import is the one that is used when training a predictor or generating a forecast. Make sure that your most recent dataset import contains all of the data you want to model off of, and not just the new data collected since the previous import. To get a list of all your dataset import jobs, filtered by specified criteria, use the [ListDatasetImportJobs](https://docs.aws.amazon.com/forecast/latest/dg/API_ListDatasetImportJobs.html) operation.
     ///
-    /// - Parameter CreateDatasetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetImportJobInput`)
     ///
-    /// - Returns: `CreateDatasetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -652,6 +656,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetImportJobOutput>(CreateDatasetImportJobOutput.httpOutput(from:), CreateDatasetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetImportJobInput, CreateDatasetImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetImportJobOutput>())
@@ -730,9 +735,9 @@ extension ForecastClient {
     ///
     /// * EndDateTime - The last timestamp in the range of time points.
     ///
-    /// - Parameter CreateExplainabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExplainabilityInput`)
     ///
-    /// - Returns: `CreateExplainabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExplainabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -768,6 +773,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExplainabilityInput, CreateExplainabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExplainabilityOutput>(CreateExplainabilityOutput.httpOutput(from:), CreateExplainabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExplainabilityInput, CreateExplainabilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExplainabilityOutput>())
@@ -802,9 +808,9 @@ extension ForecastClient {
     ///
     /// Exports an Explainability resource created by the [CreateExplainability] operation. Exported files are exported to an Amazon Simple Storage Service (Amazon S3) bucket. You must specify a [DataDestination] object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. The Status of the export job must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the status, use the [DescribeExplainabilityExport] operation.
     ///
-    /// - Parameter CreateExplainabilityExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateExplainabilityExportInput`)
     ///
-    /// - Returns: `CreateExplainabilityExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateExplainabilityExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -840,6 +846,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateExplainabilityExportInput, CreateExplainabilityExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateExplainabilityExportOutput>(CreateExplainabilityExportOutput.httpOutput(from:), CreateExplainabilityExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateExplainabilityExportInput, CreateExplainabilityExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateExplainabilityExportOutput>())
@@ -874,9 +881,9 @@ extension ForecastClient {
     ///
     /// Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used to train the predictor. This is known as inference. To retrieve the forecast for a single item at low latency, use the operation. To export the complete forecast into your Amazon Simple Storage Service (Amazon S3) bucket, use the [CreateForecastExportJob] operation. The range of the forecast is determined by the ForecastHorizon value, which you specify in the [CreatePredictor] request. When you query a forecast, you can request a specific date range within the forecast. To get a list of all your forecasts, use the [ListForecasts] operation. The forecasts generated by Amazon Forecast are in the same time zone as the dataset that was used to create the predictor. For more information, see [howitworks-forecast]. The Status of the forecast must be ACTIVE before you can query or export the forecast. Use the [DescribeForecast] operation to get the status. By default, a forecast includes predictions for every item (item_id) in the dataset group that was used to train the predictor. However, you can use the TimeSeriesSelector object to generate a forecast on a subset of time series. Forecast creation is skipped for any time series that you specify that are not in the input dataset. The forecast export file will not contain these time series or their forecasted values.
     ///
-    /// - Parameter CreateForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateForecastInput`)
     ///
-    /// - Returns: `CreateForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -912,6 +919,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateForecastInput, CreateForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateForecastOutput>(CreateForecastOutput.httpOutput(from:), CreateForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateForecastInput, CreateForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateForecastOutput>())
@@ -946,9 +954,9 @@ extension ForecastClient {
     ///
     /// Exports a forecast created by the [CreateForecast] operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: __ where the component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. For more information, see [howitworks-forecast]. To get a list of all your forecast export jobs, use the [ListForecastExportJobs] operation. The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. To get the status, use the [DescribeForecastExportJob] operation.
     ///
-    /// - Parameter CreateForecastExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateForecastExportJobInput`)
     ///
-    /// - Returns: `CreateForecastExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateForecastExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -984,6 +992,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateForecastExportJobInput, CreateForecastExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateForecastExportJobOutput>(CreateForecastExportJobOutput.httpOutput(from:), CreateForecastExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateForecastExportJobInput, CreateForecastExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateForecastExportJobOutput>())
@@ -1018,9 +1027,9 @@ extension ForecastClient {
     ///
     /// Creates a predictor monitor resource for an existing auto predictor. Predictor monitoring allows you to see how your predictor's performance changes over time. For more information, see [Predictor Monitoring](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring.html).
     ///
-    /// - Parameter CreateMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMonitorInput`)
     ///
-    /// - Returns: `CreateMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1056,6 +1065,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMonitorInput, CreateMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMonitorOutput>(CreateMonitorOutput.httpOutput(from:), CreateMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMonitorInput, CreateMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMonitorOutput>())
@@ -1101,9 +1111,9 @@ extension ForecastClient {
     ///
     /// To get a list of all of your predictors, use the [ListPredictors] operation. Before you can use the predictor to create a forecast, the Status of the predictor must be ACTIVE, signifying that training has completed. To get the status, use the [DescribePredictor] operation.
     ///
-    /// - Parameter CreatePredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePredictorInput`)
     ///
-    /// - Returns: `CreatePredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1139,6 +1149,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePredictorInput, CreatePredictorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePredictorOutput>(CreatePredictorOutput.httpOutput(from:), CreatePredictorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePredictorInput, CreatePredictorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePredictorOutput>())
@@ -1173,9 +1184,9 @@ extension ForecastClient {
     ///
     /// Exports backtest forecasts and accuracy metrics generated by the [CreateAutoPredictor] or [CreatePredictor] operations. Two folders containing CSV or Parquet files are exported to your specified S3 bucket. The export file names will match the following conventions: __.csv The component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Amazon S3 bucket and an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. The Status of the export job must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the status, use the [DescribePredictorBacktestExportJob] operation.
     ///
-    /// - Parameter CreatePredictorBacktestExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePredictorBacktestExportJobInput`)
     ///
-    /// - Returns: `CreatePredictorBacktestExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePredictorBacktestExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1211,6 +1222,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePredictorBacktestExportJobInput, CreatePredictorBacktestExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePredictorBacktestExportJobOutput>(CreatePredictorBacktestExportJobOutput.httpOutput(from:), CreatePredictorBacktestExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePredictorBacktestExportJobInput, CreatePredictorBacktestExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePredictorBacktestExportJobOutput>())
@@ -1245,9 +1257,9 @@ extension ForecastClient {
     ///
     /// What-if analysis is a scenario modeling technique where you make a hypothetical change to a time series and compare the forecasts generated by these changes against the baseline, unchanged time series. It is important to remember that the purpose of a what-if analysis is to understand how a forecast can change given different modifications to the baseline time series. For example, imagine you are a clothing retailer who is considering an end of season sale to clear space for new styles. After creating a baseline forecast, you can use a what-if analysis to investigate how different sales tactics might affect your goals. You could create a scenario where everything is given a 25% markdown, and another where everything is given a fixed dollar markdown. You could create a scenario where the sale lasts for one week and another where the sale lasts for one month. With a what-if analysis, you can compare many different scenarios against each other. Note that a what-if analysis is meant to display what the forecasting model has learned and how it will behave in the scenarios that you are evaluating. Do not blindly use the results of the what-if analysis to make business decisions. For instance, forecasts might not be accurate for novel scenarios where there is no reference available to determine whether a forecast is good. The [TimeSeriesSelector] object defines the items that you want in the what-if analysis.
     ///
-    /// - Parameter CreateWhatIfAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatIfAnalysisInput`)
     ///
-    /// - Returns: `CreateWhatIfAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatIfAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1283,6 +1295,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatIfAnalysisInput, CreateWhatIfAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatIfAnalysisOutput>(CreateWhatIfAnalysisOutput.httpOutput(from:), CreateWhatIfAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatIfAnalysisInput, CreateWhatIfAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatIfAnalysisOutput>())
@@ -1317,9 +1330,9 @@ extension ForecastClient {
     ///
     /// A what-if forecast is a forecast that is created from a modified version of the baseline forecast. Each what-if forecast incorporates either a replacement dataset or a set of transformations to the original dataset.
     ///
-    /// - Parameter CreateWhatIfForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatIfForecastInput`)
     ///
-    /// - Returns: `CreateWhatIfForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatIfForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1355,6 +1368,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatIfForecastInput, CreateWhatIfForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatIfForecastOutput>(CreateWhatIfForecastOutput.httpOutput(from:), CreateWhatIfForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatIfForecastInput, CreateWhatIfForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatIfForecastOutput>())
@@ -1389,9 +1403,9 @@ extension ForecastClient {
     ///
     /// Exports a forecast created by the [CreateWhatIfForecast] operation to your Amazon Simple Storage Service (Amazon S3) bucket. The forecast file name will match the following conventions: ≈__ The component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You must specify a [DataDestination] object that includes an Identity and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information, see [aws-forecast-iam-roles]. For more information, see [howitworks-forecast]. To get a list of all your what-if forecast export jobs, use the [ListWhatIfForecastExports] operation. The Status of the forecast export job must be ACTIVE before you can access the forecast in your Amazon S3 bucket. To get the status, use the [DescribeWhatIfForecastExport] operation.
     ///
-    /// - Parameter CreateWhatIfForecastExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatIfForecastExportInput`)
     ///
-    /// - Returns: `CreateWhatIfForecastExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatIfForecastExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1427,6 +1441,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatIfForecastExportInput, CreateWhatIfForecastExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatIfForecastExportOutput>(CreateWhatIfForecastExportOutput.httpOutput(from:), CreateWhatIfForecastExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatIfForecastExportInput, CreateWhatIfForecastExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatIfForecastExportOutput>())
@@ -1461,9 +1476,9 @@ extension ForecastClient {
     ///
     /// Deletes an Amazon Forecast dataset that was created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. You can only delete datasets that have a status of ACTIVE or CREATE_FAILED. To get the status use the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation. Forecast does not automatically update any dataset groups that contain the deleted dataset. In order to update the dataset group, use the [UpdateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_UpdateDatasetGroup.html) operation, omitting the deleted dataset's ARN.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1497,6 +1512,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -1531,9 +1547,9 @@ extension ForecastClient {
     ///
     /// Deletes a dataset group created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. You can only delete dataset groups that have a status of ACTIVE, CREATE_FAILED, or UPDATE_FAILED. To get the status, use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation. This operation deletes only the dataset group, not the datasets in the group.
     ///
-    /// - Parameter DeleteDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetGroupInput`)
     ///
-    /// - Returns: `DeleteDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1567,6 +1583,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetGroupOutput>(DeleteDatasetGroupOutput.httpOutput(from:), DeleteDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetGroupInput, DeleteDatasetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetGroupOutput>())
@@ -1601,9 +1618,9 @@ extension ForecastClient {
     ///
     /// Deletes a dataset import job created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. You can delete only dataset import jobs that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation.
     ///
-    /// - Parameter DeleteDatasetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetImportJobInput`)
     ///
-    /// - Returns: `DeleteDatasetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1637,6 +1654,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteDatasetImportJobInput, DeleteDatasetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetImportJobOutput>(DeleteDatasetImportJobOutput.httpOutput(from:), DeleteDatasetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetImportJobInput, DeleteDatasetImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetImportJobOutput>())
@@ -1671,9 +1689,9 @@ extension ForecastClient {
     ///
     /// Deletes an Explainability resource. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeExplainability] operation.
     ///
-    /// - Parameter DeleteExplainabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExplainabilityInput`)
     ///
-    /// - Returns: `DeleteExplainabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExplainabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1707,6 +1725,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExplainabilityInput, DeleteExplainabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExplainabilityOutput>(DeleteExplainabilityOutput.httpOutput(from:), DeleteExplainabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExplainabilityInput, DeleteExplainabilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExplainabilityOutput>())
@@ -1741,9 +1760,9 @@ extension ForecastClient {
     ///
     /// Deletes an Explainability export.
     ///
-    /// - Parameter DeleteExplainabilityExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteExplainabilityExportInput`)
     ///
-    /// - Returns: `DeleteExplainabilityExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteExplainabilityExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1777,6 +1796,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteExplainabilityExportInput, DeleteExplainabilityExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteExplainabilityExportOutput>(DeleteExplainabilityExportOutput.httpOutput(from:), DeleteExplainabilityExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteExplainabilityExportInput, DeleteExplainabilityExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteExplainabilityExportOutput>())
@@ -1811,9 +1831,9 @@ extension ForecastClient {
     ///
     /// Deletes a forecast created using the [CreateForecast] operation. You can delete only forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeForecast] operation. You can't delete a forecast while it is being exported. After a forecast is deleted, you can no longer query the forecast.
     ///
-    /// - Parameter DeleteForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteForecastInput`)
     ///
-    /// - Returns: `DeleteForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1847,6 +1867,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteForecastInput, DeleteForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteForecastOutput>(DeleteForecastOutput.httpOutput(from:), DeleteForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteForecastInput, DeleteForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteForecastOutput>())
@@ -1881,9 +1902,9 @@ extension ForecastClient {
     ///
     /// Deletes a forecast export job created using the [CreateForecastExportJob] operation. You can delete only export jobs that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeForecastExportJob] operation.
     ///
-    /// - Parameter DeleteForecastExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteForecastExportJobInput`)
     ///
-    /// - Returns: `DeleteForecastExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteForecastExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1917,6 +1938,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteForecastExportJobInput, DeleteForecastExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteForecastExportJobOutput>(DeleteForecastExportJobOutput.httpOutput(from:), DeleteForecastExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteForecastExportJobInput, DeleteForecastExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteForecastExportJobOutput>())
@@ -1951,9 +1973,9 @@ extension ForecastClient {
     ///
     /// Deletes a monitor resource. You can only delete a monitor resource with a status of ACTIVE, ACTIVE_STOPPED, CREATE_FAILED, or CREATE_STOPPED.
     ///
-    /// - Parameter DeleteMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteMonitorInput`)
     ///
-    /// - Returns: `DeleteMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1987,6 +2009,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteMonitorInput, DeleteMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteMonitorOutput>(DeleteMonitorOutput.httpOutput(from:), DeleteMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteMonitorInput, DeleteMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteMonitorOutput>())
@@ -2021,9 +2044,9 @@ extension ForecastClient {
     ///
     /// Deletes a predictor created using the [DescribePredictor] or [CreatePredictor] operations. You can delete only predictor that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribePredictor] operation.
     ///
-    /// - Parameter DeletePredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePredictorInput`)
     ///
-    /// - Returns: `DeletePredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2057,6 +2080,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePredictorInput, DeletePredictorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePredictorOutput>(DeletePredictorOutput.httpOutput(from:), DeletePredictorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePredictorInput, DeletePredictorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePredictorOutput>())
@@ -2091,9 +2115,9 @@ extension ForecastClient {
     ///
     /// Deletes a predictor backtest export job.
     ///
-    /// - Parameter DeletePredictorBacktestExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePredictorBacktestExportJobInput`)
     ///
-    /// - Returns: `DeletePredictorBacktestExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePredictorBacktestExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2127,6 +2151,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeletePredictorBacktestExportJobInput, DeletePredictorBacktestExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePredictorBacktestExportJobOutput>(DeletePredictorBacktestExportJobOutput.httpOutput(from:), DeletePredictorBacktestExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePredictorBacktestExportJobInput, DeletePredictorBacktestExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePredictorBacktestExportJobOutput>())
@@ -2172,9 +2197,9 @@ extension ForecastClient {
     ///
     /// DeleteResourceTree will only delete Amazon Forecast resources, and will not delete datasets or exported files stored in Amazon S3.
     ///
-    /// - Parameter DeleteResourceTreeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceTreeInput`)
     ///
-    /// - Returns: `DeleteResourceTreeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceTreeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2208,6 +2233,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceTreeInput, DeleteResourceTreeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceTreeOutput>(DeleteResourceTreeOutput.httpOutput(from:), DeleteResourceTreeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceTreeInput, DeleteResourceTreeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceTreeOutput>())
@@ -2242,9 +2268,9 @@ extension ForecastClient {
     ///
     /// Deletes a what-if analysis created using the [CreateWhatIfAnalysis] operation. You can delete only what-if analyses that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfAnalysis] operation. You can't delete a what-if analysis while any of its forecasts are being exported.
     ///
-    /// - Parameter DeleteWhatIfAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatIfAnalysisInput`)
     ///
-    /// - Returns: `DeleteWhatIfAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatIfAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2278,6 +2304,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWhatIfAnalysisInput, DeleteWhatIfAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWhatIfAnalysisOutput>(DeleteWhatIfAnalysisOutput.httpOutput(from:), DeleteWhatIfAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWhatIfAnalysisInput, DeleteWhatIfAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWhatIfAnalysisOutput>())
@@ -2312,9 +2339,9 @@ extension ForecastClient {
     ///
     /// Deletes a what-if forecast created using the [CreateWhatIfForecast] operation. You can delete only what-if forecasts that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfForecast] operation. You can't delete a what-if forecast while it is being exported. After a what-if forecast is deleted, you can no longer query the what-if analysis.
     ///
-    /// - Parameter DeleteWhatIfForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatIfForecastInput`)
     ///
-    /// - Returns: `DeleteWhatIfForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatIfForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2348,6 +2375,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWhatIfForecastInput, DeleteWhatIfForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWhatIfForecastOutput>(DeleteWhatIfForecastOutput.httpOutput(from:), DeleteWhatIfForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWhatIfForecastInput, DeleteWhatIfForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWhatIfForecastOutput>())
@@ -2382,9 +2410,9 @@ extension ForecastClient {
     ///
     /// Deletes a what-if forecast export created using the [CreateWhatIfForecastExport] operation. You can delete only what-if forecast exports that have a status of ACTIVE or CREATE_FAILED. To get the status, use the [DescribeWhatIfForecastExport] operation.
     ///
-    /// - Parameter DeleteWhatIfForecastExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatIfForecastExportInput`)
     ///
-    /// - Returns: `DeleteWhatIfForecastExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatIfForecastExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2418,6 +2446,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWhatIfForecastExportInput, DeleteWhatIfForecastExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWhatIfForecastExportOutput>(DeleteWhatIfForecastExportOutput.httpOutput(from:), DeleteWhatIfForecastExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWhatIfForecastExportInput, DeleteWhatIfForecastExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWhatIfForecastExportOutput>())
@@ -2452,9 +2481,9 @@ extension ForecastClient {
     ///
     /// Describes a predictor created using the CreateAutoPredictor operation.
     ///
-    /// - Parameter DescribeAutoPredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAutoPredictorInput`)
     ///
-    /// - Returns: `DescribeAutoPredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAutoPredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2487,6 +2516,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAutoPredictorInput, DescribeAutoPredictorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAutoPredictorOutput>(DescribeAutoPredictorOutput.httpOutput(from:), DescribeAutoPredictorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAutoPredictorInput, DescribeAutoPredictorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAutoPredictorOutput>())
@@ -2527,9 +2557,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2562,6 +2592,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -2604,9 +2635,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetGroupInput`)
     ///
-    /// - Returns: `DescribeDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2639,6 +2670,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetGroupOutput>(DescribeDatasetGroupOutput.httpOutput(from:), DescribeDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetGroupInput, DescribeDatasetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetGroupOutput>())
@@ -2685,9 +2717,9 @@ extension ForecastClient {
     ///
     /// * Message - If an error occurred, information about the error.
     ///
-    /// - Parameter DescribeDatasetImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetImportJobInput`)
     ///
-    /// - Returns: `DescribeDatasetImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2720,6 +2752,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetImportJobOutput>(DescribeDatasetImportJobOutput.httpOutput(from:), DescribeDatasetImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetImportJobInput, DescribeDatasetImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetImportJobOutput>())
@@ -2754,9 +2787,9 @@ extension ForecastClient {
     ///
     /// Describes an Explainability resource created using the [CreateExplainability] operation.
     ///
-    /// - Parameter DescribeExplainabilityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExplainabilityInput`)
     ///
-    /// - Returns: `DescribeExplainabilityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExplainabilityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2789,6 +2822,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExplainabilityInput, DescribeExplainabilityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExplainabilityOutput>(DescribeExplainabilityOutput.httpOutput(from:), DescribeExplainabilityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExplainabilityInput, DescribeExplainabilityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExplainabilityOutput>())
@@ -2823,9 +2857,9 @@ extension ForecastClient {
     ///
     /// Describes an Explainability export created using the [CreateExplainabilityExport] operation.
     ///
-    /// - Parameter DescribeExplainabilityExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExplainabilityExportInput`)
     ///
-    /// - Returns: `DescribeExplainabilityExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExplainabilityExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2858,6 +2892,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeExplainabilityExportInput, DescribeExplainabilityExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExplainabilityExportOutput>(DescribeExplainabilityExportOutput.httpOutput(from:), DescribeExplainabilityExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExplainabilityExportInput, DescribeExplainabilityExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExplainabilityExportOutput>())
@@ -2902,9 +2937,9 @@ extension ForecastClient {
     ///
     /// * Message - If an error occurred, information about the error.
     ///
-    /// - Parameter DescribeForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeForecastInput`)
     ///
-    /// - Returns: `DescribeForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2937,6 +2972,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeForecastInput, DescribeForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeForecastOutput>(DescribeForecastOutput.httpOutput(from:), DescribeForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeForecastInput, DescribeForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeForecastOutput>())
@@ -2979,9 +3015,9 @@ extension ForecastClient {
     ///
     /// * Message - If an error occurred, information about the error.
     ///
-    /// - Parameter DescribeForecastExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeForecastExportJobInput`)
     ///
-    /// - Returns: `DescribeForecastExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeForecastExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3014,6 +3050,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeForecastExportJobInput, DescribeForecastExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeForecastExportJobOutput>(DescribeForecastExportJobOutput.httpOutput(from:), DescribeForecastExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeForecastExportJobInput, DescribeForecastExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeForecastExportJobOutput>())
@@ -3062,9 +3099,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeMonitorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMonitorInput`)
     ///
-    /// - Returns: `DescribeMonitorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMonitorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3097,6 +3134,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMonitorInput, DescribeMonitorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMonitorOutput>(DescribeMonitorOutput.httpOutput(from:), DescribeMonitorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMonitorInput, DescribeMonitorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMonitorOutput>())
@@ -3143,9 +3181,9 @@ extension ForecastClient {
     ///
     /// * Message - If an error occurred, information about the error.
     ///
-    /// - Parameter DescribePredictorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePredictorInput`)
     ///
-    /// - Returns: `DescribePredictorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePredictorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3178,6 +3216,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePredictorInput, DescribePredictorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePredictorOutput>(DescribePredictorOutput.httpOutput(from:), DescribePredictorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePredictorInput, DescribePredictorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePredictorOutput>())
@@ -3220,9 +3259,9 @@ extension ForecastClient {
     ///
     /// * Message (if an error occurred)
     ///
-    /// - Parameter DescribePredictorBacktestExportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePredictorBacktestExportJobInput`)
     ///
-    /// - Returns: `DescribePredictorBacktestExportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePredictorBacktestExportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3255,6 +3294,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribePredictorBacktestExportJobInput, DescribePredictorBacktestExportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePredictorBacktestExportJobOutput>(DescribePredictorBacktestExportJobOutput.httpOutput(from:), DescribePredictorBacktestExportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePredictorBacktestExportJobInput, DescribePredictorBacktestExportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePredictorBacktestExportJobOutput>())
@@ -3297,9 +3337,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeWhatIfAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWhatIfAnalysisInput`)
     ///
-    /// - Returns: `DescribeWhatIfAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWhatIfAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3332,6 +3372,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWhatIfAnalysisInput, DescribeWhatIfAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWhatIfAnalysisOutput>(DescribeWhatIfAnalysisOutput.httpOutput(from:), DescribeWhatIfAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWhatIfAnalysisInput, DescribeWhatIfAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWhatIfAnalysisOutput>())
@@ -3374,9 +3415,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeWhatIfForecastInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWhatIfForecastInput`)
     ///
-    /// - Returns: `DescribeWhatIfForecastOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWhatIfForecastOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3409,6 +3450,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWhatIfForecastInput, DescribeWhatIfForecastOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWhatIfForecastOutput>(DescribeWhatIfForecastOutput.httpOutput(from:), DescribeWhatIfForecastOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWhatIfForecastInput, DescribeWhatIfForecastOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWhatIfForecastOutput>())
@@ -3451,9 +3493,9 @@ extension ForecastClient {
     ///
     /// * Status
     ///
-    /// - Parameter DescribeWhatIfForecastExportInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeWhatIfForecastExportInput`)
     ///
-    /// - Returns: `DescribeWhatIfForecastExportOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeWhatIfForecastExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3486,6 +3528,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeWhatIfForecastExportInput, DescribeWhatIfForecastExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeWhatIfForecastExportOutput>(DescribeWhatIfForecastExportOutput.httpOutput(from:), DescribeWhatIfForecastExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeWhatIfForecastExportInput, DescribeWhatIfForecastExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeWhatIfForecastExportOutput>())
@@ -3520,9 +3563,9 @@ extension ForecastClient {
     ///
     /// Provides metrics on the accuracy of the models that were trained by the [CreatePredictor] operation. Use metrics to see how well the model performed and to decide whether to use the predictor to generate a forecast. For more information, see [Predictor Metrics](https://docs.aws.amazon.com/forecast/latest/dg/metrics.html). This operation generates metrics for each backtest window that was evaluated. The number of backtest windows (NumberOfBacktestWindows) is specified using the [EvaluationParameters] object, which is optionally included in the CreatePredictor request. If NumberOfBacktestWindows isn't specified, the number defaults to one. The parameters of the filling method determine which items contribute to the metrics. If you want all items to contribute, specify zero. If you want only those items that have complete data in the range being evaluated to contribute, specify nan. For more information, see [FeaturizationMethod]. Before you can get accuracy metrics, the Status of the predictor must be ACTIVE, signifying that training has completed. To get the status, use the [DescribePredictor] operation.
     ///
-    /// - Parameter GetAccuracyMetricsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccuracyMetricsInput`)
     ///
-    /// - Returns: `GetAccuracyMetricsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccuracyMetricsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3556,6 +3599,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAccuracyMetricsInput, GetAccuracyMetricsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccuracyMetricsOutput>(GetAccuracyMetricsOutput.httpOutput(from:), GetAccuracyMetricsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccuracyMetricsInput, GetAccuracyMetricsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccuracyMetricsOutput>())
@@ -3590,9 +3634,9 @@ extension ForecastClient {
     ///
     /// Returns a list of dataset groups created using the [CreateDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetGroup.html) operation. For each dataset group, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the dataset group ARN with the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation.
     ///
-    /// - Parameter ListDatasetGroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetGroupsInput`)
     ///
-    /// - Returns: `ListDatasetGroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetGroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3624,6 +3668,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetGroupsOutput>(ListDatasetGroupsOutput.httpOutput(from:), ListDatasetGroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetGroupsInput, ListDatasetGroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetGroupsOutput>())
@@ -3658,9 +3703,9 @@ extension ForecastClient {
     ///
     /// Returns a list of dataset import jobs created using the [CreateDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDatasetImportJob.html) operation. For each import job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the [DescribeDatasetImportJob](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetImportJob.html) operation. You can filter the list by providing an array of [Filter](https://docs.aws.amazon.com/forecast/latest/dg/API_Filter.html) objects.
     ///
-    /// - Parameter ListDatasetImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetImportJobsInput`)
     ///
-    /// - Returns: `ListDatasetImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3693,6 +3738,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetImportJobsOutput>(ListDatasetImportJobsOutput.httpOutput(from:), ListDatasetImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetImportJobsInput, ListDatasetImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetImportJobsOutput>())
@@ -3727,9 +3773,9 @@ extension ForecastClient {
     ///
     /// Returns a list of datasets created using the [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html) operation. For each dataset, a summary of its properties, including its Amazon Resource Name (ARN), is returned. To retrieve the complete set of properties, use the ARN with the [DescribeDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDataset.html) operation.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3761,6 +3807,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDatasetsInput, ListDatasetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -3795,9 +3842,9 @@ extension ForecastClient {
     ///
     /// Returns a list of Explainability resources created using the [CreateExplainability] operation. This operation returns a summary for each Explainability. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular Explainability resource, use the ARN with the [DescribeExplainability] operation.
     ///
-    /// - Parameter ListExplainabilitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExplainabilitiesInput`)
     ///
-    /// - Returns: `ListExplainabilitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExplainabilitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3830,6 +3877,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExplainabilitiesInput, ListExplainabilitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExplainabilitiesOutput>(ListExplainabilitiesOutput.httpOutput(from:), ListExplainabilitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExplainabilitiesInput, ListExplainabilitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExplainabilitiesOutput>())
@@ -3864,9 +3912,9 @@ extension ForecastClient {
     ///
     /// Returns a list of Explainability exports created using the [CreateExplainabilityExport] operation. This operation returns a summary for each Explainability export. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular Explainability export, use the ARN with the [DescribeExplainability] operation.
     ///
-    /// - Parameter ListExplainabilityExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExplainabilityExportsInput`)
     ///
-    /// - Returns: `ListExplainabilityExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExplainabilityExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3899,6 +3947,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExplainabilityExportsInput, ListExplainabilityExportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExplainabilityExportsOutput>(ListExplainabilityExportsOutput.httpOutput(from:), ListExplainabilityExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExplainabilityExportsInput, ListExplainabilityExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExplainabilityExportsOutput>())
@@ -3933,9 +3982,9 @@ extension ForecastClient {
     ///
     /// Returns a list of forecast export jobs created using the [CreateForecastExportJob] operation. For each forecast export job, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, use the ARN with the [DescribeForecastExportJob] operation. You can filter the list using an array of [Filter] objects.
     ///
-    /// - Parameter ListForecastExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListForecastExportJobsInput`)
     ///
-    /// - Returns: `ListForecastExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListForecastExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3968,6 +4017,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListForecastExportJobsInput, ListForecastExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListForecastExportJobsOutput>(ListForecastExportJobsOutput.httpOutput(from:), ListForecastExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListForecastExportJobsInput, ListForecastExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListForecastExportJobsOutput>())
@@ -4002,9 +4052,9 @@ extension ForecastClient {
     ///
     /// Returns a list of forecasts created using the [CreateForecast] operation. For each forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). To retrieve the complete set of properties, specify the ARN with the [DescribeForecast] operation. You can filter the list using an array of [Filter] objects.
     ///
-    /// - Parameter ListForecastsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListForecastsInput`)
     ///
-    /// - Returns: `ListForecastsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListForecastsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4037,6 +4087,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListForecastsInput, ListForecastsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListForecastsOutput>(ListForecastsOutput.httpOutput(from:), ListForecastsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListForecastsInput, ListForecastsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListForecastsOutput>())
@@ -4071,9 +4122,9 @@ extension ForecastClient {
     ///
     /// Returns a list of the monitoring evaluation results and predictor events collected by the monitor resource during different windows of time. For information about monitoring see [predictor-monitoring]. For more information about retrieving monitoring results see [Viewing Monitoring Results](https://docs.aws.amazon.com/forecast/latest/dg/predictor-monitoring-results.html).
     ///
-    /// - Parameter ListMonitorEvaluationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorEvaluationsInput`)
     ///
-    /// - Returns: `ListMonitorEvaluationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorEvaluationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4107,6 +4158,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitorEvaluationsOutput>(ListMonitorEvaluationsOutput.httpOutput(from:), ListMonitorEvaluationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitorEvaluationsInput, ListMonitorEvaluationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitorEvaluationsOutput>())
@@ -4141,9 +4193,9 @@ extension ForecastClient {
     ///
     /// Returns a list of monitors created with the [CreateMonitor] operation and [CreateAutoPredictor] operation. For each monitor resource, this operation returns of a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve a complete set of properties of a monitor resource by specify the monitor's ARN in the [DescribeMonitor] operation.
     ///
-    /// - Parameter ListMonitorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMonitorsInput`)
     ///
-    /// - Returns: `ListMonitorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMonitorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4176,6 +4228,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMonitorsInput, ListMonitorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMonitorsOutput>(ListMonitorsOutput.httpOutput(from:), ListMonitorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMonitorsInput, ListMonitorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMonitorsOutput>())
@@ -4210,9 +4263,9 @@ extension ForecastClient {
     ///
     /// Returns a list of predictor backtest export jobs created using the [CreatePredictorBacktestExportJob] operation. This operation returns a summary for each backtest export job. You can filter the list using an array of [Filter] objects. To retrieve the complete set of properties for a particular backtest export job, use the ARN with the [DescribePredictorBacktestExportJob] operation.
     ///
-    /// - Parameter ListPredictorBacktestExportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPredictorBacktestExportJobsInput`)
     ///
-    /// - Returns: `ListPredictorBacktestExportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPredictorBacktestExportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4245,6 +4298,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPredictorBacktestExportJobsOutput>(ListPredictorBacktestExportJobsOutput.httpOutput(from:), ListPredictorBacktestExportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPredictorBacktestExportJobsInput, ListPredictorBacktestExportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPredictorBacktestExportJobsOutput>())
@@ -4279,9 +4333,9 @@ extension ForecastClient {
     ///
     /// Returns a list of predictors created using the [CreateAutoPredictor] or [CreatePredictor] operations. For each predictor, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the ARN with the [DescribeAutoPredictor] and [DescribePredictor] operations. You can filter the list using an array of [Filter] objects.
     ///
-    /// - Parameter ListPredictorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPredictorsInput`)
     ///
-    /// - Returns: `ListPredictorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPredictorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4314,6 +4368,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPredictorsInput, ListPredictorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPredictorsOutput>(ListPredictorsOutput.httpOutput(from:), ListPredictorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPredictorsInput, ListPredictorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPredictorsOutput>())
@@ -4348,9 +4403,9 @@ extension ForecastClient {
     ///
     /// Lists the tags for an Amazon Forecast resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4383,6 +4438,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -4417,9 +4473,9 @@ extension ForecastClient {
     ///
     /// Returns a list of what-if analyses created using the [CreateWhatIfAnalysis] operation. For each what-if analysis, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if analysis ARN with the [DescribeWhatIfAnalysis] operation.
     ///
-    /// - Parameter ListWhatIfAnalysesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatIfAnalysesInput`)
     ///
-    /// - Returns: `ListWhatIfAnalysesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatIfAnalysesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4452,6 +4508,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatIfAnalysesOutput>(ListWhatIfAnalysesOutput.httpOutput(from:), ListWhatIfAnalysesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatIfAnalysesInput, ListWhatIfAnalysesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatIfAnalysesOutput>())
@@ -4486,9 +4543,9 @@ extension ForecastClient {
     ///
     /// Returns a list of what-if forecast exports created using the [CreateWhatIfForecastExport] operation. For each what-if forecast export, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast export ARN with the [DescribeWhatIfForecastExport] operation.
     ///
-    /// - Parameter ListWhatIfForecastExportsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatIfForecastExportsInput`)
     ///
-    /// - Returns: `ListWhatIfForecastExportsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatIfForecastExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4521,6 +4578,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatIfForecastExportsOutput>(ListWhatIfForecastExportsOutput.httpOutput(from:), ListWhatIfForecastExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatIfForecastExportsInput, ListWhatIfForecastExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatIfForecastExportsOutput>())
@@ -4555,9 +4613,9 @@ extension ForecastClient {
     ///
     /// Returns a list of what-if forecasts created using the [CreateWhatIfForecast] operation. For each what-if forecast, this operation returns a summary of its properties, including its Amazon Resource Name (ARN). You can retrieve the complete set of properties by using the what-if forecast ARN with the [DescribeWhatIfForecast] operation.
     ///
-    /// - Parameter ListWhatIfForecastsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatIfForecastsInput`)
     ///
-    /// - Returns: `ListWhatIfForecastsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatIfForecastsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4590,6 +4648,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWhatIfForecastsInput, ListWhatIfForecastsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatIfForecastsOutput>(ListWhatIfForecastsOutput.httpOutput(from:), ListWhatIfForecastsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatIfForecastsInput, ListWhatIfForecastsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatIfForecastsOutput>())
@@ -4624,9 +4683,9 @@ extension ForecastClient {
     ///
     /// Resumes a stopped monitor resource.
     ///
-    /// - Parameter ResumeResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResumeResourceInput`)
     ///
-    /// - Returns: `ResumeResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4661,6 +4720,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeResourceInput, ResumeResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeResourceOutput>(ResumeResourceOutput.httpOutput(from:), ResumeResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeResourceInput, ResumeResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeResourceOutput>())
@@ -4709,9 +4769,9 @@ extension ForecastClient {
     ///
     /// * Explainability Export Job
     ///
-    /// - Parameter StopResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopResourceInput`)
     ///
-    /// - Returns: `StopResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4745,6 +4805,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopResourceInput, StopResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopResourceOutput>(StopResourceOutput.httpOutput(from:), StopResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopResourceInput, StopResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopResourceOutput>())
@@ -4779,9 +4840,9 @@ extension ForecastClient {
     ///
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4815,6 +4876,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4849,9 +4911,9 @@ extension ForecastClient {
     ///
     /// Deletes the specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4884,6 +4946,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4918,9 +4981,9 @@ extension ForecastClient {
     ///
     /// Replaces the datasets in a dataset group with the specified datasets. The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. Use the [DescribeDatasetGroup](https://docs.aws.amazon.com/forecast/latest/dg/API_DescribeDatasetGroup.html) operation to get the status.
     ///
-    /// - Parameter UpdateDatasetGroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetGroupInput`)
     ///
-    /// - Returns: `UpdateDatasetGroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetGroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4954,6 +5017,7 @@ extension ForecastClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetGroupInput, UpdateDatasetGroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetGroupOutput>(UpdateDatasetGroupOutput.httpOutput(from:), UpdateDatasetGroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetGroupInput, UpdateDatasetGroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatasetGroupOutput>())

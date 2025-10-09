@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentRuntimeClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentRuntimeClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentRuntimeClient.BedrockAgentRuntimeClientConfiguration
     let serviceName = "Bedrock Agent Runtime"
@@ -380,9 +381,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// * [GetSession](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_GetSession.html)
     ///
-    /// - Parameter CreateInvocationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateInvocationInput`)
     ///
-    /// - Returns: `CreateInvocationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateInvocationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -422,6 +423,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateInvocationInput, CreateInvocationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateInvocationOutput>(CreateInvocationOutput.httpOutput(from:), CreateInvocationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateInvocationInput, CreateInvocationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateInvocationOutput>())
@@ -461,9 +463,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// * [DeleteSession](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_DeleteSession.html)
     ///
-    /// - Parameter CreateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
-    /// - Returns: `CreateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -502,6 +504,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSessionInput, CreateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSessionOutput>(CreateSessionOutput.httpOutput(from:), CreateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSessionInput, CreateSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSessionOutput>())
@@ -533,9 +536,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Deletes memory from the specified memory identifier.
     ///
-    /// - Parameter DeleteAgentMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAgentMemoryInput`)
     ///
-    /// - Returns: `DeleteAgentMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAgentMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -575,6 +578,7 @@ extension BedrockAgentRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAgentMemoryInput, DeleteAgentMemoryOutput>(DeleteAgentMemoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentMemoryOutput>(DeleteAgentMemoryOutput.httpOutput(from:), DeleteAgentMemoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentMemoryInput, DeleteAgentMemoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAgentMemoryOutput>())
@@ -606,9 +610,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the [EndSession](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_EndSession.html) API operation. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
     ///
-    /// - Parameter DeleteSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSessionInput`)
     ///
-    /// - Returns: `DeleteSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -644,6 +648,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSessionInput, DeleteSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSessionOutput>(DeleteSessionOutput.httpOutput(from:), DeleteSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSessionInput, DeleteSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSessionOutput>())
@@ -675,9 +680,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
     ///
-    /// - Parameter EndSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `EndSessionInput`)
     ///
-    /// - Returns: `EndSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `EndSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,6 +718,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<EndSessionInput, EndSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<EndSessionOutput>(EndSessionOutput.httpOutput(from:), EndSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<EndSessionInput, EndSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<EndSessionOutput>())
@@ -744,9 +750,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Generates an SQL query from a natural language query. For more information, see [Generate a query for structured data](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-generate-query.html) in the Amazon Bedrock User Guide.
     ///
-    /// - Parameter GenerateQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GenerateQueryInput`)
     ///
-    /// - Returns: `GenerateQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GenerateQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,6 +794,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GenerateQueryInput, GenerateQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GenerateQueryOutput>(GenerateQueryOutput.httpOutput(from:), GenerateQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GenerateQueryInput, GenerateQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GenerateQueryOutput>())
@@ -819,9 +826,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Gets the sessions stored in the memory of the agent.
     ///
-    /// - Parameter GetAgentMemoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAgentMemoryInput`)
     ///
-    /// - Returns: `GetAgentMemoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAgentMemoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -861,6 +868,7 @@ extension BedrockAgentRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAgentMemoryInput, GetAgentMemoryOutput>(GetAgentMemoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentMemoryOutput>(GetAgentMemoryOutput.httpOutput(from:), GetAgentMemoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentMemoryInput, GetAgentMemoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentMemoryOutput>())
@@ -892,9 +900,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Retrieves the flow definition snapshot used for a flow execution. The snapshot represents the flow metadata and definition as it existed at the time the execution was started. Note that even if the flow is edited after an execution starts, the snapshot connected to the execution remains unchanged. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     ///
-    /// - Parameter GetExecutionFlowSnapshotInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetExecutionFlowSnapshotInput`)
     ///
-    /// - Returns: `GetExecutionFlowSnapshotOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetExecutionFlowSnapshotOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -929,6 +937,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetExecutionFlowSnapshotInput, GetExecutionFlowSnapshotOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetExecutionFlowSnapshotOutput>(GetExecutionFlowSnapshotOutput.httpOutput(from:), GetExecutionFlowSnapshotOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetExecutionFlowSnapshotInput, GetExecutionFlowSnapshotOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetExecutionFlowSnapshotOutput>())
@@ -960,9 +969,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Retrieves details about a specific flow execution, including its status, start and end times, and any errors that occurred during execution.
     ///
-    /// - Parameter GetFlowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFlowExecutionInput`)
     ///
-    /// - Returns: `GetFlowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFlowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -997,6 +1006,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetFlowExecutionInput, GetFlowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowExecutionOutput>(GetFlowExecutionOutput.httpOutput(from:), GetFlowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowExecutionInput, GetFlowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFlowExecutionOutput>())
@@ -1028,9 +1038,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
     ///
-    /// - Parameter GetInvocationStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInvocationStepInput`)
     ///
-    /// - Returns: `GetInvocationStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInvocationStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1068,6 +1078,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetInvocationStepInput, GetInvocationStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInvocationStepOutput>(GetInvocationStepOutput.httpOutput(from:), GetInvocationStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInvocationStepInput, GetInvocationStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInvocationStepOutput>())
@@ -1099,9 +1110,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Retrieves details about a specific session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
     ///
-    /// - Parameter GetSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSessionInput`)
     ///
-    /// - Returns: `GetSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1136,6 +1147,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSessionInput, GetSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSessionOutput>(GetSessionOutput.httpOutput(from:), GetSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSessionInput, GetSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSessionOutput>())
@@ -1186,9 +1198,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// * Errors are also surfaced in the response.
     ///
-    /// - Parameter InvokeAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeAgentInput`)
     ///
-    /// - Returns: `InvokeAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1232,6 +1244,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeAgentInput, InvokeAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeAgentOutput>(InvokeAgentOutput.httpOutput(from:), InvokeAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeAgentInput, InvokeAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeAgentOutput>())
@@ -1263,9 +1276,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Invokes an alias of a flow to run the inputs that you specify and return the output of each node as a stream. If there's an error, the error is returned. For more information, see [Test a flow in Amazon Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/flows-test.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html). The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeFlow.
     ///
-    /// - Parameter InvokeFlowInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeFlowInput`)
     ///
-    /// - Returns: `InvokeFlowOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeFlowOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1307,6 +1320,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeFlowInput, InvokeFlowOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeFlowOutput>(InvokeFlowOutput.httpOutput(from:), InvokeFlowOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeFlowInput, InvokeFlowOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeFlowOutput>())
@@ -1351,9 +1365,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// * The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     ///
-    /// - Parameter InvokeInlineAgentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeInlineAgentInput`)
     ///
-    /// - Returns: `InvokeInlineAgentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeInlineAgentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1395,6 +1409,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeInlineAgentInput, InvokeInlineAgentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeInlineAgentOutput>(InvokeInlineAgentOutput.httpOutput(from:), InvokeInlineAgentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeInlineAgentInput, InvokeInlineAgentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeInlineAgentOutput>())
@@ -1426,9 +1441,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Lists events that occurred during a flow execution. Events provide detailed information about the execution progress, including node inputs and outputs, flow inputs and outputs, condition results, and failure events. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     ///
-    /// - Parameter ListFlowExecutionEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowExecutionEventsInput`)
     ///
-    /// - Returns: `ListFlowExecutionEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowExecutionEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1464,6 +1479,7 @@ extension BedrockAgentRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFlowExecutionEventsInput, ListFlowExecutionEventsOutput>(ListFlowExecutionEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowExecutionEventsOutput>(ListFlowExecutionEventsOutput.httpOutput(from:), ListFlowExecutionEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowExecutionEventsInput, ListFlowExecutionEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowExecutionEventsOutput>())
@@ -1495,9 +1511,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Lists all executions of a flow. Results can be paginated and include summary information about each execution, such as status, start and end times, and the execution's Amazon Resource Name (ARN). Flow executions is in preview release for Amazon Bedrock and is subject to change.
     ///
-    /// - Parameter ListFlowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowExecutionsInput`)
     ///
-    /// - Returns: `ListFlowExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1533,6 +1549,7 @@ extension BedrockAgentRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFlowExecutionsInput, ListFlowExecutionsOutput>(ListFlowExecutionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowExecutionsOutput>(ListFlowExecutionsOutput.httpOutput(from:), ListFlowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowExecutionsInput, ListFlowExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowExecutionsOutput>())
@@ -1564,9 +1581,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
     ///
-    /// - Parameter ListInvocationStepsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvocationStepsInput`)
     ///
-    /// - Returns: `ListInvocationStepsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvocationStepsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1605,6 +1622,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInvocationStepsInput, ListInvocationStepsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvocationStepsOutput>(ListInvocationStepsOutput.httpOutput(from:), ListInvocationStepsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvocationStepsInput, ListInvocationStepsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvocationStepsOutput>())
@@ -1636,9 +1654,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Lists all invocations associated with a specific session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
     ///
-    /// - Parameter ListInvocationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInvocationsInput`)
     ///
-    /// - Returns: `ListInvocationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInvocationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1674,6 +1692,7 @@ extension BedrockAgentRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInvocationsInput, ListInvocationsOutput>(ListInvocationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInvocationsOutput>(ListInvocationsOutput.httpOutput(from:), ListInvocationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInvocationsInput, ListInvocationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInvocationsOutput>())
@@ -1705,9 +1724,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Lists all sessions in your Amazon Web Services account. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
     ///
-    /// - Parameter ListSessionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSessionsInput`)
     ///
-    /// - Returns: `ListSessionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSessionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1742,6 +1761,7 @@ extension BedrockAgentRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSessionsInput, ListSessionsOutput>(ListSessionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSessionsOutput>(ListSessionsOutput.httpOutput(from:), ListSessionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSessionsInput, ListSessionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSessionsOutput>())
@@ -1773,9 +1793,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// List all the tags for the resource you specify.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1810,6 +1830,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1841,9 +1862,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Optimizes a prompt for the task that you specify. For more information, see [Optimize a prompt](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-optimize.html) in the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html).
     ///
-    /// - Parameter OptimizePromptInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `OptimizePromptInput`)
     ///
-    /// - Returns: `OptimizePromptOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `OptimizePromptOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1882,6 +1903,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<OptimizePromptInput, OptimizePromptOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<OptimizePromptOutput>(OptimizePromptOutput.httpOutput(from:), OptimizePromptOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<OptimizePromptInput, OptimizePromptOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<OptimizePromptOutput>())
@@ -1921,9 +1943,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// * [ListSessions](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_ListInvocations.html)
     ///
-    /// - Parameter PutInvocationStepInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutInvocationStepInput`)
     ///
-    /// - Returns: `PutInvocationStepOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutInvocationStepOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1963,6 +1985,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutInvocationStepInput, PutInvocationStepOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutInvocationStepOutput>(PutInvocationStepOutput.httpOutput(from:), PutInvocationStepOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutInvocationStepInput, PutInvocationStepOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutInvocationStepOutput>())
@@ -1994,9 +2017,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Reranks the relevance of sources based on queries. For more information, see [Improve the relevance of query responses with a reranker model](https://docs.aws.amazon.com/bedrock/latest/userguide/rerank.html).
     ///
-    /// - Parameter RerankInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RerankInput`)
     ///
-    /// - Returns: `RerankOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RerankOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2038,6 +2061,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RerankInput, RerankOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RerankOutput>(RerankOutput.httpOutput(from:), RerankOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RerankInput, RerankOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RerankOutput>())
@@ -2069,9 +2093,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Queries a knowledge base and retrieves information from it.
     ///
-    /// - Parameter RetrieveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetrieveInput`)
     ///
-    /// - Returns: `RetrieveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetrieveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2113,6 +2137,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveInput, RetrieveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveOutput>(RetrieveOutput.httpOutput(from:), RetrieveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveInput, RetrieveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveOutput>())
@@ -2144,9 +2169,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or [inference profile](https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html). The response only cites sources that are relevant to the query.
     ///
-    /// - Parameter RetrieveAndGenerateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetrieveAndGenerateInput`)
     ///
-    /// - Returns: `RetrieveAndGenerateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetrieveAndGenerateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2188,6 +2213,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveAndGenerateInput, RetrieveAndGenerateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveAndGenerateOutput>(RetrieveAndGenerateOutput.httpOutput(from:), RetrieveAndGenerateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveAndGenerateInput, RetrieveAndGenerateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveAndGenerateOutput>())
@@ -2219,9 +2245,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format. The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream. This operation requires permission for the  bedrock:RetrieveAndGenerate action.
     ///
-    /// - Parameter RetrieveAndGenerateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetrieveAndGenerateStreamInput`)
     ///
-    /// - Returns: `RetrieveAndGenerateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetrieveAndGenerateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2263,6 +2289,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetrieveAndGenerateStreamInput, RetrieveAndGenerateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetrieveAndGenerateStreamOutput>(RetrieveAndGenerateStreamOutput.httpOutput(from:), RetrieveAndGenerateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetrieveAndGenerateStreamInput, RetrieveAndGenerateStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetrieveAndGenerateStreamOutput>())
@@ -2294,9 +2321,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Starts an execution of an Amazon Bedrock flow. Unlike flows that run until completion or time out after five minutes, flow executions let you run flows asynchronously for longer durations. Flow executions also yield control so that your application can perform other tasks. This operation returns an Amazon Resource Name (ARN) that you can use to track and manage your flow execution. Flow executions is in preview release for Amazon Bedrock and is subject to change.
     ///
-    /// - Parameter StartFlowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartFlowExecutionInput`)
     ///
-    /// - Returns: `StartFlowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartFlowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2338,6 +2365,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartFlowExecutionInput, StartFlowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartFlowExecutionOutput>(StartFlowExecutionOutput.httpOutput(from:), StartFlowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartFlowExecutionInput, StartFlowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartFlowExecutionOutput>())
@@ -2369,9 +2397,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to Aborted.
     ///
-    /// - Parameter StopFlowExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopFlowExecutionInput`)
     ///
-    /// - Returns: `StopFlowExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopFlowExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2409,6 +2437,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopFlowExecutionInput, StopFlowExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopFlowExecutionOutput>(StopFlowExecutionOutput.httpOutput(from:), StopFlowExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopFlowExecutionInput, StopFlowExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopFlowExecutionOutput>())
@@ -2440,9 +2469,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Amazon Bedrock User Guide.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2481,6 +2510,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2512,9 +2542,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Remove tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2550,6 +2580,7 @@ extension BedrockAgentRuntimeClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2581,9 +2612,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// Updates the metadata or encryption settings of a session. For more information about sessions, see [Store and retrieve conversation history and context with Amazon Bedrock sessions](https://docs.aws.amazon.com/bedrock/latest/userguide/sessions.html).
     ///
-    /// - Parameter UpdateSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSessionInput`)
     ///
-    /// - Returns: `UpdateSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2622,6 +2653,7 @@ extension BedrockAgentRuntimeClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSessionInput, UpdateSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSessionOutput>(UpdateSessionOutput.httpOutput(from:), UpdateSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSessionInput, UpdateSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSessionOutput>())

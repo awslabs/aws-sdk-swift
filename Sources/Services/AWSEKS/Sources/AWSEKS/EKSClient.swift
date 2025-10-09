@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EKSClient: ClientRuntime.Client {
     public static let clientName = "EKSClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: EKSClient.EKSClientConfiguration
     let serviceName = "EKS"
@@ -374,9 +375,9 @@ extension EKSClient {
     ///
     /// Associates an access policy and its scope to an access entry. For more information about associating access policies, see [Associating and disassociating access policies to and from access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-policies.html) in the Amazon EKS User Guide.
     ///
-    /// - Parameter AssociateAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAccessPolicyInput`)
     ///
-    /// - Returns: `AssociateAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAccessPolicyInput, AssociateAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAccessPolicyOutput>(AssociateAccessPolicyOutput.httpOutput(from:), AssociateAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAccessPolicyInput, AssociateAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAccessPolicyOutput>())
@@ -444,9 +446,9 @@ extension EKSClient {
     ///
     /// Associates an encryption configuration to an existing cluster. Use this API to enable encryption on existing clusters that don't already have encryption enabled. This allows you to implement a defense-in-depth security strategy without migrating applications to new Amazon EKS clusters.
     ///
-    /// - Parameter AssociateEncryptionConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateEncryptionConfigInput`)
     ///
-    /// - Returns: `AssociateEncryptionConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEncryptionConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +489,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEncryptionConfigOutput>(AssociateEncryptionConfigOutput.httpOutput(from:), AssociateEncryptionConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEncryptionConfigInput, AssociateEncryptionConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEncryptionConfigOutput>())
@@ -518,9 +521,9 @@ extension EKSClient {
     ///
     /// Associates an identity provider configuration to a cluster. If you want to authenticate identities using an identity provider, you can create an identity provider configuration and associate it to your cluster. After configuring authentication to your cluster you can create Kubernetes Role and ClusterRole objects, assign permissions to them, and then bind them to the identities using Kubernetes RoleBinding and ClusterRoleBinding objects. For more information see [Using RBAC Authorization](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) in the Kubernetes documentation.
     ///
-    /// - Parameter AssociateIdentityProviderConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateIdentityProviderConfigInput`)
     ///
-    /// - Returns: `AssociateIdentityProviderConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateIdentityProviderConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -561,6 +564,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateIdentityProviderConfigOutput>(AssociateIdentityProviderConfigOutput.httpOutput(from:), AssociateIdentityProviderConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateIdentityProviderConfigInput, AssociateIdentityProviderConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateIdentityProviderConfigOutput>())
@@ -592,9 +596,9 @@ extension EKSClient {
     ///
     /// Creates an access entry. An access entry allows an IAM principal to access your cluster. Access entries can replace the need to maintain entries in the aws-authConfigMap for authentication. You have the following options for authorizing an IAM principal to access Kubernetes objects on your cluster: Kubernetes role-based access control (RBAC), Amazon EKS, or both. Kubernetes RBAC authorization requires you to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects, in addition to managing access entries. If you use Amazon EKS authorization exclusively, you don't need to create and manage Kubernetes Role, ClusterRole, RoleBinding, and ClusterRoleBinding objects. For more information about access entries, see [Access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html) in the Amazon EKS User Guide.
     ///
-    /// - Parameter CreateAccessEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessEntryInput`)
     ///
-    /// - Returns: `CreateAccessEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessEntryInput, CreateAccessEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessEntryOutput>(CreateAccessEntryOutput.httpOutput(from:), CreateAccessEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessEntryInput, CreateAccessEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessEntryOutput>())
@@ -665,9 +670,9 @@ extension EKSClient {
     ///
     /// Creates an Amazon EKS add-on. Amazon EKS add-ons help to automate the provisioning and lifecycle management of common operational software for Amazon EKS clusters. For more information, see [Amazon EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) in the Amazon EKS User Guide.
     ///
-    /// - Parameter CreateAddonInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddonInput`)
     ///
-    /// - Returns: `CreateAddonOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -707,6 +712,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddonInput, CreateAddonOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAddonOutput>(CreateAddonOutput.httpOutput(from:), CreateAddonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddonInput, CreateAddonOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddonOutput>())
@@ -738,9 +744,9 @@ extension EKSClient {
     ///
     /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see [Amazon EKS Cluster Endpoint Access Control](https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html) in the Amazon EKS User Guide . You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see [Amazon EKS Cluster Control Plane Logs](https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html) in the Amazon EKS User Guide . CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see [CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see [Allowing users to access your cluster](https://docs.aws.amazon.com/eks/latest/userguide/cluster-auth.html) and [Launching Amazon EKS nodes](https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html) in the Amazon EKS User Guide.
     ///
-    /// - Parameter CreateClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateClusterInput`)
     ///
-    /// - Returns: `CreateClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -781,6 +787,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateClusterInput, CreateClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateClusterOutput>(CreateClusterOutput.httpOutput(from:), CreateClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateClusterInput, CreateClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateClusterOutput>())
@@ -812,9 +819,9 @@ extension EKSClient {
     ///
     /// Creates an EKS Anywhere subscription. When a subscription is created, it is a contract agreement for the length of the term specified in the request. Licenses that are used to validate support are provisioned in Amazon Web Services License Manager and the caller account is granted access to EKS Anywhere Curated Packages.
     ///
-    /// - Parameter CreateEksAnywhereSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEksAnywhereSubscriptionInput`)
     ///
-    /// - Returns: `CreateEksAnywhereSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEksAnywhereSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -853,6 +860,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEksAnywhereSubscriptionOutput>(CreateEksAnywhereSubscriptionOutput.httpOutput(from:), CreateEksAnywhereSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEksAnywhereSubscriptionInput, CreateEksAnywhereSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEksAnywhereSubscriptionOutput>())
@@ -884,9 +892,9 @@ extension EKSClient {
     ///
     /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile's selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes [Role Based Access Control](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see [Pod Execution Role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html) in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see [Fargate profile](https://docs.aws.amazon.com/eks/latest/userguide/fargate-profile.html) in the Amazon EKS User Guide.
     ///
-    /// - Parameter CreateFargateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFargateProfileInput`)
     ///
-    /// - Returns: `CreateFargateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFargateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -926,6 +934,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFargateProfileOutput>(CreateFargateProfileOutput.httpOutput(from:), CreateFargateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFargateProfileInput, CreateFargateProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFargateProfileOutput>())
@@ -957,9 +966,9 @@ extension EKSClient {
     ///
     /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For later updates, you will only be able to update a node group using a launch template only if it was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. For more information about using launch templates, see [Customizing managed nodes with launch templates](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html). An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see [Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) in the Amazon EKS User Guide. Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
     ///
-    /// - Parameter CreateNodegroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateNodegroupInput`)
     ///
-    /// - Returns: `CreateNodegroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateNodegroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1000,6 +1009,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateNodegroupInput, CreateNodegroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateNodegroupOutput>(CreateNodegroupOutput.httpOutput(from:), CreateNodegroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateNodegroupInput, CreateNodegroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateNodegroupOutput>())
@@ -1031,9 +1041,9 @@ extension EKSClient {
     ///
     /// Creates an EKS Pod Identity association between a service account in an Amazon EKS cluster and an IAM role with EKS Pod Identity. Use EKS Pod Identity to give temporary IAM credentials to Pods and the credentials are rotated automatically. Amazon EKS Pod Identity associations provide the ability to manage credentials for your applications, similar to the way that Amazon EC2 instance profiles provide credentials to Amazon EC2 instances. If a Pod uses a service account that has an association, Amazon EKS sets environment variables in the containers of the Pod. The environment variables configure the Amazon Web Services SDKs, including the Command Line Interface, to use the EKS Pod Identity credentials. EKS Pod Identity is a simpler method than IAM roles for service accounts, as this method doesn't use OIDC identity providers. Additionally, you can configure a role for EKS Pod Identity once, and reuse it across clusters. Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventually consistent, and may take several seconds to be effective after the initial API call returns successfully. You must design your applications to account for these potential delays. We recommend that you don’t include association create/updates in the critical, high-availability code paths of your application. Instead, make changes in a separate initialization or setup routine that you run less frequently. You can set a target IAM role in the same or a different account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two role assumptions in sequence: first assuming the role in the association that is in this account, then using those credentials to assume the target IAM role. This process provides your Pod with temporary credentials that have the permissions defined in the target role, allowing secure access to resources in another Amazon Web Services account.
     ///
-    /// - Parameter CreatePodIdentityAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePodIdentityAssociationInput`)
     ///
-    /// - Returns: `CreatePodIdentityAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePodIdentityAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1073,6 +1083,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePodIdentityAssociationOutput>(CreatePodIdentityAssociationOutput.httpOutput(from:), CreatePodIdentityAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePodIdentityAssociationInput, CreatePodIdentityAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePodIdentityAssociationOutput>())
@@ -1104,9 +1115,9 @@ extension EKSClient {
     ///
     /// Deletes an access entry. Deleting an access entry of a type other than Standard can cause your cluster to function improperly. If you delete an access entry in error, you can recreate it.
     ///
-    /// - Parameter DeleteAccessEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessEntryInput`)
     ///
-    /// - Returns: `DeleteAccessEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1139,6 +1150,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccessEntryInput, DeleteAccessEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessEntryOutput>(DeleteAccessEntryOutput.httpOutput(from:), DeleteAccessEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessEntryInput, DeleteAccessEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessEntryOutput>())
@@ -1170,9 +1182,9 @@ extension EKSClient {
     ///
     /// Deletes an Amazon EKS add-on. When you remove an add-on, it's deleted from the cluster. You can always manually start an add-on on the cluster using the Kubernetes API.
     ///
-    /// - Parameter DeleteAddonInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAddonInput`)
     ///
-    /// - Returns: `DeleteAddonOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAddonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1208,6 +1220,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAddonInput, DeleteAddonOutput>(DeleteAddonInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAddonOutput>(DeleteAddonOutput.httpOutput(from:), DeleteAddonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAddonInput, DeleteAddonOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAddonOutput>())
@@ -1239,9 +1252,9 @@ extension EKSClient {
     ///
     /// Deletes an Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see [Deleting a cluster](https://docs.aws.amazon.com/eks/latest/userguide/delete-cluster.html) in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodgroup and DeleteFargateProfile.
     ///
-    /// - Parameter DeleteClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterInput`)
     ///
-    /// - Returns: `DeleteClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1277,6 +1290,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterInput, DeleteClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterOutput>(DeleteClusterOutput.httpOutput(from:), DeleteClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterInput, DeleteClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterOutput>())
@@ -1308,9 +1322,9 @@ extension EKSClient {
     ///
     /// Deletes an expired or inactive subscription. Deleting inactive subscriptions removes them from the Amazon Web Services Management Console view and from list/describe API responses. Subscriptions can only be cancelled within 7 days of creation and are cancelled by creating a ticket in the Amazon Web Services Support Center.
     ///
-    /// - Parameter DeleteEksAnywhereSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEksAnywhereSubscriptionInput`)
     ///
-    /// - Returns: `DeleteEksAnywhereSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEksAnywhereSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1344,6 +1358,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEksAnywhereSubscriptionInput, DeleteEksAnywhereSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEksAnywhereSubscriptionOutput>(DeleteEksAnywhereSubscriptionOutput.httpOutput(from:), DeleteEksAnywhereSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEksAnywhereSubscriptionInput, DeleteEksAnywhereSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEksAnywhereSubscriptionOutput>())
@@ -1375,9 +1390,9 @@ extension EKSClient {
     ///
     /// Deletes an Fargate profile. When you delete a Fargate profile, any Pod running on Fargate that was created with the profile is deleted. If the Pod matches another Fargate profile, then it is scheduled on Fargate with that profile. If it no longer matches any Fargate profiles, then it's not scheduled on Fargate and may remain in a pending state. Only one Fargate profile in a cluster can be in the DELETING status at a time. You must wait for a Fargate profile to finish deleting before you can delete any other profiles in that cluster.
     ///
-    /// - Parameter DeleteFargateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFargateProfileInput`)
     ///
-    /// - Returns: `DeleteFargateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFargateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1411,6 +1426,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFargateProfileInput, DeleteFargateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFargateProfileOutput>(DeleteFargateProfileOutput.httpOutput(from:), DeleteFargateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFargateProfileInput, DeleteFargateProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFargateProfileOutput>())
@@ -1442,9 +1458,9 @@ extension EKSClient {
     ///
     /// Deletes a managed node group.
     ///
-    /// - Parameter DeleteNodegroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNodegroupInput`)
     ///
-    /// - Returns: `DeleteNodegroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNodegroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1480,6 +1496,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteNodegroupInput, DeleteNodegroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNodegroupOutput>(DeleteNodegroupOutput.httpOutput(from:), DeleteNodegroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNodegroupInput, DeleteNodegroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNodegroupOutput>())
@@ -1511,9 +1528,9 @@ extension EKSClient {
     ///
     /// Deletes a EKS Pod Identity association. The temporary Amazon Web Services credentials from the previous IAM role session might still be valid until the session expiry. If you need to immediately revoke the temporary session credentials, then go to the role in the IAM console.
     ///
-    /// - Parameter DeletePodIdentityAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePodIdentityAssociationInput`)
     ///
-    /// - Returns: `DeletePodIdentityAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePodIdentityAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1547,6 +1564,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePodIdentityAssociationInput, DeletePodIdentityAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePodIdentityAssociationOutput>(DeletePodIdentityAssociationOutput.httpOutput(from:), DeletePodIdentityAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePodIdentityAssociationInput, DeletePodIdentityAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePodIdentityAssociationOutput>())
@@ -1578,9 +1596,9 @@ extension EKSClient {
     ///
     /// Deregisters a connected cluster to remove it from the Amazon EKS control plane. A connected cluster is a Kubernetes cluster that you've connected to your control plane using the [Amazon EKS Connector](https://docs.aws.amazon.com/eks/latest/userguide/eks-connector.html).
     ///
-    /// - Parameter DeregisterClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterClusterInput`)
     ///
-    /// - Returns: `DeregisterClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1616,6 +1634,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterClusterInput, DeregisterClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterClusterOutput>(DeregisterClusterOutput.httpOutput(from:), DeregisterClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterClusterInput, DeregisterClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterClusterOutput>())
@@ -1647,9 +1666,9 @@ extension EKSClient {
     ///
     /// Describes an access entry.
     ///
-    /// - Parameter DescribeAccessEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccessEntryInput`)
     ///
-    /// - Returns: `DescribeAccessEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccessEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1682,6 +1701,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccessEntryInput, DescribeAccessEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccessEntryOutput>(DescribeAccessEntryOutput.httpOutput(from:), DescribeAccessEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccessEntryInput, DescribeAccessEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccessEntryOutput>())
@@ -1713,9 +1733,9 @@ extension EKSClient {
     ///
     /// Describes an Amazon EKS add-on.
     ///
-    /// - Parameter DescribeAddonInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAddonInput`)
     ///
-    /// - Returns: `DescribeAddonOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAddonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1750,6 +1770,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAddonInput, DescribeAddonOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAddonOutput>(DescribeAddonOutput.httpOutput(from:), DescribeAddonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAddonInput, DescribeAddonOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAddonOutput>())
@@ -1781,9 +1802,9 @@ extension EKSClient {
     ///
     /// Returns configuration options.
     ///
-    /// - Parameter DescribeAddonConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAddonConfigurationInput`)
     ///
-    /// - Returns: `DescribeAddonConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAddonConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1817,6 +1838,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput>(DescribeAddonConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAddonConfigurationOutput>(DescribeAddonConfigurationOutput.httpOutput(from:), DescribeAddonConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAddonConfigurationInput, DescribeAddonConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAddonConfigurationOutput>())
@@ -1848,9 +1870,9 @@ extension EKSClient {
     ///
     /// Describes the versions for an add-on. Information such as the Kubernetes versions that you can use the add-on with, the owner, publisher, and the type of the add-on are returned.
     ///
-    /// - Parameter DescribeAddonVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAddonVersionsInput`)
     ///
-    /// - Returns: `DescribeAddonVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAddonVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1884,6 +1906,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeAddonVersionsInput, DescribeAddonVersionsOutput>(DescribeAddonVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAddonVersionsOutput>(DescribeAddonVersionsOutput.httpOutput(from:), DescribeAddonVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAddonVersionsInput, DescribeAddonVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAddonVersionsOutput>())
@@ -1915,9 +1938,9 @@ extension EKSClient {
     ///
     /// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see [Creating or updating a ]kubeconfig file for an Amazon EKS cluster(https://docs.aws.amazon.com/eks/latest/userguide/create-kubeconfig.html). The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
     ///
-    /// - Parameter DescribeClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterInput`)
     ///
-    /// - Returns: `DescribeClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,6 +1974,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeClusterInput, DescribeClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterOutput>(DescribeClusterOutput.httpOutput(from:), DescribeClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterInput, DescribeClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterOutput>())
@@ -1982,9 +2006,9 @@ extension EKSClient {
     ///
     /// Lists available Kubernetes versions for Amazon EKS clusters.
     ///
-    /// - Parameter DescribeClusterVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeClusterVersionsInput`)
     ///
-    /// - Returns: `DescribeClusterVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeClusterVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2018,6 +2042,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeClusterVersionsInput, DescribeClusterVersionsOutput>(DescribeClusterVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeClusterVersionsOutput>(DescribeClusterVersionsOutput.httpOutput(from:), DescribeClusterVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeClusterVersionsInput, DescribeClusterVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeClusterVersionsOutput>())
@@ -2049,9 +2074,9 @@ extension EKSClient {
     ///
     /// Returns descriptive information about a subscription.
     ///
-    /// - Parameter DescribeEksAnywhereSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeEksAnywhereSubscriptionInput`)
     ///
-    /// - Returns: `DescribeEksAnywhereSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeEksAnywhereSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2085,6 +2110,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeEksAnywhereSubscriptionInput, DescribeEksAnywhereSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeEksAnywhereSubscriptionOutput>(DescribeEksAnywhereSubscriptionOutput.httpOutput(from:), DescribeEksAnywhereSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeEksAnywhereSubscriptionInput, DescribeEksAnywhereSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeEksAnywhereSubscriptionOutput>())
@@ -2116,9 +2142,9 @@ extension EKSClient {
     ///
     /// Describes an Fargate profile.
     ///
-    /// - Parameter DescribeFargateProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeFargateProfileInput`)
     ///
-    /// - Returns: `DescribeFargateProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeFargateProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2152,6 +2178,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeFargateProfileInput, DescribeFargateProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeFargateProfileOutput>(DescribeFargateProfileOutput.httpOutput(from:), DescribeFargateProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeFargateProfileInput, DescribeFargateProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeFargateProfileOutput>())
@@ -2183,9 +2210,9 @@ extension EKSClient {
     ///
     /// Describes an identity provider configuration.
     ///
-    /// - Parameter DescribeIdentityProviderConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeIdentityProviderConfigInput`)
     ///
-    /// - Returns: `DescribeIdentityProviderConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeIdentityProviderConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2223,6 +2250,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeIdentityProviderConfigOutput>(DescribeIdentityProviderConfigOutput.httpOutput(from:), DescribeIdentityProviderConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeIdentityProviderConfigInput, DescribeIdentityProviderConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeIdentityProviderConfigOutput>())
@@ -2254,9 +2282,9 @@ extension EKSClient {
     ///
     /// Returns details about an insight that you specify using its ID.
     ///
-    /// - Parameter DescribeInsightInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInsightInput`)
     ///
-    /// - Returns: `DescribeInsightOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInsightOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2290,6 +2318,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInsightInput, DescribeInsightOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInsightOutput>(DescribeInsightOutput.httpOutput(from:), DescribeInsightOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInsightInput, DescribeInsightOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInsightOutput>())
@@ -2321,9 +2350,9 @@ extension EKSClient {
     ///
     /// Returns the status of the latest on-demand cluster insights refresh operation.
     ///
-    /// - Parameter DescribeInsightsRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeInsightsRefreshInput`)
     ///
-    /// - Returns: `DescribeInsightsRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeInsightsRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2357,6 +2386,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeInsightsRefreshInput, DescribeInsightsRefreshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeInsightsRefreshOutput>(DescribeInsightsRefreshOutput.httpOutput(from:), DescribeInsightsRefreshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeInsightsRefreshInput, DescribeInsightsRefreshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeInsightsRefreshOutput>())
@@ -2388,9 +2418,9 @@ extension EKSClient {
     ///
     /// Describes a managed node group.
     ///
-    /// - Parameter DescribeNodegroupInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNodegroupInput`)
     ///
-    /// - Returns: `DescribeNodegroupOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNodegroupOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2425,6 +2455,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeNodegroupInput, DescribeNodegroupOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNodegroupOutput>(DescribeNodegroupOutput.httpOutput(from:), DescribeNodegroupOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNodegroupInput, DescribeNodegroupOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNodegroupOutput>())
@@ -2456,9 +2487,9 @@ extension EKSClient {
     ///
     /// Returns descriptive information about an EKS Pod Identity association. This action requires the ID of the association. You can get the ID from the response to the CreatePodIdentityAssocation for newly created associations. Or, you can list the IDs for associations with ListPodIdentityAssociations and filter the list by namespace or service account.
     ///
-    /// - Parameter DescribePodIdentityAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePodIdentityAssociationInput`)
     ///
-    /// - Returns: `DescribePodIdentityAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePodIdentityAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2492,6 +2523,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePodIdentityAssociationInput, DescribePodIdentityAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePodIdentityAssociationOutput>(DescribePodIdentityAssociationOutput.httpOutput(from:), DescribePodIdentityAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePodIdentityAssociationInput, DescribePodIdentityAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePodIdentityAssociationOutput>())
@@ -2523,9 +2555,9 @@ extension EKSClient {
     ///
     /// Describes an update to an Amazon EKS resource. When the status of the update is Successful, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     ///
-    /// - Parameter DescribeUpdateInput : Describes an update request.
+    /// - Parameter input: Describes an update request. (Type: `DescribeUpdateInput`)
     ///
-    /// - Returns: `DescribeUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2560,6 +2592,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeUpdateInput, DescribeUpdateOutput>(DescribeUpdateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUpdateOutput>(DescribeUpdateOutput.httpOutput(from:), DescribeUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUpdateInput, DescribeUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUpdateOutput>())
@@ -2591,9 +2624,9 @@ extension EKSClient {
     ///
     /// Disassociates an access policy from an access entry.
     ///
-    /// - Parameter DisassociateAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAccessPolicyInput`)
     ///
-    /// - Returns: `DisassociateAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2626,6 +2659,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateAccessPolicyInput, DisassociateAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAccessPolicyOutput>(DisassociateAccessPolicyOutput.httpOutput(from:), DisassociateAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAccessPolicyInput, DisassociateAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAccessPolicyOutput>())
@@ -2657,9 +2691,9 @@ extension EKSClient {
     ///
     /// Disassociates an identity provider configuration from a cluster. If you disassociate an identity provider from your cluster, users included in the provider can no longer access the cluster. However, you can still access the cluster with IAM principals.
     ///
-    /// - Parameter DisassociateIdentityProviderConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateIdentityProviderConfigInput`)
     ///
-    /// - Returns: `DisassociateIdentityProviderConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateIdentityProviderConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2700,6 +2734,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateIdentityProviderConfigOutput>(DisassociateIdentityProviderConfigOutput.httpOutput(from:), DisassociateIdentityProviderConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateIdentityProviderConfigInput, DisassociateIdentityProviderConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateIdentityProviderConfigOutput>())
@@ -2731,9 +2766,9 @@ extension EKSClient {
     ///
     /// Lists the access entries for your cluster.
     ///
-    /// - Parameter ListAccessEntriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessEntriesInput`)
     ///
-    /// - Returns: `ListAccessEntriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessEntriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2768,6 +2803,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessEntriesInput, ListAccessEntriesOutput>(ListAccessEntriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessEntriesOutput>(ListAccessEntriesOutput.httpOutput(from:), ListAccessEntriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessEntriesInput, ListAccessEntriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessEntriesOutput>())
@@ -2799,9 +2835,9 @@ extension EKSClient {
     ///
     /// Lists the available access policies.
     ///
-    /// - Parameter ListAccessPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPoliciesInput`)
     ///
-    /// - Returns: `ListAccessPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2833,6 +2869,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>(ListAccessPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPoliciesOutput>(ListAccessPoliciesOutput.httpOutput(from:), ListAccessPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessPoliciesOutput>())
@@ -2864,9 +2901,9 @@ extension EKSClient {
     ///
     /// Lists the installed add-ons.
     ///
-    /// - Parameter ListAddonsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddonsInput`)
     ///
-    /// - Returns: `ListAddonsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddonsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2902,6 +2939,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAddonsInput, ListAddonsOutput>(ListAddonsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAddonsOutput>(ListAddonsOutput.httpOutput(from:), ListAddonsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddonsInput, ListAddonsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddonsOutput>())
@@ -2933,9 +2971,9 @@ extension EKSClient {
     ///
     /// Lists the access policies associated with an access entry.
     ///
-    /// - Parameter ListAssociatedAccessPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedAccessPoliciesInput`)
     ///
-    /// - Returns: `ListAssociatedAccessPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedAccessPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2969,6 +3007,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput>(ListAssociatedAccessPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociatedAccessPoliciesOutput>(ListAssociatedAccessPoliciesOutput.httpOutput(from:), ListAssociatedAccessPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedAccessPoliciesInput, ListAssociatedAccessPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedAccessPoliciesOutput>())
@@ -3000,9 +3039,9 @@ extension EKSClient {
     ///
     /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
     ///
-    /// - Parameter ListClustersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListClustersInput`)
     ///
-    /// - Returns: `ListClustersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListClustersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3037,6 +3076,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListClustersInput, ListClustersOutput>(ListClustersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListClustersOutput>(ListClustersOutput.httpOutput(from:), ListClustersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListClustersInput, ListClustersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListClustersOutput>())
@@ -3068,9 +3108,9 @@ extension EKSClient {
     ///
     /// Displays the full description of the subscription.
     ///
-    /// - Parameter ListEksAnywhereSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEksAnywhereSubscriptionsInput`)
     ///
-    /// - Returns: `ListEksAnywhereSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEksAnywhereSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3105,6 +3145,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput>(ListEksAnywhereSubscriptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEksAnywhereSubscriptionsOutput>(ListEksAnywhereSubscriptionsOutput.httpOutput(from:), ListEksAnywhereSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEksAnywhereSubscriptionsInput, ListEksAnywhereSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEksAnywhereSubscriptionsOutput>())
@@ -3136,9 +3177,9 @@ extension EKSClient {
     ///
     /// Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region.
     ///
-    /// - Parameter ListFargateProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFargateProfilesInput`)
     ///
-    /// - Returns: `ListFargateProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFargateProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3173,6 +3214,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListFargateProfilesInput, ListFargateProfilesOutput>(ListFargateProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFargateProfilesOutput>(ListFargateProfilesOutput.httpOutput(from:), ListFargateProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFargateProfilesInput, ListFargateProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFargateProfilesOutput>())
@@ -3204,9 +3246,9 @@ extension EKSClient {
     ///
     /// Lists the identity provider configurations for your cluster.
     ///
-    /// - Parameter ListIdentityProviderConfigsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIdentityProviderConfigsInput`)
     ///
-    /// - Returns: `ListIdentityProviderConfigsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIdentityProviderConfigsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3242,6 +3284,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput>(ListIdentityProviderConfigsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIdentityProviderConfigsOutput>(ListIdentityProviderConfigsOutput.httpOutput(from:), ListIdentityProviderConfigsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIdentityProviderConfigsInput, ListIdentityProviderConfigsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIdentityProviderConfigsOutput>())
@@ -3277,9 +3320,9 @@ extension EKSClient {
     ///
     /// * MISCONFIGURATION: Amazon EKS identifies misconfiguration in your EKS Hybrid Nodes setup that could impair functionality of your cluster or workloads. These are called configuration insights.
     ///
-    /// - Parameter ListInsightsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInsightsInput`)
     ///
-    /// - Returns: `ListInsightsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInsightsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3316,6 +3359,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListInsightsInput, ListInsightsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInsightsOutput>(ListInsightsOutput.httpOutput(from:), ListInsightsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInsightsInput, ListInsightsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInsightsOutput>())
@@ -3347,9 +3391,9 @@ extension EKSClient {
     ///
     /// Lists the managed node groups associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
     ///
-    /// - Parameter ListNodegroupsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNodegroupsInput`)
     ///
-    /// - Returns: `ListNodegroupsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNodegroupsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3385,6 +3429,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNodegroupsInput, ListNodegroupsOutput>(ListNodegroupsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNodegroupsOutput>(ListNodegroupsOutput.httpOutput(from:), ListNodegroupsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNodegroupsInput, ListNodegroupsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNodegroupsOutput>())
@@ -3416,9 +3461,9 @@ extension EKSClient {
     ///
     /// List the EKS Pod Identity associations in a cluster. You can filter the list by the namespace that the association is in or the service account that the association uses.
     ///
-    /// - Parameter ListPodIdentityAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPodIdentityAssociationsInput`)
     ///
-    /// - Returns: `ListPodIdentityAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPodIdentityAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3453,6 +3498,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput>(ListPodIdentityAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPodIdentityAssociationsOutput>(ListPodIdentityAssociationsOutput.httpOutput(from:), ListPodIdentityAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPodIdentityAssociationsInput, ListPodIdentityAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPodIdentityAssociationsOutput>())
@@ -3484,9 +3530,9 @@ extension EKSClient {
     ///
     /// List the tags for an Amazon EKS resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3518,6 +3564,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3549,9 +3596,9 @@ extension EKSClient {
     ///
     /// Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the specified Amazon Web Services Region.
     ///
-    /// - Parameter ListUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUpdatesInput`)
     ///
-    /// - Returns: `ListUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3586,6 +3633,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUpdatesInput, ListUpdatesOutput>(ListUpdatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUpdatesOutput>(ListUpdatesOutput.httpOutput(from:), ListUpdatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUpdatesInput, ListUpdatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUpdatesOutput>())
@@ -3617,9 +3665,9 @@ extension EKSClient {
     ///
     /// Connects a Kubernetes cluster to the Amazon EKS control plane. Any Kubernetes cluster can be connected to the Amazon EKS control plane to view current information about the cluster and its nodes. Cluster connection requires two steps. First, send a [RegisterClusterRequest](https://docs.aws.amazon.com/eks/latest/APIReference/API_RegisterClusterRequest.html) to add it to the Amazon EKS control plane. Second, a [Manifest](https://amazon-eks.s3.us-west-2.amazonaws.com/eks-connector/manifests/eks-connector/latest/eks-connector.yaml) containing the activationID and activationCode must be applied to the Kubernetes cluster through it's native provider to provide visibility. After the manifest is updated and applied, the connected cluster is visible to the Amazon EKS control plane. If the manifest isn't applied within three days, the connected cluster will no longer be visible and must be deregistered using DeregisterCluster.
     ///
-    /// - Parameter RegisterClusterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterClusterInput`)
     ///
-    /// - Returns: `RegisterClusterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterClusterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3661,6 +3709,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterClusterInput, RegisterClusterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterClusterOutput>(RegisterClusterOutput.httpOutput(from:), RegisterClusterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterClusterInput, RegisterClusterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterClusterOutput>())
@@ -3692,9 +3741,9 @@ extension EKSClient {
     ///
     /// Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
     ///
-    /// - Parameter StartInsightsRefreshInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartInsightsRefreshInput`)
     ///
-    /// - Returns: `StartInsightsRefreshOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartInsightsRefreshOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3728,6 +3777,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartInsightsRefreshInput, StartInsightsRefreshOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartInsightsRefreshOutput>(StartInsightsRefreshOutput.httpOutput(from:), StartInsightsRefreshOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartInsightsRefreshInput, StartInsightsRefreshOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartInsightsRefreshOutput>())
@@ -3759,9 +3809,9 @@ extension EKSClient {
     ///
     /// Associates the specified tags to an Amazon EKS resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EKS resources don't propagate to any other resources associated with the cluster. For example, if you tag a cluster with this operation, that tag doesn't automatically propagate to the subnets and nodes associated with the cluster.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3796,6 +3846,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -3827,9 +3878,9 @@ extension EKSClient {
     ///
     /// Deletes specified tags from an Amazon EKS resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3862,6 +3913,7 @@ extension EKSClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -3893,9 +3945,9 @@ extension EKSClient {
     ///
     /// Updates an access entry.
     ///
-    /// - Parameter UpdateAccessEntryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessEntryInput`)
     ///
-    /// - Returns: `UpdateAccessEntryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessEntryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3933,6 +3985,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessEntryInput, UpdateAccessEntryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessEntryOutput>(UpdateAccessEntryOutput.httpOutput(from:), UpdateAccessEntryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessEntryInput, UpdateAccessEntryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessEntryOutput>())
@@ -3964,9 +4017,9 @@ extension EKSClient {
     ///
     /// Updates an Amazon EKS add-on.
     ///
-    /// - Parameter UpdateAddonInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAddonInput`)
     ///
-    /// - Returns: `UpdateAddonOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAddonOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4006,6 +4059,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAddonInput, UpdateAddonOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAddonOutput>(UpdateAddonOutput.httpOutput(from:), UpdateAddonOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAddonInput, UpdateAddonOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAddonOutput>())
@@ -4050,9 +4104,9 @@ extension EKSClient {
     ///
     /// Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     ///
-    /// - Parameter UpdateClusterConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterConfigInput`)
     ///
-    /// - Returns: `UpdateClusterConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4093,6 +4147,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterConfigOutput>(UpdateClusterConfigOutput.httpOutput(from:), UpdateClusterConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterConfigInput, UpdateClusterConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterConfigOutput>())
@@ -4124,9 +4179,9 @@ extension EKSClient {
     ///
     /// Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the [DescribeUpdate](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeUpdate.html) API operation. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active. If your cluster has managed node groups attached to it, all of your node groups' Kubernetes versions must match the cluster's Kubernetes version in order to update the cluster to a new Kubernetes version.
     ///
-    /// - Parameter UpdateClusterVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateClusterVersionInput`)
     ///
-    /// - Returns: `UpdateClusterVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateClusterVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4168,6 +4223,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateClusterVersionOutput>(UpdateClusterVersionOutput.httpOutput(from:), UpdateClusterVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateClusterVersionInput, UpdateClusterVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateClusterVersionOutput>())
@@ -4199,9 +4255,9 @@ extension EKSClient {
     ///
     /// Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after subscription creation.
     ///
-    /// - Parameter UpdateEksAnywhereSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEksAnywhereSubscriptionInput`)
     ///
-    /// - Returns: `UpdateEksAnywhereSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEksAnywhereSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4240,6 +4296,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEksAnywhereSubscriptionOutput>(UpdateEksAnywhereSubscriptionOutput.httpOutput(from:), UpdateEksAnywhereSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEksAnywhereSubscriptionInput, UpdateEksAnywhereSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEksAnywhereSubscriptionOutput>())
@@ -4271,9 +4328,9 @@ extension EKSClient {
     ///
     /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the [DescribeUpdate](https://docs.aws.amazon.com/eks/latest/APIReference/API_DescribeUpdate.html) API operation. You can update the Kubernetes labels and taints for a node group and the scaling and version update configuration.
     ///
-    /// - Parameter UpdateNodegroupConfigInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNodegroupConfigInput`)
     ///
-    /// - Returns: `UpdateNodegroupConfigOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNodegroupConfigOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4313,6 +4370,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNodegroupConfigOutput>(UpdateNodegroupConfigOutput.httpOutput(from:), UpdateNodegroupConfigOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNodegroupConfigInput, UpdateNodegroupConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNodegroupConfigOutput>())
@@ -4344,9 +4402,9 @@ extension EKSClient {
     ///
     /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see [Amazon EKS optimized Amazon Linux AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html) in the Amazon EKS User Guide. For information about Windows versions, see [Amazon EKS optimized Windows AMI versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-ami-versions-windows.html) in the Amazon EKS User Guide. You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, every Pod on that node is drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a Pod disruption budget issue.
     ///
-    /// - Parameter UpdateNodegroupVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNodegroupVersionInput`)
     ///
-    /// - Returns: `UpdateNodegroupVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNodegroupVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4386,6 +4444,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNodegroupVersionOutput>(UpdateNodegroupVersionOutput.httpOutput(from:), UpdateNodegroupVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNodegroupVersionInput, UpdateNodegroupVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNodegroupVersionOutput>())
@@ -4417,9 +4476,9 @@ extension EKSClient {
     ///
     /// Updates a EKS Pod Identity association. In an update, you can change the IAM role, the target IAM role, or disableSessionTags. You must change at least one of these in an update. An association can't be moved between clusters, namespaces, or service accounts. If you need to edit the namespace or service account, you need to delete the association and then create a new association with your desired settings. Similar to Amazon Web Services IAM behavior, EKS Pod Identity associations are eventually consistent, and may take several seconds to be effective after the initial API call returns successfully. You must design your applications to account for these potential delays. We recommend that you don’t include association create/updates in the critical, high-availability code paths of your application. Instead, make changes in a separate initialization or setup routine that you run less frequently. You can set a target IAM role in the same or a different account for advanced scenarios. With a target role, EKS Pod Identity automatically performs two role assumptions in sequence: first assuming the role in the association that is in this account, then using those credentials to assume the target IAM role. This process provides your Pod with temporary credentials that have the permissions defined in the target role, allowing secure access to resources in another Amazon Web Services account.
     ///
-    /// - Parameter UpdatePodIdentityAssociationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePodIdentityAssociationInput`)
     ///
-    /// - Returns: `UpdatePodIdentityAssociationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePodIdentityAssociationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4457,6 +4516,7 @@ extension EKSClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePodIdentityAssociationOutput>(UpdatePodIdentityAssociationOutput.httpOutput(from:), UpdatePodIdentityAssociationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePodIdentityAssociationInput, UpdatePodIdentityAssociationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePodIdentityAssociationOutput>())

@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ServiceQuotasClient: ClientRuntime.Client {
     public static let clientName = "ServiceQuotasClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ServiceQuotasClient.ServiceQuotasClientConfiguration
     let serviceName = "Service Quotas"
@@ -372,9 +373,9 @@ extension ServiceQuotasClient {
     ///
     /// Associates your quota request template with your organization. When a new Amazon Web Services account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
     ///
-    /// - Parameter AssociateServiceQuotaTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateServiceQuotaTemplateInput`)
     ///
-    /// - Returns: `AssociateServiceQuotaTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateServiceQuotaTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateServiceQuotaTemplateInput, AssociateServiceQuotaTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateServiceQuotaTemplateOutput>(AssociateServiceQuotaTemplateOutput.httpOutput(from:), AssociateServiceQuotaTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateServiceQuotaTemplateInput, AssociateServiceQuotaTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateServiceQuotaTemplateOutput>())
@@ -447,9 +449,9 @@ extension ServiceQuotasClient {
     ///
     /// Creates a Support case for an existing quota increase request. This call only creates a Support case if the request has a Pending status.
     ///
-    /// - Parameter CreateSupportCaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSupportCaseInput`)
     ///
-    /// - Returns: `CreateSupportCaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSupportCaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -488,6 +490,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSupportCaseOutput>(CreateSupportCaseOutput.httpOutput(from:), CreateSupportCaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSupportCaseInput, CreateSupportCaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSupportCaseOutput>())
@@ -522,9 +525,9 @@ extension ServiceQuotasClient {
     ///
     /// Deletes the quota increase request for the specified quota from your quota request template.
     ///
-    /// - Parameter DeleteServiceQuotaIncreaseRequestFromTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteServiceQuotaIncreaseRequestFromTemplateInput`)
     ///
-    /// - Returns: `DeleteServiceQuotaIncreaseRequestFromTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteServiceQuotaIncreaseRequestFromTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -564,6 +567,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteServiceQuotaIncreaseRequestFromTemplateInput, DeleteServiceQuotaIncreaseRequestFromTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteServiceQuotaIncreaseRequestFromTemplateOutput>(DeleteServiceQuotaIncreaseRequestFromTemplateOutput.httpOutput(from:), DeleteServiceQuotaIncreaseRequestFromTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteServiceQuotaIncreaseRequestFromTemplateInput, DeleteServiceQuotaIncreaseRequestFromTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteServiceQuotaIncreaseRequestFromTemplateOutput>())
@@ -598,9 +602,9 @@ extension ServiceQuotasClient {
     ///
     /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new Amazon Web Services accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
     ///
-    /// - Parameter DisassociateServiceQuotaTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateServiceQuotaTemplateInput`)
     ///
-    /// - Returns: `DisassociateServiceQuotaTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateServiceQuotaTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -639,6 +643,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateServiceQuotaTemplateInput, DisassociateServiceQuotaTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateServiceQuotaTemplateOutput>(DisassociateServiceQuotaTemplateOutput.httpOutput(from:), DisassociateServiceQuotaTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateServiceQuotaTemplateInput, DisassociateServiceQuotaTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateServiceQuotaTemplateOutput>())
@@ -673,9 +678,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the default value for the specified quota. The default value does not reflect any quota increases.
     ///
-    /// - Parameter GetAWSDefaultServiceQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAWSDefaultServiceQuotaInput`)
     ///
-    /// - Returns: `GetAWSDefaultServiceQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAWSDefaultServiceQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -711,6 +716,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAWSDefaultServiceQuotaInput, GetAWSDefaultServiceQuotaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAWSDefaultServiceQuotaOutput>(GetAWSDefaultServiceQuotaOutput.httpOutput(from:), GetAWSDefaultServiceQuotaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAWSDefaultServiceQuotaInput, GetAWSDefaultServiceQuotaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAWSDefaultServiceQuotaOutput>())
@@ -745,9 +751,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the status of the association for the quota request template.
     ///
-    /// - Parameter GetAssociationForServiceQuotaTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssociationForServiceQuotaTemplateInput`)
     ///
-    /// - Returns: `GetAssociationForServiceQuotaTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssociationForServiceQuotaTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,6 +792,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAssociationForServiceQuotaTemplateInput, GetAssociationForServiceQuotaTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssociationForServiceQuotaTemplateOutput>(GetAssociationForServiceQuotaTemplateOutput.httpOutput(from:), GetAssociationForServiceQuotaTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssociationForServiceQuotaTemplateInput, GetAssociationForServiceQuotaTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssociationForServiceQuotaTemplateOutput>())
@@ -816,13 +823,86 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetAutoManagementConfiguration` operation on the `ServiceQuotas` service.
+    ///
+    /// Retrieves information about your [Service Quotas Automatic Management](https://docs.aws.amazon.com/servicequotas/latest/userguide/automatic-management.html) configuration. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAutoManagementConfigurationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAutoManagementConfigurationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
+    public func getAutoManagementConfiguration(input: GetAutoManagementConfigurationInput) async throws -> GetAutoManagementConfigurationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAutoManagementConfiguration")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "servicequotas")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>(GetAutoManagementConfigurationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAutoManagementConfigurationOutput>(GetAutoManagementConfigurationOutput.httpOutput(from:), GetAutoManagementConfigurationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAutoManagementConfigurationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Service Quotas", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAutoManagementConfigurationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>(xAmzTarget: "ServiceQuotasV20190624.GetAutoManagementConfiguration"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetAutoManagementConfigurationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAutoManagementConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAutoManagementConfigurationInput, GetAutoManagementConfigurationOutput>(serviceID: serviceName, version: ServiceQuotasClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAutoManagementConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetRequestedServiceQuotaChange` operation on the `ServiceQuotas` service.
     ///
     /// Retrieves information about the specified quota increase request.
     ///
-    /// - Parameter GetRequestedServiceQuotaChangeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRequestedServiceQuotaChangeInput`)
     ///
-    /// - Returns: `GetRequestedServiceQuotaChangeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRequestedServiceQuotaChangeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -858,6 +938,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRequestedServiceQuotaChangeInput, GetRequestedServiceQuotaChangeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRequestedServiceQuotaChangeOutput>(GetRequestedServiceQuotaChangeOutput.httpOutput(from:), GetRequestedServiceQuotaChangeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRequestedServiceQuotaChangeInput, GetRequestedServiceQuotaChangeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRequestedServiceQuotaChangeOutput>())
@@ -892,9 +973,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the applied quota value for the specified account-level or resource-level quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
     ///
-    /// - Parameter GetServiceQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceQuotaInput`)
     ///
-    /// - Returns: `GetServiceQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -930,6 +1011,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceQuotaInput, GetServiceQuotaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceQuotaOutput>(GetServiceQuotaOutput.httpOutput(from:), GetServiceQuotaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceQuotaInput, GetServiceQuotaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceQuotaOutput>())
@@ -964,9 +1046,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves information about the specified quota increase request in your quota request template.
     ///
-    /// - Parameter GetServiceQuotaIncreaseRequestFromTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetServiceQuotaIncreaseRequestFromTemplateInput`)
     ///
-    /// - Returns: `GetServiceQuotaIncreaseRequestFromTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetServiceQuotaIncreaseRequestFromTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,6 +1088,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetServiceQuotaIncreaseRequestFromTemplateInput, GetServiceQuotaIncreaseRequestFromTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetServiceQuotaIncreaseRequestFromTemplateOutput>(GetServiceQuotaIncreaseRequestFromTemplateOutput.httpOutput(from:), GetServiceQuotaIncreaseRequestFromTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetServiceQuotaIncreaseRequestFromTemplateInput, GetServiceQuotaIncreaseRequestFromTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetServiceQuotaIncreaseRequestFromTemplateOutput>())
@@ -1040,9 +1123,9 @@ extension ServiceQuotasClient {
     ///
     /// Lists the default values for the quotas for the specified Amazon Web Services service. A default value does not reflect any quota increases.
     ///
-    /// - Parameter ListAWSDefaultServiceQuotasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAWSDefaultServiceQuotasInput`)
     ///
-    /// - Returns: `ListAWSDefaultServiceQuotasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAWSDefaultServiceQuotasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1079,6 +1162,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAWSDefaultServiceQuotasOutput>(ListAWSDefaultServiceQuotasOutput.httpOutput(from:), ListAWSDefaultServiceQuotasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAWSDefaultServiceQuotasInput, ListAWSDefaultServiceQuotasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAWSDefaultServiceQuotasOutput>())
@@ -1113,9 +1197,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the quota increase requests for the specified Amazon Web Services service. Filter responses to return quota requests at either the account level, resource level, or all levels. Responses include any open or closed requests within 90 days.
     ///
-    /// - Parameter ListRequestedServiceQuotaChangeHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRequestedServiceQuotaChangeHistoryInput`)
     ///
-    /// - Returns: `ListRequestedServiceQuotaChangeHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRequestedServiceQuotaChangeHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1152,6 +1236,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRequestedServiceQuotaChangeHistoryOutput>(ListRequestedServiceQuotaChangeHistoryOutput.httpOutput(from:), ListRequestedServiceQuotaChangeHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRequestedServiceQuotaChangeHistoryInput, ListRequestedServiceQuotaChangeHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRequestedServiceQuotaChangeHistoryOutput>())
@@ -1186,9 +1271,9 @@ extension ServiceQuotasClient {
     ///
     /// Retrieves the quota increase requests for the specified quota. Filter responses to return quota requests at either the account level, resource level, or all levels.
     ///
-    /// - Parameter ListRequestedServiceQuotaChangeHistoryByQuotaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRequestedServiceQuotaChangeHistoryByQuotaInput`)
     ///
-    /// - Returns: `ListRequestedServiceQuotaChangeHistoryByQuotaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRequestedServiceQuotaChangeHistoryByQuotaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1225,6 +1310,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRequestedServiceQuotaChangeHistoryByQuotaOutput>(ListRequestedServiceQuotaChangeHistoryByQuotaOutput.httpOutput(from:), ListRequestedServiceQuotaChangeHistoryByQuotaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRequestedServiceQuotaChangeHistoryByQuotaInput, ListRequestedServiceQuotaChangeHistoryByQuotaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRequestedServiceQuotaChangeHistoryByQuotaOutput>())
@@ -1259,9 +1345,9 @@ extension ServiceQuotasClient {
     ///
     /// Lists the quota increase requests in the specified quota request template.
     ///
-    /// - Parameter ListServiceQuotaIncreaseRequestsInTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceQuotaIncreaseRequestsInTemplateInput`)
     ///
-    /// - Returns: `ListServiceQuotaIncreaseRequestsInTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceQuotaIncreaseRequestsInTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1300,6 +1386,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceQuotaIncreaseRequestsInTemplateOutput>(ListServiceQuotaIncreaseRequestsInTemplateOutput.httpOutput(from:), ListServiceQuotaIncreaseRequestsInTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceQuotaIncreaseRequestsInTemplateInput, ListServiceQuotaIncreaseRequestsInTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceQuotaIncreaseRequestsInTemplateOutput>())
@@ -1334,9 +1421,9 @@ extension ServiceQuotasClient {
     ///
     /// Lists the applied quota values for the specified Amazon Web Services service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved. Filter responses to return applied quota values at either the account level, resource level, or all levels.
     ///
-    /// - Parameter ListServiceQuotasInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServiceQuotasInput`)
     ///
-    /// - Returns: `ListServiceQuotasOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServiceQuotasOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1373,6 +1460,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServiceQuotasInput, ListServiceQuotasOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServiceQuotasOutput>(ListServiceQuotasOutput.httpOutput(from:), ListServiceQuotasOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServiceQuotasInput, ListServiceQuotasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServiceQuotasOutput>())
@@ -1407,9 +1495,9 @@ extension ServiceQuotasClient {
     ///
     /// Lists the names and codes for the Amazon Web Services services integrated with Service Quotas.
     ///
-    /// - Parameter ListServicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListServicesInput`)
     ///
-    /// - Returns: `ListServicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListServicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1445,6 +1533,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListServicesInput, ListServicesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListServicesOutput>(ListServicesOutput.httpOutput(from:), ListServicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListServicesInput, ListServicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListServicesOutput>())
@@ -1479,9 +1568,9 @@ extension ServiceQuotasClient {
     ///
     /// Returns a list of the tags assigned to the specified applied quota.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1517,6 +1606,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1551,9 +1641,9 @@ extension ServiceQuotasClient {
     ///
     /// Adds a quota increase request to your quota request template.
     ///
-    /// - Parameter PutServiceQuotaIncreaseRequestIntoTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutServiceQuotaIncreaseRequestIntoTemplateInput`)
     ///
-    /// - Returns: `PutServiceQuotaIncreaseRequestIntoTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutServiceQuotaIncreaseRequestIntoTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,6 +1684,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutServiceQuotaIncreaseRequestIntoTemplateInput, PutServiceQuotaIncreaseRequestIntoTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutServiceQuotaIncreaseRequestIntoTemplateOutput>(PutServiceQuotaIncreaseRequestIntoTemplateOutput.httpOutput(from:), PutServiceQuotaIncreaseRequestIntoTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutServiceQuotaIncreaseRequestIntoTemplateInput, PutServiceQuotaIncreaseRequestIntoTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutServiceQuotaIncreaseRequestIntoTemplateOutput>())
@@ -1628,9 +1719,9 @@ extension ServiceQuotasClient {
     ///
     /// Submits a quota increase request for the specified quota at the account or resource level.
     ///
-    /// - Parameter RequestServiceQuotaIncreaseInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RequestServiceQuotaIncreaseInput`)
     ///
-    /// - Returns: `RequestServiceQuotaIncreaseOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RequestServiceQuotaIncreaseOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1670,6 +1761,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RequestServiceQuotaIncreaseInput, RequestServiceQuotaIncreaseOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RequestServiceQuotaIncreaseOutput>(RequestServiceQuotaIncreaseOutput.httpOutput(from:), RequestServiceQuotaIncreaseOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RequestServiceQuotaIncreaseInput, RequestServiceQuotaIncreaseOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RequestServiceQuotaIncreaseOutput>())
@@ -1700,13 +1792,159 @@ extension ServiceQuotasClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartAutoManagement` operation on the `ServiceQuotas` service.
+    ///
+    /// Starts [Service Quotas Automatic Management](https://docs.aws.amazon.com/servicequotas/latest/userguide/automatic-management.html) for an Amazon Web Services account, including notification preferences and excluded quotas configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartAutoManagementInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartAutoManagementOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
+    public func startAutoManagement(input: StartAutoManagementInput) async throws -> StartAutoManagementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startAutoManagement")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "servicequotas")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartAutoManagementInput, StartAutoManagementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartAutoManagementInput, StartAutoManagementOutput>(StartAutoManagementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartAutoManagementInput, StartAutoManagementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAutoManagementInput, StartAutoManagementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAutoManagementOutput>(StartAutoManagementOutput.httpOutput(from:), StartAutoManagementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAutoManagementInput, StartAutoManagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartAutoManagementOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Service Quotas", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartAutoManagementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartAutoManagementInput, StartAutoManagementOutput>(xAmzTarget: "ServiceQuotasV20190624.StartAutoManagement"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartAutoManagementInput, StartAutoManagementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartAutoManagementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartAutoManagementInput, StartAutoManagementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartAutoManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartAutoManagementInput, StartAutoManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartAutoManagementInput, StartAutoManagementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartAutoManagementInput, StartAutoManagementOutput>(serviceID: serviceName, version: ServiceQuotasClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartAutoManagement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StopAutoManagement` operation on the `ServiceQuotas` service.
+    ///
+    /// Stops [Service Quotas Automatic Management](https://docs.aws.amazon.com/servicequotas/latest/userguide/automatic-management.html) for an Amazon Web Services account and removes all associated configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StopAutoManagementInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StopAutoManagementOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
+    public func stopAutoManagement(input: StopAutoManagementInput) async throws -> StopAutoManagementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopAutoManagement")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "servicequotas")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StopAutoManagementInput, StopAutoManagementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopAutoManagementInput, StopAutoManagementOutput>(StopAutoManagementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopAutoManagementInput, StopAutoManagementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAutoManagementInput, StopAutoManagementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAutoManagementOutput>(StopAutoManagementOutput.httpOutput(from:), StopAutoManagementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAutoManagementInput, StopAutoManagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StopAutoManagementOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Service Quotas", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StopAutoManagementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StopAutoManagementInput, StopAutoManagementOutput>(xAmzTarget: "ServiceQuotasV20190624.StopAutoManagement"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StopAutoManagementInput, StopAutoManagementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopAutoManagementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopAutoManagementInput, StopAutoManagementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StopAutoManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StopAutoManagementInput, StopAutoManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StopAutoManagementInput, StopAutoManagementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StopAutoManagementInput, StopAutoManagementOutput>(serviceID: serviceName, version: ServiceQuotasClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StopAutoManagement")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `ServiceQuotas` service.
     ///
     /// Adds tags to the specified applied quota. You can include one or more tags to add to the quota.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1744,6 +1982,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1778,9 +2017,9 @@ extension ServiceQuotasClient {
     ///
     /// Removes tags from the specified applied quota. You can specify one or more tags to remove.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1816,6 +2055,7 @@ extension ServiceQuotasClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1834,6 +2074,79 @@ extension ServiceQuotasClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UntagResource")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateAutoManagement` operation on the `ServiceQuotas` service.
+    ///
+    /// Updates your [Service Quotas Automatic Management](https://docs.aws.amazon.com/servicequotas/latest/userguide/automatic-management.html) configuration, including notification preferences and excluded quotas. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAutoManagementInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAutoManagementOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
+    public func updateAutoManagement(input: UpdateAutoManagementInput) async throws -> UpdateAutoManagementOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAutoManagement")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "servicequotas")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAutoManagementInput, UpdateAutoManagementOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>(UpdateAutoManagementInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAutoManagementOutput>(UpdateAutoManagementOutput.httpOutput(from:), UpdateAutoManagementOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAutoManagementOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Service Quotas", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAutoManagementOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>(xAmzTarget: "ServiceQuotasV20190624.UpdateAutoManagement"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAutoManagementInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAutoManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAutoManagementInput, UpdateAutoManagementOutput>(serviceID: serviceName, version: ServiceQuotasClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "ServiceQuotas")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAutoManagement")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

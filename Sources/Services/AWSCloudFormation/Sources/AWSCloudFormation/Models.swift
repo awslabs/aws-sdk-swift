@@ -388,7 +388,7 @@ public struct ActivateTypeInput: Swift.Sendable {
     public var type: CloudFormationClientTypes.ThirdPartyType?
     /// The name of the extension. Conditional: You must specify PublicTypeArn, or TypeName, Type, and PublisherId.
     public var typeName: Swift.String?
-    /// An alias to assign to the public extension, in this account and Region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and Region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console. An extension alias must be unique within a given account and Region. You can activate the same public resource multiple times in the same account and Region, using different type name aliases.
+    /// An alias to assign to the public extension in this account and Region. If you specify an alias for the extension, CloudFormation treats the alias as the extension type name within this account and Region. You must use the alias to refer to the extension in your templates, API calls, and CloudFormation console. An extension alias must be unique within a given account and Region. You can activate the same public resource multiple times in the same account and Region, using different type name aliases.
     public var typeNameAlias: Swift.String?
     /// Manually updates a previously-activated type to a new major or minor version, if available. You can also use this parameter to update the value of AutoUpdate.
     ///
@@ -423,7 +423,7 @@ public struct ActivateTypeInput: Swift.Sendable {
 }
 
 public struct ActivateTypeOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the activated extension, in this account and Region.
+    /// The Amazon Resource Name (ARN) of the activated extension in this account and Region.
     public var arn: Swift.String?
 
     public init(
@@ -1897,10 +1897,10 @@ extension CloudFormationClientTypes {
 
     /// The Tag type enables you to specify a key-value pair that can be used to store information about an CloudFormation stack.
     public struct Tag: Swift.Sendable {
-        /// Required. A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services have the reserved prefix: aws:.
+        /// A string used to identify this tag. You can specify a maximum of 128 characters for a tag key. Tags owned by Amazon Web Services have the reserved prefix: aws:.
         /// This member is required.
         public var key: Swift.String?
-        /// Required. A string that contains the value for this tag. You can specify a maximum of 256 characters for a tag value.
+        /// A string that contains the value for this tag. You can specify a maximum of 256 characters for a tag value.
         /// This member is required.
         public var value: Swift.String?
 
@@ -3011,11 +3011,11 @@ public struct DeactivateOrganizationsAccessOutput: Swift.Sendable {
 }
 
 public struct DeactivateTypeInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for the extension, in this account and Region. Conditional: You must specify either Arn, or TypeName and Type.
+    /// The Amazon Resource Name (ARN) for the extension in this account and Region. Conditional: You must specify either Arn, or TypeName and Type.
     public var arn: Swift.String?
     /// The extension type. Conditional: You must specify either Arn, or TypeName and Type.
     public var type: CloudFormationClientTypes.ThirdPartyType?
-    /// The type name of the extension, in this account and Region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
+    /// The type name of the extension in this account and Region. If you specified a type name alias when enabling the extension, use the type name alias. Conditional: You must specify either Arn, or TypeName and Type.
     public var typeName: Swift.String?
 
     public init(
@@ -3653,6 +3653,7 @@ extension CloudFormationClientTypes {
 
     public enum WarningType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case excludedProperties
+        case excludedResources
         case mutuallyExclusiveProperties
         case mutuallyExclusiveTypes
         case unsupportedProperties
@@ -3661,6 +3662,7 @@ extension CloudFormationClientTypes {
         public static var allCases: [WarningType] {
             return [
                 .excludedProperties,
+                .excludedResources,
                 .mutuallyExclusiveProperties,
                 .mutuallyExclusiveTypes,
                 .unsupportedProperties
@@ -3675,6 +3677,7 @@ extension CloudFormationClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .excludedProperties: return "EXCLUDED_PROPERTIES"
+            case .excludedResources: return "EXCLUDED_RESOURCES"
             case .mutuallyExclusiveProperties: return "MUTUALLY_EXCLUSIVE_PROPERTIES"
             case .mutuallyExclusiveTypes: return "MUTUALLY_EXCLUSIVE_TYPES"
             case .unsupportedProperties: return "UNSUPPORTED_PROPERTIES"
@@ -6450,7 +6453,7 @@ public struct DescribeTypeOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// Whether CloudFormation automatically updates the extension in this account and Region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. For more information, see [Automatically use new versions of extensions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable-auto) in the CloudFormation User Guide.
     public var autoUpdate: Swift.Bool?
-    /// A JSON string that represent the current configuration data for the extension in this account and Region. To set the configuration data for an extension, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html). For more information, see [Edit configuration data for extensions in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-set-configuration.html) in the CloudFormation User Guide.
+    /// A JSON string that represent the current configuration data for the extension in this account and Region. To set the configuration data for an extension, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html).
     public var configurationSchema: Swift.String?
     /// The ID of the default version of the extension. The default version is used when the extension version isn't specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon Web Services and published by third parties, CloudFormation returns null. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html). To set the default version of an extension, use [SetTypeDefaultVersion].
     public var defaultVersionId: Swift.String?
@@ -6507,7 +6510,7 @@ public struct DescribeTypeOutput: Swift.Sendable {
     public var publisherId: Swift.String?
     /// For extensions that are modules, the public third-party extensions that must be activated in your account in order for the module itself to be activated.
     public var requiredActivatedTypes: [CloudFormationClientTypes.RequiredActivatedType]?
-    /// The schema that defines the extension. For more information about extension schemas, see [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html) in the CloudFormation Command Line Interface (CLI) User Guide.
+    /// The schema that defines the extension. For more information, see [Resource type schema](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html) in the CloudFormation Command Line Interface (CLI) User Guide and the [CloudFormation Hooks User Guide](https://docs.aws.amazon.com/cloudformation-cli/latest/hooks-userguide/what-is-cloudformation-hooks.html).
     public var schema: Swift.String?
     /// The URL of the source code for the extension.
     public var sourceUrl: Swift.String?
@@ -9288,7 +9291,7 @@ public struct ListTypesInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * PUBLIC: Extensions that are publicly visible and available to be activated within any Amazon Web Services account. This includes extensions from Amazon Web Services, in addition to third-party publishers.
+    /// * PUBLIC: Extensions that are publicly visible and available to be activated within any Amazon Web Services account. This includes extensions from Amazon Web Services and third-party publishers.
     ///
     ///
     /// The default is PRIVATE.
@@ -9883,14 +9886,14 @@ public struct SetStackPolicyInput: Swift.Sendable {
 }
 
 public struct SetTypeConfigurationInput: Swift.Sendable {
-    /// The configuration data for the extension, in this account and Region. The configuration data must be formatted as JSON, and validate against the schema returned in the ConfigurationSchema response element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html). For more information, see [Defining the account-level configuration of an extension](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-model.html#resource-type-howto-configuration) in the CloudFormation Command Line Interface (CLI) User Guide.
+    /// The configuration data for the extension in this account and Region. The configuration data must be formatted as JSON and validate against the extension's schema returned in the Schema response element of [DescribeType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DescribeType.html).
     /// This member is required.
     public var configuration: Swift.String?
     /// An alias by which to refer to this extension configuration data. Conditional: Specifying a configuration alias is required when setting a configuration for a resource type extension.
     public var configurationAlias: Swift.String?
     /// The type of extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var type: CloudFormationClientTypes.ThirdPartyType?
-    /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
+    /// The Amazon Resource Name (ARN) for the extension in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
     public var typeArn: Swift.String?
     /// The name of the extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var typeName: Swift.String?
@@ -9911,7 +9914,7 @@ public struct SetTypeConfigurationInput: Swift.Sendable {
 }
 
 public struct SetTypeConfigurationOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) for the configuration data, in this account and Region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
+    /// The Amazon Resource Name (ARN) for the configuration data in this account and Region. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var configurationArn: Swift.String?
 
     public init(

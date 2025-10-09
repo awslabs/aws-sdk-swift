@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SnowDeviceManagementClient: ClientRuntime.Client {
     public static let clientName = "SnowDeviceManagementClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SnowDeviceManagementClient.SnowDeviceManagementClientConfiguration
     let serviceName = "Snow Device Management"
@@ -374,9 +375,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Sends a cancel request for a specified task. You can cancel a task only if it's still in a QUEUED state. Tasks that are already running can't be cancelled. A task might still run if it's processed from the queue before the CancelTask operation changes the task's state.
     ///
-    /// - Parameter CancelTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelTaskInput`)
     ///
-    /// - Returns: `CancelTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +412,7 @@ extension SnowDeviceManagementClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelTaskInput, CancelTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelTaskOutput>(CancelTaskOutput.httpOutput(from:), CancelTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelTaskInput, CancelTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelTaskOutput>())
@@ -442,9 +444,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Instructs one or more devices to start a task, such as unlocking or rebooting.
     ///
-    /// - Parameter CreateTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTaskInput`)
     ///
-    /// - Returns: `CreateTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +486,7 @@ extension SnowDeviceManagementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTaskInput, CreateTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTaskOutput>(CreateTaskOutput.httpOutput(from:), CreateTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTaskInput, CreateTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTaskOutput>())
@@ -515,9 +518,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Checks device-specific information, such as the device type, software version, IP addresses, and lock status.
     ///
-    /// - Parameter DescribeDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeviceInput`)
     ///
-    /// - Returns: `DescribeDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,6 +555,7 @@ extension SnowDeviceManagementClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDeviceInput, DescribeDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeviceOutput>(DescribeDeviceOutput.httpOutput(from:), DescribeDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeviceInput, DescribeDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeviceOutput>())
@@ -583,9 +587,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Checks the current state of the Amazon EC2 instances. The output is similar to describeDevice, but the results are sourced from the device cache in the Amazon Web Services Cloud and include a subset of the available fields.
     ///
-    /// - Parameter DescribeDeviceEc2InstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDeviceEc2InstancesInput`)
     ///
-    /// - Returns: `DescribeDeviceEc2InstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDeviceEc2InstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -623,6 +627,7 @@ extension SnowDeviceManagementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeDeviceEc2InstancesInput, DescribeDeviceEc2InstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDeviceEc2InstancesOutput>(DescribeDeviceEc2InstancesOutput.httpOutput(from:), DescribeDeviceEc2InstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDeviceEc2InstancesInput, DescribeDeviceEc2InstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDeviceEc2InstancesOutput>())
@@ -654,9 +659,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Checks the status of a remote task running on one or more target devices.
     ///
-    /// - Parameter DescribeExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExecutionInput`)
     ///
-    /// - Returns: `DescribeExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -691,6 +696,7 @@ extension SnowDeviceManagementClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeExecutionInput, DescribeExecutionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExecutionOutput>(DescribeExecutionOutput.httpOutput(from:), DescribeExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExecutionOutput>())
@@ -722,9 +728,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Checks the metadata for a given task on a device.
     ///
-    /// - Parameter DescribeTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTaskInput`)
     ///
-    /// - Returns: `DescribeTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -759,6 +765,7 @@ extension SnowDeviceManagementClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeTaskInput, DescribeTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTaskOutput>(DescribeTaskOutput.httpOutput(from:), DescribeTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTaskInput, DescribeTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTaskOutput>())
@@ -790,9 +797,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Returns a list of the Amazon Web Services resources available for a device. Currently, Amazon EC2 instances are the only supported resource type.
     ///
-    /// - Parameter ListDeviceResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDeviceResourcesInput`)
     ///
-    /// - Returns: `ListDeviceResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDeviceResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -828,6 +835,7 @@ extension SnowDeviceManagementClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDeviceResourcesInput, ListDeviceResourcesOutput>(ListDeviceResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDeviceResourcesOutput>(ListDeviceResourcesOutput.httpOutput(from:), ListDeviceResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDeviceResourcesInput, ListDeviceResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDeviceResourcesOutput>())
@@ -859,9 +867,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Returns a list of all devices on your Amazon Web Services account that have Amazon Web Services Snow Device Management enabled in the Amazon Web Services Region where the command is run.
     ///
-    /// - Parameter ListDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDevicesInput`)
     ///
-    /// - Returns: `ListDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -896,6 +904,7 @@ extension SnowDeviceManagementClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDevicesInput, ListDevicesOutput>(ListDevicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDevicesOutput>(ListDevicesOutput.httpOutput(from:), ListDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDevicesInput, ListDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDevicesOutput>())
@@ -927,9 +936,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Returns the status of tasks for one or more target devices.
     ///
-    /// - Parameter ListExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExecutionsInput`)
     ///
-    /// - Returns: `ListExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -965,6 +974,7 @@ extension SnowDeviceManagementClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExecutionsInput, ListExecutionsOutput>(ListExecutionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExecutionsOutput>(ListExecutionsOutput.httpOutput(from:), ListExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExecutionsInput, ListExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExecutionsOutput>())
@@ -996,9 +1006,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Returns a list of tags for a managed device or task.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1031,6 +1041,7 @@ extension SnowDeviceManagementClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1062,9 +1073,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Returns a list of tasks that can be filtered by state.
     ///
-    /// - Parameter ListTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTasksInput`)
     ///
-    /// - Returns: `ListTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1099,6 +1110,7 @@ extension SnowDeviceManagementClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTasksInput, ListTasksOutput>(ListTasksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTasksOutput>(ListTasksOutput.httpOutput(from:), ListTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTasksInput, ListTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTasksOutput>())
@@ -1130,9 +1142,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Adds or replaces tags on a device or task.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1168,6 +1180,7 @@ extension SnowDeviceManagementClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1199,9 +1212,9 @@ extension SnowDeviceManagementClient {
     ///
     /// Removes a tag from a device or task.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1235,6 +1248,7 @@ extension SnowDeviceManagementClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

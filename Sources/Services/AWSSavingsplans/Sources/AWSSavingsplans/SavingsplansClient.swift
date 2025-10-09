@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SavingsplansClient: ClientRuntime.Client {
     public static let clientName = "SavingsplansClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SavingsplansClient.SavingsplansClientConfiguration
     let serviceName = "savingsplans"
@@ -373,9 +374,9 @@ extension SavingsplansClient {
     ///
     /// Creates a Savings Plan.
     ///
-    /// - Parameter CreateSavingsPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSavingsPlanInput`)
     ///
-    /// - Returns: `CreateSavingsPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSavingsPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -413,6 +414,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSavingsPlanInput, CreateSavingsPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSavingsPlanOutput>(CreateSavingsPlanOutput.httpOutput(from:), CreateSavingsPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSavingsPlanInput, CreateSavingsPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSavingsPlanOutput>())
@@ -444,9 +446,9 @@ extension SavingsplansClient {
     ///
     /// Deletes the queued purchase for the specified Savings Plan.
     ///
-    /// - Parameter DeleteQueuedSavingsPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteQueuedSavingsPlanInput`)
     ///
-    /// - Returns: `DeleteQueuedSavingsPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteQueuedSavingsPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +485,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteQueuedSavingsPlanInput, DeleteQueuedSavingsPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteQueuedSavingsPlanOutput>(DeleteQueuedSavingsPlanOutput.httpOutput(from:), DeleteQueuedSavingsPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteQueuedSavingsPlanInput, DeleteQueuedSavingsPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteQueuedSavingsPlanOutput>())
@@ -514,9 +517,9 @@ extension SavingsplansClient {
     ///
     /// Describes the rates for the specified Savings Plan.
     ///
-    /// - Parameter DescribeSavingsPlanRatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlanRatesInput`)
     ///
-    /// - Returns: `DescribeSavingsPlanRatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSavingsPlanRatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -551,6 +554,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSavingsPlanRatesInput, DescribeSavingsPlanRatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSavingsPlanRatesOutput>(DescribeSavingsPlanRatesOutput.httpOutput(from:), DescribeSavingsPlanRatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSavingsPlanRatesInput, DescribeSavingsPlanRatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSavingsPlanRatesOutput>())
@@ -582,9 +586,9 @@ extension SavingsplansClient {
     ///
     /// Describes the specified Savings Plans.
     ///
-    /// - Parameter DescribeSavingsPlansInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlansInput`)
     ///
-    /// - Returns: `DescribeSavingsPlansOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSavingsPlansOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -619,6 +623,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSavingsPlansInput, DescribeSavingsPlansOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSavingsPlansOutput>(DescribeSavingsPlansOutput.httpOutput(from:), DescribeSavingsPlansOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSavingsPlansInput, DescribeSavingsPlansOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSavingsPlansOutput>())
@@ -650,9 +655,9 @@ extension SavingsplansClient {
     ///
     /// Describes the offering rates for the specified Savings Plans.
     ///
-    /// - Parameter DescribeSavingsPlansOfferingRatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlansOfferingRatesInput`)
     ///
-    /// - Returns: `DescribeSavingsPlansOfferingRatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSavingsPlansOfferingRatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -687,6 +692,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSavingsPlansOfferingRatesInput, DescribeSavingsPlansOfferingRatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSavingsPlansOfferingRatesOutput>(DescribeSavingsPlansOfferingRatesOutput.httpOutput(from:), DescribeSavingsPlansOfferingRatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSavingsPlansOfferingRatesInput, DescribeSavingsPlansOfferingRatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSavingsPlansOfferingRatesOutput>())
@@ -718,9 +724,9 @@ extension SavingsplansClient {
     ///
     /// Describes the offerings for the specified Savings Plans.
     ///
-    /// - Parameter DescribeSavingsPlansOfferingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSavingsPlansOfferingsInput`)
     ///
-    /// - Returns: `DescribeSavingsPlansOfferingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSavingsPlansOfferingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -755,6 +761,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSavingsPlansOfferingsInput, DescribeSavingsPlansOfferingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSavingsPlansOfferingsOutput>(DescribeSavingsPlansOfferingsOutput.httpOutput(from:), DescribeSavingsPlansOfferingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSavingsPlansOfferingsInput, DescribeSavingsPlansOfferingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSavingsPlansOfferingsOutput>())
@@ -786,9 +793,9 @@ extension SavingsplansClient {
     ///
     /// Lists the tags for the specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -824,6 +831,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -855,9 +863,9 @@ extension SavingsplansClient {
     ///
     /// Returns the specified Savings Plan.
     ///
-    /// - Parameter ReturnSavingsPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ReturnSavingsPlanInput`)
     ///
-    /// - Returns: `ReturnSavingsPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ReturnSavingsPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -895,6 +903,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ReturnSavingsPlanOutput>(ReturnSavingsPlanOutput.httpOutput(from:), ReturnSavingsPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ReturnSavingsPlanOutput>())
@@ -926,9 +935,9 @@ extension SavingsplansClient {
     ///
     /// Adds the specified tags to the specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -965,6 +974,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -996,9 +1006,9 @@ extension SavingsplansClient {
     ///
     /// Removes the specified tags from the specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1034,6 +1044,7 @@ extension SavingsplansClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

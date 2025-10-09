@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTTwinMakerClient: ClientRuntime.Client {
     public static let clientName = "IoTTwinMakerClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTTwinMakerClient.IoTTwinMakerClientConfiguration
     let serviceName = "IoTTwinMaker"
@@ -373,9 +374,9 @@ extension IoTTwinMakerClient {
     ///
     /// Sets values for multiple time series properties.
     ///
-    /// - Parameter BatchPutPropertyValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutPropertyValuesInput`)
     ///
-    /// - Returns: `BatchPutPropertyValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutPropertyValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutPropertyValuesInput, BatchPutPropertyValuesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutPropertyValuesOutput>(BatchPutPropertyValuesOutput.httpOutput(from:), BatchPutPropertyValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutPropertyValuesInput, BatchPutPropertyValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutPropertyValuesOutput>())
@@ -443,9 +445,9 @@ extension IoTTwinMakerClient {
     ///
     /// Cancels the metadata transfer job.
     ///
-    /// - Parameter CancelMetadataTransferJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMetadataTransferJobInput`)
     ///
-    /// - Returns: `CancelMetadataTransferJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMetadataTransferJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -481,6 +483,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelMetadataTransferJobInput, CancelMetadataTransferJobOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMetadataTransferJobOutput>(CancelMetadataTransferJobOutput.httpOutput(from:), CancelMetadataTransferJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMetadataTransferJobInput, CancelMetadataTransferJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMetadataTransferJobOutput>())
@@ -512,9 +515,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates a component type.
     ///
-    /// - Parameter CreateComponentTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComponentTypeInput`)
     ///
-    /// - Returns: `CreateComponentTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComponentTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -553,6 +556,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComponentTypeInput, CreateComponentTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComponentTypeOutput>(CreateComponentTypeOutput.httpOutput(from:), CreateComponentTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComponentTypeInput, CreateComponentTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComponentTypeOutput>())
@@ -584,9 +588,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates an entity.
     ///
-    /// - Parameter CreateEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEntityInput`)
     ///
-    /// - Returns: `CreateEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -625,6 +629,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEntityInput, CreateEntityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEntityOutput>(CreateEntityOutput.httpOutput(from:), CreateEntityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEntityInput, CreateEntityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEntityOutput>())
@@ -656,9 +661,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates a new metadata transfer job.
     ///
-    /// - Parameter CreateMetadataTransferJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateMetadataTransferJobInput`)
     ///
-    /// - Returns: `CreateMetadataTransferJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateMetadataTransferJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -698,6 +703,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateMetadataTransferJobInput, CreateMetadataTransferJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateMetadataTransferJobOutput>(CreateMetadataTransferJobOutput.httpOutput(from:), CreateMetadataTransferJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateMetadataTransferJobInput, CreateMetadataTransferJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateMetadataTransferJobOutput>())
@@ -729,9 +735,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates a scene.
     ///
-    /// - Parameter CreateSceneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSceneInput`)
     ///
-    /// - Returns: `CreateSceneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSceneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -770,6 +776,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSceneInput, CreateSceneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSceneOutput>(CreateSceneOutput.httpOutput(from:), CreateSceneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSceneInput, CreateSceneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSceneOutput>())
@@ -801,9 +808,9 @@ extension IoTTwinMakerClient {
     ///
     /// This action creates a SyncJob.
     ///
-    /// - Parameter CreateSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSyncJobInput`)
     ///
-    /// - Returns: `CreateSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -842,6 +849,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSyncJobInput, CreateSyncJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSyncJobOutput>(CreateSyncJobOutput.httpOutput(from:), CreateSyncJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSyncJobInput, CreateSyncJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSyncJobOutput>())
@@ -873,9 +881,9 @@ extension IoTTwinMakerClient {
     ///
     /// Creates a workplace.
     ///
-    /// - Parameter CreateWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWorkspaceInput`)
     ///
-    /// - Returns: `CreateWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,6 +922,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWorkspaceOutput>(CreateWorkspaceOutput.httpOutput(from:), CreateWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWorkspaceInput, CreateWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWorkspaceOutput>())
@@ -945,9 +954,9 @@ extension IoTTwinMakerClient {
     ///
     /// Deletes a component type.
     ///
-    /// - Parameter DeleteComponentTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComponentTypeInput`)
     ///
-    /// - Returns: `DeleteComponentTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComponentTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -982,6 +991,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteComponentTypeInput, DeleteComponentTypeOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComponentTypeOutput>(DeleteComponentTypeOutput.httpOutput(from:), DeleteComponentTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComponentTypeInput, DeleteComponentTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComponentTypeOutput>())
@@ -1013,9 +1023,9 @@ extension IoTTwinMakerClient {
     ///
     /// Deletes an entity.
     ///
-    /// - Parameter DeleteEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEntityInput`)
     ///
-    /// - Returns: `DeleteEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1051,6 +1061,7 @@ extension IoTTwinMakerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteEntityInput, DeleteEntityOutput>(DeleteEntityInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEntityOutput>(DeleteEntityOutput.httpOutput(from:), DeleteEntityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEntityInput, DeleteEntityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEntityOutput>())
@@ -1082,9 +1093,9 @@ extension IoTTwinMakerClient {
     ///
     /// Deletes a scene.
     ///
-    /// - Parameter DeleteSceneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSceneInput`)
     ///
-    /// - Returns: `DeleteSceneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSceneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1119,6 +1130,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSceneInput, DeleteSceneOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSceneOutput>(DeleteSceneOutput.httpOutput(from:), DeleteSceneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSceneInput, DeleteSceneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSceneOutput>())
@@ -1150,9 +1162,9 @@ extension IoTTwinMakerClient {
     ///
     /// Delete the SyncJob.
     ///
-    /// - Parameter DeleteSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSyncJobInput`)
     ///
-    /// - Returns: `DeleteSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,6 +1200,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSyncJobInput, DeleteSyncJobOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSyncJobOutput>(DeleteSyncJobOutput.httpOutput(from:), DeleteSyncJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSyncJobInput, DeleteSyncJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSyncJobOutput>())
@@ -1219,9 +1232,9 @@ extension IoTTwinMakerClient {
     ///
     /// Deletes a workspace.
     ///
-    /// - Parameter DeleteWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWorkspaceInput`)
     ///
-    /// - Returns: `DeleteWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1256,6 +1269,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWorkspaceOutput>(DeleteWorkspaceOutput.httpOutput(from:), DeleteWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWorkspaceInput, DeleteWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWorkspaceOutput>())
@@ -1287,9 +1301,9 @@ extension IoTTwinMakerClient {
     ///
     /// Run queries to access information from your knowledge graph of entities within individual workspaces. The ExecuteQuery action only works with [Amazon Web Services Java SDK2](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html). ExecuteQuery will not work with any Amazon Web Services Java SDK version < 2.x.
     ///
-    /// - Parameter ExecuteQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteQueryInput`)
     ///
-    /// - Returns: `ExecuteQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1328,6 +1342,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteQueryInput, ExecuteQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteQueryOutput>(ExecuteQueryOutput.httpOutput(from:), ExecuteQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteQueryInput, ExecuteQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteQueryOutput>())
@@ -1359,9 +1374,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about a component type.
     ///
-    /// - Parameter GetComponentTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetComponentTypeInput`)
     ///
-    /// - Returns: `GetComponentTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetComponentTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1396,6 +1411,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetComponentTypeInput, GetComponentTypeOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetComponentTypeOutput>(GetComponentTypeOutput.httpOutput(from:), GetComponentTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetComponentTypeInput, GetComponentTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetComponentTypeOutput>())
@@ -1427,9 +1443,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about an entity.
     ///
-    /// - Parameter GetEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEntityInput`)
     ///
-    /// - Returns: `GetEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1464,6 +1480,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEntityInput, GetEntityOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEntityOutput>(GetEntityOutput.httpOutput(from:), GetEntityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEntityInput, GetEntityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEntityOutput>())
@@ -1495,9 +1512,9 @@ extension IoTTwinMakerClient {
     ///
     /// Gets a nmetadata transfer job.
     ///
-    /// - Parameter GetMetadataTransferJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetadataTransferJobInput`)
     ///
-    /// - Returns: `GetMetadataTransferJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetadataTransferJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1532,6 +1549,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMetadataTransferJobInput, GetMetadataTransferJobOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetadataTransferJobOutput>(GetMetadataTransferJobOutput.httpOutput(from:), GetMetadataTransferJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetadataTransferJobInput, GetMetadataTransferJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetadataTransferJobOutput>())
@@ -1563,9 +1581,9 @@ extension IoTTwinMakerClient {
     ///
     /// Gets the pricing plan.
     ///
-    /// - Parameter GetPricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPricingPlanInput`)
     ///
-    /// - Returns: `GetPricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1599,6 +1617,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetPricingPlanInput, GetPricingPlanOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPricingPlanOutput>(GetPricingPlanOutput.httpOutput(from:), GetPricingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPricingPlanInput, GetPricingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPricingPlanOutput>())
@@ -1630,9 +1649,9 @@ extension IoTTwinMakerClient {
     ///
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
     ///
-    /// - Parameter GetPropertyValueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPropertyValueInput`)
     ///
-    /// - Returns: `GetPropertyValueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPropertyValueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1672,6 +1691,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPropertyValueInput, GetPropertyValueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPropertyValueOutput>(GetPropertyValueOutput.httpOutput(from:), GetPropertyValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPropertyValueInput, GetPropertyValueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPropertyValueOutput>())
@@ -1703,9 +1723,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
     ///
-    /// - Parameter GetPropertyValueHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetPropertyValueHistoryInput`)
     ///
-    /// - Returns: `GetPropertyValueHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetPropertyValueHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1745,6 +1765,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetPropertyValueHistoryOutput>(GetPropertyValueHistoryOutput.httpOutput(from:), GetPropertyValueHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetPropertyValueHistoryInput, GetPropertyValueHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetPropertyValueHistoryOutput>())
@@ -1776,9 +1797,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about a scene.
     ///
-    /// - Parameter GetSceneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSceneInput`)
     ///
-    /// - Returns: `GetSceneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSceneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1813,6 +1834,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSceneInput, GetSceneOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSceneOutput>(GetSceneOutput.httpOutput(from:), GetSceneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSceneInput, GetSceneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSceneOutput>())
@@ -1844,9 +1866,9 @@ extension IoTTwinMakerClient {
     ///
     /// Gets the SyncJob.
     ///
-    /// - Parameter GetSyncJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSyncJobInput`)
     ///
-    /// - Returns: `GetSyncJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSyncJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1883,6 +1905,7 @@ extension IoTTwinMakerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSyncJobInput, GetSyncJobOutput>(GetSyncJobInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSyncJobOutput>(GetSyncJobOutput.httpOutput(from:), GetSyncJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSyncJobInput, GetSyncJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSyncJobOutput>())
@@ -1914,9 +1937,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about a workspace.
     ///
-    /// - Parameter GetWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWorkspaceInput`)
     ///
-    /// - Returns: `GetWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,6 +1974,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetWorkspaceInput, GetWorkspaceOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWorkspaceOutput>(GetWorkspaceOutput.httpOutput(from:), GetWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWorkspaceInput, GetWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWorkspaceOutput>())
@@ -1982,9 +2006,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists all component types in a workspace.
     ///
-    /// - Parameter ListComponentTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentTypesInput`)
     ///
-    /// - Returns: `ListComponentTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2021,6 +2045,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentTypesInput, ListComponentTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentTypesOutput>(ListComponentTypesOutput.httpOutput(from:), ListComponentTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentTypesInput, ListComponentTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentTypesOutput>())
@@ -2052,9 +2077,9 @@ extension IoTTwinMakerClient {
     ///
     /// This API lists the components of an entity.
     ///
-    /// - Parameter ListComponentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComponentsInput`)
     ///
-    /// - Returns: `ListComponentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComponentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2092,6 +2117,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComponentsInput, ListComponentsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComponentsOutput>(ListComponentsOutput.httpOutput(from:), ListComponentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComponentsInput, ListComponentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComponentsOutput>())
@@ -2123,9 +2149,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists all entities in a workspace.
     ///
-    /// - Parameter ListEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntitiesInput`)
     ///
-    /// - Returns: `ListEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2162,6 +2188,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListEntitiesInput, ListEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntitiesOutput>(ListEntitiesOutput.httpOutput(from:), ListEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntitiesInput, ListEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntitiesOutput>())
@@ -2193,9 +2220,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists the metadata transfer jobs.
     ///
-    /// - Parameter ListMetadataTransferJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetadataTransferJobsInput`)
     ///
-    /// - Returns: `ListMetadataTransferJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetadataTransferJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2232,6 +2259,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMetadataTransferJobsInput, ListMetadataTransferJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetadataTransferJobsOutput>(ListMetadataTransferJobsOutput.httpOutput(from:), ListMetadataTransferJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetadataTransferJobsInput, ListMetadataTransferJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetadataTransferJobsOutput>())
@@ -2263,9 +2291,9 @@ extension IoTTwinMakerClient {
     ///
     /// This API lists the properties of a component.
     ///
-    /// - Parameter ListPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPropertiesInput`)
     ///
-    /// - Returns: `ListPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2303,6 +2331,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListPropertiesInput, ListPropertiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPropertiesOutput>(ListPropertiesOutput.httpOutput(from:), ListPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPropertiesInput, ListPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPropertiesOutput>())
@@ -2334,9 +2363,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists all scenes in a workspace.
     ///
-    /// - Parameter ListScenesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListScenesInput`)
     ///
-    /// - Returns: `ListScenesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListScenesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2373,6 +2402,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListScenesInput, ListScenesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListScenesOutput>(ListScenesOutput.httpOutput(from:), ListScenesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListScenesInput, ListScenesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListScenesOutput>())
@@ -2404,9 +2434,9 @@ extension IoTTwinMakerClient {
     ///
     /// List all SyncJobs.
     ///
-    /// - Parameter ListSyncJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSyncJobsInput`)
     ///
-    /// - Returns: `ListSyncJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSyncJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2444,6 +2474,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSyncJobsInput, ListSyncJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSyncJobsOutput>(ListSyncJobsOutput.httpOutput(from:), ListSyncJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSyncJobsInput, ListSyncJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSyncJobsOutput>())
@@ -2475,9 +2506,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists the sync resources.
     ///
-    /// - Parameter ListSyncResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSyncResourcesInput`)
     ///
-    /// - Returns: `ListSyncResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSyncResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2515,6 +2546,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSyncResourcesInput, ListSyncResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSyncResourcesOutput>(ListSyncResourcesOutput.httpOutput(from:), ListSyncResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSyncResourcesInput, ListSyncResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSyncResourcesOutput>())
@@ -2546,9 +2578,9 @@ extension IoTTwinMakerClient {
     ///
     /// Lists all tags associated with a resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2583,6 +2615,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2614,9 +2647,9 @@ extension IoTTwinMakerClient {
     ///
     /// Retrieves information about workspaces in the current account.
     ///
-    /// - Parameter ListWorkspacesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWorkspacesInput`)
     ///
-    /// - Returns: `ListWorkspacesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWorkspacesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2653,6 +2686,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWorkspacesInput, ListWorkspacesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWorkspacesOutput>(ListWorkspacesOutput.httpOutput(from:), ListWorkspacesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWorkspacesInput, ListWorkspacesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWorkspacesOutput>())
@@ -2684,9 +2718,9 @@ extension IoTTwinMakerClient {
     ///
     /// Adds tags to a resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2722,6 +2756,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2753,9 +2788,9 @@ extension IoTTwinMakerClient {
     ///
     /// Removes tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2788,6 +2823,7 @@ extension IoTTwinMakerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2819,9 +2855,9 @@ extension IoTTwinMakerClient {
     ///
     /// Updates information in a component type.
     ///
-    /// - Parameter UpdateComponentTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComponentTypeInput`)
     ///
-    /// - Returns: `UpdateComponentTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComponentTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2860,6 +2896,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComponentTypeInput, UpdateComponentTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComponentTypeOutput>(UpdateComponentTypeOutput.httpOutput(from:), UpdateComponentTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComponentTypeInput, UpdateComponentTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateComponentTypeOutput>())
@@ -2891,9 +2928,9 @@ extension IoTTwinMakerClient {
     ///
     /// Updates an entity.
     ///
-    /// - Parameter UpdateEntityInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEntityInput`)
     ///
-    /// - Returns: `UpdateEntityOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEntityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2933,6 +2970,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEntityInput, UpdateEntityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEntityOutput>(UpdateEntityOutput.httpOutput(from:), UpdateEntityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEntityInput, UpdateEntityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEntityOutput>())
@@ -2964,9 +3002,9 @@ extension IoTTwinMakerClient {
     ///
     /// Update the pricing plan.
     ///
-    /// - Parameter UpdatePricingPlanInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePricingPlanInput`)
     ///
-    /// - Returns: `UpdatePricingPlanOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePricingPlanOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3003,6 +3041,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePricingPlanInput, UpdatePricingPlanOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePricingPlanOutput>(UpdatePricingPlanOutput.httpOutput(from:), UpdatePricingPlanOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePricingPlanInput, UpdatePricingPlanOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePricingPlanOutput>())
@@ -3034,9 +3073,9 @@ extension IoTTwinMakerClient {
     ///
     /// Updates a scene.
     ///
-    /// - Parameter UpdateSceneInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSceneInput`)
     ///
-    /// - Returns: `UpdateSceneOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSceneOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3074,6 +3113,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSceneInput, UpdateSceneOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSceneOutput>(UpdateSceneOutput.httpOutput(from:), UpdateSceneOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSceneInput, UpdateSceneOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSceneOutput>())
@@ -3105,9 +3145,9 @@ extension IoTTwinMakerClient {
     ///
     /// Updates a workspace.
     ///
-    /// - Parameter UpdateWorkspaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWorkspaceInput`)
     ///
-    /// - Returns: `UpdateWorkspaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWorkspaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3146,6 +3186,7 @@ extension IoTTwinMakerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWorkspaceInput, UpdateWorkspaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWorkspaceOutput>(UpdateWorkspaceOutput.httpOutput(from:), UpdateWorkspaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWorkspaceInput, UpdateWorkspaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWorkspaceOutput>())

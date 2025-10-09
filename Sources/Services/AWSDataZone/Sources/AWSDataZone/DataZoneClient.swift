@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -71,7 +72,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataZoneClient: ClientRuntime.Client {
     public static let clientName = "DataZoneClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: DataZoneClient.DataZoneClientConfiguration
     let serviceName = "DataZone"
@@ -377,9 +378,9 @@ extension DataZoneClient {
     ///
     /// Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
     ///
-    /// - Parameter AcceptPredictionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptPredictionsInput`)
     ///
-    /// - Returns: `AcceptPredictionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptPredictionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -421,6 +422,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptPredictionsInput, AcceptPredictionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptPredictionsOutput>(AcceptPredictionsOutput.httpOutput(from:), AcceptPredictionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptPredictionsInput, AcceptPredictionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptPredictionsOutput>())
@@ -452,9 +454,9 @@ extension DataZoneClient {
     ///
     /// Accepts a subscription request to a specific asset.
     ///
-    /// - Parameter AcceptSubscriptionRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptSubscriptionRequestInput`)
     ///
-    /// - Returns: `AcceptSubscriptionRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptSubscriptionRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -494,6 +496,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AcceptSubscriptionRequestInput, AcceptSubscriptionRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptSubscriptionRequestOutput>(AcceptSubscriptionRequestOutput.httpOutput(from:), AcceptSubscriptionRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptSubscriptionRequestInput, AcceptSubscriptionRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptSubscriptionRequestOutput>())
@@ -525,9 +528,9 @@ extension DataZoneClient {
     ///
     /// Adds the owner of an entity (a domain unit).
     ///
-    /// - Parameter AddEntityOwnerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddEntityOwnerInput`)
     ///
-    /// - Returns: `AddEntityOwnerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddEntityOwnerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -569,6 +572,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddEntityOwnerInput, AddEntityOwnerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddEntityOwnerOutput>(AddEntityOwnerOutput.httpOutput(from:), AddEntityOwnerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddEntityOwnerInput, AddEntityOwnerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddEntityOwnerOutput>())
@@ -600,9 +604,9 @@ extension DataZoneClient {
     ///
     /// Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles.
     ///
-    /// - Parameter AddPolicyGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AddPolicyGrantInput`)
     ///
-    /// - Returns: `AddPolicyGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AddPolicyGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -643,6 +647,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AddPolicyGrantInput, AddPolicyGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AddPolicyGrantOutput>(AddPolicyGrantOutput.httpOutput(from:), AddPolicyGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AddPolicyGrantInput, AddPolicyGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AddPolicyGrantOutput>())
@@ -674,9 +679,9 @@ extension DataZoneClient {
     ///
     /// Associates the environment role in Amazon DataZone.
     ///
-    /// - Parameter AssociateEnvironmentRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateEnvironmentRoleInput`)
     ///
-    /// - Returns: `AssociateEnvironmentRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEnvironmentRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -713,6 +718,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateEnvironmentRoleInput, AssociateEnvironmentRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEnvironmentRoleOutput>(AssociateEnvironmentRoleOutput.httpOutput(from:), AssociateEnvironmentRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEnvironmentRoleInput, AssociateEnvironmentRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEnvironmentRoleOutput>())
@@ -744,9 +750,9 @@ extension DataZoneClient {
     ///
     /// Associates governed terms with an asset.
     ///
-    /// - Parameter AssociateGovernedTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateGovernedTermsInput`)
     ///
-    /// - Returns: `AssociateGovernedTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateGovernedTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,6 +792,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateGovernedTermsInput, AssociateGovernedTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateGovernedTermsOutput>(AssociateGovernedTermsOutput.httpOutput(from:), AssociateGovernedTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateGovernedTermsInput, AssociateGovernedTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateGovernedTermsOutput>())
@@ -823,9 +830,9 @@ extension DataZoneClient {
     ///
     /// * User must have access to the run and cancel permissions.
     ///
-    /// - Parameter CancelMetadataGenerationRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelMetadataGenerationRunInput`)
     ///
-    /// - Returns: `CancelMetadataGenerationRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelMetadataGenerationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -862,6 +869,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelMetadataGenerationRunInput, CancelMetadataGenerationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMetadataGenerationRunOutput>(CancelMetadataGenerationRunOutput.httpOutput(from:), CancelMetadataGenerationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMetadataGenerationRunInput, CancelMetadataGenerationRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelMetadataGenerationRunOutput>())
@@ -893,9 +901,9 @@ extension DataZoneClient {
     ///
     /// Cancels the subscription to the specified asset.
     ///
-    /// - Parameter CancelSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelSubscriptionInput`)
     ///
-    /// - Returns: `CancelSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -932,6 +940,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelSubscriptionInput, CancelSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelSubscriptionOutput>(CancelSubscriptionOutput.httpOutput(from:), CancelSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelSubscriptionInput, CancelSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelSubscriptionOutput>())
@@ -963,9 +972,9 @@ extension DataZoneClient {
     ///
     /// Creates an account pool.
     ///
-    /// - Parameter CreateAccountPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccountPoolInput`)
     ///
-    /// - Returns: `CreateAccountPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccountPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1006,6 +1015,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccountPoolInput, CreateAccountPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccountPoolOutput>(CreateAccountPoolOutput.httpOutput(from:), CreateAccountPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccountPoolInput, CreateAccountPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccountPoolOutput>())
@@ -1045,7 +1055,7 @@ extension DataZoneClient {
     ///
     /// * --type-revision (if used) must match a valid revision of the asset type.
     ///
-    /// * Form type must exist and be associated with the asset type. Use create-form-type to define. For more information, see [create-form-type](https://docs.aws.amazon.com/cli/latest/reference/datazone/create-form-type.html).
+    /// * formsInput is required when it is associated as required in the asset-type. For more information, see [create-form-type](https://docs.aws.amazon.com/cli/latest/reference/datazone/create-form-type.html).
     ///
     /// * Form content must include all required fields as per the form schema (e.g., bucketArn).
     ///
@@ -1056,9 +1066,9 @@ extension DataZoneClient {
     ///
     /// * [CreateAssetType](https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateAssetType.html)
     ///
-    /// - Parameter CreateAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssetInput`)
     ///
-    /// - Returns: `CreateAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1100,6 +1110,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetInput, CreateAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssetOutput>(CreateAssetOutput.httpOutput(from:), CreateAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssetInput, CreateAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssetOutput>())
@@ -1139,9 +1150,9 @@ extension DataZoneClient {
     ///
     /// * You cannot specify both (columnConfiguration, rowConfiguration)at the same time.
     ///
-    /// - Parameter CreateAssetFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssetFilterInput`)
     ///
-    /// - Returns: `CreateAssetFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssetFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1183,6 +1194,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetFilterInput, CreateAssetFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssetFilterOutput>(CreateAssetFilterOutput.httpOutput(from:), CreateAssetFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssetFilterInput, CreateAssetFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssetFilterOutput>())
@@ -1216,7 +1228,7 @@ extension DataZoneClient {
     ///
     /// * Asset must already exist in the domain with identifier.
     ///
-    /// * The form type with correct revision must be registered in the same domain.
+    /// * formsInput is required when asset has the form type. typeRevision should be the latest version of form type.
     ///
     /// * The form content must include all required fields (e.g., bucketArn for S3ObjectCollectionForm).
     ///
@@ -1224,9 +1236,9 @@ extension DataZoneClient {
     ///
     /// * User must have write access to the project and domain.
     ///
-    /// - Parameter CreateAssetRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssetRevisionInput`)
     ///
-    /// - Returns: `CreateAssetRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssetRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1267,6 +1279,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetRevisionInput, CreateAssetRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssetRevisionOutput>(CreateAssetRevisionOutput.httpOutput(from:), CreateAssetRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssetRevisionInput, CreateAssetRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssetRevisionOutput>())
@@ -1298,7 +1311,7 @@ extension DataZoneClient {
     ///
     /// Creates a custom asset type. Prerequisites:
     ///
-    /// * The form type with typeIdentifier and typeRevision must exist and be published.
+    /// * The formsInput field is required, however, can be passed as empty (e.g. -forms-input {}).
     ///
     /// * You must have CreateAssetType permissions.
     ///
@@ -1308,9 +1321,9 @@ extension DataZoneClient {
     ///
     /// * JSON input must be valid — incorrect formatting causes Invalid JSON errors.
     ///
-    /// - Parameter CreateAssetTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssetTypeInput`)
     ///
-    /// - Returns: `CreateAssetTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssetTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1350,6 +1363,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetTypeInput, CreateAssetTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssetTypeOutput>(CreateAssetTypeOutput.httpOutput(from:), CreateAssetTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssetTypeInput, CreateAssetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssetTypeOutput>())
@@ -1381,9 +1395,9 @@ extension DataZoneClient {
     ///
     /// Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
     ///
-    /// - Parameter CreateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionInput`)
     ///
-    /// - Returns: `CreateConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1425,6 +1439,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
@@ -1464,11 +1479,9 @@ extension DataZoneClient {
     ///
     /// * User must have create permissions for data products in the project.
     ///
-    /// * The domain must have Amazon DataZone publishing enabled.
+    /// - Parameter input: [no documentation found] (Type: `CreateDataProductInput`)
     ///
-    /// - Parameter CreateDataProductInput : [no documentation found]
-    ///
-    /// - Returns: `CreateDataProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1510,6 +1523,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataProductInput, CreateDataProductOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataProductOutput>(CreateDataProductOutput.httpOutput(from:), CreateDataProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataProductInput, CreateDataProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataProductOutput>())
@@ -1549,9 +1563,9 @@ extension DataZoneClient {
     ///
     /// * The new revision name must comply with naming constraints (if required).
     ///
-    /// - Parameter CreateDataProductRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataProductRevisionInput`)
     ///
-    /// - Returns: `CreateDataProductRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataProductRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1592,6 +1606,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataProductRevisionInput, CreateDataProductRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataProductRevisionOutput>(CreateDataProductRevisionOutput.httpOutput(from:), CreateDataProductRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataProductRevisionInput, CreateDataProductRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataProductRevisionOutput>())
@@ -1623,9 +1638,9 @@ extension DataZoneClient {
     ///
     /// Creates an Amazon DataZone data source.
     ///
-    /// - Parameter CreateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDataSourceInput`)
     ///
-    /// - Returns: `CreateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1667,6 +1682,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataSourceInput, CreateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataSourceOutput>(CreateDataSourceOutput.httpOutput(from:), CreateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataSourceInput, CreateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataSourceOutput>())
@@ -1698,9 +1714,9 @@ extension DataZoneClient {
     ///
     /// Creates an Amazon DataZone domain.
     ///
-    /// - Parameter CreateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainInput`)
     ///
-    /// - Returns: `CreateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1742,6 +1758,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainInput, CreateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainOutput>(CreateDomainOutput.httpOutput(from:), CreateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainInput, CreateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainOutput>())
@@ -1773,9 +1790,9 @@ extension DataZoneClient {
     ///
     /// Creates a domain unit in Amazon DataZone.
     ///
-    /// - Parameter CreateDomainUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDomainUnitInput`)
     ///
-    /// - Returns: `CreateDomainUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDomainUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1816,6 +1833,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDomainUnitInput, CreateDomainUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDomainUnitOutput>(CreateDomainUnitOutput.httpOutput(from:), CreateDomainUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDomainUnitInput, CreateDomainUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDomainUnitOutput>())
@@ -1847,9 +1865,9 @@ extension DataZoneClient {
     ///
     /// Create an Amazon DataZone environment.
     ///
-    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentInput`)
     ///
-    /// - Returns: `CreateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1889,6 +1907,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentOutput>(CreateEnvironmentOutput.httpOutput(from:), CreateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentInput, CreateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentOutput>())
@@ -1920,9 +1939,9 @@ extension DataZoneClient {
     ///
     /// Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment.
     ///
-    /// - Parameter CreateEnvironmentActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentActionInput`)
     ///
-    /// - Returns: `CreateEnvironmentActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1962,6 +1981,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentActionInput, CreateEnvironmentActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentActionOutput>(CreateEnvironmentActionOutput.httpOutput(from:), CreateEnvironmentActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentActionInput, CreateEnvironmentActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentActionOutput>())
@@ -1993,9 +2013,9 @@ extension DataZoneClient {
     ///
     /// Creates a Amazon DataZone blueprint.
     ///
-    /// - Parameter CreateEnvironmentBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentBlueprintInput`)
     ///
-    /// - Returns: `CreateEnvironmentBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2036,6 +2056,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentBlueprintInput, CreateEnvironmentBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentBlueprintOutput>(CreateEnvironmentBlueprintOutput.httpOutput(from:), CreateEnvironmentBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentBlueprintInput, CreateEnvironmentBlueprintOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentBlueprintOutput>())
@@ -2067,9 +2088,9 @@ extension DataZoneClient {
     ///
     /// Creates an Amazon DataZone environment profile.
     ///
-    /// - Parameter CreateEnvironmentProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateEnvironmentProfileInput`)
     ///
-    /// - Returns: `CreateEnvironmentProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateEnvironmentProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2110,6 +2131,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateEnvironmentProfileInput, CreateEnvironmentProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateEnvironmentProfileOutput>(CreateEnvironmentProfileOutput.httpOutput(from:), CreateEnvironmentProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateEnvironmentProfileInput, CreateEnvironmentProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateEnvironmentProfileOutput>())
@@ -2147,9 +2169,12 @@ extension DataZoneClient {
     ///
     /// * The name must be unique within the domain.
     ///
-    /// - Parameter CreateFormTypeInput : [no documentation found]
     ///
-    /// - Returns: `CreateFormTypeOutput` : [no documentation found]
+    /// For custom form types, to indicate that a field should be searchable, annotate it with @amazon.datazone#searchable. By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. To indicate that a field should be indexed for lexical search (which disables semantic search but supports stemmed and partial matches), annotate it with @amazon.datazone#searchable(modes:["LEXICAL"]). To indicate that a field should be indexed for technical identifier search (for more information on technical identifier search, see: [https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/](https://aws.amazon.com/blogs/big-data/streamline-data-discovery-with-precise-technical-identifier-search-in-amazon-sagemaker-unified-studio/)), annotate it with @amazon.datazone#searchable(modes:["TECHNICAL"]). To denote that a field will store glossary term ids (which are filterable via the Search/SearchListings APIs), annotate it with @amazon.datazone#glossaryterm("${GLOSSARY_ID}"), where ${GLOSSARY_ID} is the id of the glossary that the glossary terms stored in the field belong to.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateFormTypeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateFormTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2189,6 +2214,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFormTypeInput, CreateFormTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFormTypeOutput>(CreateFormTypeOutput.httpOutput(from:), CreateFormTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFormTypeInput, CreateFormTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFormTypeOutput>())
@@ -2226,9 +2252,9 @@ extension DataZoneClient {
     ///
     /// * The glossary name must be unique within the domain.
     ///
-    /// - Parameter CreateGlossaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGlossaryInput`)
     ///
-    /// - Returns: `CreateGlossaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlossaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2269,6 +2295,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlossaryInput, CreateGlossaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlossaryOutput>(CreateGlossaryOutput.httpOutput(from:), CreateGlossaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlossaryInput, CreateGlossaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlossaryOutput>())
@@ -2302,15 +2329,15 @@ extension DataZoneClient {
     ///
     /// * Domain must exist.
     ///
-    /// * Glossary must exist and be in an ENABLED state.
+    /// * Glossary must exist.
     ///
     /// * The term name must be unique within the glossary.
     ///
     /// * Ensure term does not conflict with existing terms in hierarchy.
     ///
-    /// - Parameter CreateGlossaryTermInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGlossaryTermInput`)
     ///
-    /// - Returns: `CreateGlossaryTermOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlossaryTermOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2352,6 +2379,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlossaryTermOutput>(CreateGlossaryTermOutput.httpOutput(from:), CreateGlossaryTermOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlossaryTermInput, CreateGlossaryTermOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlossaryTermOutput>())
@@ -2383,9 +2411,9 @@ extension DataZoneClient {
     ///
     /// Creates a group profile in Amazon DataZone.
     ///
-    /// - Parameter CreateGroupProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGroupProfileInput`)
     ///
-    /// - Returns: `CreateGroupProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGroupProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2425,6 +2453,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGroupProfileInput, CreateGroupProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGroupProfileOutput>(CreateGroupProfileOutput.httpOutput(from:), CreateGroupProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGroupProfileInput, CreateGroupProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGroupProfileOutput>())
@@ -2456,9 +2485,9 @@ extension DataZoneClient {
     ///
     /// Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
     ///
-    /// - Parameter CreateListingChangeSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateListingChangeSetInput`)
     ///
-    /// - Returns: `CreateListingChangeSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateListingChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2500,6 +2529,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateListingChangeSetInput, CreateListingChangeSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateListingChangeSetOutput>(CreateListingChangeSetOutput.httpOutput(from:), CreateListingChangeSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateListingChangeSetInput, CreateListingChangeSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateListingChangeSetOutput>())
@@ -2531,9 +2561,9 @@ extension DataZoneClient {
     ///
     /// Creates an Amazon DataZone project.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2574,6 +2604,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -2605,9 +2636,9 @@ extension DataZoneClient {
     ///
     /// Creates a project membership in Amazon DataZone.
     ///
-    /// - Parameter CreateProjectMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectMembershipInput`)
     ///
-    /// - Returns: `CreateProjectMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2646,6 +2677,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectMembershipInput, CreateProjectMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectMembershipOutput>(CreateProjectMembershipOutput.httpOutput(from:), CreateProjectMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectMembershipInput, CreateProjectMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectMembershipOutput>())
@@ -2677,9 +2709,9 @@ extension DataZoneClient {
     ///
     /// Creates a project profile.
     ///
-    /// - Parameter CreateProjectProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectProfileInput`)
     ///
-    /// - Returns: `CreateProjectProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2720,6 +2752,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectProfileInput, CreateProjectProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectProfileOutput>(CreateProjectProfileOutput.httpOutput(from:), CreateProjectProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectProfileInput, CreateProjectProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectProfileOutput>())
@@ -2751,9 +2784,9 @@ extension DataZoneClient {
     ///
     /// Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
     ///
-    /// - Parameter CreateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleInput`)
     ///
-    /// - Returns: `CreateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2795,6 +2828,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleInput, CreateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleOutput>(CreateRuleOutput.httpOutput(from:), CreateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleInput, CreateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleOutput>())
@@ -2826,9 +2860,9 @@ extension DataZoneClient {
     ///
     /// Creates a subsscription grant in Amazon DataZone.
     ///
-    /// - Parameter CreateSubscriptionGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriptionGrantInput`)
     ///
-    /// - Returns: `CreateSubscriptionGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriptionGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2869,6 +2903,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubscriptionGrantInput, CreateSubscriptionGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubscriptionGrantOutput>(CreateSubscriptionGrantOutput.httpOutput(from:), CreateSubscriptionGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubscriptionGrantInput, CreateSubscriptionGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubscriptionGrantOutput>())
@@ -2900,9 +2935,9 @@ extension DataZoneClient {
     ///
     /// Creates a subscription request in Amazon DataZone.
     ///
-    /// - Parameter CreateSubscriptionRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriptionRequestInput`)
     ///
-    /// - Returns: `CreateSubscriptionRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriptionRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2943,6 +2978,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubscriptionRequestInput, CreateSubscriptionRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubscriptionRequestOutput>(CreateSubscriptionRequestOutput.httpOutput(from:), CreateSubscriptionRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubscriptionRequestInput, CreateSubscriptionRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubscriptionRequestOutput>())
@@ -2974,9 +3010,9 @@ extension DataZoneClient {
     ///
     /// Creates a subscription target in Amazon DataZone.
     ///
-    /// - Parameter CreateSubscriptionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSubscriptionTargetInput`)
     ///
-    /// - Returns: `CreateSubscriptionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSubscriptionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3017,6 +3053,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSubscriptionTargetInput, CreateSubscriptionTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSubscriptionTargetOutput>(CreateSubscriptionTargetOutput.httpOutput(from:), CreateSubscriptionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSubscriptionTargetInput, CreateSubscriptionTargetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSubscriptionTargetOutput>())
@@ -3048,9 +3085,9 @@ extension DataZoneClient {
     ///
     /// Creates a user profile in Amazon DataZone.
     ///
-    /// - Parameter CreateUserProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateUserProfileInput`)
     ///
-    /// - Returns: `CreateUserProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3090,6 +3127,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserProfileInput, CreateUserProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserProfileOutput>(CreateUserProfileOutput.httpOutput(from:), CreateUserProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserProfileInput, CreateUserProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserProfileOutput>())
@@ -3121,9 +3159,9 @@ extension DataZoneClient {
     ///
     /// Deletes an account pool.
     ///
-    /// - Parameter DeleteAccountPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccountPoolInput`)
     ///
-    /// - Returns: `DeleteAccountPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccountPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3159,6 +3197,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAccountPoolInput, DeleteAccountPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccountPoolOutput>(DeleteAccountPoolOutput.httpOutput(from:), DeleteAccountPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccountPoolInput, DeleteAccountPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccountPoolOutput>())
@@ -3200,9 +3239,9 @@ extension DataZoneClient {
     ///
     /// * User must have delete permissions for the domain and project.
     ///
-    /// - Parameter DeleteAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetInput`)
     ///
-    /// - Returns: `DeleteAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3239,6 +3278,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetInput, DeleteAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetOutput>(DeleteAssetOutput.httpOutput(from:), DeleteAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetInput, DeleteAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetOutput>())
@@ -3276,9 +3316,9 @@ extension DataZoneClient {
     ///
     /// * Ensure the --identifier refers to a valid filter ID.
     ///
-    /// - Parameter DeleteAssetFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetFilterInput`)
     ///
-    /// - Returns: `DeleteAssetFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3315,6 +3355,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetFilterInput, DeleteAssetFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetFilterOutput>(DeleteAssetFilterOutput.httpOutput(from:), DeleteAssetFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetFilterInput, DeleteAssetFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetFilterOutput>())
@@ -3354,9 +3395,9 @@ extension DataZoneClient {
     ///
     /// * You should retrieve the asset type using get-asset-type to confirm its presence before deletion.
     ///
-    /// - Parameter DeleteAssetTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetTypeInput`)
     ///
-    /// - Returns: `DeleteAssetTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3393,6 +3434,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetTypeOutput>(DeleteAssetTypeOutput.httpOutput(from:), DeleteAssetTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetTypeInput, DeleteAssetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetTypeOutput>())
@@ -3424,9 +3466,9 @@ extension DataZoneClient {
     ///
     /// Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
     ///
-    /// - Parameter DeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3462,6 +3504,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
@@ -3497,13 +3540,11 @@ extension DataZoneClient {
     ///
     /// * The user must have delete permissions for the data product.
     ///
-    /// * Ensure there are no active dependencies (e.g., published links, assets using the product).
-    ///
     /// * Domain and project must be active.
     ///
-    /// - Parameter DeleteDataProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataProductInput`)
     ///
-    /// - Returns: `DeleteDataProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3540,6 +3581,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDataProductInput, DeleteDataProductOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataProductOutput>(DeleteDataProductOutput.httpOutput(from:), DeleteDataProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataProductInput, DeleteDataProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataProductOutput>())
@@ -3571,9 +3613,9 @@ extension DataZoneClient {
     ///
     /// Deletes a data source in Amazon DataZone.
     ///
-    /// - Parameter DeleteDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDataSourceInput`)
     ///
-    /// - Returns: `DeleteDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3613,6 +3655,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(DeleteDataSourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDataSourceOutput>(DeleteDataSourceOutput.httpOutput(from:), DeleteDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDataSourceInput, DeleteDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDataSourceOutput>())
@@ -3644,9 +3687,9 @@ extension DataZoneClient {
     ///
     /// Deletes a Amazon DataZone domain.
     ///
-    /// - Parameter DeleteDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainInput`)
     ///
-    /// - Returns: `DeleteDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3685,6 +3728,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDomainInput, DeleteDomainOutput>(DeleteDomainInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainOutput>(DeleteDomainOutput.httpOutput(from:), DeleteDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainInput, DeleteDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainOutput>())
@@ -3716,9 +3760,9 @@ extension DataZoneClient {
     ///
     /// Deletes a domain unit.
     ///
-    /// - Parameter DeleteDomainUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDomainUnitInput`)
     ///
-    /// - Returns: `DeleteDomainUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDomainUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3755,6 +3799,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDomainUnitInput, DeleteDomainUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDomainUnitOutput>(DeleteDomainUnitOutput.httpOutput(from:), DeleteDomainUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDomainUnitInput, DeleteDomainUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDomainUnitOutput>())
@@ -3786,9 +3831,9 @@ extension DataZoneClient {
     ///
     /// Deletes an environment in Amazon DataZone.
     ///
-    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentInput`)
     ///
-    /// - Returns: `DeleteEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3824,6 +3869,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentOutput>(DeleteEnvironmentOutput.httpOutput(from:), DeleteEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentInput, DeleteEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentOutput>())
@@ -3855,9 +3901,9 @@ extension DataZoneClient {
     ///
     /// Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
     ///
-    /// - Parameter DeleteEnvironmentActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentActionInput`)
     ///
-    /// - Returns: `DeleteEnvironmentActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3894,6 +3940,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentActionInput, DeleteEnvironmentActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentActionOutput>(DeleteEnvironmentActionOutput.httpOutput(from:), DeleteEnvironmentActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentActionInput, DeleteEnvironmentActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentActionOutput>())
@@ -3925,9 +3972,9 @@ extension DataZoneClient {
     ///
     /// Deletes a blueprint in Amazon DataZone.
     ///
-    /// - Parameter DeleteEnvironmentBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentBlueprintInput`)
     ///
-    /// - Returns: `DeleteEnvironmentBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3964,6 +4011,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentBlueprintInput, DeleteEnvironmentBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentBlueprintOutput>(DeleteEnvironmentBlueprintOutput.httpOutput(from:), DeleteEnvironmentBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentBlueprintInput, DeleteEnvironmentBlueprintOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentBlueprintOutput>())
@@ -3995,9 +4043,9 @@ extension DataZoneClient {
     ///
     /// Deletes the blueprint configuration in Amazon DataZone.
     ///
-    /// - Parameter DeleteEnvironmentBlueprintConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentBlueprintConfigurationInput`)
     ///
-    /// - Returns: `DeleteEnvironmentBlueprintConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentBlueprintConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4032,6 +4080,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentBlueprintConfigurationInput, DeleteEnvironmentBlueprintConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentBlueprintConfigurationOutput>(DeleteEnvironmentBlueprintConfigurationOutput.httpOutput(from:), DeleteEnvironmentBlueprintConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentBlueprintConfigurationInput, DeleteEnvironmentBlueprintConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentBlueprintConfigurationOutput>())
@@ -4063,9 +4112,9 @@ extension DataZoneClient {
     ///
     /// Deletes an environment profile in Amazon DataZone.
     ///
-    /// - Parameter DeleteEnvironmentProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteEnvironmentProfileInput`)
     ///
-    /// - Returns: `DeleteEnvironmentProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteEnvironmentProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4101,6 +4150,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteEnvironmentProfileInput, DeleteEnvironmentProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteEnvironmentProfileOutput>(DeleteEnvironmentProfileOutput.httpOutput(from:), DeleteEnvironmentProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteEnvironmentProfileInput, DeleteEnvironmentProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteEnvironmentProfileOutput>())
@@ -4142,9 +4192,9 @@ extension DataZoneClient {
     ///
     /// * Any dependencies (such as linked asset types) must be removed first.
     ///
-    /// - Parameter DeleteFormTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFormTypeInput`)
     ///
-    /// - Returns: `DeleteFormTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFormTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4181,6 +4231,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFormTypeOutput>(DeleteFormTypeOutput.httpOutput(from:), DeleteFormTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFormTypeInput, DeleteFormTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFormTypeOutput>())
@@ -4220,11 +4271,11 @@ extension DataZoneClient {
     ///
     /// * The caller must have the datazone:DeleteGlossary permission in the domain and glossary.
     ///
-    /// * There should be no active assets or metadata linked to the glossary.
+    /// * Glossary should not be linked to any active metadata forms.
     ///
-    /// - Parameter DeleteGlossaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGlossaryInput`)
     ///
-    /// - Returns: `DeleteGlossaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGlossaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4261,6 +4312,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGlossaryOutput>(DeleteGlossaryOutput.httpOutput(from:), DeleteGlossaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlossaryInput, DeleteGlossaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlossaryOutput>())
@@ -4300,9 +4352,9 @@ extension DataZoneClient {
     ///
     /// * Ensure all associations (such as to assets or parent terms) are removed before deletion.
     ///
-    /// - Parameter DeleteGlossaryTermInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGlossaryTermInput`)
     ///
-    /// - Returns: `DeleteGlossaryTermOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGlossaryTermOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4339,6 +4391,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGlossaryTermOutput>(DeleteGlossaryTermOutput.httpOutput(from:), DeleteGlossaryTermOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlossaryTermInput, DeleteGlossaryTermOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlossaryTermOutput>())
@@ -4370,9 +4423,9 @@ extension DataZoneClient {
     ///
     /// Deletes a listing (a record of an asset at a given time).
     ///
-    /// - Parameter DeleteListingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteListingInput`)
     ///
-    /// - Returns: `DeleteListingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteListingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4409,6 +4462,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteListingInput, DeleteListingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteListingOutput>(DeleteListingOutput.httpOutput(from:), DeleteListingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteListingInput, DeleteListingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteListingOutput>())
@@ -4440,9 +4494,9 @@ extension DataZoneClient {
     ///
     /// Deletes a project in Amazon DataZone.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4479,6 +4533,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteProjectInput, DeleteProjectOutput>(DeleteProjectInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -4510,9 +4565,9 @@ extension DataZoneClient {
     ///
     /// Deletes project membership in Amazon DataZone.
     ///
-    /// - Parameter DeleteProjectMembershipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectMembershipInput`)
     ///
-    /// - Returns: `DeleteProjectMembershipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectMembershipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4552,6 +4607,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProjectMembershipInput, DeleteProjectMembershipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectMembershipOutput>(DeleteProjectMembershipOutput.httpOutput(from:), DeleteProjectMembershipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectMembershipInput, DeleteProjectMembershipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectMembershipOutput>())
@@ -4583,9 +4639,9 @@ extension DataZoneClient {
     ///
     /// Deletes a project profile.
     ///
-    /// - Parameter DeleteProjectProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectProfileInput`)
     ///
-    /// - Returns: `DeleteProjectProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4621,6 +4677,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectProfileInput, DeleteProjectProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectProfileOutput>(DeleteProjectProfileOutput.httpOutput(from:), DeleteProjectProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectProfileInput, DeleteProjectProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectProfileOutput>())
@@ -4652,9 +4709,9 @@ extension DataZoneClient {
     ///
     /// Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
     ///
-    /// - Parameter DeleteRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleInput`)
     ///
-    /// - Returns: `DeleteRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4691,6 +4748,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRuleInput, DeleteRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleOutput>(DeleteRuleOutput.httpOutput(from:), DeleteRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleInput, DeleteRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleOutput>())
@@ -4722,9 +4780,9 @@ extension DataZoneClient {
     ///
     /// Deletes and subscription grant in Amazon DataZone.
     ///
-    /// - Parameter DeleteSubscriptionGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubscriptionGrantInput`)
     ///
-    /// - Returns: `DeleteSubscriptionGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubscriptionGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4761,6 +4819,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSubscriptionGrantInput, DeleteSubscriptionGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubscriptionGrantOutput>(DeleteSubscriptionGrantOutput.httpOutput(from:), DeleteSubscriptionGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubscriptionGrantInput, DeleteSubscriptionGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubscriptionGrantOutput>())
@@ -4792,9 +4851,9 @@ extension DataZoneClient {
     ///
     /// Deletes a subscription request in Amazon DataZone.
     ///
-    /// - Parameter DeleteSubscriptionRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubscriptionRequestInput`)
     ///
-    /// - Returns: `DeleteSubscriptionRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubscriptionRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4831,6 +4890,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSubscriptionRequestInput, DeleteSubscriptionRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubscriptionRequestOutput>(DeleteSubscriptionRequestOutput.httpOutput(from:), DeleteSubscriptionRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubscriptionRequestInput, DeleteSubscriptionRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubscriptionRequestOutput>())
@@ -4862,9 +4922,9 @@ extension DataZoneClient {
     ///
     /// Deletes a subscription target in Amazon DataZone.
     ///
-    /// - Parameter DeleteSubscriptionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSubscriptionTargetInput`)
     ///
-    /// - Returns: `DeleteSubscriptionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSubscriptionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4901,6 +4961,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSubscriptionTargetInput, DeleteSubscriptionTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSubscriptionTargetOutput>(DeleteSubscriptionTargetOutput.httpOutput(from:), DeleteSubscriptionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSubscriptionTargetInput, DeleteSubscriptionTargetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSubscriptionTargetOutput>())
@@ -4932,9 +4993,9 @@ extension DataZoneClient {
     ///
     /// Deletes the specified time series form for the specified asset.
     ///
-    /// - Parameter DeleteTimeSeriesDataPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTimeSeriesDataPointsInput`)
     ///
-    /// - Returns: `DeleteTimeSeriesDataPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTimeSeriesDataPointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4972,6 +5033,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTimeSeriesDataPointsInput, DeleteTimeSeriesDataPointsOutput>(DeleteTimeSeriesDataPointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTimeSeriesDataPointsOutput>(DeleteTimeSeriesDataPointsOutput.httpOutput(from:), DeleteTimeSeriesDataPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTimeSeriesDataPointsInput, DeleteTimeSeriesDataPointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTimeSeriesDataPointsOutput>())
@@ -5003,9 +5065,9 @@ extension DataZoneClient {
     ///
     /// Disassociates the environment role in Amazon DataZone.
     ///
-    /// - Parameter DisassociateEnvironmentRoleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateEnvironmentRoleInput`)
     ///
-    /// - Returns: `DisassociateEnvironmentRoleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateEnvironmentRoleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5042,6 +5104,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateEnvironmentRoleInput, DisassociateEnvironmentRoleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEnvironmentRoleOutput>(DisassociateEnvironmentRoleOutput.httpOutput(from:), DisassociateEnvironmentRoleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEnvironmentRoleInput, DisassociateEnvironmentRoleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEnvironmentRoleOutput>())
@@ -5073,9 +5136,9 @@ extension DataZoneClient {
     ///
     /// Disassociates restricted terms from an asset.
     ///
-    /// - Parameter DisassociateGovernedTermsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateGovernedTermsInput`)
     ///
-    /// - Returns: `DisassociateGovernedTermsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateGovernedTermsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5115,6 +5178,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateGovernedTermsInput, DisassociateGovernedTermsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateGovernedTermsOutput>(DisassociateGovernedTermsOutput.httpOutput(from:), DisassociateGovernedTermsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateGovernedTermsInput, DisassociateGovernedTermsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateGovernedTermsOutput>())
@@ -5146,9 +5210,9 @@ extension DataZoneClient {
     ///
     /// Gets the details of the account pool.
     ///
-    /// - Parameter GetAccountPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAccountPoolInput`)
     ///
-    /// - Returns: `GetAccountPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAccountPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5184,6 +5248,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAccountPoolInput, GetAccountPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAccountPoolOutput>(GetAccountPoolOutput.httpOutput(from:), GetAccountPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAccountPoolInput, GetAccountPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAccountPoolOutput>())
@@ -5221,9 +5286,9 @@ extension DataZoneClient {
     ///
     /// * User must have the required permissions to perform the action
     ///
-    /// - Parameter GetAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssetInput`)
     ///
-    /// - Returns: `GetAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5260,6 +5325,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAssetInput, GetAssetOutput>(GetAssetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssetOutput>(GetAssetOutput.httpOutput(from:), GetAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetInput, GetAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetOutput>())
@@ -5297,9 +5363,9 @@ extension DataZoneClient {
     ///
     /// * The asset must still exist (since the filter is linked to it).
     ///
-    /// - Parameter GetAssetFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssetFilterInput`)
     ///
-    /// - Returns: `GetAssetFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssetFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5335,6 +5401,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAssetFilterInput, GetAssetFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssetFilterOutput>(GetAssetFilterOutput.httpOutput(from:), GetAssetFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetFilterInput, GetAssetFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetFilterOutput>())
@@ -5372,9 +5439,9 @@ extension DataZoneClient {
     ///
     /// * Ensure the domain-identifier value is correct and accessible.
     ///
-    /// - Parameter GetAssetTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssetTypeInput`)
     ///
-    /// - Returns: `GetAssetTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssetTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5411,6 +5478,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAssetTypeInput, GetAssetTypeOutput>(GetAssetTypeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssetTypeOutput>(GetAssetTypeOutput.httpOutput(from:), GetAssetTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetTypeInput, GetAssetTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetTypeOutput>())
@@ -5442,9 +5510,9 @@ extension DataZoneClient {
     ///
     /// Gets a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
     ///
-    /// - Parameter GetConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionInput`)
     ///
-    /// - Returns: `GetConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5481,6 +5549,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetConnectionInput, GetConnectionOutput>(GetConnectionInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionOutput>(GetConnectionOutput.httpOutput(from:), GetConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionInput, GetConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionOutput>())
@@ -5518,9 +5587,9 @@ extension DataZoneClient {
     ///
     /// * User must have read or discovery permissions for the data product.
     ///
-    /// - Parameter GetDataProductInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataProductInput`)
     ///
-    /// - Returns: `GetDataProductOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataProductOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5557,6 +5626,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDataProductInput, GetDataProductOutput>(GetDataProductInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataProductOutput>(GetDataProductOutput.httpOutput(from:), GetDataProductOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataProductInput, GetDataProductOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataProductOutput>())
@@ -5588,9 +5658,9 @@ extension DataZoneClient {
     ///
     /// Gets an Amazon DataZone data source.
     ///
-    /// - Parameter GetDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSourceInput`)
     ///
-    /// - Returns: `GetDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5628,6 +5698,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataSourceInput, GetDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataSourceOutput>(GetDataSourceOutput.httpOutput(from:), GetDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataSourceInput, GetDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataSourceOutput>())
@@ -5659,9 +5730,9 @@ extension DataZoneClient {
     ///
     /// Gets an Amazon DataZone data source run.
     ///
-    /// - Parameter GetDataSourceRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDataSourceRunInput`)
     ///
-    /// - Returns: `GetDataSourceRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDataSourceRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5699,6 +5770,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDataSourceRunInput, GetDataSourceRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDataSourceRunOutput>(GetDataSourceRunOutput.httpOutput(from:), GetDataSourceRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDataSourceRunInput, GetDataSourceRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDataSourceRunOutput>())
@@ -5730,9 +5802,9 @@ extension DataZoneClient {
     ///
     /// Gets an Amazon DataZone domain.
     ///
-    /// - Parameter GetDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainInput`)
     ///
-    /// - Returns: `GetDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5769,6 +5841,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainInput, GetDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainOutput>(GetDomainOutput.httpOutput(from:), GetDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainInput, GetDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainOutput>())
@@ -5800,9 +5873,9 @@ extension DataZoneClient {
     ///
     /// Gets the details of the specified domain unit.
     ///
-    /// - Parameter GetDomainUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDomainUnitInput`)
     ///
-    /// - Returns: `GetDomainUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDomainUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5838,6 +5911,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDomainUnitInput, GetDomainUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDomainUnitOutput>(GetDomainUnitOutput.httpOutput(from:), GetDomainUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDomainUnitInput, GetDomainUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDomainUnitOutput>())
@@ -5869,9 +5943,9 @@ extension DataZoneClient {
     ///
     /// Gets an Amazon DataZone environment.
     ///
-    /// - Parameter GetEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentInput`)
     ///
-    /// - Returns: `GetEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5907,6 +5981,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentInput, GetEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentOutput>(GetEnvironmentOutput.httpOutput(from:), GetEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentInput, GetEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentOutput>())
@@ -5938,9 +6013,9 @@ extension DataZoneClient {
     ///
     /// Gets the specified environment action.
     ///
-    /// - Parameter GetEnvironmentActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentActionInput`)
     ///
-    /// - Returns: `GetEnvironmentActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5976,6 +6051,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentActionInput, GetEnvironmentActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentActionOutput>(GetEnvironmentActionOutput.httpOutput(from:), GetEnvironmentActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentActionInput, GetEnvironmentActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentActionOutput>())
@@ -6007,9 +6083,9 @@ extension DataZoneClient {
     ///
     /// Gets an Amazon DataZone blueprint.
     ///
-    /// - Parameter GetEnvironmentBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentBlueprintInput`)
     ///
-    /// - Returns: `GetEnvironmentBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6045,6 +6121,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentBlueprintInput, GetEnvironmentBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentBlueprintOutput>(GetEnvironmentBlueprintOutput.httpOutput(from:), GetEnvironmentBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentBlueprintInput, GetEnvironmentBlueprintOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentBlueprintOutput>())
@@ -6076,9 +6153,9 @@ extension DataZoneClient {
     ///
     /// Gets the blueprint configuration in Amazon DataZone.
     ///
-    /// - Parameter GetEnvironmentBlueprintConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentBlueprintConfigurationInput`)
     ///
-    /// - Returns: `GetEnvironmentBlueprintConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentBlueprintConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6114,6 +6191,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentBlueprintConfigurationInput, GetEnvironmentBlueprintConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentBlueprintConfigurationOutput>(GetEnvironmentBlueprintConfigurationOutput.httpOutput(from:), GetEnvironmentBlueprintConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentBlueprintConfigurationInput, GetEnvironmentBlueprintConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentBlueprintConfigurationOutput>())
@@ -6145,9 +6223,9 @@ extension DataZoneClient {
     ///
     /// Gets the credentials of an environment in Amazon DataZone.
     ///
-    /// - Parameter GetEnvironmentCredentialsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentCredentialsInput`)
     ///
-    /// - Returns: `GetEnvironmentCredentialsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentCredentialsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6183,6 +6261,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentCredentialsInput, GetEnvironmentCredentialsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentCredentialsOutput>(GetEnvironmentCredentialsOutput.httpOutput(from:), GetEnvironmentCredentialsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentCredentialsInput, GetEnvironmentCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentCredentialsOutput>())
@@ -6214,9 +6293,9 @@ extension DataZoneClient {
     ///
     /// Gets an evinronment profile in Amazon DataZone.
     ///
-    /// - Parameter GetEnvironmentProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEnvironmentProfileInput`)
     ///
-    /// - Returns: `GetEnvironmentProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEnvironmentProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6252,6 +6331,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetEnvironmentProfileInput, GetEnvironmentProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEnvironmentProfileOutput>(GetEnvironmentProfileOutput.httpOutput(from:), GetEnvironmentProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEnvironmentProfileInput, GetEnvironmentProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEnvironmentProfileOutput>())
@@ -6291,9 +6371,12 @@ extension DataZoneClient {
     ///
     /// * The form type should not be deleted or in an invalid state.
     ///
-    /// - Parameter GetFormTypeInput : [no documentation found]
     ///
-    /// - Returns: `GetFormTypeOutput` : [no documentation found]
+    /// One use case for this API is to determine whether a form field is indexed for search. A searchable field will be annotated with @amazon.datazone#searchable. By default, searchable fields are indexed for semantic search, where related query terms will match the attribute value even if they are not stemmed or keyword matches. If a field is indexed technical identifier search, it will be annotated with @amazon.datazone#searchable(modes:["TECHNICAL"]). If a field is indexed for lexical search (supports stemmed and prefix matches but not semantic matches), it will be annotated with @amazon.datazone#searchable(modes:["LEXICAL"]). A field storing glossary term IDs (which is filterable) will be annotated with @amazon.datazone#glossaryterm("${glossaryId}").
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetFormTypeInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetFormTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6330,6 +6413,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetFormTypeInput, GetFormTypeOutput>(GetFormTypeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFormTypeOutput>(GetFormTypeOutput.httpOutput(from:), GetFormTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFormTypeInput, GetFormTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFormTypeOutput>())
@@ -6365,9 +6449,9 @@ extension DataZoneClient {
     ///
     /// * The caller must have the datazone:GetGlossary permission on the domain.
     ///
-    /// - Parameter GetGlossaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlossaryInput`)
     ///
-    /// - Returns: `GetGlossaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlossaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6403,6 +6487,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlossaryInput, GetGlossaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlossaryOutput>(GetGlossaryOutput.httpOutput(from:), GetGlossaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlossaryInput, GetGlossaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlossaryOutput>())
@@ -6440,9 +6525,9 @@ extension DataZoneClient {
     ///
     /// * Domain must be accessible and active.
     ///
-    /// - Parameter GetGlossaryTermInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGlossaryTermInput`)
     ///
-    /// - Returns: `GetGlossaryTermOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGlossaryTermOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6478,6 +6563,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGlossaryTermOutput>(GetGlossaryTermOutput.httpOutput(from:), GetGlossaryTermOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGlossaryTermInput, GetGlossaryTermOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGlossaryTermOutput>())
@@ -6509,9 +6595,9 @@ extension DataZoneClient {
     ///
     /// Gets a group profile in Amazon DataZone.
     ///
-    /// - Parameter GetGroupProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetGroupProfileInput`)
     ///
-    /// - Returns: `GetGroupProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetGroupProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6547,6 +6633,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetGroupProfileInput, GetGroupProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetGroupProfileOutput>(GetGroupProfileOutput.httpOutput(from:), GetGroupProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetGroupProfileInput, GetGroupProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetGroupProfileOutput>())
@@ -6578,9 +6665,9 @@ extension DataZoneClient {
     ///
     /// Gets the data portal URL for the specified Amazon DataZone domain.
     ///
-    /// - Parameter GetIamPortalLoginUrlInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIamPortalLoginUrlInput`)
     ///
-    /// - Returns: `GetIamPortalLoginUrlOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIamPortalLoginUrlOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6617,6 +6704,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetIamPortalLoginUrlInput, GetIamPortalLoginUrlOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIamPortalLoginUrlOutput>(GetIamPortalLoginUrlOutput.httpOutput(from:), GetIamPortalLoginUrlOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIamPortalLoginUrlInput, GetIamPortalLoginUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIamPortalLoginUrlOutput>())
@@ -6648,9 +6736,9 @@ extension DataZoneClient {
     ///
     /// The details of the job run.
     ///
-    /// - Parameter GetJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetJobRunInput`)
     ///
-    /// - Returns: `GetJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6686,6 +6774,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobRunInput, GetJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobRunOutput>(GetJobRunOutput.httpOutput(from:), GetJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobRunInput, GetJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetJobRunOutput>())
@@ -6717,9 +6806,9 @@ extension DataZoneClient {
     ///
     /// Describes the lineage event.
     ///
-    /// - Parameter GetLineageEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLineageEventInput`)
     ///
-    /// - Returns: `GetLineageEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLineageEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6755,6 +6844,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetLineageEventInput, GetLineageEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLineageEventOutput>(GetLineageEventOutput.httpOutput(from:), GetLineageEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLineageEventInput, GetLineageEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLineageEventOutput>())
@@ -6786,9 +6876,9 @@ extension DataZoneClient {
     ///
     /// Gets the data lineage node.
     ///
-    /// - Parameter GetLineageNodeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLineageNodeInput`)
     ///
-    /// - Returns: `GetLineageNodeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLineageNodeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6825,6 +6915,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLineageNodeInput, GetLineageNodeOutput>(GetLineageNodeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLineageNodeOutput>(GetLineageNodeOutput.httpOutput(from:), GetLineageNodeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLineageNodeInput, GetLineageNodeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLineageNodeOutput>())
@@ -6856,9 +6947,9 @@ extension DataZoneClient {
     ///
     /// Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned.
     ///
-    /// - Parameter GetListingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetListingInput`)
     ///
-    /// - Returns: `GetListingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetListingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6895,6 +6986,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetListingInput, GetListingOutput>(GetListingInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetListingOutput>(GetListingOutput.httpOutput(from:), GetListingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetListingInput, GetListingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetListingOutput>())
@@ -6932,9 +7024,9 @@ extension DataZoneClient {
     ///
     /// * User must have read access to the metadata run.
     ///
-    /// - Parameter GetMetadataGenerationRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMetadataGenerationRunInput`)
     ///
-    /// - Returns: `GetMetadataGenerationRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMetadataGenerationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6970,6 +7062,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetMetadataGenerationRunInput, GetMetadataGenerationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMetadataGenerationRunOutput>(GetMetadataGenerationRunOutput.httpOutput(from:), GetMetadataGenerationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMetadataGenerationRunInput, GetMetadataGenerationRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMetadataGenerationRunOutput>())
@@ -7001,9 +7094,9 @@ extension DataZoneClient {
     ///
     /// Gets a project in Amazon DataZone.
     ///
-    /// - Parameter GetProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProjectInput`)
     ///
-    /// - Returns: `GetProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7039,6 +7132,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProjectInput, GetProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProjectOutput>(GetProjectOutput.httpOutput(from:), GetProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProjectInput, GetProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProjectOutput>())
@@ -7070,9 +7164,9 @@ extension DataZoneClient {
     ///
     /// The details of the project profile.
     ///
-    /// - Parameter GetProjectProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetProjectProfileInput`)
     ///
-    /// - Returns: `GetProjectProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetProjectProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7108,6 +7202,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetProjectProfileInput, GetProjectProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetProjectProfileOutput>(GetProjectProfileOutput.httpOutput(from:), GetProjectProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetProjectProfileInput, GetProjectProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetProjectProfileOutput>())
@@ -7139,9 +7234,9 @@ extension DataZoneClient {
     ///
     /// Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
     ///
-    /// - Parameter GetRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleInput`)
     ///
-    /// - Returns: `GetRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7178,6 +7273,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetRuleInput, GetRuleOutput>(GetRuleInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuleOutput>(GetRuleOutput.httpOutput(from:), GetRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleInput, GetRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuleOutput>())
@@ -7209,9 +7305,9 @@ extension DataZoneClient {
     ///
     /// Gets a subscription in Amazon DataZone.
     ///
-    /// - Parameter GetSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionInput`)
     ///
-    /// - Returns: `GetSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7247,6 +7343,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSubscriptionInput, GetSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubscriptionOutput>(GetSubscriptionOutput.httpOutput(from:), GetSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubscriptionInput, GetSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubscriptionOutput>())
@@ -7278,9 +7375,9 @@ extension DataZoneClient {
     ///
     /// Gets the subscription grant in Amazon DataZone.
     ///
-    /// - Parameter GetSubscriptionGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionGrantInput`)
     ///
-    /// - Returns: `GetSubscriptionGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7316,6 +7413,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSubscriptionGrantInput, GetSubscriptionGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubscriptionGrantOutput>(GetSubscriptionGrantOutput.httpOutput(from:), GetSubscriptionGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubscriptionGrantInput, GetSubscriptionGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubscriptionGrantOutput>())
@@ -7347,9 +7445,9 @@ extension DataZoneClient {
     ///
     /// Gets the details of the specified subscription request.
     ///
-    /// - Parameter GetSubscriptionRequestDetailsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionRequestDetailsInput`)
     ///
-    /// - Returns: `GetSubscriptionRequestDetailsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionRequestDetailsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7385,6 +7483,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSubscriptionRequestDetailsInput, GetSubscriptionRequestDetailsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubscriptionRequestDetailsOutput>(GetSubscriptionRequestDetailsOutput.httpOutput(from:), GetSubscriptionRequestDetailsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubscriptionRequestDetailsInput, GetSubscriptionRequestDetailsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubscriptionRequestDetailsOutput>())
@@ -7416,9 +7515,9 @@ extension DataZoneClient {
     ///
     /// Gets the subscription target in Amazon DataZone.
     ///
-    /// - Parameter GetSubscriptionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSubscriptionTargetInput`)
     ///
-    /// - Returns: `GetSubscriptionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSubscriptionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7454,6 +7553,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSubscriptionTargetInput, GetSubscriptionTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSubscriptionTargetOutput>(GetSubscriptionTargetOutput.httpOutput(from:), GetSubscriptionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSubscriptionTargetInput, GetSubscriptionTargetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSubscriptionTargetOutput>())
@@ -7485,9 +7585,9 @@ extension DataZoneClient {
     ///
     /// Gets the existing data point for the asset.
     ///
-    /// - Parameter GetTimeSeriesDataPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTimeSeriesDataPointInput`)
     ///
-    /// - Returns: `GetTimeSeriesDataPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTimeSeriesDataPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7524,6 +7624,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTimeSeriesDataPointInput, GetTimeSeriesDataPointOutput>(GetTimeSeriesDataPointInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTimeSeriesDataPointOutput>(GetTimeSeriesDataPointOutput.httpOutput(from:), GetTimeSeriesDataPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTimeSeriesDataPointInput, GetTimeSeriesDataPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTimeSeriesDataPointOutput>())
@@ -7555,9 +7656,9 @@ extension DataZoneClient {
     ///
     /// Gets a user profile in Amazon DataZone.
     ///
-    /// - Parameter GetUserProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUserProfileInput`)
     ///
-    /// - Returns: `GetUserProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUserProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7594,6 +7695,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetUserProfileInput, GetUserProfileOutput>(GetUserProfileInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUserProfileOutput>(GetUserProfileOutput.httpOutput(from:), GetUserProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUserProfileInput, GetUserProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUserProfileOutput>())
@@ -7625,9 +7727,9 @@ extension DataZoneClient {
     ///
     /// Lists existing account pools.
     ///
-    /// - Parameter ListAccountPoolsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountPoolsInput`)
     ///
-    /// - Returns: `ListAccountPoolsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountPoolsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7663,6 +7765,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccountPoolsInput, ListAccountPoolsOutput>(ListAccountPoolsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountPoolsOutput>(ListAccountPoolsOutput.httpOutput(from:), ListAccountPoolsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountPoolsInput, ListAccountPoolsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountPoolsOutput>())
@@ -7694,9 +7797,9 @@ extension DataZoneClient {
     ///
     /// Lists the accounts in the specified account pool.
     ///
-    /// - Parameter ListAccountsInAccountPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccountsInAccountPoolInput`)
     ///
-    /// - Returns: `ListAccountsInAccountPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccountsInAccountPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7733,6 +7836,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccountsInAccountPoolInput, ListAccountsInAccountPoolOutput>(ListAccountsInAccountPoolInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccountsInAccountPoolOutput>(ListAccountsInAccountPoolOutput.httpOutput(from:), ListAccountsInAccountPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccountsInAccountPoolInput, ListAccountsInAccountPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccountsInAccountPoolOutput>())
@@ -7768,9 +7872,9 @@ extension DataZoneClient {
     ///
     /// * The asset must have at least one filter created to return results.
     ///
-    /// - Parameter ListAssetFiltersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetFiltersInput`)
     ///
-    /// - Returns: `ListAssetFiltersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetFiltersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7807,6 +7911,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetFiltersInput, ListAssetFiltersOutput>(ListAssetFiltersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetFiltersOutput>(ListAssetFiltersOutput.httpOutput(from:), ListAssetFiltersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetFiltersInput, ListAssetFiltersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetFiltersOutput>())
@@ -7846,9 +7951,9 @@ extension DataZoneClient {
     ///
     /// * User must have permissions on the asset and domain.
     ///
-    /// - Parameter ListAssetRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetRevisionsInput`)
     ///
-    /// - Returns: `ListAssetRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7885,6 +7990,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetRevisionsInput, ListAssetRevisionsOutput>(ListAssetRevisionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetRevisionsOutput>(ListAssetRevisionsOutput.httpOutput(from:), ListAssetRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetRevisionsInput, ListAssetRevisionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetRevisionsOutput>())
@@ -7916,9 +8022,9 @@ extension DataZoneClient {
     ///
     /// Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
     ///
-    /// - Parameter ListConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectionsInput`)
     ///
-    /// - Returns: `ListConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7954,6 +8060,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectionsInput, ListConnectionsOutput>(ListConnectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectionsOutput>(ListConnectionsOutput.httpOutput(from:), ListConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectionsInput, ListConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectionsOutput>())
@@ -7991,9 +8098,9 @@ extension DataZoneClient {
     ///
     /// * The domain must be in a valid and accessible state.
     ///
-    /// - Parameter ListDataProductRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataProductRevisionsInput`)
     ///
-    /// - Returns: `ListDataProductRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataProductRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8030,6 +8137,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataProductRevisionsInput, ListDataProductRevisionsOutput>(ListDataProductRevisionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataProductRevisionsOutput>(ListDataProductRevisionsOutput.httpOutput(from:), ListDataProductRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataProductRevisionsInput, ListDataProductRevisionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataProductRevisionsOutput>())
@@ -8061,9 +8169,9 @@ extension DataZoneClient {
     ///
     /// Lists data source run activities.
     ///
-    /// - Parameter ListDataSourceRunActivitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourceRunActivitiesInput`)
     ///
-    /// - Returns: `ListDataSourceRunActivitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourceRunActivitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8102,6 +8210,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSourceRunActivitiesInput, ListDataSourceRunActivitiesOutput>(ListDataSourceRunActivitiesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourceRunActivitiesOutput>(ListDataSourceRunActivitiesOutput.httpOutput(from:), ListDataSourceRunActivitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourceRunActivitiesInput, ListDataSourceRunActivitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourceRunActivitiesOutput>())
@@ -8133,9 +8242,9 @@ extension DataZoneClient {
     ///
     /// Lists data source runs in Amazon DataZone.
     ///
-    /// - Parameter ListDataSourceRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourceRunsInput`)
     ///
-    /// - Returns: `ListDataSourceRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourceRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8174,6 +8283,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSourceRunsInput, ListDataSourceRunsOutput>(ListDataSourceRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourceRunsOutput>(ListDataSourceRunsOutput.httpOutput(from:), ListDataSourceRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourceRunsInput, ListDataSourceRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourceRunsOutput>())
@@ -8205,9 +8315,9 @@ extension DataZoneClient {
     ///
     /// Lists data sources in Amazon DataZone.
     ///
-    /// - Parameter ListDataSourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDataSourcesInput`)
     ///
-    /// - Returns: `ListDataSourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDataSourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8246,6 +8356,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(ListDataSourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDataSourcesOutput>(ListDataSourcesOutput.httpOutput(from:), ListDataSourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDataSourcesInput, ListDataSourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDataSourcesOutput>())
@@ -8277,9 +8388,9 @@ extension DataZoneClient {
     ///
     /// Lists child domain units for the specified parent domain unit.
     ///
-    /// - Parameter ListDomainUnitsForParentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainUnitsForParentInput`)
     ///
-    /// - Returns: `ListDomainUnitsForParentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainUnitsForParentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8315,6 +8426,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainUnitsForParentInput, ListDomainUnitsForParentOutput>(ListDomainUnitsForParentInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainUnitsForParentOutput>(ListDomainUnitsForParentOutput.httpOutput(from:), ListDomainUnitsForParentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainUnitsForParentInput, ListDomainUnitsForParentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainUnitsForParentOutput>())
@@ -8346,9 +8458,9 @@ extension DataZoneClient {
     ///
     /// Lists Amazon DataZone domains.
     ///
-    /// - Parameter ListDomainsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDomainsInput`)
     ///
-    /// - Returns: `ListDomainsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDomainsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8387,6 +8499,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDomainsInput, ListDomainsOutput>(ListDomainsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDomainsOutput>(ListDomainsOutput.httpOutput(from:), ListDomainsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDomainsInput, ListDomainsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDomainsOutput>())
@@ -8418,9 +8531,9 @@ extension DataZoneClient {
     ///
     /// Lists the entity (domain units) owners.
     ///
-    /// - Parameter ListEntityOwnersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEntityOwnersInput`)
     ///
-    /// - Returns: `ListEntityOwnersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEntityOwnersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8456,6 +8569,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEntityOwnersInput, ListEntityOwnersOutput>(ListEntityOwnersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEntityOwnersOutput>(ListEntityOwnersOutput.httpOutput(from:), ListEntityOwnersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEntityOwnersInput, ListEntityOwnersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEntityOwnersOutput>())
@@ -8487,9 +8601,9 @@ extension DataZoneClient {
     ///
     /// Lists existing environment actions.
     ///
-    /// - Parameter ListEnvironmentActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentActionsInput`)
     ///
-    /// - Returns: `ListEnvironmentActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8525,6 +8639,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnvironmentActionsInput, ListEnvironmentActionsOutput>(ListEnvironmentActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentActionsOutput>(ListEnvironmentActionsOutput.httpOutput(from:), ListEnvironmentActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentActionsInput, ListEnvironmentActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentActionsOutput>())
@@ -8556,9 +8671,9 @@ extension DataZoneClient {
     ///
     /// Lists blueprint configurations for a Amazon DataZone environment.
     ///
-    /// - Parameter ListEnvironmentBlueprintConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentBlueprintConfigurationsInput`)
     ///
-    /// - Returns: `ListEnvironmentBlueprintConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentBlueprintConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8595,6 +8710,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnvironmentBlueprintConfigurationsInput, ListEnvironmentBlueprintConfigurationsOutput>(ListEnvironmentBlueprintConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentBlueprintConfigurationsOutput>(ListEnvironmentBlueprintConfigurationsOutput.httpOutput(from:), ListEnvironmentBlueprintConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentBlueprintConfigurationsInput, ListEnvironmentBlueprintConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentBlueprintConfigurationsOutput>())
@@ -8626,9 +8742,9 @@ extension DataZoneClient {
     ///
     /// Lists blueprints in an Amazon DataZone environment.
     ///
-    /// - Parameter ListEnvironmentBlueprintsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentBlueprintsInput`)
     ///
-    /// - Returns: `ListEnvironmentBlueprintsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentBlueprintsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8665,6 +8781,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnvironmentBlueprintsInput, ListEnvironmentBlueprintsOutput>(ListEnvironmentBlueprintsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentBlueprintsOutput>(ListEnvironmentBlueprintsOutput.httpOutput(from:), ListEnvironmentBlueprintsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentBlueprintsInput, ListEnvironmentBlueprintsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentBlueprintsOutput>())
@@ -8696,9 +8813,9 @@ extension DataZoneClient {
     ///
     /// Lists Amazon DataZone environment profiles.
     ///
-    /// - Parameter ListEnvironmentProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentProfilesInput`)
     ///
-    /// - Returns: `ListEnvironmentProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8734,6 +8851,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnvironmentProfilesInput, ListEnvironmentProfilesOutput>(ListEnvironmentProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentProfilesOutput>(ListEnvironmentProfilesOutput.httpOutput(from:), ListEnvironmentProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentProfilesInput, ListEnvironmentProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentProfilesOutput>())
@@ -8765,9 +8883,9 @@ extension DataZoneClient {
     ///
     /// Lists Amazon DataZone environments.
     ///
-    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListEnvironmentsInput`)
     ///
-    /// - Returns: `ListEnvironmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListEnvironmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8803,6 +8921,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(ListEnvironmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListEnvironmentsOutput>(ListEnvironmentsOutput.httpOutput(from:), ListEnvironmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListEnvironmentsInput, ListEnvironmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListEnvironmentsOutput>())
@@ -8834,9 +8953,9 @@ extension DataZoneClient {
     ///
     /// Lists job runs.
     ///
-    /// - Parameter ListJobRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobRunsInput`)
     ///
-    /// - Returns: `ListJobRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8873,6 +8992,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobRunsInput, ListJobRunsOutput>(ListJobRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobRunsOutput>(ListJobRunsOutput.httpOutput(from:), ListJobRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobRunsInput, ListJobRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobRunsOutput>())
@@ -8904,9 +9024,9 @@ extension DataZoneClient {
     ///
     /// Lists lineage events.
     ///
-    /// - Parameter ListLineageEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLineageEventsInput`)
     ///
-    /// - Returns: `ListLineageEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLineageEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -8942,6 +9062,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLineageEventsInput, ListLineageEventsOutput>(ListLineageEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLineageEventsOutput>(ListLineageEventsOutput.httpOutput(from:), ListLineageEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLineageEventsInput, ListLineageEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLineageEventsOutput>())
@@ -8973,9 +9094,9 @@ extension DataZoneClient {
     ///
     /// Lists the history of the specified data lineage node.
     ///
-    /// - Parameter ListLineageNodeHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLineageNodeHistoryInput`)
     ///
-    /// - Returns: `ListLineageNodeHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLineageNodeHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9012,6 +9133,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLineageNodeHistoryInput, ListLineageNodeHistoryOutput>(ListLineageNodeHistoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLineageNodeHistoryOutput>(ListLineageNodeHistoryOutput.httpOutput(from:), ListLineageNodeHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLineageNodeHistoryInput, ListLineageNodeHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLineageNodeHistoryOutput>())
@@ -9047,9 +9169,9 @@ extension DataZoneClient {
     ///
     /// * User must have access to metadata generation runs in the domain.
     ///
-    /// - Parameter ListMetadataGenerationRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMetadataGenerationRunsInput`)
     ///
-    /// - Returns: `ListMetadataGenerationRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMetadataGenerationRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9086,6 +9208,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListMetadataGenerationRunsInput, ListMetadataGenerationRunsOutput>(ListMetadataGenerationRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMetadataGenerationRunsOutput>(ListMetadataGenerationRunsOutput.httpOutput(from:), ListMetadataGenerationRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMetadataGenerationRunsInput, ListMetadataGenerationRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMetadataGenerationRunsOutput>())
@@ -9117,9 +9240,9 @@ extension DataZoneClient {
     ///
     /// Lists all Amazon DataZone notifications.
     ///
-    /// - Parameter ListNotificationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListNotificationsInput`)
     ///
-    /// - Returns: `ListNotificationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListNotificationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9156,6 +9279,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListNotificationsInput, ListNotificationsOutput>(ListNotificationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListNotificationsOutput>(ListNotificationsOutput.httpOutput(from:), ListNotificationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListNotificationsInput, ListNotificationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListNotificationsOutput>())
@@ -9187,9 +9311,9 @@ extension DataZoneClient {
     ///
     /// Lists policy grants.
     ///
-    /// - Parameter ListPolicyGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPolicyGrantsInput`)
     ///
-    /// - Returns: `ListPolicyGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPolicyGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9225,6 +9349,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPolicyGrantsInput, ListPolicyGrantsOutput>(ListPolicyGrantsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPolicyGrantsOutput>(ListPolicyGrantsOutput.httpOutput(from:), ListPolicyGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPolicyGrantsInput, ListPolicyGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPolicyGrantsOutput>())
@@ -9256,9 +9381,9 @@ extension DataZoneClient {
     ///
     /// Lists all members of the specified project.
     ///
-    /// - Parameter ListProjectMembershipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectMembershipsInput`)
     ///
-    /// - Returns: `ListProjectMembershipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectMembershipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9295,6 +9420,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProjectMembershipsInput, ListProjectMembershipsOutput>(ListProjectMembershipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectMembershipsOutput>(ListProjectMembershipsOutput.httpOutput(from:), ListProjectMembershipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectMembershipsInput, ListProjectMembershipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectMembershipsOutput>())
@@ -9326,9 +9452,9 @@ extension DataZoneClient {
     ///
     /// Lists project profiles.
     ///
-    /// - Parameter ListProjectProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectProfilesInput`)
     ///
-    /// - Returns: `ListProjectProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9364,6 +9490,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProjectProfilesInput, ListProjectProfilesOutput>(ListProjectProfilesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectProfilesOutput>(ListProjectProfilesOutput.httpOutput(from:), ListProjectProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectProfilesInput, ListProjectProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectProfilesOutput>())
@@ -9395,9 +9522,9 @@ extension DataZoneClient {
     ///
     /// Lists Amazon DataZone projects.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9433,6 +9560,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProjectsInput, ListProjectsOutput>(ListProjectsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
@@ -9464,9 +9592,9 @@ extension DataZoneClient {
     ///
     /// Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
     ///
-    /// - Parameter ListRulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesInput`)
     ///
-    /// - Returns: `ListRulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9503,6 +9631,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRulesInput, ListRulesOutput>(ListRulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesOutput>(ListRulesOutput.httpOutput(from:), ListRulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesInput, ListRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRulesOutput>())
@@ -9534,9 +9663,9 @@ extension DataZoneClient {
     ///
     /// Lists subscription grants.
     ///
-    /// - Parameter ListSubscriptionGrantsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionGrantsInput`)
     ///
-    /// - Returns: `ListSubscriptionGrantsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionGrantsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9573,6 +9702,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubscriptionGrantsInput, ListSubscriptionGrantsOutput>(ListSubscriptionGrantsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscriptionGrantsOutput>(ListSubscriptionGrantsOutput.httpOutput(from:), ListSubscriptionGrantsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscriptionGrantsInput, ListSubscriptionGrantsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubscriptionGrantsOutput>())
@@ -9604,9 +9734,9 @@ extension DataZoneClient {
     ///
     /// Lists Amazon DataZone subscription requests.
     ///
-    /// - Parameter ListSubscriptionRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionRequestsInput`)
     ///
-    /// - Returns: `ListSubscriptionRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionRequestsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9643,6 +9773,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubscriptionRequestsInput, ListSubscriptionRequestsOutput>(ListSubscriptionRequestsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscriptionRequestsOutput>(ListSubscriptionRequestsOutput.httpOutput(from:), ListSubscriptionRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscriptionRequestsInput, ListSubscriptionRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubscriptionRequestsOutput>())
@@ -9674,9 +9805,9 @@ extension DataZoneClient {
     ///
     /// Lists subscription targets in Amazon DataZone.
     ///
-    /// - Parameter ListSubscriptionTargetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionTargetsInput`)
     ///
-    /// - Returns: `ListSubscriptionTargetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionTargetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9713,6 +9844,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubscriptionTargetsInput, ListSubscriptionTargetsOutput>(ListSubscriptionTargetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscriptionTargetsOutput>(ListSubscriptionTargetsOutput.httpOutput(from:), ListSubscriptionTargetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscriptionTargetsInput, ListSubscriptionTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubscriptionTargetsOutput>())
@@ -9744,9 +9876,9 @@ extension DataZoneClient {
     ///
     /// Lists subscriptions in Amazon DataZone.
     ///
-    /// - Parameter ListSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSubscriptionsInput`)
     ///
-    /// - Returns: `ListSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9783,6 +9915,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSubscriptionsInput, ListSubscriptionsOutput>(ListSubscriptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSubscriptionsOutput>(ListSubscriptionsOutput.httpOutput(from:), ListSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSubscriptionsInput, ListSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSubscriptionsOutput>())
@@ -9814,9 +9947,9 @@ extension DataZoneClient {
     ///
     /// Lists tags for the specified resource in Amazon DataZone.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9852,6 +9985,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -9883,9 +10017,9 @@ extension DataZoneClient {
     ///
     /// Lists time series data points.
     ///
-    /// - Parameter ListTimeSeriesDataPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTimeSeriesDataPointsInput`)
     ///
-    /// - Returns: `ListTimeSeriesDataPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTimeSeriesDataPointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9922,6 +10056,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTimeSeriesDataPointsInput, ListTimeSeriesDataPointsOutput>(ListTimeSeriesDataPointsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTimeSeriesDataPointsOutput>(ListTimeSeriesDataPointsOutput.httpOutput(from:), ListTimeSeriesDataPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTimeSeriesDataPointsInput, ListTimeSeriesDataPointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTimeSeriesDataPointsOutput>())
@@ -9953,9 +10088,9 @@ extension DataZoneClient {
     ///
     /// Posts a data lineage event.
     ///
-    /// - Parameter PostLineageEventInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostLineageEventInput`)
     ///
-    /// - Returns: `PostLineageEventOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostLineageEventOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -9998,6 +10133,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PostLineageEventInput, PostLineageEventOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PostLineageEventOutput>(PostLineageEventOutput.httpOutput(from:), PostLineageEventOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PostLineageEventInput, PostLineageEventOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostLineageEventOutput>())
@@ -10029,9 +10165,9 @@ extension DataZoneClient {
     ///
     /// Posts time series data points to Amazon DataZone for the specified asset.
     ///
-    /// - Parameter PostTimeSeriesDataPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostTimeSeriesDataPointsInput`)
     ///
-    /// - Returns: `PostTimeSeriesDataPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostTimeSeriesDataPointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10073,6 +10209,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PostTimeSeriesDataPointsInput, PostTimeSeriesDataPointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PostTimeSeriesDataPointsOutput>(PostTimeSeriesDataPointsOutput.httpOutput(from:), PostTimeSeriesDataPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PostTimeSeriesDataPointsInput, PostTimeSeriesDataPointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostTimeSeriesDataPointsOutput>())
@@ -10104,9 +10241,9 @@ extension DataZoneClient {
     ///
     /// Writes the configuration for the specified environment blueprint in Amazon DataZone.
     ///
-    /// - Parameter PutEnvironmentBlueprintConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutEnvironmentBlueprintConfigurationInput`)
     ///
-    /// - Returns: `PutEnvironmentBlueprintConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutEnvironmentBlueprintConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10146,6 +10283,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutEnvironmentBlueprintConfigurationInput, PutEnvironmentBlueprintConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutEnvironmentBlueprintConfigurationOutput>(PutEnvironmentBlueprintConfigurationOutput.httpOutput(from:), PutEnvironmentBlueprintConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutEnvironmentBlueprintConfigurationInput, PutEnvironmentBlueprintConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutEnvironmentBlueprintConfigurationOutput>())
@@ -10177,9 +10315,9 @@ extension DataZoneClient {
     ///
     /// Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
     ///
-    /// - Parameter RejectPredictionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectPredictionsInput`)
     ///
-    /// - Returns: `RejectPredictionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectPredictionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10221,6 +10359,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectPredictionsInput, RejectPredictionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectPredictionsOutput>(RejectPredictionsOutput.httpOutput(from:), RejectPredictionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectPredictionsInput, RejectPredictionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectPredictionsOutput>())
@@ -10252,9 +10391,9 @@ extension DataZoneClient {
     ///
     /// Rejects the specified subscription request.
     ///
-    /// - Parameter RejectSubscriptionRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectSubscriptionRequestInput`)
     ///
-    /// - Returns: `RejectSubscriptionRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectSubscriptionRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10294,6 +10433,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RejectSubscriptionRequestInput, RejectSubscriptionRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectSubscriptionRequestOutput>(RejectSubscriptionRequestOutput.httpOutput(from:), RejectSubscriptionRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectSubscriptionRequestInput, RejectSubscriptionRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectSubscriptionRequestOutput>())
@@ -10325,9 +10465,9 @@ extension DataZoneClient {
     ///
     /// Removes an owner from an entity.
     ///
-    /// - Parameter RemoveEntityOwnerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveEntityOwnerInput`)
     ///
-    /// - Returns: `RemoveEntityOwnerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveEntityOwnerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10367,6 +10507,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveEntityOwnerInput, RemoveEntityOwnerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveEntityOwnerOutput>(RemoveEntityOwnerOutput.httpOutput(from:), RemoveEntityOwnerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveEntityOwnerInput, RemoveEntityOwnerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveEntityOwnerOutput>())
@@ -10398,9 +10539,9 @@ extension DataZoneClient {
     ///
     /// Removes a policy grant.
     ///
-    /// - Parameter RemovePolicyGrantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemovePolicyGrantInput`)
     ///
-    /// - Returns: `RemovePolicyGrantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemovePolicyGrantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10439,6 +10580,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemovePolicyGrantInput, RemovePolicyGrantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemovePolicyGrantOutput>(RemovePolicyGrantOutput.httpOutput(from:), RemovePolicyGrantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemovePolicyGrantInput, RemovePolicyGrantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemovePolicyGrantOutput>())
@@ -10470,9 +10612,9 @@ extension DataZoneClient {
     ///
     /// Revokes a specified subscription in Amazon DataZone.
     ///
-    /// - Parameter RevokeSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RevokeSubscriptionInput`)
     ///
-    /// - Returns: `RevokeSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RevokeSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10512,6 +10654,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RevokeSubscriptionInput, RevokeSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RevokeSubscriptionOutput>(RevokeSubscriptionOutput.httpOutput(from:), RevokeSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RevokeSubscriptionInput, RevokeSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RevokeSubscriptionOutput>())
@@ -10553,9 +10696,9 @@ extension DataZoneClient {
     ///
     /// * For paginated results, be prepared to use --next-token to fetch additional pages.
     ///
-    /// - Parameter SearchInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchInput`)
     ///
-    /// - Returns: `SearchOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10593,6 +10736,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchInput, SearchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchOutput>(SearchOutput.httpOutput(from:), SearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchInput, SearchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchOutput>())
@@ -10624,9 +10768,9 @@ extension DataZoneClient {
     ///
     /// Searches group profiles in Amazon DataZone.
     ///
-    /// - Parameter SearchGroupProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchGroupProfilesInput`)
     ///
-    /// - Returns: `SearchGroupProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchGroupProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10665,6 +10809,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchGroupProfilesInput, SearchGroupProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchGroupProfilesOutput>(SearchGroupProfilesOutput.httpOutput(from:), SearchGroupProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchGroupProfilesInput, SearchGroupProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchGroupProfilesOutput>())
@@ -10694,11 +10839,11 @@ extension DataZoneClient {
 
     /// Performs the `SearchListings` operation on the `DataZone` service.
     ///
-    /// Searches listings (records of an asset at a given time) in Amazon DataZone.
+    /// Searches listings in Amazon DataZone. SearchListings is a powerful capability that enables users to discover and explore published assets and data products across their organization. It provides both basic and advanced search functionality, allowing users to find resources based on names, descriptions, metadata, and other attributes. SearchListings also supports filtering using various criteria such as creation date, owner, or status. This API is essential for making the wealth of data resources in an organization discoverable and usable, helping users find the right data for their needs quickly and efficiently. SearchListings returns results in a paginated format. When the result set is large, the response will include a nextToken, which can be used to retrieve the next page of results. The SearchListings API gives users flexibility in specifying what kind of search is run. To run a free-text search, the searchText parameter must be supplied. By default, all searchable fields are indexed for semantic search and will return semantic matches for SearchListings queries. To prevent semantic search indexing for a custom form attribute, see the [CreateFormType API documentation](https://docs.aws.amazon.com/datazone/latest/APIReference/API_CreateFormType.html). To run a lexical search query, enclose the query with double quotes (""). This will disable semantic search even for fields that have semantic search enabled and will only return results that contain the keywords wrapped by double quotes (order of tokens in the query is not enforced). Free-text search is supported for all attributes annotated with @amazon.datazone#searchable. To run a filtered search, provide filter clause using the filters parameter. To filter on glossary terms, use the special attribute __DataZoneGlossaryTerms. To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
     ///
-    /// - Parameter SearchListingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchListingsInput`)
     ///
-    /// - Returns: `SearchListingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchListingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10736,6 +10881,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchListingsInput, SearchListingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchListingsOutput>(SearchListingsOutput.httpOutput(from:), SearchListingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchListingsInput, SearchListingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchListingsOutput>())
@@ -10779,9 +10925,9 @@ extension DataZoneClient {
     ///
     /// * Filters contain correct structure (attribute, value, operator).
     ///
-    /// - Parameter SearchTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchTypesInput`)
     ///
-    /// - Returns: `SearchTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10819,6 +10965,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchTypesInput, SearchTypesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchTypesOutput>(SearchTypesOutput.httpOutput(from:), SearchTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchTypesInput, SearchTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchTypesOutput>())
@@ -10850,9 +10997,9 @@ extension DataZoneClient {
     ///
     /// Searches user profiles in Amazon DataZone.
     ///
-    /// - Parameter SearchUserProfilesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchUserProfilesInput`)
     ///
-    /// - Returns: `SearchUserProfilesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchUserProfilesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10891,6 +11038,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchUserProfilesInput, SearchUserProfilesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchUserProfilesOutput>(SearchUserProfilesOutput.httpOutput(from:), SearchUserProfilesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchUserProfilesInput, SearchUserProfilesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchUserProfilesOutput>())
@@ -10922,9 +11070,9 @@ extension DataZoneClient {
     ///
     /// Start the run of the specified data source in Amazon DataZone.
     ///
-    /// - Parameter StartDataSourceRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartDataSourceRunInput`)
     ///
-    /// - Returns: `StartDataSourceRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartDataSourceRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -10966,6 +11114,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartDataSourceRunInput, StartDataSourceRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartDataSourceRunOutput>(StartDataSourceRunOutput.httpOutput(from:), StartDataSourceRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartDataSourceRunInput, StartDataSourceRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartDataSourceRunOutput>())
@@ -11007,9 +11156,9 @@ extension DataZoneClient {
     ///
     /// * The user must have permission to run metadata generation in the domain/project.
     ///
-    /// - Parameter StartMetadataGenerationRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartMetadataGenerationRunInput`)
     ///
-    /// - Returns: `StartMetadataGenerationRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartMetadataGenerationRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11051,6 +11200,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetadataGenerationRunInput, StartMetadataGenerationRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetadataGenerationRunOutput>(StartMetadataGenerationRunOutput.httpOutput(from:), StartMetadataGenerationRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetadataGenerationRunInput, StartMetadataGenerationRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartMetadataGenerationRunOutput>())
@@ -11082,9 +11232,9 @@ extension DataZoneClient {
     ///
     /// Tags a resource in Amazon DataZone.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11123,6 +11273,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -11154,9 +11305,9 @@ extension DataZoneClient {
     ///
     /// Untags a resource in Amazon DataZone.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11192,6 +11343,7 @@ extension DataZoneClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -11223,9 +11375,9 @@ extension DataZoneClient {
     ///
     /// Updates the account pool.
     ///
-    /// - Parameter UpdateAccountPoolInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountPoolInput`)
     ///
-    /// - Returns: `UpdateAccountPoolOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccountPoolOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11266,6 +11418,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountPoolInput, UpdateAccountPoolOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountPoolOutput>(UpdateAccountPoolOutput.httpOutput(from:), UpdateAccountPoolOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountPoolInput, UpdateAccountPoolOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountPoolOutput>())
@@ -11303,9 +11456,9 @@ extension DataZoneClient {
     ///
     /// * If applying a row filter, ensure the column referenced in the expression exists in the asset schema.
     ///
-    /// - Parameter UpdateAssetFilterInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssetFilterInput`)
     ///
-    /// - Returns: `UpdateAssetFilterOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssetFilterOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11345,6 +11498,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetFilterInput, UpdateAssetFilterOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssetFilterOutput>(UpdateAssetFilterOutput.httpOutput(from:), UpdateAssetFilterOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssetFilterInput, UpdateAssetFilterOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssetFilterOutput>())
@@ -11376,9 +11530,9 @@ extension DataZoneClient {
     ///
     /// Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
     ///
-    /// - Parameter UpdateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionInput`)
     ///
-    /// - Returns: `UpdateConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11419,6 +11573,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionOutput>(UpdateConnectionOutput.httpOutput(from:), UpdateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionOutput>())
@@ -11450,9 +11605,9 @@ extension DataZoneClient {
     ///
     /// Updates the specified data source in Amazon DataZone.
     ///
-    /// - Parameter UpdateDataSourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDataSourceInput`)
     ///
-    /// - Returns: `UpdateDataSourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDataSourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11493,6 +11648,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDataSourceOutput>(UpdateDataSourceOutput.httpOutput(from:), UpdateDataSourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDataSourceInput, UpdateDataSourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDataSourceOutput>())
@@ -11524,9 +11680,9 @@ extension DataZoneClient {
     ///
     /// Updates a Amazon DataZone domain.
     ///
-    /// - Parameter UpdateDomainInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainInput`)
     ///
-    /// - Returns: `UpdateDomainOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11569,6 +11725,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainInput, UpdateDomainOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainOutput>(UpdateDomainOutput.httpOutput(from:), UpdateDomainOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainInput, UpdateDomainOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainOutput>())
@@ -11600,9 +11757,9 @@ extension DataZoneClient {
     ///
     /// Updates the domain unit.
     ///
-    /// - Parameter UpdateDomainUnitInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDomainUnitInput`)
     ///
-    /// - Returns: `UpdateDomainUnitOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDomainUnitOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11642,6 +11799,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDomainUnitInput, UpdateDomainUnitOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDomainUnitOutput>(UpdateDomainUnitOutput.httpOutput(from:), UpdateDomainUnitOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDomainUnitInput, UpdateDomainUnitOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDomainUnitOutput>())
@@ -11673,9 +11831,9 @@ extension DataZoneClient {
     ///
     /// Updates the specified environment in Amazon DataZone.
     ///
-    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentInput`)
     ///
-    /// - Returns: `UpdateEnvironmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11715,6 +11873,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentOutput>(UpdateEnvironmentOutput.httpOutput(from:), UpdateEnvironmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentInput, UpdateEnvironmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentOutput>())
@@ -11746,9 +11905,9 @@ extension DataZoneClient {
     ///
     /// Updates an environment action.
     ///
-    /// - Parameter UpdateEnvironmentActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentActionInput`)
     ///
-    /// - Returns: `UpdateEnvironmentActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11788,6 +11947,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentActionInput, UpdateEnvironmentActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentActionOutput>(UpdateEnvironmentActionOutput.httpOutput(from:), UpdateEnvironmentActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentActionInput, UpdateEnvironmentActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentActionOutput>())
@@ -11819,9 +11979,9 @@ extension DataZoneClient {
     ///
     /// Updates an environment blueprint in Amazon DataZone.
     ///
-    /// - Parameter UpdateEnvironmentBlueprintInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentBlueprintInput`)
     ///
-    /// - Returns: `UpdateEnvironmentBlueprintOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentBlueprintOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11862,6 +12022,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentBlueprintInput, UpdateEnvironmentBlueprintOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentBlueprintOutput>(UpdateEnvironmentBlueprintOutput.httpOutput(from:), UpdateEnvironmentBlueprintOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentBlueprintInput, UpdateEnvironmentBlueprintOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentBlueprintOutput>())
@@ -11893,9 +12054,9 @@ extension DataZoneClient {
     ///
     /// Updates the specified environment profile in Amazon DataZone.
     ///
-    /// - Parameter UpdateEnvironmentProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateEnvironmentProfileInput`)
     ///
-    /// - Returns: `UpdateEnvironmentProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateEnvironmentProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -11936,6 +12097,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateEnvironmentProfileInput, UpdateEnvironmentProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateEnvironmentProfileOutput>(UpdateEnvironmentProfileOutput.httpOutput(from:), UpdateEnvironmentProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateEnvironmentProfileInput, UpdateEnvironmentProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateEnvironmentProfileOutput>())
@@ -11975,9 +12137,9 @@ extension DataZoneClient {
     ///
     /// * The glossary must not be deleted or in a terminal state.
     ///
-    /// - Parameter UpdateGlossaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlossaryInput`)
     ///
-    /// - Returns: `UpdateGlossaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlossaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12018,6 +12180,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlossaryOutput>(UpdateGlossaryOutput.httpOutput(from:), UpdateGlossaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlossaryInput, UpdateGlossaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlossaryOutput>())
@@ -12057,9 +12220,9 @@ extension DataZoneClient {
     ///
     /// * The term must not be in DELETED status.
     ///
-    /// - Parameter UpdateGlossaryTermInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlossaryTermInput`)
     ///
-    /// - Returns: `UpdateGlossaryTermOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlossaryTermOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12099,6 +12262,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlossaryTermOutput>(UpdateGlossaryTermOutput.httpOutput(from:), UpdateGlossaryTermOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlossaryTermInput, UpdateGlossaryTermOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlossaryTermOutput>())
@@ -12130,9 +12294,9 @@ extension DataZoneClient {
     ///
     /// Updates the specified group profile in Amazon DataZone.
     ///
-    /// - Parameter UpdateGroupProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGroupProfileInput`)
     ///
-    /// - Returns: `UpdateGroupProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGroupProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12171,6 +12335,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGroupProfileInput, UpdateGroupProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGroupProfileOutput>(UpdateGroupProfileOutput.httpOutput(from:), UpdateGroupProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGroupProfileInput, UpdateGroupProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGroupProfileOutput>())
@@ -12202,9 +12367,9 @@ extension DataZoneClient {
     ///
     /// Updates the specified project in Amazon DataZone.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12245,6 +12410,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())
@@ -12276,9 +12442,9 @@ extension DataZoneClient {
     ///
     /// Updates a project profile.
     ///
-    /// - Parameter UpdateProjectProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectProfileInput`)
     ///
-    /// - Returns: `UpdateProjectProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12319,6 +12485,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectProfileInput, UpdateProjectProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectProfileOutput>(UpdateProjectProfileOutput.httpOutput(from:), UpdateProjectProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectProfileInput, UpdateProjectProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectProfileOutput>())
@@ -12350,9 +12517,9 @@ extension DataZoneClient {
     ///
     /// Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
     ///
-    /// - Parameter UpdateRuleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleInput`)
     ///
-    /// - Returns: `UpdateRuleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12393,6 +12560,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleInput, UpdateRuleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleOutput>(UpdateRuleOutput.httpOutput(from:), UpdateRuleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleInput, UpdateRuleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleOutput>())
@@ -12424,9 +12592,9 @@ extension DataZoneClient {
     ///
     /// Updates the status of the specified subscription grant status in Amazon DataZone.
     ///
-    /// - Parameter UpdateSubscriptionGrantStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubscriptionGrantStatusInput`)
     ///
-    /// - Returns: `UpdateSubscriptionGrantStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubscriptionGrantStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12466,6 +12634,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubscriptionGrantStatusInput, UpdateSubscriptionGrantStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubscriptionGrantStatusOutput>(UpdateSubscriptionGrantStatusOutput.httpOutput(from:), UpdateSubscriptionGrantStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubscriptionGrantStatusInput, UpdateSubscriptionGrantStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubscriptionGrantStatusOutput>())
@@ -12497,9 +12666,9 @@ extension DataZoneClient {
     ///
     /// Updates a specified subscription request in Amazon DataZone.
     ///
-    /// - Parameter UpdateSubscriptionRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubscriptionRequestInput`)
     ///
-    /// - Returns: `UpdateSubscriptionRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubscriptionRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12539,6 +12708,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubscriptionRequestInput, UpdateSubscriptionRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubscriptionRequestOutput>(UpdateSubscriptionRequestOutput.httpOutput(from:), UpdateSubscriptionRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubscriptionRequestInput, UpdateSubscriptionRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubscriptionRequestOutput>())
@@ -12570,9 +12740,9 @@ extension DataZoneClient {
     ///
     /// Updates the specified subscription target in Amazon DataZone.
     ///
-    /// - Parameter UpdateSubscriptionTargetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSubscriptionTargetInput`)
     ///
-    /// - Returns: `UpdateSubscriptionTargetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSubscriptionTargetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12612,6 +12782,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSubscriptionTargetInput, UpdateSubscriptionTargetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSubscriptionTargetOutput>(UpdateSubscriptionTargetOutput.httpOutput(from:), UpdateSubscriptionTargetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSubscriptionTargetInput, UpdateSubscriptionTargetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSubscriptionTargetOutput>())
@@ -12643,9 +12814,9 @@ extension DataZoneClient {
     ///
     /// Updates the specified user profile in Amazon DataZone.
     ///
-    /// - Parameter UpdateUserProfileInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserProfileInput`)
     ///
-    /// - Returns: `UpdateUserProfileOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserProfileOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -12684,6 +12855,7 @@ extension DataZoneClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserProfileInput, UpdateUserProfileOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserProfileOutput>(UpdateUserProfileOutput.httpOutput(from:), UpdateUserProfileOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserProfileInput, UpdateUserProfileOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserProfileOutput>())

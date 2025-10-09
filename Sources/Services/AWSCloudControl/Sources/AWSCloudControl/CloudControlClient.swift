@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CloudControlClient: ClientRuntime.Client {
     public static let clientName = "CloudControlClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CloudControlClient.CloudControlClientConfiguration
     let serviceName = "CloudControl"
@@ -373,9 +374,9 @@ extension CloudControlClient {
     ///
     /// Cancels the specified resource operation request. For more information, see [Canceling resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-cancel) in the Amazon Web Services Cloud Control API User Guide. Only resource operations requests with a status of PENDING or IN_PROGRESS can be canceled.
     ///
-    /// - Parameter CancelResourceRequestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CancelResourceRequestInput`)
     ///
-    /// - Returns: `CancelResourceRequestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CancelResourceRequestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -408,6 +409,7 @@ extension CloudControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelResourceRequestInput, CancelResourceRequestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelResourceRequestOutput>(CancelResourceRequestOutput.httpOutput(from:), CancelResourceRequestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelResourceRequestInput, CancelResourceRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CancelResourceRequestOutput>())
@@ -442,9 +444,9 @@ extension CloudControlClient {
     ///
     /// Creates the specified resource. For more information, see [Creating a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-create.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource creation request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent type returned by CreateResource.
     ///
-    /// - Parameter CreateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateResourceInput`)
     ///
-    /// - Returns: `CreateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -495,6 +497,7 @@ extension CloudControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateResourceInput, CreateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateResourceOutput>(CreateResourceOutput.httpOutput(from:), CreateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateResourceInput, CreateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateResourceOutput>())
@@ -529,9 +532,9 @@ extension CloudControlClient {
     ///
     /// Deletes the specified resource. For details, see [Deleting a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-delete.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource deletion request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by DeleteResource.
     ///
-    /// - Parameter DeleteResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourceInput`)
     ///
-    /// - Returns: `DeleteResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,6 +585,7 @@ extension CloudControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteResourceInput, DeleteResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourceOutput>(DeleteResourceOutput.httpOutput(from:), DeleteResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourceInput, DeleteResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourceOutput>())
@@ -616,9 +620,9 @@ extension CloudControlClient {
     ///
     /// Returns information about the current state of the specified resource. For details, see [Reading a resource's current state](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-read.html). You can use this action to return information about an existing resource in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
     ///
-    /// - Parameter GetResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceInput`)
     ///
-    /// - Returns: `GetResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -666,6 +670,7 @@ extension CloudControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceInput, GetResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceOutput>(GetResourceOutput.httpOutput(from:), GetResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceInput, GetResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceOutput>())
@@ -700,9 +705,9 @@ extension CloudControlClient {
     ///
     /// Returns the current status of a resource operation request. For more information, see [Tracking the progress of resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-track) in the Amazon Web Services Cloud Control API User Guide.
     ///
-    /// - Parameter GetResourceRequestStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourceRequestStatusInput`)
     ///
-    /// - Returns: `GetResourceRequestStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourceRequestStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -734,6 +739,7 @@ extension CloudControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetResourceRequestStatusInput, GetResourceRequestStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourceRequestStatusOutput>(GetResourceRequestStatusOutput.httpOutput(from:), GetResourceRequestStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourceRequestStatusInput, GetResourceRequestStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourceRequestStatusOutput>())
@@ -768,9 +774,9 @@ extension CloudControlClient {
     ///
     /// Returns existing resource operation requests. This includes requests of all status types. For more information, see [Listing active resource operation requests](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html#resource-operations-manage-requests-list) in the Amazon Web Services Cloud Control API User Guide. Resource operation requests expire after 7 days.
     ///
-    /// - Parameter ListResourceRequestsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourceRequestsInput`)
     ///
-    /// - Returns: `ListResourceRequestsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourceRequestsOutput`)
     public func listResourceRequests(input: ListResourceRequestsInput) async throws -> ListResourceRequestsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -797,6 +803,7 @@ extension CloudControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourceRequestsInput, ListResourceRequestsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourceRequestsOutput>(ListResourceRequestsOutput.httpOutput(from:), ListResourceRequestsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourceRequestsInput, ListResourceRequestsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourceRequestsOutput>())
@@ -831,9 +838,9 @@ extension CloudControlClient {
     ///
     /// Returns information about the specified resources. For more information, see [Discovering resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-list.html) in the Amazon Web Services Cloud Control API User Guide. You can use this action to return information about existing resources in your account and Amazon Web Services Region, whether those resources were provisioned using Cloud Control API.
     ///
-    /// - Parameter ListResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
-    /// - Returns: `ListResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -881,6 +888,7 @@ extension CloudControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListResourcesInput, ListResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListResourcesOutput>(ListResourcesOutput.httpOutput(from:), ListResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListResourcesInput, ListResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListResourcesOutput>())
@@ -915,9 +923,9 @@ extension CloudControlClient {
     ///
     /// Updates the specified property values in the resource. You specify your resource property updates as a list of patch operations contained in a JSON patch document that adheres to the [ RFC 6902 - JavaScript Object Notation (JSON) Patch ](https://datatracker.ietf.org/doc/html/rfc6902) standard. For details on how Cloud Control API performs resource update operations, see [Updating a resource](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-update.html) in the Amazon Web Services Cloud Control API User Guide. After you have initiated a resource update request, you can monitor the progress of your request by calling [GetResourceRequestStatus](https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html) using the RequestToken of the ProgressEvent returned by UpdateResource. For more information about the properties of a specific resource, refer to the related topic for the resource in the [Resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation Users Guide.
     ///
-    /// - Parameter UpdateResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateResourceInput`)
     ///
-    /// - Returns: `UpdateResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -968,6 +976,7 @@ extension CloudControlClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateResourceInput, UpdateResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateResourceOutput>(UpdateResourceOutput.httpOutput(from:), UpdateResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateResourceInput, UpdateResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateResourceOutput>())

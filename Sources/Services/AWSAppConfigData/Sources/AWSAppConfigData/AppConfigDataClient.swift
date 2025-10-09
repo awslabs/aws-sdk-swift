@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AppConfigDataClient: ClientRuntime.Client {
     public static let clientName = "AppConfigDataClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: AppConfigDataClient.AppConfigDataClientConfiguration
     let serviceName = "AppConfigData"
@@ -377,9 +378,9 @@ extension AppConfigDataClient {
     ///
     /// * GetLatestConfiguration is a priced call. For more information, see [Pricing](https://aws.amazon.com/systems-manager/pricing/).
     ///
-    /// - Parameter GetLatestConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLatestConfigurationInput`)
     ///
-    /// - Returns: `GetLatestConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLatestConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +415,7 @@ extension AppConfigDataClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLatestConfigurationInput, GetLatestConfigurationOutput>(GetLatestConfigurationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLatestConfigurationOutput>(GetLatestConfigurationOutput.httpOutput(from:), GetLatestConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLatestConfigurationInput, GetLatestConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLatestConfigurationOutput>())
@@ -445,9 +447,9 @@ extension AppConfigDataClient {
     ///
     /// Starts a configuration session used to retrieve a deployed configuration. For more information about this API action and to view example CLI commands that show how to use it with the [GetLatestConfiguration] API action, see [Retrieving the configuration](http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration) in the AppConfig User Guide.
     ///
-    /// - Parameter StartConfigurationSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartConfigurationSessionInput`)
     ///
-    /// - Returns: `StartConfigurationSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartConfigurationSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +486,7 @@ extension AppConfigDataClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartConfigurationSessionInput, StartConfigurationSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartConfigurationSessionOutput>(StartConfigurationSessionOutput.httpOutput(from:), StartConfigurationSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartConfigurationSessionInput, StartConfigurationSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartConfigurationSessionOutput>())

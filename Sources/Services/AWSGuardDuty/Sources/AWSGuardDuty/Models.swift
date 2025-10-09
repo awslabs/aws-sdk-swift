@@ -3639,7 +3639,7 @@ public struct CreateThreatEntitySetInput: Swift.Sendable {
     /// The format of the file that contains the threat entity set.
     /// This member is required.
     public var format: GuardDutyClientTypes.ThreatEntitySetFormat?
-    /// The URI of the file that contains the threat entity set.
+    /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see [Format of location URL under Step 2: Adding trusted or threat intelligence data](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-lists-create-activate.html) in the Amazon GuardDuty User Guide.
     /// This member is required.
     public var location: Swift.String?
     /// A user-friendly name to identify the threat entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).
@@ -3833,7 +3833,7 @@ public struct CreateTrustedEntitySetInput: Swift.Sendable {
     /// The format of the file that contains the trusted entity set.
     /// This member is required.
     public var format: GuardDutyClientTypes.TrustedEntitySetFormat?
-    /// The URI of the file that contains the trusted entity set.
+    /// The URI of the file that contains the threat entity set. The format of the Location URL must be a valid Amazon S3 URL format. Invalid URL formats will result in an error, regardless of whether you activate the entity set or not. For more information about format of the location URLs, see [Format of location URL under Step 2: Adding trusted or threat intelligence data](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty-lists-create-activate.html) in the Amazon GuardDuty User Guide.
     /// This member is required.
     public var location: Swift.String?
     /// A user-friendly name to identify the trusted entity set. The name of your list can include lowercase letters, uppercase letters, numbers, dash (-), and underscore (_).

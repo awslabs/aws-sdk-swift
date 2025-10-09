@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NetworkManagerClient: ClientRuntime.Client {
     public static let clientName = "NetworkManagerClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: NetworkManagerClient.NetworkManagerClientConfiguration
     let serviceName = "NetworkManager"
@@ -374,9 +375,9 @@ extension NetworkManagerClient {
     ///
     /// Accepts a core network attachment request. Once the attachment request is accepted by a core network owner, the attachment is created and connected to a core network.
     ///
-    /// - Parameter AcceptAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AcceptAttachmentInput`)
     ///
-    /// - Returns: `AcceptAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AcceptAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<AcceptAttachmentInput, AcceptAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AcceptAttachmentOutput>(AcceptAttachmentOutput.httpOutput(from:), AcceptAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AcceptAttachmentInput, AcceptAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AcceptAttachmentOutput>())
@@ -443,9 +445,9 @@ extension NetworkManagerClient {
     ///
     /// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been created on a core network Connect attachment on a core network.
     ///
-    /// - Parameter AssociateConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateConnectPeerInput`)
     ///
-    /// - Returns: `AssociateConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateConnectPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -485,6 +487,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateConnectPeerInput, AssociateConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateConnectPeerOutput>(AssociateConnectPeerOutput.httpOutput(from:), AssociateConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateConnectPeerInput, AssociateConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateConnectPeerOutput>())
@@ -516,9 +519,9 @@ extension NetworkManagerClient {
     ///
     /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the [DescribeVpnConnections](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnConnections.html) EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
     ///
-    /// - Parameter AssociateCustomerGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateCustomerGatewayInput`)
     ///
-    /// - Returns: `AssociateCustomerGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateCustomerGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -558,6 +561,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCustomerGatewayInput, AssociateCustomerGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateCustomerGatewayOutput>(AssociateCustomerGatewayOutput.httpOutput(from:), AssociateCustomerGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCustomerGatewayInput, AssociateCustomerGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateCustomerGatewayOutput>())
@@ -589,9 +593,9 @@ extension NetworkManagerClient {
     ///
     /// Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
     ///
-    /// - Parameter AssociateLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateLinkInput`)
     ///
-    /// - Returns: `AssociateLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -631,6 +635,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateLinkInput, AssociateLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateLinkOutput>(AssociateLinkOutput.httpOutput(from:), AssociateLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateLinkInput, AssociateLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateLinkOutput>())
@@ -662,9 +667,9 @@ extension NetworkManagerClient {
     ///
     /// Associates a transit gateway Connect peer with a device, and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link.
     ///
-    /// - Parameter AssociateTransitGatewayConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTransitGatewayConnectPeerInput`)
     ///
-    /// - Returns: `AssociateTransitGatewayConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTransitGatewayConnectPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,6 +709,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateTransitGatewayConnectPeerInput, AssociateTransitGatewayConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTransitGatewayConnectPeerOutput>(AssociateTransitGatewayConnectPeerOutput.httpOutput(from:), AssociateTransitGatewayConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTransitGatewayConnectPeerInput, AssociateTransitGatewayConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTransitGatewayConnectPeerOutput>())
@@ -735,9 +741,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an appliance. A core network Connect attachment uses an existing VPC attachment as the underlying transport mechanism.
     ///
-    /// - Parameter CreateConnectAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectAttachmentInput`)
     ///
-    /// - Returns: `CreateConnectAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -777,6 +783,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectAttachmentInput, CreateConnectAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectAttachmentOutput>(CreateConnectAttachmentOutput.httpOutput(from:), CreateConnectAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectAttachmentInput, CreateConnectAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectAttachmentOutput>())
@@ -808,9 +815,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
     ///
-    /// - Parameter CreateConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectPeerInput`)
     ///
-    /// - Returns: `CreateConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -850,6 +857,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectPeerInput, CreateConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectPeerOutput>(CreateConnectPeerOutput.httpOutput(from:), CreateConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectPeerInput, CreateConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectPeerOutput>())
@@ -881,9 +889,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
     ///
-    /// - Parameter CreateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectionInput`)
     ///
-    /// - Returns: `CreateConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -922,6 +930,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectionInput, CreateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectionOutput>(CreateConnectionOutput.httpOutput(from:), CreateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectionInput, CreateConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectionOutput>())
@@ -953,9 +962,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a core network as part of your global network, and optionally, with a core network policy.
     ///
-    /// - Parameter CreateCoreNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateCoreNetworkInput`)
     ///
-    /// - Returns: `CreateCoreNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateCoreNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,6 +1005,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCoreNetworkInput, CreateCoreNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCoreNetworkOutput>(CreateCoreNetworkOutput.httpOutput(from:), CreateCoreNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCoreNetworkInput, CreateCoreNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateCoreNetworkOutput>())
@@ -1027,9 +1037,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console.
     ///
-    /// - Parameter CreateDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDeviceInput`)
     ///
-    /// - Returns: `CreateDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1069,6 +1079,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDeviceInput, CreateDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDeviceOutput>(CreateDeviceOutput.httpOutput(from:), CreateDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDeviceInput, CreateDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDeviceOutput>())
@@ -1100,9 +1111,9 @@ extension NetworkManagerClient {
     ///
     /// Creates an Amazon Web Services Direct Connect gateway attachment
     ///
-    /// - Parameter CreateDirectConnectGatewayAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDirectConnectGatewayAttachmentInput`)
     ///
-    /// - Returns: `CreateDirectConnectGatewayAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDirectConnectGatewayAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1142,6 +1153,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDirectConnectGatewayAttachmentInput, CreateDirectConnectGatewayAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDirectConnectGatewayAttachmentOutput>(CreateDirectConnectGatewayAttachmentOutput.httpOutput(from:), CreateDirectConnectGatewayAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDirectConnectGatewayAttachmentInput, CreateDirectConnectGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDirectConnectGatewayAttachmentOutput>())
@@ -1173,9 +1185,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a new, empty global network.
     ///
-    /// - Parameter CreateGlobalNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGlobalNetworkInput`)
     ///
-    /// - Returns: `CreateGlobalNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGlobalNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1214,6 +1226,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGlobalNetworkInput, CreateGlobalNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGlobalNetworkOutput>(CreateGlobalNetworkOutput.httpOutput(from:), CreateGlobalNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGlobalNetworkInput, CreateGlobalNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGlobalNetworkOutput>())
@@ -1245,9 +1258,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a new link for a specified site.
     ///
-    /// - Parameter CreateLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLinkInput`)
     ///
-    /// - Returns: `CreateLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1287,6 +1300,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLinkInput, CreateLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLinkOutput>(CreateLinkOutput.httpOutput(from:), CreateLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLinkInput, CreateLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLinkOutput>())
@@ -1318,9 +1332,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a new site in a global network.
     ///
-    /// - Parameter CreateSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSiteInput`)
     ///
-    /// - Returns: `CreateSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1360,6 +1374,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSiteInput, CreateSiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSiteOutput>(CreateSiteOutput.httpOutput(from:), CreateSiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSiteInput, CreateSiteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSiteOutput>())
@@ -1391,9 +1406,9 @@ extension NetworkManagerClient {
     ///
     /// Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
     ///
-    /// - Parameter CreateSiteToSiteVpnAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSiteToSiteVpnAttachmentInput`)
     ///
-    /// - Returns: `CreateSiteToSiteVpnAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSiteToSiteVpnAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1433,6 +1448,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSiteToSiteVpnAttachmentInput, CreateSiteToSiteVpnAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSiteToSiteVpnAttachmentOutput>(CreateSiteToSiteVpnAttachmentOutput.httpOutput(from:), CreateSiteToSiteVpnAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSiteToSiteVpnAttachmentInput, CreateSiteToSiteVpnAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSiteToSiteVpnAttachmentOutput>())
@@ -1464,9 +1480,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a transit gateway peering connection.
     ///
-    /// - Parameter CreateTransitGatewayPeeringInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayPeeringInput`)
     ///
-    /// - Returns: `CreateTransitGatewayPeeringOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayPeeringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1506,6 +1522,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTransitGatewayPeeringInput, CreateTransitGatewayPeeringOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayPeeringOutput>(CreateTransitGatewayPeeringOutput.httpOutput(from:), CreateTransitGatewayPeeringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayPeeringInput, CreateTransitGatewayPeeringOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayPeeringOutput>())
@@ -1537,9 +1554,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a transit gateway route table attachment.
     ///
-    /// - Parameter CreateTransitGatewayRouteTableAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTransitGatewayRouteTableAttachmentInput`)
     ///
-    /// - Returns: `CreateTransitGatewayRouteTableAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTransitGatewayRouteTableAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1579,6 +1596,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTransitGatewayRouteTableAttachmentInput, CreateTransitGatewayRouteTableAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTransitGatewayRouteTableAttachmentOutput>(CreateTransitGatewayRouteTableAttachmentOutput.httpOutput(from:), CreateTransitGatewayRouteTableAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTransitGatewayRouteTableAttachmentInput, CreateTransitGatewayRouteTableAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTransitGatewayRouteTableAttachmentOutput>())
@@ -1610,9 +1628,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a VPC attachment on an edge location of a core network.
     ///
-    /// - Parameter CreateVpcAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateVpcAttachmentInput`)
     ///
-    /// - Returns: `CreateVpcAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateVpcAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1652,6 +1670,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateVpcAttachmentInput, CreateVpcAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateVpcAttachmentOutput>(CreateVpcAttachmentOutput.httpOutput(from:), CreateVpcAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateVpcAttachmentInput, CreateVpcAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateVpcAttachmentOutput>())
@@ -1683,9 +1702,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes an attachment. Supports all attachment types.
     ///
-    /// - Parameter DeleteAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAttachmentInput`)
     ///
-    /// - Returns: `DeleteAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1721,6 +1740,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAttachmentOutput>(DeleteAttachmentOutput.httpOutput(from:), DeleteAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAttachmentInput, DeleteAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAttachmentOutput>())
@@ -1752,9 +1772,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes a Connect peer.
     ///
-    /// - Parameter DeleteConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectPeerInput`)
     ///
-    /// - Returns: `DeleteConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1790,6 +1810,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectPeerInput, DeleteConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectPeerOutput>(DeleteConnectPeerOutput.httpOutput(from:), DeleteConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectPeerInput, DeleteConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectPeerOutput>())
@@ -1821,9 +1842,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes the specified connection in your global network.
     ///
-    /// - Parameter DeleteConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectionInput`)
     ///
-    /// - Returns: `DeleteConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1859,6 +1880,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConnectionInput, DeleteConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectionOutput>(DeleteConnectionOutput.httpOutput(from:), DeleteConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectionInput, DeleteConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectionOutput>())
@@ -1890,9 +1912,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
     ///
-    /// - Parameter DeleteCoreNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCoreNetworkInput`)
     ///
-    /// - Returns: `DeleteCoreNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCoreNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1928,6 +1950,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCoreNetworkInput, DeleteCoreNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCoreNetworkOutput>(DeleteCoreNetworkOutput.httpOutput(from:), DeleteCoreNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCoreNetworkInput, DeleteCoreNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCoreNetworkOutput>())
@@ -1959,9 +1982,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes a policy version from a core network. You can't delete the current LIVE policy.
     ///
-    /// - Parameter DeleteCoreNetworkPolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteCoreNetworkPolicyVersionInput`)
     ///
-    /// - Returns: `DeleteCoreNetworkPolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteCoreNetworkPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1997,6 +2020,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCoreNetworkPolicyVersionInput, DeleteCoreNetworkPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCoreNetworkPolicyVersionOutput>(DeleteCoreNetworkPolicyVersionOutput.httpOutput(from:), DeleteCoreNetworkPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCoreNetworkPolicyVersionInput, DeleteCoreNetworkPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCoreNetworkPolicyVersionOutput>())
@@ -2028,9 +2052,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes an existing device. You must first disassociate the device from any links and customer gateways.
     ///
-    /// - Parameter DeleteDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDeviceInput`)
     ///
-    /// - Returns: `DeleteDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2066,6 +2090,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDeviceInput, DeleteDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDeviceOutput>(DeleteDeviceOutput.httpOutput(from:), DeleteDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDeviceInput, DeleteDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDeviceOutput>())
@@ -2097,9 +2122,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes an existing global network. You must first delete all global network objects (devices, links, and sites), deregister all transit gateways, and delete any core networks.
     ///
-    /// - Parameter DeleteGlobalNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGlobalNetworkInput`)
     ///
-    /// - Returns: `DeleteGlobalNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGlobalNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,6 +2160,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGlobalNetworkInput, DeleteGlobalNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGlobalNetworkOutput>(DeleteGlobalNetworkOutput.httpOutput(from:), DeleteGlobalNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGlobalNetworkInput, DeleteGlobalNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGlobalNetworkOutput>())
@@ -2166,9 +2192,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes an existing link. You must first disassociate the link from any devices and customer gateways.
     ///
-    /// - Parameter DeleteLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLinkInput`)
     ///
-    /// - Returns: `DeleteLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2204,6 +2230,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteLinkInput, DeleteLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLinkOutput>(DeleteLinkOutput.httpOutput(from:), DeleteLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLinkInput, DeleteLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLinkOutput>())
@@ -2235,9 +2262,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes an existing peering connection.
     ///
-    /// - Parameter DeletePeeringInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePeeringInput`)
     ///
-    /// - Returns: `DeletePeeringOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePeeringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2273,6 +2300,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeletePeeringInput, DeletePeeringOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePeeringOutput>(DeletePeeringOutput.httpOutput(from:), DeletePeeringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePeeringInput, DeletePeeringOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePeeringOutput>())
@@ -2304,9 +2332,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
     ///
-    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteResourcePolicyInput`)
     ///
-    /// - Returns: `DeleteResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2341,6 +2369,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutput>(DeleteResourcePolicyOutput.httpOutput(from:), DeleteResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteResourcePolicyOutput>())
@@ -2372,9 +2401,9 @@ extension NetworkManagerClient {
     ///
     /// Deletes an existing site. The site cannot be associated with any device or link.
     ///
-    /// - Parameter DeleteSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSiteInput`)
     ///
-    /// - Returns: `DeleteSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2410,6 +2439,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteSiteInput, DeleteSiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSiteOutput>(DeleteSiteOutput.httpOutput(from:), DeleteSiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSiteInput, DeleteSiteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSiteOutput>())
@@ -2441,9 +2471,9 @@ extension NetworkManagerClient {
     ///
     /// Deregisters a transit gateway from your global network. This action does not delete your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
     ///
-    /// - Parameter DeregisterTransitGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterTransitGatewayInput`)
     ///
-    /// - Returns: `DeregisterTransitGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterTransitGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2479,6 +2509,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeregisterTransitGatewayInput, DeregisterTransitGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterTransitGatewayOutput>(DeregisterTransitGatewayOutput.httpOutput(from:), DeregisterTransitGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterTransitGatewayInput, DeregisterTransitGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterTransitGatewayOutput>())
@@ -2510,9 +2541,9 @@ extension NetworkManagerClient {
     ///
     /// Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use [GetTransitGatewayRegistrations].
     ///
-    /// - Parameter DescribeGlobalNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGlobalNetworksInput`)
     ///
-    /// - Returns: `DescribeGlobalNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGlobalNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2548,6 +2579,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeGlobalNetworksInput, DescribeGlobalNetworksOutput>(DescribeGlobalNetworksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGlobalNetworksOutput>(DescribeGlobalNetworksOutput.httpOutput(from:), DescribeGlobalNetworksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGlobalNetworksInput, DescribeGlobalNetworksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGlobalNetworksOutput>())
@@ -2579,9 +2611,9 @@ extension NetworkManagerClient {
     ///
     /// Disassociates a core network Connect peer from a device and a link.
     ///
-    /// - Parameter DisassociateConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateConnectPeerInput`)
     ///
-    /// - Returns: `DisassociateConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateConnectPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2617,6 +2649,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateConnectPeerInput, DisassociateConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateConnectPeerOutput>(DisassociateConnectPeerOutput.httpOutput(from:), DisassociateConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateConnectPeerInput, DisassociateConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateConnectPeerOutput>())
@@ -2648,9 +2681,9 @@ extension NetworkManagerClient {
     ///
     /// Disassociates a customer gateway from a device and a link.
     ///
-    /// - Parameter DisassociateCustomerGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateCustomerGatewayInput`)
     ///
-    /// - Returns: `DisassociateCustomerGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateCustomerGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2686,6 +2719,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateCustomerGatewayInput, DisassociateCustomerGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateCustomerGatewayOutput>(DisassociateCustomerGatewayOutput.httpOutput(from:), DisassociateCustomerGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCustomerGatewayInput, DisassociateCustomerGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateCustomerGatewayOutput>())
@@ -2717,9 +2751,9 @@ extension NetworkManagerClient {
     ///
     /// Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link.
     ///
-    /// - Parameter DisassociateLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateLinkInput`)
     ///
-    /// - Returns: `DisassociateLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2756,6 +2790,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateLinkInput, DisassociateLinkOutput>(DisassociateLinkInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateLinkOutput>(DisassociateLinkOutput.httpOutput(from:), DisassociateLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateLinkInput, DisassociateLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateLinkOutput>())
@@ -2787,9 +2822,9 @@ extension NetworkManagerClient {
     ///
     /// Disassociates a transit gateway Connect peer from a device and link.
     ///
-    /// - Parameter DisassociateTransitGatewayConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTransitGatewayConnectPeerInput`)
     ///
-    /// - Returns: `DisassociateTransitGatewayConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTransitGatewayConnectPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2825,6 +2860,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateTransitGatewayConnectPeerInput, DisassociateTransitGatewayConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTransitGatewayConnectPeerOutput>(DisassociateTransitGatewayConnectPeerOutput.httpOutput(from:), DisassociateTransitGatewayConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTransitGatewayConnectPeerInput, DisassociateTransitGatewayConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTransitGatewayConnectPeerOutput>())
@@ -2856,9 +2892,9 @@ extension NetworkManagerClient {
     ///
     /// Executes a change set on your core network. Deploys changes globally based on the policy submitted..
     ///
-    /// - Parameter ExecuteCoreNetworkChangeSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteCoreNetworkChangeSetInput`)
     ///
-    /// - Returns: `ExecuteCoreNetworkChangeSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteCoreNetworkChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2894,6 +2930,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ExecuteCoreNetworkChangeSetInput, ExecuteCoreNetworkChangeSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteCoreNetworkChangeSetOutput>(ExecuteCoreNetworkChangeSetOutput.httpOutput(from:), ExecuteCoreNetworkChangeSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteCoreNetworkChangeSetInput, ExecuteCoreNetworkChangeSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteCoreNetworkChangeSetOutput>())
@@ -2925,9 +2962,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a core network Connect attachment.
     ///
-    /// - Parameter GetConnectAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectAttachmentInput`)
     ///
-    /// - Returns: `GetConnectAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2962,6 +2999,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectAttachmentInput, GetConnectAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectAttachmentOutput>(GetConnectAttachmentOutput.httpOutput(from:), GetConnectAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectAttachmentInput, GetConnectAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectAttachmentOutput>())
@@ -2993,9 +3031,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a core network Connect peer.
     ///
-    /// - Parameter GetConnectPeerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectPeerInput`)
     ///
-    /// - Returns: `GetConnectPeerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectPeerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3030,6 +3068,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetConnectPeerInput, GetConnectPeerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectPeerOutput>(GetConnectPeerOutput.httpOutput(from:), GetConnectPeerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectPeerInput, GetConnectPeerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectPeerOutput>())
@@ -3061,9 +3100,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a core network Connect peer associations.
     ///
-    /// - Parameter GetConnectPeerAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectPeerAssociationsInput`)
     ///
-    /// - Returns: `GetConnectPeerAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectPeerAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3100,6 +3139,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetConnectPeerAssociationsInput, GetConnectPeerAssociationsOutput>(GetConnectPeerAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectPeerAssociationsOutput>(GetConnectPeerAssociationsOutput.httpOutput(from:), GetConnectPeerAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectPeerAssociationsInput, GetConnectPeerAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectPeerAssociationsOutput>())
@@ -3131,9 +3171,9 @@ extension NetworkManagerClient {
     ///
     /// Gets information about one or more of your connections in a global network.
     ///
-    /// - Parameter GetConnectionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetConnectionsInput`)
     ///
-    /// - Returns: `GetConnectionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetConnectionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3169,6 +3209,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetConnectionsInput, GetConnectionsOutput>(GetConnectionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetConnectionsOutput>(GetConnectionsOutput.httpOutput(from:), GetConnectionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetConnectionsInput, GetConnectionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetConnectionsOutput>())
@@ -3200,9 +3241,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about the LIVE policy for a core network.
     ///
-    /// - Parameter GetCoreNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreNetworkInput`)
     ///
-    /// - Returns: `GetCoreNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3237,6 +3278,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCoreNetworkInput, GetCoreNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoreNetworkOutput>(GetCoreNetworkOutput.httpOutput(from:), GetCoreNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoreNetworkInput, GetCoreNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoreNetworkOutput>())
@@ -3268,9 +3310,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a core network change event.
     ///
-    /// - Parameter GetCoreNetworkChangeEventsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreNetworkChangeEventsInput`)
     ///
-    /// - Returns: `GetCoreNetworkChangeEventsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreNetworkChangeEventsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3306,6 +3348,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCoreNetworkChangeEventsInput, GetCoreNetworkChangeEventsOutput>(GetCoreNetworkChangeEventsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoreNetworkChangeEventsOutput>(GetCoreNetworkChangeEventsOutput.httpOutput(from:), GetCoreNetworkChangeEventsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoreNetworkChangeEventsInput, GetCoreNetworkChangeEventsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoreNetworkChangeEventsOutput>())
@@ -3337,9 +3380,9 @@ extension NetworkManagerClient {
     ///
     /// Returns a change set between the LIVE core network policy and a submitted policy.
     ///
-    /// - Parameter GetCoreNetworkChangeSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreNetworkChangeSetInput`)
     ///
-    /// - Returns: `GetCoreNetworkChangeSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreNetworkChangeSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3375,6 +3418,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCoreNetworkChangeSetInput, GetCoreNetworkChangeSetOutput>(GetCoreNetworkChangeSetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoreNetworkChangeSetOutput>(GetCoreNetworkChangeSetOutput.httpOutput(from:), GetCoreNetworkChangeSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoreNetworkChangeSetInput, GetCoreNetworkChangeSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoreNetworkChangeSetOutput>())
@@ -3406,9 +3450,9 @@ extension NetworkManagerClient {
     ///
     /// Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
     ///
-    /// - Parameter GetCoreNetworkPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCoreNetworkPolicyInput`)
     ///
-    /// - Returns: `GetCoreNetworkPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCoreNetworkPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3444,6 +3488,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCoreNetworkPolicyInput, GetCoreNetworkPolicyOutput>(GetCoreNetworkPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCoreNetworkPolicyOutput>(GetCoreNetworkPolicyOutput.httpOutput(from:), GetCoreNetworkPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCoreNetworkPolicyInput, GetCoreNetworkPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCoreNetworkPolicyOutput>())
@@ -3475,9 +3520,9 @@ extension NetworkManagerClient {
     ///
     /// Gets the association information for customer gateways that are associated with devices and links in your global network.
     ///
-    /// - Parameter GetCustomerGatewayAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetCustomerGatewayAssociationsInput`)
     ///
-    /// - Returns: `GetCustomerGatewayAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetCustomerGatewayAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3514,6 +3559,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetCustomerGatewayAssociationsInput, GetCustomerGatewayAssociationsOutput>(GetCustomerGatewayAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCustomerGatewayAssociationsOutput>(GetCustomerGatewayAssociationsOutput.httpOutput(from:), GetCustomerGatewayAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCustomerGatewayAssociationsInput, GetCustomerGatewayAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCustomerGatewayAssociationsOutput>())
@@ -3545,9 +3591,9 @@ extension NetworkManagerClient {
     ///
     /// Gets information about one or more of your devices in a global network.
     ///
-    /// - Parameter GetDevicesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDevicesInput`)
     ///
-    /// - Returns: `GetDevicesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDevicesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3583,6 +3629,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetDevicesInput, GetDevicesOutput>(GetDevicesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDevicesOutput>(GetDevicesOutput.httpOutput(from:), GetDevicesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDevicesInput, GetDevicesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDevicesOutput>())
@@ -3614,9 +3661,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
     ///
-    /// - Parameter GetDirectConnectGatewayAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetDirectConnectGatewayAttachmentInput`)
     ///
-    /// - Returns: `GetDirectConnectGatewayAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetDirectConnectGatewayAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3651,6 +3698,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetDirectConnectGatewayAttachmentInput, GetDirectConnectGatewayAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetDirectConnectGatewayAttachmentOutput>(GetDirectConnectGatewayAttachmentOutput.httpOutput(from:), GetDirectConnectGatewayAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetDirectConnectGatewayAttachmentInput, GetDirectConnectGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetDirectConnectGatewayAttachmentOutput>())
@@ -3682,9 +3730,9 @@ extension NetworkManagerClient {
     ///
     /// Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
     ///
-    /// - Parameter GetLinkAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinkAssociationsInput`)
     ///
-    /// - Returns: `GetLinkAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinkAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3720,6 +3768,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLinkAssociationsInput, GetLinkAssociationsOutput>(GetLinkAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLinkAssociationsOutput>(GetLinkAssociationsOutput.httpOutput(from:), GetLinkAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLinkAssociationsInput, GetLinkAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLinkAssociationsOutput>())
@@ -3751,9 +3800,9 @@ extension NetworkManagerClient {
     ///
     /// Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
     ///
-    /// - Parameter GetLinksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinksInput`)
     ///
-    /// - Returns: `GetLinksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3789,6 +3838,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLinksInput, GetLinksOutput>(GetLinksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLinksOutput>(GetLinksOutput.httpOutput(from:), GetLinksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLinksInput, GetLinksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLinksOutput>())
@@ -3820,9 +3870,9 @@ extension NetworkManagerClient {
     ///
     /// Gets the count of network resources, by resource type, for the specified global network.
     ///
-    /// - Parameter GetNetworkResourceCountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkResourceCountsInput`)
     ///
-    /// - Returns: `GetNetworkResourceCountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkResourceCountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3857,6 +3907,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetNetworkResourceCountsInput, GetNetworkResourceCountsOutput>(GetNetworkResourceCountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkResourceCountsOutput>(GetNetworkResourceCountsOutput.httpOutput(from:), GetNetworkResourceCountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkResourceCountsInput, GetNetworkResourceCountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkResourceCountsOutput>())
@@ -3888,9 +3939,9 @@ extension NetworkManagerClient {
     ///
     /// Gets the network resource relationships for the specified global network.
     ///
-    /// - Parameter GetNetworkResourceRelationshipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkResourceRelationshipsInput`)
     ///
-    /// - Returns: `GetNetworkResourceRelationshipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkResourceRelationshipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3926,6 +3977,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetNetworkResourceRelationshipsInput, GetNetworkResourceRelationshipsOutput>(GetNetworkResourceRelationshipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkResourceRelationshipsOutput>(GetNetworkResourceRelationshipsOutput.httpOutput(from:), GetNetworkResourceRelationshipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkResourceRelationshipsInput, GetNetworkResourceRelationshipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkResourceRelationshipsOutput>())
@@ -3957,9 +4009,9 @@ extension NetworkManagerClient {
     ///
     /// Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
     ///
-    /// - Parameter GetNetworkResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkResourcesInput`)
     ///
-    /// - Returns: `GetNetworkResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3995,6 +4047,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetNetworkResourcesInput, GetNetworkResourcesOutput>(GetNetworkResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkResourcesOutput>(GetNetworkResourcesOutput.httpOutput(from:), GetNetworkResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkResourcesInput, GetNetworkResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkResourcesOutput>())
@@ -4026,9 +4079,9 @@ extension NetworkManagerClient {
     ///
     /// Gets the network routes of the specified global network.
     ///
-    /// - Parameter GetNetworkRoutesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkRoutesInput`)
     ///
-    /// - Returns: `GetNetworkRoutesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkRoutesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4066,6 +4119,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetNetworkRoutesInput, GetNetworkRoutesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkRoutesOutput>(GetNetworkRoutesOutput.httpOutput(from:), GetNetworkRoutesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkRoutesInput, GetNetworkRoutesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkRoutesOutput>())
@@ -4097,9 +4151,9 @@ extension NetworkManagerClient {
     ///
     /// Gets the network telemetry of the specified global network.
     ///
-    /// - Parameter GetNetworkTelemetryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNetworkTelemetryInput`)
     ///
-    /// - Returns: `GetNetworkTelemetryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNetworkTelemetryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4135,6 +4189,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetNetworkTelemetryInput, GetNetworkTelemetryOutput>(GetNetworkTelemetryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNetworkTelemetryOutput>(GetNetworkTelemetryOutput.httpOutput(from:), GetNetworkTelemetryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNetworkTelemetryInput, GetNetworkTelemetryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNetworkTelemetryOutput>())
@@ -4166,9 +4221,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a resource policy.
     ///
-    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetResourcePolicyInput`)
     ///
-    /// - Returns: `GetResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4202,6 +4257,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetResourcePolicyOutput>(GetResourcePolicyOutput.httpOutput(from:), GetResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetResourcePolicyInput, GetResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetResourcePolicyOutput>())
@@ -4233,9 +4289,9 @@ extension NetworkManagerClient {
     ///
     /// Gets information about the specified route analysis.
     ///
-    /// - Parameter GetRouteAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRouteAnalysisInput`)
     ///
-    /// - Returns: `GetRouteAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRouteAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4270,6 +4326,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRouteAnalysisInput, GetRouteAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRouteAnalysisOutput>(GetRouteAnalysisOutput.httpOutput(from:), GetRouteAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRouteAnalysisInput, GetRouteAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRouteAnalysisOutput>())
@@ -4301,9 +4358,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a site-to-site VPN attachment.
     ///
-    /// - Parameter GetSiteToSiteVpnAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSiteToSiteVpnAttachmentInput`)
     ///
-    /// - Returns: `GetSiteToSiteVpnAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSiteToSiteVpnAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4338,6 +4395,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetSiteToSiteVpnAttachmentInput, GetSiteToSiteVpnAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSiteToSiteVpnAttachmentOutput>(GetSiteToSiteVpnAttachmentOutput.httpOutput(from:), GetSiteToSiteVpnAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSiteToSiteVpnAttachmentInput, GetSiteToSiteVpnAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSiteToSiteVpnAttachmentOutput>())
@@ -4369,9 +4427,9 @@ extension NetworkManagerClient {
     ///
     /// Gets information about one or more of your sites in a global network.
     ///
-    /// - Parameter GetSitesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSitesInput`)
     ///
-    /// - Returns: `GetSitesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSitesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4407,6 +4465,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetSitesInput, GetSitesOutput>(GetSitesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSitesOutput>(GetSitesOutput.httpOutput(from:), GetSitesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSitesInput, GetSitesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSitesOutput>())
@@ -4438,9 +4497,9 @@ extension NetworkManagerClient {
     ///
     /// Gets information about one or more of your transit gateway Connect peer associations in a global network.
     ///
-    /// - Parameter GetTransitGatewayConnectPeerAssociationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayConnectPeerAssociationsInput`)
     ///
-    /// - Returns: `GetTransitGatewayConnectPeerAssociationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayConnectPeerAssociationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4477,6 +4536,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTransitGatewayConnectPeerAssociationsInput, GetTransitGatewayConnectPeerAssociationsOutput>(GetTransitGatewayConnectPeerAssociationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayConnectPeerAssociationsOutput>(GetTransitGatewayConnectPeerAssociationsOutput.httpOutput(from:), GetTransitGatewayConnectPeerAssociationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayConnectPeerAssociationsInput, GetTransitGatewayConnectPeerAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayConnectPeerAssociationsOutput>())
@@ -4508,9 +4568,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a transit gateway peer.
     ///
-    /// - Parameter GetTransitGatewayPeeringInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayPeeringInput`)
     ///
-    /// - Returns: `GetTransitGatewayPeeringOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayPeeringOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4545,6 +4605,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTransitGatewayPeeringInput, GetTransitGatewayPeeringOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayPeeringOutput>(GetTransitGatewayPeeringOutput.httpOutput(from:), GetTransitGatewayPeeringOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayPeeringInput, GetTransitGatewayPeeringOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayPeeringOutput>())
@@ -4576,9 +4637,9 @@ extension NetworkManagerClient {
     ///
     /// Gets information about the transit gateway registrations in a specified global network.
     ///
-    /// - Parameter GetTransitGatewayRegistrationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayRegistrationsInput`)
     ///
-    /// - Returns: `GetTransitGatewayRegistrationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayRegistrationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4614,6 +4675,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetTransitGatewayRegistrationsInput, GetTransitGatewayRegistrationsOutput>(GetTransitGatewayRegistrationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayRegistrationsOutput>(GetTransitGatewayRegistrationsOutput.httpOutput(from:), GetTransitGatewayRegistrationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayRegistrationsInput, GetTransitGatewayRegistrationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayRegistrationsOutput>())
@@ -4645,9 +4707,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a transit gateway route table attachment.
     ///
-    /// - Parameter GetTransitGatewayRouteTableAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTransitGatewayRouteTableAttachmentInput`)
     ///
-    /// - Returns: `GetTransitGatewayRouteTableAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTransitGatewayRouteTableAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4682,6 +4744,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTransitGatewayRouteTableAttachmentInput, GetTransitGatewayRouteTableAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTransitGatewayRouteTableAttachmentOutput>(GetTransitGatewayRouteTableAttachmentOutput.httpOutput(from:), GetTransitGatewayRouteTableAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTransitGatewayRouteTableAttachmentInput, GetTransitGatewayRouteTableAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTransitGatewayRouteTableAttachmentOutput>())
@@ -4713,9 +4776,9 @@ extension NetworkManagerClient {
     ///
     /// Returns information about a VPC attachment.
     ///
-    /// - Parameter GetVpcAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetVpcAttachmentInput`)
     ///
-    /// - Returns: `GetVpcAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetVpcAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4750,6 +4813,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetVpcAttachmentInput, GetVpcAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetVpcAttachmentOutput>(GetVpcAttachmentOutput.httpOutput(from:), GetVpcAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetVpcAttachmentInput, GetVpcAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetVpcAttachmentOutput>())
@@ -4781,9 +4845,9 @@ extension NetworkManagerClient {
     ///
     /// Returns a list of core network attachments.
     ///
-    /// - Parameter ListAttachmentsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAttachmentsInput`)
     ///
-    /// - Returns: `ListAttachmentsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAttachmentsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4818,6 +4882,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(ListAttachmentsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAttachmentsOutput>(ListAttachmentsOutput.httpOutput(from:), ListAttachmentsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAttachmentsInput, ListAttachmentsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAttachmentsOutput>())
@@ -4849,9 +4914,9 @@ extension NetworkManagerClient {
     ///
     /// Returns a list of core network Connect peers.
     ///
-    /// - Parameter ListConnectPeersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectPeersInput`)
     ///
-    /// - Returns: `ListConnectPeersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectPeersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4886,6 +4951,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConnectPeersInput, ListConnectPeersOutput>(ListConnectPeersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectPeersOutput>(ListConnectPeersOutput.httpOutput(from:), ListConnectPeersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectPeersInput, ListConnectPeersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectPeersOutput>())
@@ -4917,9 +4983,9 @@ extension NetworkManagerClient {
     ///
     /// Returns a list of core network policy versions.
     ///
-    /// - Parameter ListCoreNetworkPolicyVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoreNetworkPolicyVersionsInput`)
     ///
-    /// - Returns: `ListCoreNetworkPolicyVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoreNetworkPolicyVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4955,6 +5021,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCoreNetworkPolicyVersionsInput, ListCoreNetworkPolicyVersionsOutput>(ListCoreNetworkPolicyVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoreNetworkPolicyVersionsOutput>(ListCoreNetworkPolicyVersionsOutput.httpOutput(from:), ListCoreNetworkPolicyVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoreNetworkPolicyVersionsInput, ListCoreNetworkPolicyVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoreNetworkPolicyVersionsOutput>())
@@ -4986,9 +5053,9 @@ extension NetworkManagerClient {
     ///
     /// Returns a list of owned and shared core networks.
     ///
-    /// - Parameter ListCoreNetworksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCoreNetworksInput`)
     ///
-    /// - Returns: `ListCoreNetworksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCoreNetworksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5023,6 +5090,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCoreNetworksInput, ListCoreNetworksOutput>(ListCoreNetworksInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCoreNetworksOutput>(ListCoreNetworksOutput.httpOutput(from:), ListCoreNetworksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCoreNetworksInput, ListCoreNetworksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCoreNetworksOutput>())
@@ -5054,9 +5122,9 @@ extension NetworkManagerClient {
     ///
     /// Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
     ///
-    /// - Parameter ListOrganizationServiceAccessStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListOrganizationServiceAccessStatusInput`)
     ///
-    /// - Returns: `ListOrganizationServiceAccessStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListOrganizationServiceAccessStatusOutput`)
     public func listOrganizationServiceAccessStatus(input: ListOrganizationServiceAccessStatusInput) async throws -> ListOrganizationServiceAccessStatusOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -5083,6 +5151,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListOrganizationServiceAccessStatusInput, ListOrganizationServiceAccessStatusOutput>(ListOrganizationServiceAccessStatusInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListOrganizationServiceAccessStatusOutput>(ListOrganizationServiceAccessStatusOutput.httpOutput(from:), ListOrganizationServiceAccessStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListOrganizationServiceAccessStatusInput, ListOrganizationServiceAccessStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListOrganizationServiceAccessStatusOutput>())
@@ -5114,9 +5183,9 @@ extension NetworkManagerClient {
     ///
     /// Lists the peerings for a core network.
     ///
-    /// - Parameter ListPeeringsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPeeringsInput`)
     ///
-    /// - Returns: `ListPeeringsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPeeringsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5151,6 +5220,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPeeringsInput, ListPeeringsOutput>(ListPeeringsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPeeringsOutput>(ListPeeringsOutput.httpOutput(from:), ListPeeringsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPeeringsInput, ListPeeringsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPeeringsOutput>())
@@ -5182,9 +5252,9 @@ extension NetworkManagerClient {
     ///
     /// Lists the tags for a specified resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5219,6 +5289,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -5250,9 +5321,9 @@ extension NetworkManagerClient {
     ///
     /// Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
     ///
-    /// - Parameter PutCoreNetworkPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutCoreNetworkPolicyInput`)
     ///
-    /// - Returns: `PutCoreNetworkPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutCoreNetworkPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5293,6 +5364,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutCoreNetworkPolicyInput, PutCoreNetworkPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutCoreNetworkPolicyOutput>(PutCoreNetworkPolicyOutput.httpOutput(from:), PutCoreNetworkPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutCoreNetworkPolicyInput, PutCoreNetworkPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutCoreNetworkPolicyOutput>())
@@ -5324,9 +5396,9 @@ extension NetworkManagerClient {
     ///
     /// Creates or updates a resource policy.
     ///
-    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourcePolicyInput`)
     ///
-    /// - Returns: `PutResourcePolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourcePolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5365,6 +5437,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourcePolicyOutput>(PutResourcePolicyOutput.httpOutput(from:), PutResourcePolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourcePolicyInput, PutResourcePolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourcePolicyOutput>())
@@ -5396,9 +5469,9 @@ extension NetworkManagerClient {
     ///
     /// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the supported Regions, see [Region Availability](https://docs.aws.amazon.com/network-manager/latest/tgwnm/what-are-global-networks.html#nm-available-regions) in the Amazon Web Services Transit Gateways for Global Networks User Guide. The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network.
     ///
-    /// - Parameter RegisterTransitGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterTransitGatewayInput`)
     ///
-    /// - Returns: `RegisterTransitGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterTransitGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5437,6 +5510,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterTransitGatewayInput, RegisterTransitGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterTransitGatewayOutput>(RegisterTransitGatewayOutput.httpOutput(from:), RegisterTransitGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterTransitGatewayInput, RegisterTransitGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterTransitGatewayOutput>())
@@ -5468,9 +5542,9 @@ extension NetworkManagerClient {
     ///
     /// Rejects a core network attachment request.
     ///
-    /// - Parameter RejectAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RejectAttachmentInput`)
     ///
-    /// - Returns: `RejectAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RejectAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5506,6 +5580,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RejectAttachmentInput, RejectAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RejectAttachmentOutput>(RejectAttachmentOutput.httpOutput(from:), RejectAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RejectAttachmentInput, RejectAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RejectAttachmentOutput>())
@@ -5537,9 +5612,9 @@ extension NetworkManagerClient {
     ///
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
     ///
-    /// - Parameter RestoreCoreNetworkPolicyVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RestoreCoreNetworkPolicyVersionInput`)
     ///
-    /// - Returns: `RestoreCoreNetworkPolicyVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RestoreCoreNetworkPolicyVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5575,6 +5650,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RestoreCoreNetworkPolicyVersionInput, RestoreCoreNetworkPolicyVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RestoreCoreNetworkPolicyVersionOutput>(RestoreCoreNetworkPolicyVersionOutput.httpOutput(from:), RestoreCoreNetworkPolicyVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RestoreCoreNetworkPolicyVersionInput, RestoreCoreNetworkPolicyVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RestoreCoreNetworkPolicyVersionOutput>())
@@ -5606,9 +5682,9 @@ extension NetworkManagerClient {
     ///
     /// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
     ///
-    /// - Parameter StartOrganizationServiceAccessUpdateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartOrganizationServiceAccessUpdateInput`)
     ///
-    /// - Returns: `StartOrganizationServiceAccessUpdateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartOrganizationServiceAccessUpdateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5647,6 +5723,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartOrganizationServiceAccessUpdateInput, StartOrganizationServiceAccessUpdateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartOrganizationServiceAccessUpdateOutput>(StartOrganizationServiceAccessUpdateOutput.httpOutput(from:), StartOrganizationServiceAccessUpdateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartOrganizationServiceAccessUpdateInput, StartOrganizationServiceAccessUpdateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartOrganizationServiceAccessUpdateOutput>())
@@ -5678,9 +5755,9 @@ extension NetworkManagerClient {
     ///
     /// Starts analyzing the routing path between the specified source and destination. For more information, see [Route Analyzer](https://docs.aws.amazon.com/vpc/latest/tgw/route-analyzer.html).
     ///
-    /// - Parameter StartRouteAnalysisInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartRouteAnalysisInput`)
     ///
-    /// - Returns: `StartRouteAnalysisOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartRouteAnalysisOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5719,6 +5796,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartRouteAnalysisInput, StartRouteAnalysisOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartRouteAnalysisOutput>(StartRouteAnalysisOutput.httpOutput(from:), StartRouteAnalysisOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartRouteAnalysisInput, StartRouteAnalysisOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartRouteAnalysisOutput>())
@@ -5750,9 +5828,9 @@ extension NetworkManagerClient {
     ///
     /// Tags a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5792,6 +5870,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -5823,9 +5902,9 @@ extension NetworkManagerClient {
     ///
     /// Removes tags from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5862,6 +5941,7 @@ extension NetworkManagerClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -5893,9 +5973,9 @@ extension NetworkManagerClient {
     ///
     /// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string.
     ///
-    /// - Parameter UpdateConnectionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectionInput`)
     ///
-    /// - Returns: `UpdateConnectionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5934,6 +6014,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectionInput, UpdateConnectionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectionOutput>(UpdateConnectionOutput.httpOutput(from:), UpdateConnectionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectionInput, UpdateConnectionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectionOutput>())
@@ -5965,9 +6046,9 @@ extension NetworkManagerClient {
     ///
     /// Updates the description of a core network.
     ///
-    /// - Parameter UpdateCoreNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateCoreNetworkInput`)
     ///
-    /// - Returns: `UpdateCoreNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateCoreNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6006,6 +6087,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCoreNetworkInput, UpdateCoreNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCoreNetworkOutput>(UpdateCoreNetworkOutput.httpOutput(from:), UpdateCoreNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCoreNetworkInput, UpdateCoreNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCoreNetworkOutput>())
@@ -6037,9 +6119,9 @@ extension NetworkManagerClient {
     ///
     /// Updates the details for an existing device. To remove information for any of the parameters, specify an empty string.
     ///
-    /// - Parameter UpdateDeviceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDeviceInput`)
     ///
-    /// - Returns: `UpdateDeviceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDeviceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6078,6 +6160,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDeviceInput, UpdateDeviceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDeviceOutput>(UpdateDeviceOutput.httpOutput(from:), UpdateDeviceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDeviceInput, UpdateDeviceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDeviceOutput>())
@@ -6109,9 +6192,9 @@ extension NetworkManagerClient {
     ///
     /// Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment.
     ///
-    /// - Parameter UpdateDirectConnectGatewayAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDirectConnectGatewayAttachmentInput`)
     ///
-    /// - Returns: `UpdateDirectConnectGatewayAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDirectConnectGatewayAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6150,6 +6233,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDirectConnectGatewayAttachmentInput, UpdateDirectConnectGatewayAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDirectConnectGatewayAttachmentOutput>(UpdateDirectConnectGatewayAttachmentOutput.httpOutput(from:), UpdateDirectConnectGatewayAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDirectConnectGatewayAttachmentInput, UpdateDirectConnectGatewayAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDirectConnectGatewayAttachmentOutput>())
@@ -6181,9 +6265,9 @@ extension NetworkManagerClient {
     ///
     /// Updates an existing global network. To remove information for any of the parameters, specify an empty string.
     ///
-    /// - Parameter UpdateGlobalNetworkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGlobalNetworkInput`)
     ///
-    /// - Returns: `UpdateGlobalNetworkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGlobalNetworkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6222,6 +6306,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGlobalNetworkInput, UpdateGlobalNetworkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGlobalNetworkOutput>(UpdateGlobalNetworkOutput.httpOutput(from:), UpdateGlobalNetworkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGlobalNetworkInput, UpdateGlobalNetworkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGlobalNetworkOutput>())
@@ -6253,9 +6338,9 @@ extension NetworkManagerClient {
     ///
     /// Updates the details for an existing link. To remove information for any of the parameters, specify an empty string.
     ///
-    /// - Parameter UpdateLinkInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLinkInput`)
     ///
-    /// - Returns: `UpdateLinkOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLinkOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6295,6 +6380,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLinkInput, UpdateLinkOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLinkOutput>(UpdateLinkOutput.httpOutput(from:), UpdateLinkOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLinkInput, UpdateLinkOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLinkOutput>())
@@ -6326,9 +6412,9 @@ extension NetworkManagerClient {
     ///
     /// Updates the resource metadata for the specified global network.
     ///
-    /// - Parameter UpdateNetworkResourceMetadataInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateNetworkResourceMetadataInput`)
     ///
-    /// - Returns: `UpdateNetworkResourceMetadataOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateNetworkResourceMetadataOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6367,6 +6453,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateNetworkResourceMetadataInput, UpdateNetworkResourceMetadataOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateNetworkResourceMetadataOutput>(UpdateNetworkResourceMetadataOutput.httpOutput(from:), UpdateNetworkResourceMetadataOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateNetworkResourceMetadataInput, UpdateNetworkResourceMetadataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateNetworkResourceMetadataOutput>())
@@ -6398,9 +6485,9 @@ extension NetworkManagerClient {
     ///
     /// Updates the information for an existing site. To remove information for any of the parameters, specify an empty string.
     ///
-    /// - Parameter UpdateSiteInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSiteInput`)
     ///
-    /// - Returns: `UpdateSiteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSiteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6439,6 +6526,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSiteInput, UpdateSiteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSiteOutput>(UpdateSiteOutput.httpOutput(from:), UpdateSiteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSiteInput, UpdateSiteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSiteOutput>())
@@ -6470,9 +6558,9 @@ extension NetworkManagerClient {
     ///
     /// Updates a VPC attachment.
     ///
-    /// - Parameter UpdateVpcAttachmentInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateVpcAttachmentInput`)
     ///
-    /// - Returns: `UpdateVpcAttachmentOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateVpcAttachmentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6511,6 +6599,7 @@ extension NetworkManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateVpcAttachmentInput, UpdateVpcAttachmentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateVpcAttachmentOutput>(UpdateVpcAttachmentOutput.httpOutput(from:), UpdateVpcAttachmentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateVpcAttachmentInput, UpdateVpcAttachmentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateVpcAttachmentOutput>())

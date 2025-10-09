@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MailManagerClient: ClientRuntime.Client {
     public static let clientName = "MailManagerClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MailManagerClient.MailManagerClientConfiguration
     let serviceName = "MailManager"
@@ -374,9 +375,9 @@ extension MailManagerClient {
     ///
     /// Creates an Add On instance for the subscription indicated in the request. The resulting Amazon Resource Name (ARN) can be used in a conditional statement for a rule set or traffic policy.
     ///
-    /// - Parameter CreateAddonInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddonInstanceInput`)
     ///
-    /// - Returns: `CreateAddonInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddonInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAddonInstanceOutput>(CreateAddonInstanceOutput.httpOutput(from:), CreateAddonInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddonInstanceInput, CreateAddonInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddonInstanceOutput>())
@@ -446,9 +448,9 @@ extension MailManagerClient {
     ///
     /// Creates a subscription for an Add On representing the acceptance of its terms of use and additional pricing. The subscription can then be used to create an instance for use in rule sets or traffic policies.
     ///
-    /// - Parameter CreateAddonSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddonSubscriptionInput`)
     ///
-    /// - Returns: `CreateAddonSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddonSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -483,6 +485,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAddonSubscriptionOutput>(CreateAddonSubscriptionOutput.httpOutput(from:), CreateAddonSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddonSubscriptionInput, CreateAddonSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddonSubscriptionOutput>())
@@ -517,9 +520,9 @@ extension MailManagerClient {
     ///
     /// Creates a new address list.
     ///
-    /// - Parameter CreateAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddressListInput`)
     ///
-    /// - Returns: `CreateAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -556,6 +559,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressListInput, CreateAddressListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAddressListOutput>(CreateAddressListOutput.httpOutput(from:), CreateAddressListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddressListInput, CreateAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddressListOutput>())
@@ -590,9 +594,9 @@ extension MailManagerClient {
     ///
     /// Creates an import job for an address list.
     ///
-    /// - Parameter CreateAddressListImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAddressListImportJobInput`)
     ///
-    /// - Returns: `CreateAddressListImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAddressListImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -628,6 +632,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAddressListImportJobOutput>(CreateAddressListImportJobOutput.httpOutput(from:), CreateAddressListImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAddressListImportJobInput, CreateAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAddressListImportJobOutput>())
@@ -662,9 +667,9 @@ extension MailManagerClient {
     ///
     /// Creates a new email archive resource for storing and retaining emails.
     ///
-    /// - Parameter CreateArchiveInput : The request to create a new email archive.
+    /// - Parameter input: The request to create a new email archive. (Type: `CreateArchiveInput`)
     ///
-    /// - Returns: `CreateArchiveOutput` : The response from creating a new email archive.
+    /// - Returns: The response from creating a new email archive. (Type: `CreateArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,6 +706,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateArchiveInput, CreateArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateArchiveOutput>(CreateArchiveOutput.httpOutput(from:), CreateArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateArchiveInput, CreateArchiveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateArchiveOutput>())
@@ -735,9 +741,9 @@ extension MailManagerClient {
     ///
     /// Provision a new ingress endpoint resource.
     ///
-    /// - Parameter CreateIngressPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateIngressPointInput`)
     ///
-    /// - Returns: `CreateIngressPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateIngressPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -772,6 +778,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateIngressPointInput, CreateIngressPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateIngressPointOutput>(CreateIngressPointOutput.httpOutput(from:), CreateIngressPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateIngressPointInput, CreateIngressPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateIngressPointOutput>())
@@ -806,9 +813,9 @@ extension MailManagerClient {
     ///
     /// Creates a relay resource which can be used in rules to relay incoming emails to defined relay destinations.
     ///
-    /// - Parameter CreateRelayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRelayInput`)
     ///
-    /// - Returns: `CreateRelayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRelayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -843,6 +850,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRelayInput, CreateRelayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRelayOutput>(CreateRelayOutput.httpOutput(from:), CreateRelayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRelayInput, CreateRelayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRelayOutput>())
@@ -877,9 +885,9 @@ extension MailManagerClient {
     ///
     /// Provision a new rule set.
     ///
-    /// - Parameter CreateRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRuleSetInput`)
     ///
-    /// - Returns: `CreateRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -914,6 +922,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRuleSetInput, CreateRuleSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRuleSetOutput>(CreateRuleSetOutput.httpOutput(from:), CreateRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRuleSetInput, CreateRuleSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRuleSetOutput>())
@@ -948,9 +957,9 @@ extension MailManagerClient {
     ///
     /// Provision a new traffic policy resource.
     ///
-    /// - Parameter CreateTrafficPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateTrafficPolicyInput`)
     ///
-    /// - Returns: `CreateTrafficPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -985,6 +994,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTrafficPolicyOutput>(CreateTrafficPolicyOutput.httpOutput(from:), CreateTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTrafficPolicyInput, CreateTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTrafficPolicyOutput>())
@@ -1019,9 +1029,9 @@ extension MailManagerClient {
     ///
     /// Deletes an Add On instance.
     ///
-    /// - Parameter DeleteAddonInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAddonInstanceInput`)
     ///
-    /// - Returns: `DeleteAddonInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAddonInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1054,6 +1064,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAddonInstanceOutput>(DeleteAddonInstanceOutput.httpOutput(from:), DeleteAddonInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAddonInstanceInput, DeleteAddonInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAddonInstanceOutput>())
@@ -1088,9 +1099,9 @@ extension MailManagerClient {
     ///
     /// Deletes an Add On subscription.
     ///
-    /// - Parameter DeleteAddonSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAddonSubscriptionInput`)
     ///
-    /// - Returns: `DeleteAddonSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAddonSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1123,6 +1134,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAddonSubscriptionOutput>(DeleteAddonSubscriptionOutput.httpOutput(from:), DeleteAddonSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAddonSubscriptionInput, DeleteAddonSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAddonSubscriptionOutput>())
@@ -1157,9 +1169,9 @@ extension MailManagerClient {
     ///
     /// Deletes an address list.
     ///
-    /// - Parameter DeleteAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAddressListInput`)
     ///
-    /// - Returns: `DeleteAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1193,6 +1205,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteAddressListInput, DeleteAddressListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAddressListOutput>(DeleteAddressListOutput.httpOutput(from:), DeleteAddressListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAddressListInput, DeleteAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAddressListOutput>())
@@ -1227,9 +1240,9 @@ extension MailManagerClient {
     ///
     /// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
     ///
-    /// - Parameter DeleteArchiveInput : The request to initiate deletion of an email archive.
+    /// - Parameter input: The request to initiate deletion of an email archive. (Type: `DeleteArchiveInput`)
     ///
-    /// - Returns: `DeleteArchiveOutput` : The response indicating if the archive deletion was successfully initiated. On success, returns an HTTP 200 status code. On failure, returns an error message.
+    /// - Returns: The response indicating if the archive deletion was successfully initiated. On success, returns an HTTP 200 status code. On failure, returns an error message. (Type: `DeleteArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1264,6 +1277,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteArchiveInput, DeleteArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteArchiveOutput>(DeleteArchiveOutput.httpOutput(from:), DeleteArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteArchiveInput, DeleteArchiveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteArchiveOutput>())
@@ -1298,9 +1312,9 @@ extension MailManagerClient {
     ///
     /// Delete an ingress endpoint resource.
     ///
-    /// - Parameter DeleteIngressPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteIngressPointInput`)
     ///
-    /// - Returns: `DeleteIngressPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteIngressPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1334,6 +1348,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteIngressPointOutput>(DeleteIngressPointOutput.httpOutput(from:), DeleteIngressPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteIngressPointInput, DeleteIngressPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteIngressPointOutput>())
@@ -1368,9 +1383,9 @@ extension MailManagerClient {
     ///
     /// Deletes an existing relay resource.
     ///
-    /// - Parameter DeleteRelayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRelayInput`)
     ///
-    /// - Returns: `DeleteRelayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRelayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1404,6 +1419,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRelayInput, DeleteRelayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRelayOutput>(DeleteRelayOutput.httpOutput(from:), DeleteRelayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRelayInput, DeleteRelayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRelayOutput>())
@@ -1438,9 +1454,9 @@ extension MailManagerClient {
     ///
     /// Delete a rule set.
     ///
-    /// - Parameter DeleteRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRuleSetInput`)
     ///
-    /// - Returns: `DeleteRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1473,6 +1489,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRuleSetOutput>(DeleteRuleSetOutput.httpOutput(from:), DeleteRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRuleSetInput, DeleteRuleSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRuleSetOutput>())
@@ -1507,9 +1524,9 @@ extension MailManagerClient {
     ///
     /// Delete a traffic policy resource.
     ///
-    /// - Parameter DeleteTrafficPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrafficPolicyInput`)
     ///
-    /// - Returns: `DeleteTrafficPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1543,6 +1560,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrafficPolicyOutput>(DeleteTrafficPolicyOutput.httpOutput(from:), DeleteTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrafficPolicyInput, DeleteTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrafficPolicyOutput>())
@@ -1577,9 +1595,9 @@ extension MailManagerClient {
     ///
     /// Removes a member from an address list.
     ///
-    /// - Parameter DeregisterMemberFromAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeregisterMemberFromAddressListInput`)
     ///
-    /// - Returns: `DeregisterMemberFromAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeregisterMemberFromAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1614,6 +1632,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeregisterMemberFromAddressListOutput>(DeregisterMemberFromAddressListOutput.httpOutput(from:), DeregisterMemberFromAddressListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeregisterMemberFromAddressListInput, DeregisterMemberFromAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeregisterMemberFromAddressListOutput>())
@@ -1648,9 +1667,9 @@ extension MailManagerClient {
     ///
     /// Gets detailed information about an Add On instance.
     ///
-    /// - Parameter GetAddonInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAddonInstanceInput`)
     ///
-    /// - Returns: `GetAddonInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAddonInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1683,6 +1702,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAddonInstanceOutput>(GetAddonInstanceOutput.httpOutput(from:), GetAddonInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddonInstanceInput, GetAddonInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAddonInstanceOutput>())
@@ -1717,9 +1737,9 @@ extension MailManagerClient {
     ///
     /// Gets detailed information about an Add On subscription.
     ///
-    /// - Parameter GetAddonSubscriptionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAddonSubscriptionInput`)
     ///
-    /// - Returns: `GetAddonSubscriptionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAddonSubscriptionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1752,6 +1772,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAddonSubscriptionOutput>(GetAddonSubscriptionOutput.httpOutput(from:), GetAddonSubscriptionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddonSubscriptionInput, GetAddonSubscriptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAddonSubscriptionOutput>())
@@ -1786,9 +1807,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of an address list.
     ///
-    /// - Parameter GetAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAddressListInput`)
     ///
-    /// - Returns: `GetAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1823,6 +1844,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddressListInput, GetAddressListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAddressListOutput>(GetAddressListOutput.httpOutput(from:), GetAddressListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddressListInput, GetAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAddressListOutput>())
@@ -1857,9 +1879,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of an import job.
     ///
-    /// - Parameter GetAddressListImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAddressListImportJobInput`)
     ///
-    /// - Returns: `GetAddressListImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAddressListImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1894,6 +1916,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAddressListImportJobOutput>(GetAddressListImportJobOutput.httpOutput(from:), GetAddressListImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAddressListImportJobInput, GetAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAddressListImportJobOutput>())
@@ -1928,9 +1951,9 @@ extension MailManagerClient {
     ///
     /// Retrieves the full details and current state of a specified email archive.
     ///
-    /// - Parameter GetArchiveInput : The request to retrieve details of an email archive.
+    /// - Parameter input: The request to retrieve details of an email archive. (Type: `GetArchiveInput`)
     ///
-    /// - Returns: `GetArchiveOutput` : The response containing details of the requested archive.
+    /// - Returns: The response containing details of the requested archive. (Type: `GetArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1965,6 +1988,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveInput, GetArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArchiveOutput>(GetArchiveOutput.httpOutput(from:), GetArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveInput, GetArchiveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveOutput>())
@@ -1999,9 +2023,9 @@ extension MailManagerClient {
     ///
     /// Retrieves the details and current status of a specific email archive export job.
     ///
-    /// - Parameter GetArchiveExportInput : The request to retrieve details of a specific archive export job.
+    /// - Parameter input: The request to retrieve details of a specific archive export job. (Type: `GetArchiveExportInput`)
     ///
-    /// - Returns: `GetArchiveExportOutput` : The response containing details of the specified archive export job.
+    /// - Returns: The response containing details of the specified archive export job. (Type: `GetArchiveExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2035,6 +2059,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveExportInput, GetArchiveExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArchiveExportOutput>(GetArchiveExportOutput.httpOutput(from:), GetArchiveExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveExportInput, GetArchiveExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveExportOutput>())
@@ -2069,9 +2094,9 @@ extension MailManagerClient {
     ///
     /// Returns a pre-signed URL that provides temporary download access to the specific email message stored in the archive.
     ///
-    /// - Parameter GetArchiveMessageInput : The request to get details of a specific email message stored in an archive.
+    /// - Parameter input: The request to get details of a specific email message stored in an archive. (Type: `GetArchiveMessageInput`)
     ///
-    /// - Returns: `GetArchiveMessageOutput` : The response containing details about the requested archived email message.
+    /// - Returns: The response containing details about the requested archived email message. (Type: `GetArchiveMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2105,6 +2130,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArchiveMessageOutput>(GetArchiveMessageOutput.httpOutput(from:), GetArchiveMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveMessageInput, GetArchiveMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveMessageOutput>())
@@ -2139,9 +2165,9 @@ extension MailManagerClient {
     ///
     /// Returns the textual content of a specific email message stored in the archive. Attachments are not included.
     ///
-    /// - Parameter GetArchiveMessageContentInput : The request to get the textual content of a specific email message stored in an archive.
+    /// - Parameter input: The request to get the textual content of a specific email message stored in an archive. (Type: `GetArchiveMessageContentInput`)
     ///
-    /// - Returns: `GetArchiveMessageContentOutput` : The response containing the textual content of the requested archived email message.
+    /// - Returns: The response containing the textual content of the requested archived email message. (Type: `GetArchiveMessageContentOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2175,6 +2201,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArchiveMessageContentOutput>(GetArchiveMessageContentOutput.httpOutput(from:), GetArchiveMessageContentOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveMessageContentInput, GetArchiveMessageContentOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveMessageContentOutput>())
@@ -2209,9 +2236,9 @@ extension MailManagerClient {
     ///
     /// Retrieves the details and current status of a specific email archive search job.
     ///
-    /// - Parameter GetArchiveSearchInput : The request to retrieve details of a specific archive search job.
+    /// - Parameter input: The request to retrieve details of a specific archive search job. (Type: `GetArchiveSearchInput`)
     ///
-    /// - Returns: `GetArchiveSearchOutput` : The response containing details of the specified archive search job.
+    /// - Returns: The response containing details of the specified archive search job. (Type: `GetArchiveSearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2245,6 +2272,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArchiveSearchOutput>(GetArchiveSearchOutput.httpOutput(from:), GetArchiveSearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveSearchInput, GetArchiveSearchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveSearchOutput>())
@@ -2279,9 +2307,9 @@ extension MailManagerClient {
     ///
     /// Returns the results of a completed email archive search job.
     ///
-    /// - Parameter GetArchiveSearchResultsInput : The request to retrieve results from a completed archive search job.
+    /// - Parameter input: The request to retrieve results from a completed archive search job. (Type: `GetArchiveSearchResultsInput`)
     ///
-    /// - Returns: `GetArchiveSearchResultsOutput` : The response containing search results from a completed archive search.
+    /// - Returns: The response containing search results from a completed archive search. (Type: `GetArchiveSearchResultsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2316,6 +2344,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetArchiveSearchResultsOutput>(GetArchiveSearchResultsOutput.httpOutput(from:), GetArchiveSearchResultsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetArchiveSearchResultsInput, GetArchiveSearchResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetArchiveSearchResultsOutput>())
@@ -2350,9 +2379,9 @@ extension MailManagerClient {
     ///
     /// Fetch ingress endpoint resource attributes.
     ///
-    /// - Parameter GetIngressPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetIngressPointInput`)
     ///
-    /// - Returns: `GetIngressPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetIngressPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2385,6 +2414,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIngressPointInput, GetIngressPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIngressPointOutput>(GetIngressPointOutput.httpOutput(from:), GetIngressPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIngressPointInput, GetIngressPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIngressPointOutput>())
@@ -2419,9 +2449,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of a member in an address list.
     ///
-    /// - Parameter GetMemberOfAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetMemberOfAddressListInput`)
     ///
-    /// - Returns: `GetMemberOfAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetMemberOfAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2456,6 +2486,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetMemberOfAddressListOutput>(GetMemberOfAddressListOutput.httpOutput(from:), GetMemberOfAddressListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetMemberOfAddressListInput, GetMemberOfAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetMemberOfAddressListOutput>())
@@ -2490,9 +2521,9 @@ extension MailManagerClient {
     ///
     /// Fetch the relay resource and it's attributes.
     ///
-    /// - Parameter GetRelayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRelayInput`)
     ///
-    /// - Returns: `GetRelayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRelayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2525,6 +2556,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRelayInput, GetRelayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRelayOutput>(GetRelayOutput.httpOutput(from:), GetRelayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRelayInput, GetRelayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRelayOutput>())
@@ -2559,9 +2591,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of a rule set.
     ///
-    /// - Parameter GetRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetRuleSetInput`)
     ///
-    /// - Returns: `GetRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2594,6 +2626,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetRuleSetInput, GetRuleSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRuleSetOutput>(GetRuleSetOutput.httpOutput(from:), GetRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRuleSetInput, GetRuleSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetRuleSetOutput>())
@@ -2628,9 +2661,9 @@ extension MailManagerClient {
     ///
     /// Fetch attributes of a traffic policy resource.
     ///
-    /// - Parameter GetTrafficPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetTrafficPolicyInput`)
     ///
-    /// - Returns: `GetTrafficPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2663,6 +2696,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTrafficPolicyOutput>(GetTrafficPolicyOutput.httpOutput(from:), GetTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTrafficPolicyInput, GetTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetTrafficPolicyOutput>())
@@ -2697,9 +2731,9 @@ extension MailManagerClient {
     ///
     /// Lists all Add On instances in your account.
     ///
-    /// - Parameter ListAddonInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddonInstancesInput`)
     ///
-    /// - Returns: `ListAddonInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddonInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2731,6 +2765,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAddonInstancesOutput>(ListAddonInstancesOutput.httpOutput(from:), ListAddonInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddonInstancesInput, ListAddonInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddonInstancesOutput>())
@@ -2765,9 +2800,9 @@ extension MailManagerClient {
     ///
     /// Lists all Add On subscriptions in your account.
     ///
-    /// - Parameter ListAddonSubscriptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddonSubscriptionsInput`)
     ///
-    /// - Returns: `ListAddonSubscriptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddonSubscriptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2799,6 +2834,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAddonSubscriptionsOutput>(ListAddonSubscriptionsOutput.httpOutput(from:), ListAddonSubscriptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddonSubscriptionsInput, ListAddonSubscriptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddonSubscriptionsOutput>())
@@ -2833,9 +2869,9 @@ extension MailManagerClient {
     ///
     /// Lists jobs for an address list.
     ///
-    /// - Parameter ListAddressListImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddressListImportJobsInput`)
     ///
-    /// - Returns: `ListAddressListImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddressListImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2870,6 +2906,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAddressListImportJobsOutput>(ListAddressListImportJobsOutput.httpOutput(from:), ListAddressListImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddressListImportJobsInput, ListAddressListImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddressListImportJobsOutput>())
@@ -2904,9 +2941,9 @@ extension MailManagerClient {
     ///
     /// Lists address lists for this account.
     ///
-    /// - Parameter ListAddressListsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAddressListsInput`)
     ///
-    /// - Returns: `ListAddressListsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAddressListsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2940,6 +2977,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListAddressListsInput, ListAddressListsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAddressListsOutput>(ListAddressListsOutput.httpOutput(from:), ListAddressListsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAddressListsInput, ListAddressListsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAddressListsOutput>())
@@ -2974,9 +3012,9 @@ extension MailManagerClient {
     ///
     /// Returns a list of email archive export jobs.
     ///
-    /// - Parameter ListArchiveExportsInput : The request to list archive export jobs in your account.
+    /// - Parameter input: The request to list archive export jobs in your account. (Type: `ListArchiveExportsInput`)
     ///
-    /// - Returns: `ListArchiveExportsOutput` : The response containing a list of archive export jobs and their statuses.
+    /// - Returns: The response containing a list of archive export jobs and their statuses. (Type: `ListArchiveExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3011,6 +3049,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArchiveExportsOutput>(ListArchiveExportsOutput.httpOutput(from:), ListArchiveExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchiveExportsInput, ListArchiveExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArchiveExportsOutput>())
@@ -3045,9 +3084,9 @@ extension MailManagerClient {
     ///
     /// Returns a list of email archive search jobs.
     ///
-    /// - Parameter ListArchiveSearchesInput : The request to list archive search jobs in your account.
+    /// - Parameter input: The request to list archive search jobs in your account. (Type: `ListArchiveSearchesInput`)
     ///
-    /// - Returns: `ListArchiveSearchesOutput` : The response containing a list of archive search jobs and their statuses.
+    /// - Returns: The response containing a list of archive search jobs and their statuses. (Type: `ListArchiveSearchesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3082,6 +3121,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArchiveSearchesOutput>(ListArchiveSearchesOutput.httpOutput(from:), ListArchiveSearchesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchiveSearchesInput, ListArchiveSearchesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArchiveSearchesOutput>())
@@ -3116,9 +3156,9 @@ extension MailManagerClient {
     ///
     /// Returns a list of all email archives in your account.
     ///
-    /// - Parameter ListArchivesInput : The request to list email archives in your account.
+    /// - Parameter input: The request to list email archives in your account. (Type: `ListArchivesInput`)
     ///
-    /// - Returns: `ListArchivesOutput` : The response containing a list of your email archives.
+    /// - Returns: The response containing a list of your email archives. (Type: `ListArchivesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3152,6 +3192,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListArchivesInput, ListArchivesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListArchivesOutput>(ListArchivesOutput.httpOutput(from:), ListArchivesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListArchivesInput, ListArchivesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListArchivesOutput>())
@@ -3186,9 +3227,9 @@ extension MailManagerClient {
     ///
     /// List all ingress endpoint resources.
     ///
-    /// - Parameter ListIngressPointsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListIngressPointsInput`)
     ///
-    /// - Returns: `ListIngressPointsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListIngressPointsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3220,6 +3261,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListIngressPointsInput, ListIngressPointsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListIngressPointsOutput>(ListIngressPointsOutput.httpOutput(from:), ListIngressPointsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListIngressPointsInput, ListIngressPointsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListIngressPointsOutput>())
@@ -3254,9 +3296,9 @@ extension MailManagerClient {
     ///
     /// Lists members of an address list.
     ///
-    /// - Parameter ListMembersOfAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMembersOfAddressListInput`)
     ///
-    /// - Returns: `ListMembersOfAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMembersOfAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3291,6 +3333,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMembersOfAddressListOutput>(ListMembersOfAddressListOutput.httpOutput(from:), ListMembersOfAddressListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMembersOfAddressListInput, ListMembersOfAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMembersOfAddressListOutput>())
@@ -3325,9 +3368,9 @@ extension MailManagerClient {
     ///
     /// Lists all the existing relay resources.
     ///
-    /// - Parameter ListRelaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRelaysInput`)
     ///
-    /// - Returns: `ListRelaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRelaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3359,6 +3402,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRelaysInput, ListRelaysOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRelaysOutput>(ListRelaysOutput.httpOutput(from:), ListRelaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRelaysInput, ListRelaysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRelaysOutput>())
@@ -3393,9 +3437,9 @@ extension MailManagerClient {
     ///
     /// List rule sets for this account.
     ///
-    /// - Parameter ListRuleSetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRuleSetsInput`)
     ///
-    /// - Returns: `ListRuleSetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRuleSetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3427,6 +3471,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListRuleSetsInput, ListRuleSetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRuleSetsOutput>(ListRuleSetsOutput.httpOutput(from:), ListRuleSetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRuleSetsInput, ListRuleSetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRuleSetsOutput>())
@@ -3461,9 +3506,9 @@ extension MailManagerClient {
     ///
     /// Retrieves the list of tags (keys and values) assigned to the resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3496,6 +3541,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3530,9 +3576,9 @@ extension MailManagerClient {
     ///
     /// List traffic policy resources.
     ///
-    /// - Parameter ListTrafficPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTrafficPoliciesInput`)
     ///
-    /// - Returns: `ListTrafficPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTrafficPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3564,6 +3610,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTrafficPoliciesOutput>(ListTrafficPoliciesOutput.httpOutput(from:), ListTrafficPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTrafficPoliciesInput, ListTrafficPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTrafficPoliciesOutput>())
@@ -3598,9 +3645,9 @@ extension MailManagerClient {
     ///
     /// Adds a member to an address list.
     ///
-    /// - Parameter RegisterMemberToAddressListInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RegisterMemberToAddressListInput`)
     ///
-    /// - Returns: `RegisterMemberToAddressListOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RegisterMemberToAddressListOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3636,6 +3683,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RegisterMemberToAddressListOutput>(RegisterMemberToAddressListOutput.httpOutput(from:), RegisterMemberToAddressListOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RegisterMemberToAddressListInput, RegisterMemberToAddressListOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RegisterMemberToAddressListOutput>())
@@ -3670,9 +3718,9 @@ extension MailManagerClient {
     ///
     /// Starts an import job for an address list.
     ///
-    /// - Parameter StartAddressListImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartAddressListImportJobInput`)
     ///
-    /// - Returns: `StartAddressListImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartAddressListImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3709,6 +3757,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartAddressListImportJobOutput>(StartAddressListImportJobOutput.httpOutput(from:), StartAddressListImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartAddressListImportJobInput, StartAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartAddressListImportJobOutput>())
@@ -3743,9 +3792,9 @@ extension MailManagerClient {
     ///
     /// Initiates an export of emails from the specified archive.
     ///
-    /// - Parameter StartArchiveExportInput : The request to initiate an export of emails from an archive.
+    /// - Parameter input: The request to initiate an export of emails from an archive. (Type: `StartArchiveExportInput`)
     ///
-    /// - Returns: `StartArchiveExportOutput` : The response from initiating an archive export.
+    /// - Returns: The response from initiating an archive export. (Type: `StartArchiveExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3781,6 +3830,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartArchiveExportInput, StartArchiveExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartArchiveExportOutput>(StartArchiveExportOutput.httpOutput(from:), StartArchiveExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartArchiveExportInput, StartArchiveExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartArchiveExportOutput>())
@@ -3815,9 +3865,9 @@ extension MailManagerClient {
     ///
     /// Initiates a search across emails in the specified archive.
     ///
-    /// - Parameter StartArchiveSearchInput : The request to initiate a search across emails in an archive.
+    /// - Parameter input: The request to initiate a search across emails in an archive. (Type: `StartArchiveSearchInput`)
     ///
-    /// - Returns: `StartArchiveSearchOutput` : The response from initiating an archive search.
+    /// - Returns: The response from initiating an archive search. (Type: `StartArchiveSearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3854,6 +3904,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartArchiveSearchOutput>(StartArchiveSearchOutput.httpOutput(from:), StartArchiveSearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartArchiveSearchInput, StartArchiveSearchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartArchiveSearchOutput>())
@@ -3888,9 +3939,9 @@ extension MailManagerClient {
     ///
     /// Stops an ongoing import job for an address list.
     ///
-    /// - Parameter StopAddressListImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopAddressListImportJobInput`)
     ///
-    /// - Returns: `StopAddressListImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopAddressListImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3926,6 +3977,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopAddressListImportJobOutput>(StopAddressListImportJobOutput.httpOutput(from:), StopAddressListImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopAddressListImportJobInput, StopAddressListImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopAddressListImportJobOutput>())
@@ -3960,9 +4012,9 @@ extension MailManagerClient {
     ///
     /// Stops an in-progress export of emails from an archive.
     ///
-    /// - Parameter StopArchiveExportInput : The request to stop an in-progress archive export job.
+    /// - Parameter input: The request to stop an in-progress archive export job. (Type: `StopArchiveExportInput`)
     ///
-    /// - Returns: `StopArchiveExportOutput` : The response indicating if the request to stop the export job succeeded. On success, returns an HTTP 200 status code. On failure, returns an error message.
+    /// - Returns: The response indicating if the request to stop the export job succeeded. On success, returns an HTTP 200 status code. On failure, returns an error message. (Type: `StopArchiveExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3996,6 +4048,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopArchiveExportInput, StopArchiveExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopArchiveExportOutput>(StopArchiveExportOutput.httpOutput(from:), StopArchiveExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopArchiveExportInput, StopArchiveExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopArchiveExportOutput>())
@@ -4030,9 +4083,9 @@ extension MailManagerClient {
     ///
     /// Stops an in-progress archive search job.
     ///
-    /// - Parameter StopArchiveSearchInput : The request to stop an in-progress archive search job.
+    /// - Parameter input: The request to stop an in-progress archive search job. (Type: `StopArchiveSearchInput`)
     ///
-    /// - Returns: `StopArchiveSearchOutput` : The response indicating if the request to stop the search job succeeded. On success, returns an HTTP 200 status code. On failure, returns an error message.
+    /// - Returns: The response indicating if the request to stop the search job succeeded. On success, returns an HTTP 200 status code. On failure, returns an error message. (Type: `StopArchiveSearchOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4066,6 +4119,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopArchiveSearchOutput>(StopArchiveSearchOutput.httpOutput(from:), StopArchiveSearchOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopArchiveSearchInput, StopArchiveSearchOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopArchiveSearchOutput>())
@@ -4100,9 +4154,9 @@ extension MailManagerClient {
     ///
     /// Adds one or more tags (keys and values) to a specified resource.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4137,6 +4191,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4171,9 +4226,9 @@ extension MailManagerClient {
     ///
     /// Remove one or more tags (keys and values) from a specified resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4207,6 +4262,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4241,9 +4297,9 @@ extension MailManagerClient {
     ///
     /// Updates the attributes of an existing email archive.
     ///
-    /// - Parameter UpdateArchiveInput : The request to update properties of an existing email archive.
+    /// - Parameter input: The request to update properties of an existing email archive. (Type: `UpdateArchiveInput`)
     ///
-    /// - Returns: `UpdateArchiveOutput` : The response indicating if the archive update succeeded or failed. On success, returns an HTTP 200 status code. On failure, returns an error message.
+    /// - Returns: The response indicating if the archive update succeeded or failed. On success, returns an HTTP 200 status code. On failure, returns an error message. (Type: `UpdateArchiveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4280,6 +4336,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateArchiveInput, UpdateArchiveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateArchiveOutput>(UpdateArchiveOutput.httpOutput(from:), UpdateArchiveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateArchiveInput, UpdateArchiveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateArchiveOutput>())
@@ -4314,9 +4371,9 @@ extension MailManagerClient {
     ///
     /// Update attributes of a provisioned ingress endpoint resource.
     ///
-    /// - Parameter UpdateIngressPointInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateIngressPointInput`)
     ///
-    /// - Returns: `UpdateIngressPointOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateIngressPointOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4350,6 +4407,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateIngressPointOutput>(UpdateIngressPointOutput.httpOutput(from:), UpdateIngressPointOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateIngressPointInput, UpdateIngressPointOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateIngressPointOutput>())
@@ -4384,9 +4442,9 @@ extension MailManagerClient {
     ///
     /// Updates the attributes of an existing relay resource.
     ///
-    /// - Parameter UpdateRelayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRelayInput`)
     ///
-    /// - Returns: `UpdateRelayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRelayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4420,6 +4478,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRelayInput, UpdateRelayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRelayOutput>(UpdateRelayOutput.httpOutput(from:), UpdateRelayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRelayInput, UpdateRelayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRelayOutput>())
@@ -4454,9 +4513,9 @@ extension MailManagerClient {
     ///
     /// Update attributes of an already provisioned rule set.
     ///
-    /// - Parameter UpdateRuleSetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRuleSetInput`)
     ///
-    /// - Returns: `UpdateRuleSetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRuleSetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4490,6 +4549,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRuleSetOutput>(UpdateRuleSetOutput.httpOutput(from:), UpdateRuleSetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRuleSetInput, UpdateRuleSetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRuleSetOutput>())
@@ -4524,9 +4584,9 @@ extension MailManagerClient {
     ///
     /// Update attributes of an already provisioned traffic policy resource.
     ///
-    /// - Parameter UpdateTrafficPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateTrafficPolicyInput`)
     ///
-    /// - Returns: `UpdateTrafficPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateTrafficPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4560,6 +4620,7 @@ extension MailManagerClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTrafficPolicyOutput>(UpdateTrafficPolicyOutput.httpOutput(from:), UpdateTrafficPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTrafficPolicyInput, UpdateTrafficPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTrafficPolicyOutput>())

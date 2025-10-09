@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -69,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTSiteWiseClient: ClientRuntime.Client {
     public static let clientName = "IoTSiteWiseClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTSiteWiseClient.IoTSiteWiseClientConfiguration
     let serviceName = "IoTSiteWise"
@@ -375,9 +376,9 @@ extension IoTSiteWiseClient {
     ///
     /// Associates a child asset with the given parent asset through a hierarchy defined in the parent asset's model. For more information, see [Associating assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/add-associated-assets.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter AssociateAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateAssetsInput`)
     ///
-    /// - Returns: `AssociateAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -418,6 +419,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateAssetsInput, AssociateAssetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateAssetsOutput>(AssociateAssetsOutput.httpOutput(from:), AssociateAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateAssetsInput, AssociateAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateAssetsOutput>())
@@ -449,9 +451,9 @@ extension IoTSiteWiseClient {
     ///
     /// Associates a time series (data stream) with an asset property.
     ///
-    /// - Parameter AssociateTimeSeriesToAssetPropertyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateTimeSeriesToAssetPropertyInput`)
     ///
-    /// - Returns: `AssociateTimeSeriesToAssetPropertyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateTimeSeriesToAssetPropertyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -491,6 +493,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateTimeSeriesToAssetPropertyInput, AssociateTimeSeriesToAssetPropertyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateTimeSeriesToAssetPropertyOutput>(AssociateTimeSeriesToAssetPropertyOutput.httpOutput(from:), AssociateTimeSeriesToAssetPropertyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateTimeSeriesToAssetPropertyInput, AssociateTimeSeriesToAssetPropertyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateTimeSeriesToAssetPropertyOutput>())
@@ -522,9 +525,9 @@ extension IoTSiteWiseClient {
     ///
     /// Associates a group (batch) of assets with an IoT SiteWise Monitor project.
     ///
-    /// - Parameter BatchAssociateProjectAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchAssociateProjectAssetsInput`)
     ///
-    /// - Returns: `BatchAssociateProjectAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchAssociateProjectAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -563,6 +566,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchAssociateProjectAssetsInput, BatchAssociateProjectAssetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchAssociateProjectAssetsOutput>(BatchAssociateProjectAssetsOutput.httpOutput(from:), BatchAssociateProjectAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchAssociateProjectAssetsInput, BatchAssociateProjectAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchAssociateProjectAssetsOutput>())
@@ -594,9 +598,9 @@ extension IoTSiteWiseClient {
     ///
     /// Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
     ///
-    /// - Parameter BatchDisassociateProjectAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDisassociateProjectAssetsInput`)
     ///
-    /// - Returns: `BatchDisassociateProjectAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDisassociateProjectAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -634,6 +638,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDisassociateProjectAssetsInput, BatchDisassociateProjectAssetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDisassociateProjectAssetsOutput>(BatchDisassociateProjectAssetsOutput.httpOutput(from:), BatchDisassociateProjectAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDisassociateProjectAssetsInput, BatchDisassociateProjectAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDisassociateProjectAssetsOutput>())
@@ -665,9 +670,9 @@ extension IoTSiteWiseClient {
     ///
     /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see [Querying aggregates](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#aggregates) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter BatchGetAssetPropertyAggregatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetAssetPropertyAggregatesInput`)
     ///
-    /// - Returns: `BatchGetAssetPropertyAggregatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetAssetPropertyAggregatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -704,6 +709,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetAssetPropertyAggregatesInput, BatchGetAssetPropertyAggregatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAssetPropertyAggregatesOutput>(BatchGetAssetPropertyAggregatesOutput.httpOutput(from:), BatchGetAssetPropertyAggregatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAssetPropertyAggregatesInput, BatchGetAssetPropertyAggregatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAssetPropertyAggregatesOutput>())
@@ -735,9 +741,9 @@ extension IoTSiteWiseClient {
     ///
     /// Gets the current value for one or more asset properties. For more information, see [Querying current values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#current-values) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter BatchGetAssetPropertyValueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetAssetPropertyValueInput`)
     ///
-    /// - Returns: `BatchGetAssetPropertyValueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetAssetPropertyValueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -774,6 +780,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetAssetPropertyValueInput, BatchGetAssetPropertyValueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAssetPropertyValueOutput>(BatchGetAssetPropertyValueOutput.httpOutput(from:), BatchGetAssetPropertyValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAssetPropertyValueInput, BatchGetAssetPropertyValueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAssetPropertyValueOutput>())
@@ -805,9 +812,9 @@ extension IoTSiteWiseClient {
     ///
     /// Gets the historical values for one or more asset properties. For more information, see [Querying historical values](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/query-industrial-data.html#historical-values) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter BatchGetAssetPropertyValueHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchGetAssetPropertyValueHistoryInput`)
     ///
-    /// - Returns: `BatchGetAssetPropertyValueHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchGetAssetPropertyValueHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -844,6 +851,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchGetAssetPropertyValueHistoryInput, BatchGetAssetPropertyValueHistoryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchGetAssetPropertyValueHistoryOutput>(BatchGetAssetPropertyValueHistoryOutput.httpOutput(from:), BatchGetAssetPropertyValueHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchGetAssetPropertyValueHistoryInput, BatchGetAssetPropertyValueHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchGetAssetPropertyValueHistoryOutput>())
@@ -882,9 +890,9 @@ extension IoTSiteWiseClient {
     ///
     /// With respect to Unix epoch time, IoT SiteWise accepts only TQVs that have a timestamp of no more than 7 days in the past and no more than 10 minutes in the future. IoT SiteWise rejects timestamps outside of the inclusive range of [-7 days, +10 minutes] and returns a TimestampOutOfRangeException error. For each asset property, IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV {T1, GOOD, V1}, then storing {T1, GOOD, V2} replaces the existing TQV. IoT SiteWise authorizes access to each BatchPutAssetPropertyValue entry individually. For more information, see [BatchPutAssetPropertyValue authorization](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/security_iam_service-with-iam.html#security_iam_service-with-iam-id-based-policies-batchputassetpropertyvalue-action) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter BatchPutAssetPropertyValueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchPutAssetPropertyValueInput`)
     ///
-    /// - Returns: `BatchPutAssetPropertyValueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchPutAssetPropertyValueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -924,6 +932,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchPutAssetPropertyValueInput, BatchPutAssetPropertyValueOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchPutAssetPropertyValueOutput>(BatchPutAssetPropertyValueOutput.httpOutput(from:), BatchPutAssetPropertyValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchPutAssetPropertyValueInput, BatchPutAssetPropertyValueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchPutAssetPropertyValueOutput>())
@@ -955,9 +964,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates an access policy that grants the specified identity (IAM Identity Center user, IAM Identity Center group, or IAM user) access to the specified IoT SiteWise Monitor portal or project resource. Support for access policies that use an SSO Group as the identity is not supported at this time.
     ///
-    /// - Parameter CreateAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAccessPolicyInput`)
     ///
-    /// - Returns: `CreateAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -996,6 +1005,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAccessPolicyInput, CreateAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAccessPolicyOutput>(CreateAccessPolicyOutput.httpOutput(from:), CreateAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAccessPolicyInput, CreateAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAccessPolicyOutput>())
@@ -1027,9 +1037,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates an asset from an existing asset model. For more information, see [Creating assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-assets.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter CreateAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssetInput`)
     ///
-    /// - Returns: `CreateAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1070,6 +1080,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetInput, CreateAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssetOutput>(CreateAssetOutput.httpOutput(from:), CreateAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssetInput, CreateAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssetOutput>())
@@ -1107,9 +1118,9 @@ extension IoTSiteWiseClient {
     ///
     /// * INTERFACE – An interface is a type of model that defines a standard structure that can be applied to different asset models.
     ///
-    /// - Parameter CreateAssetModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssetModelInput`)
     ///
-    /// - Returns: `CreateAssetModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssetModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1150,6 +1161,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetModelInput, CreateAssetModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssetModelOutput>(CreateAssetModelOutput.httpOutput(from:), CreateAssetModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssetModelInput, CreateAssetModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssetModelOutput>())
@@ -1181,9 +1193,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates a custom composite model from specified property and hierarchy definitions. There are two types of custom composite models, inline and component-model-based. Use component-model-based custom composite models to define standard, reusable components. A component-model-based custom composite model consists of a name, a description, and the ID of the component model it references. A component-model-based custom composite model has no properties of its own; its referenced component model provides its associated properties to any created assets. For more information, see [Custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html) in the IoT SiteWise User Guide. Use inline custom composite models to organize the properties of an asset model. The properties of inline custom composite models are local to the asset model where they are included and can't be used to create multiple assets. To create a component-model-based model, specify the composedAssetModelId of an existing asset model with assetModelType of COMPONENT_MODEL. To create an inline model, specify the assetModelCompositeModelProperties and don't include an composedAssetModelId.
     ///
-    /// - Parameter CreateAssetModelCompositeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateAssetModelCompositeModelInput`)
     ///
-    /// - Returns: `CreateAssetModelCompositeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateAssetModelCompositeModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1226,6 +1238,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateAssetModelCompositeModelOutput>(CreateAssetModelCompositeModelOutput.httpOutput(from:), CreateAssetModelCompositeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateAssetModelCompositeModelInput, CreateAssetModelCompositeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateAssetModelCompositeModelOutput>())
@@ -1263,9 +1276,9 @@ extension IoTSiteWiseClient {
     ///
     /// * Data older than 7 days does not trigger computations or notifications.
     ///
-    /// - Parameter CreateBulkImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateBulkImportJobInput`)
     ///
-    /// - Returns: `CreateBulkImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBulkImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1305,6 +1318,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBulkImportJobInput, CreateBulkImportJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBulkImportJobOutput>(CreateBulkImportJobOutput.httpOutput(from:), CreateBulkImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBulkImportJobInput, CreateBulkImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBulkImportJobOutput>())
@@ -1336,9 +1350,9 @@ extension IoTSiteWiseClient {
     ///
     /// Create a computation model with a configuration and data binding.
     ///
-    /// - Parameter CreateComputationModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateComputationModelInput`)
     ///
-    /// - Returns: `CreateComputationModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateComputationModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1379,6 +1393,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateComputationModelInput, CreateComputationModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateComputationModelOutput>(CreateComputationModelOutput.httpOutput(from:), CreateComputationModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateComputationModelInput, CreateComputationModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateComputationModelOutput>())
@@ -1410,9 +1425,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates a dashboard in an IoT SiteWise Monitor project.
     ///
-    /// - Parameter CreateDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDashboardInput`)
     ///
-    /// - Returns: `CreateDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1451,6 +1466,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDashboardInput, CreateDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDashboardOutput>(CreateDashboardOutput.httpOutput(from:), CreateDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDashboardInput, CreateDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDashboardOutput>())
@@ -1482,9 +1498,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates a dataset to connect an external datasource.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1525,6 +1541,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -1556,9 +1573,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates a gateway, which is a virtual or edge device that delivers industrial data streams from local servers to IoT SiteWise. For more information, see [Ingesting data using a gateway](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/gateway-connector.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter CreateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateGatewayInput`)
     ///
-    /// - Returns: `CreateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1596,6 +1613,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateGatewayInput, CreateGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateGatewayOutput>(CreateGatewayOutput.httpOutput(from:), CreateGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateGatewayInput, CreateGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateGatewayOutput>())
@@ -1627,9 +1645,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates a portal, which can contain projects and dashboards. IoT SiteWise Monitor uses IAM Identity Center or IAM to authenticate portal users and manage user permissions. Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see [Adding or removing portal administrators](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/administer-portals.html#portal-change-admins) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter CreatePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreatePortalInput`)
     ///
-    /// - Returns: `CreatePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreatePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1668,6 +1686,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreatePortalInput, CreatePortalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreatePortalOutput>(CreatePortalOutput.httpOutput(from:), CreatePortalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreatePortalInput, CreatePortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreatePortalOutput>())
@@ -1699,9 +1718,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates a project in the specified portal. Make sure that the project name and description don't contain confidential information.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1740,6 +1759,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -1771,9 +1791,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes an access policy that grants the specified identity access to the specified IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor resource.
     ///
-    /// - Parameter DeleteAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAccessPolicyInput`)
     ///
-    /// - Returns: `DeleteAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1809,6 +1829,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAccessPolicyInput, DeleteAccessPolicyOutput>(DeleteAccessPolicyInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAccessPolicyOutput>(DeleteAccessPolicyOutput.httpOutput(from:), DeleteAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAccessPolicyInput, DeleteAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAccessPolicyOutput>())
@@ -1840,9 +1861,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes an asset. This action can't be undone. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide. You can't delete an asset that's associated to another asset. For more information, see [DisassociateAssets](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DisassociateAssets.html).
     ///
-    /// - Parameter DeleteAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetInput`)
     ///
-    /// - Returns: `DeleteAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1879,6 +1900,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAssetInput, DeleteAssetOutput>(DeleteAssetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetOutput>(DeleteAssetOutput.httpOutput(from:), DeleteAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetInput, DeleteAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetOutput>())
@@ -1910,9 +1932,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes an asset model. This action can't be undone. You must delete all assets created from an asset model before you can delete the model. Also, you can't delete an asset model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter DeleteAssetModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetModelInput`)
     ///
-    /// - Returns: `DeleteAssetModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1951,6 +1973,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAssetModelInput, DeleteAssetModelOutput>(DeleteAssetModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetModelOutput>(DeleteAssetModelOutput.httpOutput(from:), DeleteAssetModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetModelInput, DeleteAssetModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetModelOutput>())
@@ -1982,9 +2005,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes a composite model. This action can't be undone. You must delete all assets created from a composite model before you can delete the model. Also, you can't delete a composite model if a parent asset model exists that contains a property formula expression that depends on the asset model that you want to delete. For more information, see [Deleting assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/delete-assets-and-models.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter DeleteAssetModelCompositeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetModelCompositeModelInput`)
     ///
-    /// - Returns: `DeleteAssetModelCompositeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetModelCompositeModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2023,6 +2046,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAssetModelCompositeModelInput, DeleteAssetModelCompositeModelOutput>(DeleteAssetModelCompositeModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetModelCompositeModelOutput>(DeleteAssetModelCompositeModelOutput.httpOutput(from:), DeleteAssetModelCompositeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetModelCompositeModelInput, DeleteAssetModelCompositeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetModelCompositeModelOutput>())
@@ -2054,9 +2078,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes an interface relationship between an asset model and an interface asset model.
     ///
-    /// - Parameter DeleteAssetModelInterfaceRelationshipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteAssetModelInterfaceRelationshipInput`)
     ///
-    /// - Returns: `DeleteAssetModelInterfaceRelationshipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteAssetModelInterfaceRelationshipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2093,6 +2117,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAssetModelInterfaceRelationshipInput, DeleteAssetModelInterfaceRelationshipOutput>(DeleteAssetModelInterfaceRelationshipInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAssetModelInterfaceRelationshipOutput>(DeleteAssetModelInterfaceRelationshipOutput.httpOutput(from:), DeleteAssetModelInterfaceRelationshipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAssetModelInterfaceRelationshipInput, DeleteAssetModelInterfaceRelationshipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteAssetModelInterfaceRelationshipOutput>())
@@ -2124,9 +2149,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes a computation model. This action can't be undone.
     ///
-    /// - Parameter DeleteComputationModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteComputationModelInput`)
     ///
-    /// - Returns: `DeleteComputationModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteComputationModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2163,6 +2188,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteComputationModelInput, DeleteComputationModelOutput>(DeleteComputationModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteComputationModelOutput>(DeleteComputationModelOutput.httpOutput(from:), DeleteComputationModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteComputationModelInput, DeleteComputationModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteComputationModelOutput>())
@@ -2194,9 +2220,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes a dashboard from IoT SiteWise Monitor.
     ///
-    /// - Parameter DeleteDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDashboardInput`)
     ///
-    /// - Returns: `DeleteDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2232,6 +2258,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(DeleteDashboardInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDashboardOutput>(DeleteDashboardOutput.httpOutput(from:), DeleteDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDashboardInput, DeleteDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDashboardOutput>())
@@ -2263,9 +2290,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes a dataset. This cannot be undone.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2302,6 +2329,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(DeleteDatasetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -2333,9 +2361,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system.
     ///
-    /// - Parameter DeleteGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteGatewayInput`)
     ///
-    /// - Returns: `DeleteGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2370,6 +2398,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteGatewayOutput>(DeleteGatewayOutput.httpOutput(from:), DeleteGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteGatewayInput, DeleteGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteGatewayOutput>())
@@ -2401,9 +2430,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes a portal from IoT SiteWise Monitor.
     ///
-    /// - Parameter DeletePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeletePortalInput`)
     ///
-    /// - Returns: `DeletePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeletePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2440,6 +2469,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeletePortalInput, DeletePortalOutput>(DeletePortalInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeletePortalOutput>(DeletePortalOutput.httpOutput(from:), DeletePortalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeletePortalInput, DeletePortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeletePortalOutput>())
@@ -2471,9 +2501,9 @@ extension IoTSiteWiseClient {
     ///
     /// Deletes a project from IoT SiteWise Monitor.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2509,6 +2539,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteProjectInput, DeleteProjectOutput>(DeleteProjectInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -2548,9 +2579,9 @@ extension IoTSiteWiseClient {
     ///
     /// * The assetId and propertyId that identifies the asset property.
     ///
-    /// - Parameter DeleteTimeSeriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTimeSeriesInput`)
     ///
-    /// - Returns: `DeleteTimeSeriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTimeSeriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2590,6 +2621,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTimeSeriesInput, DeleteTimeSeriesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTimeSeriesOutput>(DeleteTimeSeriesOutput.httpOutput(from:), DeleteTimeSeriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTimeSeriesInput, DeleteTimeSeriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTimeSeriesOutput>())
@@ -2621,9 +2653,9 @@ extension IoTSiteWiseClient {
     ///
     /// Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or project.
     ///
-    /// - Parameter DescribeAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccessPolicyInput`)
     ///
-    /// - Returns: `DescribeAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2657,6 +2689,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccessPolicyInput, DescribeAccessPolicyOutput>(hostPrefix: "monitor."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccessPolicyOutput>(DescribeAccessPolicyOutput.httpOutput(from:), DescribeAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccessPolicyInput, DescribeAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccessPolicyOutput>())
@@ -2688,9 +2721,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about an action.
     ///
-    /// - Parameter DescribeActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeActionInput`)
     ///
-    /// - Returns: `DescribeActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2724,6 +2757,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeActionInput, DescribeActionOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeActionOutput>(DescribeActionOutput.httpOutput(from:), DescribeActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeActionInput, DescribeActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeActionOutput>())
@@ -2755,9 +2789,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about an asset.
     ///
-    /// - Parameter DescribeAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetInput`)
     ///
-    /// - Returns: `DescribeAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2792,6 +2826,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeAssetInput, DescribeAssetOutput>(DescribeAssetInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetOutput>(DescribeAssetOutput.httpOutput(from:), DescribeAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetInput, DescribeAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetOutput>())
@@ -2823,9 +2858,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about an asset composite model (also known as an asset component). An AssetCompositeModel is an instance of an AssetModelCompositeModel. If you want to see information about the model this is based on, call [DescribeAssetModelCompositeModel](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetModelCompositeModel.html).
     ///
-    /// - Parameter DescribeAssetCompositeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetCompositeModelInput`)
     ///
-    /// - Returns: `DescribeAssetCompositeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetCompositeModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2859,6 +2894,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAssetCompositeModelInput, DescribeAssetCompositeModelOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetCompositeModelOutput>(DescribeAssetCompositeModelOutput.httpOutput(from:), DescribeAssetCompositeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetCompositeModelInput, DescribeAssetCompositeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetCompositeModelOutput>())
@@ -2890,9 +2926,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about an asset model. This includes details about the asset model's properties, hierarchies, composite models, and any interface relationships if the asset model implements interfaces.
     ///
-    /// - Parameter DescribeAssetModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetModelInput`)
     ///
-    /// - Returns: `DescribeAssetModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2927,6 +2963,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeAssetModelInput, DescribeAssetModelOutput>(DescribeAssetModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetModelOutput>(DescribeAssetModelOutput.httpOutput(from:), DescribeAssetModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetModelInput, DescribeAssetModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetModelOutput>())
@@ -2958,9 +2995,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about an asset model composite model (also known as an asset model component). For more information, see [Custom composite models (Components)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/custom-composite-models.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter DescribeAssetModelCompositeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetModelCompositeModelInput`)
     ///
-    /// - Returns: `DescribeAssetModelCompositeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetModelCompositeModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2995,6 +3032,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeAssetModelCompositeModelInput, DescribeAssetModelCompositeModelOutput>(DescribeAssetModelCompositeModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetModelCompositeModelOutput>(DescribeAssetModelCompositeModelOutput.httpOutput(from:), DescribeAssetModelCompositeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetModelCompositeModelInput, DescribeAssetModelCompositeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetModelCompositeModelOutput>())
@@ -3026,9 +3064,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about an interface relationship between an asset model and an interface asset model.
     ///
-    /// - Parameter DescribeAssetModelInterfaceRelationshipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetModelInterfaceRelationshipInput`)
     ///
-    /// - Returns: `DescribeAssetModelInterfaceRelationshipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetModelInterfaceRelationshipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3062,6 +3100,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAssetModelInterfaceRelationshipInput, DescribeAssetModelInterfaceRelationshipOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetModelInterfaceRelationshipOutput>(DescribeAssetModelInterfaceRelationshipOutput.httpOutput(from:), DescribeAssetModelInterfaceRelationshipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetModelInterfaceRelationshipInput, DescribeAssetModelInterfaceRelationshipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetModelInterfaceRelationshipOutput>())
@@ -3093,9 +3132,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about an asset property. When you call this operation for an attribute property, this response includes the default attribute value that you define in the asset model. If you update the default value in the model, this operation's response includes the new default value. This operation doesn't return the value of the asset property. To get the value of an asset property, use [GetAssetPropertyValue](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_GetAssetPropertyValue.html).
     ///
-    /// - Parameter DescribeAssetPropertyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeAssetPropertyInput`)
     ///
-    /// - Returns: `DescribeAssetPropertyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeAssetPropertyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3129,6 +3168,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAssetPropertyInput, DescribeAssetPropertyOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAssetPropertyOutput>(DescribeAssetPropertyOutput.httpOutput(from:), DescribeAssetPropertyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAssetPropertyInput, DescribeAssetPropertyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAssetPropertyOutput>())
@@ -3160,9 +3200,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about a bulk import job request. For more information, see [Describe a bulk import job (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/DescribeBulkImportJob.html) in the Amazon Simple Storage Service User Guide.
     ///
-    /// - Parameter DescribeBulkImportJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBulkImportJobInput`)
     ///
-    /// - Returns: `DescribeBulkImportJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBulkImportJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3196,6 +3236,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBulkImportJobInput, DescribeBulkImportJobOutput>(hostPrefix: "data."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBulkImportJobOutput>(DescribeBulkImportJobOutput.httpOutput(from:), DescribeBulkImportJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBulkImportJobInput, DescribeBulkImportJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBulkImportJobOutput>())
@@ -3227,9 +3268,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about a computation model.
     ///
-    /// - Parameter DescribeComputationModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeComputationModelInput`)
     ///
-    /// - Returns: `DescribeComputationModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeComputationModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3264,6 +3305,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeComputationModelInput, DescribeComputationModelOutput>(DescribeComputationModelInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComputationModelOutput>(DescribeComputationModelOutput.httpOutput(from:), DescribeComputationModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComputationModelInput, DescribeComputationModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComputationModelOutput>())
@@ -3295,9 +3337,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about the execution summary of a computation model.
     ///
-    /// - Parameter DescribeComputationModelExecutionSummaryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeComputationModelExecutionSummaryInput`)
     ///
-    /// - Returns: `DescribeComputationModelExecutionSummaryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeComputationModelExecutionSummaryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3332,6 +3374,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeComputationModelExecutionSummaryInput, DescribeComputationModelExecutionSummaryOutput>(DescribeComputationModelExecutionSummaryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeComputationModelExecutionSummaryOutput>(DescribeComputationModelExecutionSummaryOutput.httpOutput(from:), DescribeComputationModelExecutionSummaryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeComputationModelExecutionSummaryInput, DescribeComputationModelExecutionSummaryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeComputationModelExecutionSummaryOutput>())
@@ -3363,9 +3406,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about a dashboard.
     ///
-    /// - Parameter DescribeDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDashboardInput`)
     ///
-    /// - Returns: `DescribeDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3399,6 +3442,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDashboardInput, DescribeDashboardOutput>(hostPrefix: "monitor."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDashboardOutput>(DescribeDashboardOutput.httpOutput(from:), DescribeDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDashboardInput, DescribeDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDashboardOutput>())
@@ -3430,9 +3474,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about a dataset.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3466,6 +3510,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -3497,9 +3542,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified Region. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter DescribeDefaultEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDefaultEncryptionConfigurationInput`)
     ///
-    /// - Returns: `DescribeDefaultEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDefaultEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3532,6 +3577,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDefaultEncryptionConfigurationInput, DescribeDefaultEncryptionConfigurationOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDefaultEncryptionConfigurationOutput>(DescribeDefaultEncryptionConfigurationOutput.httpOutput(from:), DescribeDefaultEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDefaultEncryptionConfigurationInput, DescribeDefaultEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDefaultEncryptionConfigurationOutput>())
@@ -3563,9 +3609,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about the execution.
     ///
-    /// - Parameter DescribeExecutionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeExecutionInput`)
     ///
-    /// - Returns: `DescribeExecutionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeExecutionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3599,6 +3645,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeExecutionOutput>(DescribeExecutionOutput.httpOutput(from:), DescribeExecutionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeExecutionInput, DescribeExecutionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeExecutionOutput>())
@@ -3630,9 +3677,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about a gateway.
     ///
-    /// - Parameter DescribeGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayInput`)
     ///
-    /// - Returns: `DescribeGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3666,6 +3713,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGatewayInput, DescribeGatewayOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGatewayOutput>(DescribeGatewayOutput.httpOutput(from:), DescribeGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGatewayInput, DescribeGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGatewayOutput>())
@@ -3706,9 +3754,9 @@ extension IoTSiteWiseClient {
     ///
     /// After updating a capability configuration, the sync status becomes OUT_OF_SYNC until the gateway processes the configuration.Use DescribeGatewayCapabilityConfiguration to check the sync status and verify the configuration was applied. A gateway can have multiple capability configurations with different namespaces.
     ///
-    /// - Parameter DescribeGatewayCapabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeGatewayCapabilityConfigurationInput`)
     ///
-    /// - Returns: `DescribeGatewayCapabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeGatewayCapabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3742,6 +3790,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeGatewayCapabilityConfigurationInput, DescribeGatewayCapabilityConfigurationOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeGatewayCapabilityConfigurationOutput>(DescribeGatewayCapabilityConfigurationOutput.httpOutput(from:), DescribeGatewayCapabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeGatewayCapabilityConfigurationInput, DescribeGatewayCapabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeGatewayCapabilityConfigurationOutput>())
@@ -3773,9 +3822,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves the current IoT SiteWise logging options.
     ///
-    /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLoggingOptionsInput`)
     ///
-    /// - Returns: `DescribeLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3809,6 +3858,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeLoggingOptionsInput, DescribeLoggingOptionsOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLoggingOptionsOutput>(DescribeLoggingOptionsOutput.httpOutput(from:), DescribeLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLoggingOptionsInput, DescribeLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLoggingOptionsOutput>())
@@ -3840,9 +3890,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about a portal.
     ///
-    /// - Parameter DescribePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribePortalInput`)
     ///
-    /// - Returns: `DescribePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3876,6 +3926,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribePortalInput, DescribePortalOutput>(hostPrefix: "monitor."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribePortalOutput>(DescribePortalOutput.httpOutput(from:), DescribePortalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribePortalInput, DescribePortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribePortalOutput>())
@@ -3907,9 +3958,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about a project.
     ///
-    /// - Parameter DescribeProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProjectInput`)
     ///
-    /// - Returns: `DescribeProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3943,6 +3994,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProjectInput, DescribeProjectOutput>(hostPrefix: "monitor."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectOutput>(DescribeProjectOutput.httpOutput(from:), DescribeProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectInput, DescribeProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProjectOutput>())
@@ -3974,9 +4026,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves information about the storage configuration for IoT SiteWise.
     ///
-    /// - Parameter DescribeStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeStorageConfigurationInput`)
     ///
-    /// - Returns: `DescribeStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4012,6 +4064,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeStorageConfigurationInput, DescribeStorageConfigurationOutput>(hostPrefix: "api."))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeStorageConfigurationOutput>(DescribeStorageConfigurationOutput.httpOutput(from:), DescribeStorageConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeStorageConfigurationInput, DescribeStorageConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeStorageConfigurationOutput>())
@@ -4051,9 +4104,9 @@ extension IoTSiteWiseClient {
     ///
     /// * The assetId and propertyId that identifies the asset property.
     ///
-    /// - Parameter DescribeTimeSeriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeTimeSeriesInput`)
     ///
-    /// - Returns: `DescribeTimeSeriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeTimeSeriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4088,6 +4141,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeTimeSeriesInput, DescribeTimeSeriesOutput>(DescribeTimeSeriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeTimeSeriesOutput>(DescribeTimeSeriesOutput.httpOutput(from:), DescribeTimeSeriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeTimeSeriesInput, DescribeTimeSeriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeTimeSeriesOutput>())
@@ -4119,9 +4173,9 @@ extension IoTSiteWiseClient {
     ///
     /// Disassociates a child asset from the given parent asset through a hierarchy defined in the parent asset's model.
     ///
-    /// - Parameter DisassociateAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateAssetsInput`)
     ///
-    /// - Returns: `DisassociateAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4160,6 +4214,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateAssetsInput, DisassociateAssetsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateAssetsOutput>(DisassociateAssetsOutput.httpOutput(from:), DisassociateAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateAssetsInput, DisassociateAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateAssetsOutput>())
@@ -4191,9 +4246,9 @@ extension IoTSiteWiseClient {
     ///
     /// Disassociates a time series (data stream) from an asset property.
     ///
-    /// - Parameter DisassociateTimeSeriesFromAssetPropertyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateTimeSeriesFromAssetPropertyInput`)
     ///
-    /// - Returns: `DisassociateTimeSeriesFromAssetPropertyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateTimeSeriesFromAssetPropertyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4233,6 +4288,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateTimeSeriesFromAssetPropertyInput, DisassociateTimeSeriesFromAssetPropertyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateTimeSeriesFromAssetPropertyOutput>(DisassociateTimeSeriesFromAssetPropertyOutput.httpOutput(from:), DisassociateTimeSeriesFromAssetPropertyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateTimeSeriesFromAssetPropertyInput, DisassociateTimeSeriesFromAssetPropertyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateTimeSeriesFromAssetPropertyOutput>())
@@ -4264,9 +4320,9 @@ extension IoTSiteWiseClient {
     ///
     /// Executes an action on a target resource.
     ///
-    /// - Parameter ExecuteActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteActionInput`)
     ///
-    /// - Returns: `ExecuteActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4305,6 +4361,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteActionInput, ExecuteActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteActionOutput>(ExecuteActionOutput.httpOutput(from:), ExecuteActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteActionInput, ExecuteActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteActionOutput>())
@@ -4336,9 +4393,9 @@ extension IoTSiteWiseClient {
     ///
     /// Run SQL queries to retrieve metadata and time-series data from asset models, assets, measurements, metrics, transforms, and aggregates.
     ///
-    /// - Parameter ExecuteQueryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ExecuteQueryInput`)
     ///
-    /// - Returns: `ExecuteQueryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ExecuteQueryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4379,6 +4436,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ExecuteQueryInput, ExecuteQueryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ExecuteQueryOutput>(ExecuteQueryOutput.httpOutput(from:), ExecuteQueryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ExecuteQueryInput, ExecuteQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ExecuteQueryOutput>())
@@ -4414,9 +4472,9 @@ extension IoTSiteWiseClient {
     ///
     /// * A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
     ///
-    /// - Parameter GetAssetPropertyAggregatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssetPropertyAggregatesInput`)
     ///
-    /// - Returns: `GetAssetPropertyAggregatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssetPropertyAggregatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4452,6 +4510,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAssetPropertyAggregatesInput, GetAssetPropertyAggregatesOutput>(GetAssetPropertyAggregatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssetPropertyAggregatesOutput>(GetAssetPropertyAggregatesOutput.httpOutput(from:), GetAssetPropertyAggregatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetPropertyAggregatesInput, GetAssetPropertyAggregatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetPropertyAggregatesOutput>())
@@ -4487,9 +4546,9 @@ extension IoTSiteWiseClient {
     ///
     /// * A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
     ///
-    /// - Parameter GetAssetPropertyValueInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssetPropertyValueInput`)
     ///
-    /// - Returns: `GetAssetPropertyValueOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssetPropertyValueOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4525,6 +4584,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAssetPropertyValueInput, GetAssetPropertyValueOutput>(GetAssetPropertyValueInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssetPropertyValueOutput>(GetAssetPropertyValueOutput.httpOutput(from:), GetAssetPropertyValueOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetPropertyValueInput, GetAssetPropertyValueOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetPropertyValueOutput>())
@@ -4560,9 +4620,9 @@ extension IoTSiteWiseClient {
     ///
     /// * A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
     ///
-    /// - Parameter GetAssetPropertyValueHistoryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetAssetPropertyValueHistoryInput`)
     ///
-    /// - Returns: `GetAssetPropertyValueHistoryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetAssetPropertyValueHistoryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4598,6 +4658,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetAssetPropertyValueHistoryInput, GetAssetPropertyValueHistoryOutput>(GetAssetPropertyValueHistoryInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAssetPropertyValueHistoryOutput>(GetAssetPropertyValueHistoryOutput.httpOutput(from:), GetAssetPropertyValueHistoryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAssetPropertyValueHistoryInput, GetAssetPropertyValueHistoryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetAssetPropertyValueHistoryOutput>())
@@ -4633,9 +4694,9 @@ extension IoTSiteWiseClient {
     ///
     /// * A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see [UpdateAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_UpdateAssetProperty.html).
     ///
-    /// - Parameter GetInterpolatedAssetPropertyValuesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetInterpolatedAssetPropertyValuesInput`)
     ///
-    /// - Returns: `GetInterpolatedAssetPropertyValuesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetInterpolatedAssetPropertyValuesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4671,6 +4732,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetInterpolatedAssetPropertyValuesInput, GetInterpolatedAssetPropertyValuesOutput>(GetInterpolatedAssetPropertyValuesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetInterpolatedAssetPropertyValuesOutput>(GetInterpolatedAssetPropertyValuesOutput.httpOutput(from:), GetInterpolatedAssetPropertyValuesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetInterpolatedAssetPropertyValuesInput, GetInterpolatedAssetPropertyValuesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetInterpolatedAssetPropertyValuesOutput>())
@@ -4702,9 +4764,9 @@ extension IoTSiteWiseClient {
     ///
     /// Invokes SiteWise Assistant to start or continue a conversation.
     ///
-    /// - Parameter InvokeAssistantInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InvokeAssistantInput`)
     ///
-    /// - Returns: `InvokeAssistantOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InvokeAssistantOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4744,6 +4806,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<InvokeAssistantInput, InvokeAssistantOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InvokeAssistantOutput>(InvokeAssistantOutput.httpOutput(from:), InvokeAssistantOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InvokeAssistantInput, InvokeAssistantOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InvokeAssistantOutput>())
@@ -4775,9 +4838,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
     ///
-    /// - Parameter ListAccessPoliciesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAccessPoliciesInput`)
     ///
-    /// - Returns: `ListAccessPoliciesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAccessPoliciesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4811,6 +4874,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>(ListAccessPoliciesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAccessPoliciesOutput>(ListAccessPoliciesOutput.httpOutput(from:), ListAccessPoliciesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAccessPoliciesInput, ListAccessPoliciesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAccessPoliciesOutput>())
@@ -4842,9 +4906,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of actions for a specific target resource.
     ///
-    /// - Parameter ListActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListActionsInput`)
     ///
-    /// - Returns: `ListActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4879,6 +4943,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListActionsInput, ListActionsOutput>(ListActionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListActionsOutput>(ListActionsOutput.httpOutput(from:), ListActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListActionsInput, ListActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListActionsOutput>())
@@ -4910,9 +4975,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of composite models associated with the asset model
     ///
-    /// - Parameter ListAssetModelCompositeModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetModelCompositeModelsInput`)
     ///
-    /// - Returns: `ListAssetModelCompositeModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetModelCompositeModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4947,6 +5012,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetModelCompositeModelsInput, ListAssetModelCompositeModelsOutput>(ListAssetModelCompositeModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetModelCompositeModelsOutput>(ListAssetModelCompositeModelsOutput.httpOutput(from:), ListAssetModelCompositeModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetModelCompositeModelsInput, ListAssetModelCompositeModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetModelCompositeModelsOutput>())
@@ -4978,9 +5044,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of properties associated with an asset model. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     ///
-    /// - Parameter ListAssetModelPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetModelPropertiesInput`)
     ///
-    /// - Returns: `ListAssetModelPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetModelPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5015,6 +5081,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetModelPropertiesInput, ListAssetModelPropertiesOutput>(ListAssetModelPropertiesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetModelPropertiesOutput>(ListAssetModelPropertiesOutput.httpOutput(from:), ListAssetModelPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetModelPropertiesInput, ListAssetModelPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetModelPropertiesOutput>())
@@ -5046,9 +5113,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of summaries of all asset models.
     ///
-    /// - Parameter ListAssetModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetModelsInput`)
     ///
-    /// - Returns: `ListAssetModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5082,6 +5149,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetModelsInput, ListAssetModelsOutput>(ListAssetModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetModelsOutput>(ListAssetModelsOutput.httpOutput(from:), ListAssetModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetModelsInput, ListAssetModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetModelsOutput>())
@@ -5113,9 +5181,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of properties associated with an asset. If you update properties associated with the model before you finish listing all the properties, you need to start all over again.
     ///
-    /// - Parameter ListAssetPropertiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetPropertiesInput`)
     ///
-    /// - Returns: `ListAssetPropertiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetPropertiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5150,6 +5218,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetPropertiesInput, ListAssetPropertiesOutput>(ListAssetPropertiesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetPropertiesOutput>(ListAssetPropertiesOutput.httpOutput(from:), ListAssetPropertiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetPropertiesInput, ListAssetPropertiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetPropertiesOutput>())
@@ -5181,9 +5250,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of asset relationships for an asset. You can use this operation to identify an asset's root asset and all associated assets between that asset and its root.
     ///
-    /// - Parameter ListAssetRelationshipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetRelationshipsInput`)
     ///
-    /// - Returns: `ListAssetRelationshipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetRelationshipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5218,6 +5287,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetRelationshipsInput, ListAssetRelationshipsOutput>(ListAssetRelationshipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetRelationshipsOutput>(ListAssetRelationshipsOutput.httpOutput(from:), ListAssetRelationshipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetRelationshipsInput, ListAssetRelationshipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetRelationshipsOutput>())
@@ -5256,9 +5326,9 @@ extension IoTSiteWiseClient {
     ///
     /// You can't use this operation to list all assets. To retrieve summaries for all of your assets, use [ListAssetModels](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_ListAssetModels.html) to get all of your asset model IDs. Then, use ListAssets to get all assets for each asset model.
     ///
-    /// - Parameter ListAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssetsInput`)
     ///
-    /// - Returns: `ListAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5293,6 +5363,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssetsInput, ListAssetsOutput>(ListAssetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssetsOutput>(ListAssetsOutput.httpOutput(from:), ListAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssetsInput, ListAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssetsOutput>())
@@ -5328,9 +5399,9 @@ extension IoTSiteWiseClient {
     ///
     /// * PARENT - List the asset's parent asset.
     ///
-    /// - Parameter ListAssociatedAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListAssociatedAssetsInput`)
     ///
-    /// - Returns: `ListAssociatedAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListAssociatedAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5365,6 +5436,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListAssociatedAssetsInput, ListAssociatedAssetsOutput>(ListAssociatedAssetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListAssociatedAssetsOutput>(ListAssociatedAssetsOutput.httpOutput(from:), ListAssociatedAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListAssociatedAssetsInput, ListAssociatedAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListAssociatedAssetsOutput>())
@@ -5396,9 +5468,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of bulk import job requests. For more information, see [List bulk import jobs (CLI)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/ListBulkImportJobs.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter ListBulkImportJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBulkImportJobsInput`)
     ///
-    /// - Returns: `ListBulkImportJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBulkImportJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5433,6 +5505,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBulkImportJobsInput, ListBulkImportJobsOutput>(ListBulkImportJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBulkImportJobsOutput>(ListBulkImportJobsOutput.httpOutput(from:), ListBulkImportJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBulkImportJobsInput, ListBulkImportJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBulkImportJobsOutput>())
@@ -5464,9 +5537,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of composition relationships for an asset model of type COMPONENT_MODEL.
     ///
-    /// - Parameter ListCompositionRelationshipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCompositionRelationshipsInput`)
     ///
-    /// - Returns: `ListCompositionRelationshipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCompositionRelationshipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5501,6 +5574,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListCompositionRelationshipsInput, ListCompositionRelationshipsOutput>(ListCompositionRelationshipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCompositionRelationshipsOutput>(ListCompositionRelationshipsOutput.httpOutput(from:), ListCompositionRelationshipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCompositionRelationshipsInput, ListCompositionRelationshipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCompositionRelationshipsOutput>())
@@ -5532,9 +5606,9 @@ extension IoTSiteWiseClient {
     ///
     /// Lists all data binding usages for computation models. This allows to identify where specific data bindings are being utilized across the computation models. This track dependencies between data sources and computation models.
     ///
-    /// - Parameter ListComputationModelDataBindingUsagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComputationModelDataBindingUsagesInput`)
     ///
-    /// - Returns: `ListComputationModelDataBindingUsagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComputationModelDataBindingUsagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5570,6 +5644,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListComputationModelDataBindingUsagesInput, ListComputationModelDataBindingUsagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComputationModelDataBindingUsagesOutput>(ListComputationModelDataBindingUsagesOutput.httpOutput(from:), ListComputationModelDataBindingUsagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComputationModelDataBindingUsagesInput, ListComputationModelDataBindingUsagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComputationModelDataBindingUsagesOutput>())
@@ -5601,9 +5676,9 @@ extension IoTSiteWiseClient {
     ///
     /// Lists all distinct resources that are resolved from the executed actions of the computation model.
     ///
-    /// - Parameter ListComputationModelResolveToResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComputationModelResolveToResourcesInput`)
     ///
-    /// - Returns: `ListComputationModelResolveToResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComputationModelResolveToResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5638,6 +5713,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListComputationModelResolveToResourcesInput, ListComputationModelResolveToResourcesOutput>(ListComputationModelResolveToResourcesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComputationModelResolveToResourcesOutput>(ListComputationModelResolveToResourcesOutput.httpOutput(from:), ListComputationModelResolveToResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComputationModelResolveToResourcesInput, ListComputationModelResolveToResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComputationModelResolveToResourcesOutput>())
@@ -5669,9 +5745,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of summaries of all computation models.
     ///
-    /// - Parameter ListComputationModelsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListComputationModelsInput`)
     ///
-    /// - Returns: `ListComputationModelsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListComputationModelsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5705,6 +5781,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListComputationModelsInput, ListComputationModelsOutput>(ListComputationModelsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListComputationModelsOutput>(ListComputationModelsOutput.httpOutput(from:), ListComputationModelsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListComputationModelsInput, ListComputationModelsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListComputationModelsOutput>())
@@ -5736,9 +5813,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
     ///
-    /// - Parameter ListDashboardsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDashboardsInput`)
     ///
-    /// - Returns: `ListDashboardsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDashboardsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5772,6 +5849,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDashboardsInput, ListDashboardsOutput>(ListDashboardsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDashboardsOutput>(ListDashboardsOutput.httpOutput(from:), ListDashboardsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDashboardsInput, ListDashboardsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDashboardsOutput>())
@@ -5803,9 +5881,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of datasets for a specific target resource.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5839,6 +5917,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetsInput, ListDatasetsOutput>(ListDatasetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -5870,9 +5949,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of summaries of all executions.
     ///
-    /// - Parameter ListExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListExecutionsInput`)
     ///
-    /// - Returns: `ListExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5907,6 +5986,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListExecutionsInput, ListExecutionsOutput>(ListExecutionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExecutionsOutput>(ListExecutionsOutput.httpOutput(from:), ListExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExecutionsInput, ListExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExecutionsOutput>())
@@ -5938,9 +6018,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of gateways.
     ///
-    /// - Parameter ListGatewaysInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListGatewaysInput`)
     ///
-    /// - Returns: `ListGatewaysOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListGatewaysOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5974,6 +6054,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListGatewaysInput, ListGatewaysOutput>(ListGatewaysInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListGatewaysOutput>(ListGatewaysOutput.httpOutput(from:), ListGatewaysOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListGatewaysInput, ListGatewaysOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListGatewaysOutput>())
@@ -6005,9 +6086,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of asset models that have a specific interface asset model applied to them.
     ///
-    /// - Parameter ListInterfaceRelationshipsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListInterfaceRelationshipsInput`)
     ///
-    /// - Returns: `ListInterfaceRelationshipsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListInterfaceRelationshipsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6042,6 +6123,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListInterfaceRelationshipsInput, ListInterfaceRelationshipsOutput>(ListInterfaceRelationshipsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListInterfaceRelationshipsOutput>(ListInterfaceRelationshipsOutput.httpOutput(from:), ListInterfaceRelationshipsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListInterfaceRelationshipsInput, ListInterfaceRelationshipsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListInterfaceRelationshipsOutput>())
@@ -6073,9 +6155,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of IoT SiteWise Monitor portals.
     ///
-    /// - Parameter ListPortalsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListPortalsInput`)
     ///
-    /// - Returns: `ListPortalsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListPortalsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6109,6 +6191,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListPortalsInput, ListPortalsOutput>(ListPortalsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListPortalsOutput>(ListPortalsOutput.httpOutput(from:), ListPortalsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListPortalsInput, ListPortalsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListPortalsOutput>())
@@ -6140,9 +6223,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
     ///
-    /// - Parameter ListProjectAssetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectAssetsInput`)
     ///
-    /// - Returns: `ListProjectAssetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectAssetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6176,6 +6259,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProjectAssetsInput, ListProjectAssetsOutput>(ListProjectAssetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectAssetsOutput>(ListProjectAssetsOutput.httpOutput(from:), ListProjectAssetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectAssetsInput, ListProjectAssetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectAssetsOutput>())
@@ -6207,9 +6291,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6243,6 +6327,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProjectsInput, ListProjectsOutput>(ListProjectsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
@@ -6274,9 +6359,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves the list of tags for an IoT SiteWise resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6314,6 +6399,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -6345,9 +6431,9 @@ extension IoTSiteWiseClient {
     ///
     /// Retrieves a paginated list of time series (data streams).
     ///
-    /// - Parameter ListTimeSeriesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTimeSeriesInput`)
     ///
-    /// - Returns: `ListTimeSeriesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTimeSeriesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6382,6 +6468,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTimeSeriesInput, ListTimeSeriesOutput>(ListTimeSeriesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTimeSeriesOutput>(ListTimeSeriesOutput.httpOutput(from:), ListTimeSeriesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTimeSeriesInput, ListTimeSeriesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTimeSeriesOutput>())
@@ -6413,9 +6500,9 @@ extension IoTSiteWiseClient {
     ///
     /// Creates or updates an interface relationship between an asset model and an interface asset model. This operation applies an interface to an asset model.
     ///
-    /// - Parameter PutAssetModelInterfaceRelationshipInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutAssetModelInterfaceRelationshipInput`)
     ///
-    /// - Returns: `PutAssetModelInterfaceRelationshipOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutAssetModelInterfaceRelationshipOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6455,6 +6542,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutAssetModelInterfaceRelationshipInput, PutAssetModelInterfaceRelationshipOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutAssetModelInterfaceRelationshipOutput>(PutAssetModelInterfaceRelationshipOutput.httpOutput(from:), PutAssetModelInterfaceRelationshipOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutAssetModelInterfaceRelationshipInput, PutAssetModelInterfaceRelationshipOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutAssetModelInterfaceRelationshipOutput>())
@@ -6486,9 +6574,9 @@ extension IoTSiteWiseClient {
     ///
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see [Key management](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/key-management.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter PutDefaultEncryptionConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutDefaultEncryptionConfigurationInput`)
     ///
-    /// - Returns: `PutDefaultEncryptionConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutDefaultEncryptionConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6526,6 +6614,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutDefaultEncryptionConfigurationInput, PutDefaultEncryptionConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutDefaultEncryptionConfigurationOutput>(PutDefaultEncryptionConfigurationOutput.httpOutput(from:), PutDefaultEncryptionConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutDefaultEncryptionConfigurationInput, PutDefaultEncryptionConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutDefaultEncryptionConfigurationOutput>())
@@ -6557,9 +6646,9 @@ extension IoTSiteWiseClient {
     ///
     /// Sets logging options for IoT SiteWise.
     ///
-    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutLoggingOptionsInput`)
     ///
-    /// - Returns: `PutLoggingOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutLoggingOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6597,6 +6686,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutLoggingOptionsOutput>(PutLoggingOptionsOutput.httpOutput(from:), PutLoggingOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutLoggingOptionsInput, PutLoggingOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutLoggingOptionsOutput>())
@@ -6628,9 +6718,9 @@ extension IoTSiteWiseClient {
     ///
     /// Configures storage settings for IoT SiteWise.
     ///
-    /// - Parameter PutStorageConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutStorageConfigurationInput`)
     ///
-    /// - Returns: `PutStorageConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutStorageConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6670,6 +6760,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutStorageConfigurationInput, PutStorageConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutStorageConfigurationOutput>(PutStorageConfigurationOutput.httpOutput(from:), PutStorageConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutStorageConfigurationInput, PutStorageConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutStorageConfigurationOutput>())
@@ -6701,9 +6792,9 @@ extension IoTSiteWiseClient {
     ///
     /// Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation updates the tag's value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6745,6 +6836,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -6776,9 +6868,9 @@ extension IoTSiteWiseClient {
     ///
     /// Removes a tag from an IoT SiteWise resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6816,6 +6908,7 @@ extension IoTSiteWiseClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -6847,9 +6940,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor portal or project resource.
     ///
-    /// - Parameter UpdateAccessPolicyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccessPolicyInput`)
     ///
-    /// - Returns: `UpdateAccessPolicyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAccessPolicyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6887,6 +6980,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccessPolicyInput, UpdateAccessPolicyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccessPolicyOutput>(UpdateAccessPolicyOutput.httpOutput(from:), UpdateAccessPolicyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccessPolicyInput, UpdateAccessPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccessPolicyOutput>())
@@ -6918,9 +7012,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates an asset's name. For more information, see [Updating assets and models](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/update-assets-and-models.html) in the IoT SiteWise User Guide.
     ///
-    /// - Parameter UpdateAssetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssetInput`)
     ///
-    /// - Returns: `UpdateAssetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -6960,6 +7054,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetInput, UpdateAssetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssetOutput>(UpdateAssetOutput.httpOutput(from:), UpdateAssetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssetInput, UpdateAssetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssetOutput>())
@@ -6995,9 +7090,9 @@ extension IoTSiteWiseClient {
     ///
     /// * Submit a second UpdateAssetModel request that includes the new property. The new asset property will have the same name as the previous one and IoT SiteWise will generate a new unique id.
     ///
-    /// - Parameter UpdateAssetModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssetModelInput`)
     ///
-    /// - Returns: `UpdateAssetModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssetModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7040,6 +7135,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssetModelOutput>(UpdateAssetModelOutput.httpOutput(from:), UpdateAssetModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssetModelInput, UpdateAssetModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssetModelOutput>())
@@ -7075,9 +7171,9 @@ extension IoTSiteWiseClient {
     ///
     /// * Submit a second UpdateAssetModelCompositeModel request that includes the new property. The new asset property will have the same name as the previous one and IoT SiteWise will generate a new unique id.
     ///
-    /// - Parameter UpdateAssetModelCompositeModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssetModelCompositeModelInput`)
     ///
-    /// - Returns: `UpdateAssetModelCompositeModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssetModelCompositeModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7120,6 +7216,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssetModelCompositeModelOutput>(UpdateAssetModelCompositeModelOutput.httpOutput(from:), UpdateAssetModelCompositeModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssetModelCompositeModelInput, UpdateAssetModelCompositeModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssetModelCompositeModelOutput>())
@@ -7151,9 +7248,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates an asset property's alias and notification state. This operation overwrites the property's existing alias and notification state. To keep your existing property's alias or notification state, you must include the existing values in the UpdateAssetProperty request. For more information, see [DescribeAssetProperty](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeAssetProperty.html).
     ///
-    /// - Parameter UpdateAssetPropertyInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateAssetPropertyInput`)
     ///
-    /// - Returns: `UpdateAssetPropertyOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateAssetPropertyOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7192,6 +7289,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAssetPropertyInput, UpdateAssetPropertyOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAssetPropertyOutput>(UpdateAssetPropertyOutput.httpOutput(from:), UpdateAssetPropertyOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAssetPropertyInput, UpdateAssetPropertyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAssetPropertyOutput>())
@@ -7223,9 +7321,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates the computation model.
     ///
-    /// - Parameter UpdateComputationModelInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateComputationModelInput`)
     ///
-    /// - Returns: `UpdateComputationModelOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateComputationModelOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7266,6 +7364,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateComputationModelInput, UpdateComputationModelOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateComputationModelOutput>(UpdateComputationModelOutput.httpOutput(from:), UpdateComputationModelOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateComputationModelInput, UpdateComputationModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateComputationModelOutput>())
@@ -7297,9 +7396,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates an IoT SiteWise Monitor dashboard.
     ///
-    /// - Parameter UpdateDashboardInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDashboardInput`)
     ///
-    /// - Returns: `UpdateDashboardOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDashboardOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7337,6 +7436,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDashboardInput, UpdateDashboardOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDashboardOutput>(UpdateDashboardOutput.httpOutput(from:), UpdateDashboardOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDashboardInput, UpdateDashboardOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDashboardOutput>())
@@ -7368,9 +7468,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates a dataset.
     ///
-    /// - Parameter UpdateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetInput`)
     ///
-    /// - Returns: `UpdateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7410,6 +7510,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetInput, UpdateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetOutput>(UpdateDatasetOutput.httpOutput(from:), UpdateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatasetOutput>())
@@ -7441,9 +7542,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates a gateway's name.
     ///
-    /// - Parameter UpdateGatewayInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayInput`)
     ///
-    /// - Returns: `UpdateGatewayOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7481,6 +7582,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayInput, UpdateGatewayOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayOutput>(UpdateGatewayOutput.httpOutput(from:), UpdateGatewayOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayInput, UpdateGatewayOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayOutput>())
@@ -7521,9 +7623,9 @@ extension IoTSiteWiseClient {
     ///
     /// After updating a capability configuration, the sync status becomes OUT_OF_SYNC until the gateway processes the configuration.Use DescribeGatewayCapabilityConfiguration to check the sync status and verify the configuration was applied. A gateway can have multiple capability configurations with different namespaces.
     ///
-    /// - Parameter UpdateGatewayCapabilityConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateGatewayCapabilityConfigurationInput`)
     ///
-    /// - Returns: `UpdateGatewayCapabilityConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateGatewayCapabilityConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7562,6 +7664,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateGatewayCapabilityConfigurationInput, UpdateGatewayCapabilityConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateGatewayCapabilityConfigurationOutput>(UpdateGatewayCapabilityConfigurationOutput.httpOutput(from:), UpdateGatewayCapabilityConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateGatewayCapabilityConfigurationInput, UpdateGatewayCapabilityConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateGatewayCapabilityConfigurationOutput>())
@@ -7593,9 +7696,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates an IoT SiteWise Monitor portal.
     ///
-    /// - Parameter UpdatePortalInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdatePortalInput`)
     ///
-    /// - Returns: `UpdatePortalOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdatePortalOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7634,6 +7737,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdatePortalInput, UpdatePortalOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdatePortalOutput>(UpdatePortalOutput.httpOutput(from:), UpdatePortalOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdatePortalInput, UpdatePortalOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdatePortalOutput>())
@@ -7665,9 +7769,9 @@ extension IoTSiteWiseClient {
     ///
     /// Updates an IoT SiteWise Monitor project.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -7705,6 +7809,7 @@ extension IoTSiteWiseClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())

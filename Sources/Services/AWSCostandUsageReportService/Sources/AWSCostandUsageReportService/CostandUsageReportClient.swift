@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class CostandUsageReportClient: ClientRuntime.Client {
     public static let clientName = "CostandUsageReportClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CostandUsageReportClient.CostandUsageReportClientConfiguration
     let serviceName = "Cost and Usage Report"
@@ -372,9 +373,9 @@ extension CostandUsageReportClient {
     ///
     /// Deletes the specified report. Any tags associated with the report are also deleted.
     ///
-    /// - Parameter DeleteReportDefinitionInput : Deletes the specified report.
+    /// - Parameter input: Deletes the specified report. (Type: `DeleteReportDefinitionInput`)
     ///
-    /// - Returns: `DeleteReportDefinitionOutput` : If the action is successful, the service sends back an HTTP 200 response.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response. (Type: `DeleteReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -407,6 +408,7 @@ extension CostandUsageReportClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReportDefinitionOutput>(DeleteReportDefinitionOutput.httpOutput(from:), DeleteReportDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReportDefinitionInput, DeleteReportDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReportDefinitionOutput>())
@@ -441,9 +443,9 @@ extension CostandUsageReportClient {
     ///
     /// Lists the Amazon Web Services Cost and Usage Report available to this account.
     ///
-    /// - Parameter DescribeReportDefinitionsInput : Requests a Amazon Web Services Cost and Usage Report list owned by the account.
+    /// - Parameter input: Requests a Amazon Web Services Cost and Usage Report list owned by the account. (Type: `DescribeReportDefinitionsInput`)
     ///
-    /// - Returns: `DescribeReportDefinitionsOutput` : If the action is successful, the service sends back an HTTP 200 response.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response. (Type: `DescribeReportDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -475,6 +477,7 @@ extension CostandUsageReportClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReportDefinitionsOutput>(DescribeReportDefinitionsOutput.httpOutput(from:), DescribeReportDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReportDefinitionsInput, DescribeReportDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReportDefinitionsOutput>())
@@ -509,9 +512,9 @@ extension CostandUsageReportClient {
     ///
     /// Lists the tags associated with the specified report definition.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -545,6 +548,7 @@ extension CostandUsageReportClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -579,9 +583,9 @@ extension CostandUsageReportClient {
     ///
     /// Allows you to programmatically update your report preferences.
     ///
-    /// - Parameter ModifyReportDefinitionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ModifyReportDefinitionInput`)
     ///
-    /// - Returns: `ModifyReportDefinitionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ModifyReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -614,6 +618,7 @@ extension CostandUsageReportClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ModifyReportDefinitionInput, ModifyReportDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ModifyReportDefinitionOutput>(ModifyReportDefinitionOutput.httpOutput(from:), ModifyReportDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ModifyReportDefinitionInput, ModifyReportDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ModifyReportDefinitionOutput>())
@@ -648,9 +653,9 @@ extension CostandUsageReportClient {
     ///
     /// Creates a new report using the description that you provide.
     ///
-    /// - Parameter PutReportDefinitionInput : Creates a Cost and Usage Report.
+    /// - Parameter input: Creates a Cost and Usage Report. (Type: `PutReportDefinitionInput`)
     ///
-    /// - Returns: `PutReportDefinitionOutput` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    /// - Returns: If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. (Type: `PutReportDefinitionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -686,6 +691,7 @@ extension CostandUsageReportClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutReportDefinitionInput, PutReportDefinitionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutReportDefinitionOutput>(PutReportDefinitionOutput.httpOutput(from:), PutReportDefinitionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutReportDefinitionInput, PutReportDefinitionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutReportDefinitionOutput>())
@@ -720,9 +726,9 @@ extension CostandUsageReportClient {
     ///
     /// Associates a set of tags with a report definition.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -756,6 +762,7 @@ extension CostandUsageReportClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -790,9 +797,9 @@ extension CostandUsageReportClient {
     ///
     /// Disassociates a set of tags from a report definition.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -826,6 +833,7 @@ extension CostandUsageReportClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())

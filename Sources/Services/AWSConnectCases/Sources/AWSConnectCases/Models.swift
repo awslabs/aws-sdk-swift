@@ -402,7 +402,7 @@ public struct GetCaseAuditEventsInput: Swift.Sendable {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
-    /// The maximum number of audit events to return. The current maximum supported value is 25. This is also the default when no other value is provided.
+    /// The maximum number of audit events to return. When no value is provided, 25 is the default.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -487,7 +487,9 @@ extension ConnectCasesClientTypes {
 
     public enum RelatedItemType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case comment
+        case connectCase
         case contact
+        case custom
         case file
         case sla
         case sdkUnknown(Swift.String)
@@ -495,7 +497,9 @@ extension ConnectCasesClientTypes {
         public static var allCases: [RelatedItemType] {
             return [
                 .comment,
+                .connectCase,
                 .contact,
+                .custom,
                 .file,
                 .sla
             ]
@@ -509,7 +513,9 @@ extension ConnectCasesClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .comment: return "Comment"
+            case .connectCase: return "ConnectCase"
             case .contact: return "Contact"
+            case .custom: return "Custom"
             case .file: return "File"
             case .sla: return "Sla"
             case let .sdkUnknown(s): return s
@@ -740,6 +746,22 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    /// Represents the content of a ConnectCase related item.
+    public struct ConnectCaseInputContent: Swift.Sendable {
+        /// A unique identifier of the case.
+        /// This member is required.
+        public var caseId: Swift.String?
+
+        public init(
+            caseId: Swift.String? = nil
+        ) {
+            self.caseId = caseId
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     /// An object that represents an Amazon Connect contact object.
     public struct Contact: Swift.Sendable {
         /// A unique identifier of a contact in Amazon Connect.
@@ -750,6 +772,22 @@ extension ConnectCasesClientTypes {
             contactArn: Swift.String? = nil
         ) {
             self.contactArn = contactArn
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the content of a Custom related item.
+    public struct CustomInputContent: Swift.Sendable {
+        /// List of field values for the Custom related item.
+        /// This member is required.
+        public var fields: [ConnectCasesClientTypes.FieldValue]?
+
+        public init(
+            fields: [ConnectCasesClientTypes.FieldValue]? = nil
+        ) {
+            self.fields = fields
         }
     }
 }
@@ -857,6 +895,10 @@ extension ConnectCasesClientTypes {
         case file(ConnectCasesClientTypes.FileContent)
         /// Represents the content of an SLA to be created.
         case sla(ConnectCasesClientTypes.SlaInputContent)
+        /// Represents the Amazon Connect case to be created as a related item.
+        case connectcase(ConnectCasesClientTypes.ConnectCaseInputContent)
+        /// Represents the content of a Custom type related item.
+        case custom(ConnectCasesClientTypes.CustomInputContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -947,6 +989,21 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    /// A filter for related items of type ConnectCase.
+    public struct ConnectCaseFilter: Swift.Sendable {
+        /// A unique identifier of the case.
+        public var caseId: Swift.String?
+
+        public init(
+            caseId: Swift.String? = nil
+        ) {
+            self.caseId = caseId
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     /// A filter for related items of type Contact.
     public struct ContactFilter: Swift.Sendable {
         /// A list of channels to filter on for related items of type Contact.
@@ -961,6 +1018,26 @@ extension ConnectCasesClientTypes {
             self.channel = channel
             self.contactArn = contactArn
         }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A filter for fields. Only one value can be provided.
+    public enum FieldFilter: Swift.Sendable {
+        /// Object containing field identifier and value information.
+        case equalto(ConnectCasesClientTypes.FieldValue)
+        /// Object containing field identifier and value information.
+        case contains(ConnectCasesClientTypes.FieldValue)
+        /// Object containing field identifier and value information.
+        case greaterthan(ConnectCasesClientTypes.FieldValue)
+        /// Object containing field identifier and value information.
+        case greaterthanorequalto(ConnectCasesClientTypes.FieldValue)
+        /// Object containing field identifier and value information.
+        case lessthan(ConnectCasesClientTypes.FieldValue)
+        /// Object containing field identifier and value information.
+        case lessthanorequalto(ConnectCasesClientTypes.FieldValue)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -1040,46 +1117,17 @@ extension ConnectCasesClientTypes.SlaFilter: Swift.CustomDebugStringConvertible 
 
 extension ConnectCasesClientTypes {
 
-    /// The list of types of related items and their parameters to use for filtering.
-    public enum RelatedItemTypeFilter: Swift.Sendable {
-        /// A filter for related items of type Contact.
-        case contact(ConnectCasesClientTypes.ContactFilter)
-        /// A filter for related items of type Comment.
-        case comment(ConnectCasesClientTypes.CommentFilter)
-        /// A filter for related items of this type of File.
-        case file(ConnectCasesClientTypes.FileFilter)
-        /// Filter for related items of type SLA.
-        case sla(ConnectCasesClientTypes.SlaFilter)
-        case sdkUnknown(Swift.String)
-    }
-}
+    /// Represents the content of a ConnectCase type related item.
+    public struct ConnectCaseContent: Swift.Sendable {
+        /// A unique identifier of the case.
+        /// This member is required.
+        public var caseId: Swift.String?
 
-public struct SearchRelatedItemsInput: Swift.Sendable {
-    /// A unique identifier of the case.
-    /// This member is required.
-    public var caseId: Swift.String?
-    /// The unique identifier of the Cases domain.
-    /// This member is required.
-    public var domainId: Swift.String?
-    /// The list of types of related items and their parameters to use for filtering.
-    public var filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]?
-    /// The maximum number of results to return per page.
-    public var maxResults: Swift.Int?
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
-    public var nextToken: Swift.String?
-
-    public init(
-        caseId: Swift.String? = nil,
-        domainId: Swift.String? = nil,
-        filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.caseId = caseId
-        self.domainId = domainId
-        self.filters = filters
-        self.maxResults = maxResults
-        self.nextToken = nextToken
+        public init(
+            caseId: Swift.String? = nil
+        ) {
+            self.caseId = caseId
+        }
     }
 }
 
@@ -1105,6 +1153,22 @@ extension ConnectCasesClientTypes {
             self.channel = channel
             self.connectedToSystemTime = connectedToSystemTime
             self.contactArn = contactArn
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Represents the content of a Custom type related item.
+    public struct CustomContent: Swift.Sendable {
+        /// List of field values for the Custom related item.
+        /// This member is required.
+        public var fields: [ConnectCasesClientTypes.FieldValue]?
+
+        public init(
+            fields: [ConnectCasesClientTypes.FieldValue]? = nil
+        ) {
+            self.fields = fields
         }
     }
 }
@@ -1185,6 +1249,10 @@ extension ConnectCasesClientTypes {
         case file(ConnectCasesClientTypes.FileContent)
         /// Represents the content of an SLA to be returned to agents.
         case sla(ConnectCasesClientTypes.SlaContent)
+        /// Represents the Amazon Connect case to be created as a related item.
+        case connectcase(ConnectCasesClientTypes.ConnectCaseContent)
+        /// Represents the content of a Custom type related item.
+        case custom(ConnectCasesClientTypes.CustomContent)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1241,26 +1309,6 @@ public struct SearchRelatedItemsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.relatedItems = relatedItems
-    }
-}
-
-extension ConnectCasesClientTypes {
-
-    /// A filter for fields. Only one value can be provided.
-    public enum FieldFilter: Swift.Sendable {
-        /// Object containing field identifier and value information.
-        case equalto(ConnectCasesClientTypes.FieldValue)
-        /// Object containing field identifier and value information.
-        case contains(ConnectCasesClientTypes.FieldValue)
-        /// Object containing field identifier and value information.
-        case greaterthan(ConnectCasesClientTypes.FieldValue)
-        /// Object containing field identifier and value information.
-        case greaterthanorequalto(ConnectCasesClientTypes.FieldValue)
-        /// Object containing field identifier and value information.
-        case lessthan(ConnectCasesClientTypes.FieldValue)
-        /// Object containing field identifier and value information.
-        case lessthanorequalto(ConnectCasesClientTypes.FieldValue)
-        case sdkUnknown(Swift.String)
     }
 }
 
@@ -2120,6 +2168,116 @@ public struct PutCaseEventConfigurationInput: Swift.Sendable {
 public struct PutCaseEventConfigurationOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension ConnectCasesClientTypes {
+
+    public enum SearchAllRelatedItemsSortProperty: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associationTime
+        case caseId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchAllRelatedItemsSortProperty] {
+            return [
+                .associationTime,
+                .caseId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associationTime: return "AssociationTime"
+            case .caseId: return "CaseId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// The order in which all returned related items should be sorted.
+    public struct SearchAllRelatedItemsSort: Swift.Sendable {
+        /// Whether related items should be sorted by association time or case ID.
+        /// This member is required.
+        public var sortOrder: ConnectCasesClientTypes.Order?
+        /// Whether related items should be sorted in ascending or descending order.
+        /// This member is required.
+        public var sortProperty: ConnectCasesClientTypes.SearchAllRelatedItemsSortProperty?
+
+        public init(
+            sortOrder: ConnectCasesClientTypes.Order? = nil,
+            sortProperty: ConnectCasesClientTypes.SearchAllRelatedItemsSortProperty? = nil
+        ) {
+            self.sortOrder = sortOrder
+            self.sortProperty = sortProperty
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A list of items that represent RelatedItems. This data type is similar to [SearchRelatedItemsResponseItem](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchRelatedItemsResponseItem.html) except SearchAllRelatedItemsResponseItem has a caseId field.
+    public struct SearchAllRelatedItemsResponseItem: Swift.Sendable {
+        /// Time at which a related item was associated with a case.
+        /// This member is required.
+        public var associationTime: Foundation.Date?
+        /// A unique identifier of the case.
+        /// This member is required.
+        public var caseId: Swift.String?
+        /// Represents the content of a particular type of related item.
+        /// This member is required.
+        public var content: ConnectCasesClientTypes.RelatedItemContent?
+        /// Represents the entity that performed the action.
+        public var performedBy: ConnectCasesClientTypes.UserUnion?
+        /// Unique identifier of a related item.
+        /// This member is required.
+        public var relatedItemId: Swift.String?
+        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String?]?
+        /// Type of a related item.
+        /// This member is required.
+        public var type: ConnectCasesClientTypes.RelatedItemType?
+
+        public init(
+            associationTime: Foundation.Date? = nil,
+            caseId: Swift.String? = nil,
+            content: ConnectCasesClientTypes.RelatedItemContent? = nil,
+            performedBy: ConnectCasesClientTypes.UserUnion? = nil,
+            relatedItemId: Swift.String? = nil,
+            tags: [Swift.String: Swift.String?]? = nil,
+            type: ConnectCasesClientTypes.RelatedItemType? = nil
+        ) {
+            self.associationTime = associationTime
+            self.caseId = caseId
+            self.content = content
+            self.performedBy = performedBy
+            self.relatedItemId = relatedItemId
+            self.tags = tags
+            self.type = type
+        }
+    }
+}
+
+public struct SearchAllRelatedItemsOutput: Swift.Sendable {
+    /// The token for the next set of results. This is null if there are no more results to return.
+    public var nextToken: Swift.String?
+    /// A list of items related to a case.
+    /// This member is required.
+    public var relatedItems: [ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem?]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        relatedItems: [ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem?]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.relatedItems = relatedItems
+    }
 }
 
 public struct BatchGetFieldInput: Swift.Sendable {
@@ -3333,6 +3491,37 @@ extension ConnectCasesClientTypes {
     }
 }
 
+extension ConnectCasesClientTypes {
+
+    /// A filter for fields in Custom type related items. Only one value can be provided.
+    public indirect enum CustomFieldsFilter: Swift.Sendable {
+        /// A filter for fields. Only one value can be provided.
+        case field(ConnectCasesClientTypes.FieldFilter)
+        /// Excludes items matching the filter.
+        case not(ConnectCasesClientTypes.CustomFieldsFilter)
+        /// Provides "and all" filtering.
+        case andall([ConnectCasesClientTypes.CustomFieldsFilter])
+        /// Provides "or all" filtering.
+        case orall([ConnectCasesClientTypes.CustomFieldsFilter])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A filter for related items of type Custom.
+    public struct CustomFilter: Swift.Sendable {
+        /// Filter conditions for custom fields.
+        public var fields: ConnectCasesClientTypes.CustomFieldsFilter?
+
+        public init(
+            fields: ConnectCasesClientTypes.CustomFieldsFilter? = nil
+        ) {
+            self.fields = fields
+        }
+    }
+}
+
 public struct SearchCasesInput: Swift.Sendable {
     /// The unique identifier of the Cases domain.
     /// This member is required.
@@ -3341,7 +3530,7 @@ public struct SearchCasesInput: Swift.Sendable {
     public var fields: [ConnectCasesClientTypes.FieldIdentifier]?
     /// A list of filter objects.
     public var filter: ConnectCasesClientTypes.CaseFilter?
-    /// The maximum number of cases to return. The current maximum supported value is 25. This is also the default value when no other value is provided.
+    /// The maximum number of cases to return. When no value is provided, 25 is the default.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -3366,6 +3555,83 @@ public struct SearchCasesInput: Swift.Sendable {
         self.nextToken = nextToken
         self.searchTerm = searchTerm
         self.sorts = sorts
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// The list of types of related items and their parameters to use for filtering.
+    public indirect enum RelatedItemTypeFilter: Swift.Sendable {
+        /// A filter for related items of type Contact.
+        case contact(ConnectCasesClientTypes.ContactFilter)
+        /// A filter for related items of type Comment.
+        case comment(ConnectCasesClientTypes.CommentFilter)
+        /// A filter for related items of this type of File.
+        case file(ConnectCasesClientTypes.FileFilter)
+        /// Filter for related items of type SLA.
+        case sla(ConnectCasesClientTypes.SlaFilter)
+        /// Represents the Amazon Connect case to be created as a related item.
+        case connectcase(ConnectCasesClientTypes.ConnectCaseFilter)
+        /// Represents the content of a Custom type related item.
+        case custom(ConnectCasesClientTypes.CustomFilter)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct SearchAllRelatedItemsInput: Swift.Sendable {
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The list of types of related items and their parameters to use for filtering. The filters work as an OR condition: caller gets back related items that match any of the specified filter types.
+    public var filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// A structured set of sort terms to specify the order in which related items should be returned. Supports sorting by association time or case ID. The sorts work in the order specified: first sort term takes precedence over subsequent terms.
+    public var sorts: [ConnectCasesClientTypes.SearchAllRelatedItemsSort]?
+
+    public init(
+        domainId: Swift.String? = nil,
+        filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sorts: [ConnectCasesClientTypes.SearchAllRelatedItemsSort]? = nil
+    ) {
+        self.domainId = domainId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sorts = sorts
+    }
+}
+
+public struct SearchRelatedItemsInput: Swift.Sendable {
+    /// A unique identifier of the case.
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The list of types of related items and their parameters to use for filtering.
+    public var filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        caseId: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.caseId = caseId
+        self.domainId = domainId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
     }
 }
 
@@ -3833,6 +4099,16 @@ extension PutCaseEventConfigurationInput {
     }
 }
 
+extension SearchAllRelatedItemsInput {
+
+    static func urlPathProvider(_ value: SearchAllRelatedItemsInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/related-items-search"
+    }
+}
+
 extension SearchCasesInput {
 
     static func urlPathProvider(_ value: SearchCasesInput) -> Swift.String? {
@@ -4085,6 +4361,17 @@ extension PutCaseEventConfigurationInput {
     static func write(value: PutCaseEventConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["eventBridge"].write(value.eventBridge, with: ConnectCasesClientTypes.EventBridgeConfiguration.write(value:to:))
+    }
+}
+
+extension SearchAllRelatedItemsInput {
+
+    static func write(value: SearchAllRelatedItemsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: ConnectCasesClientTypes.RelatedItemTypeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["sorts"].writeList(value.sorts, memberWritingClosure: ConnectCasesClientTypes.SearchAllRelatedItemsSort.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4554,6 +4841,19 @@ extension PutCaseEventConfigurationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutCaseEventConfigurationOutput {
         return PutCaseEventConfigurationOutput()
+    }
+}
+
+extension SearchAllRelatedItemsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchAllRelatedItemsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchAllRelatedItemsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.relatedItems = try reader["relatedItems"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem.read(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -5216,6 +5516,24 @@ enum PutCaseEventConfigurationOutputError {
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SearchAllRelatedItemsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -6214,30 +6532,18 @@ extension ConnectCasesClientTypes.TemplateSummary {
     }
 }
 
-extension ConnectCasesClientTypes.SearchCasesResponseItem {
+extension ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SearchCasesResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.SearchCasesResponseItem()
-        value.caseId = try reader["caseId"].readIfPresent() ?? ""
-        value.templateId = try reader["templateId"].readIfPresent() ?? ""
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ConnectCasesClientTypes.SearchRelatedItemsResponseItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SearchRelatedItemsResponseItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.SearchRelatedItemsResponseItem()
+        var value = ConnectCasesClientTypes.SearchAllRelatedItemsResponseItem()
         value.relatedItemId = try reader["relatedItemId"].readIfPresent() ?? ""
+        value.caseId = try reader["caseId"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.associationTime = try reader["associationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.content = try reader["content"].readIfPresent(with: ConnectCasesClientTypes.RelatedItemContent.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.performedBy = try reader["performedBy"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6256,9 +6562,33 @@ extension ConnectCasesClientTypes.RelatedItemContent {
                 return .file(try reader["file"].read(with: ConnectCasesClientTypes.FileContent.read(from:)))
             case "sla":
                 return .sla(try reader["sla"].read(with: ConnectCasesClientTypes.SlaContent.read(from:)))
+            case "connectCase":
+                return .connectcase(try reader["connectCase"].read(with: ConnectCasesClientTypes.ConnectCaseContent.read(from:)))
+            case "custom":
+                return .custom(try reader["custom"].read(with: ConnectCasesClientTypes.CustomContent.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ConnectCasesClientTypes.CustomContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CustomContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.CustomContent()
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.ConnectCaseContent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.ConnectCaseContent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.ConnectCaseContent()
+        value.caseId = try reader["caseId"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -6332,6 +6662,34 @@ extension ConnectCasesClientTypes.ContactContent {
     }
 }
 
+extension ConnectCasesClientTypes.SearchCasesResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SearchCasesResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.SearchCasesResponseItem()
+        value.caseId = try reader["caseId"].readIfPresent() ?? ""
+        value.templateId = try reader["templateId"].readIfPresent() ?? ""
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.FieldValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.SearchRelatedItemsResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.SearchRelatedItemsResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.SearchRelatedItemsResponseItem()
+        value.relatedItemId = try reader["relatedItemId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.associationTime = try reader["associationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.content = try reader["content"].readIfPresent(with: ConnectCasesClientTypes.RelatedItemContent.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.performedBy = try reader["performedBy"].readIfPresent(with: ConnectCasesClientTypes.UserUnion.read(from:))
+        return value
+    }
+}
+
 extension ConnectCasesClientTypes.CaseRuleIdentifier {
 
     static func write(value: ConnectCasesClientTypes.CaseRuleIdentifier?, to writer: SmithyJSON.Writer) throws {
@@ -6347,8 +6705,12 @@ extension ConnectCasesClientTypes.RelatedItemInputContent {
         switch value {
             case let .comment(comment):
                 try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentContent.write(value:to:))
+            case let .connectcase(connectcase):
+                try writer["connectCase"].write(connectcase, with: ConnectCasesClientTypes.ConnectCaseInputContent.write(value:to:))
             case let .contact(contact):
                 try writer["contact"].write(contact, with: ConnectCasesClientTypes.Contact.write(value:to:))
+            case let .custom(custom):
+                try writer["custom"].write(custom, with: ConnectCasesClientTypes.CustomInputContent.write(value:to:))
             case let .file(file):
                 try writer["file"].write(file, with: ConnectCasesClientTypes.FileContent.write(value:to:))
             case let .sla(sla):
@@ -6356,6 +6718,22 @@ extension ConnectCasesClientTypes.RelatedItemInputContent {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension ConnectCasesClientTypes.CustomInputContent {
+
+    static func write(value: ConnectCasesClientTypes.CustomInputContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ConnectCasesClientTypes.ConnectCaseInputContent {
+
+    static func write(value: ConnectCasesClientTypes.ConnectCaseInputContent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["caseId"].write(value.caseId)
     }
 }
 
@@ -6392,19 +6770,50 @@ extension ConnectCasesClientTypes.Contact {
     }
 }
 
-extension ConnectCasesClientTypes.CaseFilter {
+extension ConnectCasesClientTypes.RelatedItemTypeFilter {
 
-    static func write(value: ConnectCasesClientTypes.CaseFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.RelatedItemTypeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .comment(comment):
+                try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentFilter.write(value:to:))
+            case let .connectcase(connectcase):
+                try writer["connectCase"].write(connectcase, with: ConnectCasesClientTypes.ConnectCaseFilter.write(value:to:))
+            case let .contact(contact):
+                try writer["contact"].write(contact, with: ConnectCasesClientTypes.ContactFilter.write(value:to:))
+            case let .custom(custom):
+                try writer["custom"].write(custom, with: ConnectCasesClientTypes.CustomFilter.write(value:to:))
+            case let .file(file):
+                try writer["file"].write(file, with: ConnectCasesClientTypes.FileFilter.write(value:to:))
+            case let .sla(sla):
+                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaFilter.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.CustomFilter {
+
+    static func write(value: ConnectCasesClientTypes.CustomFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].write(value.fields, with: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:))
+    }
+}
+
+extension ConnectCasesClientTypes.CustomFieldsFilter {
+
+    static func write(value: ConnectCasesClientTypes.CustomFieldsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
             case let .andall(andall):
-                try writer["andAll"].writeList(andall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+                try writer["andAll"].writeList(andall, memberWritingClosure: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .field(field):
                 try writer["field"].write(field, with: ConnectCasesClientTypes.FieldFilter.write(value:to:))
             case let .not(not):
-                try writer["not"].write(not, with: ConnectCasesClientTypes.CaseFilter.write(value:to:))
+                try writer["not"].write(not, with: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:))
             case let .orall(orall):
-                try writer["orAll"].writeList(orall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+                try writer["orAll"].writeList(orall, memberWritingClosure: ConnectCasesClientTypes.CustomFieldsFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -6434,31 +6843,11 @@ extension ConnectCasesClientTypes.FieldFilter {
     }
 }
 
-extension ConnectCasesClientTypes.Sort {
+extension ConnectCasesClientTypes.ConnectCaseFilter {
 
-    static func write(value: ConnectCasesClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.ConnectCaseFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["fieldId"].write(value.fieldId)
-        try writer["sortOrder"].write(value.sortOrder)
-    }
-}
-
-extension ConnectCasesClientTypes.RelatedItemTypeFilter {
-
-    static func write(value: ConnectCasesClientTypes.RelatedItemTypeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .comment(comment):
-                try writer["comment"].write(comment, with: ConnectCasesClientTypes.CommentFilter.write(value:to:))
-            case let .contact(contact):
-                try writer["contact"].write(contact, with: ConnectCasesClientTypes.ContactFilter.write(value:to:))
-            case let .file(file):
-                try writer["file"].write(file, with: ConnectCasesClientTypes.FileFilter.write(value:to:))
-            case let .sla(sla):
-                try writer["sla"].write(sla, with: ConnectCasesClientTypes.SlaFilter.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["caseId"].write(value.caseId)
     }
 }
 
@@ -6493,6 +6882,43 @@ extension ConnectCasesClientTypes.ContactFilter {
         guard let value else { return }
         try writer["channel"].writeList(value.channel, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["contactArn"].write(value.contactArn)
+    }
+}
+
+extension ConnectCasesClientTypes.SearchAllRelatedItemsSort {
+
+    static func write(value: ConnectCasesClientTypes.SearchAllRelatedItemsSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortOrder"].write(value.sortOrder)
+        try writer["sortProperty"].write(value.sortProperty)
+    }
+}
+
+extension ConnectCasesClientTypes.CaseFilter {
+
+    static func write(value: ConnectCasesClientTypes.CaseFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .andall(andall):
+                try writer["andAll"].writeList(andall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .field(field):
+                try writer["field"].write(field, with: ConnectCasesClientTypes.FieldFilter.write(value:to:))
+            case let .not(not):
+                try writer["not"].write(not, with: ConnectCasesClientTypes.CaseFilter.write(value:to:))
+            case let .orall(orall):
+                try writer["orAll"].writeList(orall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.Sort {
+
+    static func write(value: ConnectCasesClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldId"].write(value.fieldId)
+        try writer["sortOrder"].write(value.sortOrder)
     }
 }
 

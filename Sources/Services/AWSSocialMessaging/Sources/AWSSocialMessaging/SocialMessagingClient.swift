@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SocialMessagingClient: ClientRuntime.Client {
     public static let clientName = "SocialMessagingClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: SocialMessagingClient.SocialMessagingClientConfiguration
     let serviceName = "SocialMessaging"
@@ -373,9 +374,9 @@ extension SocialMessagingClient {
     ///
     /// This is only used through the Amazon Web Services console during sign-up to associate your WhatsApp Business Account to your Amazon Web Services account.
     ///
-    /// - Parameter AssociateWhatsAppBusinessAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateWhatsAppBusinessAccountInput`)
     ///
-    /// - Returns: `AssociateWhatsAppBusinessAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateWhatsAppBusinessAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -414,6 +415,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateWhatsAppBusinessAccountInput, AssociateWhatsAppBusinessAccountOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateWhatsAppBusinessAccountOutput>(AssociateWhatsAppBusinessAccountOutput.httpOutput(from:), AssociateWhatsAppBusinessAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateWhatsAppBusinessAccountInput, AssociateWhatsAppBusinessAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateWhatsAppBusinessAccountOutput>())
@@ -445,9 +447,9 @@ extension SocialMessagingClient {
     ///
     /// Creates a new WhatsApp message template from a custom definition.
     ///
-    /// - Parameter CreateWhatsAppMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatsAppMessageTemplateInput`)
     ///
-    /// - Returns: `CreateWhatsAppMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatsAppMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -487,6 +489,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateOutput>(CreateWhatsAppMessageTemplateOutput.httpOutput(from:), CreateWhatsAppMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateInput, CreateWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateOutput>())
@@ -518,9 +521,9 @@ extension SocialMessagingClient {
     ///
     /// Creates a new WhatsApp message template using a template from Meta's template library.
     ///
-    /// - Parameter CreateWhatsAppMessageTemplateFromLibraryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatsAppMessageTemplateFromLibraryInput`)
     ///
-    /// - Returns: `CreateWhatsAppMessageTemplateFromLibraryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatsAppMessageTemplateFromLibraryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -560,6 +563,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateFromLibraryOutput>(CreateWhatsAppMessageTemplateFromLibraryOutput.httpOutput(from:), CreateWhatsAppMessageTemplateFromLibraryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateFromLibraryInput, CreateWhatsAppMessageTemplateFromLibraryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateFromLibraryOutput>())
@@ -591,9 +595,9 @@ extension SocialMessagingClient {
     ///
     /// Uploads media for use in a WhatsApp message template.
     ///
-    /// - Parameter CreateWhatsAppMessageTemplateMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWhatsAppMessageTemplateMediaInput`)
     ///
-    /// - Returns: `CreateWhatsAppMessageTemplateMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWhatsAppMessageTemplateMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -633,6 +637,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWhatsAppMessageTemplateMediaOutput>(CreateWhatsAppMessageTemplateMediaOutput.httpOutput(from:), CreateWhatsAppMessageTemplateMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWhatsAppMessageTemplateMediaInput, CreateWhatsAppMessageTemplateMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWhatsAppMessageTemplateMediaOutput>())
@@ -664,9 +669,9 @@ extension SocialMessagingClient {
     ///
     /// Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
     ///
-    /// - Parameter DeleteWhatsAppMessageMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatsAppMessageMediaInput`)
     ///
-    /// - Returns: `DeleteWhatsAppMessageMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatsAppMessageMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -705,6 +710,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWhatsAppMessageMediaInput, DeleteWhatsAppMessageMediaOutput>(DeleteWhatsAppMessageMediaInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWhatsAppMessageMediaOutput>(DeleteWhatsAppMessageMediaOutput.httpOutput(from:), DeleteWhatsAppMessageMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWhatsAppMessageMediaInput, DeleteWhatsAppMessageMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWhatsAppMessageMediaOutput>())
@@ -736,9 +742,9 @@ extension SocialMessagingClient {
     ///
     /// Deletes a WhatsApp message template.
     ///
-    /// - Parameter DeleteWhatsAppMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWhatsAppMessageTemplateInput`)
     ///
-    /// - Returns: `DeleteWhatsAppMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWhatsAppMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -776,6 +782,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(DeleteWhatsAppMessageTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWhatsAppMessageTemplateOutput>(DeleteWhatsAppMessageTemplateOutput.httpOutput(from:), DeleteWhatsAppMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWhatsAppMessageTemplateInput, DeleteWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWhatsAppMessageTemplateOutput>())
@@ -807,9 +814,9 @@ extension SocialMessagingClient {
     ///
     /// Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
     ///
-    /// - Parameter DisassociateWhatsAppBusinessAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateWhatsAppBusinessAccountInput`)
     ///
-    /// - Returns: `DisassociateWhatsAppBusinessAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateWhatsAppBusinessAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -846,6 +853,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DisassociateWhatsAppBusinessAccountInput, DisassociateWhatsAppBusinessAccountOutput>(DisassociateWhatsAppBusinessAccountInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateWhatsAppBusinessAccountOutput>(DisassociateWhatsAppBusinessAccountOutput.httpOutput(from:), DisassociateWhatsAppBusinessAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateWhatsAppBusinessAccountInput, DisassociateWhatsAppBusinessAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateWhatsAppBusinessAccountOutput>())
@@ -877,9 +885,9 @@ extension SocialMessagingClient {
     ///
     /// Get the details of your linked WhatsApp Business Account.
     ///
-    /// - Parameter GetLinkedWhatsAppBusinessAccountInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountInput`)
     ///
-    /// - Returns: `GetLinkedWhatsAppBusinessAccountOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -917,6 +925,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLinkedWhatsAppBusinessAccountInput, GetLinkedWhatsAppBusinessAccountOutput>(GetLinkedWhatsAppBusinessAccountInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLinkedWhatsAppBusinessAccountOutput>(GetLinkedWhatsAppBusinessAccountOutput.httpOutput(from:), GetLinkedWhatsAppBusinessAccountOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLinkedWhatsAppBusinessAccountInput, GetLinkedWhatsAppBusinessAccountOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLinkedWhatsAppBusinessAccountOutput>())
@@ -948,9 +957,9 @@ extension SocialMessagingClient {
     ///
     /// Use your WhatsApp phone number id to get the WABA account id and phone number details.
     ///
-    /// - Parameter GetLinkedWhatsAppBusinessAccountPhoneNumberInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountPhoneNumberInput`)
     ///
-    /// - Returns: `GetLinkedWhatsAppBusinessAccountPhoneNumberOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountPhoneNumberOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -988,6 +997,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetLinkedWhatsAppBusinessAccountPhoneNumberInput, GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>(GetLinkedWhatsAppBusinessAccountPhoneNumberInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>(GetLinkedWhatsAppBusinessAccountPhoneNumberOutput.httpOutput(from:), GetLinkedWhatsAppBusinessAccountPhoneNumberOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLinkedWhatsAppBusinessAccountPhoneNumberInput, GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>())
@@ -1019,9 +1029,9 @@ extension SocialMessagingClient {
     ///
     /// Get a media file from the WhatsApp service. On successful completion the media file is retrieved from Meta and stored in the specified Amazon S3 bucket. Use either destinationS3File or destinationS3PresignedUrl for the destination. If both are used then an InvalidParameterException is returned.
     ///
-    /// - Parameter GetWhatsAppMessageMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWhatsAppMessageMediaInput`)
     ///
-    /// - Returns: `GetWhatsAppMessageMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWhatsAppMessageMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1062,6 +1072,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetWhatsAppMessageMediaInput, GetWhatsAppMessageMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWhatsAppMessageMediaOutput>(GetWhatsAppMessageMediaOutput.httpOutput(from:), GetWhatsAppMessageMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWhatsAppMessageMediaInput, GetWhatsAppMessageMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWhatsAppMessageMediaOutput>())
@@ -1093,9 +1104,9 @@ extension SocialMessagingClient {
     ///
     /// Retrieves a specific WhatsApp message template.
     ///
-    /// - Parameter GetWhatsAppMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetWhatsAppMessageTemplateInput`)
     ///
-    /// - Returns: `GetWhatsAppMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetWhatsAppMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1133,6 +1144,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(GetWhatsAppMessageTemplateInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetWhatsAppMessageTemplateOutput>(GetWhatsAppMessageTemplateOutput.httpOutput(from:), GetWhatsAppMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetWhatsAppMessageTemplateInput, GetWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetWhatsAppMessageTemplateOutput>())
@@ -1164,9 +1176,9 @@ extension SocialMessagingClient {
     ///
     /// List all WhatsApp Business Accounts linked to your Amazon Web Services account.
     ///
-    /// - Parameter ListLinkedWhatsAppBusinessAccountsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListLinkedWhatsAppBusinessAccountsInput`)
     ///
-    /// - Returns: `ListLinkedWhatsAppBusinessAccountsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListLinkedWhatsAppBusinessAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1203,6 +1215,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListLinkedWhatsAppBusinessAccountsInput, ListLinkedWhatsAppBusinessAccountsOutput>(ListLinkedWhatsAppBusinessAccountsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListLinkedWhatsAppBusinessAccountsOutput>(ListLinkedWhatsAppBusinessAccountsOutput.httpOutput(from:), ListLinkedWhatsAppBusinessAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListLinkedWhatsAppBusinessAccountsInput, ListLinkedWhatsAppBusinessAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListLinkedWhatsAppBusinessAccountsOutput>())
@@ -1234,9 +1247,9 @@ extension SocialMessagingClient {
     ///
     /// List all tags associated with a resource, such as a phone number or WABA.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1272,6 +1285,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(ListTagsForResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -1303,9 +1317,9 @@ extension SocialMessagingClient {
     ///
     /// Lists WhatsApp message templates for a specific WhatsApp Business Account.
     ///
-    /// - Parameter ListWhatsAppMessageTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatsAppMessageTemplatesInput`)
     ///
-    /// - Returns: `ListWhatsAppMessageTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatsAppMessageTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1343,6 +1357,7 @@ extension SocialMessagingClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(ListWhatsAppMessageTemplatesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatsAppMessageTemplatesOutput>(ListWhatsAppMessageTemplatesOutput.httpOutput(from:), ListWhatsAppMessageTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatsAppMessageTemplatesInput, ListWhatsAppMessageTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatsAppMessageTemplatesOutput>())
@@ -1374,9 +1389,9 @@ extension SocialMessagingClient {
     ///
     /// Lists templates available in Meta's template library for WhatsApp messaging.
     ///
-    /// - Parameter ListWhatsAppTemplateLibraryInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWhatsAppTemplateLibraryInput`)
     ///
-    /// - Returns: `ListWhatsAppTemplateLibraryOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWhatsAppTemplateLibraryOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1417,6 +1432,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWhatsAppTemplateLibraryOutput>(ListWhatsAppTemplateLibraryOutput.httpOutput(from:), ListWhatsAppTemplateLibraryOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWhatsAppTemplateLibraryInput, ListWhatsAppTemplateLibraryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWhatsAppTemplateLibraryOutput>())
@@ -1448,9 +1464,9 @@ extension SocialMessagingClient {
     ///
     /// Upload a media file to the WhatsApp service. Only the specified originationPhoneNumberId has the permissions to send the media file when using [SendWhatsAppMessage](https://docs.aws.amazon.com/social-messaging/latest/APIReference/API_SendWhatsAppMessage.html). You must use either sourceS3File or sourceS3PresignedUrl for the source. If both or neither are specified then an InvalidParameterException is returned.
     ///
-    /// - Parameter PostWhatsAppMessageMediaInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PostWhatsAppMessageMediaInput`)
     ///
-    /// - Returns: `PostWhatsAppMessageMediaOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PostWhatsAppMessageMediaOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1491,6 +1507,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PostWhatsAppMessageMediaInput, PostWhatsAppMessageMediaOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PostWhatsAppMessageMediaOutput>(PostWhatsAppMessageMediaOutput.httpOutput(from:), PostWhatsAppMessageMediaOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PostWhatsAppMessageMediaInput, PostWhatsAppMessageMediaOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PostWhatsAppMessageMediaOutput>())
@@ -1522,9 +1539,9 @@ extension SocialMessagingClient {
     ///
     /// Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
     ///
-    /// - Parameter PutWhatsAppBusinessAccountEventDestinationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutWhatsAppBusinessAccountEventDestinationsInput`)
     ///
-    /// - Returns: `PutWhatsAppBusinessAccountEventDestinationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutWhatsAppBusinessAccountEventDestinationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1562,6 +1579,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutWhatsAppBusinessAccountEventDestinationsInput, PutWhatsAppBusinessAccountEventDestinationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutWhatsAppBusinessAccountEventDestinationsOutput>(PutWhatsAppBusinessAccountEventDestinationsOutput.httpOutput(from:), PutWhatsAppBusinessAccountEventDestinationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutWhatsAppBusinessAccountEventDestinationsInput, PutWhatsAppBusinessAccountEventDestinationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutWhatsAppBusinessAccountEventDestinationsOutput>())
@@ -1593,9 +1611,9 @@ extension SocialMessagingClient {
     ///
     /// Send a WhatsApp message. For examples of sending a message using the Amazon Web Services CLI, see [Sending messages](https://docs.aws.amazon.com/social-messaging/latest/userguide/send-message.html) in the Amazon Web Services End User Messaging Social User Guide .
     ///
-    /// - Parameter SendWhatsAppMessageInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendWhatsAppMessageInput`)
     ///
-    /// - Returns: `SendWhatsAppMessageOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendWhatsAppMessageOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1635,6 +1653,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendWhatsAppMessageInput, SendWhatsAppMessageOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendWhatsAppMessageOutput>(SendWhatsAppMessageOutput.httpOutput(from:), SendWhatsAppMessageOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendWhatsAppMessageInput, SendWhatsAppMessageOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendWhatsAppMessageOutput>())
@@ -1666,9 +1685,9 @@ extension SocialMessagingClient {
     ///
     /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1706,6 +1725,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -1737,9 +1757,9 @@ extension SocialMessagingClient {
     ///
     /// Removes the specified tags from a resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1777,6 +1797,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -1808,9 +1829,9 @@ extension SocialMessagingClient {
     ///
     /// Updates an existing WhatsApp message template.
     ///
-    /// - Parameter UpdateWhatsAppMessageTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWhatsAppMessageTemplateInput`)
     ///
-    /// - Returns: `UpdateWhatsAppMessageTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWhatsAppMessageTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1850,6 +1871,7 @@ extension SocialMessagingClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWhatsAppMessageTemplateOutput>(UpdateWhatsAppMessageTemplateOutput.httpOutput(from:), UpdateWhatsAppMessageTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWhatsAppMessageTemplateInput, UpdateWhatsAppMessageTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWhatsAppMessageTemplateOutput>())

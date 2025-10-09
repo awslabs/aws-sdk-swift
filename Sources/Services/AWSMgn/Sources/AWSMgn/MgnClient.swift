@@ -22,6 +22,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MgnClient: ClientRuntime.Client {
     public static let clientName = "MgnClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MgnClient.MgnClientConfiguration
     let serviceName = "mgn"
@@ -373,9 +374,9 @@ extension MgnClient {
     ///
     /// Archive application.
     ///
-    /// - Parameter ArchiveApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ArchiveApplicationInput`)
     ///
-    /// - Returns: `ArchiveApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ArchiveApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -412,6 +413,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ArchiveApplicationInput, ArchiveApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ArchiveApplicationOutput>(ArchiveApplicationOutput.httpOutput(from:), ArchiveApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ArchiveApplicationInput, ArchiveApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ArchiveApplicationOutput>())
@@ -443,9 +445,9 @@ extension MgnClient {
     ///
     /// Archive wave.
     ///
-    /// - Parameter ArchiveWaveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ArchiveWaveInput`)
     ///
-    /// - Returns: `ArchiveWaveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ArchiveWaveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -482,6 +484,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ArchiveWaveInput, ArchiveWaveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ArchiveWaveOutput>(ArchiveWaveOutput.httpOutput(from:), ArchiveWaveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ArchiveWaveInput, ArchiveWaveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ArchiveWaveOutput>())
@@ -513,9 +516,9 @@ extension MgnClient {
     ///
     /// Associate applications to wave.
     ///
-    /// - Parameter AssociateApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateApplicationsInput`)
     ///
-    /// - Returns: `AssociateApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -552,6 +555,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateApplicationsInput, AssociateApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateApplicationsOutput>(AssociateApplicationsOutput.httpOutput(from:), AssociateApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateApplicationsInput, AssociateApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateApplicationsOutput>())
@@ -583,9 +587,9 @@ extension MgnClient {
     ///
     /// Associate source servers to application.
     ///
-    /// - Parameter AssociateSourceServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceServersInput`)
     ///
-    /// - Returns: `AssociateSourceServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSourceServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -622,6 +626,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceServersInput, AssociateSourceServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSourceServersOutput>(AssociateSourceServersOutput.httpOutput(from:), AssociateSourceServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceServersInput, AssociateSourceServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceServersOutput>())
@@ -653,9 +658,9 @@ extension MgnClient {
     ///
     /// Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
     ///
-    /// - Parameter ChangeServerLifeCycleStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ChangeServerLifeCycleStateInput`)
     ///
-    /// - Returns: `ChangeServerLifeCycleStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ChangeServerLifeCycleStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -692,6 +697,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ChangeServerLifeCycleStateInput, ChangeServerLifeCycleStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ChangeServerLifeCycleStateOutput>(ChangeServerLifeCycleStateOutput.httpOutput(from:), ChangeServerLifeCycleStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ChangeServerLifeCycleStateInput, ChangeServerLifeCycleStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ChangeServerLifeCycleStateOutput>())
@@ -723,9 +729,9 @@ extension MgnClient {
     ///
     /// Create application.
     ///
-    /// - Parameter CreateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateApplicationInput`)
     ///
-    /// - Returns: `CreateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -761,6 +767,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateApplicationInput, CreateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateApplicationOutput>(CreateApplicationOutput.httpOutput(from:), CreateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateApplicationInput, CreateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateApplicationOutput>())
@@ -792,9 +799,9 @@ extension MgnClient {
     ///
     /// Create Connector.
     ///
-    /// - Parameter CreateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateConnectorInput`)
     ///
-    /// - Returns: `CreateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -829,6 +836,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConnectorInput, CreateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConnectorOutput>(CreateConnectorOutput.httpOutput(from:), CreateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConnectorInput, CreateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConnectorOutput>())
@@ -860,9 +868,9 @@ extension MgnClient {
     ///
     /// Creates a new Launch Configuration Template.
     ///
-    /// - Parameter CreateLaunchConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateLaunchConfigurationTemplateInput`)
     ///
-    /// - Returns: `CreateLaunchConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateLaunchConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -898,6 +906,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateLaunchConfigurationTemplateInput, CreateLaunchConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateLaunchConfigurationTemplateOutput>(CreateLaunchConfigurationTemplateOutput.httpOutput(from:), CreateLaunchConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateLaunchConfigurationTemplateInput, CreateLaunchConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateLaunchConfigurationTemplateOutput>())
@@ -929,9 +938,9 @@ extension MgnClient {
     ///
     /// Creates a new ReplicationConfigurationTemplate.
     ///
-    /// - Parameter CreateReplicationConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateReplicationConfigurationTemplateInput`)
     ///
-    /// - Returns: `CreateReplicationConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateReplicationConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -967,6 +976,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateReplicationConfigurationTemplateInput, CreateReplicationConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateReplicationConfigurationTemplateOutput>(CreateReplicationConfigurationTemplateOutput.httpOutput(from:), CreateReplicationConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateReplicationConfigurationTemplateInput, CreateReplicationConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateReplicationConfigurationTemplateOutput>())
@@ -998,9 +1008,9 @@ extension MgnClient {
     ///
     /// Create wave.
     ///
-    /// - Parameter CreateWaveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateWaveInput`)
     ///
-    /// - Returns: `CreateWaveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateWaveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1036,6 +1046,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateWaveInput, CreateWaveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateWaveOutput>(CreateWaveOutput.httpOutput(from:), CreateWaveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateWaveInput, CreateWaveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateWaveOutput>())
@@ -1067,9 +1078,9 @@ extension MgnClient {
     ///
     /// Delete application.
     ///
-    /// - Parameter DeleteApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteApplicationInput`)
     ///
-    /// - Returns: `DeleteApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1105,6 +1116,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteApplicationInput, DeleteApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteApplicationOutput>(DeleteApplicationOutput.httpOutput(from:), DeleteApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteApplicationInput, DeleteApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteApplicationOutput>())
@@ -1136,9 +1148,9 @@ extension MgnClient {
     ///
     /// Delete Connector.
     ///
-    /// - Parameter DeleteConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConnectorInput`)
     ///
-    /// - Returns: `DeleteConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1174,6 +1186,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteConnectorInput, DeleteConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConnectorOutput>(DeleteConnectorOutput.httpOutput(from:), DeleteConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConnectorInput, DeleteConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConnectorOutput>())
@@ -1205,9 +1218,9 @@ extension MgnClient {
     ///
     /// Deletes a single Job by ID.
     ///
-    /// - Parameter DeleteJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobInput`)
     ///
-    /// - Returns: `DeleteJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1243,6 +1256,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteJobInput, DeleteJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobOutput>(DeleteJobOutput.httpOutput(from:), DeleteJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobInput, DeleteJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobOutput>())
@@ -1274,9 +1288,9 @@ extension MgnClient {
     ///
     /// Deletes a single Launch Configuration Template by ID.
     ///
-    /// - Parameter DeleteLaunchConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteLaunchConfigurationTemplateInput`)
     ///
-    /// - Returns: `DeleteLaunchConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteLaunchConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1312,6 +1326,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteLaunchConfigurationTemplateInput, DeleteLaunchConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteLaunchConfigurationTemplateOutput>(DeleteLaunchConfigurationTemplateOutput.httpOutput(from:), DeleteLaunchConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteLaunchConfigurationTemplateInput, DeleteLaunchConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteLaunchConfigurationTemplateOutput>())
@@ -1343,9 +1358,9 @@ extension MgnClient {
     ///
     /// Deletes a single Replication Configuration Template by ID
     ///
-    /// - Parameter DeleteReplicationConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteReplicationConfigurationTemplateInput`)
     ///
-    /// - Returns: `DeleteReplicationConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteReplicationConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1381,6 +1396,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteReplicationConfigurationTemplateInput, DeleteReplicationConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteReplicationConfigurationTemplateOutput>(DeleteReplicationConfigurationTemplateOutput.httpOutput(from:), DeleteReplicationConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteReplicationConfigurationTemplateInput, DeleteReplicationConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteReplicationConfigurationTemplateOutput>())
@@ -1412,9 +1428,9 @@ extension MgnClient {
     ///
     /// Deletes a single source server by ID.
     ///
-    /// - Parameter DeleteSourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSourceServerInput`)
     ///
-    /// - Returns: `DeleteSourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1450,6 +1466,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSourceServerInput, DeleteSourceServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSourceServerOutput>(DeleteSourceServerOutput.httpOutput(from:), DeleteSourceServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSourceServerInput, DeleteSourceServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSourceServerOutput>())
@@ -1481,9 +1498,9 @@ extension MgnClient {
     ///
     /// Deletes a given vCenter client by ID.
     ///
-    /// - Parameter DeleteVcenterClientInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteVcenterClientInput`)
     ///
-    /// - Returns: `DeleteVcenterClientOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteVcenterClientOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1519,6 +1536,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteVcenterClientInput, DeleteVcenterClientOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteVcenterClientOutput>(DeleteVcenterClientOutput.httpOutput(from:), DeleteVcenterClientOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteVcenterClientInput, DeleteVcenterClientOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteVcenterClientOutput>())
@@ -1550,9 +1568,9 @@ extension MgnClient {
     ///
     /// Delete wave.
     ///
-    /// - Parameter DeleteWaveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteWaveInput`)
     ///
-    /// - Returns: `DeleteWaveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteWaveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1588,6 +1606,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteWaveInput, DeleteWaveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteWaveOutput>(DeleteWaveOutput.httpOutput(from:), DeleteWaveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteWaveInput, DeleteWaveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteWaveOutput>())
@@ -1619,9 +1638,9 @@ extension MgnClient {
     ///
     /// Retrieves detailed job log items with paging.
     ///
-    /// - Parameter DescribeJobLogItemsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobLogItemsInput`)
     ///
-    /// - Returns: `DescribeJobLogItemsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobLogItemsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1656,6 +1675,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeJobLogItemsInput, DescribeJobLogItemsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobLogItemsOutput>(DescribeJobLogItemsOutput.httpOutput(from:), DescribeJobLogItemsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobLogItemsInput, DescribeJobLogItemsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobLogItemsOutput>())
@@ -1687,9 +1707,9 @@ extension MgnClient {
     ///
     /// Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
     ///
-    /// - Parameter DescribeJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobsInput`)
     ///
-    /// - Returns: `DescribeJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1724,6 +1744,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeJobsInput, DescribeJobsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobsOutput>(DescribeJobsOutput.httpOutput(from:), DescribeJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobsInput, DescribeJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobsOutput>())
@@ -1755,9 +1776,9 @@ extension MgnClient {
     ///
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
     ///
-    /// - Parameter DescribeLaunchConfigurationTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeLaunchConfigurationTemplatesInput`)
     ///
-    /// - Returns: `DescribeLaunchConfigurationTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeLaunchConfigurationTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1793,6 +1814,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeLaunchConfigurationTemplatesInput, DescribeLaunchConfigurationTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeLaunchConfigurationTemplatesOutput>(DescribeLaunchConfigurationTemplatesOutput.httpOutput(from:), DescribeLaunchConfigurationTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeLaunchConfigurationTemplatesInput, DescribeLaunchConfigurationTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeLaunchConfigurationTemplatesOutput>())
@@ -1824,9 +1846,9 @@ extension MgnClient {
     ///
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
     ///
-    /// - Parameter DescribeReplicationConfigurationTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeReplicationConfigurationTemplatesInput`)
     ///
-    /// - Returns: `DescribeReplicationConfigurationTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeReplicationConfigurationTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1862,6 +1884,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeReplicationConfigurationTemplatesInput, DescribeReplicationConfigurationTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeReplicationConfigurationTemplatesOutput>(DescribeReplicationConfigurationTemplatesOutput.httpOutput(from:), DescribeReplicationConfigurationTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeReplicationConfigurationTemplatesInput, DescribeReplicationConfigurationTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeReplicationConfigurationTemplatesOutput>())
@@ -1893,9 +1916,9 @@ extension MgnClient {
     ///
     /// Retrieves all SourceServers or multiple SourceServers by ID.
     ///
-    /// - Parameter DescribeSourceServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeSourceServersInput`)
     ///
-    /// - Returns: `DescribeSourceServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeSourceServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1930,6 +1953,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeSourceServersInput, DescribeSourceServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeSourceServersOutput>(DescribeSourceServersOutput.httpOutput(from:), DescribeSourceServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeSourceServersInput, DescribeSourceServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeSourceServersOutput>())
@@ -1961,9 +1985,9 @@ extension MgnClient {
     ///
     /// Returns a list of the installed vCenter clients.
     ///
-    /// - Parameter DescribeVcenterClientsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeVcenterClientsInput`)
     ///
-    /// - Returns: `DescribeVcenterClientsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeVcenterClientsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1997,6 +2021,7 @@ extension MgnClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeVcenterClientsInput, DescribeVcenterClientsOutput>(DescribeVcenterClientsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeVcenterClientsOutput>(DescribeVcenterClientsOutput.httpOutput(from:), DescribeVcenterClientsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeVcenterClientsInput, DescribeVcenterClientsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeVcenterClientsOutput>())
@@ -2028,9 +2053,9 @@ extension MgnClient {
     ///
     /// Disassociate applications from wave.
     ///
-    /// - Parameter DisassociateApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateApplicationsInput`)
     ///
-    /// - Returns: `DisassociateApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2066,6 +2091,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateApplicationsInput, DisassociateApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateApplicationsOutput>(DisassociateApplicationsOutput.httpOutput(from:), DisassociateApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateApplicationsInput, DisassociateApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateApplicationsOutput>())
@@ -2097,9 +2123,9 @@ extension MgnClient {
     ///
     /// Disassociate source servers from application.
     ///
-    /// - Parameter DisassociateSourceServersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceServersInput`)
     ///
-    /// - Returns: `DisassociateSourceServersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceServersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2135,6 +2161,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceServersInput, DisassociateSourceServersOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSourceServersOutput>(DisassociateSourceServersOutput.httpOutput(from:), DisassociateSourceServersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceServersInput, DisassociateSourceServersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceServersOutput>())
@@ -2166,9 +2193,9 @@ extension MgnClient {
     ///
     /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
-    /// - Parameter DisconnectFromServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisconnectFromServiceInput`)
     ///
-    /// - Returns: `DisconnectFromServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisconnectFromServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2204,6 +2231,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisconnectFromServiceInput, DisconnectFromServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisconnectFromServiceOutput>(DisconnectFromServiceOutput.httpOutput(from:), DisconnectFromServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisconnectFromServiceInput, DisconnectFromServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisconnectFromServiceOutput>())
@@ -2235,9 +2263,9 @@ extension MgnClient {
     ///
     /// Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
     ///
-    /// - Parameter FinalizeCutoverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `FinalizeCutoverInput`)
     ///
-    /// - Returns: `FinalizeCutoverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `FinalizeCutoverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2274,6 +2302,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<FinalizeCutoverInput, FinalizeCutoverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<FinalizeCutoverOutput>(FinalizeCutoverOutput.httpOutput(from:), FinalizeCutoverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<FinalizeCutoverInput, FinalizeCutoverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<FinalizeCutoverOutput>())
@@ -2305,9 +2334,9 @@ extension MgnClient {
     ///
     /// Lists all LaunchConfigurations available, filtered by Source Server IDs.
     ///
-    /// - Parameter GetLaunchConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetLaunchConfigurationInput`)
     ///
-    /// - Returns: `GetLaunchConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetLaunchConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2342,6 +2371,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetLaunchConfigurationInput, GetLaunchConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetLaunchConfigurationOutput>(GetLaunchConfigurationOutput.httpOutput(from:), GetLaunchConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetLaunchConfigurationInput, GetLaunchConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetLaunchConfigurationOutput>())
@@ -2373,9 +2403,9 @@ extension MgnClient {
     ///
     /// Lists all ReplicationConfigurations, filtered by Source Server ID.
     ///
-    /// - Parameter GetReplicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetReplicationConfigurationInput`)
     ///
-    /// - Returns: `GetReplicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetReplicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2410,6 +2440,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetReplicationConfigurationInput, GetReplicationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetReplicationConfigurationOutput>(GetReplicationConfigurationOutput.httpOutput(from:), GetReplicationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetReplicationConfigurationInput, GetReplicationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetReplicationConfigurationOutput>())
@@ -2441,9 +2472,9 @@ extension MgnClient {
     ///
     /// Initialize Application Migration Service.
     ///
-    /// - Parameter InitializeServiceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `InitializeServiceInput`)
     ///
-    /// - Returns: `InitializeServiceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `InitializeServiceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2475,6 +2506,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<InitializeServiceInput, InitializeServiceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<InitializeServiceOutput>(InitializeServiceOutput.httpOutput(from:), InitializeServiceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<InitializeServiceInput, InitializeServiceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<InitializeServiceOutput>())
@@ -2506,9 +2538,9 @@ extension MgnClient {
     ///
     /// Retrieves all applications or multiple applications by ID.
     ///
-    /// - Parameter ListApplicationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationsInput`)
     ///
-    /// - Returns: `ListApplicationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2542,6 +2574,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationsInput, ListApplicationsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationsOutput>(ListApplicationsOutput.httpOutput(from:), ListApplicationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationsInput, ListApplicationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationsOutput>())
@@ -2573,9 +2606,9 @@ extension MgnClient {
     ///
     /// List Connectors.
     ///
-    /// - Parameter ListConnectorsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConnectorsInput`)
     ///
-    /// - Returns: `ListConnectorsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConnectorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2610,6 +2643,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListConnectorsInput, ListConnectorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConnectorsOutput>(ListConnectorsOutput.httpOutput(from:), ListConnectorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConnectorsInput, ListConnectorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConnectorsOutput>())
@@ -2641,9 +2675,9 @@ extension MgnClient {
     ///
     /// List export errors.
     ///
-    /// - Parameter ListExportErrorsInput : List export errors request.
+    /// - Parameter input: List export errors request. (Type: `ListExportErrorsInput`)
     ///
-    /// - Returns: `ListExportErrorsOutput` : List export errors response.
+    /// - Returns: List export errors response. (Type: `ListExportErrorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2678,6 +2712,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportErrorsInput, ListExportErrorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExportErrorsOutput>(ListExportErrorsOutput.httpOutput(from:), ListExportErrorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportErrorsInput, ListExportErrorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExportErrorsOutput>())
@@ -2709,9 +2744,9 @@ extension MgnClient {
     ///
     /// List exports.
     ///
-    /// - Parameter ListExportsInput : List export request.
+    /// - Parameter input: List export request. (Type: `ListExportsInput`)
     ///
-    /// - Returns: `ListExportsOutput` : List export response.
+    /// - Returns: List export response. (Type: `ListExportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2745,6 +2780,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListExportsInput, ListExportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListExportsOutput>(ListExportsOutput.httpOutput(from:), ListExportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListExportsInput, ListExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListExportsOutput>())
@@ -2776,9 +2812,9 @@ extension MgnClient {
     ///
     /// List import errors.
     ///
-    /// - Parameter ListImportErrorsInput : List import errors request.
+    /// - Parameter input: List import errors request. (Type: `ListImportErrorsInput`)
     ///
-    /// - Returns: `ListImportErrorsOutput` : List imports errors response.
+    /// - Returns: List imports errors response. (Type: `ListImportErrorsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2813,6 +2849,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImportErrorsInput, ListImportErrorsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportErrorsOutput>(ListImportErrorsOutput.httpOutput(from:), ListImportErrorsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportErrorsInput, ListImportErrorsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportErrorsOutput>())
@@ -2844,9 +2881,9 @@ extension MgnClient {
     ///
     /// List imports.
     ///
-    /// - Parameter ListImportsInput : List imports request.
+    /// - Parameter input: List imports request. (Type: `ListImportsInput`)
     ///
-    /// - Returns: `ListImportsOutput` : List import response.
+    /// - Returns: List import response. (Type: `ListImportsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2881,6 +2918,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListImportsInput, ListImportsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListImportsOutput>(ListImportsOutput.httpOutput(from:), ListImportsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListImportsInput, ListImportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListImportsOutput>())
@@ -2912,9 +2950,9 @@ extension MgnClient {
     ///
     /// List Managed Accounts.
     ///
-    /// - Parameter ListManagedAccountsInput : List managed accounts request.
+    /// - Parameter input: List managed accounts request. (Type: `ListManagedAccountsInput`)
     ///
-    /// - Returns: `ListManagedAccountsOutput` : List managed accounts response.
+    /// - Returns: List managed accounts response. (Type: `ListManagedAccountsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2949,6 +2987,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListManagedAccountsInput, ListManagedAccountsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListManagedAccountsOutput>(ListManagedAccountsOutput.httpOutput(from:), ListManagedAccountsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListManagedAccountsInput, ListManagedAccountsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListManagedAccountsOutput>())
@@ -2980,9 +3019,9 @@ extension MgnClient {
     ///
     /// List source server post migration custom actions.
     ///
-    /// - Parameter ListSourceServerActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceServerActionsInput`)
     ///
-    /// - Returns: `ListSourceServerActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceServerActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3017,6 +3056,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceServerActionsInput, ListSourceServerActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceServerActionsOutput>(ListSourceServerActionsOutput.httpOutput(from:), ListSourceServerActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceServerActionsInput, ListSourceServerActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceServerActionsOutput>())
@@ -3048,9 +3088,9 @@ extension MgnClient {
     ///
     /// List all tags for your Application Migration Service resources.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3085,6 +3125,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -3116,9 +3157,9 @@ extension MgnClient {
     ///
     /// List template post migration custom actions.
     ///
-    /// - Parameter ListTemplateActionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTemplateActionsInput`)
     ///
-    /// - Returns: `ListTemplateActionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTemplateActionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3153,6 +3194,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTemplateActionsInput, ListTemplateActionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTemplateActionsOutput>(ListTemplateActionsOutput.httpOutput(from:), ListTemplateActionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTemplateActionsInput, ListTemplateActionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTemplateActionsOutput>())
@@ -3184,9 +3226,9 @@ extension MgnClient {
     ///
     /// Retrieves all waves or multiple waves by ID.
     ///
-    /// - Parameter ListWavesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListWavesInput`)
     ///
-    /// - Returns: `ListWavesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListWavesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3220,6 +3262,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListWavesInput, ListWavesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListWavesOutput>(ListWavesOutput.httpOutput(from:), ListWavesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListWavesInput, ListWavesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListWavesOutput>())
@@ -3251,9 +3294,9 @@ extension MgnClient {
     ///
     /// Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
     ///
-    /// - Parameter MarkAsArchivedInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `MarkAsArchivedInput`)
     ///
-    /// - Returns: `MarkAsArchivedOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `MarkAsArchivedOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3289,6 +3332,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<MarkAsArchivedInput, MarkAsArchivedOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<MarkAsArchivedOutput>(MarkAsArchivedOutput.httpOutput(from:), MarkAsArchivedOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<MarkAsArchivedInput, MarkAsArchivedOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<MarkAsArchivedOutput>())
@@ -3320,9 +3364,9 @@ extension MgnClient {
     ///
     /// Pause Replication.
     ///
-    /// - Parameter PauseReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PauseReplicationInput`)
     ///
-    /// - Returns: `PauseReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PauseReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3360,6 +3404,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PauseReplicationInput, PauseReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PauseReplicationOutput>(PauseReplicationOutput.httpOutput(from:), PauseReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PauseReplicationInput, PauseReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PauseReplicationOutput>())
@@ -3391,9 +3436,9 @@ extension MgnClient {
     ///
     /// Put source server post migration custom action.
     ///
-    /// - Parameter PutSourceServerActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutSourceServerActionInput`)
     ///
-    /// - Returns: `PutSourceServerActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutSourceServerActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3430,6 +3475,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutSourceServerActionInput, PutSourceServerActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutSourceServerActionOutput>(PutSourceServerActionOutput.httpOutput(from:), PutSourceServerActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutSourceServerActionInput, PutSourceServerActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutSourceServerActionOutput>())
@@ -3461,9 +3507,9 @@ extension MgnClient {
     ///
     /// Put template post migration custom action.
     ///
-    /// - Parameter PutTemplateActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutTemplateActionInput`)
     ///
-    /// - Returns: `PutTemplateActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutTemplateActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3500,6 +3546,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutTemplateActionInput, PutTemplateActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutTemplateActionOutput>(PutTemplateActionOutput.httpOutput(from:), PutTemplateActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutTemplateActionInput, PutTemplateActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutTemplateActionOutput>())
@@ -3531,9 +3578,9 @@ extension MgnClient {
     ///
     /// Remove source server post migration custom action.
     ///
-    /// - Parameter RemoveSourceServerActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveSourceServerActionInput`)
     ///
-    /// - Returns: `RemoveSourceServerActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveSourceServerActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3569,6 +3616,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveSourceServerActionInput, RemoveSourceServerActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveSourceServerActionOutput>(RemoveSourceServerActionOutput.httpOutput(from:), RemoveSourceServerActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveSourceServerActionInput, RemoveSourceServerActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveSourceServerActionOutput>())
@@ -3600,9 +3648,9 @@ extension MgnClient {
     ///
     /// Remove template post migration custom action.
     ///
-    /// - Parameter RemoveTemplateActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RemoveTemplateActionInput`)
     ///
-    /// - Returns: `RemoveTemplateActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RemoveTemplateActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3638,6 +3686,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RemoveTemplateActionInput, RemoveTemplateActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RemoveTemplateActionOutput>(RemoveTemplateActionOutput.httpOutput(from:), RemoveTemplateActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RemoveTemplateActionInput, RemoveTemplateActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RemoveTemplateActionOutput>())
@@ -3669,9 +3718,9 @@ extension MgnClient {
     ///
     /// Resume Replication.
     ///
-    /// - Parameter ResumeReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ResumeReplicationInput`)
     ///
-    /// - Returns: `ResumeReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ResumeReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3709,6 +3758,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ResumeReplicationInput, ResumeReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ResumeReplicationOutput>(ResumeReplicationOutput.httpOutput(from:), ResumeReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ResumeReplicationInput, ResumeReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ResumeReplicationOutput>())
@@ -3740,9 +3790,9 @@ extension MgnClient {
     ///
     /// Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
     ///
-    /// - Parameter RetryDataReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RetryDataReplicationInput`)
     ///
-    /// - Returns: `RetryDataReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RetryDataReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3778,6 +3828,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<RetryDataReplicationInput, RetryDataReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RetryDataReplicationOutput>(RetryDataReplicationOutput.httpOutput(from:), RetryDataReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RetryDataReplicationInput, RetryDataReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RetryDataReplicationOutput>())
@@ -3809,9 +3860,9 @@ extension MgnClient {
     ///
     /// Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
     ///
-    /// - Parameter StartCutoverInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartCutoverInput`)
     ///
-    /// - Returns: `StartCutoverOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartCutoverOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3847,6 +3898,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCutoverInput, StartCutoverOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartCutoverOutput>(StartCutoverOutput.httpOutput(from:), StartCutoverOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartCutoverInput, StartCutoverOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartCutoverOutput>())
@@ -3878,9 +3930,9 @@ extension MgnClient {
     ///
     /// Start export.
     ///
-    /// - Parameter StartExportInput : Start export request.
+    /// - Parameter input: Start export request. (Type: `StartExportInput`)
     ///
-    /// - Returns: `StartExportOutput` : Start export response.
+    /// - Returns: Start export response. (Type: `StartExportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3916,6 +3968,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartExportInput, StartExportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartExportOutput>(StartExportOutput.httpOutput(from:), StartExportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartExportInput, StartExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartExportOutput>())
@@ -3947,9 +4000,9 @@ extension MgnClient {
     ///
     /// Start import.
     ///
-    /// - Parameter StartImportInput : Start import request.
+    /// - Parameter input: Start import request. (Type: `StartImportInput`)
     ///
-    /// - Returns: `StartImportOutput` : Start import response.
+    /// - Returns: Start import response. (Type: `StartImportOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3988,6 +4041,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartImportInput, StartImportOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartImportOutput>(StartImportOutput.httpOutput(from:), StartImportOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartImportInput, StartImportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartImportOutput>())
@@ -4019,9 +4073,9 @@ extension MgnClient {
     ///
     /// Starts replication for SNAPSHOT_SHIPPING agents.
     ///
-    /// - Parameter StartReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartReplicationInput`)
     ///
-    /// - Returns: `StartReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4059,6 +4113,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartReplicationInput, StartReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartReplicationOutput>(StartReplicationOutput.httpOutput(from:), StartReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartReplicationInput, StartReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartReplicationOutput>())
@@ -4090,9 +4145,9 @@ extension MgnClient {
     ///
     /// Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
     ///
-    /// - Parameter StartTestInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartTestInput`)
     ///
-    /// - Returns: `StartTestOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartTestOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4128,6 +4183,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartTestInput, StartTestOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartTestOutput>(StartTestOutput.httpOutput(from:), StartTestOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartTestInput, StartTestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartTestOutput>())
@@ -4159,9 +4215,9 @@ extension MgnClient {
     ///
     /// Stop Replication.
     ///
-    /// - Parameter StopReplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopReplicationInput`)
     ///
-    /// - Returns: `StopReplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopReplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4199,6 +4255,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StopReplicationInput, StopReplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopReplicationOutput>(StopReplicationOutput.httpOutput(from:), StopReplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopReplicationInput, StopReplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopReplicationOutput>())
@@ -4230,9 +4287,9 @@ extension MgnClient {
     ///
     /// Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4270,6 +4327,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -4301,9 +4359,9 @@ extension MgnClient {
     ///
     /// Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
     ///
-    /// - Parameter TerminateTargetInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TerminateTargetInstancesInput`)
     ///
-    /// - Returns: `TerminateTargetInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TerminateTargetInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4339,6 +4397,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TerminateTargetInstancesInput, TerminateTargetInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TerminateTargetInstancesOutput>(TerminateTargetInstancesOutput.httpOutput(from:), TerminateTargetInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TerminateTargetInstancesInput, TerminateTargetInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TerminateTargetInstancesOutput>())
@@ -4370,9 +4429,9 @@ extension MgnClient {
     ///
     /// Unarchive application.
     ///
-    /// - Parameter UnarchiveApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnarchiveApplicationInput`)
     ///
-    /// - Returns: `UnarchiveApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnarchiveApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4408,6 +4467,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnarchiveApplicationInput, UnarchiveApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnarchiveApplicationOutput>(UnarchiveApplicationOutput.httpOutput(from:), UnarchiveApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnarchiveApplicationInput, UnarchiveApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnarchiveApplicationOutput>())
@@ -4439,9 +4499,9 @@ extension MgnClient {
     ///
     /// Unarchive wave.
     ///
-    /// - Parameter UnarchiveWaveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UnarchiveWaveInput`)
     ///
-    /// - Returns: `UnarchiveWaveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UnarchiveWaveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4477,6 +4537,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UnarchiveWaveInput, UnarchiveWaveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UnarchiveWaveOutput>(UnarchiveWaveOutput.httpOutput(from:), UnarchiveWaveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UnarchiveWaveInput, UnarchiveWaveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UnarchiveWaveOutput>())
@@ -4508,9 +4569,9 @@ extension MgnClient {
     ///
     /// Deletes the specified set of tags from the specified set of Application Migration Service resources.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4546,6 +4607,7 @@ extension MgnClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -4577,9 +4639,9 @@ extension MgnClient {
     ///
     /// Update application.
     ///
-    /// - Parameter UpdateApplicationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateApplicationInput`)
     ///
-    /// - Returns: `UpdateApplicationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateApplicationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4615,6 +4677,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateApplicationInput, UpdateApplicationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateApplicationOutput>(UpdateApplicationOutput.httpOutput(from:), UpdateApplicationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateApplicationInput, UpdateApplicationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateApplicationOutput>())
@@ -4646,9 +4709,9 @@ extension MgnClient {
     ///
     /// Update Connector.
     ///
-    /// - Parameter UpdateConnectorInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateConnectorInput`)
     ///
-    /// - Returns: `UpdateConnectorOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConnectorOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4684,6 +4747,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConnectorInput, UpdateConnectorOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConnectorOutput>(UpdateConnectorOutput.httpOutput(from:), UpdateConnectorOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConnectorInput, UpdateConnectorOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConnectorOutput>())
@@ -4715,9 +4779,9 @@ extension MgnClient {
     ///
     /// Updates multiple LaunchConfigurations by Source Server ID. bootMode valid values are LEGACY_BIOS | UEFI
     ///
-    /// - Parameter UpdateLaunchConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLaunchConfigurationInput`)
     ///
-    /// - Returns: `UpdateLaunchConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLaunchConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4754,6 +4818,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLaunchConfigurationInput, UpdateLaunchConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLaunchConfigurationOutput>(UpdateLaunchConfigurationOutput.httpOutput(from:), UpdateLaunchConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLaunchConfigurationInput, UpdateLaunchConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLaunchConfigurationOutput>())
@@ -4785,9 +4850,9 @@ extension MgnClient {
     ///
     /// Updates an existing Launch Configuration Template by ID.
     ///
-    /// - Parameter UpdateLaunchConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateLaunchConfigurationTemplateInput`)
     ///
-    /// - Returns: `UpdateLaunchConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateLaunchConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4824,6 +4889,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateLaunchConfigurationTemplateInput, UpdateLaunchConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateLaunchConfigurationTemplateOutput>(UpdateLaunchConfigurationTemplateOutput.httpOutput(from:), UpdateLaunchConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateLaunchConfigurationTemplateInput, UpdateLaunchConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateLaunchConfigurationTemplateOutput>())
@@ -4855,9 +4921,9 @@ extension MgnClient {
     ///
     /// Allows you to update multiple ReplicationConfigurations by Source Server ID.
     ///
-    /// - Parameter UpdateReplicationConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReplicationConfigurationInput`)
     ///
-    /// - Returns: `UpdateReplicationConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReplicationConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4895,6 +4961,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReplicationConfigurationInput, UpdateReplicationConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReplicationConfigurationOutput>(UpdateReplicationConfigurationOutput.httpOutput(from:), UpdateReplicationConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReplicationConfigurationInput, UpdateReplicationConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReplicationConfigurationOutput>())
@@ -4926,9 +4993,9 @@ extension MgnClient {
     ///
     /// Updates multiple ReplicationConfigurationTemplates by ID.
     ///
-    /// - Parameter UpdateReplicationConfigurationTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateReplicationConfigurationTemplateInput`)
     ///
-    /// - Returns: `UpdateReplicationConfigurationTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateReplicationConfigurationTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -4965,6 +5032,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateReplicationConfigurationTemplateInput, UpdateReplicationConfigurationTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateReplicationConfigurationTemplateOutput>(UpdateReplicationConfigurationTemplateOutput.httpOutput(from:), UpdateReplicationConfigurationTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateReplicationConfigurationTemplateInput, UpdateReplicationConfigurationTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateReplicationConfigurationTemplateOutput>())
@@ -4996,9 +5064,9 @@ extension MgnClient {
     ///
     /// Update Source Server.
     ///
-    /// - Parameter UpdateSourceServerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSourceServerInput`)
     ///
-    /// - Returns: `UpdateSourceServerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSourceServerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5034,6 +5102,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSourceServerInput, UpdateSourceServerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSourceServerOutput>(UpdateSourceServerOutput.httpOutput(from:), UpdateSourceServerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSourceServerInput, UpdateSourceServerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSourceServerOutput>())
@@ -5065,9 +5134,9 @@ extension MgnClient {
     ///
     /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
     ///
-    /// - Parameter UpdateSourceServerReplicationTypeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSourceServerReplicationTypeInput`)
     ///
-    /// - Returns: `UpdateSourceServerReplicationTypeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSourceServerReplicationTypeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5104,6 +5173,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSourceServerReplicationTypeInput, UpdateSourceServerReplicationTypeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSourceServerReplicationTypeOutput>(UpdateSourceServerReplicationTypeOutput.httpOutput(from:), UpdateSourceServerReplicationTypeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSourceServerReplicationTypeInput, UpdateSourceServerReplicationTypeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSourceServerReplicationTypeOutput>())
@@ -5135,9 +5205,9 @@ extension MgnClient {
     ///
     /// Update wave.
     ///
-    /// - Parameter UpdateWaveInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateWaveInput`)
     ///
-    /// - Returns: `UpdateWaveOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateWaveOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -5173,6 +5243,7 @@ extension MgnClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateWaveInput, UpdateWaveOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateWaveOutput>(UpdateWaveOutput.httpOutput(from:), UpdateWaveOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateWaveInput, UpdateWaveOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateWaveOutput>())

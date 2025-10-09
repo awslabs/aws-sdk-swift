@@ -21,6 +21,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -66,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 package class CognitoIdentityClient: ClientRuntime.Client {
     public static let clientName = "CognitoIdentityClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: CognitoIdentityClient.CognitoIdentityClientConfiguration
     let serviceName = "Cognito Identity"
@@ -372,9 +373,9 @@ extension CognitoIdentityClient {
     ///
     /// Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to Security Token Service with the appropriate role for the token. This is a public API. You do not need any credentials to call this API.
     ///
-    /// - Parameter GetCredentialsForIdentityInput : Input to the GetCredentialsForIdentity action.
+    /// - Parameter input: Input to the GetCredentialsForIdentity action. (Type: `GetCredentialsForIdentityInput`)
     ///
-    /// - Returns: `GetCredentialsForIdentityOutput` : Returned in response to a successful GetCredentialsForIdentity operation.
+    /// - Returns: Returned in response to a successful GetCredentialsForIdentity operation. (Type: `GetCredentialsForIdentityOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +412,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCredentialsForIdentityOutput>(GetCredentialsForIdentityOutput.httpOutput(from:), GetCredentialsForIdentityOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCredentialsForIdentityInput, GetCredentialsForIdentityOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetCredentialsForIdentityOutput>())
@@ -445,9 +447,9 @@ extension CognitoIdentityClient {
     ///
     /// Generates (or retrieves) IdentityID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API.
     ///
-    /// - Parameter GetIdInput : Input to the GetId action.
+    /// - Parameter input: Input to the GetId action. (Type: `GetIdInput`)
     ///
-    /// - Returns: `GetIdOutput` : Returned in response to a GetId request.
+    /// - Returns: Returned in response to a GetId request. (Type: `GetIdOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +486,7 @@ extension CognitoIdentityClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetIdInput, GetIdOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetIdOutput>(GetIdOutput.httpOutput(from:), GetIdOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetIdInput, GetIdOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetIdOutput>())

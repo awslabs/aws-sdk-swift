@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTThingsGraphClient: ClientRuntime.Client {
     public static let clientName = "IoTThingsGraphClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTThingsGraphClient.IoTThingsGraphClientConfiguration
     let serviceName = "IoTThingsGraph"
@@ -374,9 +375,9 @@ extension IoTThingsGraphClient {
     /// Associates a device with a concrete thing that is in the user's registry. A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter AssociateEntityToThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateEntityToThingInput`)
     ///
-    /// - Returns: `AssociateEntityToThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateEntityToThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -411,6 +412,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEntityToThingOutput>(AssociateEntityToThingOutput.httpOutput(from:), AssociateEntityToThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEntityToThingInput, AssociateEntityToThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEntityToThingOutput>())
@@ -446,9 +448,9 @@ extension IoTThingsGraphClient {
     /// Creates a workflow template. Workflows can be created only in the user's namespace. (The public namespace contains only entities.) The workflow can contain only entities in the specified namespace. The workflow is validated against the entities in the latest version of the user's namespace unless another namespace version is specified in the request.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter CreateFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateFlowTemplateInput`)
     ///
-    /// - Returns: `CreateFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -484,6 +486,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateFlowTemplateOutput>(CreateFlowTemplateOutput.httpOutput(from:), CreateFlowTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateFlowTemplateInput, CreateFlowTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateFlowTemplateOutput>())
@@ -519,9 +522,9 @@ extension IoTThingsGraphClient {
     /// Creates a system instance. This action validates the system instance, prepares the deployment-related resources. For Greengrass deployments, it updates the Greengrass group that is specified by the greengrassGroupName parameter. It also adds a file to the S3 bucket specified by the s3BucketName parameter. You need to call DeploySystemInstance after running this action. For Greengrass deployments, since this action modifies and adds resources to a Greengrass group and an S3 bucket on the caller's behalf, the calling identity must have write permissions to both the specified Greengrass group and S3 bucket. Otherwise, the call will fail with an authorization error. For cloud deployments, this action requires a flowActionsRoleArn value. This is an IAM role that has permissions to access AWS services, such as AWS Lambda and AWS IoT, that the flow uses when it executes. If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter CreateSystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSystemInstanceInput`)
     ///
-    /// - Returns: `CreateSystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -557,6 +560,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSystemInstanceOutput>(CreateSystemInstanceOutput.httpOutput(from:), CreateSystemInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSystemInstanceInput, CreateSystemInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSystemInstanceOutput>())
@@ -592,9 +596,9 @@ extension IoTThingsGraphClient {
     /// Creates a system. The system is validated against the entities in the latest version of the user's namespace unless another namespace version is specified in the request.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter CreateSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateSystemTemplateInput`)
     ///
-    /// - Returns: `CreateSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -629,6 +633,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateSystemTemplateOutput>(CreateSystemTemplateOutput.httpOutput(from:), CreateSystemTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateSystemTemplateInput, CreateSystemTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateSystemTemplateOutput>())
@@ -664,9 +669,9 @@ extension IoTThingsGraphClient {
     /// Deletes a workflow. Any new system or deployment that contains this workflow will fail to update or deploy. Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeleteFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteFlowTemplateInput`)
     ///
-    /// - Returns: `DeleteFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -701,6 +706,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteFlowTemplateOutput>(DeleteFlowTemplateOutput.httpOutput(from:), DeleteFlowTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteFlowTemplateInput, DeleteFlowTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteFlowTemplateOutput>())
@@ -736,9 +742,9 @@ extension IoTThingsGraphClient {
     /// Deletes the specified namespace. This action deletes all of the entities in the namespace. Delete the systems and flows that use entities in the namespace before performing this action. This action takes no request parameters.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeleteNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteNamespaceInput`)
     ///
-    /// - Returns: `DeleteNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -771,6 +777,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteNamespaceInput, DeleteNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteNamespaceOutput>(DeleteNamespaceOutput.httpOutput(from:), DeleteNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteNamespaceInput, DeleteNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteNamespaceOutput>())
@@ -806,9 +813,9 @@ extension IoTThingsGraphClient {
     /// Deletes a system instance. Only system instances that have never been deployed, or that have been undeployed can be deleted. Users can create a new system instance that has the same ID as a deleted system instance.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeleteSystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSystemInstanceInput`)
     ///
-    /// - Returns: `DeleteSystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -843,6 +850,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSystemInstanceOutput>(DeleteSystemInstanceOutput.httpOutput(from:), DeleteSystemInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSystemInstanceInput, DeleteSystemInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSystemInstanceOutput>())
@@ -878,9 +886,9 @@ extension IoTThingsGraphClient {
     /// Deletes a system. New deployments can't contain the system after its deletion. Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeleteSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteSystemTemplateInput`)
     ///
-    /// - Returns: `DeleteSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -915,6 +923,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteSystemTemplateOutput>(DeleteSystemTemplateOutput.httpOutput(from:), DeleteSystemTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteSystemTemplateInput, DeleteSystemTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteSystemTemplateOutput>())
@@ -950,9 +959,9 @@ extension IoTThingsGraphClient {
     /// Greengrass and Cloud Deployments Deploys the system instance to the target specified in CreateSystemInstance. Greengrass Deployments If the system or any workflows and entities have been updated before this action is called, then the deployment will create a new Amazon Simple Storage Service resource file and then deploy it. Since this action creates a Greengrass deployment on the caller's behalf, the calling identity must have write permissions to the specified Greengrass group. Otherwise, the call will fail with an authorization error. For information about the artifacts that get added to your Greengrass core device when you use this API, see [AWS IoT Things Graph and AWS IoT Greengrass](https://docs.aws.amazon.com/thingsgraph/latest/ug/iot-tg-greengrass.html).
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeploySystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeploySystemInstanceInput`)
     ///
-    /// - Returns: `DeploySystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeploySystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -988,6 +997,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeploySystemInstanceOutput>(DeploySystemInstanceOutput.httpOutput(from:), DeploySystemInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeploySystemInstanceInput, DeploySystemInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeploySystemInstanceOutput>())
@@ -1023,9 +1033,9 @@ extension IoTThingsGraphClient {
     /// Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeprecateFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateFlowTemplateInput`)
     ///
-    /// - Returns: `DeprecateFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1060,6 +1070,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateFlowTemplateOutput>(DeprecateFlowTemplateOutput.httpOutput(from:), DeprecateFlowTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateFlowTemplateInput, DeprecateFlowTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprecateFlowTemplateOutput>())
@@ -1095,9 +1106,9 @@ extension IoTThingsGraphClient {
     /// Deprecates the specified system.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DeprecateSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeprecateSystemTemplateInput`)
     ///
-    /// - Returns: `DeprecateSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeprecateSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1132,6 +1143,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeprecateSystemTemplateOutput>(DeprecateSystemTemplateOutput.httpOutput(from:), DeprecateSystemTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeprecateSystemTemplateInput, DeprecateSystemTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeprecateSystemTemplateOutput>())
@@ -1167,9 +1179,9 @@ extension IoTThingsGraphClient {
     /// Gets the latest version of the user's namespace and the public version that it is tracking.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DescribeNamespaceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeNamespaceInput`)
     ///
-    /// - Returns: `DescribeNamespaceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeNamespaceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1204,6 +1216,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeNamespaceInput, DescribeNamespaceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeNamespaceOutput>(DescribeNamespaceOutput.httpOutput(from:), DescribeNamespaceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeNamespaceInput, DescribeNamespaceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeNamespaceOutput>())
@@ -1239,9 +1252,9 @@ extension IoTThingsGraphClient {
     /// Dissociates a device entity from a concrete thing. The action takes only the type of the entity that you need to dissociate because only one entity of a particular type can be associated with a thing.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter DissociateEntityFromThingInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DissociateEntityFromThingInput`)
     ///
-    /// - Returns: `DissociateEntityFromThingOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DissociateEntityFromThingOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1276,6 +1289,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DissociateEntityFromThingOutput>(DissociateEntityFromThingOutput.httpOutput(from:), DissociateEntityFromThingOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DissociateEntityFromThingInput, DissociateEntityFromThingOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DissociateEntityFromThingOutput>())
@@ -1332,9 +1346,9 @@ extension IoTThingsGraphClient {
     /// This action doesn't return definitions for systems, flows, and deployments.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetEntitiesInput`)
     ///
-    /// - Returns: `GetEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1369,6 +1383,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetEntitiesInput, GetEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetEntitiesOutput>(GetEntitiesOutput.httpOutput(from:), GetEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetEntitiesInput, GetEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetEntitiesOutput>())
@@ -1404,9 +1419,9 @@ extension IoTThingsGraphClient {
     /// Gets the latest version of the DefinitionDocument and FlowTemplateSummary for the specified workflow.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFlowTemplateInput`)
     ///
-    /// - Returns: `GetFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1441,6 +1456,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFlowTemplateInput, GetFlowTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowTemplateOutput>(GetFlowTemplateOutput.httpOutput(from:), GetFlowTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowTemplateInput, GetFlowTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFlowTemplateOutput>())
@@ -1476,9 +1492,9 @@ extension IoTThingsGraphClient {
     /// Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated, this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetFlowTemplateRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetFlowTemplateRevisionsInput`)
     ///
-    /// - Returns: `GetFlowTemplateRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetFlowTemplateRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1513,6 +1529,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetFlowTemplateRevisionsOutput>(GetFlowTemplateRevisionsOutput.httpOutput(from:), GetFlowTemplateRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetFlowTemplateRevisionsInput, GetFlowTemplateRevisionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetFlowTemplateRevisionsOutput>())
@@ -1548,9 +1565,9 @@ extension IoTThingsGraphClient {
     /// Gets the status of a namespace deletion task.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetNamespaceDeletionStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetNamespaceDeletionStatusInput`)
     ///
-    /// - Returns: `GetNamespaceDeletionStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetNamespaceDeletionStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1584,6 +1601,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetNamespaceDeletionStatusOutput>(GetNamespaceDeletionStatusOutput.httpOutput(from:), GetNamespaceDeletionStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetNamespaceDeletionStatusInput, GetNamespaceDeletionStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetNamespaceDeletionStatusOutput>())
@@ -1619,9 +1637,9 @@ extension IoTThingsGraphClient {
     /// Gets a system instance.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetSystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSystemInstanceInput`)
     ///
-    /// - Returns: `GetSystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1656,6 +1674,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSystemInstanceInput, GetSystemInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSystemInstanceOutput>(GetSystemInstanceOutput.httpOutput(from:), GetSystemInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSystemInstanceInput, GetSystemInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSystemInstanceOutput>())
@@ -1691,9 +1710,9 @@ extension IoTThingsGraphClient {
     /// Gets a system.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSystemTemplateInput`)
     ///
-    /// - Returns: `GetSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1728,6 +1747,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSystemTemplateInput, GetSystemTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSystemTemplateOutput>(GetSystemTemplateOutput.httpOutput(from:), GetSystemTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSystemTemplateInput, GetSystemTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSystemTemplateOutput>())
@@ -1763,9 +1783,9 @@ extension IoTThingsGraphClient {
     /// Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetSystemTemplateRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetSystemTemplateRevisionsInput`)
     ///
-    /// - Returns: `GetSystemTemplateRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetSystemTemplateRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1800,6 +1820,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetSystemTemplateRevisionsOutput>(GetSystemTemplateRevisionsOutput.httpOutput(from:), GetSystemTemplateRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetSystemTemplateRevisionsInput, GetSystemTemplateRevisionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetSystemTemplateRevisionsOutput>())
@@ -1835,9 +1856,9 @@ extension IoTThingsGraphClient {
     /// Gets the status of the specified upload.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter GetUploadStatusInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `GetUploadStatusInput`)
     ///
-    /// - Returns: `GetUploadStatusOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `GetUploadStatusOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1872,6 +1893,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetUploadStatusInput, GetUploadStatusOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetUploadStatusOutput>(GetUploadStatusOutput.httpOutput(from:), GetUploadStatusOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetUploadStatusInput, GetUploadStatusOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<GetUploadStatusOutput>())
@@ -1907,9 +1929,9 @@ extension IoTThingsGraphClient {
     /// Returns a list of objects that contain information about events in a flow execution.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter ListFlowExecutionMessagesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListFlowExecutionMessagesInput`)
     ///
-    /// - Returns: `ListFlowExecutionMessagesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListFlowExecutionMessagesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1944,6 +1966,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListFlowExecutionMessagesOutput>(ListFlowExecutionMessagesOutput.httpOutput(from:), ListFlowExecutionMessagesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListFlowExecutionMessagesInput, ListFlowExecutionMessagesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListFlowExecutionMessagesOutput>())
@@ -1979,9 +2002,9 @@ extension IoTThingsGraphClient {
     /// Lists all tags on an AWS IoT Things Graph resource.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2016,6 +2039,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2051,9 +2075,9 @@ extension IoTThingsGraphClient {
     /// Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchEntitiesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchEntitiesInput`)
     ///
-    /// - Returns: `SearchEntitiesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchEntitiesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2087,6 +2111,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchEntitiesInput, SearchEntitiesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchEntitiesOutput>(SearchEntitiesOutput.httpOutput(from:), SearchEntitiesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchEntitiesInput, SearchEntitiesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchEntitiesOutput>())
@@ -2122,9 +2147,9 @@ extension IoTThingsGraphClient {
     /// Searches for AWS IoT Things Graph workflow execution instances.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchFlowExecutionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchFlowExecutionsInput`)
     ///
-    /// - Returns: `SearchFlowExecutionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchFlowExecutionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2159,6 +2184,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFlowExecutionsOutput>(SearchFlowExecutionsOutput.httpOutput(from:), SearchFlowExecutionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFlowExecutionsInput, SearchFlowExecutionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchFlowExecutionsOutput>())
@@ -2194,9 +2220,9 @@ extension IoTThingsGraphClient {
     /// Searches for summary information about workflows.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchFlowTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchFlowTemplatesInput`)
     ///
-    /// - Returns: `SearchFlowTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchFlowTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2230,6 +2256,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchFlowTemplatesOutput>(SearchFlowTemplatesOutput.httpOutput(from:), SearchFlowTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchFlowTemplatesInput, SearchFlowTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchFlowTemplatesOutput>())
@@ -2265,9 +2292,9 @@ extension IoTThingsGraphClient {
     /// Searches for system instances in the user's account.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchSystemInstancesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSystemInstancesInput`)
     ///
-    /// - Returns: `SearchSystemInstancesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSystemInstancesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2301,6 +2328,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchSystemInstancesOutput>(SearchSystemInstancesOutput.httpOutput(from:), SearchSystemInstancesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchSystemInstancesInput, SearchSystemInstancesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchSystemInstancesOutput>())
@@ -2336,9 +2364,9 @@ extension IoTThingsGraphClient {
     /// Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchSystemTemplatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchSystemTemplatesInput`)
     ///
-    /// - Returns: `SearchSystemTemplatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchSystemTemplatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2372,6 +2400,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchSystemTemplatesOutput>(SearchSystemTemplatesOutput.httpOutput(from:), SearchSystemTemplatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchSystemTemplatesInput, SearchSystemTemplatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchSystemTemplatesOutput>())
@@ -2407,9 +2436,9 @@ extension IoTThingsGraphClient {
     /// Searches for things associated with the specified entity. You can search by both device and device model. For example, if two different devices, camera1 and camera2, implement the camera device model, the user can associate thing1 to camera1 and thing2 to camera2. SearchThings(camera2) will return only thing2, but SearchThings(camera) will return both thing1 and thing2. This action searches for exact matches and doesn't perform partial text matching.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter SearchThingsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SearchThingsInput`)
     ///
-    /// - Returns: `SearchThingsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SearchThingsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2444,6 +2473,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SearchThingsInput, SearchThingsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SearchThingsOutput>(SearchThingsOutput.httpOutput(from:), SearchThingsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SearchThingsInput, SearchThingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SearchThingsOutput>())
@@ -2479,9 +2509,9 @@ extension IoTThingsGraphClient {
     /// Creates a tag for the specified resource.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2516,6 +2546,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2551,9 +2582,9 @@ extension IoTThingsGraphClient {
     /// Removes a system instance from its target (Cloud or Greengrass).
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UndeploySystemInstanceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UndeploySystemInstanceInput`)
     ///
-    /// - Returns: `UndeploySystemInstanceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UndeploySystemInstanceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2589,6 +2620,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UndeploySystemInstanceOutput>(UndeploySystemInstanceOutput.httpOutput(from:), UndeploySystemInstanceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UndeploySystemInstanceInput, UndeploySystemInstanceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UndeploySystemInstanceOutput>())
@@ -2624,9 +2656,9 @@ extension IoTThingsGraphClient {
     /// Removes a tag from the specified resource.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2661,6 +2693,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UntagResourceInput, UntagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2696,9 +2729,9 @@ extension IoTThingsGraphClient {
     /// Updates the specified workflow. All deployed systems and system instances that use the workflow will see the changes in the flow when it is redeployed. If you don't want this behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UpdateFlowTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateFlowTemplateInput`)
     ///
-    /// - Returns: `UpdateFlowTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateFlowTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2733,6 +2766,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateFlowTemplateOutput>(UpdateFlowTemplateOutput.httpOutput(from:), UpdateFlowTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateFlowTemplateInput, UpdateFlowTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateFlowTemplateOutput>())
@@ -2768,9 +2802,9 @@ extension IoTThingsGraphClient {
     /// Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UpdateSystemTemplateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateSystemTemplateInput`)
     ///
-    /// - Returns: `UpdateSystemTemplateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateSystemTemplateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2805,6 +2839,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateSystemTemplateOutput>(UpdateSystemTemplateOutput.httpOutput(from:), UpdateSystemTemplateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateSystemTemplateInput, UpdateSystemTemplateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateSystemTemplateOutput>())
@@ -2840,9 +2875,9 @@ extension IoTThingsGraphClient {
     /// Asynchronously uploads one or more entity definitions to the user's namespace. The document parameter is required if syncWithPublicNamespace and deleteExistingEntites are false. If the syncWithPublicNamespace parameter is set to true, the user's namespace will synchronize with the latest version of the public namespace. If deprecateExistingEntities is set to true, all entities in the latest version will be deleted before the new DefinitionDocument is uploaded. When a user uploads entity definitions for the first time, the service creates a new namespace for the user. The new namespace tracks the public namespace. Currently users can have only one namespace. The namespace version increments whenever a user uploads entity definitions that are backwards-incompatible and whenever a user sets the syncWithPublicNamespace parameter or the deprecateExistingEntities parameter to true. The IDs for all of the entities should be in URN format. Each entity must be in the user's namespace. Users can't create entities in the public namespace, but entity definitions can refer to entities in the public namespace. Valid entities are Device, DeviceModel, Service, Capability, State, Action, Event, Property, Mapping, Enum.
     @available(*, deprecated, message: "since: 2022-08-30")
     ///
-    /// - Parameter UploadEntityDefinitionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UploadEntityDefinitionsInput`)
     ///
-    /// - Returns: `UploadEntityDefinitionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UploadEntityDefinitionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2876,6 +2911,7 @@ extension IoTThingsGraphClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UploadEntityDefinitionsOutput>(UploadEntityDefinitionsOutput.httpOutput(from:), UploadEntityDefinitionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UploadEntityDefinitionsInput, UploadEntityDefinitionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UploadEntityDefinitionsOutput>())

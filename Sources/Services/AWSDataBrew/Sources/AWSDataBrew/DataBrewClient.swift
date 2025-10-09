@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DataBrewClient: ClientRuntime.Client {
     public static let clientName = "DataBrewClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: DataBrewClient.DataBrewClientConfiguration
     let serviceName = "DataBrew"
@@ -397,9 +398,9 @@ extension DataBrewClient {
     ///
     /// The LATEST_WORKING version will only be deleted if the recipe has no other versions. If you try to delete LATEST_WORKING while other versions exist (or if they can't be deleted), then LATEST_WORKING will be listed as partial failure in the response.
     ///
-    /// - Parameter BatchDeleteRecipeVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `BatchDeleteRecipeVersionInput`)
     ///
-    /// - Returns: `BatchDeleteRecipeVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `BatchDeleteRecipeVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -435,6 +436,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<BatchDeleteRecipeVersionInput, BatchDeleteRecipeVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<BatchDeleteRecipeVersionOutput>(BatchDeleteRecipeVersionOutput.httpOutput(from:), BatchDeleteRecipeVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<BatchDeleteRecipeVersionInput, BatchDeleteRecipeVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<BatchDeleteRecipeVersionOutput>())
@@ -466,9 +468,9 @@ extension DataBrewClient {
     ///
     /// Creates a new DataBrew dataset.
     ///
-    /// - Parameter CreateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateDatasetInput`)
     ///
-    /// - Returns: `CreateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -505,6 +507,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDatasetInput, CreateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDatasetOutput>(CreateDatasetOutput.httpOutput(from:), CreateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDatasetInput, CreateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateDatasetOutput>())
@@ -536,9 +539,9 @@ extension DataBrewClient {
     ///
     /// Creates a new job to analyze a dataset and create its data profile.
     ///
-    /// - Parameter CreateProfileJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProfileJobInput`)
     ///
-    /// - Returns: `CreateProfileJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProfileJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -576,6 +579,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProfileJobInput, CreateProfileJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProfileJobOutput>(CreateProfileJobOutput.httpOutput(from:), CreateProfileJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProfileJobInput, CreateProfileJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProfileJobOutput>())
@@ -607,9 +611,9 @@ extension DataBrewClient {
     ///
     /// Creates a new DataBrew project.
     ///
-    /// - Parameter CreateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProjectInput`)
     ///
-    /// - Returns: `CreateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -646,6 +650,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProjectInput, CreateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProjectOutput>(CreateProjectOutput.httpOutput(from:), CreateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProjectInput, CreateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProjectOutput>())
@@ -677,9 +682,9 @@ extension DataBrewClient {
     ///
     /// Creates a new DataBrew recipe.
     ///
-    /// - Parameter CreateRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecipeInput`)
     ///
-    /// - Returns: `CreateRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -715,6 +720,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecipeInput, CreateRecipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecipeOutput>(CreateRecipeOutput.httpOutput(from:), CreateRecipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecipeInput, CreateRecipeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecipeOutput>())
@@ -746,9 +752,9 @@ extension DataBrewClient {
     ///
     /// Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
     ///
-    /// - Parameter CreateRecipeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRecipeJobInput`)
     ///
-    /// - Returns: `CreateRecipeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRecipeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -786,6 +792,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRecipeJobInput, CreateRecipeJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRecipeJobOutput>(CreateRecipeJobOutput.httpOutput(from:), CreateRecipeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRecipeJobInput, CreateRecipeJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRecipeJobOutput>())
@@ -817,9 +824,9 @@ extension DataBrewClient {
     ///
     /// Creates a new ruleset that can be used in a profile job to validate the data quality of a dataset.
     ///
-    /// - Parameter CreateRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateRulesetInput`)
     ///
-    /// - Returns: `CreateRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -855,6 +862,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateRulesetInput, CreateRulesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateRulesetOutput>(CreateRulesetOutput.httpOutput(from:), CreateRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateRulesetInput, CreateRulesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateRulesetOutput>())
@@ -886,9 +894,9 @@ extension DataBrewClient {
     ///
     /// Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific date and time, or at regular intervals.
     ///
-    /// - Parameter CreateScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateScheduleInput`)
     ///
-    /// - Returns: `CreateScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -924,6 +932,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateScheduleInput, CreateScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateScheduleOutput>(CreateScheduleOutput.httpOutput(from:), CreateScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateScheduleInput, CreateScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateScheduleOutput>())
@@ -955,9 +964,9 @@ extension DataBrewClient {
     ///
     /// Deletes a dataset from DataBrew.
     ///
-    /// - Parameter DeleteDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteDatasetInput`)
     ///
-    /// - Returns: `DeleteDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,6 +999,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteDatasetInput, DeleteDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteDatasetOutput>(DeleteDatasetOutput.httpOutput(from:), DeleteDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteDatasetInput, DeleteDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteDatasetOutput>())
@@ -1021,9 +1031,9 @@ extension DataBrewClient {
     ///
     /// Deletes the specified DataBrew job.
     ///
-    /// - Parameter DeleteJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteJobInput`)
     ///
-    /// - Returns: `DeleteJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1056,6 +1066,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteJobInput, DeleteJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteJobOutput>(DeleteJobOutput.httpOutput(from:), DeleteJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteJobInput, DeleteJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteJobOutput>())
@@ -1087,9 +1098,9 @@ extension DataBrewClient {
     ///
     /// Deletes an existing DataBrew project.
     ///
-    /// - Parameter DeleteProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProjectInput`)
     ///
-    /// - Returns: `DeleteProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1122,6 +1133,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProjectInput, DeleteProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProjectOutput>(DeleteProjectOutput.httpOutput(from:), DeleteProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProjectInput, DeleteProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProjectOutput>())
@@ -1153,9 +1165,9 @@ extension DataBrewClient {
     ///
     /// Deletes a single version of a DataBrew recipe.
     ///
-    /// - Parameter DeleteRecipeVersionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRecipeVersionInput`)
     ///
-    /// - Returns: `DeleteRecipeVersionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRecipeVersionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1188,6 +1200,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRecipeVersionInput, DeleteRecipeVersionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRecipeVersionOutput>(DeleteRecipeVersionOutput.httpOutput(from:), DeleteRecipeVersionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRecipeVersionInput, DeleteRecipeVersionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRecipeVersionOutput>())
@@ -1219,9 +1232,9 @@ extension DataBrewClient {
     ///
     /// Deletes a ruleset.
     ///
-    /// - Parameter DeleteRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteRulesetInput`)
     ///
-    /// - Returns: `DeleteRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1254,6 +1267,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteRulesetInput, DeleteRulesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteRulesetOutput>(DeleteRulesetOutput.httpOutput(from:), DeleteRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteRulesetInput, DeleteRulesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteRulesetOutput>())
@@ -1285,9 +1299,9 @@ extension DataBrewClient {
     ///
     /// Deletes the specified DataBrew schedule.
     ///
-    /// - Parameter DeleteScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteScheduleInput`)
     ///
-    /// - Returns: `DeleteScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1319,6 +1333,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteScheduleInput, DeleteScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteScheduleOutput>(DeleteScheduleOutput.httpOutput(from:), DeleteScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteScheduleInput, DeleteScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteScheduleOutput>())
@@ -1350,9 +1365,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew dataset.
     ///
-    /// - Parameter DescribeDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeDatasetInput`)
     ///
-    /// - Returns: `DescribeDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1384,6 +1399,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeDatasetInput, DescribeDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeDatasetOutput>(DescribeDatasetOutput.httpOutput(from:), DescribeDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeDatasetInput, DescribeDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeDatasetOutput>())
@@ -1415,9 +1431,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew job.
     ///
-    /// - Parameter DescribeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobInput`)
     ///
-    /// - Returns: `DescribeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1449,6 +1465,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobInput, DescribeJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobOutput>(DescribeJobOutput.httpOutput(from:), DescribeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobInput, DescribeJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobOutput>())
@@ -1480,9 +1497,9 @@ extension DataBrewClient {
     ///
     /// Represents one run of a DataBrew job.
     ///
-    /// - Parameter DescribeJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeJobRunInput`)
     ///
-    /// - Returns: `DescribeJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1514,6 +1531,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeJobRunInput, DescribeJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeJobRunOutput>(DescribeJobRunOutput.httpOutput(from:), DescribeJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeJobRunInput, DescribeJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeJobRunOutput>())
@@ -1545,9 +1563,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew project.
     ///
-    /// - Parameter DescribeProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeProjectInput`)
     ///
-    /// - Returns: `DescribeProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1579,6 +1597,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeProjectInput, DescribeProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeProjectOutput>(DescribeProjectOutput.httpOutput(from:), DescribeProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeProjectInput, DescribeProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeProjectOutput>())
@@ -1610,9 +1629,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew recipe corresponding to a particular version.
     ///
-    /// - Parameter DescribeRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRecipeInput`)
     ///
-    /// - Returns: `DescribeRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1645,6 +1664,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeRecipeInput, DescribeRecipeOutput>(DescribeRecipeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRecipeOutput>(DescribeRecipeOutput.httpOutput(from:), DescribeRecipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRecipeInput, DescribeRecipeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRecipeOutput>())
@@ -1676,9 +1696,9 @@ extension DataBrewClient {
     ///
     /// Retrieves detailed information about the ruleset.
     ///
-    /// - Parameter DescribeRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeRulesetInput`)
     ///
-    /// - Returns: `DescribeRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1710,6 +1730,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeRulesetInput, DescribeRulesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeRulesetOutput>(DescribeRulesetOutput.httpOutput(from:), DescribeRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeRulesetInput, DescribeRulesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeRulesetOutput>())
@@ -1741,9 +1762,9 @@ extension DataBrewClient {
     ///
     /// Returns the definition of a specific DataBrew schedule.
     ///
-    /// - Parameter DescribeScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeScheduleInput`)
     ///
-    /// - Returns: `DescribeScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1775,6 +1796,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeScheduleInput, DescribeScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeScheduleOutput>(DescribeScheduleOutput.httpOutput(from:), DescribeScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeScheduleInput, DescribeScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeScheduleOutput>())
@@ -1806,9 +1828,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the DataBrew datasets.
     ///
-    /// - Parameter ListDatasetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDatasetsInput`)
     ///
-    /// - Returns: `ListDatasetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDatasetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1840,6 +1862,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListDatasetsInput, ListDatasetsOutput>(ListDatasetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDatasetsOutput>(ListDatasetsOutput.httpOutput(from:), ListDatasetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDatasetsInput, ListDatasetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDatasetsOutput>())
@@ -1871,9 +1894,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the previous runs of a particular DataBrew job.
     ///
-    /// - Parameter ListJobRunsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobRunsInput`)
     ///
-    /// - Returns: `ListJobRunsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobRunsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1906,6 +1929,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobRunsInput, ListJobRunsOutput>(ListJobRunsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobRunsOutput>(ListJobRunsOutput.httpOutput(from:), ListJobRunsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobRunsInput, ListJobRunsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobRunsOutput>())
@@ -1937,9 +1961,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the DataBrew jobs that are defined.
     ///
-    /// - Parameter ListJobsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListJobsInput`)
     ///
-    /// - Returns: `ListJobsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListJobsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1971,6 +1995,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListJobsInput, ListJobsOutput>(ListJobsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListJobsOutput>(ListJobsOutput.httpOutput(from:), ListJobsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListJobsInput, ListJobsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListJobsOutput>())
@@ -2002,9 +2027,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the DataBrew projects that are defined.
     ///
-    /// - Parameter ListProjectsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProjectsInput`)
     ///
-    /// - Returns: `ListProjectsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProjectsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2036,6 +2061,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListProjectsInput, ListProjectsOutput>(ListProjectsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProjectsOutput>(ListProjectsOutput.httpOutput(from:), ListProjectsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProjectsInput, ListProjectsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProjectsOutput>())
@@ -2067,9 +2093,9 @@ extension DataBrewClient {
     ///
     /// Lists the versions of a particular DataBrew recipe, except for LATEST_WORKING.
     ///
-    /// - Parameter ListRecipeVersionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecipeVersionsInput`)
     ///
-    /// - Returns: `ListRecipeVersionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecipeVersionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2101,6 +2127,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecipeVersionsInput, ListRecipeVersionsOutput>(ListRecipeVersionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecipeVersionsOutput>(ListRecipeVersionsOutput.httpOutput(from:), ListRecipeVersionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecipeVersionsInput, ListRecipeVersionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecipeVersionsOutput>())
@@ -2132,9 +2159,9 @@ extension DataBrewClient {
     ///
     /// Lists all of the DataBrew recipes that are defined.
     ///
-    /// - Parameter ListRecipesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRecipesInput`)
     ///
-    /// - Returns: `ListRecipesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRecipesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2166,6 +2193,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRecipesInput, ListRecipesOutput>(ListRecipesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRecipesOutput>(ListRecipesOutput.httpOutput(from:), ListRecipesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRecipesInput, ListRecipesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRecipesOutput>())
@@ -2197,9 +2225,9 @@ extension DataBrewClient {
     ///
     /// List all rulesets available in the current account or rulesets associated with a specific resource (dataset).
     ///
-    /// - Parameter ListRulesetsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListRulesetsInput`)
     ///
-    /// - Returns: `ListRulesetsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListRulesetsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2232,6 +2260,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListRulesetsInput, ListRulesetsOutput>(ListRulesetsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListRulesetsOutput>(ListRulesetsOutput.httpOutput(from:), ListRulesetsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListRulesetsInput, ListRulesetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListRulesetsOutput>())
@@ -2263,9 +2292,9 @@ extension DataBrewClient {
     ///
     /// Lists the DataBrew schedules that are defined.
     ///
-    /// - Parameter ListSchedulesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSchedulesInput`)
     ///
-    /// - Returns: `ListSchedulesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSchedulesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2297,6 +2326,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListSchedulesInput, ListSchedulesOutput>(ListSchedulesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSchedulesOutput>(ListSchedulesOutput.httpOutput(from:), ListSchedulesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSchedulesInput, ListSchedulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSchedulesOutput>())
@@ -2328,9 +2358,9 @@ extension DataBrewClient {
     ///
     /// Lists all the tags for a DataBrew resource.
     ///
-    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
-    /// - Returns: `ListTagsForResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsForResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2363,6 +2393,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(ListTagsForResourceOutput.httpOutput(from:), ListTagsForResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsForResourceInput, ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
@@ -2394,9 +2425,9 @@ extension DataBrewClient {
     ///
     /// Publishes a new version of a DataBrew recipe.
     ///
-    /// - Parameter PublishRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PublishRecipeInput`)
     ///
-    /// - Returns: `PublishRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PublishRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2432,6 +2463,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PublishRecipeInput, PublishRecipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PublishRecipeOutput>(PublishRecipeOutput.httpOutput(from:), PublishRecipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PublishRecipeInput, PublishRecipeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PublishRecipeOutput>())
@@ -2463,9 +2495,9 @@ extension DataBrewClient {
     ///
     /// Performs a recipe step within an interactive DataBrew session that's currently open.
     ///
-    /// - Parameter SendProjectSessionActionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `SendProjectSessionActionInput`)
     ///
-    /// - Returns: `SendProjectSessionActionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `SendProjectSessionActionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2501,6 +2533,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SendProjectSessionActionInput, SendProjectSessionActionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<SendProjectSessionActionOutput>(SendProjectSessionActionOutput.httpOutput(from:), SendProjectSessionActionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<SendProjectSessionActionInput, SendProjectSessionActionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<SendProjectSessionActionOutput>())
@@ -2532,9 +2565,9 @@ extension DataBrewClient {
     ///
     /// Runs a DataBrew job.
     ///
-    /// - Parameter StartJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartJobRunInput`)
     ///
-    /// - Returns: `StartJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2568,6 +2601,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartJobRunInput, StartJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartJobRunOutput>(StartJobRunOutput.httpOutput(from:), StartJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobRunInput, StartJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartJobRunOutput>())
@@ -2599,9 +2633,9 @@ extension DataBrewClient {
     ///
     /// Creates an interactive session, enabling you to manipulate data in a DataBrew project.
     ///
-    /// - Parameter StartProjectSessionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StartProjectSessionInput`)
     ///
-    /// - Returns: `StartProjectSessionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StartProjectSessionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2638,6 +2672,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartProjectSessionInput, StartProjectSessionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StartProjectSessionOutput>(StartProjectSessionOutput.httpOutput(from:), StartProjectSessionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartProjectSessionInput, StartProjectSessionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StartProjectSessionOutput>())
@@ -2669,9 +2704,9 @@ extension DataBrewClient {
     ///
     /// Stops a particular run of a job.
     ///
-    /// - Parameter StopJobRunInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `StopJobRunInput`)
     ///
-    /// - Returns: `StopJobRunOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `StopJobRunOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2703,6 +2738,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopJobRunInput, StopJobRunOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<StopJobRunOutput>(StopJobRunOutput.httpOutput(from:), StopJobRunOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<StopJobRunInput, StopJobRunOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<StopJobRunOutput>())
@@ -2734,9 +2770,9 @@ extension DataBrewClient {
     ///
     /// Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or schedule.
     ///
-    /// - Parameter TagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
-    /// - Returns: `TagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `TagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2772,6 +2808,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<TagResourceInput, TagResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<TagResourceOutput>(TagResourceOutput.httpOutput(from:), TagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<TagResourceInput, TagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<TagResourceOutput>())
@@ -2803,9 +2840,9 @@ extension DataBrewClient {
     ///
     /// Removes metadata tags from a DataBrew resource.
     ///
-    /// - Parameter UntagResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
-    /// - Returns: `UntagResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UntagResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2839,6 +2876,7 @@ extension DataBrewClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<UntagResourceInput, UntagResourceOutput>(UntagResourceInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UntagResourceOutput>(UntagResourceOutput.httpOutput(from:), UntagResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UntagResourceInput, UntagResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UntagResourceOutput>())
@@ -2870,9 +2908,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing DataBrew dataset.
     ///
-    /// - Parameter UpdateDatasetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateDatasetInput`)
     ///
-    /// - Returns: `UpdateDatasetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateDatasetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2908,6 +2946,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateDatasetInput, UpdateDatasetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateDatasetOutput>(UpdateDatasetOutput.httpOutput(from:), UpdateDatasetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateDatasetInput, UpdateDatasetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateDatasetOutput>())
@@ -2939,9 +2978,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing profile job.
     ///
-    /// - Parameter UpdateProfileJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProfileJobInput`)
     ///
-    /// - Returns: `UpdateProfileJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProfileJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2977,6 +3016,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProfileJobInput, UpdateProfileJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProfileJobOutput>(UpdateProfileJobOutput.httpOutput(from:), UpdateProfileJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProfileJobInput, UpdateProfileJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProfileJobOutput>())
@@ -3008,9 +3048,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing DataBrew project.
     ///
-    /// - Parameter UpdateProjectInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateProjectInput`)
     ///
-    /// - Returns: `UpdateProjectOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateProjectOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3045,6 +3085,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateProjectInput, UpdateProjectOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateProjectOutput>(UpdateProjectOutput.httpOutput(from:), UpdateProjectOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateProjectInput, UpdateProjectOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateProjectOutput>())
@@ -3076,9 +3117,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of the LATEST_WORKING version of a DataBrew recipe.
     ///
-    /// - Parameter UpdateRecipeInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecipeInput`)
     ///
-    /// - Returns: `UpdateRecipeOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecipeOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3113,6 +3154,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecipeInput, UpdateRecipeOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecipeOutput>(UpdateRecipeOutput.httpOutput(from:), UpdateRecipeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecipeInput, UpdateRecipeOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecipeOutput>())
@@ -3144,9 +3186,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing DataBrew recipe job.
     ///
-    /// - Parameter UpdateRecipeJobInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRecipeJobInput`)
     ///
-    /// - Returns: `UpdateRecipeJobOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRecipeJobOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3182,6 +3224,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRecipeJobInput, UpdateRecipeJobOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRecipeJobOutput>(UpdateRecipeJobOutput.httpOutput(from:), UpdateRecipeJobOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRecipeJobInput, UpdateRecipeJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRecipeJobOutput>())
@@ -3213,9 +3256,9 @@ extension DataBrewClient {
     ///
     /// Updates specified ruleset.
     ///
-    /// - Parameter UpdateRulesetInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateRulesetInput`)
     ///
-    /// - Returns: `UpdateRulesetOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateRulesetOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3250,6 +3293,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateRulesetInput, UpdateRulesetOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateRulesetOutput>(UpdateRulesetOutput.httpOutput(from:), UpdateRulesetOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateRulesetInput, UpdateRulesetOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateRulesetOutput>())
@@ -3281,9 +3325,9 @@ extension DataBrewClient {
     ///
     /// Modifies the definition of an existing DataBrew schedule.
     ///
-    /// - Parameter UpdateScheduleInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `UpdateScheduleInput`)
     ///
-    /// - Returns: `UpdateScheduleOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateScheduleOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -3319,6 +3363,7 @@ extension DataBrewClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateScheduleInput, UpdateScheduleOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateScheduleOutput>(UpdateScheduleOutput.httpOutput(from:), UpdateScheduleOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateScheduleInput, UpdateScheduleOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateScheduleOutput>())

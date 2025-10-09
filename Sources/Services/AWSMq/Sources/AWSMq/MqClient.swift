@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -68,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MqClient: ClientRuntime.Client {
     public static let clientName = "MqClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MqClient.MqClientConfiguration
     let serviceName = "mq"
@@ -401,9 +402,9 @@ extension MqClient {
     ///
     /// For more information, see [Create an IAM User and Get Your Amazon Web Services Credentials](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user) and [Never Modify or Delete the Amazon MQ Elastic Network Interface](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface) in the Amazon MQ Developer Guide.
     ///
-    /// - Parameter CreateBrokerInput : Creates a broker using the specified properties.
+    /// - Parameter input: Creates a broker using the specified properties. (Type: `CreateBrokerInput`)
     ///
-    /// - Returns: `CreateBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -442,6 +443,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateBrokerInput, CreateBrokerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateBrokerOutput>(CreateBrokerOutput.httpOutput(from:), CreateBrokerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateBrokerInput, CreateBrokerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateBrokerOutput>())
@@ -473,9 +475,9 @@ extension MqClient {
     ///
     /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
     ///
-    /// - Parameter CreateConfigurationInput : Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+    /// - Parameter input: Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version). (Type: `CreateConfigurationInput`)
     ///
-    /// - Returns: `CreateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -512,6 +514,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateConfigurationInput, CreateConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateConfigurationOutput>(CreateConfigurationOutput.httpOutput(from:), CreateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateConfigurationInput, CreateConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateConfigurationOutput>())
@@ -543,9 +546,9 @@ extension MqClient {
     ///
     /// Add a tag to a resource.
     ///
-    /// - Parameter CreateTagsInput : A map of the key-value pairs for the resource tag.
+    /// - Parameter input: A map of the key-value pairs for the resource tag. (Type: `CreateTagsInput`)
     ///
-    /// - Returns: `CreateTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -582,6 +585,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTagsInput, CreateTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTagsOutput>(CreateTagsOutput.httpOutput(from:), CreateTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTagsInput, CreateTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateTagsOutput>())
@@ -613,9 +617,9 @@ extension MqClient {
     ///
     /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
     ///
-    /// - Parameter CreateUserInput : Creates a new ActiveMQ user.
+    /// - Parameter input: Creates a new ActiveMQ user. (Type: `CreateUserInput`)
     ///
-    /// - Returns: `CreateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -653,6 +657,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateUserInput, CreateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateUserOutput>(CreateUserOutput.httpOutput(from:), CreateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateUserInput, CreateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateUserOutput>())
@@ -684,9 +689,9 @@ extension MqClient {
     ///
     /// Deletes a broker. Note: This API is asynchronous.
     ///
-    /// - Parameter DeleteBrokerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteBrokerInput`)
     ///
-    /// - Returns: `DeleteBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -720,6 +725,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteBrokerInput, DeleteBrokerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteBrokerOutput>(DeleteBrokerOutput.httpOutput(from:), DeleteBrokerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteBrokerInput, DeleteBrokerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteBrokerOutput>())
@@ -751,9 +757,9 @@ extension MqClient {
     ///
     /// Deletes the specified configuration.
     ///
-    /// - Parameter DeleteConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteConfigurationInput`)
     ///
-    /// - Returns: `DeleteConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -788,6 +794,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteConfigurationOutput>(DeleteConfigurationOutput.httpOutput(from:), DeleteConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteConfigurationInput, DeleteConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteConfigurationOutput>())
@@ -819,9 +826,9 @@ extension MqClient {
     ///
     /// Removes a tag from a resource.
     ///
-    /// - Parameter DeleteTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteTagsInput`)
     ///
-    /// - Returns: `DeleteTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -856,6 +863,7 @@ extension MqClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteTagsInput, DeleteTagsOutput>(DeleteTagsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTagsOutput>(DeleteTagsOutput.httpOutput(from:), DeleteTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTagsInput, DeleteTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTagsOutput>())
@@ -887,9 +895,9 @@ extension MqClient {
     ///
     /// Deletes an ActiveMQ user.
     ///
-    /// - Parameter DeleteUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteUserInput`)
     ///
-    /// - Returns: `DeleteUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -923,6 +931,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteUserInput, DeleteUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteUserOutput>(DeleteUserOutput.httpOutput(from:), DeleteUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteUserInput, DeleteUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteUserOutput>())
@@ -954,9 +963,9 @@ extension MqClient {
     ///
     /// Returns information about the specified broker.
     ///
-    /// - Parameter DescribeBrokerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrokerInput`)
     ///
-    /// - Returns: `DescribeBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -990,6 +999,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeBrokerInput, DescribeBrokerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBrokerOutput>(DescribeBrokerOutput.httpOutput(from:), DescribeBrokerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBrokerInput, DescribeBrokerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBrokerOutput>())
@@ -1021,9 +1031,9 @@ extension MqClient {
     ///
     /// Describe available engine types and versions.
     ///
-    /// - Parameter DescribeBrokerEngineTypesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrokerEngineTypesInput`)
     ///
-    /// - Returns: `DescribeBrokerEngineTypesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrokerEngineTypesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1057,6 +1067,7 @@ extension MqClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeBrokerEngineTypesInput, DescribeBrokerEngineTypesOutput>(DescribeBrokerEngineTypesInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBrokerEngineTypesOutput>(DescribeBrokerEngineTypesOutput.httpOutput(from:), DescribeBrokerEngineTypesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBrokerEngineTypesInput, DescribeBrokerEngineTypesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBrokerEngineTypesOutput>())
@@ -1088,9 +1099,9 @@ extension MqClient {
     ///
     /// Describe available broker instance options.
     ///
-    /// - Parameter DescribeBrokerInstanceOptionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeBrokerInstanceOptionsInput`)
     ///
-    /// - Returns: `DescribeBrokerInstanceOptionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeBrokerInstanceOptionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1124,6 +1135,7 @@ extension MqClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<DescribeBrokerInstanceOptionsInput, DescribeBrokerInstanceOptionsOutput>(DescribeBrokerInstanceOptionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeBrokerInstanceOptionsOutput>(DescribeBrokerInstanceOptionsOutput.httpOutput(from:), DescribeBrokerInstanceOptionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeBrokerInstanceOptionsInput, DescribeBrokerInstanceOptionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeBrokerInstanceOptionsOutput>())
@@ -1155,9 +1167,9 @@ extension MqClient {
     ///
     /// Returns information about the specified configuration.
     ///
-    /// - Parameter DescribeConfigurationInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationInput`)
     ///
-    /// - Returns: `DescribeConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1191,6 +1203,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConfigurationInput, DescribeConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationOutput>(DescribeConfigurationOutput.httpOutput(from:), DescribeConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationInput, DescribeConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationOutput>())
@@ -1222,9 +1235,9 @@ extension MqClient {
     ///
     /// Returns the specified configuration revision for the specified configuration.
     ///
-    /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeConfigurationRevisionInput`)
     ///
-    /// - Returns: `DescribeConfigurationRevisionOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeConfigurationRevisionOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1258,6 +1271,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeConfigurationRevisionInput, DescribeConfigurationRevisionOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeConfigurationRevisionOutput>(DescribeConfigurationRevisionOutput.httpOutput(from:), DescribeConfigurationRevisionOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeConfigurationRevisionInput, DescribeConfigurationRevisionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeConfigurationRevisionOutput>())
@@ -1289,9 +1303,9 @@ extension MqClient {
     ///
     /// Returns information about an ActiveMQ user.
     ///
-    /// - Parameter DescribeUserInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeUserInput`)
     ///
-    /// - Returns: `DescribeUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1325,6 +1339,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeUserInput, DescribeUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeUserOutput>(DescribeUserOutput.httpOutput(from:), DescribeUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeUserInput, DescribeUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeUserOutput>())
@@ -1356,9 +1371,9 @@ extension MqClient {
     ///
     /// Returns a list of all brokers.
     ///
-    /// - Parameter ListBrokersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListBrokersInput`)
     ///
-    /// - Returns: `ListBrokersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListBrokersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1392,6 +1407,7 @@ extension MqClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListBrokersInput, ListBrokersOutput>(ListBrokersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListBrokersOutput>(ListBrokersOutput.httpOutput(from:), ListBrokersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListBrokersInput, ListBrokersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListBrokersOutput>())
@@ -1423,9 +1439,9 @@ extension MqClient {
     ///
     /// Returns a list of all revisions for the specified configuration.
     ///
-    /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationRevisionsInput`)
     ///
-    /// - Returns: `ListConfigurationRevisionsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationRevisionsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1460,6 +1476,7 @@ extension MqClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput>(ListConfigurationRevisionsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationRevisionsOutput>(ListConfigurationRevisionsOutput.httpOutput(from:), ListConfigurationRevisionsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationRevisionsInput, ListConfigurationRevisionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationRevisionsOutput>())
@@ -1491,9 +1508,9 @@ extension MqClient {
     ///
     /// Returns a list of all configurations.
     ///
-    /// - Parameter ListConfigurationsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListConfigurationsInput`)
     ///
-    /// - Returns: `ListConfigurationsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListConfigurationsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1527,6 +1544,7 @@ extension MqClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(ListConfigurationsInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListConfigurationsOutput>(ListConfigurationsOutput.httpOutput(from:), ListConfigurationsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListConfigurationsInput, ListConfigurationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListConfigurationsOutput>())
@@ -1558,9 +1576,9 @@ extension MqClient {
     ///
     /// Lists tags for a resource.
     ///
-    /// - Parameter ListTagsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListTagsInput`)
     ///
-    /// - Returns: `ListTagsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListTagsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1594,6 +1612,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListTagsOutput>(ListTagsOutput.httpOutput(from:), ListTagsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListTagsInput, ListTagsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListTagsOutput>())
@@ -1625,9 +1644,9 @@ extension MqClient {
     ///
     /// Returns a list of all ActiveMQ users.
     ///
-    /// - Parameter ListUsersInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListUsersInput`)
     ///
-    /// - Returns: `ListUsersOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListUsersOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1662,6 +1681,7 @@ extension MqClient {
         builder.serialize(ClientRuntime.QueryItemMiddleware<ListUsersInput, ListUsersOutput>(ListUsersInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListUsersOutput>(ListUsersOutput.httpOutput(from:), ListUsersOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListUsersInput, ListUsersOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListUsersOutput>())
@@ -1693,9 +1713,9 @@ extension MqClient {
     ///
     /// Promotes a data replication replica broker to the primary broker role.
     ///
-    /// - Parameter PromoteInput : Promotes a data replication replica broker to the primary broker role.
+    /// - Parameter input: Promotes a data replication replica broker to the primary broker role. (Type: `PromoteInput`)
     ///
-    /// - Returns: `PromoteOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PromoteOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1732,6 +1752,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PromoteInput, PromoteOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PromoteOutput>(PromoteOutput.httpOutput(from:), PromoteOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PromoteInput, PromoteOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PromoteOutput>())
@@ -1763,9 +1784,9 @@ extension MqClient {
     ///
     /// Reboots a broker. Note: This API is asynchronous.
     ///
-    /// - Parameter RebootBrokerInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `RebootBrokerInput`)
     ///
-    /// - Returns: `RebootBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `RebootBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1799,6 +1820,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<RebootBrokerInput, RebootBrokerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<RebootBrokerOutput>(RebootBrokerOutput.httpOutput(from:), RebootBrokerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<RebootBrokerInput, RebootBrokerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<RebootBrokerOutput>())
@@ -1830,9 +1852,9 @@ extension MqClient {
     ///
     /// Adds a pending configuration change to a broker.
     ///
-    /// - Parameter UpdateBrokerInput : Updates the broker using the specified properties.
+    /// - Parameter input: Updates the broker using the specified properties. (Type: `UpdateBrokerInput`)
     ///
-    /// - Returns: `UpdateBrokerOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateBrokerOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1870,6 +1892,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateBrokerInput, UpdateBrokerOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateBrokerOutput>(UpdateBrokerOutput.httpOutput(from:), UpdateBrokerOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateBrokerInput, UpdateBrokerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateBrokerOutput>())
@@ -1901,9 +1924,9 @@ extension MqClient {
     ///
     /// Updates the specified configuration.
     ///
-    /// - Parameter UpdateConfigurationInput : Updates the specified configuration.
+    /// - Parameter input: Updates the specified configuration. (Type: `UpdateConfigurationInput`)
     ///
-    /// - Returns: `UpdateConfigurationOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateConfigurationOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1941,6 +1964,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateConfigurationInput, UpdateConfigurationOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateConfigurationOutput>(UpdateConfigurationOutput.httpOutput(from:), UpdateConfigurationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateConfigurationInput, UpdateConfigurationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateConfigurationOutput>())
@@ -1972,9 +1996,9 @@ extension MqClient {
     ///
     /// Updates the information for an ActiveMQ user.
     ///
-    /// - Parameter UpdateUserInput : Updates the information for an ActiveMQ user.
+    /// - Parameter input: Updates the information for an ActiveMQ user. (Type: `UpdateUserInput`)
     ///
-    /// - Returns: `UpdateUserOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `UpdateUserOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -2012,6 +2036,7 @@ extension MqClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserInput, UpdateUserOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserOutput>(UpdateUserOutput.httpOutput(from:), UpdateUserOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserInput, UpdateUserOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserOutput>())

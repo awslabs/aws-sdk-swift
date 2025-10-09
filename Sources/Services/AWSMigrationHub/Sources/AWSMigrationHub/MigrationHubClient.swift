@@ -23,6 +23,7 @@ import class Smithy.ContextBuilder
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyReadWrite) import class SmithyJSON.Writer
+import enum AWSClientRuntime.AWSClockSkewProvider
 import enum AWSClientRuntime.AWSRetryErrorInfoProvider
 import enum AWSClientRuntime.AWSRetryMode
 import enum AWSSDKChecksums.AWSChecksumCalculationMode
@@ -67,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MigrationHubClient: ClientRuntime.Client {
     public static let clientName = "MigrationHubClient"
-    public static let version = "1.5.51"
+    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MigrationHubClient.MigrationHubClientConfiguration
     let serviceName = "Migration Hub"
@@ -379,9 +380,9 @@ extension MigrationHubClient {
     ///
     /// * Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance, or DMS endpoint, etc.
     ///
-    /// - Parameter AssociateCreatedArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateCreatedArtifactInput`)
     ///
-    /// - Returns: `AssociateCreatedArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateCreatedArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -421,6 +422,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateCreatedArtifactOutput>(AssociateCreatedArtifactOutput.httpOutput(from:), AssociateCreatedArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateCreatedArtifactInput, AssociateCreatedArtifactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateCreatedArtifactOutput>())
@@ -455,9 +457,9 @@ extension MigrationHubClient {
     ///
     /// Associates a discovered resource ID from Application Discovery Service with a migration task.
     ///
-    /// - Parameter AssociateDiscoveredResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateDiscoveredResourceInput`)
     ///
-    /// - Returns: `AssociateDiscoveredResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateDiscoveredResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -498,6 +500,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateDiscoveredResourceOutput>(AssociateDiscoveredResourceOutput.httpOutput(from:), AssociateDiscoveredResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateDiscoveredResourceInput, AssociateDiscoveredResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateDiscoveredResourceOutput>())
@@ -532,9 +535,9 @@ extension MigrationHubClient {
     ///
     /// Associates a source resource with a migration task. For example, the source resource can be a source server, an application, or a migration wave.
     ///
-    /// - Parameter AssociateSourceResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `AssociateSourceResourceInput`)
     ///
-    /// - Returns: `AssociateSourceResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `AssociateSourceResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -573,6 +576,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateSourceResourceOutput>(AssociateSourceResourceOutput.httpOutput(from:), AssociateSourceResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateSourceResourceInput, AssociateSourceResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<AssociateSourceResourceOutput>())
@@ -607,9 +611,9 @@ extension MigrationHubClient {
     ///
     /// Creates a progress update stream which is an AWS resource used for access control as well as a namespace for migration task names that is implicitly linked to your AWS account. It must uniquely identify the migration tool as it is used for all updates made by the tool; however, it does not need to be unique for each AWS account because it is scoped to the AWS account.
     ///
-    /// - Parameter CreateProgressUpdateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `CreateProgressUpdateStreamInput`)
     ///
-    /// - Returns: `CreateProgressUpdateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `CreateProgressUpdateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -648,6 +652,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateProgressUpdateStreamOutput>(CreateProgressUpdateStreamOutput.httpOutput(from:), CreateProgressUpdateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateProgressUpdateStreamInput, CreateProgressUpdateStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<CreateProgressUpdateStreamOutput>())
@@ -692,9 +697,9 @@ extension MigrationHubClient {
     ///
     /// * Once the stream and all of its resources are deleted, CreateProgressUpdateStream for a stream of the same name will succeed, and that stream will be an entirely new logical resource (without any resources associated with the old stream).
     ///
-    /// - Parameter DeleteProgressUpdateStreamInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DeleteProgressUpdateStreamInput`)
     ///
-    /// - Returns: `DeleteProgressUpdateStreamOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DeleteProgressUpdateStreamOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -734,6 +739,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProgressUpdateStreamOutput>(DeleteProgressUpdateStreamOutput.httpOutput(from:), DeleteProgressUpdateStreamOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProgressUpdateStreamInput, DeleteProgressUpdateStreamOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProgressUpdateStreamOutput>())
@@ -768,9 +774,9 @@ extension MigrationHubClient {
     ///
     /// Gets the migration status of an application.
     ///
-    /// - Parameter DescribeApplicationStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeApplicationStateInput`)
     ///
-    /// - Returns: `DescribeApplicationStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeApplicationStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -809,6 +815,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeApplicationStateOutput>(DescribeApplicationStateOutput.httpOutput(from:), DescribeApplicationStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeApplicationStateInput, DescribeApplicationStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeApplicationStateOutput>())
@@ -843,9 +850,9 @@ extension MigrationHubClient {
     ///
     /// Retrieves a list of all attributes associated with a specific migration task.
     ///
-    /// - Parameter DescribeMigrationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DescribeMigrationTaskInput`)
     ///
-    /// - Returns: `DescribeMigrationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DescribeMigrationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -883,6 +890,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMigrationTaskOutput>(DescribeMigrationTaskOutput.httpOutput(from:), DescribeMigrationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMigrationTaskInput, DescribeMigrationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMigrationTaskOutput>())
@@ -923,9 +931,9 @@ extension MigrationHubClient {
     ///
     /// * Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance, or RDS instance, etc.
     ///
-    /// - Parameter DisassociateCreatedArtifactInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateCreatedArtifactInput`)
     ///
-    /// - Returns: `DisassociateCreatedArtifactOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateCreatedArtifactOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -965,6 +973,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateCreatedArtifactOutput>(DisassociateCreatedArtifactOutput.httpOutput(from:), DisassociateCreatedArtifactOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateCreatedArtifactInput, DisassociateCreatedArtifactOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateCreatedArtifactOutput>())
@@ -999,9 +1008,9 @@ extension MigrationHubClient {
     ///
     /// Disassociate an Application Discovery Service discovered resource from a migration task.
     ///
-    /// - Parameter DisassociateDiscoveredResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateDiscoveredResourceInput`)
     ///
-    /// - Returns: `DisassociateDiscoveredResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateDiscoveredResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1041,6 +1050,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateDiscoveredResourceOutput>(DisassociateDiscoveredResourceOutput.httpOutput(from:), DisassociateDiscoveredResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateDiscoveredResourceInput, DisassociateDiscoveredResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateDiscoveredResourceOutput>())
@@ -1075,9 +1085,9 @@ extension MigrationHubClient {
     ///
     /// Removes the association between a source resource and a migration task.
     ///
-    /// - Parameter DisassociateSourceResourceInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `DisassociateSourceResourceInput`)
     ///
-    /// - Returns: `DisassociateSourceResourceOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `DisassociateSourceResourceOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1116,6 +1126,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateSourceResourceOutput>(DisassociateSourceResourceOutput.httpOutput(from:), DisassociateSourceResourceOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateSourceResourceInput, DisassociateSourceResourceOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateSourceResourceOutput>())
@@ -1150,9 +1161,9 @@ extension MigrationHubClient {
     ///
     /// Registers a new migration task which represents a server, database, etc., being migrated to AWS by a migration tool. This API is a prerequisite to calling the NotifyMigrationTaskState API as the migration tool must first register the migration task with Migration Hub.
     ///
-    /// - Parameter ImportMigrationTaskInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ImportMigrationTaskInput`)
     ///
-    /// - Returns: `ImportMigrationTaskOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ImportMigrationTaskOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1192,6 +1203,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ImportMigrationTaskOutput>(ImportMigrationTaskOutput.httpOutput(from:), ImportMigrationTaskOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ImportMigrationTaskInput, ImportMigrationTaskOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ImportMigrationTaskOutput>())
@@ -1226,9 +1238,9 @@ extension MigrationHubClient {
     ///
     /// Lists all the migration statuses for your applications. If you use the optional ApplicationIds parameter, only the migration statuses for those applications will be returned.
     ///
-    /// - Parameter ListApplicationStatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListApplicationStatesInput`)
     ///
-    /// - Returns: `ListApplicationStatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListApplicationStatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1265,6 +1277,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListApplicationStatesOutput>(ListApplicationStatesOutput.httpOutput(from:), ListApplicationStatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListApplicationStatesInput, ListApplicationStatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListApplicationStatesOutput>())
@@ -1305,9 +1318,9 @@ extension MigrationHubClient {
     ///
     /// * Lists created artifacts in a paginated interface.
     ///
-    /// - Parameter ListCreatedArtifactsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListCreatedArtifactsInput`)
     ///
-    /// - Returns: `ListCreatedArtifactsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListCreatedArtifactsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1345,6 +1358,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListCreatedArtifactsOutput>(ListCreatedArtifactsOutput.httpOutput(from:), ListCreatedArtifactsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListCreatedArtifactsInput, ListCreatedArtifactsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListCreatedArtifactsOutput>())
@@ -1379,9 +1393,9 @@ extension MigrationHubClient {
     ///
     /// Lists discovered resources associated with the given MigrationTask.
     ///
-    /// - Parameter ListDiscoveredResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListDiscoveredResourcesInput`)
     ///
-    /// - Returns: `ListDiscoveredResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListDiscoveredResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1419,6 +1433,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListDiscoveredResourcesOutput>(ListDiscoveredResourcesOutput.httpOutput(from:), ListDiscoveredResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListDiscoveredResourcesInput, ListDiscoveredResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListDiscoveredResourcesOutput>())
@@ -1453,9 +1468,9 @@ extension MigrationHubClient {
     ///
     /// This is a paginated API that returns all the migration-task states for the specified MigrationTaskName and ProgressUpdateStream.
     ///
-    /// - Parameter ListMigrationTaskUpdatesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMigrationTaskUpdatesInput`)
     ///
-    /// - Returns: `ListMigrationTaskUpdatesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMigrationTaskUpdatesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1492,6 +1507,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMigrationTaskUpdatesOutput>(ListMigrationTaskUpdatesOutput.httpOutput(from:), ListMigrationTaskUpdatesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMigrationTaskUpdatesInput, ListMigrationTaskUpdatesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMigrationTaskUpdatesOutput>())
@@ -1532,9 +1548,9 @@ extension MigrationHubClient {
     ///
     /// * Lists migration tasks in a paginated interface.
     ///
-    /// - Parameter ListMigrationTasksInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListMigrationTasksInput`)
     ///
-    /// - Returns: `ListMigrationTasksOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListMigrationTasksOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1573,6 +1589,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListMigrationTasksOutput>(ListMigrationTasksOutput.httpOutput(from:), ListMigrationTasksOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListMigrationTasksInput, ListMigrationTasksOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListMigrationTasksOutput>())
@@ -1607,9 +1624,9 @@ extension MigrationHubClient {
     ///
     /// Lists progress update streams associated with the user account making this call.
     ///
-    /// - Parameter ListProgressUpdateStreamsInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListProgressUpdateStreamsInput`)
     ///
-    /// - Returns: `ListProgressUpdateStreamsOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListProgressUpdateStreamsOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1646,6 +1663,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListProgressUpdateStreamsOutput>(ListProgressUpdateStreamsOutput.httpOutput(from:), ListProgressUpdateStreamsOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListProgressUpdateStreamsInput, ListProgressUpdateStreamsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListProgressUpdateStreamsOutput>())
@@ -1680,9 +1698,9 @@ extension MigrationHubClient {
     ///
     /// Lists all the source resource that are associated with the specified MigrationTaskName and ProgressUpdateStream.
     ///
-    /// - Parameter ListSourceResourcesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `ListSourceResourcesInput`)
     ///
-    /// - Returns: `ListSourceResourcesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `ListSourceResourcesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1719,6 +1737,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceResourcesOutput>(ListSourceResourcesOutput.httpOutput(from:), ListSourceResourcesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceResourcesInput, ListSourceResourcesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceResourcesOutput>())
@@ -1753,9 +1772,9 @@ extension MigrationHubClient {
     ///
     /// Sets the migration state of an application. For a given application identified by the value passed to ApplicationId, its status is set or updated by passing one of three values to Status: NOT_STARTED | IN_PROGRESS | COMPLETED.
     ///
-    /// - Parameter NotifyApplicationStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyApplicationStateInput`)
     ///
-    /// - Returns: `NotifyApplicationStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyApplicationStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1796,6 +1815,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyApplicationStateOutput>(NotifyApplicationStateOutput.httpOutput(from:), NotifyApplicationStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyApplicationStateInput, NotifyApplicationStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyApplicationStateOutput>())
@@ -1836,9 +1856,9 @@ extension MigrationHubClient {
     ///
     /// * ProgressUpdateStream is used for access control and to provide a namespace for each migration tool.
     ///
-    /// - Parameter NotifyMigrationTaskStateInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `NotifyMigrationTaskStateInput`)
     ///
-    /// - Returns: `NotifyMigrationTaskStateOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `NotifyMigrationTaskStateOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1878,6 +1898,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<NotifyMigrationTaskStateOutput>(NotifyMigrationTaskStateOutput.httpOutput(from:), NotifyMigrationTaskStateOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<NotifyMigrationTaskStateInput, NotifyMigrationTaskStateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NotifyMigrationTaskStateOutput>())
@@ -1919,9 +1940,9 @@ extension MigrationHubClient {
     ///
     /// Because this is an asynchronous call, it will always return 200, whether an association occurs or not. To confirm if an association was found based on the provided details, call ListDiscoveredResources.
     ///
-    /// - Parameter PutResourceAttributesInput : [no documentation found]
+    /// - Parameter input: [no documentation found] (Type: `PutResourceAttributesInput`)
     ///
-    /// - Returns: `PutResourceAttributesOutput` : [no documentation found]
+    /// - Returns: [no documentation found] (Type: `PutResourceAttributesOutput`)
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -1961,6 +1982,7 @@ extension MigrationHubClient {
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>())
         builder.deserialize(ClientRuntime.DeserializeMiddleware<PutResourceAttributesOutput>(PutResourceAttributesOutput.httpOutput(from:), PutResourceAttributesOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutResourceAttributesInput, PutResourceAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<PutResourceAttributesOutput>())
