@@ -37,7 +37,7 @@ class AWSQueryOperationStackTest {
         builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
         builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
         builder.applySigner(ClientRuntime.SignerMiddleware<NoInputAndOutputOutput>())
-        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+        let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
         }
         builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<NoInputAndOutputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
