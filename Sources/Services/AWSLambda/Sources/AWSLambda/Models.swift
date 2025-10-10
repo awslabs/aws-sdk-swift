@@ -494,6 +494,8 @@ public struct AddPermissionInput: Swift.Sendable {
     public var functionName: Swift.String?
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
+    /// Restricts the lambda:InvokeFunction action to calls coming from a function URL. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    public var invokedViaFunctionUrl: Swift.Bool?
     /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
     public var principal: Swift.String?
@@ -516,6 +518,7 @@ public struct AddPermissionInput: Swift.Sendable {
         eventSourceToken: Swift.String? = nil,
         functionName: Swift.String? = nil,
         functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType? = nil,
+        invokedViaFunctionUrl: Swift.Bool? = nil,
         principal: Swift.String? = nil,
         principalOrgID: Swift.String? = nil,
         qualifier: Swift.String? = nil,
@@ -528,6 +531,7 @@ public struct AddPermissionInput: Swift.Sendable {
         self.eventSourceToken = eventSourceToken
         self.functionName = functionName
         self.functionUrlAuthType = functionUrlAuthType
+        self.invokedViaFunctionUrl = invokedViaFunctionUrl
         self.principal = principal
         self.principalOrgID = principalOrgID
         self.qualifier = qualifier
@@ -896,7 +900,7 @@ extension LambdaClientTypes {
 
     /// Code signing configuration [policies](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies) specify the validation failure action for signature mismatch or expiry.
     public struct CodeSigningPolicies: Swift.Sendable {
-        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log. Default value: Warn
+        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and issues a new Amazon CloudWatch metric (SignatureValidationErrors) and also stores the warning in the CloudTrail log. Default value: Warn
         public var untrustedArtifactOnDeployment: LambdaClientTypes.CodeSigningPolicy?
 
         public init(
@@ -9984,6 +9988,7 @@ extension AddPermissionInput {
         try writer["Action"].write(value.action)
         try writer["EventSourceToken"].write(value.eventSourceToken)
         try writer["FunctionUrlAuthType"].write(value.functionUrlAuthType)
+        try writer["InvokedViaFunctionUrl"].write(value.invokedViaFunctionUrl)
         try writer["Principal"].write(value.principal)
         try writer["PrincipalOrgID"].write(value.principalOrgID)
         try writer["RevisionId"].write(value.revisionId)

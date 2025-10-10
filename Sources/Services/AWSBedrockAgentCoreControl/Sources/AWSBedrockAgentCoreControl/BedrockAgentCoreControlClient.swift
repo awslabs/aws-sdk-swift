@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreControlClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreControlClient"
-    public static let version = "1.5.60"
+    public static let version = "1.5.61"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreControlClient.BedrockAgentCoreControlClientConfiguration
     let serviceName = "Bedrock AgentCore Control"
@@ -748,7 +748,7 @@ extension BedrockAgentCoreControlClient {
 
     /// Performs the `CreateGateway` operation on the `BedrockAgentCoreControl` service.
     ///
-    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. To create a gateway, you must specify a name, protocol type, and IAM role. The role grants the gateway permission to access Amazon Web Services services and resources.
+    /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateGatewayInput`)
     ///
@@ -3521,6 +3521,80 @@ extension BedrockAgentCoreControlClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SetTokenVaultCMK")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `SynchronizeGatewayTargets` operation on the `BedrockAgentCoreControl` service.
+    ///
+    /// The gateway targets.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `SynchronizeGatewayTargetsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `SynchronizeGatewayTargetsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
+    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
+    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
+    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
+    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
+    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the service.
+    public func synchronizeGatewayTargets(input: SynchronizeGatewayTargetsInput) async throws -> SynchronizeGatewayTargetsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "synchronizeGatewayTargets")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "bedrock-agentcore")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput>(SynchronizeGatewayTargetsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: SynchronizeGatewayTargetsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<SynchronizeGatewayTargetsOutput>(SynchronizeGatewayTargetsOutput.httpOutput(from:), SynchronizeGatewayTargetsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<SynchronizeGatewayTargetsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Bedrock AgentCore Control", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<SynchronizeGatewayTargetsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<SynchronizeGatewayTargetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<SynchronizeGatewayTargetsInput, SynchronizeGatewayTargetsOutput>(serviceID: serviceName, version: BedrockAgentCoreControlClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "BedrockAgentCoreControl")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "SynchronizeGatewayTargets")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

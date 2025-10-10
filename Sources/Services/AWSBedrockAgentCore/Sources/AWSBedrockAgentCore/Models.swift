@@ -817,6 +817,10 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     public var name: Swift.String?
     /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
     public var sessionTimeoutSeconds: Swift.Int?
+    /// The trace identifier for request tracking.
+    public var traceId: Swift.String?
+    /// The parent trace information for distributed tracing.
+    public var traceParent: Swift.String?
     /// The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock uses a default viewport size.
     public var viewPort: BedrockAgentCoreClientTypes.ViewPort?
 
@@ -825,12 +829,16 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil,
         viewPort: BedrockAgentCoreClientTypes.ViewPort? = nil
     ) {
         self.browserIdentifier = browserIdentifier
         self.clientToken = clientToken
         self.name = name
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
+        self.traceId = traceId
+        self.traceParent = traceParent
         self.viewPort = viewPort
     }
 }
@@ -870,15 +878,23 @@ public struct StopBrowserSessionInput: Swift.Sendable {
     /// The unique identifier of the browser session to stop.
     /// This member is required.
     public var sessionId: Swift.String?
+    /// The trace identifier for request tracking.
+    public var traceId: Swift.String?
+    /// The parent trace information for distributed tracing.
+    public var traceParent: Swift.String?
 
     public init(
         browserIdentifier: Swift.String? = nil,
         clientToken: Swift.String? = nil,
-        sessionId: Swift.String? = nil
+        sessionId: Swift.String? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil
     ) {
         self.browserIdentifier = browserIdentifier
         self.clientToken = clientToken
         self.sessionId = sessionId
+        self.traceId = traceId
+        self.traceParent = traceParent
     }
 }
 
@@ -1151,17 +1167,25 @@ public struct StartCodeInterpreterSessionInput: Swift.Sendable {
     public var name: Swift.String?
     /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 900 seconds (15 minutes). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
     public var sessionTimeoutSeconds: Swift.Int?
+    /// The trace identifier for request tracking.
+    public var traceId: Swift.String?
+    /// The parent trace information for distributed tracing.
+    public var traceParent: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         codeInterpreterIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
-        sessionTimeoutSeconds: Swift.Int? = nil
+        sessionTimeoutSeconds: Swift.Int? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.codeInterpreterIdentifier = codeInterpreterIdentifier
         self.name = name
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
+        self.traceId = traceId
+        self.traceParent = traceParent
     }
 }
 
@@ -1196,15 +1220,23 @@ public struct StopCodeInterpreterSessionInput: Swift.Sendable {
     /// The unique identifier of the code interpreter session to stop.
     /// This member is required.
     public var sessionId: Swift.String?
+    /// The trace identifier for request tracking.
+    public var traceId: Swift.String?
+    /// The parent trace information for distributed tracing.
+    public var traceParent: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
         codeInterpreterIdentifier: Swift.String? = nil,
-        sessionId: Swift.String? = nil
+        sessionId: Swift.String? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.codeInterpreterIdentifier = codeInterpreterIdentifier
         self.sessionId = sessionId
+        self.traceId = traceId
+        self.traceParent = traceParent
     }
 }
 
@@ -1633,17 +1665,25 @@ public struct InvokeCodeInterpreterInput: Swift.Sendable {
     public var name: BedrockAgentCoreClientTypes.ToolName?
     /// The unique identifier of the code interpreter session to use. This must be an active session created with StartCodeInterpreterSession. If the session has expired or been stopped, the request will fail.
     public var sessionId: Swift.String?
+    /// The trace identifier for request tracking.
+    public var traceId: Swift.String?
+    /// The parent trace information for distributed tracing.
+    public var traceParent: Swift.String?
 
     public init(
         arguments: BedrockAgentCoreClientTypes.ToolArguments? = nil,
         codeInterpreterIdentifier: Swift.String? = nil,
         name: BedrockAgentCoreClientTypes.ToolName? = nil,
-        sessionId: Swift.String? = nil
+        sessionId: Swift.String? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil
     ) {
         self.arguments = arguments
         self.codeInterpreterIdentifier = codeInterpreterIdentifier
         self.name = name
         self.sessionId = sessionId
+        self.traceId = traceId
+        self.traceParent = traceParent
     }
 }
 
@@ -3362,6 +3402,12 @@ extension InvokeCodeInterpreterInput {
         if let sessionId = value.sessionId {
             items.add(SmithyHTTPAPI.Header(name: "x-amzn-code-interpreter-session-id", value: Swift.String(sessionId)))
         }
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
         return items
     }
 }
@@ -3455,6 +3501,20 @@ extension StartBrowserSessionInput {
     }
 }
 
+extension StartBrowserSessionInput {
+
+    static func headerProvider(_ value: StartBrowserSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
+        return items
+    }
+}
+
 extension StartCodeInterpreterSessionInput {
 
     static func urlPathProvider(_ value: StartCodeInterpreterSessionInput) -> Swift.String? {
@@ -3465,6 +3525,20 @@ extension StartCodeInterpreterSessionInput {
     }
 }
 
+extension StartCodeInterpreterSessionInput {
+
+    static func headerProvider(_ value: StartCodeInterpreterSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
+        return items
+    }
+}
+
 extension StopBrowserSessionInput {
 
     static func urlPathProvider(_ value: StopBrowserSessionInput) -> Swift.String? {
@@ -3472,6 +3546,20 @@ extension StopBrowserSessionInput {
             return nil
         }
         return "/browsers/\(browserIdentifier.urlPercentEncoding())/sessions/stop"
+    }
+}
+
+extension StopBrowserSessionInput {
+
+    static func headerProvider(_ value: StopBrowserSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
+        return items
     }
 }
 
@@ -3496,6 +3584,20 @@ extension StopCodeInterpreterSessionInput {
             return nil
         }
         return "/code-interpreters/\(codeInterpreterIdentifier.urlPercentEncoding())/sessions/stop"
+    }
+}
+
+extension StopCodeInterpreterSessionInput {
+
+    static func headerProvider(_ value: StopCodeInterpreterSessionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
+        return items
     }
 }
 

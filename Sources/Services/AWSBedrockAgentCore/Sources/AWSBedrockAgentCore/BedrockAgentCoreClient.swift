@@ -74,7 +74,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreClient"
-    public static let version = "1.5.60"
+    public static let version = "1.5.61"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreClient.BedrockAgentCoreClientConfiguration
     let serviceName = "Bedrock AgentCore"
@@ -1548,7 +1548,7 @@ extension BedrockAgentCoreClient {
 
     /// Performs the `InvokeAgentRuntime` operation on the `BedrockAgentCore` service.
     ///
-    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html). If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html). To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission.
+    /// Sends a request to an agent or tool hosted in an Amazon Bedrock AgentCore Runtime and receives responses in real-time. To invoke an agent you must specify the AgentCore Runtime ARN and provide a payload containing your request. You can optionally specify a qualifier to target a specific version or endpoint of the agent. This operation supports streaming responses, allowing you to receive partial responses as they become available. We recommend using pagination to ensure that the operation returns quickly and successfully when processing large responses. For example code, see [Invoke an AgentCore Runtime agent](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-invoke-agent.html). If you're integrating your agent with OAuth, you can't use the Amazon Web Services SDK to call InvokeAgentRuntime. Instead, make a HTTPS request to InvokeAgentRuntime. For an example, see [Authenticate and authorize with Inbound Auth and Outbound Auth](https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/runtime-oauth.html). To use this operation, you must have the bedrock-agentcore:InvokeAgentRuntime permission. If you are making a call to InvokeAgentRuntime on behalf of a user ID with the X-Amzn-Bedrock-AgentCore-Runtime-User-Id header, You require permissions to both actions (bedrock-agentcore:InvokeAgentRuntime and bedrock-agentcore:InvokeAgentRuntimeForUser).
     ///
     /// - Parameter input: [no documentation found] (Type: `InvokeAgentRuntimeInput`)
     ///
@@ -2272,6 +2272,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(StartBrowserSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(StartBrowserSessionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartBrowserSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartBrowserSessionInput, StartBrowserSessionOutput>())
@@ -2353,6 +2354,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(StartCodeInterpreterSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(StartCodeInterpreterSessionInput.headerProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartCodeInterpreterSessionInput.write(value:to:)))
         builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartCodeInterpreterSessionInput, StartCodeInterpreterSessionOutput>())
@@ -2432,6 +2434,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(StopBrowserSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(StopBrowserSessionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(StopBrowserSessionInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<StopBrowserSessionInput, StopBrowserSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopBrowserSessionInput.write(value:to:)))
@@ -2512,6 +2515,7 @@ extension BedrockAgentCoreClient {
         builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(StopCodeInterpreterSessionInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(StopCodeInterpreterSessionInput.headerProvider(_:)))
         builder.serialize(ClientRuntime.QueryItemMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(StopCodeInterpreterSessionInput.queryItemProvider(_:)))
         builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput>(contentType: "application/json"))
         builder.serialize(ClientRuntime.BodyMiddleware<StopCodeInterpreterSessionInput, StopCodeInterpreterSessionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StopCodeInterpreterSessionInput.write(value:to:)))

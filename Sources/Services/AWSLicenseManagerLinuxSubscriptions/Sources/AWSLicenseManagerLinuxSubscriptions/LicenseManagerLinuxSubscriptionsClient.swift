@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LicenseManagerLinuxSubscriptionsClient: ClientRuntime.Client {
     public static let clientName = "LicenseManagerLinuxSubscriptionsClient"
-    public static let version = "1.5.60"
+    public static let version = "1.5.61"
     let client: ClientRuntime.SdkHttpClient
     let config: LicenseManagerLinuxSubscriptionsClient.LicenseManagerLinuxSubscriptionsClientConfiguration
     let serviceName = "License Manager Linux Subscriptions"

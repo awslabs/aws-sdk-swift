@@ -2623,12 +2623,16 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreateGatewayInput: Swift.Sendable {
-    /// The authorizer configuration for the gateway.
+    /// The authorizer configuration for the gateway. Required if authorizerType is CUSTOM_JWT.
     public var authorizerConfiguration: BedrockAgentCoreControlClientTypes.AuthorizerConfiguration?
     /// The type of authorizer to use for the gateway.
+    ///
+    /// * CUSTOM_JWT - Authorize with a bearer token.
+    ///
+    /// * AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
     /// This member is required.
     public var authorizerType: BedrockAgentCoreControlClientTypes.AuthorizerType?
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The description of the gateway.
     public var description: Swift.String?
@@ -3408,6 +3412,22 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The target configuration for the MCP server.
+    public struct McpServerTargetConfiguration: Swift.Sendable {
+        /// The endpoint for the MCP server target configuration.
+        /// This member is required.
+        public var endpoint: Swift.String?
+
+        public init(
+            endpoint: Swift.String? = nil
+        ) {
+            self.endpoint = endpoint
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Configuration for API schema.
     public enum ApiSchemaConfiguration: Swift.Sendable {
         /// The Amazon S3 configuration for a gateway. This structure defines how the gateway accesses files in Amazon S3.
@@ -3425,6 +3445,8 @@ extension BedrockAgentCoreControlClientTypes {
         case deleting
         case failed
         case ready
+        case synchronizeUnsuccessful
+        case synchronizing
         case updateUnsuccessful
         case updating
         case sdkUnknown(Swift.String)
@@ -3435,6 +3457,8 @@ extension BedrockAgentCoreControlClientTypes {
                 .deleting,
                 .failed,
                 .ready,
+                .synchronizeUnsuccessful,
+                .synchronizing,
                 .updateUnsuccessful,
                 .updating
             ]
@@ -3451,6 +3475,8 @@ extension BedrockAgentCoreControlClientTypes {
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
             case .ready: return "READY"
+            case .synchronizeUnsuccessful: return "SYNCHRONIZE_UNSUCCESSFUL"
+            case .synchronizing: return "SYNCHRONIZING"
             case .updateUnsuccessful: return "UPDATE_UNSUCCESSFUL"
             case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
@@ -3597,6 +3623,23 @@ public struct ListGatewayTargetsOutput: Swift.Sendable {
     ) {
         self.items = items
         self.nextToken = nextToken
+    }
+}
+
+public struct SynchronizeGatewayTargetsInput: Swift.Sendable {
+    /// The gateway Identifier.
+    /// This member is required.
+    public var gatewayIdentifier: Swift.String?
+    /// The target ID list.
+    /// This member is required.
+    public var targetIdList: [Swift.String]?
+
+    public init(
+        gatewayIdentifier: Swift.String? = nil,
+        targetIdList: [Swift.String]? = nil
+    ) {
+        self.gatewayIdentifier = gatewayIdentifier
+        self.targetIdList = targetIdList
     }
 }
 
@@ -3748,6 +3791,110 @@ public struct ThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.A
         message: Swift.String? = nil
     ) {
         self.properties.message = message
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration to invoke a self-managed memory processing pipeline with.
+    public struct InvocationConfigurationInput: Swift.Sendable {
+        /// The S3 bucket name for event payload delivery.
+        /// This member is required.
+        public var payloadDeliveryBucketName: Swift.String?
+        /// The ARN of the SNS topic for job notifications.
+        /// This member is required.
+        public var topicArn: Swift.String?
+
+        public init(
+            payloadDeliveryBucketName: Swift.String? = nil,
+            topicArn: Swift.String? = nil
+        ) {
+            self.payloadDeliveryBucketName = payloadDeliveryBucketName
+            self.topicArn = topicArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The trigger configuration based on a message.
+    public struct MessageBasedTriggerInput: Swift.Sendable {
+        /// The number of messages that trigger memory processing.
+        public var messageCount: Swift.Int?
+
+        public init(
+            messageCount: Swift.Int? = 6
+        ) {
+            self.messageCount = messageCount
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Trigger configuration based on time.
+    public struct TimeBasedTriggerInput: Swift.Sendable {
+        /// Idle session timeout (seconds) that triggers memory processing.
+        public var idleSessionTimeout: Swift.Int?
+
+        public init(
+            idleSessionTimeout: Swift.Int? = 20
+        ) {
+            self.idleSessionTimeout = idleSessionTimeout
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Trigger configuration based on tokens.
+    public struct TokenBasedTriggerInput: Swift.Sendable {
+        /// Number of tokens that trigger memory processing.
+        public var tokenCount: Swift.Int?
+
+        public init(
+            tokenCount: Swift.Int? = 5000
+        ) {
+            self.tokenCount = tokenCount
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Condition that triggers memory processing.
+    public enum TriggerConditionInput: Swift.Sendable {
+        /// Message based trigger configuration.
+        case messagebasedtrigger(BedrockAgentCoreControlClientTypes.MessageBasedTriggerInput)
+        /// Token based trigger configuration.
+        case tokenbasedtrigger(BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput)
+        /// Time based trigger configuration.
+        case timebasedtrigger(BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Input configuration for a self-managed memory strategy.
+    public struct SelfManagedConfigurationInput: Swift.Sendable {
+        /// Number of historical messages to include in processing context.
+        public var historicalContextWindowSize: Swift.Int?
+        /// Configuration to invoke a self-managed memory processing pipeline with.
+        /// This member is required.
+        public var invocationConfiguration: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput?
+        /// A list of conditions that trigger memory processing.
+        public var triggerConditions: [BedrockAgentCoreControlClientTypes.TriggerConditionInput]?
+
+        public init(
+            historicalContextWindowSize: Swift.Int? = 4,
+            invocationConfiguration: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput? = nil,
+            triggerConditions: [BedrockAgentCoreControlClientTypes.TriggerConditionInput]? = nil
+        ) {
+            self.historicalContextWindowSize = historicalContextWindowSize
+            self.invocationConfiguration = invocationConfiguration
+            self.triggerConditions = triggerConditions
+        }
     }
 }
 
@@ -3944,6 +4091,8 @@ extension BedrockAgentCoreControlClientTypes {
         case summaryoverride(BedrockAgentCoreControlClientTypes.SummaryOverrideConfigurationInput)
         /// The user preference override configuration for a custom memory strategy.
         case userpreferenceoverride(BedrockAgentCoreControlClientTypes.UserPreferenceOverrideConfigurationInput)
+        /// The self managed configuration for a custom memory strategy.
+        case selfmanagedconfiguration(BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4343,7 +4492,114 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The configuration to invoke a self-managed memory processing pipeline with.
+    public struct InvocationConfiguration: Swift.Sendable {
+        /// The S3 bucket name for event payload delivery.
+        /// This member is required.
+        public var payloadDeliveryBucketName: Swift.String?
+        /// The ARN of the SNS topic for job notifications.
+        /// This member is required.
+        public var topicArn: Swift.String?
+
+        public init(
+            payloadDeliveryBucketName: Swift.String? = nil,
+            topicArn: Swift.String? = nil
+        ) {
+            self.payloadDeliveryBucketName = payloadDeliveryBucketName
+            self.topicArn = topicArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The trigger configuration based on a message.
+    public struct MessageBasedTrigger: Swift.Sendable {
+        /// The number of messages that trigger memory processing.
+        public var messageCount: Swift.Int?
+
+        public init(
+            messageCount: Swift.Int? = nil
+        ) {
+            self.messageCount = messageCount
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Trigger configuration based on time.
+    public struct TimeBasedTrigger: Swift.Sendable {
+        /// Idle session timeout (seconds) that triggers memory processing.
+        public var idleSessionTimeout: Swift.Int?
+
+        public init(
+            idleSessionTimeout: Swift.Int? = nil
+        ) {
+            self.idleSessionTimeout = idleSessionTimeout
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Trigger configuration based on tokens.
+    public struct TokenBasedTrigger: Swift.Sendable {
+        /// Number of tokens that trigger memory processing.
+        public var tokenCount: Swift.Int?
+
+        public init(
+            tokenCount: Swift.Int? = nil
+        ) {
+            self.tokenCount = tokenCount
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Condition that triggers memory processing.
+    public enum TriggerCondition: Swift.Sendable {
+        /// Message based trigger configuration.
+        case messagebasedtrigger(BedrockAgentCoreControlClientTypes.MessageBasedTrigger)
+        /// Token based trigger configuration.
+        case tokenbasedtrigger(BedrockAgentCoreControlClientTypes.TokenBasedTrigger)
+        /// Time based trigger configuration.
+        case timebasedtrigger(BedrockAgentCoreControlClientTypes.TimeBasedTrigger)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// A configuration for a self-managed memory strategy.
+    public struct SelfManagedConfiguration: Swift.Sendable {
+        /// The number of historical messages to include in processing context.
+        /// This member is required.
+        public var historicalContextWindowSize: Swift.Int?
+        /// The configuration to use when invoking memory processing.
+        /// This member is required.
+        public var invocationConfiguration: BedrockAgentCoreControlClientTypes.InvocationConfiguration?
+        /// A list of conditions that trigger memory processing.
+        /// This member is required.
+        public var triggerConditions: [BedrockAgentCoreControlClientTypes.TriggerCondition]?
+
+        public init(
+            historicalContextWindowSize: Swift.Int? = nil,
+            invocationConfiguration: BedrockAgentCoreControlClientTypes.InvocationConfiguration? = nil,
+            triggerConditions: [BedrockAgentCoreControlClientTypes.TriggerCondition]? = nil
+        ) {
+            self.historicalContextWindowSize = historicalContextWindowSize
+            self.invocationConfiguration = invocationConfiguration
+            self.triggerConditions = triggerConditions
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum OverrideType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case selfManaged
         case semanticOverride
         case summaryOverride
         case userPreferenceOverride
@@ -4351,6 +4607,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public static var allCases: [OverrideType] {
             return [
+                .selfManaged,
                 .semanticOverride,
                 .summaryOverride,
                 .userPreferenceOverride
@@ -4364,6 +4621,7 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .selfManaged: return "SELF_MANAGED"
             case .semanticOverride: return "SEMANTIC_OVERRIDE"
             case .summaryOverride: return "SUMMARY_OVERRIDE"
             case .userPreferenceOverride: return "USER_PREFERENCE_OVERRIDE"
@@ -4381,16 +4639,20 @@ extension BedrockAgentCoreControlClientTypes {
         public var consolidation: BedrockAgentCoreControlClientTypes.ConsolidationConfiguration?
         /// The extraction configuration for the memory strategy.
         public var extraction: BedrockAgentCoreControlClientTypes.ExtractionConfiguration?
+        /// Self-managed configuration settings.
+        public var selfManagedConfiguration: BedrockAgentCoreControlClientTypes.SelfManagedConfiguration?
         /// The type of override for the strategy configuration.
         public var type: BedrockAgentCoreControlClientTypes.OverrideType?
 
         public init(
             consolidation: BedrockAgentCoreControlClientTypes.ConsolidationConfiguration? = nil,
             extraction: BedrockAgentCoreControlClientTypes.ExtractionConfiguration? = nil,
+            selfManagedConfiguration: BedrockAgentCoreControlClientTypes.SelfManagedConfiguration? = nil,
             type: BedrockAgentCoreControlClientTypes.OverrideType? = nil
         ) {
             self.consolidation = consolidation
             self.extraction = extraction
+            self.selfManagedConfiguration = selfManagedConfiguration
             self.type = type
         }
     }
@@ -4788,19 +5050,65 @@ extension BedrockAgentCoreControlClientTypes {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// The configuration for updating invocation settings.
+    public struct ModifyInvocationConfigurationInput: Swift.Sendable {
+        /// The updated S3 bucket name for event payload delivery.
+        public var payloadDeliveryBucketName: Swift.String?
+        /// The updated ARN of the SNS topic for job notifications.
+        public var topicArn: Swift.String?
+
+        public init(
+            payloadDeliveryBucketName: Swift.String? = nil,
+            topicArn: Swift.String? = nil
+        ) {
+            self.payloadDeliveryBucketName = payloadDeliveryBucketName
+            self.topicArn = topicArn
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration for updating the self-managed memory strategy.
+    public struct ModifySelfManagedConfiguration: Swift.Sendable {
+        /// The updated number of historical messages to include in processing context.
+        public var historicalContextWindowSize: Swift.Int?
+        /// The updated configuration to invoke self-managed memory processing pipeline.
+        public var invocationConfiguration: BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput?
+        /// The updated list of conditions that trigger memory processing.
+        public var triggerConditions: [BedrockAgentCoreControlClientTypes.TriggerConditionInput]?
+
+        public init(
+            historicalContextWindowSize: Swift.Int? = nil,
+            invocationConfiguration: BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput? = nil,
+            triggerConditions: [BedrockAgentCoreControlClientTypes.TriggerConditionInput]? = nil
+        ) {
+            self.historicalContextWindowSize = historicalContextWindowSize
+            self.invocationConfiguration = invocationConfiguration
+            self.triggerConditions = triggerConditions
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Contains information for modifying a strategy configuration.
     public struct ModifyStrategyConfiguration: Swift.Sendable {
         /// The updated consolidation configuration.
         public var consolidation: BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration?
         /// The updated extraction configuration.
         public var extraction: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration?
+        /// The updated self-managed configuration.
+        public var selfManagedConfiguration: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration?
 
         public init(
             consolidation: BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration? = nil,
-            extraction: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration? = nil
+            extraction: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration? = nil,
+            selfManagedConfiguration: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration? = nil
         ) {
             self.consolidation = consolidation
             self.extraction = extraction
+            self.selfManagedConfiguration = selfManagedConfiguration
         }
     }
 }
@@ -5942,6 +6250,8 @@ extension BedrockAgentCoreControlClientTypes {
         case smithymodel(BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration)
         /// The Lambda configuration for the Model Context Protocol target. This configuration defines how the gateway uses a Lambda function to communicate with the target.
         case lambda(BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration)
+        /// The MCP server specified as the gateway target.
+        case mcpserver(BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5956,11 +6266,78 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The gateway target.
+    public struct GatewayTarget: Swift.Sendable {
+        /// The date and time at which the target was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The provider configurations.
+        /// This member is required.
+        public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]?
+        /// The description for the gateway target.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the gateway target.
+        /// This member is required.
+        public var gatewayArn: Swift.String?
+        /// The last synchronization time.
+        public var lastSynchronizedAt: Foundation.Date?
+        /// The name of the gateway target.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of the gateway target.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.TargetStatus?
+        /// The status reasons for the target status.
+        public var statusReasons: [Swift.String]?
+        /// The configuration for a gateway target. This structure defines how the gateway connects to and interacts with the target endpoint.
+        /// This member is required.
+        public var targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration?
+        /// The target ID.
+        /// This member is required.
+        public var targetId: Swift.String?
+        /// The date and time at which the target was updated.
+        /// This member is required.
+        public var updatedAt: Foundation.Date?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
+            description: Swift.String? = nil,
+            gatewayArn: Swift.String? = nil,
+            lastSynchronizedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
+            statusReasons: [Swift.String]? = nil,
+            targetConfiguration: BedrockAgentCoreControlClientTypes.TargetConfiguration? = nil,
+            targetId: Swift.String? = nil,
+            updatedAt: Foundation.Date? = nil
+        ) {
+            self.createdAt = createdAt
+            self.credentialProviderConfigurations = credentialProviderConfigurations
+            self.description = description
+            self.gatewayArn = gatewayArn
+            self.lastSynchronizedAt = lastSynchronizedAt
+            self.name = name
+            self.status = status
+            self.statusReasons = statusReasons
+            self.targetConfiguration = targetConfiguration
+            self.targetId = targetId
+            self.updatedAt = updatedAt
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GatewayTarget: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GatewayTarget(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateGatewayTargetInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, the service ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
     /// The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
-    /// This member is required.
     public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]?
     /// The description of the gateway target.
     public var description: Swift.String?
@@ -6008,6 +6385,8 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the gateway.
     /// This member is required.
     public var gatewayArn: Swift.String?
+    /// The last synchronization of the target.
+    public var lastSynchronizedAt: Foundation.Date?
     /// The name of the target.
     /// This member is required.
     public var name: Swift.String?
@@ -6031,6 +6410,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
         gatewayArn: Swift.String? = nil,
+        lastSynchronizedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
@@ -6042,6 +6422,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
         self.gatewayArn = gatewayArn
+        self.lastSynchronizedAt = lastSynchronizedAt
         self.name = name
         self.status = status
         self.statusReasons = statusReasons
@@ -6053,7 +6434,7 @@ public struct CreateGatewayTargetOutput: Swift.Sendable {
 
 extension CreateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetGatewayTargetOutput: Swift.Sendable {
@@ -6068,6 +6449,8 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the gateway.
     /// This member is required.
     public var gatewayArn: Swift.String?
+    /// The last synchronization of the target.
+    public var lastSynchronizedAt: Foundation.Date?
     /// The name of the gateway target.
     /// This member is required.
     public var name: Swift.String?
@@ -6091,6 +6474,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
         gatewayArn: Swift.String? = nil,
+        lastSynchronizedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
@@ -6102,6 +6486,7 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
         self.gatewayArn = gatewayArn
+        self.lastSynchronizedAt = lastSynchronizedAt
         self.name = name
         self.status = status
         self.statusReasons = statusReasons
@@ -6113,12 +6498,11 @@ public struct GetGatewayTargetOutput: Swift.Sendable {
 
 extension GetGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateGatewayTargetInput: Swift.Sendable {
     /// The updated credential provider configurations for the gateway target.
-    /// This member is required.
     public var credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]?
     /// The updated description for the gateway target.
     public var description: Swift.String?
@@ -6169,6 +6553,8 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the gateway.
     /// This member is required.
     public var gatewayArn: Swift.String?
+    /// The date and time at which the targets were last synchronized.
+    public var lastSynchronizedAt: Foundation.Date?
     /// The updated name of the gateway target.
     /// This member is required.
     public var name: Swift.String?
@@ -6192,6 +6578,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         credentialProviderConfigurations: [BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration]? = nil,
         description: Swift.String? = nil,
         gatewayArn: Swift.String? = nil,
+        lastSynchronizedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.TargetStatus? = nil,
         statusReasons: [Swift.String]? = nil,
@@ -6203,6 +6590,7 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
         self.credentialProviderConfigurations = credentialProviderConfigurations
         self.description = description
         self.gatewayArn = gatewayArn
+        self.lastSynchronizedAt = lastSynchronizedAt
         self.name = name
         self.status = status
         self.statusReasons = statusReasons
@@ -6214,7 +6602,18 @@ public struct UpdateGatewayTargetOutput: Swift.Sendable {
 
 extension UpdateGatewayTargetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateGatewayTargetOutput(createdAt: \(Swift.String(describing: createdAt)), credentialProviderConfigurations: \(Swift.String(describing: credentialProviderConfigurations)), gatewayArn: \(Swift.String(describing: gatewayArn)), lastSynchronizedAt: \(Swift.String(describing: lastSynchronizedAt)), status: \(Swift.String(describing: status)), statusReasons: \(Swift.String(describing: statusReasons)), targetConfiguration: \(Swift.String(describing: targetConfiguration)), targetId: \(Swift.String(describing: targetId)), updatedAt: \(Swift.String(describing: updatedAt)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+}
+
+public struct SynchronizeGatewayTargetsOutput: Swift.Sendable {
+    /// The gateway targets for synchronization.
+    public var targets: [BedrockAgentCoreControlClientTypes.GatewayTarget]?
+
+    public init(
+        targets: [BedrockAgentCoreControlClientTypes.GatewayTarget]? = nil
+    ) {
+        self.targets = targets
+    }
 }
 
 extension CreateAgentRuntimeInput {
@@ -6777,6 +7176,16 @@ extension SetTokenVaultCMKInput {
     }
 }
 
+extension SynchronizeGatewayTargetsInput {
+
+    static func urlPathProvider(_ value: SynchronizeGatewayTargetsInput) -> Swift.String? {
+        guard let gatewayIdentifier = value.gatewayIdentifier else {
+            return nil
+        }
+        return "/gateways/\(gatewayIdentifier.urlPercentEncoding())/synchronizeTargets"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -7122,6 +7531,14 @@ extension SetTokenVaultCMKInput {
     }
 }
 
+extension SynchronizeGatewayTargetsInput {
+
+    static func write(value: SynchronizeGatewayTargetsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetIdList"].writeList(value.targetIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -7340,6 +7757,7 @@ extension CreateGatewayTargetOutput {
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
+        value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7653,6 +8071,7 @@ extension GetGatewayTargetOutput {
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
+        value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -7892,6 +8311,18 @@ extension SetTokenVaultCMKOutput {
     }
 }
 
+extension SynchronizeGatewayTargetsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SynchronizeGatewayTargetsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SynchronizeGatewayTargetsOutput()
+        value.targets = try reader["targets"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.GatewayTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -7997,6 +8428,7 @@ extension UpdateGatewayTargetOutput {
         value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.description = try reader["description"].readIfPresent()
         value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
+        value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -8882,6 +9314,26 @@ enum SetTokenVaultCMKOutputError {
     }
 }
 
+enum SynchronizeGatewayTargetsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9405,6 +9857,8 @@ extension BedrockAgentCoreControlClientTypes.McpTargetConfiguration {
         switch value {
             case let .lambda(lambda):
                 try writer["lambda"].write(lambda, with: BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration.write(value:to:))
+            case let .mcpserver(mcpserver):
+                try writer["mcpServer"].write(mcpserver, with: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration.write(value:to:))
             case let .openapischema(openapischema):
                 try writer["openApiSchema"].write(openapischema, with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.write(value:to:))
             case let .smithymodel(smithymodel):
@@ -9424,9 +9878,26 @@ extension BedrockAgentCoreControlClientTypes.McpTargetConfiguration {
                 return .smithymodel(try reader["smithyModel"].read(with: BedrockAgentCoreControlClientTypes.ApiSchemaConfiguration.read(from:)))
             case "lambda":
                 return .lambda(try reader["lambda"].read(with: BedrockAgentCoreControlClientTypes.McpLambdaTargetConfiguration.read(from:)))
+            case "mcpServer":
+                return .mcpserver(try reader["mcpServer"].read(with: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["endpoint"].write(value.endpoint)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.McpServerTargetConfiguration()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -9696,6 +10167,78 @@ extension BedrockAgentCoreControlClientTypes.StrategyConfiguration {
         value.type = try reader["type"].readIfPresent()
         value.extraction = try reader["extraction"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ExtractionConfiguration.read(from:))
         value.consolidation = try reader["consolidation"].readIfPresent(with: BedrockAgentCoreControlClientTypes.ConsolidationConfiguration.read(from:))
+        value.selfManagedConfiguration = try reader["selfManagedConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.SelfManagedConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SelfManagedConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SelfManagedConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SelfManagedConfiguration()
+        value.triggerConditions = try reader["triggerConditions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.TriggerCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.invocationConfiguration = try reader["invocationConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.InvocationConfiguration.read(from:))
+        value.historicalContextWindowSize = try reader["historicalContextWindowSize"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InvocationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.InvocationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.InvocationConfiguration()
+        value.topicArn = try reader["topicArn"].readIfPresent() ?? ""
+        value.payloadDeliveryBucketName = try reader["payloadDeliveryBucketName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TriggerCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TriggerCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "messageBasedTrigger":
+                return .messagebasedtrigger(try reader["messageBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.MessageBasedTrigger.read(from:)))
+            case "tokenBasedTrigger":
+                return .tokenbasedtrigger(try reader["tokenBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.TokenBasedTrigger.read(from:)))
+            case "timeBasedTrigger":
+                return .timebasedtrigger(try reader["timeBasedTrigger"].read(with: BedrockAgentCoreControlClientTypes.TimeBasedTrigger.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TimeBasedTrigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TimeBasedTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.TimeBasedTrigger()
+        value.idleSessionTimeout = try reader["idleSessionTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TokenBasedTrigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.TokenBasedTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.TokenBasedTrigger()
+        value.tokenCount = try reader["tokenCount"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.MessageBasedTrigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MessageBasedTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MessageBasedTrigger()
+        value.messageCount = try reader["messageCount"].readIfPresent()
         return value
     }
 }
@@ -10315,6 +10858,26 @@ extension BedrockAgentCoreControlClientTypes.WorkloadIdentityType {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.GatewayTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GatewayTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.GatewayTarget()
+        value.gatewayArn = try reader["gatewayArn"].readIfPresent() ?? ""
+        value.targetId = try reader["targetId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReasons = try reader["statusReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.targetConfiguration = try reader["targetConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.TargetConfiguration.read(from:))
+        value.credentialProviderConfigurations = try reader["credentialProviderConfigurations"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.CredentialProviderConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastSynchronizedAt = try reader["lastSynchronizedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.ValidationExceptionField {
@@ -10361,6 +10924,8 @@ extension BedrockAgentCoreControlClientTypes.CustomConfigurationInput {
     static func write(value: BedrockAgentCoreControlClientTypes.CustomConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .selfmanagedconfiguration(selfmanagedconfiguration):
+                try writer["selfManagedConfiguration"].write(selfmanagedconfiguration, with: BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput.write(value:to:))
             case let .semanticoverride(semanticoverride):
                 try writer["semanticOverride"].write(semanticoverride, with: BedrockAgentCoreControlClientTypes.SemanticOverrideConfigurationInput.write(value:to:))
             case let .summaryoverride(summaryoverride):
@@ -10370,6 +10935,66 @@ extension BedrockAgentCoreControlClientTypes.CustomConfigurationInput {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.SelfManagedConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["historicalContextWindowSize"].write(value.historicalContextWindowSize)
+        try writer["invocationConfiguration"].write(value.invocationConfiguration, with: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput.write(value:to:))
+        try writer["triggerConditions"].writeList(value.triggerConditions, memberWritingClosure: BedrockAgentCoreControlClientTypes.TriggerConditionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.InvocationConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.InvocationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payloadDeliveryBucketName"].write(value.payloadDeliveryBucketName)
+        try writer["topicArn"].write(value.topicArn)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TriggerConditionInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.TriggerConditionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .messagebasedtrigger(messagebasedtrigger):
+                try writer["messageBasedTrigger"].write(messagebasedtrigger, with: BedrockAgentCoreControlClientTypes.MessageBasedTriggerInput.write(value:to:))
+            case let .timebasedtrigger(timebasedtrigger):
+                try writer["timeBasedTrigger"].write(timebasedtrigger, with: BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput.write(value:to:))
+            case let .tokenbasedtrigger(tokenbasedtrigger):
+                try writer["tokenBasedTrigger"].write(tokenbasedtrigger, with: BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.TimeBasedTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["idleSessionTimeout"].write(value.idleSessionTimeout)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.TokenBasedTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tokenCount"].write(value.tokenCount)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.MessageBasedTriggerInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.MessageBasedTriggerInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["messageCount"].write(value.messageCount)
     }
 }
 
@@ -10587,6 +11212,26 @@ extension BedrockAgentCoreControlClientTypes.ModifyStrategyConfiguration {
         guard let value else { return }
         try writer["consolidation"].write(value.consolidation, with: BedrockAgentCoreControlClientTypes.ModifyConsolidationConfiguration.write(value:to:))
         try writer["extraction"].write(value.extraction, with: BedrockAgentCoreControlClientTypes.ModifyExtractionConfiguration.write(value:to:))
+        try writer["selfManagedConfiguration"].write(value.selfManagedConfiguration, with: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration.write(value:to:))
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifySelfManagedConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["historicalContextWindowSize"].write(value.historicalContextWindowSize)
+        try writer["invocationConfiguration"].write(value.invocationConfiguration, with: BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput.write(value:to:))
+        try writer["triggerConditions"].writeList(value.triggerConditions, memberWritingClosure: BedrockAgentCoreControlClientTypes.TriggerConditionInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.ModifyInvocationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["payloadDeliveryBucketName"].write(value.payloadDeliveryBucketName)
+        try writer["topicArn"].write(value.topicArn)
     }
 }
 
