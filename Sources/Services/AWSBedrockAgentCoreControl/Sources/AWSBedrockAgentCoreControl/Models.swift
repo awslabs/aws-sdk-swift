@@ -343,9 +343,13 @@ public struct CreateAgentRuntimeEndpointOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the AgentCore Runtime endpoint.
     /// This member is required.
     public var agentRuntimeEndpointArn: Swift.String?
+    /// The unique identifier of the AgentCore Runtime.
+    public var agentRuntimeId: Swift.String?
     /// The timestamp when the AgentCore Runtime endpoint was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The name of the AgentCore Runtime endpoint.
+    public var endpointName: Swift.String?
     /// The current status of the AgentCore Runtime endpoint.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.AgentRuntimeEndpointStatus?
@@ -356,16 +360,25 @@ public struct CreateAgentRuntimeEndpointOutput: Swift.Sendable {
     public init(
         agentRuntimeArn: Swift.String? = nil,
         agentRuntimeEndpointArn: Swift.String? = nil,
+        agentRuntimeId: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
+        endpointName: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.AgentRuntimeEndpointStatus? = nil,
         targetVersion: Swift.String? = nil
     ) {
         self.agentRuntimeArn = agentRuntimeArn
         self.agentRuntimeEndpointArn = agentRuntimeEndpointArn
+        self.agentRuntimeId = agentRuntimeId
         self.createdAt = createdAt
+        self.endpointName = endpointName
         self.status = status
         self.targetVersion = targetVersion
     }
+}
+
+extension CreateAgentRuntimeEndpointOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAgentRuntimeEndpointOutput(agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), agentRuntimeEndpointArn: \(Swift.String(describing: agentRuntimeEndpointArn)), agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), createdAt: \(Swift.String(describing: createdAt)), status: \(Swift.String(describing: status)), targetVersion: \(Swift.String(describing: targetVersion)), endpointName: \"CONTENT_REDACTED\")"}
 }
 
 public struct DeleteAgentRuntimeEndpointInput: Swift.Sendable {
@@ -395,15 +408,28 @@ extension DeleteAgentRuntimeEndpointInput: Swift.CustomDebugStringConvertible {
 }
 
 public struct DeleteAgentRuntimeEndpointOutput: Swift.Sendable {
+    /// The unique identifier of the AgentCore Runtime.
+    public var agentRuntimeId: Swift.String?
+    /// The name of the AgentCore Runtime endpoint.
+    public var endpointName: Swift.String?
     /// The current status of the AgentCore Runtime endpoint deletion.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.AgentRuntimeEndpointStatus?
 
     public init(
+        agentRuntimeId: Swift.String? = nil,
+        endpointName: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.AgentRuntimeEndpointStatus? = nil
     ) {
+        self.agentRuntimeId = agentRuntimeId
+        self.endpointName = endpointName
         self.status = status
     }
+}
+
+extension DeleteAgentRuntimeEndpointOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DeleteAgentRuntimeEndpointOutput(agentRuntimeId: \(Swift.String(describing: agentRuntimeId)), status: \(Swift.String(describing: status)), endpointName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetAgentRuntimeEndpointInput: Swift.Sendable {
@@ -1041,13 +1067,17 @@ public struct DeleteAgentRuntimeInput: Swift.Sendable {
 }
 
 public struct DeleteAgentRuntimeOutput: Swift.Sendable {
+    /// The unique identifier of the AgentCore Runtime.
+    public var agentRuntimeId: Swift.String?
     /// The current status of the AgentCore Runtime deletion.
     /// This member is required.
     public var status: BedrockAgentCoreControlClientTypes.AgentRuntimeStatus?
 
     public init(
+        agentRuntimeId: Swift.String? = nil,
         status: BedrockAgentCoreControlClientTypes.AgentRuntimeStatus? = nil
     ) {
+        self.agentRuntimeId = agentRuntimeId
         self.status = status
     }
 }
@@ -1478,19 +1508,23 @@ public struct CreateApiKeyCredentialProviderInput: Swift.Sendable {
     /// The name of the API key credential provider. The name must be unique within your account.
     /// This member is required.
     public var name: Swift.String?
+    /// A map of tag keys and values to assign to the API key credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         apiKey: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.apiKey = apiKey
         self.name = name
+        self.tags = tags
     }
 }
 
 extension CreateApiKeyCredentialProviderInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateApiKeyCredentialProviderInput(name: \(Swift.String(describing: name)), apiKey: \"CONTENT_REDACTED\")"}
+        "CreateApiKeyCredentialProviderInput(name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), apiKey: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -5220,22 +5254,60 @@ public struct UpdateMemoryOutput: Swift.Sendable {
 extension BedrockAgentCoreControlClientTypes {
 
     public enum CredentialProviderVendorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case atlassianoauth2
+        case auth0oauth2
+        case cognitooauth2
         case customoauth2
+        case cyberarkoauth2
+        case dropboxoauth2
+        case facebookoauth2
+        case fusionauthoauth2
         case githuboauth2
         case googleoauth2
+        case hubspotoauth2
+        case linkedinoauth2
         case microsoftoauth2
+        case notionoauth2
+        case oktaoauth2
+        case oneloginoauth2
+        case pingoneoauth2
+        case redditoauth2
         case salesforceoauth2
         case slackoauth2
+        case spotifyoauth2
+        case twitchoauth2
+        case xoauth2
+        case yandexoauth2
+        case zoomoauth2
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CredentialProviderVendorType] {
             return [
+                .atlassianoauth2,
+                .auth0oauth2,
+                .cognitooauth2,
                 .customoauth2,
+                .cyberarkoauth2,
+                .dropboxoauth2,
+                .facebookoauth2,
+                .fusionauthoauth2,
                 .githuboauth2,
                 .googleoauth2,
+                .hubspotoauth2,
+                .linkedinoauth2,
                 .microsoftoauth2,
+                .notionoauth2,
+                .oktaoauth2,
+                .oneloginoauth2,
+                .pingoneoauth2,
+                .redditoauth2,
                 .salesforceoauth2,
-                .slackoauth2
+                .slackoauth2,
+                .spotifyoauth2,
+                .twitchoauth2,
+                .xoauth2,
+                .yandexoauth2,
+                .zoomoauth2
             ]
         }
 
@@ -5246,16 +5318,61 @@ extension BedrockAgentCoreControlClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .atlassianoauth2: return "AtlassianOauth2"
+            case .auth0oauth2: return "Auth0Oauth2"
+            case .cognitooauth2: return "CognitoOauth2"
             case .customoauth2: return "CustomOauth2"
+            case .cyberarkoauth2: return "CyberArkOauth2"
+            case .dropboxoauth2: return "DropboxOauth2"
+            case .facebookoauth2: return "FacebookOauth2"
+            case .fusionauthoauth2: return "FusionAuthOauth2"
             case .githuboauth2: return "GithubOauth2"
             case .googleoauth2: return "GoogleOauth2"
+            case .hubspotoauth2: return "HubspotOauth2"
+            case .linkedinoauth2: return "LinkedinOauth2"
             case .microsoftoauth2: return "MicrosoftOauth2"
+            case .notionoauth2: return "NotionOauth2"
+            case .oktaoauth2: return "OktaOauth2"
+            case .oneloginoauth2: return "OneLoginOauth2"
+            case .pingoneoauth2: return "PingOneOauth2"
+            case .redditoauth2: return "RedditOauth2"
             case .salesforceoauth2: return "SalesforceOauth2"
             case .slackoauth2: return "SlackOauth2"
+            case .spotifyoauth2: return "SpotifyOauth2"
+            case .twitchoauth2: return "TwitchOauth2"
+            case .xoauth2: return "XOauth2"
+            case .yandexoauth2: return "YandexOauth2"
+            case .zoomoauth2: return "ZoomOauth2"
             case let .sdkUnknown(s): return s
             }
         }
     }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration settings for connecting to Atlassian services using OAuth2 authentication. This includes the client credentials required to authenticate with Atlassian's OAuth2 authorization server.
+    public struct AtlassianOauth2ProviderConfigInput: Swift.Sendable {
+        /// The client ID for the Atlassian OAuth2 provider. This identifier is assigned by Atlassian when you register your application.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// The client secret for the Atlassian OAuth2 provider. This secret is assigned by Atlassian and used along with the client ID to authenticate your application.
+        /// This member is required.
+        public var clientSecret: Swift.String?
+
+        public init(
+            clientId: Swift.String? = nil,
+            clientSecret: Swift.String? = nil
+        ) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AtlassianOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -5273,17 +5390,21 @@ extension BedrockAgentCoreControlClientTypes {
         /// The token endpoint URL for the OAuth2 authorization server.
         /// This member is required.
         public var tokenEndpoint: Swift.String?
+        /// The authentication methods supported by the token endpoint. This specifies how clients can authenticate when requesting tokens from the authorization server.
+        public var tokenEndpointAuthMethods: [Swift.String]?
 
         public init(
             authorizationEndpoint: Swift.String? = nil,
             issuer: Swift.String? = nil,
             responseTypes: [Swift.String]? = nil,
-            tokenEndpoint: Swift.String? = nil
+            tokenEndpoint: Swift.String? = nil,
+            tokenEndpointAuthMethods: [Swift.String]? = nil
         ) {
             self.authorizationEndpoint = authorizationEndpoint
             self.issuer = issuer
             self.responseTypes = responseTypes
             self.tokenEndpoint = tokenEndpoint
+            self.tokenEndpointAuthMethods = tokenEndpointAuthMethods
         }
     }
 }
@@ -5385,12 +5506,50 @@ extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigInput: Sw
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Input configuration for a Microsoft OAuth2 provider.
-    public struct MicrosoftOauth2ProviderConfigInput: Swift.Sendable {
-        /// The client ID for the Microsoft OAuth2 provider.
+    /// Configuration settings for connecting to a supported OAuth2 provider. This includes client credentials and OAuth2 discovery information for providers that have built-in support.
+    public struct IncludedOauth2ProviderConfigInput: Swift.Sendable {
+        /// OAuth2 authorization endpoint for your isolated OAuth2 application tenant. This is where users are redirected to authenticate and authorize access to their resources.
+        public var authorizationEndpoint: Swift.String?
+        /// The client ID for the supported OAuth2 provider. This identifier is assigned by the OAuth2 provider when you register your application.
         /// This member is required.
         public var clientId: Swift.String?
-        /// The client secret for the Microsoft OAuth2 provider.
+        /// The client secret for the supported OAuth2 provider. This secret is assigned by the OAuth2 provider and used along with the client ID to authenticate your application.
+        /// This member is required.
+        public var clientSecret: Swift.String?
+        /// Token issuer of your isolated OAuth2 application tenant. This URL identifies the authorization server that issues tokens for this provider.
+        public var issuer: Swift.String?
+        /// OAuth2 token endpoint for your isolated OAuth2 application tenant. This is where authorization codes are exchanged for access tokens.
+        public var tokenEndpoint: Swift.String?
+
+        public init(
+            authorizationEndpoint: Swift.String? = nil,
+            clientId: Swift.String? = nil,
+            clientSecret: Swift.String? = nil,
+            issuer: Swift.String? = nil,
+            tokenEndpoint: Swift.String? = nil
+        ) {
+            self.authorizationEndpoint = authorizationEndpoint
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.issuer = issuer
+            self.tokenEndpoint = tokenEndpoint
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IncludedOauth2ProviderConfigInput(authorizationEndpoint: \(Swift.String(describing: authorizationEndpoint)), clientId: \(Swift.String(describing: clientId)), issuer: \(Swift.String(describing: issuer)), tokenEndpoint: \(Swift.String(describing: tokenEndpoint)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Configuration settings for connecting to LinkedIn services using OAuth2 authentication. This includes the client credentials required to authenticate with LinkedIn's OAuth2 authorization server.
+    public struct LinkedinOauth2ProviderConfigInput: Swift.Sendable {
+        /// The client ID for the LinkedIn OAuth2 provider. This identifier is assigned by LinkedIn when you register your application.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// The client secret for the LinkedIn OAuth2 provider. This secret is assigned by LinkedIn and used along with the client ID to authenticate your application.
         /// This member is required.
         public var clientSecret: Swift.String?
 
@@ -5404,9 +5563,39 @@ extension BedrockAgentCoreControlClientTypes {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LinkedinOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Input configuration for a Microsoft OAuth2 provider.
+    public struct MicrosoftOauth2ProviderConfigInput: Swift.Sendable {
+        /// The client ID for the Microsoft OAuth2 provider.
+        /// This member is required.
+        public var clientId: Swift.String?
+        /// The client secret for the Microsoft OAuth2 provider.
+        /// This member is required.
+        public var clientSecret: Swift.String?
+        /// The Microsoft Entra ID (formerly Azure AD) tenant ID for your organization. This identifies the specific tenant within Microsoft's identity platform where your application is registered.
+        public var tenantId: Swift.String?
+
+        public init(
+            clientId: Swift.String? = nil,
+            clientSecret: Swift.String? = nil,
+            tenantId: Swift.String? = nil
+        ) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.tenantId = tenantId
+        }
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "MicrosoftOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), clientSecret: \"CONTENT_REDACTED\")"}
+        "MicrosoftOauth2ProviderConfigInput(clientId: \(Swift.String(describing: clientId)), tenantId: \(Swift.String(describing: tenantId)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -5477,6 +5666,12 @@ extension BedrockAgentCoreControlClientTypes {
         case salesforceoauth2providerconfig(BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigInput)
         /// The configuration for a Microsoft OAuth2 provider.
         case microsoftoauth2providerconfig(BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput)
+        /// Configuration settings for Atlassian OAuth2 provider integration.
+        case atlassianoauth2providerconfig(BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput)
+        /// Configuration settings for LinkedIn OAuth2 provider integration.
+        case linkedinoauth2providerconfig(BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput)
+        /// The configuration for a non-custom OAuth2 provider. This includes settings for supported OAuth2 providers that have built-in integration support.
+        case includedoauth2providerconfig(BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5491,19 +5686,231 @@ public struct CreateOauth2CredentialProviderInput: Swift.Sendable {
     /// The configuration settings for the OAuth2 provider, including client ID, client secret, and other vendor-specific settings.
     /// This member is required.
     public var oauth2ProviderConfigInput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigInput?
+    /// A map of tag keys and values to assign to the OAuth2 credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         credentialProviderVendor: BedrockAgentCoreControlClientTypes.CredentialProviderVendorType? = nil,
         name: Swift.String? = nil,
-        oauth2ProviderConfigInput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigInput? = nil
+        oauth2ProviderConfigInput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigInput? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.credentialProviderVendor = credentialProviderVendor
         self.name = name
         self.oauth2ProviderConfigInput = oauth2ProviderConfigInput
+        self.tags = tags
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration details returned for an Atlassian OAuth2 provider, including the client ID and OAuth2 discovery information.
+    public struct AtlassianOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the Atlassian OAuth2 provider.
+        public var clientId: Swift.String?
+        /// Contains the discovery information for an OAuth2 provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Output configuration for a custom OAuth2 provider.
+    public struct CustomOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the custom OAuth2 provider.
+        public var clientId: Swift.String?
+        /// The OAuth2 discovery information for the custom provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Output configuration for a GitHub OAuth2 provider.
+    public struct GithubOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the GitHub OAuth2 provider.
+        public var clientId: Swift.String?
+        /// The OAuth2 discovery information for the GitHub provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Output configuration for a Google OAuth2 provider.
+    public struct GoogleOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the Google OAuth2 provider.
+        public var clientId: Swift.String?
+        /// The OAuth2 discovery information for the Google provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration details returned for a supported OAuth2 provider, including client credentials and OAuth2 discovery information.
+    public struct IncludedOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the supported OAuth2 provider.
+        public var clientId: Swift.String?
+        /// Contains the discovery information for an OAuth2 provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration details returned for a LinkedIn OAuth2 provider, including the client ID and OAuth2 discovery information.
+    public struct LinkedinOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the LinkedIn OAuth2 provider.
+        public var clientId: Swift.String?
+        /// Contains the discovery information for an OAuth2 provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Output configuration for a Microsoft OAuth2 provider.
+    public struct MicrosoftOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the Microsoft OAuth2 provider.
+        public var clientId: Swift.String?
+        /// The OAuth2 discovery information for the Microsoft provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Output configuration for a Salesforce OAuth2 provider.
+    public struct SalesforceOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the Salesforce OAuth2 provider.
+        public var clientId: Swift.String?
+        /// The OAuth2 discovery information for the Salesforce provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Output configuration for a Slack OAuth2 provider.
+    public struct SlackOauth2ProviderConfigOutput: Swift.Sendable {
+        /// The client ID for the Slack OAuth2 provider.
+        public var clientId: Swift.String?
+        /// The OAuth2 discovery information for the Slack provider.
+        /// This member is required.
+        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
+
+        public init(
+            clientId: Swift.String? = nil,
+            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
+        ) {
+            self.clientId = clientId
+            self.oauthDiscovery = oauthDiscovery
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains the output configuration for an OAuth2 provider.
+    public enum Oauth2ProviderConfigOutput: Swift.Sendable {
+        /// The output configuration for a custom OAuth2 provider.
+        case customoauth2providerconfig(BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput)
+        /// The output configuration for a Google OAuth2 provider.
+        case googleoauth2providerconfig(BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput)
+        /// The output configuration for a GitHub OAuth2 provider.
+        case githuboauth2providerconfig(BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput)
+        /// The output configuration for a Slack OAuth2 provider.
+        case slackoauth2providerconfig(BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput)
+        /// The output configuration for a Salesforce OAuth2 provider.
+        case salesforceoauth2providerconfig(BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput)
+        /// The output configuration for a Microsoft OAuth2 provider.
+        case microsoftoauth2providerconfig(BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput)
+        /// The configuration details for the Atlassian OAuth2 provider.
+        case atlassianoauth2providerconfig(BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput)
+        /// The configuration details for the LinkedIn OAuth2 provider.
+        case linkedinoauth2providerconfig(BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput)
+        /// The configuration for a non-custom OAuth2 provider. This includes the configuration details for supported OAuth2 providers that have built-in integration support.
+        case includedoauth2providerconfig(BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput)
+        case sdkUnknown(Swift.String)
     }
 }
 
 public struct CreateOauth2CredentialProviderOutput: Swift.Sendable {
+    /// Callback URL to register on the OAuth2 credential provider as an allowed callback URL. This URL is where the OAuth2 authorization server redirects users after they complete the authorization flow.
+    public var callbackUrl: Swift.String?
     /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
     /// This member is required.
     public var clientSecretArn: BedrockAgentCoreControlClientTypes.Secret?
@@ -5513,15 +5920,21 @@ public struct CreateOauth2CredentialProviderOutput: Swift.Sendable {
     /// The name of the OAuth2 credential provider.
     /// This member is required.
     public var name: Swift.String?
+    /// Contains the output configuration for an OAuth2 provider.
+    public var oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput?
 
     public init(
+        callbackUrl: Swift.String? = nil,
         clientSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
         credentialProviderArn: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil
     ) {
+        self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
         self.credentialProviderArn = credentialProviderArn
         self.name = name
+        self.oauth2ProviderConfigOutput = oauth2ProviderConfigOutput
     }
 }
 
@@ -5554,123 +5967,9 @@ public struct GetOauth2CredentialProviderInput: Swift.Sendable {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Output configuration for a custom OAuth2 provider.
-    public struct CustomOauth2ProviderConfigOutput: Swift.Sendable {
-        /// The OAuth2 discovery information for the custom provider.
-        /// This member is required.
-        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
-
-        public init(
-            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
-        ) {
-            self.oauthDiscovery = oauthDiscovery
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Output configuration for a GitHub OAuth2 provider.
-    public struct GithubOauth2ProviderConfigOutput: Swift.Sendable {
-        /// The OAuth2 discovery information for the GitHub provider.
-        /// This member is required.
-        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
-
-        public init(
-            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
-        ) {
-            self.oauthDiscovery = oauthDiscovery
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Output configuration for a Google OAuth2 provider.
-    public struct GoogleOauth2ProviderConfigOutput: Swift.Sendable {
-        /// The OAuth2 discovery information for the Google provider.
-        /// This member is required.
-        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
-
-        public init(
-            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
-        ) {
-            self.oauthDiscovery = oauthDiscovery
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Output configuration for a Microsoft OAuth2 provider.
-    public struct MicrosoftOauth2ProviderConfigOutput: Swift.Sendable {
-        /// The OAuth2 discovery information for the Microsoft provider.
-        /// This member is required.
-        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
-
-        public init(
-            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
-        ) {
-            self.oauthDiscovery = oauthDiscovery
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Output configuration for a Salesforce OAuth2 provider.
-    public struct SalesforceOauth2ProviderConfigOutput: Swift.Sendable {
-        /// The OAuth2 discovery information for the Salesforce provider.
-        /// This member is required.
-        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
-
-        public init(
-            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
-        ) {
-            self.oauthDiscovery = oauthDiscovery
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Output configuration for a Slack OAuth2 provider.
-    public struct SlackOauth2ProviderConfigOutput: Swift.Sendable {
-        /// The OAuth2 discovery information for the Slack provider.
-        /// This member is required.
-        public var oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery?
-
-        public init(
-            oauthDiscovery: BedrockAgentCoreControlClientTypes.Oauth2Discovery? = nil
-        ) {
-            self.oauthDiscovery = oauthDiscovery
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// Contains the output configuration for an OAuth2 provider.
-    public enum Oauth2ProviderConfigOutput: Swift.Sendable {
-        /// The output configuration for a custom OAuth2 provider.
-        case customoauth2providerconfig(BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput)
-        /// The output configuration for a Google OAuth2 provider.
-        case googleoauth2providerconfig(BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput)
-        /// The output configuration for a GitHub OAuth2 provider.
-        case githuboauth2providerconfig(BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput)
-        /// The output configuration for a Slack OAuth2 provider.
-        case slackoauth2providerconfig(BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput)
-        /// The output configuration for a Salesforce OAuth2 provider.
-        case salesforceoauth2providerconfig(BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput)
-        /// The output configuration for a Microsoft OAuth2 provider.
-        case microsoftoauth2providerconfig(BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput)
-        case sdkUnknown(Swift.String)
-    }
-}
-
 public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
+    /// Callback URL to register on the OAuth2 credential provider as an allowed callback URL. This URL is where the OAuth2 authorization server redirects users after they complete the authorization flow.
+    public var callbackUrl: Swift.String?
     /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
     /// This member is required.
     public var clientSecretArn: BedrockAgentCoreControlClientTypes.Secret?
@@ -5694,6 +5993,7 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
     public var oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput?
 
     public init(
+        callbackUrl: Swift.String? = nil,
         clientSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
         createdTime: Foundation.Date? = nil,
         credentialProviderArn: Swift.String? = nil,
@@ -5702,6 +6002,7 @@ public struct GetOauth2CredentialProviderOutput: Swift.Sendable {
         name: Swift.String? = nil,
         oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil
     ) {
+        self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
         self.createdTime = createdTime
         self.credentialProviderArn = credentialProviderArn
@@ -5802,6 +6103,8 @@ public struct UpdateOauth2CredentialProviderInput: Swift.Sendable {
 }
 
 public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
+    /// Callback URL to register on the OAuth2 credential provider as an allowed callback URL. This URL is where the OAuth2 authorization server redirects users after they complete the authorization flow.
+    public var callbackUrl: Swift.String?
     /// The Amazon Resource Name (ARN) of the client secret in AWS Secrets Manager.
     /// This member is required.
     public var clientSecretArn: BedrockAgentCoreControlClientTypes.Secret?
@@ -5825,6 +6128,7 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
     public var oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput?
 
     public init(
+        callbackUrl: Swift.String? = nil,
         clientSecretArn: BedrockAgentCoreControlClientTypes.Secret? = nil,
         createdTime: Foundation.Date? = nil,
         credentialProviderArn: Swift.String? = nil,
@@ -5833,6 +6137,7 @@ public struct UpdateOauth2CredentialProviderOutput: Swift.Sendable {
         name: Swift.String? = nil,
         oauth2ProviderConfigOutput: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput? = nil
     ) {
+        self.callbackUrl = callbackUrl
         self.clientSecretArn = clientSecretArn
         self.createdTime = createdTime
         self.credentialProviderArn = credentialProviderArn
@@ -5955,13 +6260,17 @@ public struct CreateWorkloadIdentityInput: Swift.Sendable {
     /// The name of the workload identity. The name must be unique within your account.
     /// This member is required.
     public var name: Swift.String?
+    /// A map of tag keys and values to assign to the workload identity. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         allowedResourceOauth2ReturnUrls: [Swift.String]? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.allowedResourceOauth2ReturnUrls = allowedResourceOauth2ReturnUrls
         self.name = name
+        self.tags = tags
     }
 }
 
@@ -7336,6 +7645,7 @@ extension CreateApiKeyCredentialProviderInput {
         guard let value else { return }
         try writer["apiKey"].write(value.apiKey)
         try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7418,6 +7728,7 @@ extension CreateOauth2CredentialProviderInput {
         try writer["credentialProviderVendor"].write(value.credentialProviderVendor)
         try writer["name"].write(value.name)
         try writer["oauth2ProviderConfigInput"].write(value.oauth2ProviderConfigInput, with: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigInput.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7427,6 +7738,7 @@ extension CreateWorkloadIdentityInput {
         guard let value else { return }
         try writer["allowedResourceOauth2ReturnUrls"].writeList(value.allowedResourceOauth2ReturnUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7667,7 +7979,9 @@ extension CreateAgentRuntimeEndpointOutput {
         var value = CreateAgentRuntimeEndpointOutput()
         value.agentRuntimeArn = try reader["agentRuntimeArn"].readIfPresent() ?? ""
         value.agentRuntimeEndpointArn = try reader["agentRuntimeEndpointArn"].readIfPresent() ?? ""
+        value.agentRuntimeId = try reader["agentRuntimeId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endpointName = try reader["endpointName"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.targetVersion = try reader["targetVersion"].readIfPresent() ?? ""
         return value
@@ -7787,9 +8101,11 @@ extension CreateOauth2CredentialProviderOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateOauth2CredentialProviderOutput()
+        value.callbackUrl = try reader["callbackUrl"].readIfPresent()
         value.clientSecretArn = try reader["clientSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.oauth2ProviderConfigOutput = try reader["oauth2ProviderConfigOutput"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput.read(from:))
         return value
     }
 }
@@ -7815,6 +8131,7 @@ extension DeleteAgentRuntimeOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAgentRuntimeOutput()
+        value.agentRuntimeId = try reader["agentRuntimeId"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -7827,6 +8144,8 @@ extension DeleteAgentRuntimeEndpointOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DeleteAgentRuntimeEndpointOutput()
+        value.agentRuntimeId = try reader["agentRuntimeId"].readIfPresent()
+        value.endpointName = try reader["endpointName"].readIfPresent()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -8101,6 +8420,7 @@ extension GetOauth2CredentialProviderOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetOauth2CredentialProviderOutput()
+        value.callbackUrl = try reader["callbackUrl"].readIfPresent()
         value.clientSecretArn = try reader["clientSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
@@ -8458,6 +8778,7 @@ extension UpdateOauth2CredentialProviderOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateOauth2CredentialProviderOutput()
+        value.callbackUrl = try reader["callbackUrl"].readIfPresent()
         value.clientSecretArn = try reader["clientSecretArn"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Secret.read(from:))
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
@@ -10360,6 +10681,186 @@ extension BedrockAgentCoreControlClientTypes.SemanticExtractionOverride {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "customOauth2ProviderConfig":
+                return .customoauth2providerconfig(try reader["customOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput.read(from:)))
+            case "googleOauth2ProviderConfig":
+                return .googleoauth2providerconfig(try reader["googleOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput.read(from:)))
+            case "githubOauth2ProviderConfig":
+                return .githuboauth2providerconfig(try reader["githubOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput.read(from:)))
+            case "slackOauth2ProviderConfig":
+                return .slackoauth2providerconfig(try reader["slackOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput.read(from:)))
+            case "salesforceOauth2ProviderConfig":
+                return .salesforceoauth2providerconfig(try reader["salesforceOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput.read(from:)))
+            case "microsoftOauth2ProviderConfig":
+                return .microsoftoauth2providerconfig(try reader["microsoftOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput.read(from:)))
+            case "atlassianOauth2ProviderConfig":
+                return .atlassianoauth2providerconfig(try reader["atlassianOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput.read(from:)))
+            case "linkedinOauth2ProviderConfig":
+                return .linkedinoauth2providerconfig(try reader["linkedinOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput.read(from:)))
+            case "includedOauth2ProviderConfig":
+                return .includedoauth2providerconfig(try reader["includedOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Oauth2Discovery {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Oauth2Discovery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .authorizationservermetadata(authorizationservermetadata):
+                try writer["authorizationServerMetadata"].write(authorizationservermetadata, with: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata.write(value:to:))
+            case let .discoveryurl(discoveryurl):
+                try writer["discoveryUrl"].write(discoveryurl)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2Discovery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "discoveryUrl":
+                return .discoveryurl(try reader["discoveryUrl"].read())
+            case "authorizationServerMetadata":
+                return .authorizationservermetadata(try reader["authorizationServerMetadata"].read(with: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["issuer"].write(value.issuer)
+        try writer["responseTypes"].writeList(value.responseTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tokenEndpoint"].write(value.tokenEndpoint)
+        try writer["tokenEndpointAuthMethods"].writeList(value.tokenEndpointAuthMethods, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata()
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
+        value.authorizationEndpoint = try reader["authorizationEndpoint"].readIfPresent() ?? ""
+        value.tokenEndpoint = try reader["tokenEndpoint"].readIfPresent() ?? ""
+        value.responseTypes = try reader["responseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tokenEndpointAuthMethods = try reader["tokenEndpointAuthMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput()
+        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
+        value.clientId = try reader["clientId"].readIfPresent()
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.NetworkConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -10553,139 +11054,6 @@ extension BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration
         var value = BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration()
         value.networkMode = try reader["networkMode"].readIfPresent() ?? BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkMode.sandbox
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: BedrockAgentCoreControlClientTypes.VpcConfig.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "customOauth2ProviderConfig":
-                return .customoauth2providerconfig(try reader["customOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput.read(from:)))
-            case "googleOauth2ProviderConfig":
-                return .googleoauth2providerconfig(try reader["googleOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput.read(from:)))
-            case "githubOauth2ProviderConfig":
-                return .githuboauth2providerconfig(try reader["githubOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput.read(from:)))
-            case "slackOauth2ProviderConfig":
-                return .slackoauth2providerconfig(try reader["slackOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput.read(from:)))
-            case "salesforceOauth2ProviderConfig":
-                return .salesforceoauth2providerconfig(try reader["salesforceOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput.read(from:)))
-            case "microsoftOauth2ProviderConfig":
-                return .microsoftoauth2providerconfig(try reader["microsoftOauth2ProviderConfig"].read(with: BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Oauth2Discovery {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.Oauth2Discovery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .authorizationservermetadata(authorizationservermetadata):
-                try writer["authorizationServerMetadata"].write(authorizationservermetadata, with: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata.write(value:to:))
-            case let .discoveryurl(discoveryurl):
-                try writer["discoveryUrl"].write(discoveryurl)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2Discovery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "discoveryUrl":
-                return .discoveryurl(try reader["discoveryUrl"].read())
-            case "authorizationServerMetadata":
-                return .authorizationservermetadata(try reader["authorizationServerMetadata"].read(with: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["authorizationEndpoint"].write(value.authorizationEndpoint)
-        try writer["issuer"].write(value.issuer)
-        try writer["responseTypes"].writeList(value.responseTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tokenEndpoint"].write(value.tokenEndpoint)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.Oauth2AuthorizationServerMetadata()
-        value.issuer = try reader["issuer"].readIfPresent() ?? ""
-        value.authorizationEndpoint = try reader["authorizationEndpoint"].readIfPresent() ?? ""
-        value.tokenEndpoint = try reader["tokenEndpoint"].readIfPresent() ?? ""
-        value.responseTypes = try reader["responseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SalesforceOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.SlackOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigOutput()
-        value.oauthDiscovery = try reader["oauthDiscovery"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Oauth2Discovery.read(from:))
         return value
     }
 }
@@ -11104,12 +11472,18 @@ extension BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigInput {
     static func write(value: BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .atlassianoauth2providerconfig(atlassianoauth2providerconfig):
+                try writer["atlassianOauth2ProviderConfig"].write(atlassianoauth2providerconfig, with: BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput.write(value:to:))
             case let .customoauth2providerconfig(customoauth2providerconfig):
                 try writer["customOauth2ProviderConfig"].write(customoauth2providerconfig, with: BedrockAgentCoreControlClientTypes.CustomOauth2ProviderConfigInput.write(value:to:))
             case let .githuboauth2providerconfig(githuboauth2providerconfig):
                 try writer["githubOauth2ProviderConfig"].write(githuboauth2providerconfig, with: BedrockAgentCoreControlClientTypes.GithubOauth2ProviderConfigInput.write(value:to:))
             case let .googleoauth2providerconfig(googleoauth2providerconfig):
                 try writer["googleOauth2ProviderConfig"].write(googleoauth2providerconfig, with: BedrockAgentCoreControlClientTypes.GoogleOauth2ProviderConfigInput.write(value:to:))
+            case let .includedoauth2providerconfig(includedoauth2providerconfig):
+                try writer["includedOauth2ProviderConfig"].write(includedoauth2providerconfig, with: BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput.write(value:to:))
+            case let .linkedinoauth2providerconfig(linkedinoauth2providerconfig):
+                try writer["linkedinOauth2ProviderConfig"].write(linkedinoauth2providerconfig, with: BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput.write(value:to:))
             case let .microsoftoauth2providerconfig(microsoftoauth2providerconfig):
                 try writer["microsoftOauth2ProviderConfig"].write(microsoftoauth2providerconfig, with: BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput.write(value:to:))
             case let .salesforceoauth2providerconfig(salesforceoauth2providerconfig):
@@ -11122,12 +11496,43 @@ extension BedrockAgentCoreControlClientTypes.Oauth2ProviderConfigInput {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.IncludedOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authorizationEndpoint"].write(value.authorizationEndpoint)
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+        try writer["issuer"].write(value.issuer)
+        try writer["tokenEndpoint"].write(value.tokenEndpoint)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.LinkedinOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.AtlassianOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientId"].write(value.clientId)
+        try writer["clientSecret"].write(value.clientSecret)
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput {
 
     static func write(value: BedrockAgentCoreControlClientTypes.MicrosoftOauth2ProviderConfigInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientId"].write(value.clientId)
         try writer["clientSecret"].write(value.clientSecret)
+        try writer["tenantId"].write(value.tenantId)
     }
 }
 

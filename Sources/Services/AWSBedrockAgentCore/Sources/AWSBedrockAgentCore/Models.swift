@@ -324,6 +324,8 @@ public struct GetAgentCardOutput: Swift.Sendable {
 public struct InvokeAgentRuntimeInput: Swift.Sendable {
     /// The desired MIME type for the response from the agent runtime. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data.
     public var accept: Swift.String?
+    /// The identifier of the Amazon Web Services account for the agent runtime resource.
+    public var accountId: Swift.String?
     /// The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock.
     /// This member is required.
     public var agentRuntimeArn: Swift.String?
@@ -353,6 +355,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
 
     public init(
         accept: Swift.String? = nil,
+        accountId: Swift.String? = nil,
         agentRuntimeArn: Swift.String? = nil,
         baggage: Swift.String? = nil,
         contentType: Swift.String? = nil,
@@ -367,6 +370,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
         traceState: Swift.String? = nil
     ) {
         self.accept = accept
+        self.accountId = accountId
         self.agentRuntimeArn = agentRuntimeArn
         self.baggage = baggage
         self.contentType = contentType
@@ -384,7 +388,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
 
 extension InvokeAgentRuntimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InvokeAgentRuntimeInput(accept: \(Swift.String(describing: accept)), agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), baggage: \(Swift.String(describing: baggage)), contentType: \(Swift.String(describing: contentType)), mcpProtocolVersion: \(Swift.String(describing: mcpProtocolVersion)), mcpSessionId: \(Swift.String(describing: mcpSessionId)), qualifier: \(Swift.String(describing: qualifier)), runtimeSessionId: \(Swift.String(describing: runtimeSessionId)), runtimeUserId: \(Swift.String(describing: runtimeUserId)), traceId: \(Swift.String(describing: traceId)), traceParent: \(Swift.String(describing: traceParent)), traceState: \(Swift.String(describing: traceState)), payload: \"CONTENT_REDACTED\")"}
+        "InvokeAgentRuntimeInput(accept: \(Swift.String(describing: accept)), accountId: \(Swift.String(describing: accountId)), agentRuntimeArn: \(Swift.String(describing: agentRuntimeArn)), baggage: \(Swift.String(describing: baggage)), contentType: \(Swift.String(describing: contentType)), mcpProtocolVersion: \(Swift.String(describing: mcpProtocolVersion)), mcpSessionId: \(Swift.String(describing: mcpSessionId)), qualifier: \(Swift.String(describing: qualifier)), runtimeSessionId: \(Swift.String(describing: runtimeSessionId)), runtimeUserId: \(Swift.String(describing: runtimeUserId)), traceId: \(Swift.String(describing: traceId)), traceParent: \(Swift.String(describing: traceParent)), traceState: \(Swift.String(describing: traceState)), payload: \"CONTENT_REDACTED\")"}
 }
 
 public struct InvokeAgentRuntimeOutput: Swift.Sendable {
@@ -1262,6 +1266,40 @@ public struct StopCodeInterpreterSessionOutput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreClientTypes {
+
+    /// The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to retrieve OAuth2.0 tokens.
+    public enum UserIdentifier: Swift.Sendable {
+        /// The OAuth2.0 token issued by the user’s identity provider
+        case usertoken(Swift.String)
+        /// The ID of the user for whom you have retrieved a workload access token for
+        case userid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CompleteResourceTokenAuthInput: Swift.Sendable {
+    /// Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process.
+    /// This member is required.
+    public var sessionUri: Swift.String?
+    /// The OAuth2.0 token or user ID that was used to generate the workload access token used for initiating the user authorization flow to retrieve OAuth2.0 tokens.
+    /// This member is required.
+    public var userIdentifier: BedrockAgentCoreClientTypes.UserIdentifier?
+
+    public init(
+        sessionUri: Swift.String? = nil,
+        userIdentifier: BedrockAgentCoreClientTypes.UserIdentifier? = nil
+    ) {
+        self.sessionUri = sessionUri
+        self.userIdentifier = userIdentifier
+    }
+}
+
+public struct CompleteResourceTokenAuthOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GetResourceApiKeyInput: Swift.Sendable {
     /// The credential provider name for the resource from which you are retrieving the API key.
     /// This member is required.
@@ -1333,6 +1371,8 @@ extension BedrockAgentCoreClientTypes {
 public struct GetResourceOauth2TokenInput: Swift.Sendable {
     /// A map of custom parameters to include in the authorization request to the resource credential provider. These parameters are in addition to the standard OAuth 2.0 flow parameters, and will not override them.
     public var customParameters: [Swift.String: Swift.String]?
+    /// An opaque string that will be sent back to the callback URL provided in resourceOauth2ReturnUrl. This state should be used to protect the callback URL of your application against CSRF attacks by ensuring the response corresponds to the original request.
+    public var customState: Swift.String?
     /// Indicates whether to always initiate a new three-legged OAuth (3LO) flow, regardless of any existing session.
     public var forceAuthentication: Swift.Bool?
     /// The type of flow to be performed.
@@ -1346,32 +1386,67 @@ public struct GetResourceOauth2TokenInput: Swift.Sendable {
     /// The OAuth scopes being requested.
     /// This member is required.
     public var scopes: [Swift.String]?
+    /// Unique identifier for the user's authentication session for retrieving OAuth2 tokens. This ID tracks the authorization flow state across multiple requests and responses during the OAuth2 authentication process.
+    public var sessionUri: Swift.String?
     /// The identity token of the workload from which you want to retrieve the OAuth2 token.
     /// This member is required.
     public var workloadIdentityToken: Swift.String?
 
     public init(
         customParameters: [Swift.String: Swift.String]? = nil,
+        customState: Swift.String? = nil,
         forceAuthentication: Swift.Bool? = nil,
         oauth2Flow: BedrockAgentCoreClientTypes.Oauth2FlowType? = nil,
         resourceCredentialProviderName: Swift.String? = nil,
         resourceOauth2ReturnUrl: Swift.String? = nil,
         scopes: [Swift.String]? = nil,
+        sessionUri: Swift.String? = nil,
         workloadIdentityToken: Swift.String? = nil
     ) {
         self.customParameters = customParameters
+        self.customState = customState
         self.forceAuthentication = forceAuthentication
         self.oauth2Flow = oauth2Flow
         self.resourceCredentialProviderName = resourceCredentialProviderName
         self.resourceOauth2ReturnUrl = resourceOauth2ReturnUrl
         self.scopes = scopes
+        self.sessionUri = sessionUri
         self.workloadIdentityToken = workloadIdentityToken
     }
 }
 
 extension GetResourceOauth2TokenInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetResourceOauth2TokenInput(forceAuthentication: \(Swift.String(describing: forceAuthentication)), oauth2Flow: \(Swift.String(describing: oauth2Flow)), resourceCredentialProviderName: \(Swift.String(describing: resourceCredentialProviderName)), resourceOauth2ReturnUrl: \(Swift.String(describing: resourceOauth2ReturnUrl)), scopes: \(Swift.String(describing: scopes)), customParameters: [keys: \(Swift.String(describing: customParameters?.keys)), values: \"CONTENT_REDACTED\"], workloadIdentityToken: \"CONTENT_REDACTED\")"}
+        "GetResourceOauth2TokenInput(forceAuthentication: \(Swift.String(describing: forceAuthentication)), oauth2Flow: \(Swift.String(describing: oauth2Flow)), resourceCredentialProviderName: \(Swift.String(describing: resourceCredentialProviderName)), resourceOauth2ReturnUrl: \(Swift.String(describing: resourceOauth2ReturnUrl)), scopes: \(Swift.String(describing: scopes)), sessionUri: \(Swift.String(describing: sessionUri)), customParameters: [keys: \(Swift.String(describing: customParameters?.keys)), values: \"CONTENT_REDACTED\"], customState: \"CONTENT_REDACTED\", workloadIdentityToken: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    public enum SessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SessionStatus] {
+            return [
+                .failed,
+                .inProgress
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
 }
 
 public struct GetResourceOauth2TokenOutput: Swift.Sendable {
@@ -1379,19 +1454,27 @@ public struct GetResourceOauth2TokenOutput: Swift.Sendable {
     public var accessToken: Swift.String?
     /// The URL to initiate the authorization process, provided when the access token requires user authorization.
     public var authorizationUrl: Swift.String?
+    /// Status indicating whether the user's authorization session is in progress or has failed. This helps determine the next steps in the OAuth2 authentication flow.
+    public var sessionStatus: BedrockAgentCoreClientTypes.SessionStatus?
+    /// Unique identifier for the user's authorization session for retrieving OAuth2 tokens. This matches the sessionId from the request and can be used to track the session state.
+    public var sessionUri: Swift.String?
 
     public init(
         accessToken: Swift.String? = nil,
-        authorizationUrl: Swift.String? = nil
+        authorizationUrl: Swift.String? = nil,
+        sessionStatus: BedrockAgentCoreClientTypes.SessionStatus? = nil,
+        sessionUri: Swift.String? = nil
     ) {
         self.accessToken = accessToken
         self.authorizationUrl = authorizationUrl
+        self.sessionStatus = sessionStatus
+        self.sessionUri = sessionUri
     }
 }
 
 extension GetResourceOauth2TokenOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetResourceOauth2TokenOutput(authorizationUrl: \(Swift.String(describing: authorizationUrl)), accessToken: \"CONTENT_REDACTED\")"}
+        "GetResourceOauth2TokenOutput(sessionStatus: \(Swift.String(describing: sessionStatus)), sessionUri: \(Swift.String(describing: sessionUri)), accessToken: \"CONTENT_REDACTED\", authorizationUrl: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetWorkloadAccessTokenInput: Swift.Sendable {
@@ -3135,6 +3218,13 @@ extension BatchUpdateMemoryRecordsInput {
     }
 }
 
+extension CompleteResourceTokenAuthInput {
+
+    static func urlPathProvider(_ value: CompleteResourceTokenAuthInput) -> Swift.String? {
+        return "/identities/CompleteResourceTokenAuth"
+    }
+}
+
 extension CreateEventInput {
 
     static func urlPathProvider(_ value: CreateEventInput) -> Swift.String? {
@@ -3377,6 +3467,10 @@ extension InvokeAgentRuntimeInput {
 
     static func queryItemProvider(_ value: InvokeAgentRuntimeInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let accountId = value.accountId {
+            let accountIdQueryItem = Smithy.URIQueryItem(name: "accountId".urlPercentEncoding(), value: Swift.String(accountId).urlPercentEncoding())
+            items.append(accountIdQueryItem)
+        }
         if let qualifier = value.qualifier {
             let qualifierQueryItem = Smithy.URIQueryItem(name: "qualifier".urlPercentEncoding(), value: Swift.String(qualifier).urlPercentEncoding())
             items.append(qualifierQueryItem)
@@ -3697,6 +3791,15 @@ extension BatchUpdateMemoryRecordsInput {
     }
 }
 
+extension CompleteResourceTokenAuthInput {
+
+    static func write(value: CompleteResourceTokenAuthInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionUri"].write(value.sessionUri)
+        try writer["userIdentifier"].write(value.userIdentifier, with: BedrockAgentCoreClientTypes.UserIdentifier.write(value:to:))
+    }
+}
+
 extension CreateEventInput {
 
     static func write(value: CreateEventInput?, to writer: SmithyJSON.Writer) throws {
@@ -3725,11 +3828,13 @@ extension GetResourceOauth2TokenInput {
     static func write(value: GetResourceOauth2TokenInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["customParameters"].writeMap(value.customParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["customState"].write(value.customState)
         try writer["forceAuthentication"].write(value.forceAuthentication)
         try writer["oauth2Flow"].write(value.oauth2Flow)
         try writer["resourceCredentialProviderName"].write(value.resourceCredentialProviderName)
         try writer["resourceOauth2ReturnUrl"].write(value.resourceOauth2ReturnUrl)
         try writer["scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sessionUri"].write(value.sessionUri)
         try writer["workloadIdentityToken"].write(value.workloadIdentityToken)
     }
 }
@@ -3941,6 +4046,13 @@ extension BatchUpdateMemoryRecordsOutput {
     }
 }
 
+extension CompleteResourceTokenAuthOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CompleteResourceTokenAuthOutput {
+        return CompleteResourceTokenAuthOutput()
+    }
+}
+
 extension CreateEventOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEventOutput {
@@ -4075,6 +4187,8 @@ extension GetResourceOauth2TokenOutput {
         var value = GetResourceOauth2TokenOutput()
         value.accessToken = try reader["accessToken"].readIfPresent()
         value.authorizationUrl = try reader["authorizationUrl"].readIfPresent()
+        value.sessionStatus = try reader["sessionStatus"].readIfPresent()
+        value.sessionUri = try reader["sessionUri"].readIfPresent()
         return value
     }
 }
@@ -4398,6 +4512,25 @@ enum BatchUpdateMemoryRecordsOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CompleteResourceTokenAuthOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5033,37 +5166,11 @@ extension ValidationException {
     }
 }
 
-extension InvalidInputException {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidInputException {
-        let reader = baseError.errorBodyReader
-        var value = InvalidInputException()
-        value.properties.message = try reader["message"].readIfPresent() ?? ""
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
         let reader = baseError.errorBodyReader
         var value = InternalServerException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension RuntimeClientError {
-
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RuntimeClientError {
-        let reader = baseError.errorBodyReader
-        var value = RuntimeClientError()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5090,6 +5197,32 @@ extension UnauthorizedException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnauthorizedException {
         let reader = baseError.errorBodyReader
         var value = UnauthorizedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidInputException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidInputException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidInputException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RuntimeClientError {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RuntimeClientError {
+        let reader = baseError.errorBodyReader
+        var value = RuntimeClientError()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -5630,6 +5763,21 @@ extension BedrockAgentCoreClientTypes.MemoryRecordUpdateInput {
         try writer["memoryStrategyId"].write(value.memoryStrategyId)
         try writer["namespaces"].writeList(value.namespaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension BedrockAgentCoreClientTypes.UserIdentifier {
+
+    static func write(value: BedrockAgentCoreClientTypes.UserIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .userid(userid):
+                try writer["userId"].write(userid)
+            case let .usertoken(usertoken):
+                try writer["userToken"].write(usertoken)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 }
 
