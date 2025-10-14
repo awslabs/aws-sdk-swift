@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.5.62"
+    public static let version = "1.5.63"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -669,20 +669,22 @@ extension ConnectClient {
     ///
     /// Associates a queued contact with an agent. Use cases Following are common uses cases for this API:
     ///
-    /// * Custom contact routing. You can build custom contact routing mechanisms beyond the default system routing in Amazon Connect. You can create tailored contact distribution logic that offers queued contacts directly to specific agents.
+    /// * Programmatically assign queued contacts to available users.
     ///
-    /// * Manual contact assignment. You can programmatically assign queued contacts to available users. This provides flexibility to contact centers that require manual oversight or specialized routing workflows outside of standard queue management. For information about how manual contact assignment works in the agent workspace, see the [Access the Worklist app in the Amazon Connect agent workspace](https://docs.aws.amazon.com/connect/latest/adminguide/worklist-app.html) in the Amazon Connect Administrator Guide.
+    /// * Leverage the IAM context key connect:PreferredUserArn to restrict contact association to specific preferred user.
     ///
     ///
     /// Important things to know
     ///
-    /// * Use this API chat/SMS, email, and task contacts. It does not support voice contacts.
+    /// * Use this API with chat, email, and task contacts. It does not support voice contacts.
     ///
     /// * Use it to associate contacts with users regardless of their current state, including custom states. Ensure your application logic accounts for user availability before making associations.
     ///
     /// * It honors the IAM context key connect:PreferredUserArn to prevent unauthorized contact associations.
     ///
     /// * It respects the IAM context key connect:PreferredUserArn to enforce authorization controls and prevent unauthorized contact associations. Verify that your IAM policies are properly configured to support your intended use cases.
+    ///
+    /// * The service quota Queues per routing profile per instance applies to manually assigned queues, too. For more information about this quota, see [Amazon Connect quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#connect-quotas) in the Amazon Connect Administrator Guide.
     ///
     ///
     /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
@@ -6357,11 +6359,23 @@ extension ConnectClient {
 
     /// Performs the `DescribeContact` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact.
+    /// This API is in preview release for Amazon Connect and is subject to change. Describes the specified contact. Use cases Following are common uses cases for this API:
+    ///
+    /// * Retrieve contact information such as the caller's phone number and the specific number the caller dialed to integrate into custom monitoring or custom agent experience solutions.
+    ///
+    /// * Detect when a customer chat session disconnects due to a network issue on the agent's end. Use the DisconnectReason field in the [ContactTraceRecord](https://docs.aws.amazon.com/connect/latest/adminguide/ctr-data-model.html#ctr-ContactTraceRecord) to detect this event and then re-queue the chat for followup.
+    ///
+    /// * Identify after contact work (ACW) duration and call recordings information when a COMPLETED event is received by using the [contact event stream](https://docs.aws.amazon.com/connect/latest/adminguide/contact-events.html).
+    ///
+    ///
+    /// Important things to know
     ///
     /// * SystemEndpoint is not populated for contacts with initiation method of MONITOR, QUEUE_TRANSFER, or CALLBACK
     ///
     /// * Contact information remains available in Amazon Connect for 24 months from the InitiationTimestamp, and then it is deleted. Only contact information that is available in Amazon Connect is returned by this API.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeContactInput`)
     ///
@@ -12396,7 +12410,7 @@ extension ConnectClient {
     ///
     /// Lists the manual assignment queues associated with a routing profile. Use cases Following are common uses cases for this API:
     ///
-    /// * This API returns list of queues where contacts can be manually assigned or picked. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the [Access the Worklist app in the Amazon Connect agent workspace](https://docs.aws.amazon.com/connect/latest/adminguide/worklist-app.html) in the Amazon Connect Administrator Guide.
+    /// * This API returns list of queues where contacts can be manually assigned or picked by an agent who has access to the Worklist app. The user can additionally filter on queues, if they have access to those queues (otherwise a invalid request exception will be thrown). For information about how manual contact assignment works in the agent workspace, see the [Access the Worklist app in the Amazon Connect agent workspace](https://docs.aws.amazon.com/connect/latest/adminguide/worklist-app.html) in the Amazon Connect Administrator Guide.
     ///
     ///
     /// Important things to know

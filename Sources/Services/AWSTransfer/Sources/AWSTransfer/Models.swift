@@ -1546,6 +1546,65 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension TransferClientTypes {
 
+    /// VPC_LATTICE egress configuration that specifies the Resource Configuration ARN and port for connecting to SFTP servers through customer VPCs. Requires a valid Resource Configuration with appropriate network access.
+    public struct ConnectorVpcLatticeEgressConfig: Swift.Sendable {
+        /// Port number for connecting to the SFTP server through VPC_LATTICE. Defaults to 22 if not specified. Must match the port on which the target SFTP server is listening.
+        public var portNumber: Swift.Int?
+        /// ARN of the VPC_LATTICE Resource Configuration that defines the target SFTP server location. Must point to a valid Resource Configuration in the customer's VPC with appropriate network connectivity to the SFTP server.
+        /// This member is required.
+        public var resourceConfigurationArn: Swift.String?
+
+        public init(
+            portNumber: Swift.Int? = nil,
+            resourceConfigurationArn: Swift.String? = nil
+        ) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Configuration structure that defines how traffic is routed from the connector to the SFTP server. Contains VPC Lattice settings when using VPC_LATTICE egress type for private connectivity through customer VPCs.
+    public enum ConnectorEgressConfig: Swift.Sendable {
+        /// VPC_LATTICE configuration for routing connector traffic through customer VPCs. Enables private connectivity to SFTP servers without requiring public internet access or complex network configurations.
+        case vpclattice(TransferClientTypes.ConnectorVpcLatticeEgressConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum ConnectorEgressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case serviceManaged
+        case vpcLattice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorEgressType] {
+            return [
+                .serviceManaged,
+                .vpcLattice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .serviceManaged: return "SERVICE_MANAGED"
+            case .vpcLattice: return "VPC_LATTICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum TransferTableStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
         case failed
@@ -1614,14 +1673,14 @@ extension TransferClientTypes {
     public struct SftpConnectorConfig: Swift.Sendable {
         /// Specify the number of concurrent connections that your connector creates to the remote server. The default value is 1. The maximum values is 5. If you are using the Amazon Web Services Management Console, the default value is 5. This parameter specifies the number of active connections that your connector can establish with the remote server at the same time. Increasing this value can enhance connector performance when transferring large file batches by enabling parallel operations.
         public var maxConcurrentConnections: Swift.Int?
-        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
+        /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. TrustedHostKeys is optional for CreateConnector. If not provided, you can use TestConnection to retrieve the server host key during the initial connection attempt, and subsequently update the connector with the observed host key. When creating connectors with egress config (VPC_LATTICE type connectors), since host name is not something we can verify, the only accepted trusted host key format is key-type key-body without the host name. For example: ssh-rsa AAAAB3Nza...<long-string-for-public-key> The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
         /// * For RSA keys, the <key type> string is ssh-rsa.
         ///
         /// * For ECDSA keys, the <key type> string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
         ///
         ///
-        /// Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com. ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...<long-string-for-public-key Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console.
+        /// Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com. ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...<long-string-for-public-key> Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console. For VPC Lattice type connectors (VPC_LATTICE), remove the hostname from the key and use only the key-type key-body format. In this example, it should be: ssh-rsa AAAAB3Nza...<long-string-for-public-key>
         public var trustedHostKeys: [Swift.String]?
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.
         ///
@@ -1648,6 +1707,8 @@ public struct CreateConnectorInput: Swift.Sendable {
     public var accessRole: Swift.String?
     /// A structure that contains the parameters for an AS2 connector object.
     public var as2Config: TransferClientTypes.As2ConnectorConfig?
+    /// Specifies the egress configuration for the connector, which determines how traffic is routed from the connector to the SFTP server. When set to VPC, enables routing through customer VPCs using VPC_LATTICE for private connectivity.
+    public var egressConfig: TransferClientTypes.ConnectorEgressConfig?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies the name of the security policy for the connector.
@@ -1656,13 +1717,13 @@ public struct CreateConnectorInput: Swift.Sendable {
     public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
     /// Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.
     public var tags: [TransferClientTypes.Tag]?
-    /// The URL of the partner's AS2 or SFTP endpoint.
-    /// This member is required.
+    /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
     public var url: Swift.String?
 
     public init(
         accessRole: Swift.String? = nil,
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
+        egressConfig: TransferClientTypes.ConnectorEgressConfig? = nil,
         loggingRole: Swift.String? = nil,
         securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
@@ -1671,6 +1732,7 @@ public struct CreateConnectorInput: Swift.Sendable {
     ) {
         self.accessRole = accessRole
         self.as2Config = as2Config
+        self.egressConfig = egressConfig
         self.loggingRole = loggingRole
         self.securityPolicyName = securityPolicyName
         self.sftpConfig = sftpConfig
@@ -1717,6 +1779,68 @@ public struct DescribeConnectorInput: Swift.Sendable {
 
 extension TransferClientTypes {
 
+    /// VPC_LATTICE egress configuration details in the response, containing the Resource Configuration ARN and port number currently configured for the connector.
+    public struct DescribedConnectorVpcLatticeEgressConfig: Swift.Sendable {
+        /// Port number currently configured for SFTP connections through VPC_LATTICE. Shows the port on which the connector attempts to connect to the target SFTP server.
+        public var portNumber: Swift.Int?
+        /// ARN of the VPC_LATTICE Resource Configuration currently used by the connector. This Resource Configuration defines the network path to the SFTP server through the customer's VPC.
+        /// This member is required.
+        public var resourceConfigurationArn: Swift.String?
+
+        public init(
+            portNumber: Swift.Int? = nil,
+            resourceConfigurationArn: Swift.String? = nil
+        ) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Response structure containing the current egress configuration details for the connector. Shows how traffic is currently routed from the connector to the SFTP server.
+    public enum DescribedConnectorEgressConfig: Swift.Sendable {
+        /// VPC_LATTICE configuration details in the response, showing the current Resource Configuration ARN and port settings for VPC-based connectivity.
+        case vpclattice(TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TransferClientTypes {
+
+    public enum ConnectorStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case errored
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorStatus] {
+            return [
+                .active,
+                .errored,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .errored: return "ERRORED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     /// Describes the parameters for the connector, as identified by the ConnectorId.
     public struct DescribedConnector: Swift.Sendable {
         /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
@@ -1728,6 +1852,13 @@ extension TransferClientTypes {
         public var as2Config: TransferClientTypes.As2ConnectorConfig?
         /// The unique identifier for the connector.
         public var connectorId: Swift.String?
+        /// Current egress configuration of the connector, showing how traffic is routed to the SFTP server. Contains VPC Lattice settings when using VPC_LATTICE egress type. When using the VPC_LATTICE egress type, Transfer Family uses a managed Service Network to simplify the resource sharing process.
+        public var egressConfig: TransferClientTypes.DescribedConnectorEgressConfig?
+        /// Type of egress configuration for the connector. SERVICE_MANAGED uses Transfer Family managed NAT gateways, while VPC_LATTICE routes traffic through customer VPCs using VPC Lattice.
+        /// This member is required.
+        public var egressType: TransferClientTypes.ConnectorEgressType?
+        /// Error message providing details when the connector is in ERRORED status. Contains information to help troubleshoot connector creation or operation failures.
+        public var errorMessage: Swift.String?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
         /// The text name of the security policy for the specified connector.
@@ -1736,9 +1867,12 @@ extension TransferClientTypes {
         public var serviceManagedEgressIpAddresses: [Swift.String]?
         /// A structure that contains the parameters for an SFTP connector object.
         public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
+        /// Current status of the connector. PENDING indicates creation/update in progress, ACTIVE means ready for operations, and ERRORED indicates a failure requiring attention.
+        /// This member is required.
+        public var status: TransferClientTypes.ConnectorStatus?
         /// Key-value pairs that can be used to group and search for connectors.
         public var tags: [TransferClientTypes.Tag]?
-        /// The URL of the partner's AS2 or SFTP endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
         public var url: Swift.String?
 
         public init(
@@ -1746,10 +1880,14 @@ extension TransferClientTypes {
             arn: Swift.String? = nil,
             as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
             connectorId: Swift.String? = nil,
+            egressConfig: TransferClientTypes.DescribedConnectorEgressConfig? = nil,
+            egressType: TransferClientTypes.ConnectorEgressType? = .serviceManaged,
+            errorMessage: Swift.String? = nil,
             loggingRole: Swift.String? = nil,
             securityPolicyName: Swift.String? = nil,
             serviceManagedEgressIpAddresses: [Swift.String]? = nil,
             sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
+            status: TransferClientTypes.ConnectorStatus? = .active,
             tags: [TransferClientTypes.Tag]? = nil,
             url: Swift.String? = nil
         ) {
@@ -1757,10 +1895,14 @@ extension TransferClientTypes {
             self.arn = arn
             self.as2Config = as2Config
             self.connectorId = connectorId
+            self.egressConfig = egressConfig
+            self.egressType = egressType
+            self.errorMessage = errorMessage
             self.loggingRole = loggingRole
             self.securityPolicyName = securityPolicyName
             self.serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses
             self.sftpConfig = sftpConfig
+            self.status = status
             self.tags = tags
             self.url = url
         }
@@ -1802,7 +1944,7 @@ extension TransferClientTypes {
         public var arn: Swift.String?
         /// The unique identifier for the connector.
         public var connectorId: Swift.String?
-        /// The URL of the partner's AS2 or SFTP endpoint.
+        /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
         public var url: Swift.String?
 
         public init(
@@ -1833,6 +1975,35 @@ public struct ListConnectorsOutput: Swift.Sendable {
     }
 }
 
+extension TransferClientTypes {
+
+    /// VPC_LATTICE egress configuration updates for modifying how the connector routes traffic through customer VPCs. Changes to these settings may require connector restart to take effect.
+    public struct UpdateConnectorVpcLatticeEgressConfig: Swift.Sendable {
+        /// Updated port number for SFTP connections through VPC_LATTICE. Change this if the target SFTP server port has been modified or if connecting to a different server endpoint.
+        public var portNumber: Swift.Int?
+        /// Updated ARN of the VPC_LATTICE Resource Configuration. Use this to change the target SFTP server location or modify the network path through the customer's VPC infrastructure.
+        public var resourceConfigurationArn: Swift.String?
+
+        public init(
+            portNumber: Swift.Int? = nil,
+            resourceConfigurationArn: Swift.String? = nil
+        ) {
+            self.portNumber = portNumber
+            self.resourceConfigurationArn = resourceConfigurationArn
+        }
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Structure for updating the egress configuration of an existing connector. Allows modification of how traffic is routed from the connector to the SFTP server, including VPC_LATTICE settings.
+    public enum UpdateConnectorEgressConfig: Swift.Sendable {
+        /// VPC_LATTICE configuration updates for the connector. Use this to modify the Resource Configuration ARN or port number for VPC-based connectivity.
+        case vpclattice(TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct UpdateConnectorInput: Swift.Sendable {
     /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     public var accessRole: Swift.String?
@@ -1841,19 +2012,22 @@ public struct UpdateConnectorInput: Swift.Sendable {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
+    /// Updates the egress configuration for the connector, allowing you to modify how traffic is routed from the connector to the SFTP server. Changes to VPC configuration may require connector restart.
+    public var egressConfig: TransferClientTypes.UpdateConnectorEgressConfig?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
     /// Specifies the name of the security policy for the connector.
     public var securityPolicyName: Swift.String?
     /// A structure that contains the parameters for an SFTP connector object.
     public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
-    /// The URL of the partner's AS2 or SFTP endpoint.
+    /// The URL of the partner's AS2 or SFTP endpoint. When creating AS2 connectors or service-managed SFTP connectors (connectors without egress configuration), you must provide a URL to specify the remote server endpoint. For VPC Lattice type connectors, the URL must be null.
     public var url: Swift.String?
 
     public init(
         accessRole: Swift.String? = nil,
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
         connectorId: Swift.String? = nil,
+        egressConfig: TransferClientTypes.UpdateConnectorEgressConfig? = nil,
         loggingRole: Swift.String? = nil,
         securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
@@ -1862,6 +2036,7 @@ public struct UpdateConnectorInput: Swift.Sendable {
         self.accessRole = accessRole
         self.as2Config = as2Config
         self.connectorId = connectorId
+        self.egressConfig = egressConfig
         self.loggingRole = loggingRole
         self.securityPolicyName = securityPolicyName
         self.sftpConfig = sftpConfig
@@ -2555,7 +2730,7 @@ extension TransferClientTypes {
     public struct ProtocolDetails: Swift.Sendable {
         /// Indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public var as2Transports: [TransferClientTypes.As2Transport]?
-        /// Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example: aws transfer update-server --protocol-details PassiveIp=0.0.0.0 Replace 0.0.0.0 in the example above with the actual IP address you want to use. If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see [Configuring your FTPS server behind a firewall or NAT with Transfer Family](http://aws.amazon.com/blogs/storage/configuring-your-ftps-server-behind-a-firewall-or-nat-with-aws-transfer-family/). Special values The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
+        /// Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example: aws transfer update-server --protocol-details PassiveIp=0.0.0.0 Replace 0.0.0.0 in the example above with the actual IP address you want to use. If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see [Configuring your FTPS server behind a firewall or NAT with Transfer Family](http://aws.amazon.com/blogs/storage/configuring-your-ftps-server-behind-a-firewall-or-nat-with-aws-transfer-family/). Additionally, avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers. This configuration increases costs and can cause performance issues. When NLBs or NATs are in the communication path, Transfer Family cannot accurately recognize client IP addresses, which impacts connection sharding and limits FTPS servers to only 300 simultaneous connections instead of 10,000. If you must use an NLB, use port 21 for health checks and enable TLS session resumption by setting TlsSessionResumptionMode = ENFORCED. For optimal performance, migrate to VPC endpoints with Elastic IP addresses instead of using NLBs. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations). Special values The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
         public var passiveIp: Swift.String?
         /// Use the SetStatOption to ignore the error that is generated when the client attempts to use SETSTAT on a file you are uploading to an S3 bucket. Some SFTP file transfer clients can attempt to change the attributes of remote files, including timestamp and permissions, using commands, such as SETSTAT when uploading the file. However, these commands are not compatible with object storage systems, such as Amazon S3. Due to this incompatibility, file uploads from these clients can result in errors even when the file is otherwise successfully uploaded. Set the value to ENABLE_NO_OP to have the Transfer Family server ignore the SETSTAT command, and upload files without needing to make any changes to your SFTP client. While the SetStatOptionENABLE_NO_OP setting ignores the error, it does generate a log entry in Amazon CloudWatch Logs, so you can determine when the client is making a SETSTAT call. If you want to preserve the original timestamp for your file, and modify other file attributes using SETSTAT, you can use Amazon EFS as backend storage with Transfer Family.
         public var setStatOption: TransferClientTypes.SetStatOption?
@@ -2752,7 +2927,7 @@ public struct CreateServerInput: Swift.Sendable {
     public var postAuthenticationLoginBanner: Swift.String?
     /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system: This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
     public var preAuthenticationLoginBanner: Swift.String?
-    /// The protocol settings that are configured for your server.
+    /// The protocol settings that are configured for your server. Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations).
     ///
     /// * To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
     ///
@@ -4213,7 +4388,7 @@ extension TransferClientTypes {
         public var postAuthenticationLoginBanner: Swift.String?
         /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system: This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
         public var preAuthenticationLoginBanner: Swift.String?
-        /// The protocol settings that are configured for your server.
+        /// The protocol settings that are configured for your server. Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations).
         ///
         /// * To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
         ///
@@ -5633,7 +5808,7 @@ public struct UpdateServerInput: Swift.Sendable {
     public var postAuthenticationLoginBanner: Swift.String?
     /// Specifies a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system: This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
     public var preAuthenticationLoginBanner: Swift.String?
-    /// The protocol settings that are configured for your server.
+    /// The protocol settings that are configured for your server. Avoid placing Network Load Balancers (NLBs) or NAT gateways in front of Transfer Family servers, as this increases costs and can cause performance issues, including reduced connection limits for FTPS. For more details, see [ Avoid placing NLBs and NATs in front of Transfer Family](https://docs.aws.amazon.com/transfer/latest/userguide/infrastructure-security.html#nlb-considerations).
     ///
     /// * To indicate passive mode (for FTP and FTPS protocols), use the PassiveIp parameter. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
     ///
@@ -6864,6 +7039,7 @@ extension CreateConnectorInput {
         guard let value else { return }
         try writer["AccessRole"].write(value.accessRole)
         try writer["As2Config"].write(value.as2Config, with: TransferClientTypes.As2ConnectorConfig.write(value:to:))
+        try writer["EgressConfig"].write(value.egressConfig, with: TransferClientTypes.ConnectorEgressConfig.write(value:to:))
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["SecurityPolicyName"].write(value.securityPolicyName)
         try writer["SftpConfig"].write(value.sftpConfig, with: TransferClientTypes.SftpConnectorConfig.write(value:to:))
@@ -7488,6 +7664,7 @@ extension UpdateConnectorInput {
         try writer["AccessRole"].write(value.accessRole)
         try writer["As2Config"].write(value.as2Config, with: TransferClientTypes.As2ConnectorConfig.write(value:to:))
         try writer["ConnectorId"].write(value.connectorId)
+        try writer["EgressConfig"].write(value.egressConfig, with: TransferClientTypes.UpdateConnectorEgressConfig.write(value:to:))
         try writer["LoggingRole"].write(value.loggingRole)
         try writer["SecurityPolicyName"].write(value.securityPolicyName)
         try writer["SftpConfig"].write(value.sftpConfig, with: TransferClientTypes.SftpConnectorConfig.write(value:to:))
@@ -9923,6 +10100,35 @@ extension TransferClientTypes.DescribedConnector {
         value.sftpConfig = try reader["SftpConfig"].readIfPresent(with: TransferClientTypes.SftpConnectorConfig.read(from:))
         value.serviceManagedEgressIpAddresses = try reader["ServiceManagedEgressIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.securityPolicyName = try reader["SecurityPolicyName"].readIfPresent()
+        value.egressConfig = try reader["EgressConfig"].readIfPresent(with: TransferClientTypes.DescribedConnectorEgressConfig.read(from:))
+        value.egressType = try reader["EgressType"].readIfPresent() ?? TransferClientTypes.ConnectorEgressType.serviceManaged
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent() ?? TransferClientTypes.ConnectorStatus.active
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedConnectorEgressConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedConnectorEgressConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "VpcLattice":
+                return .vpclattice(try reader["VpcLattice"].read(with: TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig()
+        value.resourceConfigurationArn = try reader["ResourceConfigurationArn"].readIfPresent() ?? ""
+        value.portNumber = try reader["PortNumber"].readIfPresent()
         return value
     }
 }
@@ -10784,6 +10990,28 @@ extension TransferClientTypes.SftpConnectorConnectionDetails {
     }
 }
 
+extension TransferClientTypes.ConnectorEgressConfig {
+
+    static func write(value: TransferClientTypes.ConnectorEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpclattice(vpclattice):
+                try writer["VpcLattice"].write(vpclattice, with: TransferClientTypes.ConnectorVpcLatticeEgressConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.ConnectorVpcLatticeEgressConfig {
+
+    static func write(value: TransferClientTypes.ConnectorVpcLatticeEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PortNumber"].write(value.portNumber)
+        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
+    }
+}
+
 extension TransferClientTypes.WebAppIdentityProviderDetails {
 
     static func write(value: TransferClientTypes.WebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
@@ -10803,6 +11031,28 @@ extension TransferClientTypes.IdentityCenterConfig {
         guard let value else { return }
         try writer["InstanceArn"].write(value.instanceArn)
         try writer["Role"].write(value.role)
+    }
+}
+
+extension TransferClientTypes.UpdateConnectorEgressConfig {
+
+    static func write(value: TransferClientTypes.UpdateConnectorEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpclattice(vpclattice):
+                try writer["VpcLattice"].write(vpclattice, with: TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig {
+
+    static func write(value: TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PortNumber"].write(value.portNumber)
+        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
     }
 }
 

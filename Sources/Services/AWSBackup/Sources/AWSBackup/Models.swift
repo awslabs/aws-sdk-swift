@@ -160,7 +160,7 @@ extension BackupClientTypes {
 
     /// The backup options for each resource type.
     public struct AdvancedBackupSetting: Swift.Sendable {
-        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see [Creating a VSS-Enabled Windows Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html).
+        /// Specifies the backup option for a selected resource. This option is available for Windows VSS backup jobs and S3 backups. Valid values: Set to "WindowsVSS":"enabled" to enable the WindowsVSS backup option and create a Windows VSS backup. Set to "WindowsVSS":"disabled" to create a regular backup. The WindowsVSS option is not enabled by default. For S3 backups, set to "S3BackupACLs":"disabled" to exclude ACLs from the backup, or "S3BackupObjectTags":"disabled" to exclude object tags from the backup. By default, both ACLs and object tags are included in S3 backups. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see [Creating a VSS-Enabled Windows Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/windows-backups.html).
         public var backupOptions: [Swift.String: Swift.String]?
         /// Specifies an object containing resource type and backup options. The only supported resource type is Amazon EC2 instances with Windows Volume Shadow Copy Service (VSS). For a CloudFormation example, see the [sample CloudFormation template to enable Windows VSS](https://docs.aws.amazon.com/aws-backup/latest/devguide/integrate-cloudformation-with-aws-backup.html) in the Backup User Guide. Valid values: EC2.
         public var resourceType: Swift.String?
@@ -453,21 +453,60 @@ extension BackupClientTypes {
         public var backupPlanArn: Swift.String?
         /// Uniquely identifies a backup plan.
         public var backupPlanId: Swift.String?
+        /// The name of the backup plan that created this recovery point. This provides human-readable context about which backup plan was responsible for the backup job.
+        public var backupPlanName: Swift.String?
         /// Version IDs are unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. They cannot be edited.
         public var backupPlanVersion: Swift.String?
+        /// The cron expression that defines the schedule for the backup rule. This shows the frequency and timing of when backups are automatically triggered.
+        public var backupRuleCron: Swift.String?
         /// Uniquely identifies a rule used to schedule the backup of a selection of resources.
         public var backupRuleId: Swift.String?
+        /// The name of the backup rule within the backup plan that created this recovery point. This helps identify which specific rule triggered the backup job.
+        public var backupRuleName: Swift.String?
+        /// The timezone used for the backup rule schedule. This provides context for when backups are scheduled to run in the specified timezone.
+        public var backupRuleTimezone: Swift.String?
 
         public init(
             backupPlanArn: Swift.String? = nil,
             backupPlanId: Swift.String? = nil,
+            backupPlanName: Swift.String? = nil,
             backupPlanVersion: Swift.String? = nil,
-            backupRuleId: Swift.String? = nil
+            backupRuleCron: Swift.String? = nil,
+            backupRuleId: Swift.String? = nil,
+            backupRuleName: Swift.String? = nil,
+            backupRuleTimezone: Swift.String? = nil
         ) {
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
+            self.backupPlanName = backupPlanName
             self.backupPlanVersion = backupPlanVersion
+            self.backupRuleCron = backupRuleCron
             self.backupRuleId = backupRuleId
+            self.backupRuleName = backupRuleName
+            self.backupRuleTimezone = backupRuleTimezone
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// Specifies the time period, in days, before a recovery point transitions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting can't be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. To remove the existing lifecycle and retention periods and keep your recovery points indefinitely, specify -1 for MoveToColdStorageAfterDays and DeleteAfterDays.
+    public struct Lifecycle: Swift.Sendable {
+        /// The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays.
+        public var deleteAfterDays: Swift.Int?
+        /// The number of days after creation that a recovery point is moved to cold storage.
+        public var moveToColdStorageAfterDays: Swift.Int?
+        /// If the value is true, your backup plan transitions supported resources to archive (cold) storage tier in accordance with your lifecycle settings.
+        public var optInToArchiveForSupportedResources: Swift.Bool?
+
+        public init(
+            deleteAfterDays: Swift.Int? = nil,
+            moveToColdStorageAfterDays: Swift.Int? = nil,
+            optInToArchiveForSupportedResources: Swift.Bool? = nil
+        ) {
+            self.deleteAfterDays = deleteAfterDays
+            self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
+            self.optInToArchiveForSupportedResources = optInToArchiveForSupportedResources
         }
     }
 }
@@ -562,12 +601,16 @@ extension BackupClientTypes {
         public var createdBy: BackupClientTypes.RecoveryPointCreator?
         /// The date and time a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var creationDate: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the backup. This can be a customer-managed key or an Amazon Web Services managed key, depending on the vault configuration.
+        public var encryptionKeyArn: Swift.String?
         /// The date and time a job to back up resources is expected to be completed, in Unix format and Coordinated Universal Time (UTC). The value of ExpectedCompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var expectedCompletionDate: Foundation.Date?
         /// Specifies the IAM role ARN used to create the target recovery point. IAM roles other than the default role must include either AWSBackup or AwsBackup in the role name. For example, arn:aws:iam::123456789012:role/AWSBackupRDSAccess. Role names without those strings lack permissions to perform backup jobs.
         public var iamRoleArn: Swift.String?
         /// The date on which the backup job was initiated.
         public var initiationDate: Foundation.Date?
+        /// A boolean value indicating whether the backup is encrypted. All backups in Backup are encrypted, but this field indicates the encryption status for transparency.
+        public var isEncrypted: Swift.Bool
         /// This is a boolean value indicating this is a parent (composite) backup job.
         public var isParent: Swift.Bool
         /// This parameter is the job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. See [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of MessageCategory strings. The the value ANY returns count of all message categories. AGGREGATE_ALL aggregates job counts for all message categories and returns the sum.
@@ -578,6 +621,8 @@ extension BackupClientTypes {
         public var percentDone: Swift.String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public var recoveryPointArn: Swift.String?
+        /// Specifies the time period, in days, before a recovery point transitions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting can't be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. To remove the existing lifecycle and retention periods and keep your recovery points indefinitely, specify -1 for MoveToColdStorageAfterDays and DeleteAfterDays.
+        public var recoveryPointLifecycle: BackupClientTypes.Lifecycle?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public var resourceArn: Swift.String?
         /// The non-unique name of the resource that belongs to the specified backup.
@@ -590,6 +635,10 @@ extension BackupClientTypes {
         public var state: BackupClientTypes.BackupJobState?
         /// A detailed message explaining the status of the job to back up a resource.
         public var statusMessage: Swift.String?
+        /// The lock state of the backup vault. For logically air-gapped vaults, this indicates whether the vault is locked in compliance mode. Valid values include LOCKED and UNLOCKED.
+        public var vaultLockState: Swift.String?
+        /// The type of backup vault where the recovery point is stored. Valid values are BACKUP_VAULT for standard backup vaults and LOGICALLY_AIR_GAPPED_BACKUP_VAULT for logically air-gapped vaults.
+        public var vaultType: Swift.String?
 
         public init(
             accountId: Swift.String? = nil,
@@ -603,20 +652,25 @@ extension BackupClientTypes {
             completionDate: Foundation.Date? = nil,
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
             creationDate: Foundation.Date? = nil,
+            encryptionKeyArn: Swift.String? = nil,
             expectedCompletionDate: Foundation.Date? = nil,
             iamRoleArn: Swift.String? = nil,
             initiationDate: Foundation.Date? = nil,
+            isEncrypted: Swift.Bool = false,
             isParent: Swift.Bool = false,
             messageCategory: Swift.String? = nil,
             parentJobId: Swift.String? = nil,
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
+            recoveryPointLifecycle: BackupClientTypes.Lifecycle? = nil,
             resourceArn: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceType: Swift.String? = nil,
             startBy: Foundation.Date? = nil,
             state: BackupClientTypes.BackupJobState? = nil,
-            statusMessage: Swift.String? = nil
+            statusMessage: Swift.String? = nil,
+            vaultLockState: Swift.String? = nil,
+            vaultType: Swift.String? = nil
         ) {
             self.accountId = accountId
             self.backupJobId = backupJobId
@@ -629,20 +683,25 @@ extension BackupClientTypes {
             self.completionDate = completionDate
             self.createdBy = createdBy
             self.creationDate = creationDate
+            self.encryptionKeyArn = encryptionKeyArn
             self.expectedCompletionDate = expectedCompletionDate
             self.iamRoleArn = iamRoleArn
             self.initiationDate = initiationDate
+            self.isEncrypted = isEncrypted
             self.isParent = isParent
             self.messageCategory = messageCategory
             self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
+            self.recoveryPointLifecycle = recoveryPointLifecycle
             self.resourceArn = resourceArn
             self.resourceName = resourceName
             self.resourceType = resourceType
             self.startBy = startBy
             self.state = state
             self.statusMessage = statusMessage
+            self.vaultLockState = vaultLockState
+            self.vaultType = vaultType
         }
     }
 }
@@ -742,29 +801,6 @@ extension BackupClientTypes {
             self.resourceType = resourceType
             self.startTime = startTime
             self.state = state
-        }
-    }
-}
-
-extension BackupClientTypes {
-
-    /// Specifies the time period, in days, before a recovery point transitions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting can't be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. To remove the existing lifecycle and retention periods and keep your recovery points indefinitely, specify -1 for MoveToColdStorageAfterDays and DeleteAfterDays.
-    public struct Lifecycle: Swift.Sendable {
-        /// The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays.
-        public var deleteAfterDays: Swift.Int?
-        /// The number of days after creation that a recovery point is moved to cold storage.
-        public var moveToColdStorageAfterDays: Swift.Int?
-        /// If the value is true, your backup plan transitions supported resources to archive (cold) storage tier in accordance with your lifecycle settings.
-        public var optInToArchiveForSupportedResources: Swift.Bool?
-
-        public init(
-            deleteAfterDays: Swift.Int? = nil,
-            moveToColdStorageAfterDays: Swift.Int? = nil,
-            optInToArchiveForSupportedResources: Swift.Bool? = nil
-        ) {
-            self.deleteAfterDays = deleteAfterDays
-            self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
-            self.optInToArchiveForSupportedResources = optInToArchiveForSupportedResources
         }
     }
 }
@@ -1650,8 +1686,16 @@ extension BackupClientTypes {
         public var creationDate: Foundation.Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
         public var destinationBackupVaultArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the copied backup in the destination vault. This can be a customer-managed key or an Amazon Web Services managed key.
+        public var destinationEncryptionKeyArn: Swift.String?
         /// An ARN that uniquely identifies a destination recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public var destinationRecoveryPointArn: Swift.String?
+        /// Specifies the time period, in days, before a recovery point transitions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting can't be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. To remove the existing lifecycle and retention periods and keep your recovery points indefinitely, specify -1 for MoveToColdStorageAfterDays and DeleteAfterDays.
+        public var destinationRecoveryPointLifecycle: BackupClientTypes.Lifecycle?
+        /// The lock state of the destination backup vault. For logically air-gapped vaults, this indicates whether the vault is locked in compliance mode. Valid values include LOCKED and UNLOCKED.
+        public var destinationVaultLockState: Swift.String?
+        /// The type of destination backup vault where the copied recovery point is stored. Valid values are BACKUP_VAULT for standard backup vaults and LOGICALLY_AIR_GAPPED_BACKUP_VAULT for logically air-gapped vaults.
+        public var destinationVaultType: Swift.String?
         /// Specifies the IAM role ARN used to copy the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public var iamRoleArn: Swift.String?
         /// This is a boolean value indicating this is a parent (composite) copy job.
@@ -1687,7 +1731,11 @@ extension BackupClientTypes {
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
             creationDate: Foundation.Date? = nil,
             destinationBackupVaultArn: Swift.String? = nil,
+            destinationEncryptionKeyArn: Swift.String? = nil,
             destinationRecoveryPointArn: Swift.String? = nil,
+            destinationRecoveryPointLifecycle: BackupClientTypes.Lifecycle? = nil,
+            destinationVaultLockState: Swift.String? = nil,
+            destinationVaultType: Swift.String? = nil,
             iamRoleArn: Swift.String? = nil,
             isParent: Swift.Bool = false,
             messageCategory: Swift.String? = nil,
@@ -1710,7 +1758,11 @@ extension BackupClientTypes {
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.destinationBackupVaultArn = destinationBackupVaultArn
+            self.destinationEncryptionKeyArn = destinationEncryptionKeyArn
             self.destinationRecoveryPointArn = destinationRecoveryPointArn
+            self.destinationRecoveryPointLifecycle = destinationRecoveryPointLifecycle
+            self.destinationVaultLockState = destinationVaultLockState
+            self.destinationVaultType = destinationVaultType
             self.iamRoleArn = iamRoleArn
             self.isParent = isParent
             self.messageCategory = messageCategory
@@ -3037,12 +3089,16 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
     public var createdBy: BackupClientTypes.RecoveryPointCreator?
     /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var creationDate: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the backup. This can be a customer-managed key or an Amazon Web Services managed key, depending on the vault configuration.
+    public var encryptionKeyArn: Swift.String?
     /// The date and time that a job to back up resources is expected to be completed, in Unix format and Coordinated Universal Time (UTC). The value of ExpectedCompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var expectedCompletionDate: Foundation.Date?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
     /// The date a backup job was initiated.
     public var initiationDate: Foundation.Date?
+    /// A boolean value indicating whether the backup is encrypted. All backups in Backup are encrypted, but this field indicates the encryption status for transparency.
+    public var isEncrypted: Swift.Bool
     /// This returns the boolean value that a backup job is a parent (composite) job.
     public var isParent: Swift.Bool
     /// The job count for the specified message category. Example strings may include AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. View [Monitoring](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html) for a list of accepted MessageCategory strings.
@@ -3055,6 +3111,8 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
     public var percentDone: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
     public var recoveryPointArn: Swift.String?
+    /// Specifies the time period, in days, before a recovery point transitions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting can't be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. To remove the existing lifecycle and retention periods and keep your recovery points indefinitely, specify -1 for MoveToColdStorageAfterDays and DeleteAfterDays.
+    public var recoveryPointLifecycle: BackupClientTypes.Lifecycle?
     /// An ARN that uniquely identifies a saved resource. The format of the ARN depends on the resource type.
     public var resourceArn: Swift.String?
     /// The non-unique name of the resource that belongs to the specified backup.
@@ -3067,6 +3125,10 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
     public var state: BackupClientTypes.BackupJobState?
     /// A detailed message explaining the status of the job to back up a resource.
     public var statusMessage: Swift.String?
+    /// The lock state of the backup vault. For logically air-gapped vaults, this indicates whether the vault is locked in compliance mode. Valid values include LOCKED and UNLOCKED.
+    public var vaultLockState: Swift.String?
+    /// The type of backup vault where the recovery point is stored. Valid values are BACKUP_VAULT for standard backup vaults and LOGICALLY_AIR_GAPPED_BACKUP_VAULT for logically air-gapped vaults.
+    public var vaultType: Swift.String?
 
     public init(
         accountId: Swift.String? = nil,
@@ -3081,21 +3143,26 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
         completionDate: Foundation.Date? = nil,
         createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
         creationDate: Foundation.Date? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         expectedCompletionDate: Foundation.Date? = nil,
         iamRoleArn: Swift.String? = nil,
         initiationDate: Foundation.Date? = nil,
+        isEncrypted: Swift.Bool = false,
         isParent: Swift.Bool = false,
         messageCategory: Swift.String? = nil,
         numberOfChildJobs: Swift.Int? = nil,
         parentJobId: Swift.String? = nil,
         percentDone: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
+        recoveryPointLifecycle: BackupClientTypes.Lifecycle? = nil,
         resourceArn: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         resourceType: Swift.String? = nil,
         startBy: Foundation.Date? = nil,
         state: BackupClientTypes.BackupJobState? = nil,
-        statusMessage: Swift.String? = nil
+        statusMessage: Swift.String? = nil,
+        vaultLockState: Swift.String? = nil,
+        vaultType: Swift.String? = nil
     ) {
         self.accountId = accountId
         self.backupJobId = backupJobId
@@ -3109,21 +3176,26 @@ public struct DescribeBackupJobOutput: Swift.Sendable {
         self.completionDate = completionDate
         self.createdBy = createdBy
         self.creationDate = creationDate
+        self.encryptionKeyArn = encryptionKeyArn
         self.expectedCompletionDate = expectedCompletionDate
         self.iamRoleArn = iamRoleArn
         self.initiationDate = initiationDate
+        self.isEncrypted = isEncrypted
         self.isParent = isParent
         self.messageCategory = messageCategory
         self.numberOfChildJobs = numberOfChildJobs
         self.parentJobId = parentJobId
         self.percentDone = percentDone
         self.recoveryPointArn = recoveryPointArn
+        self.recoveryPointLifecycle = recoveryPointLifecycle
         self.resourceArn = resourceArn
         self.resourceName = resourceName
         self.resourceType = resourceType
         self.startBy = startBy
         self.state = state
         self.statusMessage = statusMessage
+        self.vaultLockState = vaultLockState
+        self.vaultType = vaultType
     }
 }
 
@@ -4003,6 +4075,8 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
     public var accountId: Swift.String?
     /// The size, in bytes, of the restored resource.
     public var backupSizeInBytes: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the backup vault containing the recovery point being restored. This helps identify vault access policies and permissions.
+    public var backupVaultArn: Swift.String?
     /// The date and time that a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var completionDate: Foundation.Date?
     /// Contains identifying information about the creation of a restore job.
@@ -4029,6 +4103,8 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
     public var resourceType: Swift.String?
     /// Uniquely identifies the job that restores a recovery point.
     public var restoreJobId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the original resource that was backed up. This provides context about what resource is being restored.
+    public var sourceResourceArn: Swift.String?
     /// Status code specifying the state of the job that is initiated by Backup to restore a recovery point.
     public var status: BackupClientTypes.RestoreJobStatus?
     /// A message showing the status of a job to restore a recovery point.
@@ -4041,6 +4117,7 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
     public init(
         accountId: Swift.String? = nil,
         backupSizeInBytes: Swift.Int? = nil,
+        backupVaultArn: Swift.String? = nil,
         completionDate: Foundation.Date? = nil,
         createdBy: BackupClientTypes.RestoreJobCreator? = nil,
         createdResourceArn: Swift.String? = nil,
@@ -4054,6 +4131,7 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
         recoveryPointCreationDate: Foundation.Date? = nil,
         resourceType: Swift.String? = nil,
         restoreJobId: Swift.String? = nil,
+        sourceResourceArn: Swift.String? = nil,
         status: BackupClientTypes.RestoreJobStatus? = nil,
         statusMessage: Swift.String? = nil,
         validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
@@ -4061,6 +4139,7 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
     ) {
         self.accountId = accountId
         self.backupSizeInBytes = backupSizeInBytes
+        self.backupVaultArn = backupVaultArn
         self.completionDate = completionDate
         self.createdBy = createdBy
         self.createdResourceArn = createdResourceArn
@@ -4074,6 +4153,7 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
         self.recoveryPointCreationDate = recoveryPointCreationDate
         self.resourceType = resourceType
         self.restoreJobId = restoreJobId
+        self.sourceResourceArn = sourceResourceArn
         self.status = status
         self.statusMessage = statusMessage
         self.validationStatus = validationStatus
@@ -6405,6 +6485,8 @@ extension BackupClientTypes {
         public var accountId: Swift.String?
         /// The size, in bytes, of the restored resource.
         public var backupSizeInBytes: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the backup vault containing the recovery point being restored. This helps identify vault access policies and permissions.
+        public var backupVaultArn: Swift.String?
         /// The date and time a job to restore a recovery point is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var completionDate: Foundation.Date?
         /// Contains identifying information about the creation of a restore job.
@@ -6431,6 +6513,8 @@ extension BackupClientTypes {
         public var resourceType: Swift.String?
         /// Uniquely identifies the job that restores a recovery point.
         public var restoreJobId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the original resource that was backed up. This provides context about what resource is being restored.
+        public var sourceResourceArn: Swift.String?
         /// A status code specifying the state of the job initiated by Backup to restore a recovery point.
         public var status: BackupClientTypes.RestoreJobStatus?
         /// A detailed message explaining the status of the job to restore a recovery point.
@@ -6443,6 +6527,7 @@ extension BackupClientTypes {
         public init(
             accountId: Swift.String? = nil,
             backupSizeInBytes: Swift.Int? = nil,
+            backupVaultArn: Swift.String? = nil,
             completionDate: Foundation.Date? = nil,
             createdBy: BackupClientTypes.RestoreJobCreator? = nil,
             createdResourceArn: Swift.String? = nil,
@@ -6456,6 +6541,7 @@ extension BackupClientTypes {
             recoveryPointCreationDate: Foundation.Date? = nil,
             resourceType: Swift.String? = nil,
             restoreJobId: Swift.String? = nil,
+            sourceResourceArn: Swift.String? = nil,
             status: BackupClientTypes.RestoreJobStatus? = nil,
             statusMessage: Swift.String? = nil,
             validationStatus: BackupClientTypes.RestoreValidationStatus? = nil,
@@ -6463,6 +6549,7 @@ extension BackupClientTypes {
         ) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
+            self.backupVaultArn = backupVaultArn
             self.completionDate = completionDate
             self.createdBy = createdBy
             self.createdResourceArn = createdResourceArn
@@ -6476,6 +6563,7 @@ extension BackupClientTypes {
             self.recoveryPointCreationDate = recoveryPointCreationDate
             self.resourceType = resourceType
             self.restoreJobId = restoreJobId
+            self.sourceResourceArn = sourceResourceArn
             self.status = status
             self.statusMessage = statusMessage
             self.validationStatus = validationStatus
@@ -10091,21 +10179,26 @@ extension DescribeBackupJobOutput {
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.RecoveryPointCreator.read(from:))
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
         value.expectedCompletionDate = try reader["ExpectedCompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
         value.initiationDate = try reader["InitiationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isEncrypted = try reader["IsEncrypted"].readIfPresent() ?? false
         value.isParent = try reader["IsParent"].readIfPresent() ?? false
         value.messageCategory = try reader["MessageCategory"].readIfPresent()
         value.numberOfChildJobs = try reader["NumberOfChildJobs"].readIfPresent()
         value.parentJobId = try reader["ParentJobId"].readIfPresent()
         value.percentDone = try reader["PercentDone"].readIfPresent()
         value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
+        value.recoveryPointLifecycle = try reader["RecoveryPointLifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.resourceName = try reader["ResourceName"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.startBy = try reader["StartBy"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.state = try reader["State"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.vaultLockState = try reader["VaultLockState"].readIfPresent()
+        value.vaultType = try reader["VaultType"].readIfPresent()
         return value
     }
 }
@@ -10285,6 +10378,7 @@ extension DescribeRestoreJobOutput {
         var value = DescribeRestoreJobOutput()
         value.accountId = try reader["AccountId"].readIfPresent()
         value.backupSizeInBytes = try reader["BackupSizeInBytes"].readIfPresent()
+        value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent()
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.RestoreJobCreator.read(from:))
         value.createdResourceArn = try reader["CreatedResourceArn"].readIfPresent()
@@ -10298,6 +10392,7 @@ extension DescribeRestoreJobOutput {
         value.recoveryPointCreationDate = try reader["RecoveryPointCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.restoreJobId = try reader["RestoreJobId"].readIfPresent()
+        value.sourceResourceArn = try reader["SourceResourceArn"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.validationStatus = try reader["ValidationStatus"].readIfPresent()
@@ -13018,6 +13113,25 @@ extension BackupClientTypes.DateRange {
     }
 }
 
+extension BackupClientTypes.Lifecycle {
+
+    static func write(value: BackupClientTypes.Lifecycle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeleteAfterDays"].write(value.deleteAfterDays)
+        try writer["MoveToColdStorageAfterDays"].write(value.moveToColdStorageAfterDays)
+        try writer["OptInToArchiveForSupportedResources"].write(value.optInToArchiveForSupportedResources)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Lifecycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.Lifecycle()
+        value.moveToColdStorageAfterDays = try reader["MoveToColdStorageAfterDays"].readIfPresent()
+        value.deleteAfterDays = try reader["DeleteAfterDays"].readIfPresent()
+        value.optInToArchiveForSupportedResources = try reader["OptInToArchiveForSupportedResources"].readIfPresent()
+        return value
+    }
+}
+
 extension BackupClientTypes.RecoveryPointCreator {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.RecoveryPointCreator {
@@ -13025,8 +13139,12 @@ extension BackupClientTypes.RecoveryPointCreator {
         var value = BackupClientTypes.RecoveryPointCreator()
         value.backupPlanId = try reader["BackupPlanId"].readIfPresent()
         value.backupPlanArn = try reader["BackupPlanArn"].readIfPresent()
+        value.backupPlanName = try reader["BackupPlanName"].readIfPresent()
         value.backupPlanVersion = try reader["BackupPlanVersion"].readIfPresent()
         value.backupRuleId = try reader["BackupRuleId"].readIfPresent()
+        value.backupRuleName = try reader["BackupRuleName"].readIfPresent()
+        value.backupRuleCron = try reader["BackupRuleCron"].readIfPresent()
+        value.backupRuleTimezone = try reader["BackupRuleTimezone"].readIfPresent()
         return value
     }
 }
@@ -13055,7 +13173,11 @@ extension BackupClientTypes.CopyJob {
         value.sourceBackupVaultArn = try reader["SourceBackupVaultArn"].readIfPresent()
         value.sourceRecoveryPointArn = try reader["SourceRecoveryPointArn"].readIfPresent()
         value.destinationBackupVaultArn = try reader["DestinationBackupVaultArn"].readIfPresent()
+        value.destinationVaultType = try reader["DestinationVaultType"].readIfPresent()
+        value.destinationVaultLockState = try reader["DestinationVaultLockState"].readIfPresent()
         value.destinationRecoveryPointArn = try reader["DestinationRecoveryPointArn"].readIfPresent()
+        value.destinationEncryptionKeyArn = try reader["DestinationEncryptionKeyArn"].readIfPresent()
+        value.destinationRecoveryPointLifecycle = try reader["DestinationRecoveryPointLifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -13138,25 +13260,6 @@ extension BackupClientTypes.CalculatedLifecycle {
         var value = BackupClientTypes.CalculatedLifecycle()
         value.moveToColdStorageAt = try reader["MoveToColdStorageAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.deleteAt = try reader["DeleteAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension BackupClientTypes.Lifecycle {
-
-    static func write(value: BackupClientTypes.Lifecycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeleteAfterDays"].write(value.deleteAfterDays)
-        try writer["MoveToColdStorageAfterDays"].write(value.moveToColdStorageAfterDays)
-        try writer["OptInToArchiveForSupportedResources"].write(value.optInToArchiveForSupportedResources)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.Lifecycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupClientTypes.Lifecycle()
-        value.moveToColdStorageAfterDays = try reader["MoveToColdStorageAfterDays"].readIfPresent()
-        value.deleteAfterDays = try reader["DeleteAfterDays"].readIfPresent()
-        value.optInToArchiveForSupportedResources = try reader["OptInToArchiveForSupportedResources"].readIfPresent()
         return value
     }
 }
@@ -13524,7 +13627,12 @@ extension BackupClientTypes.BackupJob {
         value.backupJobId = try reader["BackupJobId"].readIfPresent()
         value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
         value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent()
+        value.vaultType = try reader["VaultType"].readIfPresent()
+        value.vaultLockState = try reader["VaultLockState"].readIfPresent()
         value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
+        value.recoveryPointLifecycle = try reader["RecoveryPointLifecycle"].readIfPresent(with: BackupClientTypes.Lifecycle.read(from:))
+        value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
+        value.isEncrypted = try reader["IsEncrypted"].readIfPresent() ?? false
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -13818,6 +13926,8 @@ extension BackupClientTypes.RestoreJobsListMember {
         value.accountId = try reader["AccountId"].readIfPresent()
         value.restoreJobId = try reader["RestoreJobId"].readIfPresent()
         value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
+        value.sourceResourceArn = try reader["SourceResourceArn"].readIfPresent()
+        value.backupVaultArn = try reader["BackupVaultArn"].readIfPresent()
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.completionDate = try reader["CompletionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.status = try reader["Status"].readIfPresent()

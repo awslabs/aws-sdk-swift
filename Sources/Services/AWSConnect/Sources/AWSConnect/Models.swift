@@ -9304,6 +9304,25 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Information about the task template used to create this contact.
+    public struct TaskTemplateInfoV2: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the task template used to create this contact.
+        public var arn: Swift.String?
+        /// The name of the task template used to create this contact.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.name = name
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about Amazon Connect Wisdom.
     public struct WisdomInfo: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the Wisdom session.
@@ -16983,7 +17002,7 @@ public struct ListQueuesOutput: Swift.Sendable {
 }
 
 public struct ListQuickConnectsInput: Swift.Sendable {
-    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance. Both Instance ID and Instance ARN are supported input formats.
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximum number of results to return per page. The default MaxResult size is 100.
@@ -17778,7 +17797,7 @@ extension ConnectClientTypes {
 
     /// Contains summary information about a routing profile manual assignment queue.
     public struct RoutingProfileManualAssignmentQueueConfigSummary: Swift.Sendable {
-        /// The channels this queue supports. Valid Values: CHAT | TASK | EMAIL
+        /// The channels this queue supports. Valid Values: CHAT | TASK | EMAIL VOICE is not supported. The information shown below is incorrect. We're working to correct it.
         /// This member is required.
         public var channel: ConnectClientTypes.Channel?
         /// The Amazon Resource Name (ARN) of the queue.
@@ -19448,7 +19467,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// The timestamp condition indicating which timestamp should be used and how it should be filtered.
+    /// The timestamp condition indicating which contact timestamp should be used and how it should be filtered. It is not an actual timestamp value.
     public struct SearchContactsTimestampCondition: Swift.Sendable {
         /// Condition of the timestamp on the contact.
         /// This member is required.
@@ -19523,7 +19542,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Time range that you additionally want to filter on.
+    /// Time range that you additionally want to filter on. This is different from the [SearchContactsTimeRange](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchContactsTimeRange.html) data type.
     public struct SearchContactsAdditionalTimeRange: Swift.Sendable {
         /// List of criteria of the time range to additionally filter on.
         /// This member is required.
@@ -26328,6 +26347,8 @@ extension ConnectClientTypes {
         public var systemEndpoint: ConnectClientTypes.EndpointInfo?
         /// Tags associated with the contact. This contains both Amazon Web Services generated and user-defined tags.
         public var tags: [Swift.String: Swift.String]?
+        /// If this contact was created using a task template, this contains information about the task template.
+        public var taskTemplateInfo: ConnectClientTypes.TaskTemplateInfoV2?
         /// Total pause count for a contact.
         public var totalPauseCount: Swift.Int?
         /// Total pause duration for a contact in seconds.
@@ -26376,6 +26397,7 @@ extension ConnectClientTypes {
             segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
             systemEndpoint: ConnectClientTypes.EndpointInfo? = nil,
             tags: [Swift.String: Swift.String]? = nil,
+            taskTemplateInfo: ConnectClientTypes.TaskTemplateInfoV2? = nil,
             totalPauseCount: Swift.Int? = nil,
             totalPauseDurationInSeconds: Swift.Int? = nil,
             wisdomInfo: ConnectClientTypes.WisdomInfo? = nil
@@ -26420,6 +26442,7 @@ extension ConnectClientTypes {
             self.segmentAttributes = segmentAttributes
             self.systemEndpoint = systemEndpoint
             self.tags = tags
+            self.taskTemplateInfo = taskTemplateInfo
             self.totalPauseCount = totalPauseCount
             self.totalPauseDurationInSeconds = totalPauseDurationInSeconds
             self.wisdomInfo = wisdomInfo
@@ -26429,7 +26452,7 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.Contact: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "Contact(additionalEmailRecipients: \(Swift.String(describing: additionalEmailRecipients)), agentInfo: \(Swift.String(describing: agentInfo)), answeringMachineDetectionStatus: \(Swift.String(describing: answeringMachineDetectionStatus)), arn: \(Swift.String(describing: arn)), attributes: \(Swift.String(describing: attributes)), campaign: \(Swift.String(describing: campaign)), channel: \(Swift.String(describing: channel)), chatMetrics: \(Swift.String(describing: chatMetrics)), connectedToSystemTimestamp: \(Swift.String(describing: connectedToSystemTimestamp)), contactAssociationId: \(Swift.String(describing: contactAssociationId)), contactDetails: \(Swift.String(describing: contactDetails)), contactEvaluations: \(Swift.String(describing: contactEvaluations)), customer: \(Swift.String(describing: customer)), customerEndpoint: \(Swift.String(describing: customerEndpoint)), customerId: \(Swift.String(describing: customerId)), customerVoiceActivity: \(Swift.String(describing: customerVoiceActivity)), disconnectDetails: \(Swift.String(describing: disconnectDetails)), disconnectReason: \(Swift.String(describing: disconnectReason)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), lastPausedTimestamp: \(Swift.String(describing: lastPausedTimestamp)), lastResumedTimestamp: \(Swift.String(describing: lastResumedTimestamp)), lastUpdateTimestamp: \(Swift.String(describing: lastUpdateTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), qualityMetrics: \(Swift.String(describing: qualityMetrics)), queueInfo: \(Swift.String(describing: queueInfo)), queuePriority: \(Swift.String(describing: queuePriority)), queueTimeAdjustmentSeconds: \(Swift.String(describing: queueTimeAdjustmentSeconds)), recordings: \(Swift.String(describing: recordings)), relatedContactId: \(Swift.String(describing: relatedContactId)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), systemEndpoint: \(Swift.String(describing: systemEndpoint)), tags: \(Swift.String(describing: tags)), taskTemplateInfo: \(Swift.String(describing: taskTemplateInfo)), totalPauseCount: \(Swift.String(describing: totalPauseCount)), totalPauseDurationInSeconds: \(Swift.String(describing: totalPauseDurationInSeconds)), wisdomInfo: \(Swift.String(describing: wisdomInfo)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectClientTypes {
@@ -41588,6 +41611,7 @@ extension ConnectClientTypes.Contact {
         value.recordings = try reader["Recordings"].readListIfPresent(memberReadingClosure: ConnectClientTypes.RecordingInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.disconnectReason = try reader["DisconnectReason"].readIfPresent()
         value.contactEvaluations = try reader["ContactEvaluations"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.ContactEvaluation.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.taskTemplateInfo = try reader["TaskTemplateInfo"].readIfPresent(with: ConnectClientTypes.TaskTemplateInfoV2.read(from:))
         value.contactDetails = try reader["ContactDetails"].readIfPresent(with: ConnectClientTypes.ContactDetails.read(from:))
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
@@ -41601,6 +41625,17 @@ extension ConnectClientTypes.ContactDetails {
         var value = ConnectClientTypes.ContactDetails()
         value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.TaskTemplateInfoV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TaskTemplateInfoV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.TaskTemplateInfoV2()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }

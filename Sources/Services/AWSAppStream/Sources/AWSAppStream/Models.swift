@@ -26,6 +26,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
+@_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 extension AppStreamClientTypes {
 
@@ -116,6 +117,52 @@ extension AppStreamClientTypes {
             case .printingToLocalDevice: return "PRINTING_TO_LOCAL_DEVICE"
             case let .sdkUnknown(s): return s
             }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The collection of license usage records.
+    public struct AdminAppLicenseUsageRecord: Swift.Sendable {
+        /// The billing period for the license usage record.
+        /// This member is required.
+        public var billingPeriod: Swift.String?
+        /// The type of license (for example, Microsoft Office).
+        /// This member is required.
+        public var licenseType: Swift.String?
+        /// The account ID of the owner of the license.
+        /// This member is required.
+        public var ownerAWSAccountId: Swift.String?
+        /// The date and time when the license was first used.
+        /// This member is required.
+        public var subscriptionFirstUsedDate: Foundation.Date?
+        /// The date and time when the license was last used.
+        /// This member is required.
+        public var subscriptionLastUsedDate: Foundation.Date?
+        /// The ARN of the user who used the license-included application.
+        /// This member is required.
+        public var userArn: Swift.String?
+        /// The ID of the user who used the license-included application.
+        /// This member is required.
+        public var userId: Swift.String?
+
+        public init(
+            billingPeriod: Swift.String? = nil,
+            licenseType: Swift.String? = nil,
+            ownerAWSAccountId: Swift.String? = nil,
+            subscriptionFirstUsedDate: Foundation.Date? = nil,
+            subscriptionLastUsedDate: Foundation.Date? = nil,
+            userArn: Swift.String? = nil,
+            userId: Swift.String? = nil
+        ) {
+            self.billingPeriod = billingPeriod
+            self.licenseType = licenseType
+            self.ownerAWSAccountId = ownerAWSAccountId
+            self.subscriptionFirstUsedDate = subscriptionFirstUsedDate
+            self.subscriptionLastUsedDate = subscriptionLastUsedDate
+            self.userArn = userArn
+            self.userId = userId
         }
     }
 }
@@ -1231,6 +1278,76 @@ public struct AssociateFleetInput: Swift.Sendable {
 }
 
 public struct AssociateFleetOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct AssociateSoftwareToImageBuilderInput: Swift.Sendable {
+    /// The name of the target image builder instance.
+    /// This member is required.
+    public var imageBuilderName: Swift.String?
+    /// The list of license included applications to associate with the image builder. Possible values include the following:
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_64Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_64Bit
+    /// This member is required.
+    public var softwareNames: [Swift.String]?
+
+    public init(
+        imageBuilderName: Swift.String? = nil,
+        softwareNames: [Swift.String]? = nil
+    ) {
+        self.imageBuilderName = imageBuilderName
+        self.softwareNames = softwareNames
+    }
+}
+
+public struct AssociateSoftwareToImageBuilderOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2841,6 +2958,106 @@ public struct CreateImageBuilderInput: Swift.Sendable {
     /// A unique name for the image builder.
     /// This member is required.
     public var name: Swift.String?
+    /// The list of license included applications to install on the image builder during creation. Possible values include the following:
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_64Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_64Bit
+    public var softwaresToInstall: [Swift.String]?
+    /// The list of license included applications to uninstall from the image builder during creation. Possible values include the following:
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_64Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_64Bit
+    public var softwaresToUninstall: [Swift.String]?
     /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters: _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see [Tagging Your Resources](https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html) in the Amazon AppStream 2.0 Administration Guide.
     public var tags: [Swift.String: Swift.String]?
     /// The VPC configuration for the image builder. You can specify only one subnet.
@@ -2858,6 +3075,8 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         imageName: Swift.String? = nil,
         instanceType: Swift.String? = nil,
         name: Swift.String? = nil,
+        softwaresToInstall: [Swift.String]? = nil,
+        softwaresToUninstall: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         vpcConfig: AppStreamClientTypes.VpcConfig? = nil
     ) {
@@ -2872,6 +3091,8 @@ public struct CreateImageBuilderInput: Swift.Sendable {
         self.imageName = imageName
         self.instanceType = instanceType
         self.name = name
+        self.softwaresToInstall = softwaresToInstall
+        self.softwaresToUninstall = softwaresToUninstall
         self.tags = tags
         self.vpcConfig = vpcConfig
     }
@@ -2932,11 +3153,13 @@ extension AppStreamClientTypes {
         case failed
         case pending
         case pendingQualification
+        case pendingSyncingApps
         case rebooting
         case running
         case snapshotting
         case stopped
         case stopping
+        case syncingApps
         case updating
         case updatingAgent
         case sdkUnknown(Swift.String)
@@ -2947,11 +3170,13 @@ extension AppStreamClientTypes {
                 .failed,
                 .pending,
                 .pendingQualification,
+                .pendingSyncingApps,
                 .rebooting,
                 .running,
                 .snapshotting,
                 .stopped,
                 .stopping,
+                .syncingApps,
                 .updating,
                 .updatingAgent
             ]
@@ -2968,11 +3193,13 @@ extension AppStreamClientTypes {
             case .failed: return "FAILED"
             case .pending: return "PENDING"
             case .pendingQualification: return "PENDING_QUALIFICATION"
+            case .pendingSyncingApps: return "PENDING_SYNCING_APPS"
             case .rebooting: return "REBOOTING"
             case .running: return "RUNNING"
             case .snapshotting: return "SNAPSHOTTING"
             case .stopped: return "STOPPED"
             case .stopping: return "STOPPING"
+            case .syncingApps: return "SYNCING_APPS"
             case .updating: return "UPDATING"
             case .updatingAgent: return "UPDATING_AGENT"
             case let .sdkUnknown(s): return s
@@ -4100,6 +4327,8 @@ extension AppStreamClientTypes {
         public var imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers?
         /// Indicates whether the image is using the latest AppStream 2.0 agent version or not.
         public var latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion?
+        /// Indicates whether the image includes license-included applications.
+        public var managedSoftwareIncluded: Swift.Bool?
         /// The name of the image.
         /// This member is required.
         public var name: Swift.String?
@@ -4147,6 +4376,7 @@ extension AppStreamClientTypes {
             imagePermissions: AppStreamClientTypes.ImagePermissions? = nil,
             imageSharedWithOthers: AppStreamClientTypes.ImageSharedWithOthers? = nil,
             latestAppstreamAgentVersion: AppStreamClientTypes.LatestAppstreamAgentVersion? = nil,
+            managedSoftwareIncluded: Swift.Bool? = nil,
             name: Swift.String? = nil,
             platform: AppStreamClientTypes.PlatformType? = nil,
             publicBaseImageReleasedDate: Foundation.Date? = nil,
@@ -4169,6 +4399,7 @@ extension AppStreamClientTypes {
             self.imagePermissions = imagePermissions
             self.imageSharedWithOthers = imageSharedWithOthers
             self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
+            self.managedSoftwareIncluded = managedSoftwareIncluded
             self.name = name
             self.platform = platform
             self.publicBaseImageReleasedDate = publicBaseImageReleasedDate
@@ -4757,6 +4988,41 @@ public struct DescribeApplicationsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeAppLicenseUsageInput: Swift.Sendable {
+    /// Billing period for the usage record. Specify the value in yyyy-mm format. For example, for August 2025, use 2025-08.
+    /// This member is required.
+    public var billingPeriod: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// Token for pagination of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        billingPeriod: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.billingPeriod = billingPeriod
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct DescribeAppLicenseUsageOutput: Swift.Sendable {
+    /// Collection of license usage records.
+    public var appLicenseUsages: [AppStreamClientTypes.AdminAppLicenseUsageRecord]?
+    /// Token for pagination of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        appLicenseUsages: [AppStreamClientTypes.AdminAppLicenseUsageRecord]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.appLicenseUsages = appLicenseUsages
+        self.nextToken = nextToken
+    }
+}
+
 public struct DescribeDirectoryConfigsInput: Swift.Sendable {
     /// The directory names.
     public var directoryNames: [Swift.String]?
@@ -5171,6 +5437,168 @@ public struct DescribeSessionsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.sessions = sessions
+    }
+}
+
+public struct DescribeSoftwareAssociationsInput: Swift.Sendable {
+    /// The ARN of the resource to describe software associations. Possible resources are Image and ImageBuilder.
+    /// This member is required.
+    public var associatedResource: Swift.String?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The pagination token to use to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+
+    public init(
+        associatedResource: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.associatedResource = associatedResource
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension AppStreamClientTypes {
+
+    public enum SoftwareDeploymentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failedToInstall
+        case failedToUninstall
+        case installed
+        case pendingInstallation
+        case pendingUninstallation
+        case stagedForInstallation
+        case stagedForUninstallation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SoftwareDeploymentStatus] {
+            return [
+                .failedToInstall,
+                .failedToUninstall,
+                .installed,
+                .pendingInstallation,
+                .pendingUninstallation,
+                .stagedForInstallation,
+                .stagedForUninstallation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failedToInstall: return "FAILED_TO_INSTALL"
+            case .failedToUninstall: return "FAILED_TO_UNINSTALL"
+            case .installed: return "INSTALLED"
+            case .pendingInstallation: return "PENDING_INSTALLATION"
+            case .pendingUninstallation: return "PENDING_UNINSTALLATION"
+            case .stagedForInstallation: return "STAGED_FOR_INSTALLATION"
+            case .stagedForUninstallation: return "STAGED_FOR_UNINSTALLATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AppStreamClientTypes {
+
+    /// The association between a license-included application and a resource.
+    public struct SoftwareAssociations: Swift.Sendable {
+        /// The error details for failed deployments of the license-included application.
+        public var deploymentError: [AppStreamClientTypes.ErrorDetails]?
+        /// The name of the license-included application. Possible values include the following:
+        ///
+        /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+        ///
+        /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+        ///
+        /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+        ///
+        /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+        ///
+        /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+        ///
+        /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+        ///
+        /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+        ///
+        /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+        ///
+        /// * Microsoft_Project_2021_Professional_32Bit
+        ///
+        /// * Microsoft_Project_2021_Professional_64Bit
+        ///
+        /// * Microsoft_Project_2024_Professional_32Bit
+        ///
+        /// * Microsoft_Project_2024_Professional_64Bit
+        ///
+        /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+        ///
+        /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+        ///
+        /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+        ///
+        /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+        ///
+        /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+        ///
+        /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+        ///
+        /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+        ///
+        /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+        ///
+        /// * Microsoft_Project_2021_Standard_32Bit
+        ///
+        /// * Microsoft_Project_2021_Standard_64Bit
+        ///
+        /// * Microsoft_Project_2024_Standard_32Bit
+        ///
+        /// * Microsoft_Project_2024_Standard_64Bit
+        public var softwareName: Swift.String?
+        /// The deployment status of the license-included application.
+        public var status: AppStreamClientTypes.SoftwareDeploymentStatus?
+
+        public init(
+            deploymentError: [AppStreamClientTypes.ErrorDetails]? = nil,
+            softwareName: Swift.String? = nil,
+            status: AppStreamClientTypes.SoftwareDeploymentStatus? = nil
+        ) {
+            self.deploymentError = deploymentError
+            self.softwareName = softwareName
+            self.status = status
+        }
+    }
+}
+
+public struct DescribeSoftwareAssociationsOutput: Swift.Sendable {
+    /// The ARN of the resource to describe software associations.
+    public var associatedResource: Swift.String?
+    /// The pagination token to use to retrieve the next page of results for this operation.
+    public var nextToken: Swift.String?
+    /// Collection of license included applications association details including:
+    ///
+    /// * License included application name and version information
+    ///
+    /// * Deployment status (SoftwareDeploymentStatus enum)
+    ///
+    /// * Error details for failed deployments
+    ///
+    /// * Association timestamps
+    public var softwareAssociations: [AppStreamClientTypes.SoftwareAssociations]?
+
+    public init(
+        associatedResource: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        softwareAssociations: [AppStreamClientTypes.SoftwareAssociations]? = nil
+    ) {
+        self.associatedResource = associatedResource
+        self.nextToken = nextToken
+        self.softwareAssociations = softwareAssociations
     }
 }
 
@@ -5596,6 +6024,76 @@ public struct DisassociateFleetOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateSoftwareFromImageBuilderInput: Swift.Sendable {
+    /// The name of the target image builder instance.
+    /// This member is required.
+    public var imageBuilderName: Swift.String?
+    /// The list of license included applications to disassociate from the image builder. Possible values include the following:
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Professional_Plus_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2021_Professional_64Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_32Bit
+    ///
+    /// * Microsoft_Project_2024_Professional_64Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Office_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2021_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_32Bit
+    ///
+    /// * Microsoft_Visio_2024_LTSC_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2021_Standard_64Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_32Bit
+    ///
+    /// * Microsoft_Project_2024_Standard_64Bit
+    /// This member is required.
+    public var softwareNames: [Swift.String]?
+
+    public init(
+        imageBuilderName: Swift.String? = nil,
+        softwareNames: [Swift.String]? = nil
+    ) {
+        self.imageBuilderName = imageBuilderName
+        self.softwareNames = softwareNames
+    }
+}
+
+public struct DisassociateSoftwareFromImageBuilderOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct EnableUserInput: Swift.Sendable {
     /// The authentication type for the user. You must specify USERPOOL.
     /// This member is required.
@@ -5891,6 +6389,27 @@ public struct StartImageBuilderOutput: Swift.Sendable {
     ) {
         self.imageBuilder = imageBuilder
     }
+}
+
+public struct StartSoftwareDeploymentToImageBuilderInput: Swift.Sendable {
+    /// The name of the target image builder instance.
+    /// This member is required.
+    public var imageBuilderName: Swift.String?
+    /// Whether to retry previously failed license included application deployments.
+    public var retryFailedDeployments: Swift.Bool?
+
+    public init(
+        imageBuilderName: Swift.String? = nil,
+        retryFailedDeployments: Swift.Bool? = nil
+    ) {
+        self.imageBuilderName = imageBuilderName
+        self.retryFailedDeployments = retryFailedDeployments
+    }
+}
+
+public struct StartSoftwareDeploymentToImageBuilderOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct StopAppBlockBuilderInput: Swift.Sendable {
@@ -6694,6 +7213,13 @@ extension AssociateFleetInput {
     }
 }
 
+extension AssociateSoftwareToImageBuilderInput {
+
+    static func urlPathProvider(_ value: AssociateSoftwareToImageBuilderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchAssociateUserStackInput {
 
     static func urlPathProvider(_ value: BatchAssociateUserStackInput) -> Swift.String? {
@@ -6946,6 +7472,13 @@ extension DescribeApplicationsInput {
     }
 }
 
+extension DescribeAppLicenseUsageInput {
+
+    static func urlPathProvider(_ value: DescribeAppLicenseUsageInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeDirectoryConfigsInput {
 
     static func urlPathProvider(_ value: DescribeDirectoryConfigsInput) -> Swift.String? {
@@ -6991,6 +7524,13 @@ extension DescribeImagesInput {
 extension DescribeSessionsInput {
 
     static func urlPathProvider(_ value: DescribeSessionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeSoftwareAssociationsInput {
+
+    static func urlPathProvider(_ value: DescribeSoftwareAssociationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7065,6 +7605,13 @@ extension DisassociateFleetInput {
     }
 }
 
+extension DisassociateSoftwareFromImageBuilderInput {
+
+    static func urlPathProvider(_ value: DisassociateSoftwareFromImageBuilderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension EnableUserInput {
 
     static func urlPathProvider(_ value: EnableUserInput) -> Swift.String? {
@@ -7124,6 +7671,13 @@ extension StartFleetInput {
 extension StartImageBuilderInput {
 
     static func urlPathProvider(_ value: StartImageBuilderInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension StartSoftwareDeploymentToImageBuilderInput {
+
+    static func urlPathProvider(_ value: StartSoftwareDeploymentToImageBuilderInput) -> Swift.String? {
         return "/"
     }
 }
@@ -7253,6 +7807,15 @@ extension AssociateFleetInput {
         guard let value else { return }
         try writer["FleetName"].write(value.fleetName)
         try writer["StackName"].write(value.stackName)
+    }
+}
+
+extension AssociateSoftwareToImageBuilderInput {
+
+    static func write(value: AssociateSoftwareToImageBuilderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageBuilderName"].write(value.imageBuilderName)
+        try writer["SoftwareNames"].writeList(value.softwareNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -7409,6 +7972,8 @@ extension CreateImageBuilderInput {
         try writer["ImageName"].write(value.imageName)
         try writer["InstanceType"].write(value.instanceType)
         try writer["Name"].write(value.name)
+        try writer["SoftwaresToInstall"].writeList(value.softwaresToInstall, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SoftwaresToUninstall"].writeList(value.softwaresToUninstall, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["VpcConfig"].write(value.vpcConfig, with: AppStreamClientTypes.VpcConfig.write(value:to:))
     }
@@ -7660,6 +8225,16 @@ extension DescribeApplicationsInput {
     }
 }
 
+extension DescribeAppLicenseUsageInput {
+
+    static func write(value: DescribeAppLicenseUsageInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BillingPeriod"].write(value.billingPeriod)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension DescribeDirectoryConfigsInput {
 
     static func write(value: DescribeDirectoryConfigsInput?, to writer: SmithyJSON.Writer) throws {
@@ -7734,6 +8309,16 @@ extension DescribeSessionsInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["StackName"].write(value.stackName)
         try writer["UserId"].write(value.userId)
+    }
+}
+
+extension DescribeSoftwareAssociationsInput {
+
+    static func write(value: DescribeSoftwareAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssociatedResource"].write(value.associatedResource)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
     }
 }
 
@@ -7831,6 +8416,15 @@ extension DisassociateFleetInput {
     }
 }
 
+extension DisassociateSoftwareFromImageBuilderInput {
+
+    static func write(value: DisassociateSoftwareFromImageBuilderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageBuilderName"].write(value.imageBuilderName)
+        try writer["SoftwareNames"].writeList(value.softwareNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension EnableUserInput {
 
     static func write(value: EnableUserInput?, to writer: SmithyJSON.Writer) throws {
@@ -7907,6 +8501,15 @@ extension StartImageBuilderInput {
         guard let value else { return }
         try writer["AppstreamAgentVersion"].write(value.appstreamAgentVersion)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension StartSoftwareDeploymentToImageBuilderInput {
+
+    static func write(value: StartSoftwareDeploymentToImageBuilderInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageBuilderName"].write(value.imageBuilderName)
+        try writer["RetryFailedDeployments"].write(value.retryFailedDeployments)
     }
 }
 
@@ -8117,6 +8720,13 @@ extension AssociateFleetOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateFleetOutput {
         return AssociateFleetOutput()
+    }
+}
+
+extension AssociateSoftwareToImageBuilderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateSoftwareToImageBuilderOutput {
+        return AssociateSoftwareToImageBuilderOutput()
     }
 }
 
@@ -8502,6 +9112,19 @@ extension DescribeApplicationsOutput {
     }
 }
 
+extension DescribeAppLicenseUsageOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeAppLicenseUsageOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeAppLicenseUsageOutput()
+        value.appLicenseUsages = try reader["AppLicenseUsages"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.AdminAppLicenseUsageRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension DescribeDirectoryConfigsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeDirectoryConfigsOutput {
@@ -8590,6 +9213,20 @@ extension DescribeSessionsOutput {
         var value = DescribeSessionsOutput()
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.sessions = try reader["Sessions"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.Session.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeSoftwareAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeSoftwareAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeSoftwareAssociationsOutput()
+        value.associatedResource = try reader["AssociatedResource"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.softwareAssociations = try reader["SoftwareAssociations"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.SoftwareAssociations.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8693,6 +9330,13 @@ extension DisassociateFleetOutput {
     }
 }
 
+extension DisassociateSoftwareFromImageBuilderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateSoftwareFromImageBuilderOutput {
+        return DisassociateSoftwareFromImageBuilderOutput()
+    }
+}
+
 extension EnableUserOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> EnableUserOutput {
@@ -8786,6 +9430,13 @@ extension StartImageBuilderOutput {
         var value = StartImageBuilderOutput()
         value.imageBuilder = try reader["ImageBuilder"].readIfPresent(with: AppStreamClientTypes.ImageBuilder.read(from:))
         return value
+    }
+}
+
+extension StartSoftwareDeploymentToImageBuilderOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartSoftwareDeploymentToImageBuilderOutput {
+        return StartSoftwareDeploymentToImageBuilderOutput()
     }
 }
 
@@ -8990,6 +9641,24 @@ enum AssociateFleetOutputError {
             case "IncompatibleImageException": return try IncompatibleImageException.makeError(baseError: baseError)
             case "InvalidAccountStatusException": return try InvalidAccountStatusException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum AssociateSoftwareToImageBuilderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "IncompatibleImageException": return try IncompatibleImageException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
             case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -9612,6 +10281,22 @@ enum DescribeApplicationsOutputError {
     }
 }
 
+enum DescribeAppLicenseUsageOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeDirectoryConfigsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -9708,6 +10393,21 @@ enum DescribeSessionsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeSoftwareAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -9868,6 +10568,23 @@ enum DisassociateFleetOutputError {
     }
 }
 
+enum DisassociateSoftwareFromImageBuilderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "InvalidParameterCombinationException": return try InvalidParameterCombinationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum EnableUserOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -10005,6 +10722,22 @@ enum StartImageBuilderOutputError {
             case "IncompatibleImageException": return try IncompatibleImageException.makeError(baseError: baseError)
             case "InvalidAccountStatusException": return try InvalidAccountStatusException.makeError(baseError: baseError)
             case "ResourceNotAvailableException": return try ResourceNotAvailableException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartSoftwareDeploymentToImageBuilderOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModificationException": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "OperationNotPermittedException": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -11025,6 +11758,7 @@ extension AppStreamClientTypes.Image {
         value.supportedInstanceFamilies = try reader["SupportedInstanceFamilies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.dynamicAppProvidersEnabled = try reader["DynamicAppProvidersEnabled"].readIfPresent()
         value.imageSharedWithOthers = try reader["ImageSharedWithOthers"].readIfPresent()
+        value.managedSoftwareIncluded = try reader["ManagedSoftwareIncluded"].readIfPresent()
         return value
     }
 }
@@ -11057,6 +11791,22 @@ extension AppStreamClientTypes.ImageStateChangeReason {
     }
 }
 
+extension AppStreamClientTypes.AdminAppLicenseUsageRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.AdminAppLicenseUsageRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.AdminAppLicenseUsageRecord()
+        value.userArn = try reader["UserArn"].readIfPresent() ?? ""
+        value.billingPeriod = try reader["BillingPeriod"].readIfPresent() ?? ""
+        value.ownerAWSAccountId = try reader["OwnerAWSAccountId"].readIfPresent() ?? ""
+        value.subscriptionFirstUsedDate = try reader["SubscriptionFirstUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.subscriptionLastUsedDate = try reader["SubscriptionLastUsedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.licenseType = try reader["LicenseType"].readIfPresent() ?? ""
+        value.userId = try reader["UserId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension AppStreamClientTypes.SharedImagePermissions {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SharedImagePermissions {
@@ -11084,6 +11834,18 @@ extension AppStreamClientTypes.Session {
         value.authenticationType = try reader["AuthenticationType"].readIfPresent()
         value.networkAccessConfiguration = try reader["NetworkAccessConfiguration"].readIfPresent(with: AppStreamClientTypes.NetworkAccessConfiguration.read(from:))
         value.instanceId = try reader["InstanceId"].readIfPresent()
+        return value
+    }
+}
+
+extension AppStreamClientTypes.SoftwareAssociations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppStreamClientTypes.SoftwareAssociations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppStreamClientTypes.SoftwareAssociations()
+        value.softwareName = try reader["SoftwareName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.deploymentError = try reader["DeploymentError"].readListIfPresent(memberReadingClosure: AppStreamClientTypes.ErrorDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
