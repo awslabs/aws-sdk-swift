@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.5.63"
+    public static let version = "1.5.64"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -939,7 +939,18 @@ extension EC2Client {
 
     /// Performs the `AllocateAddress` operation on the `EC2` service.
     ///
-    /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from an address pool owned by Amazon Web Services or from an address pool created from a public IPv4 address range that you have brought to Amazon Web Services for use with your Amazon Web Services resources using bring your own IP addresses (BYOIP). For more information, see [Bring Your Own IP Addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html) in the Amazon EC2 User Guide. If you release an Elastic IP address, you might be able to recover it. You cannot recover an Elastic IP address that you released after it is allocated to another Amazon Web Services account. To attempt to recover an Elastic IP address that you released, specify it in this operation. For more information, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) in the Amazon EC2 User Guide. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
+    /// Allocates an Elastic IP address to your Amazon Web Services account. After you allocate the Elastic IP address you can associate it with an instance or network interface. After you release an Elastic IP address, it is released to the IP address pool and can be allocated to a different Amazon Web Services account. You can allocate an Elastic IP address from one of the following address pools:
+    ///
+    /// * Amazon's pool of IPv4 addresses
+    ///
+    /// * Public IPv4 address range that you own and bring to your Amazon Web Services account using [Bring Your Own IP Addresses (BYOIP)](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-byoip.html)
+    ///
+    /// * An IPv4 IPAM pool with an Amazon-provided or BYOIP public IPv4 address range
+    ///
+    /// * IPv4 addresses from your on-premises network made available for use with an Outpost using a [customer-owned IP address pool](https://docs.aws.amazon.com/outposts/latest/userguide/routing.html#ip-addressing) (CoIP pool)
+    ///
+    ///
+    /// For more information, see [Elastic IP Addresses](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) in the Amazon EC2 User Guide. If you release an Elastic IP address, you might be able to recover it. You cannot recover an Elastic IP address that you released after it is allocated to another Amazon Web Services account. To attempt to recover an Elastic IP address that you released, specify it in this operation. You can allocate a carrier IP address which is a public IP address from a telecommunication carrier, to a network interface which resides in a subnet in a Wavelength Zone (for example an EC2 instance).
     ///
     /// - Parameter input: [no documentation found] (Type: `AllocateAddressInput`)
     ///
@@ -4302,6 +4313,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CopyVolumes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CreateCapacityManagerDataExport` operation on the `EC2` service.
+    ///
+    /// Creates a new data export configuration for EC2 Capacity Manager. This allows you to automatically export capacity usage data to an S3 bucket on a scheduled basis. The exported data includes metrics for On-Demand, Spot, and Capacity Reservations usage across your organization.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateCapacityManagerDataExportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateCapacityManagerDataExportOutput`)
+    public func createCapacityManagerDataExport(input: CreateCapacityManagerDataExportInput) async throws -> CreateCapacityManagerDataExportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCapacityManagerDataExport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>(CreateCapacityManagerDataExportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateCapacityManagerDataExportOutput>(CreateCapacityManagerDataExportOutput.httpOutput(from:), CreateCapacityManagerDataExportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateCapacityManagerDataExportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateCapacityManagerDataExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateCapacityManagerDataExportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateCapacityManagerDataExportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateCapacityManagerDataExportInput, CreateCapacityManagerDataExportOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateCapacityManagerDataExport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -10287,6 +10362,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateVpnGateway")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteCapacityManagerDataExport` operation on the `EC2` service.
+    ///
+    /// Deletes an existing Capacity Manager data export configuration. This stops future scheduled exports but does not delete previously exported files from S3.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteCapacityManagerDataExportInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteCapacityManagerDataExportOutput`)
+    public func deleteCapacityManagerDataExport(input: DeleteCapacityManagerDataExportInput) async throws -> DeleteCapacityManagerDataExportOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCapacityManagerDataExport")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput>(DeleteCapacityManagerDataExportInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteCapacityManagerDataExportOutput>(DeleteCapacityManagerDataExportOutput.httpOutput(from:), DeleteCapacityManagerDataExportOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteCapacityManagerDataExportOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteCapacityManagerDataExportOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteCapacityManagerDataExportInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteCapacityManagerDataExportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteCapacityManagerDataExportInput, DeleteCapacityManagerDataExportOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteCapacityManagerDataExport")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -16893,6 +17031,69 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityBlocks")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeCapacityManagerDataExports` operation on the `EC2` service.
+    ///
+    /// Describes one or more Capacity Manager data export configurations. Returns information about export settings, delivery status, and recent export activity.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityManagerDataExportsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityManagerDataExportsOutput`)
+    public func describeCapacityManagerDataExports(input: DescribeCapacityManagerDataExportsInput) async throws -> DescribeCapacityManagerDataExportsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityManagerDataExports")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>(DescribeCapacityManagerDataExportsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityManagerDataExportsOutput>(DescribeCapacityManagerDataExportsOutput.httpOutput(from:), DescribeCapacityManagerDataExportsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityManagerDataExportsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCapacityManagerDataExportsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityManagerDataExportsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityManagerDataExportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityManagerDataExports")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -27463,6 +27664,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisableCapacityManager` operation on the `EC2` service.
+    ///
+    /// Disables EC2 Capacity Manager for your account. This stops data ingestion and removes access to capacity analytics and optimization recommendations. Previously collected data is retained but no new data will be processed.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisableCapacityManagerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisableCapacityManagerOutput`)
+    public func disableCapacityManager(input: DisableCapacityManagerInput) async throws -> DisableCapacityManagerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableCapacityManager")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableCapacityManagerInput, DisableCapacityManagerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>(DisableCapacityManagerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableCapacityManagerOutput>(DisableCapacityManagerOutput.httpOutput(from:), DisableCapacityManagerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableCapacityManagerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableCapacityManagerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisableCapacityManagerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableCapacityManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableCapacityManagerInput, DisableCapacityManagerOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableCapacityManager")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisableEbsEncryptionByDefault` operation on the `EC2` service.
     ///
     /// Disables EBS encryption by default for your account in the current Region. After you disable encryption by default, you can still create encrypted volumes by enabling encryption when you create each volume. Disabling encryption by default does not change the encryption status of your existing volumes. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide.
@@ -29762,6 +30027,70 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `EnableCapacityManager` operation on the `EC2` service.
+    ///
+    /// Enables EC2 Capacity Manager for your account. This starts data ingestion for your EC2 capacity usage across On-Demand, Spot, and Capacity Reservations. Initial data processing may take several hours to complete.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EnableCapacityManagerInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EnableCapacityManagerOutput`)
+    public func enableCapacityManager(input: EnableCapacityManagerInput) async throws -> EnableCapacityManagerOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableCapacityManager")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableCapacityManagerInput, EnableCapacityManagerOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>(EnableCapacityManagerInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableCapacityManagerOutput>(EnableCapacityManagerOutput.httpOutput(from:), EnableCapacityManagerOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableCapacityManagerOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableCapacityManagerOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: EnableCapacityManagerInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableCapacityManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableCapacityManagerInput, EnableCapacityManagerOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableCapacityManager")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableEbsEncryptionByDefault` operation on the `EC2` service.
     ///
     /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see [Amazon EBS encryption](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption.html) in the Amazon EBS User Guide. Enabling encryption by default has no effect on the encryption status of your existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see [Supported instance types](https://docs.aws.amazon.com/ebs/latest/userguide/ebs-encryption-requirements.html#ebs-encryption_supported_instances).
@@ -31452,6 +31781,195 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAwsNetworkPerformanceData")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCapacityManagerAttributes` operation on the `EC2` service.
+    ///
+    /// Retrieves the current configuration and status of EC2 Capacity Manager for your account, including enablement status, Organizations access settings, and data ingestion status.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityManagerAttributesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCapacityManagerAttributesOutput`)
+    public func getCapacityManagerAttributes(input: GetCapacityManagerAttributesInput) async throws -> GetCapacityManagerAttributesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCapacityManagerAttributes")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput>(GetCapacityManagerAttributesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityManagerAttributesOutput>(GetCapacityManagerAttributesOutput.httpOutput(from:), GetCapacityManagerAttributesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityManagerAttributesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCapacityManagerAttributesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetCapacityManagerAttributesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCapacityManagerAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCapacityManagerAttributesInput, GetCapacityManagerAttributesOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCapacityManagerAttributes")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCapacityManagerMetricData` operation on the `EC2` service.
+    ///
+    /// Retrieves capacity usage metrics for your EC2 resources. Returns time-series data for metrics like unused capacity, utilization rates, and costs across On-Demand, Spot, and Capacity Reservations. Data can be grouped and filtered by various dimensions such as region, account, and instance family.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityManagerMetricDataInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCapacityManagerMetricDataOutput`)
+    public func getCapacityManagerMetricData(input: GetCapacityManagerMetricDataInput) async throws -> GetCapacityManagerMetricDataOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCapacityManagerMetricData")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>(GetCapacityManagerMetricDataInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityManagerMetricDataOutput>(GetCapacityManagerMetricDataOutput.httpOutput(from:), GetCapacityManagerMetricDataOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityManagerMetricDataOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCapacityManagerMetricDataOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetCapacityManagerMetricDataInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCapacityManagerMetricDataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCapacityManagerMetricData")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetCapacityManagerMetricDimensions` operation on the `EC2` service.
+    ///
+    /// Retrieves the available dimension values for capacity metrics within a specified time range. This is useful for discovering what accounts, regions, instance families, and other dimensions have data available for filtering and grouping.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetCapacityManagerMetricDimensionsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetCapacityManagerMetricDimensionsOutput`)
+    public func getCapacityManagerMetricDimensions(input: GetCapacityManagerMetricDimensionsInput) async throws -> GetCapacityManagerMetricDimensionsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCapacityManagerMetricDimensions")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>(GetCapacityManagerMetricDimensionsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCapacityManagerMetricDimensionsOutput>(GetCapacityManagerMetricDimensionsOutput.httpOutput(from:), GetCapacityManagerMetricDimensionsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCapacityManagerMetricDimensionsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetCapacityManagerMetricDimensionsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetCapacityManagerMetricDimensionsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCapacityManagerMetricDimensionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCapacityManagerMetricDimensions")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -44467,6 +44985,70 @@ extension EC2Client {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UnmonitorInstances")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateCapacityManagerOrganizationsAccess` operation on the `EC2` service.
+    ///
+    /// Updates the Organizations access setting for EC2 Capacity Manager. This controls whether Capacity Manager can aggregate data from all accounts in your Amazon Web Services Organization or only from the current account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateCapacityManagerOrganizationsAccessInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateCapacityManagerOrganizationsAccessOutput`)
+    public func updateCapacityManagerOrganizationsAccess(input: UpdateCapacityManagerOrganizationsAccessInput) async throws -> UpdateCapacityManagerOrganizationsAccessOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCapacityManagerOrganizationsAccess")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>(UpdateCapacityManagerOrganizationsAccessInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateCapacityManagerOrganizationsAccessOutput>(UpdateCapacityManagerOrganizationsAccessOutput.httpOutput(from:), UpdateCapacityManagerOrganizationsAccessOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateCapacityManagerOrganizationsAccessOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateCapacityManagerOrganizationsAccessOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateCapacityManagerOrganizationsAccessInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateCapacityManagerOrganizationsAccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateCapacityManagerOrganizationsAccessInput, UpdateCapacityManagerOrganizationsAccessOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateCapacityManagerOrganizationsAccess")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

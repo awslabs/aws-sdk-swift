@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class NotificationsContactsClient: ClientRuntime.Client {
     public static let clientName = "NotificationsContactsClient"
-    public static let version = "1.5.63"
+    public static let version = "1.5.64"
     let client: ClientRuntime.SdkHttpClient
     let config: NotificationsContactsClient.NotificationsContactsClientConfiguration
     let serviceName = "NotificationsContacts"

@@ -22,6 +22,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 
 
 public struct TagResourceOutput: Swift.Sendable {
@@ -465,7 +466,6 @@ extension TimestreamInfluxDBClientTypes {
 
 public struct CreateDbClusterInput: Swift.Sendable {
     /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
-    /// This member is required.
     public var allocatedStorage: Swift.Int?
     /// The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
     public var bucket: Swift.String?
@@ -483,7 +483,6 @@ public struct CreateDbClusterInput: Swift.Sendable {
     /// * Influx I/O Included 16000 IOPS
     public var dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType?
     /// Specifies the type of cluster to create.
-    /// This member is required.
     public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
     /// Specifies the behavior of failure recovery when the primary node of the cluster fails.
     public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
@@ -497,9 +496,8 @@ public struct CreateDbClusterInput: Swift.Sendable {
     /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
     public var organization: Swift.String?
     /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Manager in your account.
-    /// This member is required.
     public var password: Swift.String?
-    /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+    /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 for InfluxDB v2, 8181 for InfluxDB v3 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
     public var port: Swift.Int?
     /// Configures the Timestream for InfluxDB cluster with a public IP to facilitate access from outside the VPC.
     public var publiclyAccessible: Swift.Bool?
@@ -654,6 +652,38 @@ public struct GetDbClusterInput: Swift.Sendable {
     }
 }
 
+extension TimestreamInfluxDBClientTypes {
+
+    public enum EngineType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case influxdbV2
+        case influxdbV3Core
+        case influxdbV3Enterprise
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngineType] {
+            return [
+                .influxdbV2,
+                .influxdbV3Core,
+                .influxdbV3Enterprise
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .influxdbV2: return "INFLUXDB_V2"
+            case .influxdbV3Core: return "INFLUXDB_V3_CORE"
+            case .influxdbV3Enterprise: return "INFLUXDB_V3_ENTERPRISE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetDbClusterOutput: Swift.Sendable {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
@@ -670,6 +700,8 @@ public struct GetDbClusterOutput: Swift.Sendable {
     public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
     /// The endpoint used to connect to the Timestream for InfluxDB cluster for write and read operations.
     public var endpoint: Swift.String?
+    /// The engine type of your DB cluster.
+    public var engineType: TimestreamInfluxDBClientTypes.EngineType?
     /// The configured failover mode for the DB cluster.
     public var failoverMode: TimestreamInfluxDBClientTypes.FailoverMode?
     /// Service-generated unique identifier of the DB cluster to retrieve.
@@ -705,6 +737,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
         deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
         endpoint: Swift.String? = nil,
+        engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
         failoverMode: TimestreamInfluxDBClientTypes.FailoverMode? = nil,
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
@@ -725,6 +758,7 @@ public struct GetDbClusterOutput: Swift.Sendable {
         self.dbStorageType = dbStorageType
         self.deploymentType = deploymentType
         self.endpoint = endpoint
+        self.engineType = engineType
         self.failoverMode = failoverMode
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
@@ -772,6 +806,8 @@ extension TimestreamInfluxDBClientTypes {
         public var deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType?
         /// The endpoint used to connect to the Timestream for InfluxDB cluster for write and read operations.
         public var endpoint: Swift.String?
+        /// The engine type of your DB cluster.
+        public var engineType: TimestreamInfluxDBClientTypes.EngineType?
         /// Service-generated unique identifier of the DB cluster to retrieve.
         /// This member is required.
         public var id: Swift.String?
@@ -794,6 +830,7 @@ extension TimestreamInfluxDBClientTypes {
             dbStorageType: TimestreamInfluxDBClientTypes.DbStorageType? = nil,
             deploymentType: TimestreamInfluxDBClientTypes.ClusterDeploymentType? = nil,
             endpoint: Swift.String? = nil,
+            engineType: TimestreamInfluxDBClientTypes.EngineType? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
             networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -807,6 +844,7 @@ extension TimestreamInfluxDBClientTypes {
             self.dbStorageType = dbStorageType
             self.deploymentType = deploymentType
             self.endpoint = endpoint
+            self.engineType = engineType
             self.id = id
             self.name = name
             self.networkType = networkType
@@ -885,14 +923,22 @@ extension TimestreamInfluxDBClientTypes {
 extension TimestreamInfluxDBClientTypes {
 
     public enum InstanceMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compact
+        case ingest
         case primary
+        case process
+        case query
         case replica
         case standby
         case sdkUnknown(Swift.String)
 
         public static var allCases: [InstanceMode] {
             return [
+                .compact,
+                .ingest,
                 .primary,
+                .process,
+                .query,
                 .replica,
                 .standby
             ]
@@ -905,7 +951,11 @@ extension TimestreamInfluxDBClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .compact: return "COMPACT"
+            case .ingest: return "INGEST"
             case .primary: return "PRIMARY"
+            case .process: return "PROCESS"
+            case .query: return "QUERY"
             case .replica: return "REPLICA"
             case .standby: return "STANDBY"
             case let .sdkUnknown(s): return s
@@ -989,6 +1039,8 @@ extension TimestreamInfluxDBClientTypes {
         public var id: Swift.String?
         /// Specifies the DB instance's role in the cluster.
         public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
+        /// Specifies the DB instance's roles in the cluster.
+        public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
         /// A service-generated name for the DB instance based on the customer-supplied name for the DB cluster.
         /// This member is required.
         public var name: Swift.String?
@@ -1008,6 +1060,7 @@ extension TimestreamInfluxDBClientTypes {
             endpoint: Swift.String? = nil,
             id: Swift.String? = nil,
             instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
+            instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
             name: Swift.String? = nil,
             networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
             port: Swift.Int? = nil,
@@ -1021,6 +1074,7 @@ extension TimestreamInfluxDBClientTypes {
             self.endpoint = endpoint
             self.id = id
             self.instanceMode = instanceMode
+            self.instanceModes = instanceModes
             self.name = name
             self.networkType = networkType
             self.port = port
@@ -1118,7 +1172,7 @@ public struct CreateDbInstanceInput: Swift.Sendable {
     public var networkType: TimestreamInfluxDBClientTypes.NetworkType?
     /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
     public var organization: Swift.String?
-    /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Secrets Manager in your account.
+    /// The password of the initial admin user created in InfluxDB v2. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Secrets Manager in your account.
     /// This member is required.
     public var password: Swift.String?
     /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
@@ -1207,6 +1261,8 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
     public var influxAuthParametersSecretArn: Swift.String?
     /// Specifies the DbInstance's role in the cluster.
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
+    /// Specifies the DbInstance's roles in the cluster.
+    public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -1241,6 +1297,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
+        instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
         networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -1263,6 +1320,7 @@ public struct CreateDbInstanceOutput: Swift.Sendable {
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
+        self.instanceModes = instanceModes
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
         self.networkType = networkType
@@ -1314,6 +1372,8 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
     public var influxAuthParametersSecretArn: Swift.String?
     /// Specifies the DbInstance's role in the cluster.
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
+    /// Specifies the DbInstance's roles in the cluster.
+    public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -1348,6 +1408,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
+        instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
         networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -1370,6 +1431,7 @@ public struct DeleteDbInstanceOutput: Swift.Sendable {
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
+        self.instanceModes = instanceModes
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
         self.networkType = networkType
@@ -1421,6 +1483,8 @@ public struct GetDbInstanceOutput: Swift.Sendable {
     public var influxAuthParametersSecretArn: Swift.String?
     /// Specifies the DbInstance's role in the cluster.
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
+    /// Specifies the DbInstance's roles in the cluster.
+    public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -1455,6 +1519,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
+        instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
         networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -1477,6 +1542,7 @@ public struct GetDbInstanceOutput: Swift.Sendable {
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
+        self.instanceModes = instanceModes
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
         self.networkType = networkType
@@ -1645,6 +1711,8 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
     public var influxAuthParametersSecretArn: Swift.String?
     /// Specifies the DbInstance's role in the cluster.
     public var instanceMode: TimestreamInfluxDBClientTypes.InstanceMode?
+    /// Specifies the DbInstance's roles in the cluster.
+    public var instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]?
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
     public var logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
@@ -1679,6 +1747,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         id: Swift.String? = nil,
         influxAuthParametersSecretArn: Swift.String? = nil,
         instanceMode: TimestreamInfluxDBClientTypes.InstanceMode? = nil,
+        instanceModes: [TimestreamInfluxDBClientTypes.InstanceMode]? = nil,
         logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration? = nil,
         name: Swift.String? = nil,
         networkType: TimestreamInfluxDBClientTypes.NetworkType? = nil,
@@ -1701,6 +1770,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
         self.id = id
         self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
         self.instanceMode = instanceMode
+        self.instanceModes = instanceModes
         self.logDeliveryConfiguration = logDeliveryConfiguration
         self.name = name
         self.networkType = networkType
@@ -1716,6 +1786,7 @@ public struct UpdateDbInstanceOutput: Swift.Sendable {
 extension TimestreamInfluxDBClientTypes {
 
     public enum DurationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case days
         case hours
         case milliseconds
         case minutes
@@ -1724,6 +1795,7 @@ extension TimestreamInfluxDBClientTypes {
 
         public static var allCases: [DurationType] {
             return [
+                .days,
                 .hours,
                 .milliseconds,
                 .minutes,
@@ -1738,6 +1810,7 @@ extension TimestreamInfluxDBClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .days: return "days"
             case .hours: return "hours"
             case .milliseconds: return "milliseconds"
             case .minutes: return "minutes"
@@ -1804,12 +1877,14 @@ extension TimestreamInfluxDBClientTypes {
 extension TimestreamInfluxDBClientTypes {
 
     public enum TracingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
         case jaeger
         case log
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TracingType] {
             return [
+                .disabled,
                 .jaeger,
                 .log
             ]
@@ -1822,6 +1897,7 @@ extension TimestreamInfluxDBClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .disabled: return "disabled"
             case .jaeger: return "jaeger"
             case .log: return "log"
             case let .sdkUnknown(s): return s
@@ -1979,10 +2055,470 @@ extension TimestreamInfluxDBClientTypes {
 
 extension TimestreamInfluxDBClientTypes {
 
+    public enum DataFusionRuntimeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case multiThread
+        case multiThreadAlt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataFusionRuntimeType] {
+            return [
+                .multiThread,
+                .multiThreadAlt
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .multiThread: return "multi-thread"
+            case .multiThreadAlt: return "multi-thread-alt"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// Percent or Absolute Long for InfluxDB parameters
+    public enum PercentOrAbsoluteLong: Swift.Sendable {
+        /// Percent for InfluxDB parameters.
+        case percent(Swift.String)
+        /// Absolute long for InfluxDB parameters.
+        case absolute(Swift.Int)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    public enum LogFormats: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LogFormats] {
+            return [
+                .full
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "full"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// All the customer-modifiable InfluxDB v3 Core parameters in Timestream for InfluxDB.
+    public struct InfluxDBv3CoreParameters: Swift.Sendable {
+        /// Provides custom configuration to DataFusion as a comma-separated list of key:value pairs.
+        public var dataFusionConfig: Swift.String?
+        /// When multiple parquet files are required in a sorted way (deduplication for example), specifies the maximum fanout. Default: 1000
+        public var dataFusionMaxParquetFanout: Swift.Int?
+        /// Sets the maximum number of DataFusion runtime threads to use.
+        public var dataFusionNumThreads: Swift.Int?
+        /// Disables the LIFO slot of the DataFusion runtime.
+        public var dataFusionRuntimeDisableLifoSlot: Swift.Bool?
+        /// Sets the number of scheduler ticks after which the scheduler of the DataFusion tokio runtime polls for external events–for example: timers, I/O.
+        public var dataFusionRuntimeEventInterval: Swift.Int?
+        /// Sets the number of scheduler ticks after which the scheduler of the DataFusion runtime polls the global task queue.
+        public var dataFusionRuntimeGlobalQueueInterval: Swift.Int?
+        /// Specifies the limit for additional threads spawned by the DataFusion runtime.
+        public var dataFusionRuntimeMaxBlockingThreads: Swift.Int?
+        /// Configures the maximum number of events processed per tick by the tokio DataFusion runtime.
+        public var dataFusionRuntimeMaxIoEventsPerTick: Swift.Int?
+        /// Sets a custom timeout for a thread in the blocking pool of the tokio DataFusion runtime.
+        public var dataFusionRuntimeThreadKeepAlive: TimestreamInfluxDBClientTypes.Duration?
+        /// Sets the thread priority for tokio DataFusion runtime workers. Default: 10
+        public var dataFusionRuntimeThreadPriority: Swift.Int?
+        /// Specifies the DataFusion tokio runtime type. Default: multi-thread
+        public var dataFusionRuntimeType: TimestreamInfluxDBClientTypes.DataFusionRuntimeType?
+        /// Uses a cached parquet loader when reading parquet files from the object store.
+        public var dataFusionUseCachedParquetLoader: Swift.Bool?
+        /// Specifies the grace period before permanently deleting data. Default: 24h
+        public var deleteGracePeriod: TimestreamInfluxDBClientTypes.Duration?
+        /// Disables the in-memory Parquet cache. By default, the cache is enabled.
+        public var disableParquetMemCache: Swift.Bool?
+        /// Specifies the interval to evict expired entries from the distinct value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
+        public var distinctCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the size of memory pool used during query execution. Can be given as absolute value in bytes or as a percentage of the total available memory–for example: 8000000000 or 10%. Default: 20%
+        public var execMemPoolBytes: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
+        /// Specifies the threshold for the internal memory buffer. Supports either a percentage (portion of available memory) or absolute value in MB–for example: 70% or 100 Default: 70%
+        public var forceSnapshotMemThreshold: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
+        /// Specifies the duration that Parquet files are arranged into. Data timestamps land each row into a file of this duration. Supported durations are 1m, 5m, and 10m. These files are known as “generation 1” files that the compactor in InfluxDB 3 Enterprise can merge into larger generations. Default: 10m
+        public var gen1Duration: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies how far back to look when creating generation 1 Parquet files. Default: 24h
+        public var gen1LookbackDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// Sets the default duration for hard deletion of data. Default: 90d
+        public var hardDeleteDefaultDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the interval to evict expired entries from the Last-N-Value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
+        public var lastCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Sets the filter directive for logs.
+        public var logFilter: Swift.String?
+        /// Defines the message format for logs. Default: full
+        public var logFormat: TimestreamInfluxDBClientTypes.LogFormats?
+        /// Specifies the maximum size of HTTP requests. Default: 10485760
+        public var maxHttpRequestSize: Swift.Int?
+        /// Sets the interval to check if the in-memory Parquet cache needs to be pruned. Default: 1s
+        public var parquetMemCachePruneInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the percentage of entries to prune during a prune operation on the in-memory Parquet cache. Default: 0.1
+        public var parquetMemCachePrunePercentage: Swift.Float?
+        /// Specifies the time window for caching recent Parquet files in memory. Default: 5h
+        public var parquetMemCacheQueryPathDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory. Default: 20%
+        public var parquetMemCacheSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
+        /// Specifies the interval to prefetch into the Parquet cache during compaction. Default: 3d
+        public var preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration?
+        /// Limits the number of Parquet files a query can access. If a query attempts to read more than this limit, InfluxDB 3 returns an error. Default: 432
+        public var queryFileLimit: Swift.Int?
+        /// Defines the size of the query log. Up to this many queries remain in the log before older queries are evicted to make room for new ones. Default: 1000
+        public var queryLogSize: Swift.Int?
+        /// The interval at which retention policies are checked and enforced. Enter as a human-readable time–for example: 30m or 1h. Default: 30m
+        public var retentionCheckInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the number of snapshotted WAL files to retain in the object store. Flushing the WAL files does not clear the WAL files immediately; they are deleted when the number of snapshotted WAL files exceeds this number. Default: 300
+        public var snapshottedWalFilesToKeep: Swift.Int?
+        /// Limits the concurrency level for table index cache operations. Default: 8
+        public var tableIndexCacheConcurrencyLimit: Swift.Int?
+        /// Specifies the maximum number of entries in the table index cache. Default: 1000
+        public var tableIndexCacheMaxEntries: Swift.Int?
+        /// Specifies the maximum number of write requests that can be buffered before a flush must be executed and succeed. Default: 100000
+        public var walMaxWriteBufferSize: Swift.Int?
+        /// Concurrency limit during WAL replay. Setting this number too high can lead to OOM. The default is dynamically determined. Default: max(num_cpus, 10)
+        public var walReplayConcurrencyLimit: Swift.Int?
+        /// Determines whether WAL replay should fail when encountering errors. Default: false
+        public var walReplayFailOnError: Swift.Bool?
+        /// Defines the number of WAL files to attempt to remove in a snapshot. This, multiplied by the interval, determines how often snapshots are taken. Default: 600
+        public var walSnapshotSize: Swift.Int?
+
+        public init(
+            dataFusionConfig: Swift.String? = nil,
+            dataFusionMaxParquetFanout: Swift.Int? = nil,
+            dataFusionNumThreads: Swift.Int? = nil,
+            dataFusionRuntimeDisableLifoSlot: Swift.Bool? = nil,
+            dataFusionRuntimeEventInterval: Swift.Int? = nil,
+            dataFusionRuntimeGlobalQueueInterval: Swift.Int? = nil,
+            dataFusionRuntimeMaxBlockingThreads: Swift.Int? = nil,
+            dataFusionRuntimeMaxIoEventsPerTick: Swift.Int? = nil,
+            dataFusionRuntimeThreadKeepAlive: TimestreamInfluxDBClientTypes.Duration? = nil,
+            dataFusionRuntimeThreadPriority: Swift.Int? = nil,
+            dataFusionRuntimeType: TimestreamInfluxDBClientTypes.DataFusionRuntimeType? = nil,
+            dataFusionUseCachedParquetLoader: Swift.Bool? = nil,
+            deleteGracePeriod: TimestreamInfluxDBClientTypes.Duration? = nil,
+            disableParquetMemCache: Swift.Bool? = nil,
+            distinctCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            execMemPoolBytes: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
+            forceSnapshotMemThreshold: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
+            gen1Duration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            gen1LookbackDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            hardDeleteDefaultDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            lastCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            logFilter: Swift.String? = nil,
+            logFormat: TimestreamInfluxDBClientTypes.LogFormats? = nil,
+            maxHttpRequestSize: Swift.Int? = nil,
+            parquetMemCachePruneInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            parquetMemCachePrunePercentage: Swift.Float? = nil,
+            parquetMemCacheQueryPathDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            parquetMemCacheSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
+            preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration? = nil,
+            queryFileLimit: Swift.Int? = nil,
+            queryLogSize: Swift.Int? = nil,
+            retentionCheckInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            snapshottedWalFilesToKeep: Swift.Int? = nil,
+            tableIndexCacheConcurrencyLimit: Swift.Int? = nil,
+            tableIndexCacheMaxEntries: Swift.Int? = nil,
+            walMaxWriteBufferSize: Swift.Int? = nil,
+            walReplayConcurrencyLimit: Swift.Int? = nil,
+            walReplayFailOnError: Swift.Bool? = nil,
+            walSnapshotSize: Swift.Int? = nil
+        ) {
+            self.dataFusionConfig = dataFusionConfig
+            self.dataFusionMaxParquetFanout = dataFusionMaxParquetFanout
+            self.dataFusionNumThreads = dataFusionNumThreads
+            self.dataFusionRuntimeDisableLifoSlot = dataFusionRuntimeDisableLifoSlot
+            self.dataFusionRuntimeEventInterval = dataFusionRuntimeEventInterval
+            self.dataFusionRuntimeGlobalQueueInterval = dataFusionRuntimeGlobalQueueInterval
+            self.dataFusionRuntimeMaxBlockingThreads = dataFusionRuntimeMaxBlockingThreads
+            self.dataFusionRuntimeMaxIoEventsPerTick = dataFusionRuntimeMaxIoEventsPerTick
+            self.dataFusionRuntimeThreadKeepAlive = dataFusionRuntimeThreadKeepAlive
+            self.dataFusionRuntimeThreadPriority = dataFusionRuntimeThreadPriority
+            self.dataFusionRuntimeType = dataFusionRuntimeType
+            self.dataFusionUseCachedParquetLoader = dataFusionUseCachedParquetLoader
+            self.deleteGracePeriod = deleteGracePeriod
+            self.disableParquetMemCache = disableParquetMemCache
+            self.distinctCacheEvictionInterval = distinctCacheEvictionInterval
+            self.execMemPoolBytes = execMemPoolBytes
+            self.forceSnapshotMemThreshold = forceSnapshotMemThreshold
+            self.gen1Duration = gen1Duration
+            self.gen1LookbackDuration = gen1LookbackDuration
+            self.hardDeleteDefaultDuration = hardDeleteDefaultDuration
+            self.lastCacheEvictionInterval = lastCacheEvictionInterval
+            self.logFilter = logFilter
+            self.logFormat = logFormat
+            self.maxHttpRequestSize = maxHttpRequestSize
+            self.parquetMemCachePruneInterval = parquetMemCachePruneInterval
+            self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
+            self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
+            self.parquetMemCacheSize = parquetMemCacheSize
+            self.preemptiveCacheAge = preemptiveCacheAge
+            self.queryFileLimit = queryFileLimit
+            self.queryLogSize = queryLogSize
+            self.retentionCheckInterval = retentionCheckInterval
+            self.snapshottedWalFilesToKeep = snapshottedWalFilesToKeep
+            self.tableIndexCacheConcurrencyLimit = tableIndexCacheConcurrencyLimit
+            self.tableIndexCacheMaxEntries = tableIndexCacheMaxEntries
+            self.walMaxWriteBufferSize = walMaxWriteBufferSize
+            self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
+            self.walReplayFailOnError = walReplayFailOnError
+            self.walSnapshotSize = walSnapshotSize
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
+    /// All the customer-modifiable InfluxDB v3 Enterprise parameters in Timestream for InfluxDB.
+    public struct InfluxDBv3EnterpriseParameters: Swift.Sendable {
+        /// Defines how often the catalog synchronizes across cluster nodes. Default: 10s
+        public var catalogSyncInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies how often the compactor checks for new compaction work to perform. Default: 10s
+        public var compactionCheckInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the amount of time that the compactor waits after finishing a compaction run to delete files marked as needing deletion during that compaction run. Default: 10m
+        public var compactionCleanupWait: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the duration of the first level of compaction (gen2). Later levels of compaction are multiples of this duration. This value should be equal to or greater than the gen1 duration. Default: 20m
+        public var compactionGen2Duration: TimestreamInfluxDBClientTypes.Duration?
+        /// Sets the maximum number of files included in any compaction plan. Default: 500
+        public var compactionMaxNumFilesPerPlan: Swift.Int?
+        /// Specifies a comma-separated list of multiples defining the duration of each level of compaction. The number of elements in the list determines the number of compaction levels. The first element specifies the duration of the first level (gen3); subsequent levels are multiples of the previous level. Default: 3,4,6,5
+        public var compactionMultipliers: Swift.String?
+        /// Specifies the soft limit for the number of rows per file that the compactor writes. The compactor may write more rows than this limit. Default: 1000000
+        public var compactionRowLimit: Swift.Int?
+        /// Provides custom configuration to DataFusion as a comma-separated list of key:value pairs.
+        public var dataFusionConfig: Swift.String?
+        /// When multiple parquet files are required in a sorted way (deduplication for example), specifies the maximum fanout. Default: 1000
+        public var dataFusionMaxParquetFanout: Swift.Int?
+        /// Sets the maximum number of DataFusion runtime threads to use.
+        public var dataFusionNumThreads: Swift.Int?
+        /// Disables the LIFO slot of the DataFusion runtime.
+        public var dataFusionRuntimeDisableLifoSlot: Swift.Bool?
+        /// Sets the number of scheduler ticks after which the scheduler of the DataFusion tokio runtime polls for external events–for example: timers, I/O.
+        public var dataFusionRuntimeEventInterval: Swift.Int?
+        /// Sets the number of scheduler ticks after which the scheduler of the DataFusion runtime polls the global task queue.
+        public var dataFusionRuntimeGlobalQueueInterval: Swift.Int?
+        /// Specifies the limit for additional threads spawned by the DataFusion runtime.
+        public var dataFusionRuntimeMaxBlockingThreads: Swift.Int?
+        /// Configures the maximum number of events processed per tick by the tokio DataFusion runtime.
+        public var dataFusionRuntimeMaxIoEventsPerTick: Swift.Int?
+        /// Sets a custom timeout for a thread in the blocking pool of the tokio DataFusion runtime.
+        public var dataFusionRuntimeThreadKeepAlive: TimestreamInfluxDBClientTypes.Duration?
+        /// Sets the thread priority for tokio DataFusion runtime workers. Default: 10
+        public var dataFusionRuntimeThreadPriority: Swift.Int?
+        /// Specifies the DataFusion tokio runtime type. Default: multi-thread
+        public var dataFusionRuntimeType: TimestreamInfluxDBClientTypes.DataFusionRuntimeType?
+        /// Uses a cached parquet loader when reading parquet files from the object store.
+        public var dataFusionUseCachedParquetLoader: Swift.Bool?
+        /// Specifies if the compactor instance should be a standalone instance or not.
+        /// This member is required.
+        public var dedicatedCompactor: Swift.Bool?
+        /// Specifies the grace period before permanently deleting data. Default: 24h
+        public var deleteGracePeriod: TimestreamInfluxDBClientTypes.Duration?
+        /// Disables the in-memory Parquet cache. By default, the cache is enabled.
+        public var disableParquetMemCache: Swift.Bool?
+        /// Specifies the interval to evict expired entries from the distinct value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
+        public var distinctCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Disables populating the distinct value cache from historical data. If disabled, the cache is still populated with data from the write-ahead log (WAL).
+        public var distinctValueCacheDisableFromHistory: Swift.Bool?
+        /// Specifies the size of memory pool used during query execution. Can be given as absolute value in bytes or as a percentage of the total available memory–for example: 8000000000 or 10%. Default: 20%
+        public var execMemPoolBytes: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
+        /// Specifies the threshold for the internal memory buffer. Supports either a percentage (portion of available memory) or absolute value in MB–for example: 70% or 100 Default: 70%
+        public var forceSnapshotMemThreshold: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
+        /// Specifies the duration that Parquet files are arranged into. Data timestamps land each row into a file of this duration. Supported durations are 1m, 5m, and 10m. These files are known as “generation 1” files, which the compactor can merge into larger generations. Default: 10m
+        public var gen1Duration: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies how far back to look when creating generation 1 Parquet files. Default: 24h
+        public var gen1LookbackDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// Sets the default duration for hard deletion of data. Default: 90d
+        public var hardDeleteDefaultDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies number of instances in the DbCluster which can both ingest and query.
+        /// This member is required.
+        public var ingestQueryInstances: Swift.Int?
+        /// Specifies the interval to evict expired entries from the Last-N-Value cache, expressed as a human-readable duration–for example: 20s, 1m, 1h. Default: 10s
+        public var lastCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Disables populating the last-N-value cache from historical data. If disabled, the cache is still populated with data from the write-ahead log (WAL).
+        public var lastValueCacheDisableFromHistory: Swift.Bool?
+        /// Sets the filter directive for logs.
+        public var logFilter: Swift.String?
+        /// Defines the message format for logs. Default: full
+        public var logFormat: TimestreamInfluxDBClientTypes.LogFormats?
+        /// Specifies the maximum size of HTTP requests. Default: 10485760
+        public var maxHttpRequestSize: Swift.Int?
+        /// Sets the interval to check if the in-memory Parquet cache needs to be pruned. Default: 1s
+        public var parquetMemCachePruneInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the percentage of entries to prune during a prune operation on the in-memory Parquet cache. Default: 0.1
+        public var parquetMemCachePrunePercentage: Swift.Float?
+        /// Specifies the time window for caching recent Parquet files in memory. Default: 5h
+        public var parquetMemCacheQueryPathDuration: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the size of the in-memory Parquet cache in megabytes or percentage of total available memory. Default: 20%
+        public var parquetMemCacheSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?
+        /// Specifies the interval to prefetch into the Parquet cache during compaction. Default: 3d
+        public var preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration?
+        /// Limits the number of Parquet files a query can access. If a query attempts to read more than this limit, InfluxDB 3 returns an error. Default: 432
+        public var queryFileLimit: Swift.Int?
+        /// Defines the size of the query log. Up to this many queries remain in the log before older queries are evicted to make room for new ones. Default: 1000
+        public var queryLogSize: Swift.Int?
+        /// Specifies number of instances in the DbCluster which can only query.
+        /// This member is required.
+        public var queryOnlyInstances: Swift.Int?
+        /// Specifies the interval at which data replication occurs between cluster nodes. Default: 250ms
+        public var replicationInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// The interval at which retention policies are checked and enforced. Enter as a human-readable time–for example: 30m or 1h. Default: 30m
+        public var retentionCheckInterval: TimestreamInfluxDBClientTypes.Duration?
+        /// Specifies the number of snapshotted WAL files to retain in the object store. Flushing the WAL files does not clear the WAL files immediately; they are deleted when the number of snapshotted WAL files exceeds this number. Default: 300
+        public var snapshottedWalFilesToKeep: Swift.Int?
+        /// Limits the concurrency level for table index cache operations. Default: 8
+        public var tableIndexCacheConcurrencyLimit: Swift.Int?
+        /// Specifies the maximum number of entries in the table index cache. Default: 1000
+        public var tableIndexCacheMaxEntries: Swift.Int?
+        /// Specifies the maximum number of write requests that can be buffered before a flush must be executed and succeed. Default: 100000
+        public var walMaxWriteBufferSize: Swift.Int?
+        /// Concurrency limit during WAL replay. Setting this number too high can lead to OOM. The default is dynamically determined. Default: max(num_cpus, 10)
+        public var walReplayConcurrencyLimit: Swift.Int?
+        /// Determines whether WAL replay should fail when encountering errors. Default: false
+        public var walReplayFailOnError: Swift.Bool?
+        /// Defines the number of WAL files to attempt to remove in a snapshot. This, multiplied by the interval, determines how often snapshots are taken. Default: 600
+        public var walSnapshotSize: Swift.Int?
+
+        public init(
+            catalogSyncInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            compactionCheckInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            compactionCleanupWait: TimestreamInfluxDBClientTypes.Duration? = nil,
+            compactionGen2Duration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            compactionMaxNumFilesPerPlan: Swift.Int? = nil,
+            compactionMultipliers: Swift.String? = nil,
+            compactionRowLimit: Swift.Int? = nil,
+            dataFusionConfig: Swift.String? = nil,
+            dataFusionMaxParquetFanout: Swift.Int? = nil,
+            dataFusionNumThreads: Swift.Int? = nil,
+            dataFusionRuntimeDisableLifoSlot: Swift.Bool? = nil,
+            dataFusionRuntimeEventInterval: Swift.Int? = nil,
+            dataFusionRuntimeGlobalQueueInterval: Swift.Int? = nil,
+            dataFusionRuntimeMaxBlockingThreads: Swift.Int? = nil,
+            dataFusionRuntimeMaxIoEventsPerTick: Swift.Int? = nil,
+            dataFusionRuntimeThreadKeepAlive: TimestreamInfluxDBClientTypes.Duration? = nil,
+            dataFusionRuntimeThreadPriority: Swift.Int? = nil,
+            dataFusionRuntimeType: TimestreamInfluxDBClientTypes.DataFusionRuntimeType? = nil,
+            dataFusionUseCachedParquetLoader: Swift.Bool? = nil,
+            dedicatedCompactor: Swift.Bool? = nil,
+            deleteGracePeriod: TimestreamInfluxDBClientTypes.Duration? = nil,
+            disableParquetMemCache: Swift.Bool? = nil,
+            distinctCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            distinctValueCacheDisableFromHistory: Swift.Bool? = nil,
+            execMemPoolBytes: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
+            forceSnapshotMemThreshold: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
+            gen1Duration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            gen1LookbackDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            hardDeleteDefaultDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            ingestQueryInstances: Swift.Int? = nil,
+            lastCacheEvictionInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            lastValueCacheDisableFromHistory: Swift.Bool? = nil,
+            logFilter: Swift.String? = nil,
+            logFormat: TimestreamInfluxDBClientTypes.LogFormats? = nil,
+            maxHttpRequestSize: Swift.Int? = nil,
+            parquetMemCachePruneInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            parquetMemCachePrunePercentage: Swift.Float? = nil,
+            parquetMemCacheQueryPathDuration: TimestreamInfluxDBClientTypes.Duration? = nil,
+            parquetMemCacheSize: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong? = nil,
+            preemptiveCacheAge: TimestreamInfluxDBClientTypes.Duration? = nil,
+            queryFileLimit: Swift.Int? = nil,
+            queryLogSize: Swift.Int? = nil,
+            queryOnlyInstances: Swift.Int? = nil,
+            replicationInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            retentionCheckInterval: TimestreamInfluxDBClientTypes.Duration? = nil,
+            snapshottedWalFilesToKeep: Swift.Int? = nil,
+            tableIndexCacheConcurrencyLimit: Swift.Int? = nil,
+            tableIndexCacheMaxEntries: Swift.Int? = nil,
+            walMaxWriteBufferSize: Swift.Int? = nil,
+            walReplayConcurrencyLimit: Swift.Int? = nil,
+            walReplayFailOnError: Swift.Bool? = nil,
+            walSnapshotSize: Swift.Int? = nil
+        ) {
+            self.catalogSyncInterval = catalogSyncInterval
+            self.compactionCheckInterval = compactionCheckInterval
+            self.compactionCleanupWait = compactionCleanupWait
+            self.compactionGen2Duration = compactionGen2Duration
+            self.compactionMaxNumFilesPerPlan = compactionMaxNumFilesPerPlan
+            self.compactionMultipliers = compactionMultipliers
+            self.compactionRowLimit = compactionRowLimit
+            self.dataFusionConfig = dataFusionConfig
+            self.dataFusionMaxParquetFanout = dataFusionMaxParquetFanout
+            self.dataFusionNumThreads = dataFusionNumThreads
+            self.dataFusionRuntimeDisableLifoSlot = dataFusionRuntimeDisableLifoSlot
+            self.dataFusionRuntimeEventInterval = dataFusionRuntimeEventInterval
+            self.dataFusionRuntimeGlobalQueueInterval = dataFusionRuntimeGlobalQueueInterval
+            self.dataFusionRuntimeMaxBlockingThreads = dataFusionRuntimeMaxBlockingThreads
+            self.dataFusionRuntimeMaxIoEventsPerTick = dataFusionRuntimeMaxIoEventsPerTick
+            self.dataFusionRuntimeThreadKeepAlive = dataFusionRuntimeThreadKeepAlive
+            self.dataFusionRuntimeThreadPriority = dataFusionRuntimeThreadPriority
+            self.dataFusionRuntimeType = dataFusionRuntimeType
+            self.dataFusionUseCachedParquetLoader = dataFusionUseCachedParquetLoader
+            self.dedicatedCompactor = dedicatedCompactor
+            self.deleteGracePeriod = deleteGracePeriod
+            self.disableParquetMemCache = disableParquetMemCache
+            self.distinctCacheEvictionInterval = distinctCacheEvictionInterval
+            self.distinctValueCacheDisableFromHistory = distinctValueCacheDisableFromHistory
+            self.execMemPoolBytes = execMemPoolBytes
+            self.forceSnapshotMemThreshold = forceSnapshotMemThreshold
+            self.gen1Duration = gen1Duration
+            self.gen1LookbackDuration = gen1LookbackDuration
+            self.hardDeleteDefaultDuration = hardDeleteDefaultDuration
+            self.ingestQueryInstances = ingestQueryInstances
+            self.lastCacheEvictionInterval = lastCacheEvictionInterval
+            self.lastValueCacheDisableFromHistory = lastValueCacheDisableFromHistory
+            self.logFilter = logFilter
+            self.logFormat = logFormat
+            self.maxHttpRequestSize = maxHttpRequestSize
+            self.parquetMemCachePruneInterval = parquetMemCachePruneInterval
+            self.parquetMemCachePrunePercentage = parquetMemCachePrunePercentage
+            self.parquetMemCacheQueryPathDuration = parquetMemCacheQueryPathDuration
+            self.parquetMemCacheSize = parquetMemCacheSize
+            self.preemptiveCacheAge = preemptiveCacheAge
+            self.queryFileLimit = queryFileLimit
+            self.queryLogSize = queryLogSize
+            self.queryOnlyInstances = queryOnlyInstances
+            self.replicationInterval = replicationInterval
+            self.retentionCheckInterval = retentionCheckInterval
+            self.snapshottedWalFilesToKeep = snapshottedWalFilesToKeep
+            self.tableIndexCacheConcurrencyLimit = tableIndexCacheConcurrencyLimit
+            self.tableIndexCacheMaxEntries = tableIndexCacheMaxEntries
+            self.walMaxWriteBufferSize = walMaxWriteBufferSize
+            self.walReplayConcurrencyLimit = walReplayConcurrencyLimit
+            self.walReplayFailOnError = walReplayFailOnError
+            self.walSnapshotSize = walSnapshotSize
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes {
+
     /// The parameters that comprise the parameter group.
     public enum Parameters: Swift.Sendable {
         /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
         case influxdbv2(TimestreamInfluxDBClientTypes.InfluxDBv2Parameters)
+        /// All the customer-modifiable InfluxDB v3 Core parameters in Timestream for InfluxDB.
+        case influxdbv3core(TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters)
+        /// All the customer-modifiable InfluxDB v3 Enterprise parameters in Timestream for InfluxDB.
+        case influxdbv3enterprise(TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2543,6 +3079,7 @@ extension CreateDbInstanceOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.instanceMode = try reader["instanceMode"].readIfPresent()
+        value.instanceModes = try reader["instanceModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TimestreamInfluxDBClientTypes.InstanceMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkType = try reader["networkType"].readIfPresent()
@@ -2603,6 +3140,7 @@ extension DeleteDbInstanceOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.instanceMode = try reader["instanceMode"].readIfPresent()
+        value.instanceModes = try reader["instanceModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TimestreamInfluxDBClientTypes.InstanceMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkType = try reader["networkType"].readIfPresent()
@@ -2630,6 +3168,7 @@ extension GetDbClusterOutput {
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.deploymentType = try reader["deploymentType"].readIfPresent()
         value.endpoint = try reader["endpoint"].readIfPresent()
+        value.engineType = try reader["engineType"].readIfPresent()
         value.failoverMode = try reader["failoverMode"].readIfPresent()
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
@@ -2665,6 +3204,7 @@ extension GetDbInstanceOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.instanceMode = try reader["instanceMode"].readIfPresent()
+        value.instanceModes = try reader["instanceModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TimestreamInfluxDBClientTypes.InstanceMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkType = try reader["networkType"].readIfPresent()
@@ -2803,6 +3343,7 @@ extension UpdateDbInstanceOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.influxAuthParametersSecretArn = try reader["influxAuthParametersSecretArn"].readIfPresent()
         value.instanceMode = try reader["instanceMode"].readIfPresent()
+        value.instanceModes = try reader["instanceModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TimestreamInfluxDBClientTypes.InstanceMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logDeliveryConfiguration = try reader["logDeliveryConfiguration"].readIfPresent(with: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration.read(from:))
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkType = try reader["networkType"].readIfPresent()
@@ -3260,6 +3801,10 @@ extension TimestreamInfluxDBClientTypes.Parameters {
         switch value {
             case let .influxdbv2(influxdbv2):
                 try writer["InfluxDBv2"].write(influxdbv2, with: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters.write(value:to:))
+            case let .influxdbv3core(influxdbv3core):
+                try writer["InfluxDBv3Core"].write(influxdbv3core, with: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters.write(value:to:))
+            case let .influxdbv3enterprise(influxdbv3enterprise):
+                try writer["InfluxDBv3Enterprise"].write(influxdbv3enterprise, with: TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -3271,9 +3816,266 @@ extension TimestreamInfluxDBClientTypes.Parameters {
         switch name {
             case "InfluxDBv2":
                 return .influxdbv2(try reader["InfluxDBv2"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters.read(from:)))
+            case "InfluxDBv3Core":
+                return .influxdbv3core(try reader["InfluxDBv3Core"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters.read(from:)))
+            case "InfluxDBv3Enterprise":
+                return .influxdbv3enterprise(try reader["InfluxDBv3Enterprise"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters {
+
+    static func write(value: TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["catalogSyncInterval"].write(value.catalogSyncInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["compactionCheckInterval"].write(value.compactionCheckInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["compactionCleanupWait"].write(value.compactionCleanupWait, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["compactionGen2Duration"].write(value.compactionGen2Duration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["compactionMaxNumFilesPerPlan"].write(value.compactionMaxNumFilesPerPlan)
+        try writer["compactionMultipliers"].write(value.compactionMultipliers)
+        try writer["compactionRowLimit"].write(value.compactionRowLimit)
+        try writer["dataFusionConfig"].write(value.dataFusionConfig)
+        try writer["dataFusionMaxParquetFanout"].write(value.dataFusionMaxParquetFanout)
+        try writer["dataFusionNumThreads"].write(value.dataFusionNumThreads)
+        try writer["dataFusionRuntimeDisableLifoSlot"].write(value.dataFusionRuntimeDisableLifoSlot)
+        try writer["dataFusionRuntimeEventInterval"].write(value.dataFusionRuntimeEventInterval)
+        try writer["dataFusionRuntimeGlobalQueueInterval"].write(value.dataFusionRuntimeGlobalQueueInterval)
+        try writer["dataFusionRuntimeMaxBlockingThreads"].write(value.dataFusionRuntimeMaxBlockingThreads)
+        try writer["dataFusionRuntimeMaxIoEventsPerTick"].write(value.dataFusionRuntimeMaxIoEventsPerTick)
+        try writer["dataFusionRuntimeThreadKeepAlive"].write(value.dataFusionRuntimeThreadKeepAlive, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["dataFusionRuntimeThreadPriority"].write(value.dataFusionRuntimeThreadPriority)
+        try writer["dataFusionRuntimeType"].write(value.dataFusionRuntimeType)
+        try writer["dataFusionUseCachedParquetLoader"].write(value.dataFusionUseCachedParquetLoader)
+        try writer["dedicatedCompactor"].write(value.dedicatedCompactor)
+        try writer["deleteGracePeriod"].write(value.deleteGracePeriod, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["disableParquetMemCache"].write(value.disableParquetMemCache)
+        try writer["distinctCacheEvictionInterval"].write(value.distinctCacheEvictionInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["distinctValueCacheDisableFromHistory"].write(value.distinctValueCacheDisableFromHistory)
+        try writer["execMemPoolBytes"].write(value.execMemPoolBytes, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["forceSnapshotMemThreshold"].write(value.forceSnapshotMemThreshold, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["gen1Duration"].write(value.gen1Duration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["gen1LookbackDuration"].write(value.gen1LookbackDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["hardDeleteDefaultDuration"].write(value.hardDeleteDefaultDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["ingestQueryInstances"].write(value.ingestQueryInstances)
+        try writer["lastCacheEvictionInterval"].write(value.lastCacheEvictionInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["lastValueCacheDisableFromHistory"].write(value.lastValueCacheDisableFromHistory)
+        try writer["logFilter"].write(value.logFilter)
+        try writer["logFormat"].write(value.logFormat)
+        try writer["maxHttpRequestSize"].write(value.maxHttpRequestSize)
+        try writer["parquetMemCachePruneInterval"].write(value.parquetMemCachePruneInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["parquetMemCachePrunePercentage"].write(value.parquetMemCachePrunePercentage)
+        try writer["parquetMemCacheQueryPathDuration"].write(value.parquetMemCacheQueryPathDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["parquetMemCacheSize"].write(value.parquetMemCacheSize, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["preemptiveCacheAge"].write(value.preemptiveCacheAge, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["queryFileLimit"].write(value.queryFileLimit)
+        try writer["queryLogSize"].write(value.queryLogSize)
+        try writer["queryOnlyInstances"].write(value.queryOnlyInstances)
+        try writer["replicationInterval"].write(value.replicationInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["retentionCheckInterval"].write(value.retentionCheckInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["snapshottedWalFilesToKeep"].write(value.snapshottedWalFilesToKeep)
+        try writer["tableIndexCacheConcurrencyLimit"].write(value.tableIndexCacheConcurrencyLimit)
+        try writer["tableIndexCacheMaxEntries"].write(value.tableIndexCacheMaxEntries)
+        try writer["walMaxWriteBufferSize"].write(value.walMaxWriteBufferSize)
+        try writer["walReplayConcurrencyLimit"].write(value.walReplayConcurrencyLimit)
+        try writer["walReplayFailOnError"].write(value.walReplayFailOnError)
+        try writer["walSnapshotSize"].write(value.walSnapshotSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters()
+        value.queryFileLimit = try reader["queryFileLimit"].readIfPresent()
+        value.queryLogSize = try reader["queryLogSize"].readIfPresent()
+        value.logFilter = try reader["logFilter"].readIfPresent()
+        value.logFormat = try reader["logFormat"].readIfPresent()
+        value.dataFusionNumThreads = try reader["dataFusionNumThreads"].readIfPresent()
+        value.dataFusionRuntimeType = try reader["dataFusionRuntimeType"].readIfPresent()
+        value.dataFusionRuntimeDisableLifoSlot = try reader["dataFusionRuntimeDisableLifoSlot"].readIfPresent()
+        value.dataFusionRuntimeEventInterval = try reader["dataFusionRuntimeEventInterval"].readIfPresent()
+        value.dataFusionRuntimeGlobalQueueInterval = try reader["dataFusionRuntimeGlobalQueueInterval"].readIfPresent()
+        value.dataFusionRuntimeMaxBlockingThreads = try reader["dataFusionRuntimeMaxBlockingThreads"].readIfPresent()
+        value.dataFusionRuntimeMaxIoEventsPerTick = try reader["dataFusionRuntimeMaxIoEventsPerTick"].readIfPresent()
+        value.dataFusionRuntimeThreadKeepAlive = try reader["dataFusionRuntimeThreadKeepAlive"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.dataFusionRuntimeThreadPriority = try reader["dataFusionRuntimeThreadPriority"].readIfPresent()
+        value.dataFusionMaxParquetFanout = try reader["dataFusionMaxParquetFanout"].readIfPresent()
+        value.dataFusionUseCachedParquetLoader = try reader["dataFusionUseCachedParquetLoader"].readIfPresent()
+        value.dataFusionConfig = try reader["dataFusionConfig"].readIfPresent()
+        value.maxHttpRequestSize = try reader["maxHttpRequestSize"].readIfPresent()
+        value.forceSnapshotMemThreshold = try reader["forceSnapshotMemThreshold"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.walSnapshotSize = try reader["walSnapshotSize"].readIfPresent()
+        value.walMaxWriteBufferSize = try reader["walMaxWriteBufferSize"].readIfPresent()
+        value.snapshottedWalFilesToKeep = try reader["snapshottedWalFilesToKeep"].readIfPresent()
+        value.preemptiveCacheAge = try reader["preemptiveCacheAge"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.parquetMemCachePrunePercentage = try reader["parquetMemCachePrunePercentage"].readIfPresent()
+        value.parquetMemCachePruneInterval = try reader["parquetMemCachePruneInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.disableParquetMemCache = try reader["disableParquetMemCache"].readIfPresent()
+        value.parquetMemCacheQueryPathDuration = try reader["parquetMemCacheQueryPathDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.lastCacheEvictionInterval = try reader["lastCacheEvictionInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.distinctCacheEvictionInterval = try reader["distinctCacheEvictionInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.gen1Duration = try reader["gen1Duration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.execMemPoolBytes = try reader["execMemPoolBytes"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.parquetMemCacheSize = try reader["parquetMemCacheSize"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.walReplayFailOnError = try reader["walReplayFailOnError"].readIfPresent()
+        value.walReplayConcurrencyLimit = try reader["walReplayConcurrencyLimit"].readIfPresent()
+        value.tableIndexCacheMaxEntries = try reader["tableIndexCacheMaxEntries"].readIfPresent()
+        value.tableIndexCacheConcurrencyLimit = try reader["tableIndexCacheConcurrencyLimit"].readIfPresent()
+        value.gen1LookbackDuration = try reader["gen1LookbackDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.retentionCheckInterval = try reader["retentionCheckInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.deleteGracePeriod = try reader["deleteGracePeriod"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.hardDeleteDefaultDuration = try reader["hardDeleteDefaultDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.ingestQueryInstances = try reader["ingestQueryInstances"].readIfPresent() ?? 0
+        value.queryOnlyInstances = try reader["queryOnlyInstances"].readIfPresent() ?? 0
+        value.dedicatedCompactor = try reader["dedicatedCompactor"].readIfPresent() ?? false
+        value.compactionRowLimit = try reader["compactionRowLimit"].readIfPresent()
+        value.compactionMaxNumFilesPerPlan = try reader["compactionMaxNumFilesPerPlan"].readIfPresent()
+        value.compactionGen2Duration = try reader["compactionGen2Duration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.compactionMultipliers = try reader["compactionMultipliers"].readIfPresent()
+        value.compactionCleanupWait = try reader["compactionCleanupWait"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.compactionCheckInterval = try reader["compactionCheckInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.lastValueCacheDisableFromHistory = try reader["lastValueCacheDisableFromHistory"].readIfPresent()
+        value.distinctValueCacheDisableFromHistory = try reader["distinctValueCacheDisableFromHistory"].readIfPresent()
+        value.replicationInterval = try reader["replicationInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.catalogSyncInterval = try reader["catalogSyncInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.Duration {
+
+    static func write(value: TimestreamInfluxDBClientTypes.Duration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["durationType"].write(value.durationType)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.Duration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.Duration()
+        value.durationType = try reader["durationType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong {
+
+    static func write(value: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .absolute(absolute):
+                try writer["absolute"].write(absolute)
+            case let .percent(percent):
+                try writer["percent"].write(percent)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "percent":
+                return .percent(try reader["percent"].read())
+            case "absolute":
+                return .absolute(try reader["absolute"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters {
+
+    static func write(value: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataFusionConfig"].write(value.dataFusionConfig)
+        try writer["dataFusionMaxParquetFanout"].write(value.dataFusionMaxParquetFanout)
+        try writer["dataFusionNumThreads"].write(value.dataFusionNumThreads)
+        try writer["dataFusionRuntimeDisableLifoSlot"].write(value.dataFusionRuntimeDisableLifoSlot)
+        try writer["dataFusionRuntimeEventInterval"].write(value.dataFusionRuntimeEventInterval)
+        try writer["dataFusionRuntimeGlobalQueueInterval"].write(value.dataFusionRuntimeGlobalQueueInterval)
+        try writer["dataFusionRuntimeMaxBlockingThreads"].write(value.dataFusionRuntimeMaxBlockingThreads)
+        try writer["dataFusionRuntimeMaxIoEventsPerTick"].write(value.dataFusionRuntimeMaxIoEventsPerTick)
+        try writer["dataFusionRuntimeThreadKeepAlive"].write(value.dataFusionRuntimeThreadKeepAlive, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["dataFusionRuntimeThreadPriority"].write(value.dataFusionRuntimeThreadPriority)
+        try writer["dataFusionRuntimeType"].write(value.dataFusionRuntimeType)
+        try writer["dataFusionUseCachedParquetLoader"].write(value.dataFusionUseCachedParquetLoader)
+        try writer["deleteGracePeriod"].write(value.deleteGracePeriod, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["disableParquetMemCache"].write(value.disableParquetMemCache)
+        try writer["distinctCacheEvictionInterval"].write(value.distinctCacheEvictionInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["execMemPoolBytes"].write(value.execMemPoolBytes, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["forceSnapshotMemThreshold"].write(value.forceSnapshotMemThreshold, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["gen1Duration"].write(value.gen1Duration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["gen1LookbackDuration"].write(value.gen1LookbackDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["hardDeleteDefaultDuration"].write(value.hardDeleteDefaultDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["lastCacheEvictionInterval"].write(value.lastCacheEvictionInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["logFilter"].write(value.logFilter)
+        try writer["logFormat"].write(value.logFormat)
+        try writer["maxHttpRequestSize"].write(value.maxHttpRequestSize)
+        try writer["parquetMemCachePruneInterval"].write(value.parquetMemCachePruneInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["parquetMemCachePrunePercentage"].write(value.parquetMemCachePrunePercentage)
+        try writer["parquetMemCacheQueryPathDuration"].write(value.parquetMemCacheQueryPathDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["parquetMemCacheSize"].write(value.parquetMemCacheSize, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["preemptiveCacheAge"].write(value.preemptiveCacheAge, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["queryFileLimit"].write(value.queryFileLimit)
+        try writer["queryLogSize"].write(value.queryLogSize)
+        try writer["retentionCheckInterval"].write(value.retentionCheckInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["snapshottedWalFilesToKeep"].write(value.snapshottedWalFilesToKeep)
+        try writer["tableIndexCacheConcurrencyLimit"].write(value.tableIndexCacheConcurrencyLimit)
+        try writer["tableIndexCacheMaxEntries"].write(value.tableIndexCacheMaxEntries)
+        try writer["walMaxWriteBufferSize"].write(value.walMaxWriteBufferSize)
+        try writer["walReplayConcurrencyLimit"].write(value.walReplayConcurrencyLimit)
+        try writer["walReplayFailOnError"].write(value.walReplayFailOnError)
+        try writer["walSnapshotSize"].write(value.walSnapshotSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters()
+        value.queryFileLimit = try reader["queryFileLimit"].readIfPresent()
+        value.queryLogSize = try reader["queryLogSize"].readIfPresent()
+        value.logFilter = try reader["logFilter"].readIfPresent()
+        value.logFormat = try reader["logFormat"].readIfPresent()
+        value.dataFusionNumThreads = try reader["dataFusionNumThreads"].readIfPresent()
+        value.dataFusionRuntimeType = try reader["dataFusionRuntimeType"].readIfPresent()
+        value.dataFusionRuntimeDisableLifoSlot = try reader["dataFusionRuntimeDisableLifoSlot"].readIfPresent()
+        value.dataFusionRuntimeEventInterval = try reader["dataFusionRuntimeEventInterval"].readIfPresent()
+        value.dataFusionRuntimeGlobalQueueInterval = try reader["dataFusionRuntimeGlobalQueueInterval"].readIfPresent()
+        value.dataFusionRuntimeMaxBlockingThreads = try reader["dataFusionRuntimeMaxBlockingThreads"].readIfPresent()
+        value.dataFusionRuntimeMaxIoEventsPerTick = try reader["dataFusionRuntimeMaxIoEventsPerTick"].readIfPresent()
+        value.dataFusionRuntimeThreadKeepAlive = try reader["dataFusionRuntimeThreadKeepAlive"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.dataFusionRuntimeThreadPriority = try reader["dataFusionRuntimeThreadPriority"].readIfPresent()
+        value.dataFusionMaxParquetFanout = try reader["dataFusionMaxParquetFanout"].readIfPresent()
+        value.dataFusionUseCachedParquetLoader = try reader["dataFusionUseCachedParquetLoader"].readIfPresent()
+        value.dataFusionConfig = try reader["dataFusionConfig"].readIfPresent()
+        value.maxHttpRequestSize = try reader["maxHttpRequestSize"].readIfPresent()
+        value.forceSnapshotMemThreshold = try reader["forceSnapshotMemThreshold"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.walSnapshotSize = try reader["walSnapshotSize"].readIfPresent()
+        value.walMaxWriteBufferSize = try reader["walMaxWriteBufferSize"].readIfPresent()
+        value.snapshottedWalFilesToKeep = try reader["snapshottedWalFilesToKeep"].readIfPresent()
+        value.preemptiveCacheAge = try reader["preemptiveCacheAge"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.parquetMemCachePrunePercentage = try reader["parquetMemCachePrunePercentage"].readIfPresent()
+        value.parquetMemCachePruneInterval = try reader["parquetMemCachePruneInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.disableParquetMemCache = try reader["disableParquetMemCache"].readIfPresent()
+        value.parquetMemCacheQueryPathDuration = try reader["parquetMemCacheQueryPathDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.lastCacheEvictionInterval = try reader["lastCacheEvictionInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.distinctCacheEvictionInterval = try reader["distinctCacheEvictionInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.gen1Duration = try reader["gen1Duration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.execMemPoolBytes = try reader["execMemPoolBytes"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.parquetMemCacheSize = try reader["parquetMemCacheSize"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.walReplayFailOnError = try reader["walReplayFailOnError"].readIfPresent()
+        value.walReplayConcurrencyLimit = try reader["walReplayConcurrencyLimit"].readIfPresent()
+        value.tableIndexCacheMaxEntries = try reader["tableIndexCacheMaxEntries"].readIfPresent()
+        value.tableIndexCacheConcurrencyLimit = try reader["tableIndexCacheConcurrencyLimit"].readIfPresent()
+        value.gen1LookbackDuration = try reader["gen1LookbackDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.retentionCheckInterval = try reader["retentionCheckInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.deleteGracePeriod = try reader["deleteGracePeriod"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.hardDeleteDefaultDuration = try reader["hardDeleteDefaultDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        return value
     }
 }
 
@@ -3358,23 +4160,6 @@ extension TimestreamInfluxDBClientTypes.InfluxDBv2Parameters {
     }
 }
 
-extension TimestreamInfluxDBClientTypes.Duration {
-
-    static func write(value: TimestreamInfluxDBClientTypes.Duration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["durationType"].write(value.durationType)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.Duration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.Duration()
-        value.durationType = try reader["durationType"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
 extension TimestreamInfluxDBClientTypes.DbClusterSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbClusterSummary {
@@ -3392,6 +4177,7 @@ extension TimestreamInfluxDBClientTypes.DbClusterSummary {
         value.networkType = try reader["networkType"].readIfPresent()
         value.dbStorageType = try reader["dbStorageType"].readIfPresent()
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
+        value.engineType = try reader["engineType"].readIfPresent()
         return value
     }
 }
@@ -3433,6 +4219,7 @@ extension TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary {
         value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
         value.deploymentType = try reader["deploymentType"].readIfPresent()
         value.instanceMode = try reader["instanceMode"].readIfPresent()
+        value.instanceModes = try reader["instanceModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TimestreamInfluxDBClientTypes.InstanceMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

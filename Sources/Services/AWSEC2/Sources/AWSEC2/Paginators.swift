@@ -310,6 +310,39 @@ extension PaginatorSequence where OperationStackInput == DescribeCapacityBlockSt
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeCapacityManagerDataExportsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeCapacityManagerDataExportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeCapacityManagerDataExportsOutput`
+    public func describeCapacityManagerDataExportsPaginated(input: DescribeCapacityManagerDataExportsInput) -> ClientRuntime.PaginatorSequence<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeCapacityManagerDataExportsInput, DescribeCapacityManagerDataExportsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeCapacityManagerDataExports(input:))
+    }
+}
+
+extension DescribeCapacityManagerDataExportsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeCapacityManagerDataExportsInput {
+        return DescribeCapacityManagerDataExportsInput(
+            capacityManagerDataExportIds: self.capacityManagerDataExportIds,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeCapacityManagerDataExportsInput, OperationStackOutput == DescribeCapacityManagerDataExportsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeCapacityManagerDataExportsPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityManagerDataExportResponse]`
+    /// - Returns: `[EC2ClientTypes.CapacityManagerDataExportResponse]`
+    public func capacityManagerDataExports() async throws -> [EC2ClientTypes.CapacityManagerDataExportResponse] {
+        return try await self.asyncCompactMap { item in item.capacityManagerDataExports }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeCapacityReservationBillingRequestsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -4333,6 +4366,79 @@ extension PaginatorSequence where OperationStackInput == GetAwsNetworkPerformanc
     /// - Returns: `[EC2ClientTypes.DataResponse]`
     public func dataResponses() async throws -> [EC2ClientTypes.DataResponse] {
         return try await self.asyncCompactMap { item in item.dataResponses }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetCapacityManagerMetricDataOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCapacityManagerMetricDataInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCapacityManagerMetricDataOutput`
+    public func getCapacityManagerMetricDataPaginated(input: GetCapacityManagerMetricDataInput) -> ClientRuntime.PaginatorSequence<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput> {
+        return ClientRuntime.PaginatorSequence<GetCapacityManagerMetricDataInput, GetCapacityManagerMetricDataOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCapacityManagerMetricData(input:))
+    }
+}
+
+extension GetCapacityManagerMetricDataInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCapacityManagerMetricDataInput {
+        return GetCapacityManagerMetricDataInput(
+            dryRun: self.dryRun,
+            endTime: self.endTime,
+            filterBy: self.filterBy,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metricNames: self.metricNames,
+            nextToken: token,
+            period: self.period,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCapacityManagerMetricDataInput, OperationStackOutput == GetCapacityManagerMetricDataOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCapacityManagerMetricDataPaginated`
+    /// to access the nested member `[EC2ClientTypes.MetricDataResult]`
+    /// - Returns: `[EC2ClientTypes.MetricDataResult]`
+    public func metricDataResults() async throws -> [EC2ClientTypes.MetricDataResult] {
+        return try await self.asyncCompactMap { item in item.metricDataResults }
+    }
+}
+extension EC2Client {
+    /// Paginate over `[GetCapacityManagerMetricDimensionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCapacityManagerMetricDimensionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCapacityManagerMetricDimensionsOutput`
+    public func getCapacityManagerMetricDimensionsPaginated(input: GetCapacityManagerMetricDimensionsInput) -> ClientRuntime.PaginatorSequence<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput> {
+        return ClientRuntime.PaginatorSequence<GetCapacityManagerMetricDimensionsInput, GetCapacityManagerMetricDimensionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCapacityManagerMetricDimensions(input:))
+    }
+}
+
+extension GetCapacityManagerMetricDimensionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCapacityManagerMetricDimensionsInput {
+        return GetCapacityManagerMetricDimensionsInput(
+            dryRun: self.dryRun,
+            endTime: self.endTime,
+            filterBy: self.filterBy,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            metricNames: self.metricNames,
+            nextToken: token,
+            startTime: self.startTime
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCapacityManagerMetricDimensionsInput, OperationStackOutput == GetCapacityManagerMetricDimensionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCapacityManagerMetricDimensionsPaginated`
+    /// to access the nested member `[EC2ClientTypes.CapacityManagerDimension]`
+    /// - Returns: `[EC2ClientTypes.CapacityManagerDimension]`
+    public func metricDimensionResults() async throws -> [EC2ClientTypes.CapacityManagerDimension] {
+        return try await self.asyncCompactMap { item in item.metricDimensionResults }
     }
 }
 extension EC2Client {
