@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BillingconductorClient: ClientRuntime.Client {
     public static let clientName = "BillingconductorClient"
-    public static let version = "1.5.64"
+    public static let version = "1.5.65"
     let client: ClientRuntime.SdkHttpClient
     let config: BillingconductorClient.BillingconductorClientConfiguration
     let serviceName = "billingconductor"
@@ -388,7 +388,7 @@ extension BillingconductorClient {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func associateAccounts(input: AssociateAccountsInput) async throws -> AssociateAccountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -462,7 +462,7 @@ extension BillingconductorClient {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func associatePricingRules(input: AssociatePricingRulesInput) async throws -> AssociatePricingRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -536,7 +536,7 @@ extension BillingconductorClient {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func batchAssociateResourcesToCustomLineItem(input: BatchAssociateResourcesToCustomLineItemInput) async throws -> BatchAssociateResourcesToCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -609,7 +609,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func batchDisassociateResourcesFromCustomLineItem(input: BatchDisassociateResourcesFromCustomLineItemInput) async throws -> BatchDisassociateResourcesFromCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -682,7 +682,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func createBillingGroup(input: CreateBillingGroupInput) async throws -> CreateBillingGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -757,7 +757,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func createCustomLineItem(input: CreateCustomLineItemInput) async throws -> CreateCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -833,7 +833,7 @@ extension BillingconductorClient {
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func createPricingPlan(input: CreatePricingPlanInput) async throws -> CreatePricingPlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -908,7 +908,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ServiceLimitExceededException` : The request would cause a service limit to exceed.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func createPricingRule(input: CreatePricingRuleInput) async throws -> CreatePricingRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -981,7 +981,7 @@ extension BillingconductorClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func deleteBillingGroup(input: DeleteBillingGroupInput) async throws -> DeleteBillingGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1053,7 +1053,7 @@ extension BillingconductorClient {
     /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func deleteCustomLineItem(input: DeleteCustomLineItemInput) async throws -> DeleteCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1125,7 +1125,7 @@ extension BillingconductorClient {
     /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func deletePricingPlan(input: DeletePricingPlanInput) async throws -> DeletePricingPlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1197,7 +1197,7 @@ extension BillingconductorClient {
     /// - `ConflictException` : You can cause an inconsistent state by updating or deleting a resource.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func deletePricingRule(input: DeletePricingRuleInput) async throws -> DeletePricingRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1270,7 +1270,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func disassociateAccounts(input: DisassociateAccountsInput) async throws -> DisassociateAccountsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1343,7 +1343,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func disassociatePricingRules(input: DisassociatePricingRulesInput) async throws -> DisassociatePricingRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -1402,7 +1402,7 @@ extension BillingconductorClient {
 
     /// Performs the `GetBillingGroupCostReport` operation on the `Billingconductor` service.
     ///
-    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Service for a specific billing group.
+    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBillingGroupCostReportInput`)
     ///
@@ -1415,7 +1415,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func getBillingGroupCostReport(input: GetBillingGroupCostReportInput) async throws -> GetBillingGroupCostReportOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1487,7 +1487,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listAccountAssociations(input: ListAccountAssociationsInput) async throws -> ListAccountAssociationsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1559,7 +1559,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listBillingGroupCostReports(input: ListBillingGroupCostReportsInput) async throws -> ListBillingGroupCostReportsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1631,7 +1631,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listBillingGroups(input: ListBillingGroupsInput) async throws -> ListBillingGroupsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1702,7 +1702,7 @@ extension BillingconductorClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listCustomLineItemVersions(input: ListCustomLineItemVersionsInput) async throws -> ListCustomLineItemVersionsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1774,7 +1774,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listCustomLineItems(input: ListCustomLineItemsInput) async throws -> ListCustomLineItemsOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1845,7 +1845,7 @@ extension BillingconductorClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listPricingPlans(input: ListPricingPlansInput) async throws -> ListPricingPlansOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1917,7 +1917,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listPricingPlansAssociatedWithPricingRule(input: ListPricingPlansAssociatedWithPricingRuleInput) async throws -> ListPricingPlansAssociatedWithPricingRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -1988,7 +1988,7 @@ extension BillingconductorClient {
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listPricingRules(input: ListPricingRulesInput) async throws -> ListPricingRulesOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2060,7 +2060,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listPricingRulesAssociatedToPricingPlan(input: ListPricingRulesAssociatedToPricingPlanInput) async throws -> ListPricingRulesAssociatedToPricingPlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2132,7 +2132,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listResourcesAssociatedToCustomLineItem(input: ListResourcesAssociatedToCustomLineItemInput) async throws -> ListResourcesAssociatedToCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2204,7 +2204,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
@@ -2273,7 +2273,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2345,7 +2345,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .delete)
@@ -2416,7 +2416,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func updateBillingGroup(input: UpdateBillingGroupInput) async throws -> UpdateBillingGroupOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2488,7 +2488,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func updateCustomLineItem(input: UpdateCustomLineItemInput) async throws -> UpdateCustomLineItemOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -2561,7 +2561,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
@@ -2634,7 +2634,7 @@ extension BillingconductorClient {
     /// - `InternalServerException` : An unexpected error occurred while processing a request.
     /// - `ResourceNotFoundException` : The request references a resource that doesn't exist.
     /// - `ThrottlingException` : The request was denied due to request throttling.
-    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services.
+    /// - `ValidationException` : The input doesn't match with the constraints specified by Amazon Web Services services.
     public func updatePricingRule(input: UpdatePricingRuleInput) async throws -> UpdatePricingRuleOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
