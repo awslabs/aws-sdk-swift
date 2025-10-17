@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MailManagerClient: ClientRuntime.Client {
     public static let clientName = "MailManagerClient"
-    public static let version = "1.5.65"
+    public static let version = "1.5.66"
     let client: ClientRuntime.SdkHttpClient
     let config: MailManagerClient.MailManagerClientConfiguration
     let serviceName = "MailManager"

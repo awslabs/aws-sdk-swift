@@ -63,7 +63,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GeoMapsClient: ClientRuntime.Client {
     public static let clientName = "GeoMapsClient"
-    public static let version = "1.5.65"
+    public static let version = "1.5.66"
     let client: ClientRuntime.SdkHttpClient
     let config: GeoMapsClient.GeoMapsClientConfiguration
     let serviceName = "Geo Maps"
@@ -367,7 +367,7 @@ extension GeoMapsClient {
 extension GeoMapsClient {
     /// Performs the `GetGlyphs` operation on the `GeoMaps` service.
     ///
-    /// GetGlyphs returns the map's glyphs.
+    /// GetGlyphs returns the map's glyphs. For more information, see [Style labels with glyphs](https://docs.aws.amazon.com/location/latest/developerguide/styling-labels-with-glyphs.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetGlyphsInput`)
     ///
@@ -427,7 +427,7 @@ extension GeoMapsClient {
 
     /// Performs the `GetSprites` operation on the `GeoMaps` service.
     ///
-    /// GetSprites returns the map's sprites.
+    /// GetSprites returns the map's sprites. For more information, see [Style iconography with sprites](https://docs.aws.amazon.com/location/latest/developerguide/styling-iconography-with-sprites.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetSpritesInput`)
     ///
@@ -487,7 +487,13 @@ extension GeoMapsClient {
 
     /// Performs the `GetStaticMap` operation on the `GeoMaps` service.
     ///
-    /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots.
+    /// GetStaticMap provides high-quality static map images with customizable options. You can modify the map's appearance and overlay additional information. It's an ideal solution for applications requiring tailored static map snapshots. For more information, see the following topics in the Amazon Location Service Developer Guide:
+    ///
+    /// * [Static maps](https://docs.aws.amazon.com/location/latest/developerguide/static-maps.html)
+    ///
+    /// * [Customize static maps](https://docs.aws.amazon.com/location/latest/developerguide/customizing-static-maps.html)
+    ///
+    /// * [Overlay on the static map](https://docs.aws.amazon.com/location/latest/developerguide/overlaying-static-map.html)
     ///
     /// - Parameter input: [no documentation found] (Type: `GetStaticMapInput`)
     ///
@@ -556,7 +562,7 @@ extension GeoMapsClient {
 
     /// Performs the `GetStyleDescriptor` operation on the `GeoMaps` service.
     ///
-    /// GetStyleDescriptor returns information about the style.
+    /// GetStyleDescriptor returns information about the style. For more information, see [Style dynamic maps](https://docs.aws.amazon.com/location/latest/developerguide/styling-dynamic-maps.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetStyleDescriptorInput`)
     ///
@@ -617,7 +623,7 @@ extension GeoMapsClient {
 
     /// Performs the `GetTile` operation on the `GeoMaps` service.
     ///
-    /// GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level.
+    /// GetTile returns a tile. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. For more information, see [Tiles](https://docs.aws.amazon.com/location/latest/developerguide/tiles.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetTileInput`)
     ///

@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BedrockAgentCoreControlClient: ClientRuntime.Client {
     public static let clientName = "BedrockAgentCoreControlClient"
-    public static let version = "1.5.65"
+    public static let version = "1.5.66"
     let client: ClientRuntime.SdkHttpClient
     let config: BedrockAgentCoreControlClient.BedrockAgentCoreControlClientConfiguration
     let serviceName = "Bedrock AgentCore Control"

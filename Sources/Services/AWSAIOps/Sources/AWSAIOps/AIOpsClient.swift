@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class AIOpsClient: ClientRuntime.Client {
     public static let clientName = "AIOpsClient"
-    public static let version = "1.5.65"
+    public static let version = "1.5.66"
     let client: ClientRuntime.SdkHttpClient
     let config: AIOpsClient.AIOpsClientConfiguration
     let serviceName = "AIOps"

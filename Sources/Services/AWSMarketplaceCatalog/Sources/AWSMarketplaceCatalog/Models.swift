@@ -1448,7 +1448,7 @@ extension MarketplaceCatalogClientTypes {
 
 extension MarketplaceCatalogClientTypes {
 
-    /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, LastModifiedDate, ProductTitle, and Visibility.
+    /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, astModifiedDate, ProductTitle, and Visibility.
     public struct MachineLearningProductFilters: Swift.Sendable {
         /// Filter machine learning products by their entity IDs.
         public var entityId: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter?
@@ -2343,7 +2343,7 @@ extension MarketplaceCatalogClientTypes {
         case containerproductfilters(MarketplaceCatalogClientTypes.ContainerProductFilters)
         /// A filter for Resale Authorizations.
         case resaleauthorizationfilters(MarketplaceCatalogClientTypes.ResaleAuthorizationFilters)
-        /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, LastModifiedDate, ProductTitle, and Visibility.
+        /// The filters that you can use with the ListEntities operation to filter machine learning products. You can filter by EntityId, astModifiedDate, ProductTitle, and Visibility.
         case machinelearningproductfilters(MarketplaceCatalogClientTypes.MachineLearningProductFilters)
         case sdkUnknown(Swift.String)
     }
@@ -2352,6 +2352,7 @@ extension MarketplaceCatalogClientTypes {
 extension MarketplaceCatalogClientTypes {
 
     public enum ContainerProductSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case compatibleawsservices
         case entityid
         case lastmodifieddate
         case producttitle
@@ -2360,6 +2361,7 @@ extension MarketplaceCatalogClientTypes {
 
         public static var allCases: [ContainerProductSortBy] {
             return [
+                .compatibleawsservices,
                 .entityid,
                 .lastmodifieddate,
                 .producttitle,
@@ -2374,6 +2376,7 @@ extension MarketplaceCatalogClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .compatibleawsservices: return "CompatibleAWSServices"
             case .entityid: return "EntityId"
             case .lastmodifieddate: return "LastModifiedDate"
             case .producttitle: return "ProductTitle"
@@ -2668,6 +2671,7 @@ extension MarketplaceCatalogClientTypes {
 extension MarketplaceCatalogClientTypes {
 
     public enum SaaSProductSortBy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deliveryoptiontypes
         case entityid
         case lastmodifieddate
         case producttitle
@@ -2676,6 +2680,7 @@ extension MarketplaceCatalogClientTypes {
 
         public static var allCases: [SaaSProductSortBy] {
             return [
+                .deliveryoptiontypes,
                 .entityid,
                 .lastmodifieddate,
                 .producttitle,
@@ -2690,6 +2695,7 @@ extension MarketplaceCatalogClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .deliveryoptiontypes: return "DeliveryOptionTypes"
             case .entityid: return "EntityId"
             case .lastmodifieddate: return "LastModifiedDate"
             case .producttitle: return "ProductTitle"

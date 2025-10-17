@@ -71,7 +71,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IoTWirelessClient: ClientRuntime.Client {
     public static let clientName = "IoTWirelessClient"
-    public static let version = "1.5.65"
+    public static let version = "1.5.66"
     let client: ClientRuntime.SdkHttpClient
     let config: IoTWirelessClient.IoTWirelessClientConfiguration
     let serviceName = "IoT Wireless"

@@ -202,7 +202,7 @@ extension GameLiftStreamsClientTypes {
 
     /// Configuration settings that define a stream group's stream capacity for a location. When configuring a location for the first time, you must specify a numeric value for at least one of the two capacity types. To update the capacity for an existing stream group, call [UpdateStreamGroup](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_UpdateStreamGroup.html). To add a new location and specify its capacity, call [AddStreamGroupLocations](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_AddStreamGroupLocations.html).
     public struct LocationConfiguration: Swift.Sendable {
-        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 when creating a stream group or adding a location.
+        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 (2 for high stream classes) when creating a stream group or adding a location.
         public var alwaysOnCapacity: Swift.Int?
         /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         /// This member is required.
@@ -278,17 +278,17 @@ extension GameLiftStreamsClientTypes {
 
     /// Represents a location and its corresponding stream capacity and status.
     public struct LocationState: Swift.Sendable {
-        /// This value is the number of compute resources that a stream group has provisioned and is ready to stream. It includes resources that are currently streaming and resources that are idle and ready to respond to stream requests.
+        /// This value is the stream capacity that Amazon GameLift Streams has provisioned in a stream group that can respond immediately to stream requests. It includes resources that are currently streaming and resources that are idle and ready to respond to stream requests. You pay for this capacity whether it's in use or not. After making changes to capacity, it can take a few minutes for the allocated capacity count to reflect the change while compute resources are allocated or deallocated. Similarly, when allocated on-demand capacity is no longer needed, it can take a few minutes for Amazon GameLift Streams to spin down the allocated capacity.
         public var allocatedCapacity: Swift.Int?
-        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 when creating a stream group or adding a location.
+        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 (2 for high stream classes) when creating a stream group or adding a location.
         public var alwaysOnCapacity: Swift.Int?
-        /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's availability to respond to new stream requests, but not including on-demand capacity.
+        /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's ability to respond immediately to new stream requests with near-instant startup time.
         public var idleCapacity: Swift.Int?
         /// A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to [Regions, quotas, and limitations](https://docs.aws.amazon.com/gameliftstreams/latest/developerguide/regions-quotas.html) in the Amazon GameLift Streams Developer Guide.
         public var locationName: Swift.String?
         /// The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes). Default is 0 when creating a stream group or adding a location.
         public var onDemandCapacity: Swift.Int?
-        /// This value is the total number of compute resources that you request for a stream group. This includes resources that Amazon GameLift Streams has either already provisioned or is working to provision. You request capacity for each location in a stream group.
+        /// This value is the always-on capacity that you most recently requested for a stream group. You request capacity separately for each location in a stream group. In response to an increase in requested capacity, Amazon GameLift Streams attempts to provision compute resources to make the stream group's allocated capacity meet requested capacity. When always-on capacity is decreased, it can take a few minutes to deprovision allocated capacity to match the requested capacity.
         public var requestedCapacity: Swift.Int?
         /// This value is set of locations, including their name, current status, and capacities. A location can be in one of the following states:
         ///
@@ -521,7 +521,7 @@ public struct CreateApplicationInput: Swift.Sendable {
     /// A human-readable label for the application. You can update this value later.
     /// This member is required.
     public var description: Swift.String?
-    /// The path and file name of the executable file that launches the content for streaming. Enter a path value that is relative to the location set in ApplicationSourceUri.
+    /// The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the location set in ApplicationSourceUri. The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an initial interpreter line starting with a shebang ('#!').
     /// This member is required.
     public var executablePath: Swift.String?
     /// Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following:
@@ -632,7 +632,7 @@ public struct CreateApplicationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable label for the application. You can edit this value.
     public var description: Swift.String?
-    /// The path and file name of the executable file that launches the content for streaming.
+    /// The relative path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
     /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
@@ -747,7 +747,7 @@ public struct GetApplicationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable label for the application. You can edit this value.
     public var description: Swift.String?
-    /// The path and file name of the executable file that launches the content for streaming.
+    /// The relative path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
     /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
@@ -879,7 +879,7 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * READY: The application is ready to deploy in a stream group.
         ///
-        /// * ERROR: An error occurred when setting up the application. See StatusReason for more information.
+        /// * ERROR: An error occurred when setting up the application. For more information about the error, call GetApplication and refer to StatusReason.
         ///
         /// * DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public var status: GameLiftStreamsClientTypes.ApplicationStatus?
@@ -959,7 +959,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
     public var createdAt: Foundation.Date?
     /// A human-readable label for the application. You can edit this value.
     public var description: Swift.String?
-    /// The path and file name of the executable file that launches the content for streaming.
+    /// The relative path and file name of the executable file that launches the content for streaming.
     public var executablePath: Swift.String?
     /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
     public var id: Swift.String?
@@ -1338,7 +1338,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
-    /// * ERROR: An error occurred when the stream group deployed. See StatusReason for more information.
+    /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
     ///
     /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
     ///
@@ -1792,7 +1792,7 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     ///
     /// * CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.
     ///
-    /// * ERROR: The stream session failed to activate.
+    /// * ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.
     ///
     /// * PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.
     ///
@@ -1803,6 +1803,14 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     /// * TERMINATED: The stream session has ended.
     public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
     /// A short description of the reason the stream session is in ERROR status.
+    ///
+    /// * internalError: An internal service error occurred. Start a new stream session to continue streaming.
+    ///
+    /// * invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.
+    ///
+    /// * placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.
+    ///
+    /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
     /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
@@ -1921,7 +1929,7 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.
         ///
-        /// * ERROR: The stream session failed to activate.
+        /// * ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.
         ///
         /// * PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.
         ///
@@ -2154,7 +2162,7 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     ///
     /// * CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.
     ///
-    /// * ERROR: The stream session failed to activate.
+    /// * ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.
     ///
     /// * PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.
     ///
@@ -2165,6 +2173,14 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     /// * TERMINATED: The stream session has ended.
     public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
     /// A short description of the reason the stream session is in ERROR status.
+    ///
+    /// * internalError: An internal service error occurred. Start a new stream session to continue streaming.
+    ///
+    /// * invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.
+    ///
+    /// * placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.
+    ///
+    /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
     /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
@@ -2269,7 +2285,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
-    /// * ERROR: An error occurred when the stream group deployed. See StatusReason for more information.
+    /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
     ///
     /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
     ///
@@ -2426,7 +2442,7 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
         ///
-        /// * ERROR: An error occurred when the stream group deployed. See StatusReason for more information.
+        /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
         ///
         /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
         ///
@@ -2605,7 +2621,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
-    /// * ERROR: An error occurred when the stream group deployed. See StatusReason for more information.
+    /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
     ///
     /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
     ///
