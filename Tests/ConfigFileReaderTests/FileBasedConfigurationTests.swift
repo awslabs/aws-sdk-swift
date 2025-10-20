@@ -18,56 +18,46 @@ class FileBasedConfigurationTests: XCTestCase {
         let defaultSection = config?.section(for: "default")
 
         XCTAssertEqual(
-            defaultSection?.string(for: "default-one-number"),
-            "1"
+            defaultSection?.string(for: "aws_access_key_id"),
+            "ACCESS_KEY_0"
         )
 
         XCTAssertEqual(
-            defaultSection?.string(for: "default-two-word"),
-            "two"
+            defaultSection?.string(for: "aws_secret_access_key"),
+            "SECRET_KEY_0"
         )
 
         XCTAssertNil(defaultSection?.string(for: "undefined-property"))
 
-        let defaultNestedSection = defaultSection?.property(for: "nested-under-default")
+        let defaultNestedSection = defaultSection?.property(for: "s3")
         if case .subsection(let subsectionNestedUnderDefault) = defaultNestedSection {
             XCTAssertEqual(
-                subsectionNestedUnderDefault.value(for: "sub-default-one-number"),
-                "1"
-            )
-
-            XCTAssertEqual(
-                subsectionNestedUnderDefault.value(for: "sub-default-two-word"),
-                "two"
+                subsectionNestedUnderDefault.value(for: "max_concurrent_requests"),
+                "20"
             )
         } else {
             XCTFail("Nested section does not contain subproperties")
         }
 
-        let namedSection = config?.section(for: "test")
+        let namedSection = config?.section(for: "my-profile")
 
         XCTAssertEqual(
-            namedSection?.string(for: "test-one-word"),
-            "one"
+            namedSection?.string(for: "aws_access_key_id"),
+            "ACCESS_KEY_1"
         )
 
         XCTAssertEqual(
-            namedSection?.string(for: "test-two-number"),
-            "2"
+            namedSection?.string(for: "aws_secret_access_key"),
+            "SECRET_KEY_1"
         )
 
         XCTAssertNil(namedSection?.string(for: "undefined-property"))
 
-        let testNestedSection = namedSection?.property(for: "nested-under-test")
+        let testNestedSection = namedSection?.property(for: "s3")
         if case .subsection(let subsectionNestedUnderTest) = testNestedSection {
             XCTAssertEqual(
-                subsectionNestedUnderTest.value(for: "sub-test-one-word"),
-                "one"
-            )
-
-            XCTAssertEqual(
-                subsectionNestedUnderTest.value(for: "sub-test-two-number"),
-                "2"
+                subsectionNestedUnderTest.value(for: "max_concurrent_requests"),
+                "20"
             )
         } else {
             XCTFail("Nested section does not contain subproperties")

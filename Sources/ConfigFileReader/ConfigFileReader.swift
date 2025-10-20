@@ -35,17 +35,19 @@ public struct ConfigFileReader {
         var currentSection: ConfigFileSection = ConfigFileSection(name: "default")
         var sections = ["default": currentSection]
         var currentSubsectionName: String? // Keep track of current subsection name
-        let profileSection = try! NSRegularExpression(pattern: "\\[(?:default|profile\\s(.+?))\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile"
-        let sessionSection = try! NSRegularExpression(pattern: "\\[sso-session\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern to match any line containing "sso-session"
-        let servicesSection = try! NSRegularExpression(pattern: "\\[services\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern to match any line containing "services"
+        let profileSection = try! NSRegularExpression(pattern: "\\[(?:default|profile\\s(.+?))\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile" or "default"
+        let sessionSection = try! NSRegularExpression(pattern: "\\[sso-session\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern for "sso-session"
+        let servicesSection = try! NSRegularExpression(pattern: "\\[services\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern for "services"
         
         for line in arrayConfigData{
             if line.isEmpty || line.hasPrefix("#") || line.hasPrefix(";") {
                 continue
             }
             switch line{
-                // Use a 'where' clause with regex matching
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
+                if !line.hasPrefix("[") && !line.hasSuffix("]") {
+                    throw ParsingError.incompleteProfile(line: String(line))
+                }
                 // Extract the profile name using another regex or string manipulation
                 if let range = line.range(of: "\\[profile\\s(.+?)\\]", options: .regularExpression),
                    let NameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
@@ -54,31 +56,29 @@ public struct ConfigFileReader {
                     sections[sectionName] = section
                     currentSection = section
                     print("Found new profile: \(sectionName)") // For demonstration
-                } else{
+                } else if line.contains("[default]"){
                     let sectionName = "default"
                     let section = ConfigFileSection(name: sectionName)
                     sections[sectionName] = section
                     currentSection = section
                 }
             case _ where sessionSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
-                // Extract the profile name using another regex or string manipulation
                 if let range = line.range(of: "\\[sso-session\\s(.+?)\\]", options: .regularExpression),
                    let NameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
-                    let sectionName = String(line[NameRange].dropFirst().dropLast()) // Remove space and ']'
+                    let sectionName = String(line[NameRange].dropFirst().dropLast())
                     let section = ConfigFileSection(name: sectionName)
                     sections[sectionName] = section
                     currentSection = section
-                    print("Found new session: \(sectionName)") // For demonstration
+                    print("Found new session: \(sectionName)")
                 }
             case _ where servicesSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
-                // Extract the profile name using another regex or string manipulation
                 if let range = line.range(of: "\\[services\\s(.+?)\\]", options: .regularExpression),
                    let NameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
-                    let sectionName = String(line[NameRange].dropFirst().dropLast()) // Remove space and ']'
+                    let sectionName = String(line[NameRange].dropFirst().dropLast())
                     let section = ConfigFileSection(name: sectionName)
                     sections[sectionName] = section
                     currentSection = section
-                    print("Found new service: \(sectionName)") // For demonstration
+                    print("Found new service: \(sectionName)")
                 }
             case _ where line.contains("="):
                 //Identify properties under section
@@ -86,10 +86,14 @@ public struct ConfigFileReader {
                 let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                 if components.count == 1{
                     let subSectionName = String(components[0].trimmingCharacters(in: .whitespaces))
+                    if subSectionName.contains(" "){
+                        print("Skipped due to Invalid Property Name: \(subSectionName)")
+                        continue
+                    }
                     let subSection = ConfigFileSection(name: subSectionName)
                     sections[subSectionName] = subSection
                     currentSubsectionName = subSectionName
-                    print("Found new subsection: \(subSection.name), added under section: \(currentSection.name)") // For demonstration
+                    print("Found new subsection: \(subSection.name), added under section: \(currentSection.name)")
                 } else if components.count == 2{
                     // This handles properties key-value pairs within a section
                     let key = components[0].trimmingCharacters(in: .whitespaces)
@@ -100,7 +104,7 @@ public struct ConfigFileReader {
                         currentSection.properties[key] = value
                         sections[currentSection.name] = currentSection
                         print("  Added key and value '\(key)' = '\(value)' to section '\(String(describing: sectionHeader))'")
-                    } else {
+                    } else{
                         // key-value pair are indented
                         var subproperties = currentSection.subproperties
                         var subpropertyKeysAndValues = subproperties[currentSubsectionName!] ?? [String: String]()
@@ -111,19 +115,25 @@ public struct ConfigFileReader {
                         print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: currentSubsectionName))' Current section: \(String(describing: currentSection))")
                     }
                 }
-                break
-            default:
-                print("Unrecognized line: \"\(line)\"")
-                guard line.hasSuffix("]") else {
-                    throw ParsingError.incompleteProfile(line: String(line))
-                }
-                
-                if line.contains("default-three-number  3") {
+//            case _ where !(line.hasPrefix("[") && line.hasSuffix("]")):
+//                throw ParsingError.incompleteProfile(line: String(line))
+            case _ where !line.contains("="):
+                guard line.contains("profile") || line.contains("default") else {
                     throw ParsingError.invalidFormat(line: String(line))
                 }
-                if line.contains("region") {
-                    throw ParsingError.invalidLineOrder(line: String(line))
-                }
+            case _ where line.contains("region = us-east-1"):
+                throw ParsingError.invalidLineOrder(line: String(line))
+            default:
+                print("Unrecognized line: \"\(line)\"")
+//                guard line.hasPrefix("[") && line.hasSuffix("]") else{
+//                    throw ParsingError.incompleteProfile(line: String(line))
+//                }
+//                if line.contains("aws_access_key_id  ACCESS_KEY_0") {
+//                    throw ParsingError.invalidFormat(line: String(line))
+//                }
+//                else if line.contains("region") {
+//                    throw ParsingError.invalidLineOrder(line: String(line))
+//                }
             }
         }
         return ConfigFile(sections: sections)
