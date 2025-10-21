@@ -12,7 +12,7 @@ class PackageVersionBuilderTests: XCTestCase {
 
     func test_generatePackageVersion() throws {
         let packageVersionFileURL = Bundle.module.url(forResource: "Package.version.next", withExtension: "test")!
-        let packageVersionSwiftFileURL = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
+        let packageVersionSwiftFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
 
         try PackageVersionBuilder(
             packageVersionFileURL: packageVersionFileURL,
