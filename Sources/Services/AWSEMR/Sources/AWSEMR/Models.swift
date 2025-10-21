@@ -4494,6 +4494,7 @@ extension EMRClientTypes {
     public enum InstanceFleetState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bootstrapping
         case provisioning
+        case reconfiguring
         case resizing
         case running
         case suspended
@@ -4505,6 +4506,7 @@ extension EMRClientTypes {
             return [
                 .bootstrapping,
                 .provisioning,
+                .reconfiguring,
                 .resizing,
                 .running,
                 .suspended,
@@ -4522,6 +4524,7 @@ extension EMRClientTypes {
             switch self {
             case .bootstrapping: return "BOOTSTRAPPING"
             case .provisioning: return "PROVISIONING"
+            case .reconfiguring: return "RECONFIGURING"
             case .resizing: return "RESIZING"
             case .running: return "RUNNING"
             case .suspended: return "SUSPENDED"

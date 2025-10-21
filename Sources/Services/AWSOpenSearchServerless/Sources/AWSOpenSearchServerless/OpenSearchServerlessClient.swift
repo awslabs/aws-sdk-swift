@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OpenSearchServerlessClient: ClientRuntime.Client {
     public static let clientName = "OpenSearchServerlessClient"
-    public static let version = "1.5.66"
+    public static let version = "1.5.67"
     let client: ClientRuntime.SdkHttpClient
     let config: OpenSearchServerlessClient.OpenSearchServerlessClientConfiguration
     let serviceName = "OpenSearchServerless"
