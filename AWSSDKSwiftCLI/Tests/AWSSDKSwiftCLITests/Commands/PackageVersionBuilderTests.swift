@@ -1,8 +1,8 @@
 //
-//  PackageVersionBuilder.swift
-//  AWSSDKSwiftCLI
+// Copyright Amazon.com Inc. or its affiliates.
+// All Rights Reserved.
 //
-//  Created by Elkins, Josh on 10/18/25.
+// SPDX-License-Identifier: Apache-2.0
 //
 
 import XCTest
@@ -10,7 +10,7 @@ import XCTest
 
 class PackageVersionBuilderTests: XCTestCase {
 
-    func test_generatePackageVersion() throws {
+    func test_generatePackageVersion_suceedsWithExpectedContents() throws {
         let packageVersionFileURL = Bundle.module.url(forResource: "Package.version.next", withExtension: "test")!
         let packageVersionSwiftFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
 
@@ -33,9 +33,22 @@ class PackageVersionBuilderTests: XCTestCase {
             // Code is auto-generated. DO NOT EDIT!
             
             public let packageVersion = "1.3.2"
+
             """
 
         XCTAssertEqual(packageVersionSwift, expected)
+    }
+
+    func test_generatePackageSwift_throwsOnInvalidPackageVersion() throws {
+        let packageVersionFileURL = Bundle.module.url(forResource: "Package.version.next.invalid", withExtension: nil)!
+        let packageVersionSwiftFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+
+        XCTAssertThrowsError(
+            try PackageVersionBuilder(
+                packageVersionFileURL: packageVersionFileURL,
+                packageVersionSwiftFileURL: packageVersionSwiftFileURL
+            ).generatePackageVersionFile()
+        )
     }
 
     func test_generateDefaultFileURLs() throws {

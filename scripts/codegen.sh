@@ -37,6 +37,8 @@ unset AWS_SWIFT_SDK_USE_LOCAL_DEPS
 swift run AWSSDKSwiftCLI generate-package-manifest "$@" ..
 swift run AWSSDKSwiftCLI generate-smoke-tests-package-manifest ..
 swift run AWSSDKSwiftCLI generate-doc-index ..
+swift run AWSSDKSwiftCLI generate-partitions ..
+swift run AWSSDKSwiftCLI generate-package-version ..
 cd ..
 
 # If on Mac, open Xcode to the newly refreshed SDK

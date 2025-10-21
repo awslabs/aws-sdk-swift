@@ -13,6 +13,8 @@ struct PackageVersionBuilder {
     let packageVersionFileURL: URL
     let packageVersionSwiftFileURL: URL
 
+    // MARK: - init
+
     init(repoPath: String) {
         let repoFileURL = URL(fileURLWithPath: repoPath)
         self.init(
@@ -50,6 +52,7 @@ struct PackageVersionBuilder {
             // Code is auto-generated. DO NOT EDIT!
             
             public let packageVersion = "\(packageVersion.trimmingCharacters(in: .whitespacesAndNewlines))"
+
             """
         try FileManager.default.createDirectory(
             at: packageVersionSwiftFileURL.deletingLastPathComponent(),

@@ -51,9 +51,9 @@ struct PartitionsBuilder {
             // Code is auto-generated. DO NOT EDIT!
             
             public let partitions = #\"\"\"
-            \(partitions)
+            \(partitions.trimmingCharacters(in: .whitespacesAndNewlines))
             \"\"\"#
-            
+
             """
         try FileManager.default.createDirectory(
             at: partitionsSwiftFileURL.deletingLastPathComponent(),

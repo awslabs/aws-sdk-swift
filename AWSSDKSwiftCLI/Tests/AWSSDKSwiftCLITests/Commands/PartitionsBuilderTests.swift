@@ -10,7 +10,7 @@ import XCTest
 
 class PartitionsBuilderTests: XCTestCase {
 
-    func test_generatePackageVersion() throws {
+    func test_generatePartitions_suceedsWithExpectedContents() throws {
         let partitionsFileURL = Bundle.module.url(forResource: "test-partitions", withExtension: "json")!
         let partitionsSwiftFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
 
@@ -34,12 +34,23 @@ class PartitionsBuilderTests: XCTestCase {
             
             public let partitions = #\"\"\"
             {"test":"partitions"}
-
             \"\"\"#
-            
+
             """
 
         XCTAssertEqual(partitionsSwift, expected)
+    }
+
+    func test_generatePartitions_throwsOnInvalidPackageVersion() throws {
+        let partitionsFileURL = Bundle.module.url(forResource: "invalid-partitions", withExtension: "json")!
+        let partitionsSwiftFileURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+
+        XCTAssertThrowsError(
+            try PartitionsBuilder(
+                partitionsFileURL: partitionsFileURL,
+                partitionsSwiftFileURL: partitionsSwiftFileURL
+            ).generatePartitionsFile()
+        )
     }
 
     func test_generateDefaultFileURLs() throws {
