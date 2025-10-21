@@ -6,26 +6,35 @@
 //
 
 import Foundation
-import AWSCLIUtils
+import struct AWSCLIUtils.Error
 
 struct PartitionsBuilder {
-    let repoPath: String
-    let partitionsFilePath: String
-    let partitionsSwiftFilePath: String
+    let partitionsFileURL: URL
+    let partitionsSwiftFileURL: URL
 
-    init(
-        repoPath: String,
-        partitionsFilePath: String = "codegen/sdk-codegen/sdk-partitions.json",
-        partitionsSwiftFilePath: String = "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/Partitions.swift"
-    ) {
-        self.repoPath = repoPath
-        self.partitionsFilePath = partitionsFilePath
-        self.partitionsSwiftFilePath = partitionsSwiftFilePath
+    // MARK: - init
+
+    init(repoPath: String) {
+        let repoFileURL = URL(fileURLWithPath: repoPath)
+        self.init(
+            partitionsFileURL: repoFileURL.appendingPathComponent("codegen/sdk-codegen/sdk-partitions.json"),
+            partitionsSwiftFileURL: repoFileURL.appendingPathComponent(
+                "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/Partitions.swift"
+            )
+        )
     }
 
+    init(
+        partitionsFileURL: URL,
+        partitionsSwiftFileURL: URL
+    ) {
+        self.partitionsFileURL = partitionsFileURL
+        self.partitionsSwiftFileURL = partitionsSwiftFileURL
+    }
+
+    // MARK: - Code generation
+
     func generatePartitionsFile() throws {
-        let repoFileURL = URL(fileURLWithPath: repoPath)
-        let partitionsFileURL = repoFileURL.appending(path: partitionsFilePath)
         let partitionsData = try Data(contentsOf: partitionsFileURL)
         guard let partitions = String(data: partitionsData, encoding: .utf8) else {
             throw Error("sdk-partitions.json does not contain UTF-8 data.")
@@ -46,8 +55,6 @@ struct PartitionsBuilder {
             \"\"\"#
             
             """
-        let partitionsSwiftFileURL =
-            repoFileURL.appending(path: partitionsSwiftFilePath)
         try FileManager.default.createDirectory(
             at: partitionsSwiftFileURL.deletingLastPathComponent(),
             withIntermediateDirectories: true

@@ -6,7 +6,8 @@
 //
 
 import Foundation
-import AWSCLIUtils
+import struct AWSCLIUtils.Error
+import struct AWSCLIUtils.Version
 
 struct PackageVersionBuilder {
     let packageVersionFileURL: URL
@@ -14,8 +15,12 @@ struct PackageVersionBuilder {
 
     init(repoPath: String) {
         let repoFileURL = URL(fileURLWithPath: repoPath)
-        self.packageVersionFileURL = repoFileURL.appending(path: "Package.version.next")
-        self.packageVersionSwiftFileURL = repoFileURL.appending(path: "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/PackageVersion.swift")
+        self.init(
+            packageVersionFileURL: repoFileURL.appendingPathComponent("Package.version.next"),
+            packageVersionSwiftFileURL: repoFileURL.appendingPathComponent(
+                "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/PackageVersion.swift"
+            )
+        )
     }
 
     init(
@@ -25,6 +30,8 @@ struct PackageVersionBuilder {
         self.packageVersionFileURL = packageVersionFileURL
         self.packageVersionSwiftFileURL = packageVersionSwiftFileURL
     }
+
+    // MARK: - Code generation
 
     func generatePackageVersionFile() throws {
         let currentVersionData = try Data(contentsOf: packageVersionFileURL)
