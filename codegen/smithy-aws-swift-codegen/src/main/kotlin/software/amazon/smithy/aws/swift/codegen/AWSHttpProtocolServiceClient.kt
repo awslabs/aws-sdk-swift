@@ -32,7 +32,6 @@ class AWSHttpProtocolServiceClient(
     private val writer: SwiftWriter,
     private val serviceConfig: ServiceConfig,
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
-
     // Enabling the following code will cause the SDK to get version from AWSClientRuntime
 //
 //    override var clientProtocolSymbol = AWSClientRuntimeTypes.Core.AWSClient
