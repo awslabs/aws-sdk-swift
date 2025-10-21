@@ -66,6 +66,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSDKCommon](../../../../../swift/api/awssdkcommon/latest)
 
+[AWSSDKDynamic](../../../../../swift/api/awssdkdynamic/latest)
+
 [AWSSDKEventStreamsAuth](../../../../../swift/api/awssdkeventstreamsauth/latest)
 
 [AWSSDKHTTPAuth](../../../../../swift/api/awssdkhttpauth/latest)

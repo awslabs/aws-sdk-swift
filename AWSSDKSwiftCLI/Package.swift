@@ -39,7 +39,8 @@ let package = Package(
         ),
         .testTarget(
             name: "AWSSDKSwiftCLITests",
-            dependencies: ["AWSSDKSwiftCLI"]
+            dependencies: ["AWSSDKSwiftCLI"],
+            resources: [.process("Resources")]
         )
     ]
 )
