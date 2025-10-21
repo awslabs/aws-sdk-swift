@@ -43,11 +43,11 @@ public struct ConfigFileReader {
             if line.isEmpty || line.hasPrefix("#") || line.hasPrefix(";") {
                 continue
             }
+            guard line.hasPrefix("[") && line.hasSuffix("]") else{
+                throw ParsingError.incompleteProfile(line: String(line))
+            }
             switch line{
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
-                if !line.hasPrefix("[") && !line.hasSuffix("]") {
-                    throw ParsingError.incompleteProfile(line: String(line))
-                }
                 // Extract the profile name using another regex or string manipulation
                 if let range = line.range(of: "\\[profile\\s(.+?)\\]", options: .regularExpression),
                    let NameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
@@ -84,12 +84,12 @@ public struct ConfigFileReader {
                 //Identify properties under section
                 let sectionHeader = currentSection
                 let components = line.split(separator: "=", maxSplits: 1).map(String.init)
+                if components.contains(" "){
+                    print("Skipped due to Invalid Property Name: \(components)")
+                    continue
+                }
                 if components.count == 1{
                     let subSectionName = String(components[0].trimmingCharacters(in: .whitespaces))
-                    if subSectionName.contains(" "){
-                        print("Skipped due to Invalid Property Name: \(subSectionName)")
-                        continue
-                    }
                     let subSection = ConfigFileSection(name: subSectionName)
                     sections[subSectionName] = subSection
                     currentSubsectionName = subSectionName
@@ -115,25 +115,13 @@ public struct ConfigFileReader {
                         print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: currentSubsectionName))' Current section: \(String(describing: currentSection))")
                     }
                 }
-//            case _ where !(line.hasPrefix("[") && line.hasSuffix("]")):
-//                throw ParsingError.incompleteProfile(line: String(line))
             case _ where !line.contains("="):
                 guard line.contains("profile") || line.contains("default") else {
                     throw ParsingError.invalidFormat(line: String(line))
                 }
-            case _ where line.contains("region = us-east-1"):
-                throw ParsingError.invalidLineOrder(line: String(line))
+                break
             default:
                 print("Unrecognized line: \"\(line)\"")
-//                guard line.hasPrefix("[") && line.hasSuffix("]") else{
-//                    throw ParsingError.incompleteProfile(line: String(line))
-//                }
-//                if line.contains("aws_access_key_id  ACCESS_KEY_0") {
-//                    throw ParsingError.invalidFormat(line: String(line))
-//                }
-//                else if line.contains("region") {
-//                    throw ParsingError.invalidLineOrder(line: String(line))
-//                }
             }
         }
         return ConfigFile(sections: sections)
