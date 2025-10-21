@@ -4848,7 +4848,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.api.aws", headers: headers, properties: properties)
@@ -4870,7 +4874,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -4895,7 +4903,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -4921,7 +4933,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -4947,7 +4963,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -4973,7 +4993,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -4999,7 +5023,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5025,7 +5053,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5112,7 +5144,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.api.aws", headers: headers, properties: properties)
@@ -5134,7 +5170,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5272,7 +5312,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.api.aws", headers: headers, properties: properties)
@@ -5296,7 +5340,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5321,7 +5369,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5406,7 +5458,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.api.aws", headers: headers, properties: properties)
@@ -5428,7 +5484,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5453,7 +5513,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5479,7 +5543,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5505,7 +5573,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5531,7 +5603,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5557,7 +5633,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5583,7 +5663,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://111111111111.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5668,7 +5752,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.api.aws", headers: headers, properties: properties)
@@ -5690,7 +5778,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5823,7 +5915,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.api.aws", headers: headers, properties: properties)
@@ -5847,7 +5943,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://333333333333.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -5872,7 +5972,11 @@ class EndpointResolverTest: XCTestCase {
         let actual = try resolver.resolve(params: endpointParams)
 
         let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [:]
+            [
+                "metricValues": [
+                    "O"
+                ]
+            ]
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://222222222222.ddb.us-east-1.amazonaws.com", headers: headers, properties: properties)
@@ -8681,8 +8785,26 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// {Endpoint=https://dynamodb.us-west-2.api.aws, Region=us-west-2}
+    /// {Endpoint=https://dynamodb.eu-west-1.api.aws, Region=eu-west-1}
     func testResolve364() throws {
+        let endpointParams = EndpointParams(
+            endpoint: "https://dynamodb.eu-west-1.api.aws",
+            region: "eu-west-1"
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case ClientRuntime.EndpointError.unresolved(let message):
+                XCTAssertEqual("Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html", message)
+            default:
+                XCTFail()
+            }
+        }
+    }
+
+    /// {Endpoint=https://dynamodb.us-west-2.api.aws, Region=us-west-2}
+    func testResolve365() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://dynamodb.us-west-2.api.aws",
             region: "us-west-2"
@@ -8700,7 +8822,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {Endpoint=https://dynamodb.cn-north-1.api.amazonwebservices.com.cn, Region=cn-north-1}
-    func testResolve365() throws {
+    func testResolve366() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://dynamodb.cn-north-1.api.amazonwebservices.com.cn",
             region: "cn-north-1"
@@ -8718,7 +8840,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {Endpoint=https://dynamodb.us-gov-east-1.api.aws, Region=us-gov-east-1}
-    func testResolve366() throws {
+    func testResolve367() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://dynamodb.us-gov-east-1.api.aws",
             region: "us-gov-east-1"
@@ -8736,7 +8858,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {Endpoint=https://dynamodb.us-east-1.api.aws, Region=us-east-1}
-    func testResolve367() throws {
+    func testResolve368() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://dynamodb.us-east-1.api.aws",
             region: "us-east-1"
@@ -8754,7 +8876,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {Endpoint=https://111111111111.ddb.us-east-1.api.aws, Region=us-east-1}
-    func testResolve368() throws {
+    func testResolve369() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://111111111111.ddb.us-east-1.api.aws",
             region: "us-east-1"
@@ -8773,7 +8895,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// {Endpoint=https://vpce-1a2b3c4d-5e6f.dynamodb.us-east-1.vpce.api.aws, Region=us-east-1}
-    func testResolve369() throws {
+    func testResolve370() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://vpce-1a2b3c4d-5e6f.dynamodb.us-east-1.vpce.api.aws",
             region: "us-east-1"
@@ -8789,24 +8911,6 @@ class EndpointResolverTest: XCTestCase {
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://vpce-1a2b3c4d-5e6f.dynamodb.us-east-1.vpce.api.aws", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
-    }
-
-    /// {Endpoint=https://dynamodb.eu-west-1.api.aws, Region=eu-west-1}
-    func testResolve370() throws {
-        let endpointParams = EndpointParams(
-            endpoint: "https://dynamodb.eu-west-1.api.aws",
-            region: "eu-west-1"
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
-            switch error {
-            case ClientRuntime.EndpointError.unresolved(let message):
-                XCTAssertEqual("Endpoint override is not supported for dual-stack endpoints. Please enable dual-stack functionality by enabling the configuration. For more details, see: https://docs.aws.amazon.com/sdkref/latest/guide/feature-endpoints.html", message)
-            default:
-                XCTFail()
-            }
-        }
     }
 
 }
