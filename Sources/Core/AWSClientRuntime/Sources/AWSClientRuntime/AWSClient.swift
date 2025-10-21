@@ -6,13 +6,13 @@
 //
 
 import protocol ClientRuntime.Client
-import var AWSSDKDynamic.packageVersion
+import let AWSSDKDynamic.packageVersion
 
 public protocol AWSClient: ClientRuntime.Client {}
 
-extension AWSClient {
+public extension AWSClient {
 
-    public static var version: String {
+    static var version: String {
         AWSSDKDynamic.packageVersion
     }
 }
