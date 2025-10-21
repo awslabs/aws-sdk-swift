@@ -12,14 +12,14 @@ class PackageVersionBuilderTests: XCTestCase {
 
     func test_generatePackageVersion() throws {
         let packageVersionFileURL = Bundle.module.url(forResource: "Package.version.next", withExtension: "test")!
-        let packageVersionSwiftURL = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
+        let packageVersionSwiftFileURL = FileManager.default.temporaryDirectory.appending(path: UUID().uuidString)
 
         try PackageVersionBuilder(
             packageVersionFileURL: packageVersionFileURL,
-            packageVersionSwiftFileURL: packageVersionSwiftURL
+            packageVersionSwiftFileURL: packageVersionSwiftFileURL
         ).generatePackageVersionFile()
 
-        let packageVersionSwiftContents = try XCTUnwrap(Data(contentsOf: packageVersionSwiftURL))
+        let packageVersionSwiftContents = try XCTUnwrap(Data(contentsOf: packageVersionSwiftFileURL))
         let packageVersionSwift = try XCTUnwrap(String(data: packageVersionSwiftContents, encoding: .utf8))
 
         let expected = """
@@ -36,5 +36,14 @@ class PackageVersionBuilderTests: XCTestCase {
             """
 
         XCTAssertEqual(packageVersionSwift, expected)
+    }
+
+    func test_generateDefaultFileURLs() throws {
+        let subject = PackageVersionBuilder(repoPath: "/path/to/sdk")
+
+        XCTAssertEqual(subject.packageVersionFileURL, URL(fileURLWithPath: "/path/to/sdk/Package.version.next"))
+        XCTAssertEqual(subject.packageVersionSwiftFileURL,
+            URL(fileURLWithPath: "/path/to/sdk/Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic/PackageVersion.swift")
+        )
     }
 }
