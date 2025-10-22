@@ -42,6 +42,38 @@ extension PaginatorSequence where OperationStackInput == DescribeScheduleInput, 
     }
 }
 extension MediaLiveClient {
+    /// Paginate over `[ListAlertsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAlertsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAlertsOutput`
+    public func listAlertsPaginated(input: ListAlertsInput) -> ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput> {
+        return ClientRuntime.PaginatorSequence<ListAlertsInput, ListAlertsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAlerts(input:))
+    }
+}
+
+extension ListAlertsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAlertsInput {
+        return ListAlertsInput(
+            channelId: self.channelId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            stateFilter: self.stateFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAlertsInput, OperationStackOutput == ListAlertsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAlertsPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.ChannelAlert]`
+    /// - Returns: `[MediaLiveClientTypes.ChannelAlert]`
+    public func alerts() async throws -> [MediaLiveClientTypes.ChannelAlert] {
+        return try await self.asyncCompactMap { item in item.alerts }
+    }
+}
+extension MediaLiveClient {
     /// Paginate over `[ListChannelPlacementGroupsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -165,6 +197,38 @@ extension PaginatorSequence where OperationStackInput == ListCloudWatchAlarmTemp
     /// - Returns: `[MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]`
     public func cloudWatchAlarmTemplates() async throws -> [MediaLiveClientTypes.CloudWatchAlarmTemplateSummary] {
         return try await self.asyncCompactMap { item in item.cloudWatchAlarmTemplates }
+    }
+}
+extension MediaLiveClient {
+    /// Paginate over `[ListClusterAlertsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListClusterAlertsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListClusterAlertsOutput`
+    public func listClusterAlertsPaginated(input: ListClusterAlertsInput) -> ClientRuntime.PaginatorSequence<ListClusterAlertsInput, ListClusterAlertsOutput> {
+        return ClientRuntime.PaginatorSequence<ListClusterAlertsInput, ListClusterAlertsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listClusterAlerts(input:))
+    }
+}
+
+extension ListClusterAlertsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListClusterAlertsInput {
+        return ListClusterAlertsInput(
+            clusterId: self.clusterId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            stateFilter: self.stateFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListClusterAlertsInput, OperationStackOutput == ListClusterAlertsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listClusterAlertsPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.ClusterAlert]`
+    /// - Returns: `[MediaLiveClientTypes.ClusterAlert]`
+    public func alerts() async throws -> [MediaLiveClientTypes.ClusterAlert] {
+        return try await self.asyncCompactMap { item in item.alerts }
     }
 }
 extension MediaLiveClient {
@@ -379,6 +443,38 @@ extension PaginatorSequence where OperationStackInput == ListInputSecurityGroups
     /// - Returns: `[MediaLiveClientTypes.InputSecurityGroup]`
     public func inputSecurityGroups() async throws -> [MediaLiveClientTypes.InputSecurityGroup] {
         return try await self.asyncCompactMap { item in item.inputSecurityGroups }
+    }
+}
+extension MediaLiveClient {
+    /// Paginate over `[ListMultiplexAlertsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMultiplexAlertsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMultiplexAlertsOutput`
+    public func listMultiplexAlertsPaginated(input: ListMultiplexAlertsInput) -> ClientRuntime.PaginatorSequence<ListMultiplexAlertsInput, ListMultiplexAlertsOutput> {
+        return ClientRuntime.PaginatorSequence<ListMultiplexAlertsInput, ListMultiplexAlertsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listMultiplexAlerts(input:))
+    }
+}
+
+extension ListMultiplexAlertsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMultiplexAlertsInput {
+        return ListMultiplexAlertsInput(
+            maxResults: self.maxResults,
+            multiplexId: self.multiplexId,
+            nextToken: token,
+            stateFilter: self.stateFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListMultiplexAlertsInput, OperationStackOutput == ListMultiplexAlertsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listMultiplexAlertsPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.MultiplexAlert]`
+    /// - Returns: `[MediaLiveClientTypes.MultiplexAlert]`
+    public func alerts() async throws -> [MediaLiveClientTypes.MultiplexAlert] {
+        return try await self.asyncCompactMap { item in item.alerts }
     }
 }
 extension MediaLiveClient {

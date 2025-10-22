@@ -293,332 +293,8 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// For region us-gov-west-1 with FIPS enabled and DualStack enabled
-    func testResolve12() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-west-1",
-            useDualStack: true,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-gov-west-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-west-1 with FIPS enabled and DualStack disabled
-    func testResolve13() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-west-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-west-1 with FIPS disabled and DualStack enabled
-    func testResolve14() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-west-1",
-            useDualStack: true,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-gov-west-1.api.aws", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-gov-west-1 with FIPS disabled and DualStack disabled
-    func testResolve15() throws {
-        let endpointParams = EndpointParams(
-            region: "us-gov-west-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-gov-west-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
-    func testResolve16() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-iso-east-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
-    func testResolve17() throws {
-        let endpointParams = EndpointParams(
-            region: "us-iso-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-iso-east-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
-    func testResolve18() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-isob-east-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
-    func testResolve19() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isob-east-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-isob-east-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-isoe-west-1 with FIPS enabled and DualStack disabled
-    func testResolve20() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-isoe-west-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "eu-isoe-west-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region eu-isoe-west-1 with FIPS disabled and DualStack disabled
-    func testResolve21() throws {
-        let endpointParams = EndpointParams(
-            region: "eu-isoe-west-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "eu-isoe-west-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isof-south-1 with FIPS enabled and DualStack disabled
-    func testResolve22() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isof-south-1",
-            useDualStack: false,
-            useFIPS: true
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-isof-south-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
-    /// For region us-isof-south-1 with FIPS disabled and DualStack disabled
-    func testResolve23() throws {
-        let endpointParams = EndpointParams(
-            region: "us-isof-south-1",
-            useDualStack: false,
-            useFIPS: false
-        )
-        let resolver = try DefaultEndpointResolver()
-
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingRegion": "us-isof-south-1"
-                    ]
-                ]
-            ]
-
-        let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
-    }
-
     /// For region eusc-de-east-1 with FIPS enabled and DualStack disabled
-    func testResolve24() throws {
+    func testResolve12() throws {
         let endpointParams = EndpointParams(
             region: "eusc-de-east-1",
             useDualStack: false,
@@ -645,7 +321,7 @@ class EndpointResolverTest: XCTestCase {
     }
 
     /// For region eusc-de-east-1 with FIPS disabled and DualStack disabled
-    func testResolve25() throws {
+    func testResolve13() throws {
         let endpointParams = EndpointParams(
             region: "eusc-de-east-1",
             useDualStack: false,
@@ -667,6 +343,330 @@ class EndpointResolverTest: XCTestCase {
 
         let headers = SmithyHTTPAPI.Headers()
         let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.eusc-de-east-1.amazonaws.eu", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-iso-east-1 with FIPS enabled and DualStack disabled
+    func testResolve14() throws {
+        let endpointParams = EndpointParams(
+            region: "us-iso-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-iso-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-iso-east-1 with FIPS disabled and DualStack disabled
+    func testResolve15() throws {
+        let endpointParams = EndpointParams(
+            region: "us-iso-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-iso-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-iso-east-1.c2s.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isob-east-1 with FIPS enabled and DualStack disabled
+    func testResolve16() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-isob-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isob-east-1 with FIPS disabled and DualStack disabled
+    func testResolve17() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isob-east-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-isob-east-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-isob-east-1.sc2s.sgov.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-isoe-west-1 with FIPS enabled and DualStack disabled
+    func testResolve18() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-isoe-west-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "eu-isoe-west-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region eu-isoe-west-1 with FIPS disabled and DualStack disabled
+    func testResolve19() throws {
+        let endpointParams = EndpointParams(
+            region: "eu-isoe-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "eu-isoe-west-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.eu-isoe-west-1.cloud.adc-e.uk", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isof-south-1 with FIPS enabled and DualStack disabled
+    func testResolve20() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isof-south-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-isof-south-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-isof-south-1 with FIPS disabled and DualStack disabled
+    func testResolve21() throws {
+        let endpointParams = EndpointParams(
+            region: "us-isof-south-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-isof-south-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-isof-south-1.csp.hci.ic.gov", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-west-1 with FIPS enabled and DualStack enabled
+    func testResolve22() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            useDualStack: true,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-gov-west-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-gov-west-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-west-1 with FIPS enabled and DualStack disabled
+    func testResolve23() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            useDualStack: false,
+            useFIPS: true
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-gov-west-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce-fips.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-west-1 with FIPS disabled and DualStack enabled
+    func testResolve24() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            useDualStack: true,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-gov-west-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-gov-west-1.api.aws", headers: headers, properties: properties)
+
+        XCTAssertEqual(expected, actual)
+    }
+
+    /// For region us-gov-west-1 with FIPS disabled and DualStack disabled
+    func testResolve25() throws {
+        let endpointParams = EndpointParams(
+            region: "us-gov-west-1",
+            useDualStack: false,
+            useFIPS: false
+        )
+        let resolver = try DefaultEndpointResolver()
+
+        let actual = try resolver.resolve(params: endpointParams)
+
+        let properties: [String: SmithyHTTPAPI.EndpointPropertyValue] =
+            [
+                "authSchemes": [
+                    [
+                        "name": "sigv4",
+                        "signingRegion": "us-gov-west-1"
+                    ]
+                ]
+            ]
+
+        let headers = SmithyHTTPAPI.Headers()
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://ce.us-gov-west-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

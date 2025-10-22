@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMRecommendedActionsClient: ClientRuntime.Client {
     public static let clientName = "BCMRecommendedActionsClient"
-    public static let version = "1.5.67"
+    public static let version = "1.5.68"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration
     let serviceName = "BCM Recommended Actions"

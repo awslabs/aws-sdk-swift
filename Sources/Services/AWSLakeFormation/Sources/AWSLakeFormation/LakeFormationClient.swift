@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class LakeFormationClient: ClientRuntime.Client {
     public static let clientName = "LakeFormationClient"
-    public static let version = "1.5.67"
+    public static let version = "1.5.68"
     let client: ClientRuntime.SdkHttpClient
     let config: LakeFormationClient.LakeFormationClientConfiguration
     let serviceName = "LakeFormation"
