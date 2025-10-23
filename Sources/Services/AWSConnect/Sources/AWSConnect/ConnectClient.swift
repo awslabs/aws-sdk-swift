@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ConnectClient: ClientRuntime.Client {
     public static let clientName = "ConnectClient"
-    public static let version = "1.5.67"
+    public static let version = "1.5.69"
     let client: ClientRuntime.SdkHttpClient
     let config: ConnectClient.ConnectClientConfiguration
     let serviceName = "Connect"
@@ -818,6 +818,121 @@ extension ConnectClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateDefaultVocabulary")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `AssociateEmailAddressAlias` operation on the `Connect` service.
+    ///
+    /// Associates an email address alias with an existing email address in an Amazon Connect instance. This creates a forwarding relationship where emails sent to the alias email address are automatically forwarded to the primary email address. Use cases Following are common uses cases for this API:
+    ///
+    /// * Unified customer support: Create multiple entry points (for example, support@example.com, help@example.com, customercare@example.com) that all forward to a single agent queue for streamlined management.
+    ///
+    /// * Department consolidation: Forward emails from legacy department addresses (for example, sales@example.com, info@example.com) to a centralized customer service email during organizational restructuring.
+    ///
+    /// * Brand management: Enable you to use familiar brand-specific email addresses that forward to the appropriate Amazon Connect instance email address.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * Each email address can have a maximum of one alias. You cannot create multiple aliases for the same email address.
+    ///
+    /// * If the alias email address already receives direct emails, it continues to receive direct emails plus forwarded emails.
+    ///
+    /// * You cannot chain email aliases together (that is, create an alias of an alias).
+    ///
+    ///
+    /// AssociateEmailAddressAlias does not return the following information:
+    ///
+    /// * A confirmation of the alias relationship details (you must call [DescribeEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeEmailAddress.html) to verify).
+    ///
+    /// * The timestamp of when the association occurred.
+    ///
+    /// * The status of the forwarding configuration.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html). Related operations
+    ///
+    /// * [DisassociateEmailAddressAlias](https://docs.aws.amazon.com/connect/latest/APIReference/API_DisassociateEmailAddressAlias.html): Removes the alias association between two email addresses in an Amazon Connect instance.
+    ///
+    /// * [DescribeEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeEmailAddress.html): View current alias configurations for an email address.
+    ///
+    /// * [SearchEmailAddresses](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchEmailAddresses.html): Find email addresses and their alias relationships across an instance.
+    ///
+    /// * [CreateEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateEmailAddress.html): Create new email addresses that can participate in alias relationships.
+    ///
+    /// * [DeleteEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteEmailAddress.html): Remove email addresses (automatically removes any alias relationships).
+    ///
+    /// * [UpdateEmailAddressMetadata](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateEmailAddressMetadata.html): Modify email address properties (does not affect alias relationships).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `AssociateEmailAddressAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `AssociateEmailAddressAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `IdempotencyException` : An entity with the same name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func associateEmailAddressAlias(input: AssociateEmailAddressAliasInput) async throws -> AssociateEmailAddressAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "associateEmailAddressAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(AssociateEmailAddressAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: AssociateEmailAddressAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<AssociateEmailAddressAliasOutput>(AssociateEmailAddressAliasOutput.httpOutput(from:), AssociateEmailAddressAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<AssociateEmailAddressAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<AssociateEmailAddressAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<AssociateEmailAddressAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<AssociateEmailAddressAliasInput, AssociateEmailAddressAliasOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "AssociateEmailAddressAlias")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -6290,7 +6405,7 @@ extension ConnectClient {
 
     /// Performs the `DescribeAuthenticationProfile` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Describes the target authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Describes the target authentication profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeAuthenticationProfileInput`)
     ///
@@ -8322,6 +8437,122 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisassociateEmailAddressAlias` operation on the `Connect` service.
+    ///
+    /// Removes the alias association between two email addresses in an Amazon Connect instance. After disassociation, emails sent to the former alias email address are no longer forwarded to the primary email address. Both email addresses continue to exist independently and can receive emails directly. Use cases Following are common uses cases for this API:
+    ///
+    /// * Department separation: Remove alias relationships when splitting a consolidated support queue back into separate department-specific queues.
+    ///
+    /// * Email address retirement: Cleanly remove forwarding relationships before decommissioning old email addresses.
+    ///
+    /// * Organizational restructuring: Reconfigure email routing when business processes change and aliases are no longer needed.
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * Concurrent operations: This API uses distributed locking, so concurrent operations on the same email addresses may be temporarily blocked.
+    ///
+    /// * Emails sent to the former alias address are still delivered directly to that address if it exists.
+    ///
+    /// * You do not need to delete the email addresses after disassociation. Both addresses remain active independently.
+    ///
+    /// * After a successful disassociation, you can immediately create a new alias relationship with the same addresses.
+    ///
+    /// * 200 status means alias was successfully disassociated.
+    ///
+    ///
+    /// DisassociateEmailAddressAlias does not return the following information:
+    ///
+    /// * Details in the response about the email that was disassociated. The response returns an empty body.
+    ///
+    /// * The timestamp of when the disassociation occurred.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html). Related operations
+    ///
+    /// * [AssociateEmailAddressAlias](https://docs.aws.amazon.com/connect/latest/APIReference/API_AssociateEmailAddressAlias.html): Associates an email address alias with an existing email address in an Amazon Connect instance.
+    ///
+    /// * [DescribeEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeEmailAddress.html): View current alias configurations for an email address.
+    ///
+    /// * [SearchEmailAddresses](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchEmailAddresses.html): Find email addresses and their alias relationships across an instance.
+    ///
+    /// * [CreateEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateEmailAddress.html): Create new email addresses that can participate in alias relationships.
+    ///
+    /// * [DeleteEmailAddress](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteEmailAddress.html): Remove email addresses (automatically removes any alias relationships).
+    ///
+    /// * [UpdateEmailAddressMetadata](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateEmailAddressMetadata.html): Modify email address properties (does not affect alias relationships).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisassociateEmailAddressAliasInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisassociateEmailAddressAliasOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceConflictException` : A resource already has that name.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func disassociateEmailAddressAlias(input: DisassociateEmailAddressAliasInput) async throws -> DisassociateEmailAddressAliasOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disassociateEmailAddressAlias")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(DisassociateEmailAddressAliasInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DisassociateEmailAddressAliasInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisassociateEmailAddressAliasOutput>(DisassociateEmailAddressAliasOutput.httpOutput(from:), DisassociateEmailAddressAliasOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisassociateEmailAddressAliasOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisassociateEmailAddressAliasOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisassociateEmailAddressAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisassociateEmailAddressAliasInput, DisassociateEmailAddressAliasOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisassociateEmailAddressAlias")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DisassociateFlow` operation on the `Connect` service.
     ///
     /// Disassociates a connect resource from a flow.
@@ -10078,7 +10309,7 @@ extension ConnectClient {
 
     /// Performs the `ImportPhoneNumber` operation on the `Connect` service.
     ///
-    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services Support ticket.
+    /// Imports a claimed phone number from an external service, such as Amazon Web Services End User Messaging, into an Amazon Connect instance. You can call this API only in the same Amazon Web Services Region where the Amazon Connect instance was created. Call the [DescribePhoneNumber](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribePhoneNumber.html) API to verify the status of a previous ImportPhoneNumber operation. If you plan to claim or import numbers and then release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim or import and then release up to 200% of your maximum number of active phone numbers. If you claim or import and then release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming or importing any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed or imported numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web ServicesSupport ticket.
     ///
     /// - Parameter input: [no documentation found] (Type: `ImportPhoneNumberInput`)
     ///
@@ -10502,7 +10733,7 @@ extension ConnectClient {
 
     /// Performs the `ListAuthenticationProfiles` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Provides summary information about the authentication profiles in a specified Amazon Connect instance.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAuthenticationProfilesInput`)
     ///
@@ -13900,7 +14131,7 @@ extension ConnectClient {
 
     /// Performs the `ReleasePhoneNumber` operation on the `Connect` service.
     ///
-    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web Services Support. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
+    /// Releases a phone number previously claimed to an Amazon Connect instance or traffic distribution group. You can call this API only in the Amazon Web Services Region where the number was claimed. To release phone numbers from a traffic distribution group, use the ReleasePhoneNumber API, not the Amazon Connect admin website. After releasing a phone number, the phone number enters into a cooldown period for up to 180 days. It cannot be searched for or claimed again until the period has ended. If you accidentally release a phone number, contact Amazon Web ServicesSupport. If you plan to claim and release numbers frequently, contact us for a service quota exception. Otherwise, it is possible you will be blocked from claiming and releasing any more numbers until up to 180 days past the oldest number released has expired. By default you can claim and release up to 200% of your maximum number of active phone numbers. If you claim and release phone numbers using the UI or API during a rolling 180 day cycle that exceeds 200% of your phone number service level quota, you will be blocked from claiming any more numbers until 180 days past the oldest number released has expired. For example, if you already have 99 claimed numbers and a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim 99, and then release 99, you will have exceeded the 200% limit. At that point you are blocked from claiming any more numbers until you open an Amazon Web Services support ticket.
     ///
     /// - Parameter input: [no documentation found] (Type: `ReleasePhoneNumberInput`)
     ///
@@ -15732,7 +15963,7 @@ extension ConnectClient {
     /// * The [quota for concurrent active chats](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) is exceeded. Active chat throttling returns a LimitExceededException.
     ///
     ///
-    /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
+    /// If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web ServicesSupport. For more information about chat, see the following topics in the Amazon Connect Administrator Guide:
     ///
     /// * [Concepts: Web and mobile messaging capabilities in Amazon Connect](https://docs.aws.amazon.com/connect/latest/adminguide/web-and-mobile-chat.html)
     ///
@@ -16608,7 +16839,7 @@ extension ConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ContactNotFoundException` : The contact with the specified ID is not active or does not exist.
+    /// - `ContactNotFoundException` : The contact with the specified ID does not exist.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
@@ -17397,7 +17628,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateAuthenticationProfile` operation on the `Connect` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Updates the selected authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Updates the selected authentication profile.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAuthenticationProfileInput`)
     ///

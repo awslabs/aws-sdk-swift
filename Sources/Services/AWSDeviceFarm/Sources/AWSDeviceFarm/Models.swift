@@ -1153,6 +1153,8 @@ extension DeviceFarmClientTypes {
 
     /// Configuration settings for a remote access session, including billing method.
     public struct CreateRemoteAccessSessionConfiguration: Swift.Sendable {
+        /// A list of upload ARNs for app packages to be installed onto your device. (Maximum 3)
+        public var auxiliaryApps: [Swift.String]?
         /// The billing method for the remote access session.
         public var billingMethod: DeviceFarmClientTypes.BillingMethod?
         /// The device proxy to be configured on the device for the remote access session.
@@ -1161,10 +1163,12 @@ extension DeviceFarmClientTypes {
         public var vpceConfigurationArns: [Swift.String]?
 
         public init(
+            auxiliaryApps: [Swift.String]? = nil,
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
             deviceProxy: DeviceFarmClientTypes.DeviceProxy? = nil,
             vpceConfigurationArns: [Swift.String]? = nil
         ) {
+            self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.deviceProxy = deviceProxy
             self.vpceConfigurationArns = vpceConfigurationArns
@@ -1206,6 +1210,8 @@ extension DeviceFarmClientTypes {
 
 /// Creates and submits a request to start a remote access session.
 public struct CreateRemoteAccessSessionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the app to create the remote access session.
+    public var appArn: Swift.String?
     /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This identifier is required only if remoteDebugEnabled is set to true. Remote debugging is [no longer supported](https://docs.aws.amazon.com/devicefarm/latest/developerguide/history.html).
     public var clientId: Swift.String?
     /// The configuration information for the remote access session request.
@@ -1240,6 +1246,7 @@ public struct CreateRemoteAccessSessionInput: Swift.Sendable {
     public var sshPublicKey: Swift.String?
 
     public init(
+        appArn: Swift.String? = nil,
         clientId: Swift.String? = nil,
         configuration: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration? = nil,
         deviceArn: Swift.String? = nil,
@@ -1253,6 +1260,7 @@ public struct CreateRemoteAccessSessionInput: Swift.Sendable {
         skipAppResign: Swift.Bool? = nil,
         sshPublicKey: Swift.String? = nil
     ) {
+        self.appArn = appArn
         self.clientId = clientId
         self.configuration = configuration
         self.deviceArn = deviceArn
@@ -1645,6 +1653,8 @@ extension DeviceFarmClientTypes {
 
     /// Represents information about the remote access session.
     public struct RemoteAccessSession: Swift.Sendable {
+        /// The ARN for the app to be installed onto your device.
+        public var appUpload: Swift.String?
         /// The Amazon Resource Name (ARN) of the remote access session.
         public var arn: Swift.String?
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see [AWS Device Farm terminology](https://docs.aws.amazon.com/devicefarm/latest/developerguide/welcome.html#welcome-terminology).
@@ -1731,6 +1741,7 @@ extension DeviceFarmClientTypes {
         public var vpcConfig: DeviceFarmClientTypes.VpcConfig?
 
         public init(
+            appUpload: Swift.String? = nil,
             arn: Swift.String? = nil,
             billingMethod: DeviceFarmClientTypes.BillingMethod? = nil,
             clientId: Swift.String? = nil,
@@ -1755,6 +1766,7 @@ extension DeviceFarmClientTypes {
             stopped: Foundation.Date? = nil,
             vpcConfig: DeviceFarmClientTypes.VpcConfig? = nil
         ) {
+            self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
             self.clientId = clientId
@@ -7197,6 +7209,7 @@ extension CreateRemoteAccessSessionInput {
 
     static func write(value: CreateRemoteAccessSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["appArn"].write(value.appArn)
         try writer["clientId"].write(value.clientId)
         try writer["configuration"].write(value.configuration, with: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration.write(value:to:))
         try writer["deviceArn"].write(value.deviceArn)
@@ -10376,6 +10389,7 @@ extension DeviceFarmClientTypes.RemoteAccessSession {
         value.skipAppResign = try reader["skipAppResign"].readIfPresent()
         value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: DeviceFarmClientTypes.VpcConfig.read(from:))
         value.deviceProxy = try reader["deviceProxy"].readIfPresent(with: DeviceFarmClientTypes.DeviceProxy.read(from:))
+        value.appUpload = try reader["appUpload"].readIfPresent()
         return value
     }
 }
@@ -11004,6 +11018,7 @@ extension DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration {
 
     static func write(value: DeviceFarmClientTypes.CreateRemoteAccessSessionConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["auxiliaryApps"].writeList(value.auxiliaryApps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["billingMethod"].write(value.billingMethod)
         try writer["deviceProxy"].write(value.deviceProxy, with: DeviceFarmClientTypes.DeviceProxy.write(value:to:))
         try writer["vpceConfigurationArns"].writeList(value.vpceConfigurationArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)

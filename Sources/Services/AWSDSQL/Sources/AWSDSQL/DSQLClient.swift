@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DSQLClient: ClientRuntime.Client {
     public static let clientName = "DSQLClient"
-    public static let version = "1.5.67"
+    public static let version = "1.5.69"
     let client: ClientRuntime.SdkHttpClient
     let config: DSQLClient.DSQLClientConfiguration
     let serviceName = "DSQL"
@@ -373,7 +373,7 @@ extension DSQLClient {
 extension DSQLClient {
     /// Performs the `CreateCluster` operation on the `DSQL` service.
     ///
-    /// The CreateCluster API allows you to create both single-region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation. Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below. Required permissions dsql:CreateCluster Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:TagResource Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:PutMultiRegionProperties Permission to configure multi-region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:AddPeerCluster When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:
+    /// The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation. Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below. Required permissions dsql:CreateCluster Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:TagResource Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:PutMultiRegionProperties Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/* dsql:AddPeerCluster When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:
     ///
     /// * Local cluster: arn:aws:dsql:region:account-id:cluster/*
     ///
@@ -526,6 +526,78 @@ extension DSQLClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteClusterPolicy` operation on the `DSQL` service.
+    ///
+    /// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteClusterPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteClusterPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
+    public func deleteClusterPolicy(input: DeleteClusterPolicyInput) async throws -> DeleteClusterPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteClusterPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dsql")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteClusterPolicyInput, DeleteClusterPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>(DeleteClusterPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>(DeleteClusterPolicyInput.queryItemProvider(_:)))
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteClusterPolicyOutput>(DeleteClusterPolicyOutput.httpOutput(from:), DeleteClusterPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteClusterPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DSQL", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteClusterPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteClusterPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteClusterPolicyInput, DeleteClusterPolicyOutput>(serviceID: serviceName, version: DSQLClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DSQL")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteClusterPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetCluster` operation on the `DSQL` service.
     ///
     /// Retrieves information about a cluster.
@@ -583,6 +655,75 @@ extension DSQLClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DSQL")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetCluster")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetClusterPolicy` operation on the `DSQL` service.
+    ///
+    /// Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetClusterPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetClusterPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
+    public func getClusterPolicy(input: GetClusterPolicyInput) async throws -> GetClusterPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getClusterPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dsql")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetClusterPolicyInput, GetClusterPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetClusterPolicyInput, GetClusterPolicyOutput>(GetClusterPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetClusterPolicyInput, GetClusterPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetClusterPolicyOutput>(GetClusterPolicyOutput.httpOutput(from:), GetClusterPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetClusterPolicyInput, GetClusterPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetClusterPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DSQL", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetClusterPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetClusterPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetClusterPolicyInput, GetClusterPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetClusterPolicyInput, GetClusterPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetClusterPolicyInput, GetClusterPolicyOutput>(serviceID: serviceName, version: DSQLClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DSQL")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetClusterPolicy")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -803,6 +944,80 @@ extension DSQLClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `PutClusterPolicy` operation on the `DSQL` service.
+    ///
+    /// Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `PutClusterPolicyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `PutClusterPolicyOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The submitted action has conflicts.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input failed to satisfy the constraints specified by an Amazon Web Services service.
+    public func putClusterPolicy(input: PutClusterPolicyInput) async throws -> PutClusterPolicyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putClusterPolicy")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dsql")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<PutClusterPolicyInput, PutClusterPolicyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>(keyPath: \.clientToken))
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>(PutClusterPolicyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: PutClusterPolicyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<PutClusterPolicyOutput>(PutClusterPolicyOutput.httpOutput(from:), PutClusterPolicyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<PutClusterPolicyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("DSQL", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutClusterPolicyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutClusterPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutClusterPolicyInput, PutClusterPolicyOutput>(serviceID: serviceName, version: DSQLClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DSQL")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "PutClusterPolicy")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `DSQL` service.
     ///
     /// Tags a resource with a map of key and value pairs.
@@ -948,7 +1163,7 @@ extension DSQLClient {
 
     /// Performs the `UpdateCluster` operation on the `DSQL` service.
     ///
-    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. Note that updating multi-region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:PutMultiRegionProperties Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:GetCluster Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:AddPeerCluster Permission to add peer clusters. Resources:
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions. Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section. Required permissions dsql:UpdateCluster Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:PutMultiRegionProperties Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:GetCluster Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id  dsql:AddPeerCluster Permission to add peer clusters. Resources:
     ///
     /// * Local cluster: arn:aws:dsql:region:account-id:cluster/cluster-id
     ///
