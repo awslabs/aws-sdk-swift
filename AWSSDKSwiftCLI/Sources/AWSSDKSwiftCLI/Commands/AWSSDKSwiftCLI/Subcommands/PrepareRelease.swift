@@ -208,6 +208,7 @@ struct PrepareRelease {
                 "packageDependencies.plist",
                 "Sources/Services",
                 "Sources/Core/AWSSDKForSwift/Documentation.docc/AWSSDKForSwift.md",
+                "Sources/Core/SDKForSwift/Documentation.docc/SDKForSwift.md",
                 "Sources/Core/AWSSDKPartitions/Sources/AWSSDKPartitions/Partitions.swift",
                 "Sources/Core/AWSSDKIdentity/",
             ]
