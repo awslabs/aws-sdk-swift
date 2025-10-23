@@ -132,18 +132,16 @@ jobs:
     # Details on why AL2 isn't included: https://github.com/awslabs/aws-sdk-swift/pull/1833
     if: github.repository == 'awslabs/aws-sdk-swift' || github.event_name == 'pull_request'
     runs-on: ${{ matrix.runner }}
-    container: swift:${{ matrix.version }}-${{ matrix.os }}
+    container: swift:${{ matrix.swift }}
     strategy:
       fail-fast: false
       matrix:
         runner:
           - ubuntu-24.04
           - ubuntu-24.04-arm
-        os:
-          - jammy
-        version:
-          - "5.9"
-          - "6.2"
+        swift:
+          - "5.9-jammy"
+          - "6.2-noble"
     env:
       ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
@@ -179,10 +177,10 @@ jobs:
           path: |
             ~/Library/Caches/org.swift.swiftpm
             ~/.cache/org.swift.swiftpm
-          key: 1-${{ runner.os }}-swift-${{ matrix.version }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+          key: 1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
           restore-keys: |
-            1-${{ runner.os }}-swift-${{ matrix.version }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
-            1-${{ runner.os }}-swift-${{ matrix.version }}-spm-
+            1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-${{ hashFiles('Package.swift', 'AWSSDKSwiftCLI/Package.swift') }}
+            1-${{ runner.os }}-swift-${{ matrix.swift }}-spm-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
