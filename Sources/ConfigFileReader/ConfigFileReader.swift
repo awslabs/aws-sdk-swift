@@ -42,9 +42,10 @@ public struct ConfigFileReader {
         for line in arrayConfigData{
             if line.isEmpty || line.hasPrefix("#") || line.hasPrefix(";") {
                 continue
-            }
-            guard line.hasPrefix("[") && line.hasSuffix("]") else{
-                throw ParsingError.incompleteProfile(line: String(line))
+            } else if line.contains("profile"){
+                guard line.hasPrefix("[") && line.hasSuffix("]") else{
+                        throw ParsingError.incompleteProfile(line: String(line))
+                }
             }
             switch line{
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
@@ -84,10 +85,6 @@ public struct ConfigFileReader {
                 //Identify properties under section
                 let sectionHeader = currentSection
                 let components = line.split(separator: "=", maxSplits: 1).map(String.init)
-                if components.contains(" "){
-                    print("Skipped due to Invalid Property Name: \(components)")
-                    continue
-                }
                 if components.count == 1{
                     let subSectionName = String(components[0].trimmingCharacters(in: .whitespaces))
                     let subSection = ConfigFileSection(name: subSectionName)
