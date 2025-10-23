@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class HealthLakeClient: ClientRuntime.Client {
     public static let clientName = "HealthLakeClient"
-    public static let version = "1.5.68"
+    public static let version = "1.5.69"
     let client: ClientRuntime.SdkHttpClient
     let config: HealthLakeClient.HealthLakeClientConfiguration
     let serviceName = "HealthLake"

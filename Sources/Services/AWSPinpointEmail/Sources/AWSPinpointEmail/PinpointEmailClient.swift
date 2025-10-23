@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PinpointEmailClient: ClientRuntime.Client {
     public static let clientName = "PinpointEmailClient"
-    public static let version = "1.5.68"
+    public static let version = "1.5.69"
     let client: ClientRuntime.SdkHttpClient
     let config: PinpointEmailClient.PinpointEmailClientConfiguration
     let serviceName = "Pinpoint Email"

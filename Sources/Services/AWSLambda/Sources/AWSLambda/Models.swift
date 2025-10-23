@@ -492,9 +492,9 @@ public struct AddPermissionInput: Swift.Sendable {
     /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     /// This member is required.
     public var functionName: Swift.String?
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
-    /// Restricts the lambda:InvokeFunction action to calls coming from a function URL. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// Restricts the lambda:InvokeFunction action to calls coming from a function URL. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var invokedViaFunctionUrl: Swift.Bool?
     /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
@@ -3000,6 +3000,7 @@ extension LambdaClientTypes {
         case nodejs18x
         case nodejs20x
         case nodejs22x
+        case nodejs24x
         case nodejs43
         case nodejs43edge
         case nodejs610
@@ -3045,6 +3046,7 @@ extension LambdaClientTypes {
                 .nodejs18x,
                 .nodejs20x,
                 .nodejs22x,
+                .nodejs24x,
                 .nodejs43,
                 .nodejs43edge,
                 .nodejs610,
@@ -3096,6 +3098,7 @@ extension LambdaClientTypes {
             case .nodejs18x: return "nodejs18.x"
             case .nodejs20x: return "nodejs20.x"
             case .nodejs22x: return "nodejs22.x"
+            case .nodejs24x: return "nodejs24.x"
             case .nodejs43: return "nodejs4.3"
             case .nodejs43edge: return "nodejs4.3-edge"
             case .nodejs610: return "nodejs6.10"
@@ -4087,7 +4090,7 @@ extension LambdaClientTypes {
 }
 
 public struct CreateFunctionUrlConfigInput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -4129,7 +4132,7 @@ public struct CreateFunctionUrlConfigInput: Swift.Sendable {
 }
 
 public struct CreateFunctionUrlConfigOutput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -4978,7 +4981,7 @@ public struct GetFunctionUrlConfigInput: Swift.Sendable {
 }
 
 public struct GetFunctionUrlConfigOutput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -7362,7 +7365,7 @@ public struct UpdateFunctionEventInvokeConfigOutput: Swift.Sendable {
 }
 
 public struct UpdateFunctionUrlConfigInput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
     public var cors: LambdaClientTypes.Cors?
@@ -7403,7 +7406,7 @@ public struct UpdateFunctionUrlConfigInput: Swift.Sendable {
 }
 
 public struct UpdateFunctionUrlConfigOutput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
