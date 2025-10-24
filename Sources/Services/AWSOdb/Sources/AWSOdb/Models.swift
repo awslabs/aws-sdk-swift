@@ -732,7 +732,7 @@ extension OdbClientTypes {
         public var hostname: Swift.String?
         /// Indicates whether mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public var isMtlsEnabledVmCluster: Swift.Bool?
-        /// The Oracle license model that applies to the Autonomous VM cluster. Valid values are LICENSE_INCLUDED or BRING_YOUR_OWN_LICENSE.
+        /// The Oracle license model that applies to the Autonomous VM cluster.
         public var licenseModel: OdbClientTypes.LicenseModel?
         /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.
         public var maintenanceWindow: OdbClientTypes.MaintenanceWindow?
@@ -3209,7 +3209,7 @@ public struct CreateOdbPeeringConnectionOutput: Swift.Sendable {
     /// The unique identifier of the ODB peering connection.
     /// This member is required.
     public var odbPeeringConnectionId: Swift.String?
-    /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+    /// The status of the ODB peering connection.
     public var status: OdbClientTypes.ResourceStatus?
     /// The reason for the current status of the ODB peering connection.
     public var statusReason: Swift.String?
@@ -4034,7 +4034,7 @@ extension OdbClientTypes {
     public struct ManagedS3BackupAccess: Swift.Sendable {
         /// The IPv4 addresses for the managed Amazon S3 backup access.
         public var ipv4Addresses: [Swift.String]?
-        /// The status of the managed Amazon S3 backup access. Valid Values: enabled | disabled
+        /// The status of the managed Amazon S3 backup access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4057,7 +4057,7 @@ extension OdbClientTypes {
         public var ipv4Addresses: [Swift.String]?
         /// The endpoint policy for the Amazon S3 access.
         public var s3PolicyDocument: Swift.String?
-        /// The status of the Amazon S3 access. Valid Values: enabled | disabled
+        /// The status of the Amazon S3 access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4106,7 +4106,7 @@ extension OdbClientTypes {
     public struct ServiceNetworkEndpoint: Swift.Sendable {
         /// The identifier of the VPC endpoint.
         public var vpcEndpointId: Swift.String?
-        /// The type of the VPC endpoint. Valid Values: Interface | Gateway
+        /// The type of the VPC endpoint.
         public var vpcEndpointType: OdbClientTypes.VpcEndpointType?
 
         public init(
@@ -4125,7 +4125,7 @@ extension OdbClientTypes {
     public struct ZeroEtlAccess: Swift.Sendable {
         /// The CIDR block for the Zero-ETL access.
         public var cidr: Swift.String?
-        /// The status of the Zero-ETL access. Valid Values: enabled | disabled
+        /// The status of the Zero-ETL access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4338,7 +4338,7 @@ extension OdbClientTypes {
         public var peerNetworkCidrs: [Swift.String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public var percentProgress: Swift.Float?
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public var status: OdbClientTypes.ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public var statusReason: Swift.String?
@@ -4652,7 +4652,7 @@ extension OdbClientTypes {
         public var peerNetworkCidrs: [Swift.String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public var percentProgress: Swift.Float?
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public var status: OdbClientTypes.ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public var statusReason: Swift.String?

@@ -291,9 +291,9 @@ extension DSQLClientTypes {
 
     /// Defines the structure for multi-Region cluster configurations, containing the witness region and linked cluster settings.
     public struct MultiRegionProperties: Swift.Sendable {
-        /// The set of linked clusters that form the multi-Region cluster configuration. Each linked cluster represents a database instance in a different Region.
+        /// The set of peered clusters that form the multi-Region cluster configuration. Each peered cluster represents a database instance in a different Region.
         public var clusters: [Swift.String]?
-        /// The that serves as the witness region for a multi-Region cluster. The witness region helps maintain cluster consistency and quorum.
+        /// The Region that serves as the witness region for a multi-Region cluster. The witness Region helps maintain cluster consistency and quorum.
         public var witnessRegion: Swift.String?
 
         public init(
@@ -307,6 +307,8 @@ extension DSQLClientTypes {
 }
 
 public struct CreateClusterInput: Swift.Sendable {
+    /// An optional field that controls whether to bypass the lockout prevention check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+    public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
     public var clientToken: Swift.String?
     /// If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
@@ -315,20 +317,26 @@ public struct CreateClusterInput: Swift.Sendable {
     public var kmsEncryptionKey: Swift.String?
     /// The configuration settings when creating a multi-Region cluster, including the witness region and linked cluster properties.
     public var multiRegionProperties: DSQLClientTypes.MultiRegionProperties?
+    /// An optional resource-based policy document in JSON format that defines access permissions for the cluster.
+    public var policy: Swift.String?
     /// A map of key and value pairs to use to tag your cluster.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         kmsEncryptionKey: Swift.String? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
+        policy: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
         self.clientToken = clientToken
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.kmsEncryptionKey = kmsEncryptionKey
         self.multiRegionProperties = multiRegionProperties
+        self.policy = policy
         self.tags = tags
     }
 }
@@ -541,6 +549,38 @@ public struct DeleteClusterOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteClusterPolicyInput: Swift.Sendable {
+    /// Idempotency token so a request is only processed once.
+    public var clientToken: Swift.String?
+    /// The expected version of the policy to delete. This parameter ensures that you're deleting the correct version of the policy and helps prevent accidental deletions.
+    public var expectedPolicyVersion: Swift.String?
+    /// The ID of the cluster.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        expectedPolicyVersion: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.expectedPolicyVersion = expectedPolicyVersion
+        self.identifier = identifier
+    }
+}
+
+public struct DeleteClusterPolicyOutput: Swift.Sendable {
+    /// The version of the policy that was deleted.
+    /// This member is required.
+    public var policyVersion: Swift.String?
+
+    public init(
+        policyVersion: Swift.String? = nil
+    ) {
+        self.policyVersion = policyVersion
+    }
+}
+
 public struct GetClusterInput: Swift.Sendable {
     /// The ID of the cluster to retrieve.
     /// This member is required.
@@ -595,6 +635,35 @@ public struct GetClusterOutput: Swift.Sendable {
         self.multiRegionProperties = multiRegionProperties
         self.status = status
         self.tags = tags
+    }
+}
+
+public struct GetClusterPolicyInput: Swift.Sendable {
+    /// The ID of the cluster to retrieve the policy from.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    ) {
+        self.identifier = identifier
+    }
+}
+
+public struct GetClusterPolicyOutput: Swift.Sendable {
+    /// The resource-based policy document attached to the cluster, returned as a JSON string.
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The version of the policy document. This version number is incremented each time the policy is updated.
+    /// This member is required.
+    public var policyVersion: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        policyVersion: Swift.String? = nil
+    ) {
+        self.policy = policy
+        self.policyVersion = policyVersion
     }
 }
 
@@ -736,6 +805,47 @@ public struct ListClustersOutput: Swift.Sendable {
     ) {
         self.clusters = clusters
         self.nextToken = nextToken
+    }
+}
+
+public struct PutClusterPolicyInput: Swift.Sendable {
+    /// A flag that allows you to bypass the policy lockout safety check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+    public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
+    /// Idempotency token so a request is only processed once.
+    public var clientToken: Swift.String?
+    /// The expected version of the current policy. This parameter ensures that you're updating the correct version of the policy and helps prevent concurrent modification conflicts.
+    public var expectedPolicyVersion: Swift.String?
+    /// The ID of the cluster.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions.
+    /// This member is required.
+    public var policy: Swift.String?
+
+    public init(
+        bypassPolicyLockoutSafetyCheck: Swift.Bool? = nil,
+        clientToken: Swift.String? = nil,
+        expectedPolicyVersion: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        policy: Swift.String? = nil
+    ) {
+        self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+        self.clientToken = clientToken
+        self.expectedPolicyVersion = expectedPolicyVersion
+        self.identifier = identifier
+        self.policy = policy
+    }
+}
+
+public struct PutClusterPolicyOutput: Swift.Sendable {
+    /// The version of the policy after it has been updated or created.
+    /// This member is required.
+    public var policyVersion: Swift.String?
+
+    public init(
+        policyVersion: Swift.String? = nil
+    ) {
+        self.policyVersion = policyVersion
     }
 }
 
@@ -881,6 +991,32 @@ extension DeleteClusterInput {
     }
 }
 
+extension DeleteClusterPolicyInput {
+
+    static func urlPathProvider(_ value: DeleteClusterPolicyInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/cluster/\(identifier.urlPercentEncoding())/policy"
+    }
+}
+
+extension DeleteClusterPolicyInput {
+
+    static func queryItemProvider(_ value: DeleteClusterPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "client-token".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        if let expectedPolicyVersion = value.expectedPolicyVersion {
+            let expectedPolicyVersionQueryItem = Smithy.URIQueryItem(name: "expected-policy-version".urlPercentEncoding(), value: Swift.String(expectedPolicyVersion).urlPercentEncoding())
+            items.append(expectedPolicyVersionQueryItem)
+        }
+        return items
+    }
+}
+
 extension GetClusterInput {
 
     static func urlPathProvider(_ value: GetClusterInput) -> Swift.String? {
@@ -888,6 +1024,16 @@ extension GetClusterInput {
             return nil
         }
         return "/cluster/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension GetClusterPolicyInput {
+
+    static func urlPathProvider(_ value: GetClusterPolicyInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/cluster/\(identifier.urlPercentEncoding())/policy"
     }
 }
 
@@ -931,6 +1077,16 @@ extension ListTagsForResourceInput {
             return nil
         }
         return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension PutClusterPolicyInput {
+
+    static func urlPathProvider(_ value: PutClusterPolicyInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/cluster/\(identifier.urlPercentEncoding())/policy"
     }
 }
 
@@ -984,11 +1140,24 @@ extension CreateClusterInput {
 
     static func write(value: CreateClusterInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["bypassPolicyLockoutSafetyCheck"].write(value.bypassPolicyLockoutSafetyCheck)
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["kmsEncryptionKey"].write(value.kmsEncryptionKey)
         try writer["multiRegionProperties"].write(value.multiRegionProperties, with: DSQLClientTypes.MultiRegionProperties.write(value:to:))
+        try writer["policy"].write(value.policy)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension PutClusterPolicyInput {
+
+    static func write(value: PutClusterPolicyInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bypassPolicyLockoutSafetyCheck"].write(value.bypassPolicyLockoutSafetyCheck)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["expectedPolicyVersion"].write(value.expectedPolicyVersion)
+        try writer["policy"].write(value.policy)
     }
 }
 
@@ -1044,6 +1213,18 @@ extension DeleteClusterOutput {
     }
 }
 
+extension DeleteClusterPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteClusterPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteClusterPolicyOutput()
+        value.policyVersion = try reader["policyVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension GetClusterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetClusterOutput {
@@ -1059,6 +1240,19 @@ extension GetClusterOutput {
         value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetClusterPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetClusterPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetClusterPolicyOutput()
+        value.policy = try reader["policy"].readIfPresent() ?? ""
+        value.policyVersion = try reader["policyVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1096,6 +1290,18 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension PutClusterPolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutClusterPolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutClusterPolicyOutput()
+        value.policyVersion = try reader["policyVersion"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1172,6 +1378,23 @@ enum DeleteClusterOutputError {
     }
 }
 
+enum DeleteClusterPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetClusterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1182,6 +1405,22 @@ enum GetClusterOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetClusterPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -1230,6 +1469,23 @@ enum ListTagsForResourceOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutClusterPolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

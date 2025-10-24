@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class OdbClient: ClientRuntime.Client {
     public static let clientName = "OdbClient"
-    public static let version = "1.5.67"
+    public static let version = "1.5.69"
     let client: ClientRuntime.SdkHttpClient
     let config: OdbClient.OdbClientConfiguration
     let serviceName = "odb"
