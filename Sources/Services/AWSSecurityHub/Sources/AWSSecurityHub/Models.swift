@@ -21988,7 +21988,7 @@ extension SecurityHubClientTypes {
 
     /// Provides details about a security control for which a response couldn't be returned.
     public struct UnprocessedSecurityControl: Swift.Sendable {
-        /// The error code for the unprocessed security control.
+        /// The error code for the unprocessed security control. The NOT_FOUND value has been deprecated and replaced by the RESOURCE_NOT_FOUND value.
         /// This member is required.
         public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
         /// The reason why the security control was unprocessed.
@@ -22117,7 +22117,7 @@ extension SecurityHubClientTypes {
 
     /// Provides details about which control's enablement status couldn't be retrieved in a specified standard when calling [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html). This parameter also provides details about why the request was unprocessed.
     public struct UnprocessedStandardsControlAssociation: Swift.Sendable {
-        /// The error code for the unprocessed standard and control association.
+        /// The error code for the unprocessed standard and control association. The NOT_FOUND value has been deprecated and replaced by the RESOURCE_NOT_FOUND value.
         /// This member is required.
         public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
         /// The reason why the standard and control association was unprocessed.
@@ -22718,7 +22718,7 @@ extension SecurityHubClientTypes {
 
     /// Provides details about which control's enablement status could not be updated in a specified standard when calling the [BatchUpdateStandardsControlAssociations](https://docs.aws.amazon.com/securityhub/1.0/APIReference/API_BatchUpdateStandardsControlAssociations.html) API. This parameter also provides details about why the request was unprocessed.
     public struct UnprocessedStandardsControlAssociationUpdate: Swift.Sendable {
-        /// The error code for the unprocessed update of the control's enablement status in the specified standard.
+        /// The error code for the unprocessed update of the control's enablement status in the specified standard. The NOT_FOUND value has been deprecated and replaced by the RESOURCE_NOT_FOUND value.
         /// This member is required.
         public var errorCode: SecurityHubClientTypes.UnprocessedErrorCode?
         /// The reason why a control's enablement status in the specified standard couldn't be updated.
@@ -22823,6 +22823,9 @@ extension SecurityHubClientTypes {
         case findingInfoFirstSeenTimeDt
         case findingInfoLastSeenTimeDt
         case findingInfoModifiedTimeDt
+        case resourcesImageCreatedTimeDt
+        case resourcesImageLastUsedTimeDt
+        case resourcesModifiedTimeDt
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OcsfDateField] {
@@ -22830,7 +22833,10 @@ extension SecurityHubClientTypes {
                 .findingInfoCreatedTimeDt,
                 .findingInfoFirstSeenTimeDt,
                 .findingInfoLastSeenTimeDt,
-                .findingInfoModifiedTimeDt
+                .findingInfoModifiedTimeDt,
+                .resourcesImageCreatedTimeDt,
+                .resourcesImageLastUsedTimeDt,
+                .resourcesModifiedTimeDt
             ]
         }
 
@@ -22845,6 +22851,9 @@ extension SecurityHubClientTypes {
             case .findingInfoFirstSeenTimeDt: return "finding_info.first_seen_time_dt"
             case .findingInfoLastSeenTimeDt: return "finding_info.last_seen_time_dt"
             case .findingInfoModifiedTimeDt: return "finding_info.modified_time_dt"
+            case .resourcesImageCreatedTimeDt: return "resources.image.created_time_dt"
+            case .resourcesImageLastUsedTimeDt: return "resources.image.last_used_time_dt"
+            case .resourcesModifiedTimeDt: return "resources.modified_time_dt"
             case let .sdkUnknown(s): return s
             }
         }
@@ -22872,12 +22881,66 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes {
 
+    public enum OcsfIpField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case evidencesDstEndpointIp
+        case evidencesSrcEndpointIp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OcsfIpField] {
+            return [
+                .evidencesDstEndpointIp,
+                .evidencesSrcEndpointIp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .evidencesDstEndpointIp: return "evidences.dst_endpoint.ip"
+            case .evidencesSrcEndpointIp: return "evidences.src_endpoint.ip"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// The structure for filtering findings based on IP address attributes.
+    public struct OcsfIpFilter: Swift.Sendable {
+        /// The name of the IP address field to filter on.
+        public var fieldName: SecurityHubClientTypes.OcsfIpField?
+        /// The IP filter for querying findings.
+        public var filter: SecurityHubClientTypes.IpFilter?
+
+        public init(
+            fieldName: SecurityHubClientTypes.OcsfIpField? = nil,
+            filter: SecurityHubClientTypes.IpFilter? = nil
+        ) {
+            self.fieldName = fieldName
+            self.filter = filter
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
     public enum OcsfMapField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case complianceControlParameters
+        case databucketTags
+        case findingInfoTags
         case resourcesTags
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OcsfMapField] {
             return [
+                .complianceControlParameters,
+                .databucketTags,
+                .findingInfoTags,
                 .resourcesTags
             ]
         }
@@ -22889,6 +22952,9 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .complianceControlParameters: return "compliance.control_parameters"
+            case .databucketTags: return "databucket.tags"
+            case .findingInfoTags: return "finding_info.tags"
             case .resourcesTags: return "resources.tags"
             case let .sdkUnknown(s): return s
             }
@@ -22921,7 +22987,13 @@ extension SecurityHubClientTypes {
         case activityId
         case complianceStatusId
         case confidenceScore
+        case evidencesApiResponseCode
+        case evidencesDstEndpointAutonomousSystemNumber
+        case evidencesDstEndpointPort
+        case evidencesSrcEndpointAutonomousSystemNumber
+        case evidencesSrcEndpointPort
         case findingInfoRelatedEventsCount
+        case resourcesImageInUseCount
         case severityId
         case statusId
         case sdkUnknown(Swift.String)
@@ -22931,7 +23003,13 @@ extension SecurityHubClientTypes {
                 .activityId,
                 .complianceStatusId,
                 .confidenceScore,
+                .evidencesApiResponseCode,
+                .evidencesDstEndpointAutonomousSystemNumber,
+                .evidencesDstEndpointPort,
+                .evidencesSrcEndpointAutonomousSystemNumber,
+                .evidencesSrcEndpointPort,
                 .findingInfoRelatedEventsCount,
+                .resourcesImageInUseCount,
                 .severityId,
                 .statusId
             ]
@@ -22947,7 +23025,13 @@ extension SecurityHubClientTypes {
             case .activityId: return "activity_id"
             case .complianceStatusId: return "compliance.status_id"
             case .confidenceScore: return "confidence_score"
+            case .evidencesApiResponseCode: return "evidences.api.response.code"
+            case .evidencesDstEndpointAutonomousSystemNumber: return "evidences.dst_endpoint.autonomous_system.number"
+            case .evidencesDstEndpointPort: return "evidences.dst_endpoint.port"
+            case .evidencesSrcEndpointAutonomousSystemNumber: return "evidences.src_endpoint.autonomous_system.number"
+            case .evidencesSrcEndpointPort: return "evidences.src_endpoint.port"
             case .findingInfoRelatedEventsCount: return "finding_info.related_events_count"
+            case .resourcesImageInUseCount: return "resources.image.in_use_count"
             case .severityId: return "severity_id"
             case .statusId: return "status_id"
             case let .sdkUnknown(s): return s
@@ -22980,6 +23064,7 @@ extension SecurityHubClientTypes {
     public enum OcsfStringField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activityName
         case className
+        case cloudAccountName
         case cloudAccountUid
         case cloudProvider
         case cloudRegion
@@ -22989,6 +23074,23 @@ extension SecurityHubClientTypes {
         case complianceControl
         case complianceStandards
         case complianceStatus
+        case databucketEncryptionDetailsAlgorithm
+        case databucketEncryptionDetailsKeyUid
+        case databucketFileDataClassificationsClassifierDetailsType
+        case evidencesActorUserAccountUid
+        case evidencesApiOperation
+        case evidencesApiResponseErrorMessage
+        case evidencesApiServiceName
+        case evidencesConnectionInfoDirection
+        case evidencesConnectionInfoProtocolName
+        case evidencesDstEndpointAutonomousSystemName
+        case evidencesDstEndpointLocationCity
+        case evidencesDstEndpointLocationCountry
+        case evidencesSrcEndpointAutonomousSystemName
+        case evidencesSrcEndpointHostname
+        case evidencesSrcEndpointLocationCity
+        case evidencesSrcEndpointLocationCountry
+        case findingInfoAnalyticName
         case findingInfoDesc
         case findingInfoRelatedEventsProductUid
         case findingInfoRelatedEventsTitle
@@ -22997,25 +23099,45 @@ extension SecurityHubClientTypes {
         case findingInfoTitle
         case findingInfoTypes
         case findingInfoUid
+        case malwareName
+        case malwareScanInfoUid
+        case malwareSeverity
         case metadataProductName
         case metadataProductUid
         case metadataProductVendorName
         case metadataUid
         case remediationDesc
         case remediationReferences
+        case resourcesCloudFunctionLayersUidAlt
+        case resourcesCloudFunctionRuntime
+        case resourcesCloudFunctionUserUid
         case resourcesCloudPartition
+        case resourcesDeviceEncryptionDetailsKeyUid
+        case resourcesDeviceImageUid
+        case resourcesImageArchitecture
+        case resourcesImageRegistryUid
+        case resourcesImageRepositoryName
+        case resourcesImageUid
         case resourcesRegion
+        case resourcesSubnetInfoUid
         case resourcesType
         case resourcesUid
+        case resourcesVpcUid
         case severity
         case status
+        case vulnerabilitiesAffectedCodeFilePath
+        case vulnerabilitiesAffectedPackagesName
+        case vulnerabilitiesCveEpssScore
+        case vulnerabilitiesCveUid
         case vulnerabilitiesFixCoverage
+        case vulnerabilitiesRelatedVulnerabilities
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OcsfStringField] {
             return [
                 .activityName,
                 .className,
+                .cloudAccountName,
                 .cloudAccountUid,
                 .cloudProvider,
                 .cloudRegion,
@@ -23025,6 +23147,23 @@ extension SecurityHubClientTypes {
                 .complianceControl,
                 .complianceStandards,
                 .complianceStatus,
+                .databucketEncryptionDetailsAlgorithm,
+                .databucketEncryptionDetailsKeyUid,
+                .databucketFileDataClassificationsClassifierDetailsType,
+                .evidencesActorUserAccountUid,
+                .evidencesApiOperation,
+                .evidencesApiResponseErrorMessage,
+                .evidencesApiServiceName,
+                .evidencesConnectionInfoDirection,
+                .evidencesConnectionInfoProtocolName,
+                .evidencesDstEndpointAutonomousSystemName,
+                .evidencesDstEndpointLocationCity,
+                .evidencesDstEndpointLocationCountry,
+                .evidencesSrcEndpointAutonomousSystemName,
+                .evidencesSrcEndpointHostname,
+                .evidencesSrcEndpointLocationCity,
+                .evidencesSrcEndpointLocationCountry,
+                .findingInfoAnalyticName,
                 .findingInfoDesc,
                 .findingInfoRelatedEventsProductUid,
                 .findingInfoRelatedEventsTitle,
@@ -23033,19 +23172,38 @@ extension SecurityHubClientTypes {
                 .findingInfoTitle,
                 .findingInfoTypes,
                 .findingInfoUid,
+                .malwareName,
+                .malwareScanInfoUid,
+                .malwareSeverity,
                 .metadataProductName,
                 .metadataProductUid,
                 .metadataProductVendorName,
                 .metadataUid,
                 .remediationDesc,
                 .remediationReferences,
+                .resourcesCloudFunctionLayersUidAlt,
+                .resourcesCloudFunctionRuntime,
+                .resourcesCloudFunctionUserUid,
                 .resourcesCloudPartition,
+                .resourcesDeviceEncryptionDetailsKeyUid,
+                .resourcesDeviceImageUid,
+                .resourcesImageArchitecture,
+                .resourcesImageRegistryUid,
+                .resourcesImageRepositoryName,
+                .resourcesImageUid,
                 .resourcesRegion,
+                .resourcesSubnetInfoUid,
                 .resourcesType,
                 .resourcesUid,
+                .resourcesVpcUid,
                 .severity,
                 .status,
-                .vulnerabilitiesFixCoverage
+                .vulnerabilitiesAffectedCodeFilePath,
+                .vulnerabilitiesAffectedPackagesName,
+                .vulnerabilitiesCveEpssScore,
+                .vulnerabilitiesCveUid,
+                .vulnerabilitiesFixCoverage,
+                .vulnerabilitiesRelatedVulnerabilities
             ]
         }
 
@@ -23058,6 +23216,7 @@ extension SecurityHubClientTypes {
             switch self {
             case .activityName: return "activity_name"
             case .className: return "class_name"
+            case .cloudAccountName: return "cloud.account.name"
             case .cloudAccountUid: return "cloud.account.uid"
             case .cloudProvider: return "cloud.provider"
             case .cloudRegion: return "cloud.region"
@@ -23067,6 +23226,23 @@ extension SecurityHubClientTypes {
             case .complianceControl: return "compliance.control"
             case .complianceStandards: return "compliance.standards"
             case .complianceStatus: return "compliance.status"
+            case .databucketEncryptionDetailsAlgorithm: return "databucket.encryption_details.algorithm"
+            case .databucketEncryptionDetailsKeyUid: return "databucket.encryption_details.key_uid"
+            case .databucketFileDataClassificationsClassifierDetailsType: return "databucket.file.data_classifications.classifier_details.type"
+            case .evidencesActorUserAccountUid: return "evidences.actor.user.account.uid"
+            case .evidencesApiOperation: return "evidences.api.operation"
+            case .evidencesApiResponseErrorMessage: return "evidences.api.response.error_message"
+            case .evidencesApiServiceName: return "evidences.api.service.name"
+            case .evidencesConnectionInfoDirection: return "evidences.connection_info.direction"
+            case .evidencesConnectionInfoProtocolName: return "evidences.connection_info.protocol_name"
+            case .evidencesDstEndpointAutonomousSystemName: return "evidences.dst_endpoint.autonomous_system.name"
+            case .evidencesDstEndpointLocationCity: return "evidences.dst_endpoint.location.city"
+            case .evidencesDstEndpointLocationCountry: return "evidences.dst_endpoint.location.country"
+            case .evidencesSrcEndpointAutonomousSystemName: return "evidences.src_endpoint.autonomous_system.name"
+            case .evidencesSrcEndpointHostname: return "evidences.src_endpoint.hostname"
+            case .evidencesSrcEndpointLocationCity: return "evidences.src_endpoint.location.city"
+            case .evidencesSrcEndpointLocationCountry: return "evidences.src_endpoint.location.country"
+            case .findingInfoAnalyticName: return "finding_info.analytic.name"
             case .findingInfoDesc: return "finding_info.desc"
             case .findingInfoRelatedEventsProductUid: return "finding_info.related_events.product.uid"
             case .findingInfoRelatedEventsTitle: return "finding_info.related_events.title"
@@ -23075,19 +23251,38 @@ extension SecurityHubClientTypes {
             case .findingInfoTitle: return "finding_info.title"
             case .findingInfoTypes: return "finding_info.types"
             case .findingInfoUid: return "finding_info.uid"
+            case .malwareName: return "malware.name"
+            case .malwareScanInfoUid: return "malware_scan_info.uid"
+            case .malwareSeverity: return "malware.severity"
             case .metadataProductName: return "metadata.product.name"
             case .metadataProductUid: return "metadata.product.uid"
             case .metadataProductVendorName: return "metadata.product.vendor_name"
             case .metadataUid: return "metadata.uid"
             case .remediationDesc: return "remediation.desc"
             case .remediationReferences: return "remediation.references"
+            case .resourcesCloudFunctionLayersUidAlt: return "resources.cloud_function.layers.uid_alt"
+            case .resourcesCloudFunctionRuntime: return "resources.cloud_function.runtime"
+            case .resourcesCloudFunctionUserUid: return "resources.cloud_function.user.uid"
             case .resourcesCloudPartition: return "resources.cloud_partition"
+            case .resourcesDeviceEncryptionDetailsKeyUid: return "resources.device.encryption_details.key_uid"
+            case .resourcesDeviceImageUid: return "resources.device.image.uid"
+            case .resourcesImageArchitecture: return "resources.image.architecture"
+            case .resourcesImageRegistryUid: return "resources.image.registry_uid"
+            case .resourcesImageRepositoryName: return "resources.image.repository_name"
+            case .resourcesImageUid: return "resources.image.uid"
             case .resourcesRegion: return "resources.region"
+            case .resourcesSubnetInfoUid: return "resources.subnet_info.uid"
             case .resourcesType: return "resources.type"
             case .resourcesUid: return "resources.uid"
+            case .resourcesVpcUid: return "resources.vpc_uid"
             case .severity: return "severity"
             case .status: return "status"
+            case .vulnerabilitiesAffectedCodeFilePath: return "vulnerabilities.affected_code.file.path"
+            case .vulnerabilitiesAffectedPackagesName: return "vulnerabilities.affected_packages.name"
+            case .vulnerabilitiesCveEpssScore: return "vulnerabilities.cve.epss.score"
+            case .vulnerabilitiesCveUid: return "vulnerabilities.cve.uid"
             case .vulnerabilitiesFixCoverage: return "vulnerabilities.fix_coverage"
+            case .vulnerabilitiesRelatedVulnerabilities: return "vulnerabilities.related_vulnerabilities"
             case let .sdkUnknown(s): return s
             }
         }
@@ -23109,41 +23304,6 @@ extension SecurityHubClientTypes {
         ) {
             self.fieldName = fieldName
             self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables the creation of filtering criteria for security findings.
-    public struct CompositeFilter: Swift.Sendable {
-        /// Enables filtering based on boolean field values.
-        public var booleanFilters: [SecurityHubClientTypes.OcsfBooleanFilter]?
-        /// Enables filtering based on date and timestamp fields.
-        public var dateFilters: [SecurityHubClientTypes.OcsfDateFilter]?
-        /// Enables filtering based on map field values.
-        public var mapFilters: [SecurityHubClientTypes.OcsfMapFilter]?
-        /// Enables filtering based on numerical field values.
-        public var numberFilters: [SecurityHubClientTypes.OcsfNumberFilter]?
-        /// The logical operator used to combine multiple filter conditions.
-        public var `operator`: SecurityHubClientTypes.AllowedOperators?
-        /// Enables filtering based on string field values.
-        public var stringFilters: [SecurityHubClientTypes.OcsfStringFilter]?
-
-        public init(
-            booleanFilters: [SecurityHubClientTypes.OcsfBooleanFilter]? = nil,
-            dateFilters: [SecurityHubClientTypes.OcsfDateFilter]? = nil,
-            mapFilters: [SecurityHubClientTypes.OcsfMapFilter]? = nil,
-            numberFilters: [SecurityHubClientTypes.OcsfNumberFilter]? = nil,
-            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
-            stringFilters: [SecurityHubClientTypes.OcsfStringFilter]? = nil
-        ) {
-            self.booleanFilters = booleanFilters
-            self.dateFilters = dateFilters
-            self.mapFilters = mapFilters
-            self.numberFilters = numberFilters
-            self.`operator` = `operator`
-            self.stringFilters = stringFilters
         }
     }
 }
@@ -23744,79 +23904,6 @@ public struct CreateAutomationRuleOutput: Swift.Sendable {
         ruleArn: Swift.String? = nil
     ) {
         self.ruleArn = ruleArn
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Specifies the filtering criteria for security findings using OCSF.
-    public struct OcsfFindingFilters: Swift.Sendable {
-        /// Enables the creation of complex filtering conditions by combining filter criteria.
-        public var compositeFilters: [SecurityHubClientTypes.CompositeFilter]?
-        /// The logical operators used to combine the filtering on multiple CompositeFilters.
-        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
-
-        public init(
-            compositeFilters: [SecurityHubClientTypes.CompositeFilter]? = nil,
-            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
-        ) {
-            self.compositeFilters = compositeFilters
-            self.compositeOperator = compositeOperator
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Defines the parameters and conditions used to evaluate and filter security findings.
-    public enum Criteria: Swift.Sendable {
-        /// The filtering conditions that align with OCSF standards.
-        case ocsffindingcriteria(SecurityHubClientTypes.OcsfFindingFilters)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-public struct CreateAutomationRuleV2Input: Swift.Sendable {
-    /// A list of actions to be performed when the rule criteria is met.
-    /// This member is required.
-    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
-    /// A unique identifier used to ensure idempotency.
-    public var clientToken: Swift.String?
-    /// The filtering type and configuration of the automation rule.
-    /// This member is required.
-    public var criteria: SecurityHubClientTypes.Criteria?
-    /// A description of the V2 automation rule.
-    /// This member is required.
-    public var description: Swift.String?
-    /// The name of the V2 automation rule.
-    /// This member is required.
-    public var ruleName: Swift.String?
-    /// The value for the rule priority.
-    /// This member is required.
-    public var ruleOrder: Swift.Float?
-    /// The status of the V2 automation rule.
-    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
-    /// A list of key-value pairs associated with the V2 automation rule.
-    public var tags: [Swift.String: Swift.String]?
-
-    public init(
-        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
-        clientToken: Swift.String? = nil,
-        criteria: SecurityHubClientTypes.Criteria? = nil,
-        description: Swift.String? = nil,
-        ruleName: Swift.String? = nil,
-        ruleOrder: Swift.Float? = nil,
-        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
-        tags: [Swift.String: Swift.String]? = nil
-    ) {
-        self.actions = actions
-        self.clientToken = clientToken
-        self.criteria = criteria
-        self.description = description
-        self.ruleName = ruleName
-        self.ruleOrder = ruleOrder
-        self.ruleStatus = ruleStatus
-        self.tags = tags
     }
 }
 
@@ -25494,53 +25581,6 @@ public struct GetAutomationRuleV2Input: Swift.Sendable {
     }
 }
 
-public struct GetAutomationRuleV2Output: Swift.Sendable {
-    /// A list of actions performed when the rule criteria is met.
-    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
-    /// The timestamp when the V2 automation rule was created.
-    public var createdAt: Foundation.Date?
-    /// The filtering type and configuration of the V2 automation rule.
-    public var criteria: SecurityHubClientTypes.Criteria?
-    /// A description of the automation rule.
-    public var description: Swift.String?
-    /// The ARN of the V2 automation rule.
-    public var ruleArn: Swift.String?
-    /// The ID of the V2 automation rule.
-    public var ruleId: Swift.String?
-    /// The name of the V2 automation rule.
-    public var ruleName: Swift.String?
-    /// The value for the rule priority.
-    public var ruleOrder: Swift.Float?
-    /// The status of the V2 automation automation rule.
-    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
-    /// The timestamp when the V2 automation rule was updated.
-    public var updatedAt: Foundation.Date?
-
-    public init(
-        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
-        createdAt: Foundation.Date? = nil,
-        criteria: SecurityHubClientTypes.Criteria? = nil,
-        description: Swift.String? = nil,
-        ruleArn: Swift.String? = nil,
-        ruleId: Swift.String? = nil,
-        ruleName: Swift.String? = nil,
-        ruleOrder: Swift.Float? = nil,
-        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
-        updatedAt: Foundation.Date? = nil
-    ) {
-        self.actions = actions
-        self.createdAt = createdAt
-        self.criteria = criteria
-        self.description = description
-        self.ruleArn = ruleArn
-        self.ruleId = ruleId
-        self.ruleName = ruleName
-        self.ruleOrder = ruleOrder
-        self.ruleStatus = ruleStatus
-        self.updatedAt = updatedAt
-    }
-}
-
 public struct GetConfigurationPolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     /// This member is required.
@@ -25992,12 +26032,15 @@ extension SecurityHubClientTypes {
     public enum GroupByField: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case activityName
         case className
+        case cloudAccountName
         case cloudAccountUid
         case cloudProvider
         case cloudRegion
         case complianceAssessmentsName
         case complianceControl
+        case complianceStandards
         case complianceStatus
+        case findingInfoAnalyticName
         case findingInfoTitle
         case findingInfoTypes
         case metadataProductName
@@ -26006,6 +26049,7 @@ extension SecurityHubClientTypes {
         case resourcesUid
         case severity
         case status
+        case vulnerabilitiesAffectedPackagesName
         case vulnerabilitiesFixCoverage
         case sdkUnknown(Swift.String)
 
@@ -26013,12 +26057,15 @@ extension SecurityHubClientTypes {
             return [
                 .activityName,
                 .className,
+                .cloudAccountName,
                 .cloudAccountUid,
                 .cloudProvider,
                 .cloudRegion,
                 .complianceAssessmentsName,
                 .complianceControl,
+                .complianceStandards,
                 .complianceStatus,
+                .findingInfoAnalyticName,
                 .findingInfoTitle,
                 .findingInfoTypes,
                 .metadataProductName,
@@ -26027,6 +26074,7 @@ extension SecurityHubClientTypes {
                 .resourcesUid,
                 .severity,
                 .status,
+                .vulnerabilitiesAffectedPackagesName,
                 .vulnerabilitiesFixCoverage
             ]
         }
@@ -26040,12 +26088,15 @@ extension SecurityHubClientTypes {
             switch self {
             case .activityName: return "activity_name"
             case .className: return "class_name"
+            case .cloudAccountName: return "cloud.account.name"
             case .cloudAccountUid: return "cloud.account.uid"
             case .cloudProvider: return "cloud.provider"
             case .cloudRegion: return "cloud.region"
             case .complianceAssessmentsName: return "compliance.assessments.name"
             case .complianceControl: return "compliance.control"
+            case .complianceStandards: return "compliance.standards"
             case .complianceStatus: return "compliance.status"
+            case .findingInfoAnalyticName: return "finding_info.analytic.name"
             case .findingInfoTitle: return "finding_info.title"
             case .findingInfoTypes: return "finding_info.types"
             case .metadataProductName: return "metadata.product.name"
@@ -26054,50 +26105,11 @@ extension SecurityHubClientTypes {
             case .resourcesUid: return "resources.uid"
             case .severity: return "severity"
             case .status: return "status"
+            case .vulnerabilitiesAffectedPackagesName: return "vulnerabilities.affected_packages.name"
             case .vulnerabilitiesFixCoverage: return "vulnerabilities.fix_coverage"
             case let .sdkUnknown(s): return s
             }
         }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Defines the how the finding attribute should be grouped.
-    public struct GroupByRule: Swift.Sendable {
-        /// The criteria used to select which security findings should be included in the grouping operation.
-        public var filters: SecurityHubClientTypes.OcsfFindingFilters?
-        /// The attribute by which filtered findings should be grouped.
-        /// This member is required.
-        public var groupByField: SecurityHubClientTypes.GroupByField?
-
-        public init(
-            filters: SecurityHubClientTypes.OcsfFindingFilters? = nil,
-            groupByField: SecurityHubClientTypes.GroupByField? = nil
-        ) {
-            self.filters = filters
-            self.groupByField = groupByField
-        }
-    }
-}
-
-public struct GetFindingStatisticsV2Input: Swift.Sendable {
-    /// Specifies how security findings should be aggregated and organized in the statistical analysis. It can accept up to 5 groupBy fields in a single call.
-    /// This member is required.
-    public var groupByRules: [SecurityHubClientTypes.GroupByRule]?
-    /// The maximum number of results to be returned.
-    public var maxStatisticResults: Swift.Int?
-    /// Orders the aggregation count in descending or ascending order. Descending order is the default.
-    public var sortOrder: SecurityHubClientTypes.SortOrder?
-
-    public init(
-        groupByRules: [SecurityHubClientTypes.GroupByRule]? = nil,
-        maxStatisticResults: Swift.Int? = nil,
-        sortOrder: SecurityHubClientTypes.SortOrder? = nil
-    ) {
-        self.groupByRules = groupByRules
-        self.maxStatisticResults = maxStatisticResults
-        self.sortOrder = sortOrder
     }
 }
 
@@ -26147,29 +26159,6 @@ public struct GetFindingStatisticsV2Output: Swift.Sendable {
         groupByResults: [SecurityHubClientTypes.GroupByResult]? = nil
     ) {
         self.groupByResults = groupByResults
-    }
-}
-
-public struct GetFindingsV2Input: Swift.Sendable {
-    /// The finding attributes used to define a condition to filter the returned OCSF findings. You can filter up to 10 composite filters. For each filter type inside of a composite filter, you can provide up to 20 filters.
-    public var filters: SecurityHubClientTypes.OcsfFindingFilters?
-    /// The maximum number of results to return.
-    public var maxResults: Swift.Int?
-    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
-    public var nextToken: Swift.String?
-    /// The finding attributes used to sort the list of returned findings.
-    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
-
-    public init(
-        filters: SecurityHubClientTypes.OcsfFindingFilters? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
-    ) {
-        self.filters = filters
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.sortCriteria = sortCriteria
     }
 }
 
@@ -26459,8 +26448,8 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .resourceCreationTimeDt: return "resource_creation_time_dt"
-            case .resourceDetailCaptureTimeDt: return "resource_detail_capture_time_dt"
+            case .resourceCreationTimeDt: return "ResourceCreationTime"
+            case .resourceDetailCaptureTimeDt: return "ResourceDetailCaptureTime"
             case let .sdkUnknown(s): return s
             }
         }
@@ -26505,7 +26494,7 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .tag: return "tags"
+            case .tag: return "ResourceTags"
             case let .sdkUnknown(s): return s
             }
         }
@@ -26566,15 +26555,15 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .severityCritical: return "findings_summary.severities.critical"
-            case .severityFatal: return "findings_summary.severities.fatal"
-            case .severityHigh: return "findings_summary.severities.high"
-            case .severityInformational: return "findings_summary.severities.informational"
-            case .severityLow: return "findings_summary.severities.low"
-            case .severityMedium: return "findings_summary.severities.medium"
-            case .severityOther: return "findings_summary.severities.other"
-            case .severityUnknown: return "findings_summary.severities.unknown"
-            case .totalFindings: return "findings_summary.total_findings"
+            case .severityCritical: return "FindingsSummary.Severities.Critical"
+            case .severityFatal: return "FindingsSummary.Severities.Fatal"
+            case .severityHigh: return "FindingsSummary.Severities.High"
+            case .severityInformational: return "FindingsSummary.Severities.Informational"
+            case .severityLow: return "FindingsSummary.Severities.Low"
+            case .severityMedium: return "FindingsSummary.Severities.Medium"
+            case .severityOther: return "FindingsSummary.Severities.Other"
+            case .severityUnknown: return "FindingsSummary.Severities.Unknown"
+            case .totalFindings: return "FindingsSummary.TotalFindings"
             case let .sdkUnknown(s): return s
             }
         }
@@ -26607,8 +26596,8 @@ extension SecurityHubClientTypes {
         case findingType
         case productName
         case region
-        case resourceArn
         case resourceCategory
+        case resourceGuid
         case resourceId
         case resourceName
         case resourceType
@@ -26620,8 +26609,8 @@ extension SecurityHubClientTypes {
                 .findingType,
                 .productName,
                 .region,
-                .resourceArn,
                 .resourceCategory,
+                .resourceGuid,
                 .resourceId,
                 .resourceName,
                 .resourceType
@@ -26635,15 +26624,15 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .accountId: return "account_id"
-            case .findingType: return "findings_summary.finding_type"
-            case .productName: return "findings_summary.product_name"
-            case .region: return "region"
-            case .resourceArn: return "resource_arn"
-            case .resourceCategory: return "resource_category"
-            case .resourceId: return "resource_id"
-            case .resourceName: return "resource_name"
-            case .resourceType: return "resource_type"
+            case .accountId: return "AccountId"
+            case .findingType: return "FindingsSummary.FindingType"
+            case .productName: return "FindingsSummary.ProductName"
+            case .region: return "Region"
+            case .resourceCategory: return "ResourceCategory"
+            case .resourceGuid: return "ResourceGuid"
+            case .resourceId: return "ResourceId"
+            case .resourceName: return "ResourceName"
+            case .resourceType: return "ResourceType"
             case let .sdkUnknown(s): return s
             }
         }
@@ -26665,56 +26654,6 @@ extension SecurityHubClientTypes {
         ) {
             self.fieldName = fieldName
             self.filter = filter
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables the creation of criteria for Amazon Web Services resources in Security Hub.
-    public struct ResourcesCompositeFilter: Swift.Sendable {
-        /// Enables filtering based on date and timestamp field values.
-        public var dateFilters: [SecurityHubClientTypes.ResourcesDateFilter]?
-        /// Enables filtering based on map-based field values.
-        public var mapFilters: [SecurityHubClientTypes.ResourcesMapFilter]?
-        /// Enables filtering based on numerical field values.
-        public var numberFilters: [SecurityHubClientTypes.ResourcesNumberFilter]?
-        /// The logical operator used to combine multiple filter conditions.
-        public var `operator`: SecurityHubClientTypes.AllowedOperators?
-        /// Enables filtering based on string field values.
-        public var stringFilters: [SecurityHubClientTypes.ResourcesStringFilter]?
-
-        public init(
-            dateFilters: [SecurityHubClientTypes.ResourcesDateFilter]? = nil,
-            mapFilters: [SecurityHubClientTypes.ResourcesMapFilter]? = nil,
-            numberFilters: [SecurityHubClientTypes.ResourcesNumberFilter]? = nil,
-            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
-            stringFilters: [SecurityHubClientTypes.ResourcesStringFilter]? = nil
-        ) {
-            self.dateFilters = dateFilters
-            self.mapFilters = mapFilters
-            self.numberFilters = numberFilters
-            self.`operator` = `operator`
-            self.stringFilters = stringFilters
-        }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Enables filtering of Amazon Web Services resources based on data.
-    public struct ResourcesFilters: Swift.Sendable {
-        /// A collection of complex filtering conditions that can be applied to Amazon Web Services resources.
-        public var compositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]?
-        /// The logical operator used to combine multiple filter conditions in the structure.
-        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
-
-        public init(
-            compositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]? = nil,
-            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
-        ) {
-            self.compositeFilters = compositeFilters
-            self.compositeOperator = compositeOperator
         }
     }
 }
@@ -26748,55 +26687,15 @@ extension SecurityHubClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
-            case .accountId: return "account_id"
-            case .findingType: return "findings_summary.finding_type"
-            case .region: return "region"
-            case .resourceCategory: return "resource_category"
-            case .resourceName: return "resource_name"
-            case .resourceType: return "resource_type"
+            case .accountId: return "AccountId"
+            case .findingType: return "FindingsSummary.FindingType"
+            case .region: return "Region"
+            case .resourceCategory: return "ResourceCategory"
+            case .resourceName: return "ResourceName"
+            case .resourceType: return "ResourceType"
             case let .sdkUnknown(s): return s
             }
         }
-    }
-}
-
-extension SecurityHubClientTypes {
-
-    /// Defines the configuration for organizing and categorizing Amazon Web Services resources based on associated security findings.
-    public struct ResourceGroupByRule: Swift.Sendable {
-        /// The criteria used to select resources and associated security findings.
-        public var filters: SecurityHubClientTypes.ResourcesFilters?
-        /// Specifies the attribute that resources should be grouped by.
-        /// This member is required.
-        public var groupByField: SecurityHubClientTypes.ResourceGroupByField?
-
-        public init(
-            filters: SecurityHubClientTypes.ResourcesFilters? = nil,
-            groupByField: SecurityHubClientTypes.ResourceGroupByField? = nil
-        ) {
-            self.filters = filters
-            self.groupByField = groupByField
-        }
-    }
-}
-
-public struct GetResourcesStatisticsV2Input: Swift.Sendable {
-    /// How resource statistics should be aggregated and organized in the response.
-    /// This member is required.
-    public var groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]?
-    /// The maximum number of results to be returned.
-    public var maxStatisticResults: Swift.Int?
-    /// Sorts aggregated statistics.
-    public var sortOrder: SecurityHubClientTypes.SortOrder?
-
-    public init(
-        groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]? = nil,
-        maxStatisticResults: Swift.Int? = nil,
-        sortOrder: SecurityHubClientTypes.SortOrder? = nil
-    ) {
-        self.groupByRules = groupByRules
-        self.maxStatisticResults = maxStatisticResults
-        self.sortOrder = sortOrder
     }
 }
 
@@ -26809,29 +26708,6 @@ public struct GetResourcesStatisticsV2Output: Swift.Sendable {
         groupByResults: [SecurityHubClientTypes.GroupByResult]? = nil
     ) {
         self.groupByResults = groupByResults
-    }
-}
-
-public struct GetResourcesV2Input: Swift.Sendable {
-    /// Filters resources based on a set of criteria.
-    public var filters: SecurityHubClientTypes.ResourcesFilters?
-    /// The maximum number of results to return.
-    public var maxResults: Swift.Int?
-    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
-    public var nextToken: Swift.String?
-    /// The finding attributes used to sort the list of returned findings.
-    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
-
-    public init(
-        filters: SecurityHubClientTypes.ResourcesFilters? = nil,
-        maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil,
-        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
-    ) {
-        self.filters = filters
-        self.maxResults = maxResults
-        self.nextToken = nextToken
-        self.sortCriteria = sortCriteria
     }
 }
 
@@ -26988,8 +26864,6 @@ extension SecurityHubClientTypes {
         /// The Amazon Web Services Region where the resource is located.
         /// This member is required.
         public var region: Swift.String?
-        /// Specifies the ARN that uniquely identifies a resource.
-        public var resourceArn: Swift.String?
         /// The grouping where the resource belongs.
         public var resourceCategory: SecurityHubClientTypes.ResourceCategory?
         /// The configuration details of a resource.
@@ -27000,6 +26874,8 @@ extension SecurityHubClientTypes {
         /// The timestamp when information about the resource was captured.
         /// This member is required.
         public var resourceDetailCaptureTimeDt: Swift.String?
+        /// The global identifier used to identify a resource.
+        public var resourceGuid: Swift.String?
         /// The unique identifier for a resource.
         /// This member is required.
         public var resourceId: Swift.String?
@@ -27014,11 +26890,11 @@ extension SecurityHubClientTypes {
             accountId: Swift.String? = nil,
             findingsSummary: [SecurityHubClientTypes.ResourceFindingsSummary]? = nil,
             region: Swift.String? = nil,
-            resourceArn: Swift.String? = nil,
             resourceCategory: SecurityHubClientTypes.ResourceCategory? = nil,
             resourceConfig: Smithy.Document? = nil,
             resourceCreationTimeDt: Swift.String? = nil,
             resourceDetailCaptureTimeDt: Swift.String? = nil,
+            resourceGuid: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             resourceTags: [SecurityHubClientTypes.ResourceTag]? = nil,
@@ -27027,11 +26903,11 @@ extension SecurityHubClientTypes {
             self.accountId = accountId
             self.findingsSummary = findingsSummary
             self.region = region
-            self.resourceArn = resourceArn
             self.resourceCategory = resourceCategory
             self.resourceConfig = resourceConfig
             self.resourceCreationTimeDt = resourceCreationTimeDt
             self.resourceDetailCaptureTimeDt = resourceDetailCaptureTimeDt
+            self.resourceGuid = resourceGuid
             self.resourceId = resourceId
             self.resourceName = resourceName
             self.resourceTags = resourceTags
@@ -27940,42 +27816,6 @@ public struct UpdateAggregatorV2Output: Swift.Sendable {
     }
 }
 
-public struct UpdateAutomationRuleV2Input: Swift.Sendable {
-    /// A list of actions to be performed when the rule criteria is met.
-    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
-    /// The filtering type and configuration of the automation rule.
-    public var criteria: SecurityHubClientTypes.Criteria?
-    /// A description of the automation rule.
-    public var description: Swift.String?
-    /// The ARN of the automation rule.
-    /// This member is required.
-    public var identifier: Swift.String?
-    /// The name of the automation rule.
-    public var ruleName: Swift.String?
-    /// Represents a value for the rule priority.
-    public var ruleOrder: Swift.Float?
-    /// The status of the automation rule.
-    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
-
-    public init(
-        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
-        criteria: SecurityHubClientTypes.Criteria? = nil,
-        description: Swift.String? = nil,
-        identifier: Swift.String? = nil,
-        ruleName: Swift.String? = nil,
-        ruleOrder: Swift.Float? = nil,
-        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil
-    ) {
-        self.actions = actions
-        self.criteria = criteria
-        self.description = description
-        self.identifier = identifier
-        self.ruleName = ruleName
-        self.ruleOrder = ruleOrder
-        self.ruleStatus = ruleStatus
-    }
-}
-
 public struct UpdateAutomationRuleV2Output: Swift.Sendable {
 
     public init() { }
@@ -28278,6 +28118,385 @@ public struct UpdateStandardsControlInput: Swift.Sendable {
 public struct UpdateStandardsControlOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables the creation of filtering criteria for security findings.
+    public struct CompositeFilter: Swift.Sendable {
+        /// Enables filtering based on boolean field values.
+        public var booleanFilters: [SecurityHubClientTypes.OcsfBooleanFilter]?
+        /// Enables filtering based on date and timestamp fields.
+        public var dateFilters: [SecurityHubClientTypes.OcsfDateFilter]?
+        /// A list of IP address filters that allowing you to filter findings based on IP address properties.
+        public var ipFilters: [SecurityHubClientTypes.OcsfIpFilter]?
+        /// Enables filtering based on map field values.
+        public var mapFilters: [SecurityHubClientTypes.OcsfMapFilter]?
+        /// Provides an additional level of filtering, creating a three-layer nested structure. The first layer is a CompositeFilters array with a CompositeOperator (AND/OR). The second layer is a CompositeFilter object that contains direct filters and NestedCompositeFilters. The third layer is NestedCompositeFilters, which contains additional filter conditions.
+        public var nestedCompositeFilters: [SecurityHubClientTypes.CompositeFilter]?
+        /// Enables filtering based on numerical field values.
+        public var numberFilters: [SecurityHubClientTypes.OcsfNumberFilter]?
+        /// The logical operator used to combine multiple filter conditions.
+        public var `operator`: SecurityHubClientTypes.AllowedOperators?
+        /// Enables filtering based on string field values.
+        public var stringFilters: [SecurityHubClientTypes.OcsfStringFilter]?
+
+        public init(
+            booleanFilters: [SecurityHubClientTypes.OcsfBooleanFilter]? = nil,
+            dateFilters: [SecurityHubClientTypes.OcsfDateFilter]? = nil,
+            ipFilters: [SecurityHubClientTypes.OcsfIpFilter]? = nil,
+            mapFilters: [SecurityHubClientTypes.OcsfMapFilter]? = nil,
+            nestedCompositeFilters: [SecurityHubClientTypes.CompositeFilter]? = nil,
+            numberFilters: [SecurityHubClientTypes.OcsfNumberFilter]? = nil,
+            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
+            stringFilters: [SecurityHubClientTypes.OcsfStringFilter]? = nil
+        ) {
+            self.booleanFilters = booleanFilters
+            self.dateFilters = dateFilters
+            self.ipFilters = ipFilters
+            self.mapFilters = mapFilters
+            self.nestedCompositeFilters = nestedCompositeFilters
+            self.numberFilters = numberFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables the creation of criteria for Amazon Web Services resources in Security Hub.
+    public struct ResourcesCompositeFilter: Swift.Sendable {
+        /// Enables filtering based on date and timestamp field values.
+        public var dateFilters: [SecurityHubClientTypes.ResourcesDateFilter]?
+        /// Enables filtering based on map-based field values.
+        public var mapFilters: [SecurityHubClientTypes.ResourcesMapFilter]?
+        /// Provides an additional level of filtering, creating a three-layer nested structure. The first layer is a CompositeFilters array with a CompositeOperator (AND/OR). The second layer is a CompositeFilter object that contains direct filters and NestedCompositeFilters. The third layer is NestedCompositeFilters, which contains additional filter conditions.
+        public var nestedCompositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]?
+        /// Enables filtering based on numerical field values.
+        public var numberFilters: [SecurityHubClientTypes.ResourcesNumberFilter]?
+        /// The logical operator used to combine multiple filter conditions.
+        public var `operator`: SecurityHubClientTypes.AllowedOperators?
+        /// Enables filtering based on string field values.
+        public var stringFilters: [SecurityHubClientTypes.ResourcesStringFilter]?
+
+        public init(
+            dateFilters: [SecurityHubClientTypes.ResourcesDateFilter]? = nil,
+            mapFilters: [SecurityHubClientTypes.ResourcesMapFilter]? = nil,
+            nestedCompositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]? = nil,
+            numberFilters: [SecurityHubClientTypes.ResourcesNumberFilter]? = nil,
+            `operator`: SecurityHubClientTypes.AllowedOperators? = nil,
+            stringFilters: [SecurityHubClientTypes.ResourcesStringFilter]? = nil
+        ) {
+            self.dateFilters = dateFilters
+            self.mapFilters = mapFilters
+            self.nestedCompositeFilters = nestedCompositeFilters
+            self.numberFilters = numberFilters
+            self.`operator` = `operator`
+            self.stringFilters = stringFilters
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Specifies the filtering criteria for security findings using OCSF.
+    public struct OcsfFindingFilters: Swift.Sendable {
+        /// Enables the creation of complex filtering conditions by combining filter criteria.
+        public var compositeFilters: [SecurityHubClientTypes.CompositeFilter]?
+        /// The logical operators used to combine the filtering on multiple CompositeFilters.
+        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.CompositeFilter]? = nil,
+            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Enables filtering of Amazon Web Services resources based on data.
+    public struct ResourcesFilters: Swift.Sendable {
+        /// A collection of complex filtering conditions that can be applied to Amazon Web Services resources.
+        public var compositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]?
+        /// The logical operator used to combine multiple filter conditions in the structure.
+        public var compositeOperator: SecurityHubClientTypes.AllowedOperators?
+
+        public init(
+            compositeFilters: [SecurityHubClientTypes.ResourcesCompositeFilter]? = nil,
+            compositeOperator: SecurityHubClientTypes.AllowedOperators? = nil
+        ) {
+            self.compositeFilters = compositeFilters
+            self.compositeOperator = compositeOperator
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the parameters and conditions used to evaluate and filter security findings.
+    public indirect enum Criteria: Swift.Sendable {
+        /// The filtering conditions that align with OCSF standards.
+        case ocsffindingcriteria(SecurityHubClientTypes.OcsfFindingFilters)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the how the finding attribute should be grouped.
+    public struct GroupByRule: Swift.Sendable {
+        /// The criteria used to select which security findings should be included in the grouping operation.
+        public var filters: SecurityHubClientTypes.OcsfFindingFilters?
+        /// The attribute by which filtered findings should be grouped.
+        /// This member is required.
+        public var groupByField: SecurityHubClientTypes.GroupByField?
+
+        public init(
+            filters: SecurityHubClientTypes.OcsfFindingFilters? = nil,
+            groupByField: SecurityHubClientTypes.GroupByField? = nil
+        ) {
+            self.filters = filters
+            self.groupByField = groupByField
+        }
+    }
+}
+
+extension SecurityHubClientTypes {
+
+    /// Defines the configuration for organizing and categorizing Amazon Web Services resources based on associated security findings.
+    public struct ResourceGroupByRule: Swift.Sendable {
+        /// The criteria used to select resources and associated security findings.
+        public var filters: SecurityHubClientTypes.ResourcesFilters?
+        /// Specifies the attribute that resources should be grouped by.
+        /// This member is required.
+        public var groupByField: SecurityHubClientTypes.ResourceGroupByField?
+
+        public init(
+            filters: SecurityHubClientTypes.ResourcesFilters? = nil,
+            groupByField: SecurityHubClientTypes.ResourceGroupByField? = nil
+        ) {
+            self.filters = filters
+            self.groupByField = groupByField
+        }
+    }
+}
+
+public struct GetFindingsV2Input: Swift.Sendable {
+    /// The finding attributes used to define a condition to filter the returned OCSF findings. You can filter up to 10 composite filters. For each filter type inside of a composite filter, you can provide up to 20 filters.
+    public var filters: SecurityHubClientTypes.OcsfFindingFilters?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    public var nextToken: Swift.String?
+    /// The finding attributes used to sort the list of returned findings.
+    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
+
+    public init(
+        filters: SecurityHubClientTypes.OcsfFindingFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortCriteria = sortCriteria
+    }
+}
+
+public struct GetResourcesV2Input: Swift.Sendable {
+    /// Filters resources based on a set of criteria.
+    public var filters: SecurityHubClientTypes.ResourcesFilters?
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// The token required for pagination. On your first call, set the value of this parameter to NULL. For subsequent calls, to continue listing data, set the value of this parameter to the value returned in the previous response.
+    public var nextToken: Swift.String?
+    /// The finding attributes used to sort the list of returned findings.
+    public var sortCriteria: [SecurityHubClientTypes.SortCriterion]?
+
+    public init(
+        filters: SecurityHubClientTypes.ResourcesFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        sortCriteria: [SecurityHubClientTypes.SortCriterion]? = nil
+    ) {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.sortCriteria = sortCriteria
+    }
+}
+
+public struct CreateAutomationRuleV2Input: Swift.Sendable {
+    /// A list of actions to be performed when the rule criteria is met.
+    /// This member is required.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// A unique identifier used to ensure idempotency.
+    public var clientToken: Swift.String?
+    /// The filtering type and configuration of the automation rule.
+    /// This member is required.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the V2 automation rule.
+    /// This member is required.
+    public var description: Swift.String?
+    /// The name of the V2 automation rule.
+    /// This member is required.
+    public var ruleName: Swift.String?
+    /// The value for the rule priority.
+    /// This member is required.
+    public var ruleOrder: Swift.Float?
+    /// The status of the V2 automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+    /// A list of key-value pairs associated with the V2 automation rule.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        clientToken: Swift.String? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.actions = actions
+        self.clientToken = clientToken
+        self.criteria = criteria
+        self.description = description
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+        self.tags = tags
+    }
+}
+
+public struct GetAutomationRuleV2Output: Swift.Sendable {
+    /// A list of actions performed when the rule criteria is met.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// The timestamp when the V2 automation rule was created.
+    public var createdAt: Foundation.Date?
+    /// The filtering type and configuration of the V2 automation rule.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the automation rule.
+    public var description: Swift.String?
+    /// The ARN of the V2 automation rule.
+    public var ruleArn: Swift.String?
+    /// The ID of the V2 automation rule.
+    public var ruleId: Swift.String?
+    /// The name of the V2 automation rule.
+    public var ruleName: Swift.String?
+    /// The value for the rule priority.
+    public var ruleOrder: Swift.Float?
+    /// The status of the V2 automation automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+    /// The timestamp when the V2 automation rule was updated.
+    public var updatedAt: Foundation.Date?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        createdAt: Foundation.Date? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        ruleArn: Swift.String? = nil,
+        ruleId: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil,
+        updatedAt: Foundation.Date? = nil
+    ) {
+        self.actions = actions
+        self.createdAt = createdAt
+        self.criteria = criteria
+        self.description = description
+        self.ruleArn = ruleArn
+        self.ruleId = ruleId
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+        self.updatedAt = updatedAt
+    }
+}
+
+public struct UpdateAutomationRuleV2Input: Swift.Sendable {
+    /// A list of actions to be performed when the rule criteria is met.
+    public var actions: [SecurityHubClientTypes.AutomationRulesActionV2]?
+    /// The filtering type and configuration of the automation rule.
+    public var criteria: SecurityHubClientTypes.Criteria?
+    /// A description of the automation rule.
+    public var description: Swift.String?
+    /// The ARN of the automation rule.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the automation rule.
+    public var ruleName: Swift.String?
+    /// Represents a value for the rule priority.
+    public var ruleOrder: Swift.Float?
+    /// The status of the automation rule.
+    public var ruleStatus: SecurityHubClientTypes.RuleStatusV2?
+
+    public init(
+        actions: [SecurityHubClientTypes.AutomationRulesActionV2]? = nil,
+        criteria: SecurityHubClientTypes.Criteria? = nil,
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        ruleName: Swift.String? = nil,
+        ruleOrder: Swift.Float? = nil,
+        ruleStatus: SecurityHubClientTypes.RuleStatusV2? = nil
+    ) {
+        self.actions = actions
+        self.criteria = criteria
+        self.description = description
+        self.identifier = identifier
+        self.ruleName = ruleName
+        self.ruleOrder = ruleOrder
+        self.ruleStatus = ruleStatus
+    }
+}
+
+public struct GetFindingStatisticsV2Input: Swift.Sendable {
+    /// Specifies how security findings should be aggregated and organized in the statistical analysis. It can accept up to 5 groupBy fields in a single call.
+    /// This member is required.
+    public var groupByRules: [SecurityHubClientTypes.GroupByRule]?
+    /// The maximum number of results to be returned.
+    public var maxStatisticResults: Swift.Int?
+    /// Orders the aggregation count in descending or ascending order. Descending order is the default.
+    public var sortOrder: SecurityHubClientTypes.SortOrder?
+
+    public init(
+        groupByRules: [SecurityHubClientTypes.GroupByRule]? = nil,
+        maxStatisticResults: Swift.Int? = nil,
+        sortOrder: SecurityHubClientTypes.SortOrder? = nil
+    ) {
+        self.groupByRules = groupByRules
+        self.maxStatisticResults = maxStatisticResults
+        self.sortOrder = sortOrder
+    }
+}
+
+public struct GetResourcesStatisticsV2Input: Swift.Sendable {
+    /// How resource statistics should be aggregated and organized in the response.
+    /// This member is required.
+    public var groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]?
+    /// The maximum number of results to be returned.
+    public var maxStatisticResults: Swift.Int?
+    /// Sorts aggregated statistics.
+    public var sortOrder: SecurityHubClientTypes.SortOrder?
+
+    public init(
+        groupByRules: [SecurityHubClientTypes.ResourceGroupByRule]? = nil,
+        maxStatisticResults: Swift.Int? = nil,
+        sortOrder: SecurityHubClientTypes.SortOrder? = nil
+    ) {
+        self.groupByRules = groupByRules
+        self.maxStatisticResults = maxStatisticResults
+        self.sortOrder = sortOrder
+    }
 }
 
 extension AcceptAdministratorInvitationInput {
@@ -34275,7 +34494,9 @@ extension SecurityHubClientTypes.CompositeFilter {
         guard let value else { return }
         try writer["BooleanFilters"].writeList(value.booleanFilters, memberWritingClosure: SecurityHubClientTypes.OcsfBooleanFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DateFilters"].writeList(value.dateFilters, memberWritingClosure: SecurityHubClientTypes.OcsfDateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IpFilters"].writeList(value.ipFilters, memberWritingClosure: SecurityHubClientTypes.OcsfIpFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MapFilters"].writeList(value.mapFilters, memberWritingClosure: SecurityHubClientTypes.OcsfMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NestedCompositeFilters"].writeList(value.nestedCompositeFilters, memberWritingClosure: SecurityHubClientTypes.CompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NumberFilters"].writeList(value.numberFilters, memberWritingClosure: SecurityHubClientTypes.OcsfNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Operator"].write(value.`operator`)
         try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.OcsfStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -34289,7 +34510,41 @@ extension SecurityHubClientTypes.CompositeFilter {
         value.booleanFilters = try reader["BooleanFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfBooleanFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.numberFilters = try reader["NumberFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfNumberFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.mapFilters = try reader["MapFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfMapFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipFilters = try reader["IpFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.OcsfIpFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nestedCompositeFilters = try reader["NestedCompositeFilters"].readListIfPresent(memberReadingClosure: SecurityHubClientTypes.CompositeFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.`operator` = try reader["Operator"].readIfPresent()
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.OcsfIpFilter {
+
+    static func write(value: SecurityHubClientTypes.OcsfIpFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Filter"].write(value.filter, with: SecurityHubClientTypes.IpFilter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.OcsfIpFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.OcsfIpFilter()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.filter = try reader["Filter"].readIfPresent(with: SecurityHubClientTypes.IpFilter.read(from:))
+        return value
+    }
+}
+
+extension SecurityHubClientTypes.IpFilter {
+
+    static func write(value: SecurityHubClientTypes.IpFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Cidr"].write(value.cidr)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.IpFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SecurityHubClientTypes.IpFilter()
+        value.cidr = try reader["Cidr"].readIfPresent()
         return value
     }
 }
@@ -48368,21 +48623,6 @@ extension SecurityHubClientTypes.KeywordFilter {
     }
 }
 
-extension SecurityHubClientTypes.IpFilter {
-
-    static func write(value: SecurityHubClientTypes.IpFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Cidr"].write(value.cidr)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.IpFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SecurityHubClientTypes.IpFilter()
-        value.cidr = try reader["Cidr"].readIfPresent()
-        return value
-    }
-}
-
 extension SecurityHubClientTypes.Member {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.Member {
@@ -48404,7 +48644,7 @@ extension SecurityHubClientTypes.ResourceResult {
     static func read(from reader: SmithyJSON.Reader) throws -> SecurityHubClientTypes.ResourceResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SecurityHubClientTypes.ResourceResult()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceGuid = try reader["ResourceGuid"].readIfPresent()
         value.resourceId = try reader["ResourceId"].readIfPresent() ?? ""
         value.accountId = try reader["AccountId"].readIfPresent() ?? ""
         value.region = try reader["Region"].readIfPresent() ?? ""
@@ -48856,6 +49096,7 @@ extension SecurityHubClientTypes.ResourcesCompositeFilter {
         guard let value else { return }
         try writer["DateFilters"].writeList(value.dateFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesDateFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["MapFilters"].writeList(value.mapFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesMapFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NestedCompositeFilters"].writeList(value.nestedCompositeFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesCompositeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["NumberFilters"].writeList(value.numberFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesNumberFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Operator"].write(value.`operator`)
         try writer["StringFilters"].writeList(value.stringFilters, memberWritingClosure: SecurityHubClientTypes.ResourcesStringFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)

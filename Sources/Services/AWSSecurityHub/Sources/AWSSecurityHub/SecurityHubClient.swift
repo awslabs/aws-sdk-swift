@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SecurityHubClient: ClientRuntime.Client {
     public static let clientName = "SecurityHubClient"
-    public static let version = "1.5.69"
+    public static let version = "1.5.70"
     let client: ClientRuntime.SdkHttpClient
     let config: SecurityHubClient.SecurityHubClientConfiguration
     let serviceName = "SecurityHub"
@@ -1289,7 +1289,7 @@ extension SecurityHubClient {
 
     /// Performs the `BatchUpdateFindingsV2` operation on the `SecurityHub` service.
     ///
-    /// Used by customers to update information about their investigation into a finding. Requested by delegated administrator accounts or member accounts. Delegated administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. BatchUpdateFindings and BatchUpdateFindingV2 both use securityhub:BatchUpdateFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:BatchUpdateFindings action. Updates from BatchUpdateFindingsV2 don't affect the value of finding_info.modified_time, finding_info.modified_time_dt, time, time_dt for a finding. This API is in private preview and subject to change.
+    /// Used by customers to update information about their investigation into a finding. Requested by delegated administrator accounts or member accounts. Delegated administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. BatchUpdateFindings and BatchUpdateFindingV2 both use securityhub:BatchUpdateFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:BatchUpdateFindings action. Updates from BatchUpdateFindingsV2 don't affect the value of finding_info.modified_time, finding_info.modified_time_dt, time, time_dt for a finding. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchUpdateFindingsV2Input`)
     ///
@@ -1578,7 +1578,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateAggregatorV2` operation on the `SecurityHub` service.
     ///
-    /// Enables aggregation across Amazon Web Services Regions. This API is in private preview and subject to change.
+    /// Enables aggregation across Amazon Web Services Regions. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateAggregatorV2Input`)
     ///
@@ -1724,7 +1724,7 @@ extension SecurityHubClient {
 
     /// Performs the `CreateAutomationRuleV2` operation on the `SecurityHub` service.
     ///
-    /// Creates a V2 automation rule. This API is in private preview and subject to change.
+    /// Creates a V2 automation rule. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateAutomationRuleV2Input`)
     ///
@@ -2388,7 +2388,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteAggregatorV2` operation on the `SecurityHub` service.
     ///
-    /// Deletes the Aggregator V2. This API is in private preview and subject to change.
+    /// Deletes the Aggregator V2. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAggregatorV2Input`)
     ///
@@ -2458,7 +2458,7 @@ extension SecurityHubClient {
 
     /// Performs the `DeleteAutomationRuleV2` operation on the `SecurityHub` service.
     ///
-    /// Deletes a V2 automation rule. This API is in private preview and subject to change.
+    /// Deletes a V2 automation rule. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAutomationRuleV2Input`)
     ///
@@ -3230,7 +3230,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeProductsV2` operation on the `SecurityHub` service.
     ///
-    /// Gets information about the product integration. This API is in private preview and subject to change.
+    /// Gets information about the product integration. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeProductsV2Input`)
     ///
@@ -3300,7 +3300,7 @@ extension SecurityHubClient {
 
     /// Performs the `DescribeSecurityHubV2` operation on the `SecurityHub` service.
     ///
-    /// Returns details about the service resource in your account. This API is in private preview and subject to change.
+    /// Returns details about the service resource in your account. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeSecurityHubV2Input`)
     ///
@@ -3715,7 +3715,7 @@ extension SecurityHubClient {
 
     /// Performs the `DisableSecurityHubV2` operation on the `SecurityHub` service.
     ///
-    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
+    /// Disable the service for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisableSecurityHubV2Input`)
     ///
@@ -4218,7 +4218,7 @@ extension SecurityHubClient {
 
     /// Performs the `EnableSecurityHubV2` operation on the `SecurityHub` service.
     ///
-    /// Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in private preview and subject to change.
+    /// Enables the service in account for the current Amazon Web Services Region or specified Amazon Web Services Region. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `EnableSecurityHubV2Input`)
     ///
@@ -4358,7 +4358,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetAggregatorV2` operation on the `SecurityHub` service.
     ///
-    /// Returns the configuration of the specified Aggregator V2. This API is in private preview and subject to change.
+    /// Returns the configuration of the specified Aggregator V2. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAggregatorV2Input`)
     ///
@@ -4428,7 +4428,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetAutomationRuleV2` operation on the `SecurityHub` service.
     ///
-    /// Returns an automation rule for the V2 service. This API is in private preview and subject to change.
+    /// Returns an automation rule for the V2 service. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAutomationRuleV2Input`)
     ///
@@ -4923,7 +4923,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetFindingStatisticsV2` operation on the `SecurityHub` service.
     ///
-    /// Returns aggregated statistical data about findings. GetFindingStatisticsV2 use securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement. You must have permission to perform the s action. This API is in private preview and subject to change.
+    /// Returns aggregated statistical data about findings. GetFindingStatisticsV2 use securityhub:GetAdhocInsightResults in the Action element of an IAM policy statement. You must have permission to perform the s action. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFindingStatisticsV2Input`)
     ///
@@ -5066,7 +5066,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetFindingsV2` operation on the `SecurityHub` service.
     ///
-    /// Return a list of findings that match the specified criteria. GetFindings and GetFindingsV2 both use securityhub:GetFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:GetFindings action. This API is in private preview and subject to change.
+    /// Return a list of findings that match the specified criteria. GetFindings and GetFindingsV2 both use securityhub:GetFindings in the Action element of an IAM policy statement. You must have permission to perform the securityhub:GetFindings action. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetFindingsV2Input`)
     ///
@@ -5489,7 +5489,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetResourcesStatisticsV2` operation on the `SecurityHub` service.
     ///
-    /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. This API is in private preview and subject to change.
+    /// Retrieves statistical information about Amazon Web Services resources and their associated security findings. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesStatisticsV2Input`)
     ///
@@ -5562,7 +5562,7 @@ extension SecurityHubClient {
 
     /// Performs the `GetResourcesV2` operation on the `SecurityHub` service.
     ///
-    /// Returns a list of resources. This API is in private preview and subject to change.
+    /// Returns a list of resources. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcesV2Input`)
     ///
@@ -5777,7 +5777,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListAggregatorsV2` operation on the `SecurityHub` service.
     ///
-    /// Retrieves a list of V2 aggregators. This API is in private preview and subject to change.
+    /// Retrieves a list of V2 aggregators. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAggregatorsV2Input`)
     ///
@@ -5918,7 +5918,7 @@ extension SecurityHubClient {
 
     /// Performs the `ListAutomationRulesV2` operation on the `SecurityHub` service.
     ///
-    /// Returns a list of automation rules and metadata for the calling account. This API is in private preview and subject to change.
+    /// Returns a list of automation rules and metadata for the calling account. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAutomationRulesV2Input`)
     ///
@@ -7106,7 +7106,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateAggregatorV2` operation on the `SecurityHub` service.
     ///
-    /// Udpates the configuration for the Aggregator V2. This API is in private preview and subject to change.
+    /// Udpates the configuration for the Aggregator V2. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAggregatorV2Input`)
     ///
@@ -7179,7 +7179,7 @@ extension SecurityHubClient {
 
     /// Performs the `UpdateAutomationRuleV2` operation on the `SecurityHub` service.
     ///
-    /// Updates a V2 automation rule. This API is in private preview and subject to change.
+    /// Updates a V2 automation rule. This API is in public preview and subject to change.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAutomationRuleV2Input`)
     ///

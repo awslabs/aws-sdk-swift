@@ -4489,6 +4489,25 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The MLflow properties of a connection.
+    public struct MlflowPropertiesInput: Swift.Sendable {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public var trackingServerArn: Swift.String?
+        /// The name of the tracking server as part of the MLflow properties of a connection.
+        public var trackingServerName: Swift.String?
+
+        public init(
+            trackingServerArn: Swift.String? = nil,
+            trackingServerName: Swift.String? = nil
+        ) {
+            self.trackingServerArn = trackingServerArn
+            self.trackingServerName = trackingServerName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The username and password of a connection.
     public struct UsernamePassword: Swift.Sendable {
         /// The password of a connection.
@@ -4755,6 +4774,8 @@ extension DataZoneClientTypes {
         case s3properties(DataZoneClientTypes.S3PropertiesInput)
         /// The Amazon Q properties of the connection.
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesInput)
+        /// The MLflow properties of a connection.
+        case mlflowproperties(DataZoneClientTypes.MlflowPropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4893,6 +4914,25 @@ extension DataZoneClientTypes {
         ) {
             self.environmentId = environmentId
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The MLflow properties of a connection.
+    public struct MlflowPropertiesOutput: Swift.Sendable {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public var trackingServerArn: Swift.String?
+        /// The name of the tracking server as part of the MLflow properties of a connection.
+        public var trackingServerName: Swift.String?
+
+        public init(
+            trackingServerArn: Swift.String? = nil,
+            trackingServerName: Swift.String? = nil
+        ) {
+            self.trackingServerArn = trackingServerArn
+            self.trackingServerName = trackingServerName
         }
     }
 }
@@ -5191,6 +5231,8 @@ extension DataZoneClientTypes {
         case s3properties(DataZoneClientTypes.S3PropertiesOutput)
         /// The Amazon Q properties of the connection.
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesOutput)
+        /// The MLflow properties of a connection.
+        case mlflowproperties(DataZoneClientTypes.MlflowPropertiesOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5244,6 +5286,25 @@ extension DataZoneClientTypes {
             glueLineageSyncEnabled: Swift.Bool? = nil
         ) {
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The MLflow properties of a connection.
+    public struct MlflowPropertiesPatch: Swift.Sendable {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public var trackingServerArn: Swift.String?
+        /// The name of the tracking server as part of the MLflow properties of a connection.
+        public var trackingServerName: Swift.String?
+
+        public init(
+            trackingServerArn: Swift.String? = nil,
+            trackingServerName: Swift.String? = nil
+        ) {
+            self.trackingServerArn = trackingServerArn
+            self.trackingServerName = trackingServerName
         }
     }
 }
@@ -5369,6 +5430,8 @@ extension DataZoneClientTypes {
         case s3properties(DataZoneClientTypes.S3PropertiesPatch)
         /// The Amazon Q properties of the connection.
         case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesPatch)
+        /// The MLflow properties of a connection.
+        case mlflowproperties(DataZoneClientTypes.MlflowPropertiesPatch)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5413,6 +5476,7 @@ extension DataZoneClientTypes {
         case dynamodb
         case hyperpod
         case iam
+        case mlflow
         case mysql
         case opensearch
         case oracle
@@ -5438,6 +5502,7 @@ extension DataZoneClientTypes {
                 .dynamodb,
                 .hyperpod,
                 .iam,
+                .mlflow,
                 .mysql,
                 .opensearch,
                 .oracle,
@@ -5469,6 +5534,7 @@ extension DataZoneClientTypes {
             case .dynamodb: return "DYNAMODB"
             case .hyperpod: return "HYPERPOD"
             case .iam: return "IAM"
+            case .mlflow: return "MLFLOW"
             case .mysql: return "MYSQL"
             case .opensearch: return "OPENSEARCH"
             case .oracle: return "ORACLE"
@@ -33726,9 +33792,22 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .s3properties(try reader["s3Properties"].read(with: DataZoneClientTypes.S3PropertiesOutput.read(from:)))
             case "amazonQProperties":
                 return .amazonqproperties(try reader["amazonQProperties"].read(with: DataZoneClientTypes.AmazonQPropertiesOutput.read(from:)))
+            case "mlflowProperties":
+                return .mlflowproperties(try reader["mlflowProperties"].read(with: DataZoneClientTypes.MlflowPropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MlflowPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MlflowPropertiesOutput()
+        value.trackingServerName = try reader["trackingServerName"].readIfPresent()
+        value.trackingServerArn = try reader["trackingServerArn"].readIfPresent()
+        return value
     }
 }
 
@@ -36939,6 +37018,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["hyperPodProperties"].write(hyperpodproperties, with: DataZoneClientTypes.HyperPodPropertiesInput.write(value:to:))
             case let .iamproperties(iamproperties):
                 try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesInput.write(value:to:))
+            case let .mlflowproperties(mlflowproperties):
+                try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesInput.write(value:to:))
             case let .redshiftproperties(redshiftproperties):
                 try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesInput.write(value:to:))
             case let .s3properties(s3properties):
@@ -36950,6 +37031,15 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.MlflowPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackingServerArn"].write(value.trackingServerArn)
+        try writer["trackingServerName"].write(value.trackingServerName)
     }
 }
 
@@ -37314,6 +37404,8 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
                 try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesPatch.write(value:to:))
             case let .iamproperties(iamproperties):
                 try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesPatch.write(value:to:))
+            case let .mlflowproperties(mlflowproperties):
+                try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesPatch.write(value:to:))
             case let .redshiftproperties(redshiftproperties):
                 try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesPatch.write(value:to:))
             case let .s3properties(s3properties):
@@ -37323,6 +37415,15 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.MlflowPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackingServerArn"].write(value.trackingServerArn)
+        try writer["trackingServerName"].write(value.trackingServerName)
     }
 }
 
