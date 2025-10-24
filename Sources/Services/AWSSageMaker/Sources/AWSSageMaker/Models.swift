@@ -20539,6 +20539,22 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Settings that affect how the inference component caches data.
+    public struct InferenceComponentDataCacheConfig: Swift.Sendable {
+        /// Sets whether the endpoint that hosts the inference component caches the model artifacts and container image. With caching enabled, the endpoint caches this data in each instance that it provisions for the inference component. That way, the inference component deploys faster during the auto scaling process. If caching isn't enabled, the inference component takes longer to deploy because of the time it spends downloading the data.
+        /// This member is required.
+        public var enableCaching: Swift.Bool?
+
+        public init(
+            enableCaching: Swift.Bool? = nil
+        ) {
+            self.enableCaching = enableCaching
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Settings that take effect while the model container starts up.
     public struct InferenceComponentStartupParameters: Swift.Sendable {
         /// The timeout value, in seconds, for your inference container to pass health check by Amazon S3 Hosting. For more information about health check, see [How Your Container Should Respond to Health Check (Ping) Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-algo-ping-requests).
@@ -20566,6 +20582,8 @@ extension SageMakerClientTypes {
         public var computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements?
         /// Defines a container that provides the runtime environment for a model that you deploy with an inference component.
         public var container: SageMakerClientTypes.InferenceComponentContainerSpecification?
+        /// Settings that affect how the inference component caches data.
+        public var dataCacheConfig: SageMakerClientTypes.InferenceComponentDataCacheConfig?
         /// The name of an existing SageMaker AI model object in your account that you want to deploy with the inference component.
         public var modelName: Swift.String?
         /// Settings that take effect while the model container starts up.
@@ -20575,12 +20593,14 @@ extension SageMakerClientTypes {
             baseInferenceComponentName: Swift.String? = nil,
             computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements? = nil,
             container: SageMakerClientTypes.InferenceComponentContainerSpecification? = nil,
+            dataCacheConfig: SageMakerClientTypes.InferenceComponentDataCacheConfig? = nil,
             modelName: Swift.String? = nil,
             startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters? = nil
         ) {
             self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
+            self.dataCacheConfig = dataCacheConfig
             self.modelName = modelName
             self.startupParameters = startupParameters
         }
@@ -24832,7 +24852,7 @@ public struct CreateNotebookInstanceInput: Swift.Sendable {
     /// The name of the new notebook instance.
     /// This member is required.
     public var notebookInstanceName: Swift.String?
-    /// The platform identifier of the notebook instance runtime environment.
+    /// The platform identifier of the notebook instance runtime environment. The default value is notebook-al2-v2.
     public var platformIdentifier: Swift.String?
     /// When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     /// This member is required.
@@ -26028,7 +26048,7 @@ extension SageMakerClientTypes {
         public var localPath: Swift.String?
         /// Whether to GZIP-decompress the data in Amazon S3 as it is streamed into the processing container. Gzip can only be used when Pipe mode is specified as the S3InputMode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your container without using the EBS volume.
         public var s3CompressionType: SageMakerClientTypes.ProcessingS3CompressionType?
-        /// Whether to distribute the data from Amazon S3 to all processing instances with FullyReplicated, or whether the data from Amazon S3 is shared by Amazon S3 key, downloading one shard of data to each processing instance.
+        /// Whether to distribute the data from Amazon S3 to all processing instances with FullyReplicated, or whether the data from Amazon S3 is sharded by Amazon S3 key, downloading one shard of data to each processing instance.
         public var s3DataDistributionType: SageMakerClientTypes.ProcessingS3DataDistributionType?
         /// Whether you use an S3Prefix or a ManifestFile for the data type. If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing job. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for the processing job.
         /// This member is required.
@@ -33441,6 +33461,22 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Settings that affect how the inference component caches data.
+    public struct InferenceComponentDataCacheConfigSummary: Swift.Sendable {
+        /// Indicates whether the inference component caches model artifacts as part of the auto scaling process.
+        /// This member is required.
+        public var enableCaching: Swift.Bool?
+
+        public init(
+            enableCaching: Swift.Bool? = nil
+        ) {
+            self.enableCaching = enableCaching
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Details about the resources that are deployed with this inference component.
     public struct InferenceComponentSpecificationSummary: Swift.Sendable {
         /// The name of the base inference component that contains this inference component.
@@ -33449,6 +33485,8 @@ extension SageMakerClientTypes {
         public var computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements?
         /// Details about the container that provides the runtime environment for the model that is deployed with the inference component.
         public var container: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary?
+        /// Settings that affect how the inference component caches data.
+        public var dataCacheConfig: SageMakerClientTypes.InferenceComponentDataCacheConfigSummary?
         /// The name of the SageMaker AI model object that is deployed with the inference component.
         public var modelName: Swift.String?
         /// Settings that take effect while the model container starts up.
@@ -33458,12 +33496,14 @@ extension SageMakerClientTypes {
             baseInferenceComponentName: Swift.String? = nil,
             computeResourceRequirements: SageMakerClientTypes.InferenceComponentComputeResourceRequirements? = nil,
             container: SageMakerClientTypes.InferenceComponentContainerSpecificationSummary? = nil,
+            dataCacheConfig: SageMakerClientTypes.InferenceComponentDataCacheConfigSummary? = nil,
             modelName: Swift.String? = nil,
             startupParameters: SageMakerClientTypes.InferenceComponentStartupParameters? = nil
         ) {
             self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
+            self.dataCacheConfig = dataCacheConfig
             self.modelName = modelName
             self.startupParameters = startupParameters
         }
@@ -77556,6 +77596,17 @@ extension SageMakerClientTypes.InferenceComponentSpecificationSummary {
         value.startupParameters = try reader["StartupParameters"].readIfPresent(with: SageMakerClientTypes.InferenceComponentStartupParameters.read(from:))
         value.computeResourceRequirements = try reader["ComputeResourceRequirements"].readIfPresent(with: SageMakerClientTypes.InferenceComponentComputeResourceRequirements.read(from:))
         value.baseInferenceComponentName = try reader["BaseInferenceComponentName"].readIfPresent()
+        value.dataCacheConfig = try reader["DataCacheConfig"].readIfPresent(with: SageMakerClientTypes.InferenceComponentDataCacheConfigSummary.read(from:))
+        return value
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentDataCacheConfigSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.InferenceComponentDataCacheConfigSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.InferenceComponentDataCacheConfigSummary()
+        value.enableCaching = try reader["EnableCaching"].readIfPresent() ?? false
         return value
     }
 }
@@ -83436,8 +83487,17 @@ extension SageMakerClientTypes.InferenceComponentSpecification {
         try writer["BaseInferenceComponentName"].write(value.baseInferenceComponentName)
         try writer["ComputeResourceRequirements"].write(value.computeResourceRequirements, with: SageMakerClientTypes.InferenceComponentComputeResourceRequirements.write(value:to:))
         try writer["Container"].write(value.container, with: SageMakerClientTypes.InferenceComponentContainerSpecification.write(value:to:))
+        try writer["DataCacheConfig"].write(value.dataCacheConfig, with: SageMakerClientTypes.InferenceComponentDataCacheConfig.write(value:to:))
         try writer["ModelName"].write(value.modelName)
         try writer["StartupParameters"].write(value.startupParameters, with: SageMakerClientTypes.InferenceComponentStartupParameters.write(value:to:))
+    }
+}
+
+extension SageMakerClientTypes.InferenceComponentDataCacheConfig {
+
+    static func write(value: SageMakerClientTypes.InferenceComponentDataCacheConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableCaching"].write(value.enableCaching)
     }
 }
 

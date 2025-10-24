@@ -1721,18 +1721,30 @@ extension GameLiftStreamsClientTypes {
 extension GameLiftStreamsClientTypes {
 
     public enum StreamSessionStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case apiTerminated
+        case applicationExit
         case appLogS3DestinationError
+        case connectionTimeout
+        case idleTimeout
         case internalError
         case invalidSignalRequest
+        case maxSessionLengthTimeout
         case placementTimeout
+        case reconnectionTimeout
         case sdkUnknown(Swift.String)
 
         public static var allCases: [StreamSessionStatusReason] {
             return [
+                .apiTerminated,
+                .applicationExit,
                 .appLogS3DestinationError,
+                .connectionTimeout,
+                .idleTimeout,
                 .internalError,
                 .invalidSignalRequest,
-                .placementTimeout
+                .maxSessionLengthTimeout,
+                .placementTimeout,
+                .reconnectionTimeout
             ]
         }
 
@@ -1743,10 +1755,16 @@ extension GameLiftStreamsClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .apiTerminated: return "apiTerminated"
+            case .applicationExit: return "applicationExit"
             case .appLogS3DestinationError: return "applicationLogS3DestinationError"
+            case .connectionTimeout: return "connectionTimeout"
+            case .idleTimeout: return "idleTimeout"
             case .internalError: return "internalError"
             case .invalidSignalRequest: return "invalidSignalRequest"
+            case .maxSessionLengthTimeout: return "maxSessionLengthTimeout"
             case .placementTimeout: return "placementTimeout"
+            case .reconnectionTimeout: return "reconnectionTimeout"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1802,7 +1820,9 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     ///
     /// * TERMINATED: The stream session has ended.
     public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
-    /// A short description of the reason the stream session is in ERROR status.
+    /// A short description of the reason the stream session is in ERROR status or TERMINATED status. ERROR status reasons:
+    ///
+    /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
     ///
     /// * internalError: An internal service error occurred. Start a new stream session to continue streaming.
     ///
@@ -1810,7 +1830,20 @@ public struct GetStreamSessionOutput: Swift.Sendable {
     ///
     /// * placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.
     ///
-    /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
+    ///
+    /// TERMINATED status reasons:
+    ///
+    /// * apiTerminated: The stream session was terminated by an API call to [TerminateStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_TerminateStreamSession.html).
+    ///
+    /// * applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.
+    ///
+    /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
+    ///
+    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
+    ///
+    /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
+    ///
+    /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
     /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?
@@ -2172,7 +2205,9 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     ///
     /// * TERMINATED: The stream session has ended.
     public var status: GameLiftStreamsClientTypes.StreamSessionStatus?
-    /// A short description of the reason the stream session is in ERROR status.
+    /// A short description of the reason the stream session is in ERROR status or TERMINATED status. ERROR status reasons:
+    ///
+    /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
     ///
     /// * internalError: An internal service error occurred. Start a new stream session to continue streaming.
     ///
@@ -2180,7 +2215,20 @@ public struct StartStreamSessionOutput: Swift.Sendable {
     ///
     /// * placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.
     ///
-    /// * applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.
+    ///
+    /// TERMINATED status reasons:
+    ///
+    /// * apiTerminated: The stream session was terminated by an API call to [TerminateStreamSession](https://docs.aws.amazon.com/gameliftstreams/latest/apireference/API_TerminateStreamSession.html).
+    ///
+    /// * applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.
+    ///
+    /// * connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.
+    ///
+    /// * idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.
+    ///
+    /// * maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.
+    ///
+    /// * reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
     public var statusReason: GameLiftStreamsClientTypes.StreamSessionStatusReason?
     /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
     public var streamGroupId: Swift.String?

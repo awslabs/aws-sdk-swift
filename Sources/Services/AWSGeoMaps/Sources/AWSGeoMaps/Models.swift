@@ -1175,7 +1175,48 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension GeoMapsClientTypes {
+
+    public enum TileAdditionalFeature: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Map elevation contour lines.
+        case contourLines
+        /// Map hillshading details for shading elevation changes.
+        case hillshade
+        /// Map logistics details, including advanced pois and road networks.
+        case logistics
+        /// Map transit details.
+        case transit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TileAdditionalFeature] {
+            return [
+                .contourLines,
+                .hillshade,
+                .logistics,
+                .transit
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contourLines: return "ContourLines"
+            case .hillshade: return "Hillshade"
+            case .logistics: return "Logistics"
+            case .transit: return "Transit"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetTileInput: Swift.Sendable {
+    /// A list of optional additional parameters such as map styles that can be requested for each result.
+    public var additionalFeatures: [GeoMapsClientTypes.TileAdditionalFeature]?
     /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
     public var key: Swift.String?
     /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap
@@ -1192,12 +1233,14 @@ public struct GetTileInput: Swift.Sendable {
     public var z: Swift.String?
 
     public init(
+        additionalFeatures: [GeoMapsClientTypes.TileAdditionalFeature]? = nil,
         key: Swift.String? = nil,
         tileset: Swift.String? = nil,
         x: Swift.String? = nil,
         y: Swift.String? = nil,
         z: Swift.String? = nil
     ) {
+        self.additionalFeatures = additionalFeatures
         self.key = key
         self.tileset = tileset
         self.x = x
@@ -1208,7 +1251,7 @@ public struct GetTileInput: Swift.Sendable {
 
 extension GetTileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetTileInput(tileset: \(Swift.String(describing: tileset)), key: \"CONTENT_REDACTED\", x: \"CONTENT_REDACTED\", y: \"CONTENT_REDACTED\", z: \"CONTENT_REDACTED\")"}
+        "GetTileInput(additionalFeatures: \(Swift.String(describing: additionalFeatures)), tileset: \(Swift.String(describing: tileset)), key: \"CONTENT_REDACTED\", x: \"CONTENT_REDACTED\", y: \"CONTENT_REDACTED\", z: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetTileOutput: Swift.Sendable {
@@ -1440,6 +1483,12 @@ extension GetTileInput {
 
     static func queryItemProvider(_ value: GetTileInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
+        if let additionalFeatures = value.additionalFeatures {
+            additionalFeatures.forEach { queryItemValue in
+                let queryItem = Smithy.URIQueryItem(name: "additional-features".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
         if let key = value.key {
             let keyQueryItem = Smithy.URIQueryItem(name: "key".urlPercentEncoding(), value: Swift.String(key).urlPercentEncoding())
             items.append(keyQueryItem)

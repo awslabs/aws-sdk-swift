@@ -562,12 +562,29 @@ extension RTBFabricClientTypes {
 
 extension RTBFabricClientTypes {
 
+    /// Describes the parameters of a rate limit.
+    public struct RateLimiterModuleParameters: Swift.Sendable {
+        /// The transactions per second rate limit.
+        public var tps: Swift.Float?
+
+        public init(
+            tps: Swift.Float? = nil
+        ) {
+            self.tps = tps
+        }
+    }
+}
+
+extension RTBFabricClientTypes {
+
     /// Describes the parameters of a module.
     public enum ModuleParameters: Swift.Sendable {
         /// Describes the parameters of a no bid module.
         case nobid(RTBFabricClientTypes.NoBidModuleParameters)
         /// Describes the parameters of an open RTB attribute module.
         case openrtbattribute(RTBFabricClientTypes.OpenRtbAttributeModuleParameters)
+        /// Describes the parameters of a rate limit.
+        case ratelimiter(RTBFabricClientTypes.RateLimiterModuleParameters)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3804,6 +3821,8 @@ extension RTBFabricClientTypes.ModuleParameters {
                 try writer["noBid"].write(nobid, with: RTBFabricClientTypes.NoBidModuleParameters.write(value:to:))
             case let .openrtbattribute(openrtbattribute):
                 try writer["openRtbAttribute"].write(openrtbattribute, with: RTBFabricClientTypes.OpenRtbAttributeModuleParameters.write(value:to:))
+            case let .ratelimiter(ratelimiter):
+                try writer["rateLimiter"].write(ratelimiter, with: RTBFabricClientTypes.RateLimiterModuleParameters.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -3817,9 +3836,26 @@ extension RTBFabricClientTypes.ModuleParameters {
                 return .nobid(try reader["noBid"].read(with: RTBFabricClientTypes.NoBidModuleParameters.read(from:)))
             case "openRtbAttribute":
                 return .openrtbattribute(try reader["openRtbAttribute"].read(with: RTBFabricClientTypes.OpenRtbAttributeModuleParameters.read(from:)))
+            case "rateLimiter":
+                return .ratelimiter(try reader["rateLimiter"].read(with: RTBFabricClientTypes.RateLimiterModuleParameters.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension RTBFabricClientTypes.RateLimiterModuleParameters {
+
+    static func write(value: RTBFabricClientTypes.RateLimiterModuleParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tps"].write(value.tps)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RTBFabricClientTypes.RateLimiterModuleParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RTBFabricClientTypes.RateLimiterModuleParameters()
+        value.tps = try reader["tps"].readIfPresent()
+        return value
     }
 }
 

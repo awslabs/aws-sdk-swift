@@ -707,6 +707,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSRDSData](../../../../../sdk-for-swift/latest/api/awsrdsdata)
 
+[AWSRTBFabric](../../../../../sdk-for-swift/latest/api/awsrtbfabric)
+
 [AWSRUM](../../../../../sdk-for-swift/latest/api/awsrum)
 
 [AWSRbin](../../../../../sdk-for-swift/latest/api/awsrbin)
