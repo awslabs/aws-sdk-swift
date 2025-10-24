@@ -62,6 +62,7 @@ object AWSClientRuntimeTypes {
             runtimeSymbol("FlexibleChecksumsResponseMiddleware", SwiftDeclaration.STRUCT)
         val AmzSdkInvocationIdMiddleware = runtimeSymbol("AmzSdkInvocationIdMiddleware", SwiftDeclaration.STRUCT)
         val AmzSdkRequestMiddleware = runtimeSymbol("AmzSdkRequestMiddleware", SwiftDeclaration.CLASS)
+        val AWSClient = runtimeSymbol("AWSClient", SwiftDeclaration.PROTOCOL)
     }
 }
 

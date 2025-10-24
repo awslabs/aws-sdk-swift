@@ -457,6 +457,7 @@ extension Target.Dependency {
     static var AWSSDKIdentityAPI: Self { "AWSSDKIdentityAPI" }
     static var AWSSDKChecksums: Self { "AWSSDKChecksums" }
     static var AWSSDKPartitions: Self { "AWSSDKPartitions" }
+    static var AWSSDKDynamic: Self { "AWSSDKDynamic" }
 
     // CRT module
     static var CRT: Self { .product(name: "AwsCommonRuntimeKit", package: "aws-crt-swift") }
@@ -580,6 +581,7 @@ private var runtimeTargets: [Target] {
                 .AWSSDKHTTPAuth,
                 .AWSSDKChecksums,
                 .AWSSDKPartitions,
+                .AWSSDKDynamic,
             ],
             path: "Sources/Core/AWSClientRuntime/Sources/AWSClientRuntime",
             resources: [
@@ -668,11 +670,15 @@ private var runtimeTargets: [Target] {
                 .SmithyChecksums,
                 .SmithyHTTPAPI,
             ],
-            path: "Sources/Core/AWSSDKChecksums/Sources"
+            path: "Sources/Core/AWSSDKChecksums/Sources/AWSSDKChecksums"
         ),
         .target(
             name: "AWSSDKPartitions",
-            path: "Sources/Core/AWSSDKPartitions/Sources"
+            path: "Sources/Core/AWSSDKPartitions/Sources/AWSSDKPartitions"
+        ),
+        .target(
+            name: "AWSSDKDynamic",
+            path: "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic"
         ),
     ]
 }
