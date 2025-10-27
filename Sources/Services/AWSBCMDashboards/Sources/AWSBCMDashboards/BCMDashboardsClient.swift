@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class BCMDashboardsClient: ClientRuntime.Client {
     public static let clientName = "BCMDashboardsClient"
-    public static let version = "1.5.70"
+    public static let version = "1.5.71"
     let client: ClientRuntime.SdkHttpClient
     let config: BCMDashboardsClient.BCMDashboardsClientConfiguration
     let serviceName = "BCM Dashboards"

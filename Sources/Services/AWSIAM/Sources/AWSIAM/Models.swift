@@ -3389,6 +3389,7 @@ extension IAMClientTypes {
         case accountmfaenabled
         case accountpasswordpresent
         case accountsigningcertificatespresent
+        case assumerolepolicysizequota
         case attachedpoliciespergroupquota
         case attachedpoliciesperrolequota
         case attachedpoliciesperuserquota
@@ -3397,6 +3398,8 @@ extension IAMClientTypes {
         case groups
         case groupsperuserquota
         case groupsquota
+        case instanceprofiles
+        case instanceprofilesquota
         case mfadevices
         case mfadevicesinuse
         case policies
@@ -3404,6 +3407,10 @@ extension IAMClientTypes {
         case policysizequota
         case policyversionsinuse
         case policyversionsinusequota
+        case providers
+        case rolepolicysizequota
+        case roles
+        case rolesquota
         case servercertificates
         case servercertificatesquota
         case signingcertificatesperuserquota
@@ -3420,6 +3427,7 @@ extension IAMClientTypes {
                 .accountmfaenabled,
                 .accountpasswordpresent,
                 .accountsigningcertificatespresent,
+                .assumerolepolicysizequota,
                 .attachedpoliciespergroupquota,
                 .attachedpoliciesperrolequota,
                 .attachedpoliciesperuserquota,
@@ -3428,6 +3436,8 @@ extension IAMClientTypes {
                 .groups,
                 .groupsperuserquota,
                 .groupsquota,
+                .instanceprofiles,
+                .instanceprofilesquota,
                 .mfadevices,
                 .mfadevicesinuse,
                 .policies,
@@ -3435,6 +3445,10 @@ extension IAMClientTypes {
                 .policysizequota,
                 .policyversionsinuse,
                 .policyversionsinusequota,
+                .providers,
+                .rolepolicysizequota,
+                .roles,
+                .rolesquota,
                 .servercertificates,
                 .servercertificatesquota,
                 .signingcertificatesperuserquota,
@@ -3457,6 +3471,7 @@ extension IAMClientTypes {
             case .accountmfaenabled: return "AccountMFAEnabled"
             case .accountpasswordpresent: return "AccountPasswordPresent"
             case .accountsigningcertificatespresent: return "AccountSigningCertificatesPresent"
+            case .assumerolepolicysizequota: return "AssumeRolePolicySizeQuota"
             case .attachedpoliciespergroupquota: return "AttachedPoliciesPerGroupQuota"
             case .attachedpoliciesperrolequota: return "AttachedPoliciesPerRoleQuota"
             case .attachedpoliciesperuserquota: return "AttachedPoliciesPerUserQuota"
@@ -3465,6 +3480,8 @@ extension IAMClientTypes {
             case .groups: return "Groups"
             case .groupsperuserquota: return "GroupsPerUserQuota"
             case .groupsquota: return "GroupsQuota"
+            case .instanceprofiles: return "InstanceProfiles"
+            case .instanceprofilesquota: return "InstanceProfilesQuota"
             case .mfadevices: return "MFADevices"
             case .mfadevicesinuse: return "MFADevicesInUse"
             case .policies: return "Policies"
@@ -3472,6 +3489,10 @@ extension IAMClientTypes {
             case .policysizequota: return "PolicySizeQuota"
             case .policyversionsinuse: return "PolicyVersionsInUse"
             case .policyversionsinusequota: return "PolicyVersionsInUseQuota"
+            case .providers: return "Providers"
+            case .rolepolicysizequota: return "RolePolicySizeQuota"
+            case .roles: return "Roles"
+            case .rolesquota: return "RolesQuota"
             case .servercertificates: return "ServerCertificates"
             case .servercertificatesquota: return "ServerCertificatesQuota"
             case .signingcertificatesperuserquota: return "SigningCertificatesPerUserQuota"
