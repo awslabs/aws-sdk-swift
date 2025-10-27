@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class MemoryDBClient: ClientRuntime.Client {
     public static let clientName = "MemoryDBClient"
-    public static let version = "1.5.70"
+    public static let version = "1.5.71"
     let client: ClientRuntime.SdkHttpClient
     let config: MemoryDBClient.MemoryDBClientConfiguration
     let serviceName = "MemoryDB"

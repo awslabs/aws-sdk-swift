@@ -110,6 +110,11 @@ public struct UntagResourceOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateMaxRecordSizeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateStreamModeOutput: Swift.Sendable {
 
     public init() { }
@@ -448,6 +453,8 @@ extension KinesisClientTypes {
 
 /// Represents the input for CreateStream.
 public struct CreateStreamInput: Swift.Sendable {
+    /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream.
+    public var maxRecordSizeInKiB: Swift.Int?
     /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput.
     public var shardCount: Swift.Int?
     /// Indicates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
@@ -459,11 +466,13 @@ public struct CreateStreamInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        maxRecordSizeInKiB: Swift.Int? = nil,
         shardCount: Swift.Int? = nil,
         streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
         streamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.maxRecordSizeInKiB = maxRecordSizeInKiB
         self.shardCount = shardCount
         self.streamModeDetails = streamModeDetails
         self.streamName = streamName
@@ -969,6 +978,8 @@ extension KinesisClientTypes {
         ///
         /// * Master key owned by Kinesis Data Streams: alias/aws/kinesis
         public var keyId: Swift.String?
+        /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream.
+        public var maxRecordSizeInKiB: Swift.Int?
         /// The number of open shards in the stream.
         /// This member is required.
         public var openShardCount: Swift.Int?
@@ -1003,6 +1014,7 @@ extension KinesisClientTypes {
             encryptionType: KinesisClientTypes.EncryptionType? = nil,
             enhancedMonitoring: [KinesisClientTypes.EnhancedMetrics]? = nil,
             keyId: Swift.String? = nil,
+            maxRecordSizeInKiB: Swift.Int? = nil,
             openShardCount: Swift.Int? = nil,
             retentionPeriodHours: Swift.Int? = nil,
             streamARN: Swift.String? = nil,
@@ -1015,6 +1027,7 @@ extension KinesisClientTypes {
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
             self.keyId = keyId
+            self.maxRecordSizeInKiB = maxRecordSizeInKiB
             self.openShardCount = openShardCount
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
@@ -2464,6 +2477,22 @@ public struct UntagResourceInput: Swift.Sendable {
     }
 }
 
+public struct UpdateMaxRecordSizeInput: Swift.Sendable {
+    /// The maximum record size of a single record in KiB that you can write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10 MiB). If you specify a value that is out of this range, UpdateMaxRecordSize sends back an ValidationException message.
+    /// This member is required.
+    public var maxRecordSizeInKiB: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the stream for the MaxRecordSize update.
+    public var streamARN: Swift.String?
+
+    public init(
+        maxRecordSizeInKiB: Swift.Int? = nil,
+        streamARN: Swift.String? = nil
+    ) {
+        self.maxRecordSizeInKiB = maxRecordSizeInKiB
+        self.streamARN = streamARN
+    }
+}
+
 extension KinesisClientTypes {
 
     public enum ScalingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2794,6 +2823,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateMaxRecordSizeInput {
+
+    static func urlPathProvider(_ value: UpdateMaxRecordSizeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateShardCountInput {
 
     static func urlPathProvider(_ value: UpdateShardCountInput) -> Swift.String? {
@@ -2822,6 +2858,7 @@ extension CreateStreamInput {
 
     static func write(value: CreateStreamInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["MaxRecordSizeInKiB"].write(value.maxRecordSizeInKiB)
         try writer["ShardCount"].write(value.shardCount)
         try writer["StreamModeDetails"].write(value.streamModeDetails, with: KinesisClientTypes.StreamModeDetails.write(value:to:))
         try writer["StreamName"].write(value.streamName)
@@ -3141,6 +3178,15 @@ extension UntagResourceInput {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension UpdateMaxRecordSizeInput {
+
+    static func write(value: UpdateMaxRecordSizeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxRecordSizeInKiB"].write(value.maxRecordSizeInKiB)
+        try writer["StreamARN"].write(value.streamARN)
     }
 }
 
@@ -3505,6 +3551,13 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateMaxRecordSizeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateMaxRecordSizeOutput {
+        return UpdateMaxRecordSizeOutput()
     }
 }
 
@@ -4136,6 +4189,25 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateMaxRecordSizeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvalidArgumentException": return try InvalidArgumentException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateShardCountOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4550,6 +4622,7 @@ extension KinesisClientTypes.StreamDescriptionSummary {
         value.keyId = try reader["KeyId"].readIfPresent()
         value.openShardCount = try reader["OpenShardCount"].readIfPresent() ?? 0
         value.consumerCount = try reader["ConsumerCount"].readIfPresent()
+        value.maxRecordSizeInKiB = try reader["MaxRecordSizeInKiB"].readIfPresent()
         return value
     }
 }

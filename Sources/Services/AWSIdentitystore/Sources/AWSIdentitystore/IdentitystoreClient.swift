@@ -67,7 +67,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class IdentitystoreClient: ClientRuntime.Client {
     public static let clientName = "IdentitystoreClient"
-    public static let version = "1.5.70"
+    public static let version = "1.5.71"
     let client: ClientRuntime.SdkHttpClient
     let config: IdentitystoreClient.IdentitystoreClientConfiguration
     let serviceName = "identitystore"

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ApplicationSignalsClient: ClientRuntime.Client {
     public static let clientName = "ApplicationSignalsClient"
-    public static let version = "1.5.70"
+    public static let version = "1.5.71"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationSignalsClient.ApplicationSignalsClientConfiguration
     let serviceName = "Application Signals"
