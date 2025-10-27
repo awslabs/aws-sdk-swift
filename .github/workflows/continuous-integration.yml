@@ -109,8 +109,8 @@ jobs:
           NSUnbufferedIO=YES xcodebuild \
             -scheme aws-sdk-swift-Package \
             -destination '${{ matrix.destination }}' \
-            test 2>&1 \
-            | xcbeautify
+            test 2>&1 #\
+            # | xcbeautify
       - name: Build and Run Protocol Tests
         run: |
           cd aws-sdk-swift/codegen/
