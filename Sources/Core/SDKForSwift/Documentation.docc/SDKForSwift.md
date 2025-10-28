@@ -123,8 +123,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSAppSync](../../../../../sdk-for-swift/latest/api/awsappsync)
 
-[AWSAppTest](../../../../../sdk-for-swift/latest/api/awsapptest)
-
 [AWSAppflow](../../../../../sdk-for-swift/latest/api/awsappflow)
 
 [AWSApplicationAutoScaling](../../../../../sdk-for-swift/latest/api/awsapplicationautoscaling)
@@ -463,8 +461,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIoTEventsData](../../../../../sdk-for-swift/latest/api/awsioteventsdata)
 
-[AWSIoTFleetHub](../../../../../sdk-for-swift/latest/api/awsiotfleethub)
-
 [AWSIoTFleetWise](../../../../../sdk-for-swift/latest/api/awsiotfleetwise)
 
 [AWSIoTJobsDataPlane](../../../../../sdk-for-swift/latest/api/awsiotjobsdataplane)
@@ -542,10 +538,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSLocation](../../../../../sdk-for-swift/latest/api/awslocation)
 
 [AWSLookoutEquipment](../../../../../sdk-for-swift/latest/api/awslookoutequipment)
-
-[AWSLookoutMetrics](../../../../../sdk-for-swift/latest/api/awslookoutmetrics)
-
-[AWSLookoutVision](../../../../../sdk-for-swift/latest/api/awslookoutvision)
 
 [AWSM2](../../../../../sdk-for-swift/latest/api/awsm2)
 
@@ -695,10 +687,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSQConnect](../../../../../sdk-for-swift/latest/api/awsqconnect)
 
-[AWSQLDB](../../../../../sdk-for-swift/latest/api/awsqldb)
-
-[AWSQLDBSession](../../../../../sdk-for-swift/latest/api/awsqldbsession)
-
 [AWSQuickSight](../../../../../sdk-for-swift/latest/api/awsquicksight)
 
 [AWSRAM](../../../../../sdk-for-swift/latest/api/awsram)
@@ -730,8 +718,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSResourceGroups](../../../../../sdk-for-swift/latest/api/awsresourcegroups)
 
 [AWSResourceGroupsTaggingAPI](../../../../../sdk-for-swift/latest/api/awsresourcegroupstaggingapi)
-
-[AWSRoboMaker](../../../../../sdk-for-swift/latest/api/awsrobomaker)
 
 [AWSRolesAnywhere](../../../../../sdk-for-swift/latest/api/awsrolesanywhere)
 

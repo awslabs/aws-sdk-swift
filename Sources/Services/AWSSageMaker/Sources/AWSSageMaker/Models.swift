@@ -207,6 +207,11 @@ public struct DeleteOptimizationJobOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteProcessingJobOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteProjectOutput: Swift.Sendable {
 
     public init() { }
@@ -218,6 +223,11 @@ public struct DeleteSpaceOutput: Swift.Sendable {
 }
 
 public struct DeleteStudioLifecycleConfigOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteTrainingJobOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -28961,6 +28971,18 @@ public struct DeletePipelineOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteProcessingJobInput: Swift.Sendable {
+    /// The name of the processing job to delete.
+    /// This member is required.
+    public var processingJobName: Swift.String?
+
+    public init(
+        processingJobName: Swift.String? = nil
+    ) {
+        self.processingJobName = processingJobName
+    }
+}
+
 public struct DeleteProjectInput: Swift.Sendable {
     /// The name of the project to delete.
     /// This member is required.
@@ -29022,6 +29044,18 @@ public struct DeleteTagsInput: Swift.Sendable {
 public struct DeleteTagsOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct DeleteTrainingJobInput: Swift.Sendable {
+    /// The name of the training job to delete.
+    /// This member is required.
+    public var trainingJobName: Swift.String?
+
+    public init(
+        trainingJobName: Swift.String? = nil
+    ) {
+        self.trainingJobName = trainingJobName
+    }
 }
 
 public struct DeleteTrialInput: Swift.Sendable {
@@ -32687,6 +32721,7 @@ extension SageMakerClientTypes {
 
     public enum TrainingJobStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case completed
+        case deleting
         case failed
         case inProgress
         case stopped
@@ -32696,6 +32731,7 @@ extension SageMakerClientTypes {
         public static var allCases: [TrainingJobStatus] {
             return [
                 .completed,
+                .deleting,
                 .failed,
                 .inProgress,
                 .stopped,
@@ -32711,6 +32747,7 @@ extension SageMakerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .completed: return "Completed"
+            case .deleting: return "Deleting"
             case .failed: return "Failed"
             case .inProgress: return "InProgress"
             case .stopped: return "Stopped"
@@ -55957,6 +55994,13 @@ extension DeletePipelineInput {
     }
 }
 
+extension DeleteProcessingJobInput {
+
+    static func urlPathProvider(_ value: DeleteProcessingJobInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteProjectInput {
 
     static func urlPathProvider(_ value: DeleteProjectInput) -> Swift.String? {
@@ -55981,6 +56025,13 @@ extension DeleteStudioLifecycleConfigInput {
 extension DeleteTagsInput {
 
     static func urlPathProvider(_ value: DeleteTagsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteTrainingJobInput {
+
+    static func urlPathProvider(_ value: DeleteTrainingJobInput) -> Swift.String? {
         return "/"
     }
 }
@@ -59128,6 +59179,14 @@ extension DeletePipelineInput {
     }
 }
 
+extension DeleteProcessingJobInput {
+
+    static func write(value: DeleteProcessingJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ProcessingJobName"].write(value.processingJobName)
+    }
+}
+
 extension DeleteProjectInput {
 
     static func write(value: DeleteProjectInput?, to writer: SmithyJSON.Writer) throws {
@@ -59159,6 +59218,14 @@ extension DeleteTagsInput {
         guard let value else { return }
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DeleteTrainingJobInput {
+
+    static func write(value: DeleteTrainingJobInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrainingJobName"].write(value.trainingJobName)
     }
 }
 
@@ -63236,6 +63303,13 @@ extension DeletePipelineOutput {
     }
 }
 
+extension DeleteProcessingJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProcessingJobOutput {
+        return DeleteProcessingJobOutput()
+    }
+}
+
 extension DeleteProjectOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteProjectOutput {
@@ -63261,6 +63335,13 @@ extension DeleteTagsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTagsOutput {
         return DeleteTagsOutput()
+    }
+}
+
+extension DeleteTrainingJobOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTrainingJobOutput {
+        return DeleteTrainingJobOutput()
     }
 }
 
@@ -68726,6 +68807,21 @@ enum DeletePipelineOutputError {
     }
 }
 
+enum DeleteProcessingJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteProjectOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -68778,6 +68874,21 @@ enum DeleteTagsOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTrainingJobOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ResourceInUse": return try ResourceInUse.makeError(baseError: baseError)
+            case "ResourceNotFound": return try ResourceNotFound.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

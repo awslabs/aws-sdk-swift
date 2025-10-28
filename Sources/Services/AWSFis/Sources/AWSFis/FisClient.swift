@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class FisClient: ClientRuntime.Client {
     public static let clientName = "FisClient"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: FisClient.FisClientConfiguration
     let serviceName = "fis"

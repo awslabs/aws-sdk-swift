@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class DocDBElasticClient: ClientRuntime.Client {
     public static let clientName = "DocDBElasticClient"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBElasticClient.DocDBElasticClientConfiguration
     let serviceName = "DocDB Elastic"

@@ -66,7 +66,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerMetricsClient: ClientRuntime.Client {
     public static let clientName = "SageMakerMetricsClient"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerMetricsClient.SageMakerMetricsClientConfiguration
     let serviceName = "SageMaker Metrics"

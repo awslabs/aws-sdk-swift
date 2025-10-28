@@ -69,7 +69,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class SageMakerClient: ClientRuntime.Client {
     public static let clientName = "SageMakerClient"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: SageMakerClient.SageMakerClientConfiguration
     let serviceName = "SageMaker"
@@ -8686,6 +8686,76 @@ extension SageMakerClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DeleteProcessingJob` operation on the `SageMaker` service.
+    ///
+    /// Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (Stopped, Failed, or Completed). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another processing job.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteProcessingJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteProcessingJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceInUse` : Resource being accessed is in use.
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func deleteProcessingJob(input: DeleteProcessingJobInput) async throws -> DeleteProcessingJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteProcessingJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteProcessingJobInput, DeleteProcessingJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(DeleteProcessingJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteProcessingJobOutput>(DeleteProcessingJobOutput.httpOutput(from:), DeleteProcessingJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteProcessingJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteProcessingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(xAmzTarget: "SageMaker.DeleteProcessingJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteProcessingJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteProcessingJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteProcessingJobInput, DeleteProcessingJobOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteProcessingJob")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DeleteProject` operation on the `SageMaker` service.
     ///
     /// Delete the specified project.
@@ -8947,6 +9017,76 @@ extension SageMakerClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTags")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteTrainingJob` operation on the `SageMaker` service.
+    ///
+    /// Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (Stopped, Failed, or Completed) and don't retain an Available[managed warm pool](https://docs.aws.amazon.com/sagemaker/latest/dg/train-warm-pools.html). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another training job.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteTrainingJobInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteTrainingJobOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceInUse` : Resource being accessed is in use.
+    /// - `ResourceNotFound` : Resource being access is not found.
+    public func deleteTrainingJob(input: DeleteTrainingJobInput) async throws -> DeleteTrainingJobOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteTrainingJob")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "sagemaker")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTrainingJobInput, DeleteTrainingJobOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(DeleteTrainingJobInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTrainingJobOutput>(DeleteTrainingJobOutput.httpOutput(from:), DeleteTrainingJobOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTrainingJobOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("SageMaker", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTrainingJobOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(xAmzTarget: "SageMaker.DeleteTrainingJob"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DeleteTrainingJobInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTrainingJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTrainingJobInput, DeleteTrainingJobOutput>(serviceID: serviceName, version: SageMakerClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "SageMaker")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTrainingJob")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

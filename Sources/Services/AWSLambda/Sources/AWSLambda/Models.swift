@@ -494,7 +494,7 @@ public struct AddPermissionInput: Swift.Sendable {
     public var functionName: Swift.String?
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
-    /// Restricts the lambda:InvokeFunction action to calls coming from a function URL. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// Restricts the lambda:InvokeFunction action to function URL calls. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var invokedViaFunctionUrl: Swift.Bool?
     /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
@@ -1133,7 +1133,7 @@ extension LambdaClientTypes {
 
     /// A destination for events that failed processing. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
     public struct OnFailure: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis](https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html), [DynamoDB](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html), [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
+        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. Amazon SNS destinations have a message size limit of 256 KB. If the combined size of the function request and response payload exceeds the limit, Lambda will drop the payload when sending OnFailure event to the destination. For details on this behavior, refer to [Retaining records of asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html). To retain records of failed invocations from [Kinesis](https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html), [DynamoDB](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html), [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public var destination: Swift.String?
 
         public init(
@@ -1148,7 +1148,7 @@ extension LambdaClientTypes {
 
     /// A destination for events that were processed successfully. To retain records of successful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. OnSuccess is not supported in CreateEventSourceMapping or UpdateEventSourceMapping requests.
     public struct OnSuccess: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the destination resource.
+        /// The Amazon Resource Name (ARN) of the destination resource. Amazon SNS destinations have a message size limit of 256 KB. If the combined size of the function request and response payload exceeds the limit, Lambda will drop the payload when sending OnFailure event to the destination. For details on this behavior, refer to [Retaining records of asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html).
         public var destination: Swift.String?
 
         public init(
@@ -5669,6 +5669,33 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// The processed request payload exceeded the Invoke request body size limit for asynchronous invocations. While the event payload may be under 1 MB, the size after internal serialization exceeds the maximum allowed size for asynchronous invocations.
+public struct SerializedRequestEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The error type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SerializedRequestEntityTooLargeException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
 public struct SnapStartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5885,7 +5912,7 @@ public struct InvokeInput: Swift.Sendable {
     public var invocationType: LambdaClientTypes.InvocationType?
     /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
     public var logType: LambdaClientTypes.LogType?
-    /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
+    /// The JSON that you want to provide to your Lambda function as input. The maximum payload size is 6 MB for synchronous invocations and 1 MB for asynchronous invocations. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
     public var payload: Foundation.Data?
     /// Specify a version or alias to invoke a published version of the function.
     public var qualifier: Swift.String?
@@ -12110,6 +12137,7 @@ enum InvokeOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "SerializedRequestEntityTooLargeException": return try SerializedRequestEntityTooLargeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
             case "SnapStartNotReadyException": return try SnapStartNotReadyException.makeError(baseError: baseError)
@@ -12171,6 +12199,7 @@ enum InvokeWithResponseStreamOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "SerializedRequestEntityTooLargeException": return try SerializedRequestEntityTooLargeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
             case "SnapStartNotReadyException": return try SnapStartNotReadyException.makeError(baseError: baseError)
@@ -13195,6 +13224,20 @@ extension ResourceNotReadyException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotReadyException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotReadyException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SerializedRequestEntityTooLargeException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SerializedRequestEntityTooLargeException {
+        let reader = baseError.errorBodyReader
+        var value = SerializedRequestEntityTooLargeException()
         value.properties.type = try reader["Type"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EC2Client: ClientRuntime.Client {
     public static let clientName = "EC2Client"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: EC2Client.EC2ClientConfiguration
     let serviceName = "EC2"
@@ -17232,6 +17232,69 @@ extension EC2Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeCapacityReservationTopology` operation on the `EC2` service.
+    ///
+    /// Describes a tree-based hierarchy that represents the physical host placement of your pending or active Capacity Reservations within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your capacity within the Amazon Web Services network before it is launched and use this information to allocate capacity together to support your tightly coupled workloads. Capacity Reservation topology is supported for specific instance types only. For more information, see [Prerequisites for Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology-prerequisites.html) in the Amazon EC2 User Guide. The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeCapacityReservationTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. For more information, see [Amazon EC2 topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology.html) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeCapacityReservationTopologyInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeCapacityReservationTopologyOutput`)
+    public func describeCapacityReservationTopology(input: DescribeCapacityReservationTopologyInput) async throws -> DescribeCapacityReservationTopologyOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeCapacityReservationTopology")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput>(DescribeCapacityReservationTopologyInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeCapacityReservationTopologyOutput>(DescribeCapacityReservationTopologyOutput.httpOutput(from:), DescribeCapacityReservationTopologyOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeCapacityReservationTopologyOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("EC2", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeCapacityReservationTopologyOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeCapacityReservationTopologyInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeCapacityReservationTopologyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeCapacityReservationTopologyInput, DescribeCapacityReservationTopologyOutput>(serviceID: serviceName, version: EC2Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "EC2")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeCapacityReservationTopology")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeCapacityReservations` operation on the `EC2` service.
     ///
     /// Describes one or more of your Capacity Reservations. The results describe only the Capacity Reservations in the Amazon Web Services Region that you're currently using.
@@ -20078,7 +20141,7 @@ extension EC2Client {
 
     /// Performs the `DescribeInstanceTopology` operation on the `EC2` service.
     ///
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information, see [ Prerequisites for Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology-prerequisites.html) in the Amazon EC2 User Guide. The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeInstanceTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. For more information, see [Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology.html) in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads. Instance topology is supported for specific instance types only. For more information, see [Prerequisites for Amazon EC2 instance topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology-prerequisites.html) in the Amazon EC2 User Guide. The Amazon EC2 API follows an eventual consistency model due to the distributed nature of the system supporting it. As a result, when you call the DescribeInstanceTopology API command immediately after launching instances, the response might return a null value for capacityBlockId because the data might not have fully propagated across all subsystems. For more information, see [Eventual consistency in the Amazon EC2 API](https://docs.aws.amazon.com/ec2/latest/devguide/eventual-consistency.html) in the Amazon EC2 Developer Guide. For more information, see [Amazon EC2 topology](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-topology.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeInstanceTopologyInput`)
     ///
