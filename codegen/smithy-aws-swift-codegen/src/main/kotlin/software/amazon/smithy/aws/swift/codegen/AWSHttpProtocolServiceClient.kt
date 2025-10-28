@@ -32,7 +32,6 @@ class AWSHttpProtocolServiceClient(
     private val writer: SwiftWriter,
     private val serviceConfig: ServiceConfig,
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
-
     override var clientProtocolSymbol = AWSClientRuntimeTypes.Core.AWSServiceClient
 
     override fun renderVersionProperty() {
