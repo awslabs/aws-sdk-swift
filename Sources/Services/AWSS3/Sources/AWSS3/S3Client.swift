@@ -87,7 +87,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class S3Client: ClientRuntime.Client {
     public static let clientName = "S3Client"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: S3Client.S3ClientConfiguration
     let serviceName = "S3"
@@ -480,6 +480,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `AbortMultipartUploadInput`)
     ///
     /// - Returns: [no documentation found] (Type: `AbortMultipartUploadOutput`)
@@ -607,6 +610,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `CompleteMultipartUploadInput`)
     ///
     /// - Returns: [no documentation found] (Type: `CompleteMultipartUploadOutput`)
@@ -674,7 +680,7 @@ extension S3Client {
 
     /// Performs the `CopyObject` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will discontinue support for creating new Email Grantee Access Control Lists (ACL). Email Grantee ACLs created prior to this date will continue to work and remain accessible through the Amazon Web Services Management Console, Command Line Interface (CLI), SDKs, and REST API. However, you will no longer be able to create new Email Grantee ACLs. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Creates a copy of an object that is already stored in Amazon S3. You can store individual objects of up to 5 TB in Amazon S3. You create a copy of your object up to 5 GB in size in a single atomic action using this API. However, to copy an object greater than 5 GB, you must use the multipart upload Upload Part - Copy (UploadPartCopy) API. For more information, see [Copy Object Using the REST Multipart Upload API](https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html). You can copy individual objects between general purpose buckets, between directory buckets, and between general purpose buckets and directory buckets.
+    /// Creates a copy of an object that is already stored in Amazon S3. End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). You can store individual objects of up to 5 TB in Amazon S3. You create a copy of your object up to 5 GB in size in a single atomic action using this API. However, to copy an object greater than 5 GB, you must use the multipart upload Upload Part - Copy (UploadPartCopy) API. For more information, see [Copy Object Using the REST Multipart Upload API](https://docs.aws.amazon.com/AmazonS3/latest/dev/CopyingObjctsUsingRESTMPUapi.html). You can copy individual objects between general purpose buckets, between directory buckets, and between general purpose buckets and directory buckets.
     ///
     /// * Amazon S3 supports copy operations using Multi-Region Access Points only as a destination when using the Multi-Region Access Point ARN.
     ///
@@ -730,6 +736,9 @@ extension S3Client {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `CopyObjectInput`)
     ///
@@ -800,7 +809,7 @@ extension S3Client {
 
     /// Performs the `CreateBucket` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will discontinue support for creating new Email Grantee Access Control Lists (ACL). Email Grantee ACLs created prior to this date will continue to work and remain accessible through the Amazon Web Services Management Console, Command Line Interface (CLI), SDKs, and REST API. However, you will no longer be able to create new Email Grantee ACLs. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html). Creates a new S3 bucket. To create a bucket, you must set up Amazon S3 and have a valid Amazon Web Services Access Key ID to authenticate requests. Anonymous requests are never allowed to create buckets. By creating the bucket, you become the bucket owner. There are two types of buckets: general purpose buckets and directory buckets. For more information about these bucket types, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon S3 User Guide.
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html). Creates a new S3 bucket. To create a bucket, you must set up Amazon S3 and have a valid Amazon Web Services Access Key ID to authenticate requests. Anonymous requests are never allowed to create buckets. By creating the bucket, you become the bucket owner. There are two types of buckets: general purpose buckets and directory buckets. For more information about these bucket types, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon S3 User Guide.
     ///
     /// * General purpose buckets - If you send your CreateBucket request to the s3.amazonaws.com global endpoint, the request goes to the us-east-1 Region. So the signature calculations in Signature Version 4 must use us-east-1 as the Region, even if the location constraint in the request specifies another Region where the bucket is to be created. If you create a bucket in a Region other than US East (N. Virginia), your application must be able to handle 307 redirect. For more information, see [Virtual hosting of buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/VirtualHosting.html) in the Amazon S3 User Guide.
     ///
@@ -830,6 +839,9 @@ extension S3Client {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateBucketInput`)
     ///
@@ -932,6 +944,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `CreateBucketMetadataConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `CreateBucketMetadataConfigurationOutput`)
@@ -1019,6 +1034,9 @@ extension S3Client {
     ///
     /// * [GetBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataTableConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `CreateBucketMetadataTableConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `CreateBucketMetadataTableConfigurationOutput`)
@@ -1087,7 +1105,7 @@ extension S3Client {
 
     /// Performs the `CreateMultipartUpload` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will discontinue support for creating new Email Grantee Access Control Lists (ACL). Email Grantee ACLs created prior to this date will continue to work and remain accessible through the Amazon Web Services Management Console, Command Line Interface (CLI), SDKs, and REST API. However, you will no longer be able to create new Email Grantee ACLs. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This action initiates a multipart upload and returns an upload ID. This upload ID is used to associate all of the parts in the specific multipart upload. You specify this upload ID in each of your subsequent upload part requests (see [UploadPart](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html)). You also include this upload ID in the final request to either complete or abort the multipart upload request. For more information about multipart uploads, see [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in the Amazon S3 User Guide. After you initiate a multipart upload and upload one or more parts, to stop being charged for storing the uploaded parts, you must either complete or abort the multipart upload. Amazon S3 frees up the space used to store the parts and stops charging you for storing them only after you either complete or abort a multipart upload. If you have configured a lifecycle rule to abort incomplete multipart uploads, the created multipart upload must be completed within the number of days specified in the bucket lifecycle configuration. Otherwise, the incomplete multipart upload becomes eligible for an abort action and Amazon S3 aborts the multipart upload. For more information, see [Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config).
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). This action initiates a multipart upload and returns an upload ID. This upload ID is used to associate all of the parts in the specific multipart upload. You specify this upload ID in each of your subsequent upload part requests (see [UploadPart](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPart.html)). You also include this upload ID in the final request to either complete or abort the multipart upload request. For more information about multipart uploads, see [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in the Amazon S3 User Guide. After you initiate a multipart upload and upload one or more parts, to stop being charged for storing the uploaded parts, you must either complete or abort the multipart upload. Amazon S3 frees up the space used to store the parts and stops charging you for storing them only after you either complete or abort a multipart upload. If you have configured a lifecycle rule to abort incomplete multipart uploads, the created multipart upload must be completed within the number of days specified in the bucket lifecycle configuration. Otherwise, the incomplete multipart upload becomes eligible for an abort action and Amazon S3 aborts the multipart upload. For more information, see [Aborting Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html#mpu-abort-incomplete-mpu-lifecycle-config).
     ///
     /// * Directory buckets - S3 Lifecycle is not supported by directory buckets.
     ///
@@ -1155,6 +1173,9 @@ extension S3Client {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateMultipartUploadInput`)
     ///
@@ -1229,7 +1250,7 @@ extension S3Client {
     /// * HeadBucket API operation - Unlike other Zonal endpoint API operations, the HeadBucket API operation doesn't use the temporary security credentials returned from the CreateSession API operation for authentication and authorization. For information about authentication and authorization of the HeadBucket API operation on directory buckets, see [HeadBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadBucket.html).
     ///
     ///
-    /// Permissions To obtain temporary security credentials, you must create a bucket policy or an IAM identity-based policy that grants s3express:CreateSession permission to the bucket. In a policy, you can have the s3express:SessionMode condition key to control who can create a ReadWrite or ReadOnly session. For more information about ReadWrite or ReadOnly sessions, see [x-amz-create-session-mode](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html#API_CreateSession_RequestParameters). For example policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide. To grant cross-account access to Zonal endpoint API operations, the bucket policy should also grant both accounts the s3express:CreateSession permission. If you want to encrypt objects with SSE-KMS, you must also have the kms:GenerateDataKey and the kms:Decrypt permissions in IAM identity-based policies and KMS key policies for the target KMS key. Encryption For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html). For [Zonal endpoint (object-level) API operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-differences.html#s3-express-differences-api-operations) except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), you authenticate and authorize requests through [CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html) for low latency. To encrypt new objects in a directory bucket with SSE-KMS, you must specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)). Then, when a session is created for Zonal endpoint API operations, new objects are automatically encrypted and decrypted with SSE-KMS and S3 Bucket Keys during the session. Only 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) is supported per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported. After you specify SSE-KMS as your bucket's default encryption configuration with a customer managed key, you can't change the customer managed key for the bucket's SSE-KMS configuration. In the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)) using the REST API, you can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) from the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. Also, in the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)), it's not supported to override the values of the encryption settings from the CreateSession request. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com.
+    /// Permissions To obtain temporary security credentials, you must create a bucket policy or an IAM identity-based policy that grants s3express:CreateSession permission to the bucket. In a policy, you can have the s3express:SessionMode condition key to control who can create a ReadWrite or ReadOnly session. For more information about ReadWrite or ReadOnly sessions, see [x-amz-create-session-mode](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html#API_CreateSession_RequestParameters). For example policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide. To grant cross-account access to Zonal endpoint API operations, the bucket policy should also grant both accounts the s3express:CreateSession permission. If you want to encrypt objects with SSE-KMS, you must also have the kms:GenerateDataKey and the kms:Decrypt permissions in IAM identity-based policies and KMS key policies for the target KMS key. Encryption For directory buckets, there are only two supported options for server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the desired encryption configuration and you don't override the bucket default encryption in your CreateSession requests or PUT object requests. Then, new objects are automatically encrypted with the desired encryption settings. For more information, see [Protecting data with server-side encryption](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-serv-side-encryption.html) in the Amazon S3 User Guide. For more information about the encryption overriding behaviors in directory buckets, see [Specifying server-side encryption with KMS for new object uploads](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-specifying-kms-encryption.html). For [Zonal endpoint (object-level) API operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-differences.html#s3-express-differences-api-operations) except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html), you authenticate and authorize requests through [CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html) for low latency. To encrypt new objects in a directory bucket with SSE-KMS, you must specify SSE-KMS as the directory bucket's default encryption configuration with a KMS key (specifically, a [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk)). Then, when a session is created for Zonal endpoint API operations, new objects are automatically encrypted and decrypted with SSE-KMS and S3 Bucket Keys during the session. Only 1 [customer managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#customer-cmk) is supported per directory bucket for the lifetime of the bucket. The [Amazon Web Services managed key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#aws-managed-cmk) (aws/s3) isn't supported. After you specify SSE-KMS as your bucket's default encryption configuration with a customer managed key, you can't change the customer managed key for the bucket's SSE-KMS configuration. In the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)) using the REST API, you can't override the values of the encryption settings (x-amz-server-side-encryption, x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and x-amz-server-side-encryption-bucket-key-enabled) from the CreateSession request. You don't need to explicitly specify these encryption settings values in Zonal endpoint API calls, and Amazon S3 will use the encryption settings values from the CreateSession request to protect new objects in the directory bucket. When you use the CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes automatically to avoid service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use the bucket's default encryption configuration for the CreateSession request. It's not supported to override the encryption settings values in the CreateSession request. Also, in the Zonal endpoint API calls (except [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html) and [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html)), it's not supported to override the values of the encryption settings from the CreateSession request. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateSessionInput`)
     ///
@@ -1320,6 +1341,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketOutput`)
@@ -1391,6 +1415,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketAnalyticsConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketAnalyticsConfigurationOutput`)
@@ -1460,6 +1487,9 @@ extension S3Client {
     /// * [PutBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html)
     ///
     /// * [RESTOPTIONSobject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketCorsInput`)
     ///
@@ -1545,6 +1575,9 @@ extension S3Client {
     ///
     /// * [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketEncryptionInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketEncryptionOutput`)
@@ -1617,6 +1650,9 @@ extension S3Client {
     ///
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketIntelligentTieringConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketIntelligentTieringConfigurationOutput`)
@@ -1688,6 +1724,9 @@ extension S3Client {
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
     ///
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketInventoryConfigurationInput`)
     ///
@@ -1769,6 +1808,9 @@ extension S3Client {
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketLifecycleInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketLifecycleOutput`)
@@ -1843,6 +1885,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetadataConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketMetadataConfigurationOutput`)
@@ -1912,6 +1957,9 @@ extension S3Client {
     /// * [CreateBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataTableConfiguration.html)
     ///
     /// * [GetBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataTableConfiguration.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetadataTableConfigurationInput`)
     ///
@@ -1987,6 +2035,9 @@ extension S3Client {
     ///
     /// * [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketMetricsConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketMetricsConfigurationOutput`)
@@ -2056,6 +2107,9 @@ extension S3Client {
     /// * [GetBucketOwnershipControls]
     ///
     /// * [PutBucketOwnershipControls]
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketOwnershipControlsInput`)
     ///
@@ -2134,6 +2188,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketPolicyInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketPolicyOutput`)
@@ -2203,6 +2260,9 @@ extension S3Client {
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html)
     ///
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketReplicationInput`)
     ///
@@ -2274,6 +2334,9 @@ extension S3Client {
     ///
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketTaggingInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteBucketTaggingOutput`)
@@ -2343,6 +2406,9 @@ extension S3Client {
     /// * [GetBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketWebsite.html)
     ///
     /// * [PutBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteBucketWebsiteInput`)
     ///
@@ -2442,6 +2508,9 @@ extension S3Client {
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt. The If-Match header is supported for both general purpose and directory buckets. IfMatchLastModifiedTime and IfMatchSize is only supported for directory buckets.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteObjectInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteObjectOutput`)
@@ -2511,6 +2580,9 @@ extension S3Client {
     /// * [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html)
     ///
     /// * [GetObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteObjectTaggingInput`)
     ///
@@ -2616,6 +2688,9 @@ extension S3Client {
     ///
     /// * [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeleteObjectsInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeleteObjectsOutput`)
@@ -2694,6 +2769,9 @@ extension S3Client {
     ///
     /// * [GetBucketPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicyStatus.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `DeletePublicAccessBlockInput`)
     ///
     /// - Returns: [no documentation found] (Type: `DeletePublicAccessBlockOutput`)
@@ -2762,6 +2840,9 @@ extension S3Client {
     ///
     /// * [PutBucketAccelerateConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketAccelerateConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketAccelerateConfigurationOutput`)
@@ -2826,7 +2907,7 @@ extension S3Client {
 
     /// Performs the `GetBucketAcl` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. This implementation of the GET action uses the acl subresource to return the access control list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have the READ_ACP access to the bucket. If READ_ACP permission is granted to the anonymous user, you can return the ACL of the bucket without using an authorization header. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). If your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still supported and return the bucket-owner-full-control ACL with the owner being the account that created the bucket. For more information, see [ Controlling object ownership and disabling ACLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. The following operations are related to GetBucketAcl:
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. This implementation of the GET action uses the acl subresource to return the access control list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have the READ_ACP access to the bucket. If READ_ACP permission is granted to the anonymous user, you can return the ACL of the bucket without using an authorization header. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). If your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still supported and return the bucket-owner-full-control ACL with the owner being the account that created the bucket. For more information, see [ Controlling object ownership and disabling ACLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt. The following operations are related to GetBucketAcl:
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
     ///
@@ -2902,6 +2983,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketAnalyticsConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketAnalyticsConfigurationOutput`)
@@ -2971,6 +3055,9 @@ extension S3Client {
     /// * [PutBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html)
     ///
     /// * [DeleteBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketCorsInput`)
     ///
@@ -3056,6 +3143,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketEncryptionInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketEncryptionOutput`)
@@ -3128,6 +3218,9 @@ extension S3Client {
     ///
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketIntelligentTieringConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketIntelligentTieringConfigurationOutput`)
@@ -3199,6 +3292,9 @@ extension S3Client {
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
     ///
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketInventoryConfigurationInput`)
     ///
@@ -3296,6 +3392,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketLifecycleConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketLifecycleConfigurationOutput`)
@@ -3360,11 +3459,14 @@ extension S3Client {
 
     /// Performs the `GetBucketLocation` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Returns the Region the bucket resides in. You set the bucket's Region using the LocationConstraint request parameter in a CreateBucket request. For more information, see [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html). When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). We recommend that you use [HeadBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadBucket.html) to return the Region that a bucket resides in. For backward compatibility, Amazon S3 continues to support GetBucketLocation. The following operations are related to GetBucketLocation:
+    /// Using the GetBucketLocation operation is no longer a best practice. To return the Region that a bucket resides in, we recommend that you use the [HeadBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadBucket.html) operation instead. For backward compatibility, Amazon S3 continues to support the GetBucketLocation operation. Returns the Region the bucket resides in. You set the bucket's Region using the LocationConstraint request parameter in a CreateBucket request. For more information, see [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html). In a bucket's home Region, calls to the GetBucketLocation operation are governed by the bucket's policy. In other Regions, the bucket policy doesn't apply, which means that cross-account access won't be authorized. However, calls to the HeadBucket operation always return the bucket’s location through an HTTP response header, whether access to the bucket is authorized or not. Therefore, we recommend using the HeadBucket operation for bucket Region discovery and to avoid using the GetBucketLocation operation. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). This operation is not supported for directory buckets. The following operations are related to GetBucketLocation:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketLocationInput`)
     ///
@@ -3430,11 +3532,14 @@ extension S3Client {
 
     /// Performs the `GetBucketLogging` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns the logging status of a bucket and the permissions users have to view and modify that status. The following operations are related to GetBucketLogging:
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns the logging status of a bucket and the permissions users have to view and modify that status. The following operations are related to GetBucketLogging:
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [PutBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketLoggingInput`)
     ///
@@ -3510,6 +3615,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketMetadataConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketMetadataConfigurationOutput`)
@@ -3579,6 +3687,9 @@ extension S3Client {
     /// * [CreateBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucketMetadataTableConfiguration.html)
     ///
     /// * [DeleteBucketMetadataTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetadataTableConfiguration.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketMetadataTableConfigurationInput`)
     ///
@@ -3654,6 +3765,9 @@ extension S3Client {
     ///
     /// * [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketMetricsConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketMetricsConfigurationOutput`)
@@ -3721,6 +3835,9 @@ extension S3Client {
     /// This operation is not supported for directory buckets. Returns the notification configuration of a bucket. If notifications are not enabled on the bucket, the action returns an empty NotificationConfiguration element. By default, you must be the bucket owner to read the notification configuration of a bucket. However, the bucket owner can use a bucket policy to grant permission to other users to read this configuration with the s3:GetBucketNotification permission. When you use this API operation with an access point, provide the alias of the access point in place of the bucket name. When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). For more information about setting and reading the notification configuration on a bucket, see [Setting Up Notification of Bucket Events](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). For more information about bucket policies, see [Using Bucket Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). The following action is related to GetBucketNotification:
     ///
     /// * [PutBucketNotification](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketNotificationConfigurationInput`)
     ///
@@ -3799,6 +3916,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketOwnershipControls]
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketOwnershipControlsInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketOwnershipControlsOutput`)
@@ -3874,6 +3994,9 @@ extension S3Client {
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketPolicyInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketPolicyOutput`)
@@ -3948,6 +4071,9 @@ extension S3Client {
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketPolicyStatusInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketPolicyStatusOutput`)
@@ -4018,6 +4144,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketReplicationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketReplicationOutput`)
@@ -4085,6 +4214,9 @@ extension S3Client {
     /// This operation is not supported for directory buckets. Returns the request payment configuration of a bucket. To use this version of the operation, you must be the bucket owner. For more information, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html). The following operations are related to GetBucketRequestPayment:
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketRequestPaymentInput`)
     ///
@@ -4166,6 +4298,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketTaggingInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketTaggingOutput`)
@@ -4238,6 +4373,9 @@ extension S3Client {
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketVersioningInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetBucketVersioningOutput`)
@@ -4307,6 +4445,9 @@ extension S3Client {
     /// * [DeleteBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketWebsite.html)
     ///
     /// * [PutBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetBucketWebsiteInput`)
     ///
@@ -4407,6 +4548,9 @@ extension S3Client {
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetObjectInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectOutput`)
@@ -4477,7 +4621,7 @@ extension S3Client {
 
     /// Performs the `GetObjectAcl` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Returns the access control list (ACL) of an object. To use this operation, you must have s3:GetObjectAcl permissions or READ_ACP access to the object. For more information, see [Mapping of ACL permissions and access policy permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#acl-access-policy-permission-mapping) in the Amazon S3 User Guide This functionality is not supported for Amazon S3 on Outposts. By default, GET returns ACL information about the current version of an object. To return ACL information about a different version, use the versionId subresource. If your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still supported and return the bucket-owner-full-control ACL with the owner being the account that created the bucket. For more information, see [ Controlling object ownership and disabling ACLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. The following operations are related to GetObjectAcl:
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns the access control list (ACL) of an object. To use this operation, you must have s3:GetObjectAcl permissions or READ_ACP access to the object. For more information, see [Mapping of ACL permissions and access policy permissions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#acl-access-policy-permission-mapping) in the Amazon S3 User Guide This functionality is not supported for Amazon S3 on Outposts. By default, GET returns ACL information about the current version of an object. To return ACL information about a different version, use the versionId subresource. If your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still supported and return the bucket-owner-full-control ACL with the owner being the account that created the bucket. For more information, see [ Controlling object ownership and disabling ACLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. The following operations are related to GetObjectAcl:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
@@ -4486,6 +4630,9 @@ extension S3Client {
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetObjectAclInput`)
     ///
@@ -4625,6 +4772,9 @@ extension S3Client {
     ///
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetObjectAttributesInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectAttributesOutput`)
@@ -4698,6 +4848,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetObjectLegalHoldInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectLegalHoldOutput`)
@@ -4766,6 +4919,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetObjectLockConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectLockConfigurationOutput`)
@@ -4833,6 +4989,9 @@ extension S3Client {
     /// This operation is not supported for directory buckets. Retrieves an object's retention settings. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for Amazon S3 on Outposts. The following action is related to GetObjectRetention:
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetObjectRetentionInput`)
     ///
@@ -4906,6 +5065,9 @@ extension S3Client {
     ///
     /// * [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetObjectTaggingInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetObjectTaggingOutput`)
@@ -4973,6 +5135,9 @@ extension S3Client {
     /// This operation is not supported for directory buckets. Returns torrent files from a bucket. BitTorrent can save you bandwidth when you're distributing large files. You can get torrent only for objects that are less than 5 GB in size, and that are not encrypted using server-side encryption with a customer-provided encryption key. To use GET, you must have READ access to the object. This functionality is not supported for Amazon S3 on Outposts. The following action is related to GetObjectTorrent:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetObjectTorrentInput`)
     ///
@@ -5047,6 +5212,9 @@ extension S3Client {
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `GetPublicAccessBlockInput`)
     ///
     /// - Returns: [no documentation found] (Type: `GetPublicAccessBlockOutput`)
@@ -5111,14 +5279,14 @@ extension S3Client {
 
     /// Performs the `HeadBucket` operation on the `S3` service.
     ///
-    /// You can use this operation to determine if a bucket exists and if you have permission to access it. The action returns a 200 OK if the bucket exists and you have permission to access it. If the bucket does not exist or you do not have permission to access it, the HEAD request returns a generic 400 Bad Request, 403 Forbidden or 404 Not Found code. A message body is not included, so you cannot determine the exception beyond these HTTP response codes. Authentication and authorization General purpose buckets - Request to public buckets that grant the s3:ListBucket permission publicly do not need to be signed. All other HeadBucket requests must be authenticated and signed by using IAM credentials (access key ID and secret access key for the IAM identities). All headers with the x-amz- prefix, including x-amz-copy-source, must be signed. For more information, see [REST Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html). Directory buckets - You must use IAM credentials to authenticate and authorize your access to the HeadBucket API operation, instead of using the temporary security credentials through the CreateSession API operation. Amazon Web Services CLI or SDKs handles authentication and authorization on your behalf. Permissions
+    /// You can use this operation to determine if a bucket exists and if you have permission to access it. The action returns a 200 OK HTTP status code if the bucket exists and you have permission to access it. You can make a HeadBucket call on any bucket name to any Region in the partition, and regardless of the permissions on the bucket, you will receive a response header with the correct bucket location so that you can then make a proper, signed request to the appropriate Regional endpoint. If the bucket doesn't exist or you don't have permission to access it, the HEAD request returns a generic 400 Bad Request, 403 Forbidden, or 404 Not Found HTTP status code. A message body isn't included, so you can't determine the exception beyond these HTTP response codes. Authentication and authorization General purpose buckets - Request to public buckets that grant the s3:ListBucket permission publicly do not need to be signed. All other HeadBucket requests must be authenticated and signed by using IAM credentials (access key ID and secret access key for the IAM identities). All headers with the x-amz- prefix, including x-amz-copy-source, must be signed. For more information, see [REST Authentication](https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html). Directory buckets - You must use IAM credentials to authenticate and authorize your access to the HeadBucket API operation, instead of using the temporary security credentials through the CreateSession API operation. Amazon Web Services CLI or SDKs handles authentication and authorization on your behalf. Permissions
     ///
     /// * General purpose bucket permissions - To use this operation, you must have permissions to perform the s3:ListBucket action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [Managing access permissions to your Amazon S3 resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide.
     ///
     /// * Directory bucket permissions - You must have the s3express:CreateSession permission in the Action element of a policy. By default, the session is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the bucket. For more information about example bucket policies, see [Example bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html) and [Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-identity-policies.html) in the Amazon S3 User Guide.
     ///
     ///
-    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. You must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide.
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. You must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `HeadBucketInput`)
     ///
@@ -5231,6 +5399,9 @@ extension S3Client {
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `HeadObjectInput`)
     ///
     /// - Returns: [no documentation found] (Type: `HeadObjectOutput`)
@@ -5308,6 +5479,9 @@ extension S3Client {
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `ListBucketAnalyticsConfigurationsInput`)
     ///
     /// - Returns: [no documentation found] (Type: `ListBucketAnalyticsConfigurationsOutput`)
@@ -5380,6 +5554,9 @@ extension S3Client {
     ///
     /// * [GetBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketIntelligentTieringConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `ListBucketIntelligentTieringConfigurationsInput`)
     ///
     /// - Returns: [no documentation found] (Type: `ListBucketIntelligentTieringConfigurationsOutput`)
@@ -5444,13 +5621,16 @@ extension S3Client {
 
     /// Performs the `ListBucketInventoryConfigurations` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Returns a list of S3 Inventory configurations for the bucket. You can have up to 1,000 analytics configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) The following operations are related to ListBucketInventoryConfigurations:
+    /// This operation is not supported for directory buckets. Returns a list of S3 Inventory configurations for the bucket. You can have up to 1,000 inventory configurations per bucket. This action supports list pagination and does not return more than 100 configurations at a time. Always check the IsTruncated element in the response. If there are no more configurations to list, IsTruncated is set to false. If there are more configurations to list, IsTruncated is set to true, and there is a value in NextContinuationToken. You use the NextContinuationToken value to continue the pagination of the list by passing the value in continuation-token in the request to GET the next page. To use this operation, you must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). For information about the Amazon S3 inventory feature, see [Amazon S3 Inventory](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-inventory.html) The following operations are related to ListBucketInventoryConfigurations:
     ///
     /// * [GetBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketInventoryConfiguration.html)
     ///
     /// * [DeleteBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html)
     ///
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListBucketInventoryConfigurationsInput`)
     ///
@@ -5524,6 +5704,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `ListBucketMetricsConfigurationsInput`)
     ///
     /// - Returns: [no documentation found] (Type: `ListBucketMetricsConfigurationsOutput`)
@@ -5588,7 +5771,7 @@ extension S3Client {
 
     /// Performs the `ListBuckets` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns a list of all buckets owned by the authenticated sender of the request. To grant IAM permission to use this operation, you must add the s3:ListAllMyBuckets policy action. For information about Amazon S3 buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). We strongly recommend using only paginated ListBuckets requests. Unpaginated ListBuckets requests are only supported for Amazon Web Services accounts set to the default general purpose bucket quota of 10,000. If you have an approved general purpose bucket quota above 10,000, you must send paginated ListBuckets requests to list your account’s buckets. All unpaginated ListBuckets requests will be rejected for Amazon Web Services accounts with a general purpose bucket quota greater than 10,000.
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns a list of all buckets owned by the authenticated sender of the request. To grant IAM permission to use this operation, you must add the s3:ListAllMyBuckets policy action. For information about Amazon S3 buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html). We strongly recommend using only paginated ListBuckets requests. Unpaginated ListBuckets requests are only supported for Amazon Web Services accounts set to the default general purpose bucket quota of 10,000. If you have an approved general purpose bucket quota above 10,000, you must send paginated ListBuckets requests to list your account’s buckets. All unpaginated ListBuckets requests will be rejected for Amazon Web Services accounts with a general purpose bucket quota greater than 10,000. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListBucketsInput`)
     ///
@@ -5653,7 +5836,7 @@ extension S3Client {
 
     /// Performs the `ListDirectoryBuckets` operation on the `S3` service.
     ///
-    /// Returns a list of all Amazon S3 directory buckets owned by the authenticated sender of the request. For more information about directory buckets, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions You must have the s3express:ListAllMyDirectoryBuckets permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The BucketRegion response element is not part of the ListDirectoryBuckets Response Syntax.
+    /// Returns a list of all Amazon S3 directory buckets owned by the authenticated sender of the request. For more information about directory buckets, see [Directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-overview.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions You must have the s3express:ListAllMyDirectoryBuckets permission in an IAM identity-based policy instead of a bucket policy. Cross-account access to this API operation isn't supported. This operation can only be performed by the Amazon Web Services account that owns the resource. For more information about directory bucket policies and permissions, see [Amazon Web Services Identity and Access Management (IAM) for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The BucketRegion response element is not part of the ListDirectoryBuckets Response Syntax. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDirectoryBucketsInput`)
     ///
@@ -5718,7 +5901,7 @@ extension S3Client {
 
     /// Performs the `ListMultipartUploads` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation lists in-progress multipart uploads in a bucket. An in-progress multipart upload is a multipart upload that has been initiated by the CreateMultipartUpload request, but has not yet been completed or aborted. Directory buckets - If multipart uploads in a directory bucket are in progress, you can't delete the bucket until all the in-progress multipart uploads are aborted or completed. To delete these in-progress multipart uploads, use the ListMultipartUploads operation to list the in-progress multipart uploads in the bucket and use the AbortMultipartUpload operation to abort all the in-progress multipart uploads. The ListMultipartUploads operation returns a maximum of 1,000 multipart uploads in the response. The limit of 1,000 multipart uploads is also the default value. You can further limit the number of uploads in a response by specifying the max-uploads request parameter. If there are more than 1,000 multipart uploads that satisfy your ListMultipartUploads request, the response returns an IsTruncated element with the value of true, a NextKeyMarker element, and a NextUploadIdMarker element. To list the remaining multipart uploads, you need to make subsequent ListMultipartUploads requests. In these requests, include two query parameters: key-marker and upload-id-marker. Set the value of key-marker to the NextKeyMarker value from the previous response. Similarly, set the value of upload-id-marker to the NextUploadIdMarker value from the previous response. Directory buckets - The upload-id-marker element and the NextUploadIdMarker element aren't supported by directory buckets. To list the additional multipart uploads, you only need to set the value of key-marker to the NextKeyMarker value from the previous response. For more information about multipart uploads, see [Uploading Objects Using Multipart Upload](https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://amzn-s3-demo-bucket.s3express-zone-id.region-code.amazonaws.com/key-name . Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation lists in-progress multipart uploads in a bucket. An in-progress multipart upload is a multipart upload that has been initiated by the CreateMultipartUpload request, but has not yet been completed or aborted. Directory buckets - If multipart uploads in a directory bucket are in progress, you can't delete the bucket until all the in-progress multipart uploads are aborted or completed. To delete these in-progress multipart uploads, use the ListMultipartUploads operation to list the in-progress multipart uploads in the bucket and use the AbortMultipartUpload operation to abort all the in-progress multipart uploads. The ListMultipartUploads operation returns a maximum of 1,000 multipart uploads in the response. The limit of 1,000 multipart uploads is also the default value. You can further limit the number of uploads in a response by specifying the max-uploads request parameter. If there are more than 1,000 multipart uploads that satisfy your ListMultipartUploads request, the response returns an IsTruncated element with the value of true, a NextKeyMarker element, and a NextUploadIdMarker element. To list the remaining multipart uploads, you need to make subsequent ListMultipartUploads requests. In these requests, include two query parameters: key-marker and upload-id-marker. Set the value of key-marker to the NextKeyMarker value from the previous response. Similarly, set the value of upload-id-marker to the NextUploadIdMarker value from the previous response. Directory buckets - The upload-id-marker element and the NextUploadIdMarker element aren't supported by directory buckets. To list the additional multipart uploads, you only need to set the value of key-marker to the NextKeyMarker value from the previous response. For more information about multipart uploads, see [Uploading Objects Using Multipart Upload](https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://amzn-s3-demo-bucket.s3express-zone-id.region-code.amazonaws.com/key-name . Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions
     ///
     /// * General purpose bucket permissions - For information about permissions required to use the multipart upload API, see [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html) in the Amazon S3 User Guide.
     ///
@@ -5750,6 +5933,9 @@ extension S3Client {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListMultipartUploadsInput`)
     ///
@@ -5815,7 +6001,7 @@ extension S3Client {
 
     /// Performs the `ListObjectVersions` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns metadata about all versions of the objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions. To use this operation, you must have permission to perform the s3:ListBucketVersions action. Be aware of the name difference. A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. To use this operation, you must have READ access to the bucket. The following operations are related to ListObjectVersions:
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns metadata about all versions of the objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions. To use this operation, you must have permission to perform the s3:ListBucketVersions action. Be aware of the name difference. A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. To use this operation, you must have READ access to the bucket. The following operations are related to ListObjectVersions:
     ///
     /// * [ListObjectsV2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html)
     ///
@@ -5824,6 +6010,9 @@ extension S3Client {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListObjectVersionsInput`)
     ///
@@ -5889,7 +6078,7 @@ extension S3Client {
 
     /// Performs the `ListObjects` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns some or all (up to 1,000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Be sure to design your application to parse the contents of the response and handle it appropriately. This action has been revised. We recommend that you use the newer version, [ListObjectsV2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html), when developing applications. For backward compatibility, Amazon S3 continues to support ListObjects. The following operations are related to ListObjects:
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Returns some or all (up to 1,000) of the objects in a bucket. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Be sure to design your application to parse the contents of the response and handle it appropriately. This action has been revised. We recommend that you use the newer version, [ListObjectsV2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html), when developing applications. For backward compatibility, Amazon S3 continues to support ListObjects. The following operations are related to ListObjects:
     ///
     /// * [ListObjectsV2](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjectsV2.html)
     ///
@@ -5900,6 +6089,9 @@ extension S3Client {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [ListBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListObjectsInput`)
     ///
@@ -5970,7 +6162,7 @@ extension S3Client {
 
     /// Performs the `ListObjectsV2` operation on the `S3` service.
     ///
-    /// Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. For more information about listing objects, see [Listing object keys programmatically](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ListingKeysUsingAPIs.html) in the Amazon S3 User Guide. To get a list of your buckets, see [ListBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html).
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately. For more information about listing objects, see [Listing object keys programmatically](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ListingKeysUsingAPIs.html) in the Amazon S3 User Guide. To get a list of your buckets, see [ListBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html).
     ///
     /// * General purpose bucket - For general purpose buckets, ListObjectsV2 doesn't return prefixes that are related only to in-progress multipart uploads.
     ///
@@ -6000,6 +6192,9 @@ extension S3Client {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListObjectsV2Input`)
     ///
@@ -6070,7 +6265,7 @@ extension S3Client {
 
     /// Performs the `ListParts` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Lists the parts that have been uploaded for a specific multipart upload. To use this operation, you must provide the upload ID in the request. You obtain this uploadID by sending the initiate multipart upload request through [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html). The ListParts request returns a maximum of 1,000 uploaded parts. The limit of 1,000 parts is also the default value. You can restrict the number of parts in a response by specifying the max-parts request parameter. If your multipart upload consists of more than 1,000 parts, the response returns an IsTruncated field with the value of true, and a NextPartNumberMarker element. To list remaining uploaded parts, in subsequent ListParts requests, include the part-number-marker query string parameter and set its value to the NextPartNumberMarker field value from the previous response. For more information on multipart uploads, see [Uploading Objects Using Multipart Upload](https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://amzn-s3-demo-bucket.s3express-zone-id.region-code.amazonaws.com/key-name . Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions
+    /// End of support notice: Beginning November 21, 2025, Amazon S3 will stop returning DisplayName. Update your applications to use canonical IDs (unique identifier for Amazon Web Services accounts), Amazon Web Services account ID (12 digit identifier) or IAM ARNs (full resource naming) as a direct replacement of DisplayName. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Lists the parts that have been uploaded for a specific multipart upload. To use this operation, you must provide the upload ID in the request. You obtain this uploadID by sending the initiate multipart upload request through [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html). The ListParts request returns a maximum of 1,000 uploaded parts. The limit of 1,000 parts is also the default value. You can restrict the number of parts in a response by specifying the max-parts request parameter. If your multipart upload consists of more than 1,000 parts, the response returns an IsTruncated field with the value of true, and a NextPartNumberMarker element. To list remaining uploaded parts, in subsequent ListParts requests, include the part-number-marker query string parameter and set its value to the NextPartNumberMarker field value from the previous response. For more information on multipart uploads, see [Uploading Objects Using Multipart Upload](https://docs.aws.amazon.com/AmazonS3/latest/dev/uploadobjusingmpu.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://amzn-s3-demo-bucket.s3express-zone-id.region-code.amazonaws.com/key-name . Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions
     ///
     /// * General purpose bucket permissions - For information about permissions required to use the multipart upload API, see [Multipart Upload and Permissions](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html) in the Amazon S3 User Guide. If the upload was created using server-side encryption with Key Management Service (KMS) keys (SSE-KMS) or dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), you must have permission to the kms:Decrypt action for the ListParts request to succeed.
     ///
@@ -6090,6 +6285,9 @@ extension S3Client {
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPartsInput`)
     ///
@@ -6168,6 +6366,9 @@ extension S3Client {
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketAccelerateConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketAccelerateConfigurationOutput`)
@@ -6236,7 +6437,7 @@ extension S3Client {
 
     /// Performs the `PutBucketAcl` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will discontinue support for creating new Email Grantee Access Control Lists (ACL). Email Grantee ACLs created prior to this date will continue to work and remain accessible through the Amazon Web Services Management Console, Command Line Interface (CLI), SDKs, and REST API. However, you will no longer be able to create new Email Grantee ACLs. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Sets the permissions on an existing bucket using access control lists (ACL). For more information, see [Using ACLs](https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html). To set the ACL of a bucket, you must have the WRITE_ACP permission. You can use one of the following two ways to set a bucket's permissions:
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). This operation is not supported for directory buckets. Sets the permissions on an existing bucket using access control lists (ACL). For more information, see [Using ACLs](https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html). To set the ACL of a bucket, you must have the WRITE_ACP permission. You can use one of the following two ways to set a bucket's permissions:
     ///
     /// * Specify the ACL in the request body
     ///
@@ -6313,6 +6514,9 @@ extension S3Client {
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketAclInput`)
     ///
@@ -6423,6 +6627,9 @@ extension S3Client {
     ///
     /// * [ListBucketAnalyticsConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketAnalyticsConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketAnalyticsConfigurationOutput`)
@@ -6506,6 +6713,9 @@ extension S3Client {
     /// * [DeleteBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html)
     ///
     /// * [RESTOPTIONSobject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketCorsInput`)
     ///
@@ -6615,6 +6825,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketEncryptionInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketEncryptionOutput`)
@@ -6692,7 +6905,7 @@ extension S3Client {
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
     ///
     ///
-    /// You only need S3 Intelligent-Tiering enabled on a bucket if you want to automatically move objects stored in the S3 Intelligent-Tiering storage class to the Archive Access or Deep Archive Access tier. PutBucketIntelligentTieringConfiguration has the following special errors: HTTP 400 Bad Request Error Code: InvalidArgument Cause: Invalid Argument HTTP 400 Bad Request Error Code: TooManyConfigurations Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit. HTTP 403 Forbidden Error Cause: You are not the owner of the specified bucket, or you do not have the s3:PutIntelligentTieringConfiguration bucket permission to set the configuration on the bucket.
+    /// You only need S3 Intelligent-Tiering enabled on a bucket if you want to automatically move objects stored in the S3 Intelligent-Tiering storage class to the Archive Access or Deep Archive Access tier. PutBucketIntelligentTieringConfiguration has the following special errors: HTTP 400 Bad Request Error Code: InvalidArgument Cause: Invalid Argument HTTP 400 Bad Request Error Code: TooManyConfigurations Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit. HTTP 403 Forbidden Error Cause: You are not the owner of the specified bucket, or you do not have the s3:PutIntelligentTieringConfiguration bucket permission to set the configuration on the bucket. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketIntelligentTieringConfigurationInput`)
     ///
@@ -6768,6 +6981,9 @@ extension S3Client {
     /// * [DeleteBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html)
     ///
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketInventoryConfigurationInput`)
     ///
@@ -6870,6 +7086,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketLifecycleConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketLifecycleConfigurationOutput`)
@@ -6938,7 +7157,7 @@ extension S3Client {
 
     /// Performs the `PutBucketLogging` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will discontinue support for creating new Email Grantee Access Control Lists (ACL). Email Grantee ACLs created prior to this date will continue to work and remain accessible through the Amazon Web Services Management Console, Command Line Interface (CLI), SDKs, and REST API. However, you will no longer be able to create new Email Grantee ACLs. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. This operation is not supported for directory buckets. Set the logging parameters for a bucket and to specify permissions for who can view and modify the logging parameters. All logs are saved to buckets in the same Amazon Web Services Region as the source bucket. To set the logging status of a bucket, you must be the bucket owner. The bucket owner is automatically granted FULL_CONTROL to all logs. You use the Grantee request element to grant access to other people. The Permissions request element specifies the kind of access the grantee has to the logs. If the target bucket for log delivery uses the bucket owner enforced setting for S3 Object Ownership, you can't use the Grantee request element to grant access to others. Permissions can only be granted using policies. For more information, see [Permissions for server access log delivery](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general) in the Amazon S3 User Guide. Grantee Values You can specify the person (grantee) to whom you're assigning access rights (by using request elements) in the following ways. For examples of how to specify these grantee values in JSON format, see the Amazon Web Services CLI example in [ Enabling Amazon S3 server access logging](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html) in the Amazon S3 User Guide.
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). This operation is not supported for directory buckets. Set the logging parameters for a bucket and to specify permissions for who can view and modify the logging parameters. All logs are saved to buckets in the same Amazon Web Services Region as the source bucket. To set the logging status of a bucket, you must be the bucket owner. The bucket owner is automatically granted FULL_CONTROL to all logs. You use the Grantee request element to grant access to other people. The Permissions request element specifies the kind of access the grantee has to the logs. If the target bucket for log delivery uses the bucket owner enforced setting for S3 Object Ownership, you can't use the Grantee request element to grant access to others. Permissions can only be granted using policies. For more information, see [Permissions for server access log delivery](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html#grant-log-delivery-permissions-general) in the Amazon S3 User Guide. Grantee Values You can specify the person (grantee) to whom you're assigning access rights (by using request elements) in the following ways. For examples of how to specify these grantee values in JSON format, see the Amazon Web Services CLI example in [ Enabling Amazon S3 server access logging](https://docs.aws.amazon.com/AmazonS3/latest/userguide/enable-server-access-logging.html) in the Amazon S3 User Guide.
     ///
     /// * By the person's ID: <>ID<><>GranteesEmail<> DisplayName is optional and ignored in the request.
     ///
@@ -6956,6 +7175,9 @@ extension S3Client {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [GetBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLogging.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketLoggingInput`)
     ///
@@ -7042,6 +7264,12 @@ extension S3Client {
     ///
     /// * HTTP Status Code: HTTP 400 Bad Request
     ///
+    ///
+    ///
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketMetricsConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketMetricsConfigurationOutput`)
@@ -7112,6 +7340,9 @@ extension S3Client {
     /// This operation is not supported for directory buckets. Enables notifications of specified events for a bucket. For more information about event notifications, see [Configuring Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). Using this API, you can replace an existing notification configuration. The configuration is an XML file that defines the event types that you want Amazon S3 to publish and the destination where you want Amazon S3 to publish an event notification when it detects an event of the specified type. By default, your bucket has no event notifications configured. That is, the notification configuration will be an empty NotificationConfiguration.  This action replaces the existing notification configuration with the configuration you include in the request body. After Amazon S3 receives this request, it first verifies that any Amazon Simple Notification Service (Amazon SNS) or Amazon Simple Queue Service (Amazon SQS) destination exists, and that the bucket owner has permission to publish to it by sending a test notification. In the case of Lambda destinations, Amazon S3 verifies that the Lambda function permissions grant Amazon S3 permission to invoke the function from the Amazon S3 bucket. For more information, see [Configuring Notifications for Amazon S3 Events](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). You can disable notifications by adding the empty NotificationConfiguration element. For more information about the number of event notification configurations that you can create per bucket, see [Amazon S3 service quotas](https://docs.aws.amazon.com/general/latest/gr/s3.html#limits_s3) in Amazon Web Services General Reference. By default, only the bucket owner can configure notifications on a bucket. However, bucket owners can use a bucket policy to grant permission to other users to set this configuration with the required s3:PutBucketNotification permission. The PUT notification is an atomic operation. For example, suppose your notification configuration includes SNS topic, SQS queue, and Lambda function configurations. When you send a PUT request with this configuration, Amazon S3 sends test messages to your SNS topic. If the message fails, the entire PUT action will fail, and Amazon S3 will not add the configuration to your bucket. If the configuration in the request body includes only one TopicConfiguration specifying only the s3:ReducedRedundancyLostObject event type, the response will also include the x-amz-sns-test-message-id header containing the message ID of the test notification sent to the topic. The following action is related to PutBucketNotificationConfiguration:
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketNotificationConfigurationInput`)
     ///
@@ -7185,6 +7416,9 @@ extension S3Client {
     /// * [GetBucketOwnershipControls]
     ///
     /// * [DeleteBucketOwnershipControls]
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketOwnershipControlsInput`)
     ///
@@ -7267,6 +7501,9 @@ extension S3Client {
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketPolicyInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketPolicyOutput`)
@@ -7341,6 +7578,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketReplicationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketReplicationOutput`)
@@ -7414,6 +7654,9 @@ extension S3Client {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [GetBucketRequestPayment](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketRequestPayment.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketRequestPaymentInput`)
     ///
@@ -7500,6 +7743,9 @@ extension S3Client {
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketTaggingInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutBucketTaggingOutput`)
@@ -7575,6 +7821,9 @@ extension S3Client {
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
     /// * [GetBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketVersioningInput`)
     ///
@@ -7690,7 +7939,7 @@ extension S3Client {
     /// * HttpRedirectCode
     ///
     ///
-    /// Amazon S3 has a limitation of 50 routing rules per website configuration. If you require more than 50 routing rules, you can use object redirect. For more information, see [Configuring an Object Redirect](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html) in the Amazon S3 User Guide. The maximum request length is limited to 128 KB.
+    /// Amazon S3 has a limitation of 50 routing rules per website configuration. If you require more than 50 routing rules, you can use object redirect. For more information, see [Configuring an Object Redirect](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html) in the Amazon S3 User Guide. The maximum request length is limited to 128 KB. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutBucketWebsiteInput`)
     ///
@@ -7760,7 +8009,7 @@ extension S3Client {
 
     /// Performs the `PutObject` operation on the `S3` service.
     ///
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will discontinue support for creating new Email Grantee Access Control Lists (ACL). Email Grantee ACLs created prior to this date will continue to work and remain accessible through the Amazon Web Services Management Console, Command Line Interface (CLI), SDKs, and REST API. However, you will no longer be able to create new Email Grantee ACLs. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Adds an object to a bucket.
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). Adds an object to a bucket.
     ///
     /// * Amazon S3 never adds partial objects; if you receive a success response, Amazon S3 added the entire object to the bucket. You cannot use PutObject to only update a single piece of metadata for an existing object. You must put the entire object with updated metadata if you want to update some values.
     ///
@@ -7806,6 +8055,9 @@ extension S3Client {
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutObjectInput`)
     ///
@@ -7889,7 +8141,7 @@ extension S3Client {
 
     /// Performs the `PutObjectAcl` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Uses the acl subresource to set the access control list (ACL) permissions for a new or existing object in an S3 bucket. You must have the WRITE_ACP permission to set the ACL of an object. For more information, see [What permissions can I grant?](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#permissions) in the Amazon S3 User Guide. This functionality is not supported for Amazon S3 on Outposts. Depending on your application needs, you can choose to set the ACL on an object using either the request body or the headers. For example, if you have an existing application that updates a bucket ACL using the request body, you can continue to use that approach. For more information, see [Access Control List (ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) in the Amazon S3 User Guide. If your bucket uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. You must use policies to grant access to your bucket and the objects in it. Requests to set ACLs or update ACLs fail and return the AccessControlListNotSupported error code. Requests to read ACLs are still supported. For more information, see [Controlling object ownership](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. Permissions You can set access permissions using one of the following methods:
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). This operation is not supported for directory buckets. Uses the acl subresource to set the access control list (ACL) permissions for a new or existing object in an S3 bucket. You must have the WRITE_ACP permission to set the ACL of an object. For more information, see [What permissions can I grant?](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#permissions) in the Amazon S3 User Guide. This functionality is not supported for Amazon S3 on Outposts. Depending on your application needs, you can choose to set the ACL on an object using either the request body or the headers. For example, if you have an existing application that updates a bucket ACL using the request body, you can continue to use that approach. For more information, see [Access Control List (ACL) Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html) in the Amazon S3 User Guide. If your bucket uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. You must use policies to grant access to your bucket and the objects in it. Requests to set ACLs or update ACLs fail and return the AccessControlListNotSupported error code. Requests to read ACLs are still supported. For more information, see [Controlling object ownership](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. Permissions You can set access permissions using one of the following methods:
     ///
     /// * Specify a canned ACL with the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions. Specify the canned ACL name as the value of x-amz-acl. If you use this header, you cannot use other access control-specific headers in your request. For more information, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#CannedACL).
     ///
@@ -7957,6 +8209,9 @@ extension S3Client {
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutObjectAclInput`)
     ///
@@ -8031,7 +8286,7 @@ extension S3Client {
 
     /// Performs the `PutObjectLegalHold` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Applies a legal hold configuration to the specified object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for Amazon S3 on Outposts.
+    /// This operation is not supported for directory buckets. Applies a legal hold configuration to the specified object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This functionality is not supported for Amazon S3 on Outposts. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutObjectLegalHoldInput`)
     ///
@@ -8109,6 +8364,9 @@ extension S3Client {
     ///
     /// * You can enable Object Lock for new or existing buckets. For more information, see [Configuring Object Lock](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock-configure.html).
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutObjectLockConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutObjectLockConfigurationOutput`)
@@ -8177,7 +8435,7 @@ extension S3Client {
 
     /// Performs the `PutObjectRetention` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Places an Object Retention configuration on an object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). Users or accounts require the s3:PutObjectRetention permission in order to place an Object Retention configuration on objects. Bypassing a Governance Retention configuration requires the s3:BypassGovernanceRetention permission. This functionality is not supported for Amazon S3 on Outposts.
+    /// This operation is not supported for directory buckets. Places an Object Retention configuration on an object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). Users or accounts require the s3:PutObjectRetention permission in order to place an Object Retention configuration on objects. Bypassing a Governance Retention configuration requires the s3:BypassGovernanceRetention permission. This functionality is not supported for Amazon S3 on Outposts. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutObjectRetentionInput`)
     ///
@@ -8264,6 +8522,9 @@ extension S3Client {
     ///
     /// * [DeleteObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutObjectTaggingInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutObjectTaggingOutput`)
@@ -8342,6 +8603,9 @@ extension S3Client {
     ///
     /// * [Using Amazon S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `PutPublicAccessBlockInput`)
     ///
     /// - Returns: [no documentation found] (Type: `PutPublicAccessBlockOutput`)
@@ -8415,7 +8679,7 @@ extension S3Client {
     /// * If-None-Match - Renames the object only if an object with the specified name does not already exist in the directory bucket. If you don't want to overwrite an existing object, you can add the If-None-Match conditional header with the value ‘*’ in the RenameObject request. Amazon S3 then returns a 412 Precondition Failed error if the object with the specified name already exists. For more information, see [RFC 7232](https://datatracker.ietf.org/doc/rfc7232/).
     ///
     ///
-    /// Permissions To grant access to the RenameObject operation on a directory bucket, we recommend that you use the CreateSession operation for session-based authorization. Specifically, you grant the s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the CreateSession API call on the directory bucket to obtain a session token. With the session token in your request header, you can make API requests to this operation. After the session token expires, you make another CreateSession API call to generate a new session token for use. The Amazon Web Services CLI and SDKs will create and manage your session including refreshing the session token automatically to avoid service interruptions when a session expires. In your bucket policy, you can specify the s3express:SessionMode condition key to control who can create a ReadWrite or ReadOnly session. A ReadWrite session is required for executing all the Zonal endpoint API operations, including RenameObject. For more information about authorization, see [CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html). To learn more about Zonal endpoint API operations, see [Authorizing Zonal endpoint API operations with CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-create-session.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com.
+    /// Permissions To grant access to the RenameObject operation on a directory bucket, we recommend that you use the CreateSession operation for session-based authorization. Specifically, you grant the s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the CreateSession API call on the directory bucket to obtain a session token. With the session token in your request header, you can make API requests to this operation. After the session token expires, you make another CreateSession API call to generate a new session token for use. The Amazon Web Services CLI and SDKs will create and manage your session including refreshing the session token automatically to avoid service interruptions when a session expires. In your bucket policy, you can specify the s3express:SessionMode condition key to control who can create a ReadWrite or ReadOnly session. A ReadWrite session is required for executing all the Zonal endpoint API operations, including RenameObject. For more information about authorization, see [CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateSession.html). To learn more about Zonal endpoint API operations, see [Authorizing Zonal endpoint API operations with CreateSession](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-create-session.html) in the Amazon S3 User Guide. HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `RenameObjectInput`)
     ///
@@ -8551,6 +8815,9 @@ extension S3Client {
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `RestoreObjectInput`)
     ///
     /// - Returns: [no documentation found] (Type: `RestoreObjectOutput`)
@@ -8650,6 +8917,9 @@ extension S3Client {
     ///
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: Learn Amazon S3 Select is no longer available to new customers. Existing customers of Amazon S3 Select can continue to use the feature as usual. [Learn more](http://aws.amazon.com/blogs/storage/how-to-optimize-querying-your-data-in-amazon-s3/) Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html). (Type: `SelectObjectContentInput`)
     ///
     /// - Returns: [no documentation found] (Type: `SelectObjectContentOutput`)
@@ -8746,6 +9016,9 @@ extension S3Client {
     ///
     /// * [UpdateBucketMetadataJournalTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataJournalTableConfiguration.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `UpdateBucketMetadataInventoryTableConfigurationInput`)
     ///
     /// - Returns: [no documentation found] (Type: `UpdateBucketMetadataInventoryTableConfigurationOutput`)
@@ -8823,6 +9096,9 @@ extension S3Client {
     /// * [GetBucketMetadataConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetadataConfiguration.html)
     ///
     /// * [UpdateBucketMetadataInventoryTableConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UpdateBucketMetadataInventoryTableConfiguration.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateBucketMetadataJournalTableConfigurationInput`)
     ///
@@ -8940,6 +9216,9 @@ extension S3Client {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `UploadPartInput`)
     ///
@@ -9074,6 +9353,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: [no documentation found] (Type: `UploadPartCopyInput`)
     ///
     /// - Returns: [no documentation found] (Type: `UploadPartCopyOutput`)
@@ -9138,7 +9420,7 @@ extension S3Client {
 
     /// Performs the `WriteGetObjectResponse` operation on the `S3` service.
     ///
-    /// This operation is not supported for directory buckets. Passes transformed objects to a GetObject operation when using Object Lambda access points. For information about Object Lambda access points, see [Transforming objects with Object Lambda access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html) in the Amazon S3 User Guide. This operation supports metadata that can be returned by [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html), in addition to RequestRoute, RequestToken, StatusCode, ErrorCode, and ErrorMessage. The GetObject response metadata is supported so that the WriteGetObjectResponse caller, typically an Lambda function, can provide the same metadata when it internally invokes GetObject. When WriteGetObjectResponse is called by a customer-owned Lambda function, the metadata returned to the end user GetObject call might differ from what Amazon S3 would normally return. You can include any number of metadata headers. When including a metadata header, it should be prefaced with x-amz-meta. For example, x-amz-meta-my-custom-header: MyCustomValue. The primary use case for this is to forward GetObject metadata. Amazon Web Services provides some prebuilt Lambda functions that you can use with S3 Object Lambda to detect and redact personally identifiable information (PII) and decompress S3 objects. These Lambda functions are available in the Amazon Web Services Serverless Application Repository, and can be selected through the Amazon Web Services Management Console when you create your Object Lambda access point. Example 1: PII Access Control - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically detects personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 2: PII Redaction - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically redacts personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 3: Decompression - The Lambda function S3ObjectLambdaDecompression, is equipped to decompress objects stored in S3 in one of six compressed file formats including bzip2, gzip, snappy, zlib, zstandard and ZIP. For information on how to view and use these functions, see [Using Amazon Web Services built Lambda functions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-examples.html) in the Amazon S3 User Guide.
+    /// This operation is not supported for directory buckets. Passes transformed objects to a GetObject operation when using Object Lambda access points. For information about Object Lambda access points, see [Transforming objects with Object Lambda access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html) in the Amazon S3 User Guide. This operation supports metadata that can be returned by [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html), in addition to RequestRoute, RequestToken, StatusCode, ErrorCode, and ErrorMessage. The GetObject response metadata is supported so that the WriteGetObjectResponse caller, typically an Lambda function, can provide the same metadata when it internally invokes GetObject. When WriteGetObjectResponse is called by a customer-owned Lambda function, the metadata returned to the end user GetObject call might differ from what Amazon S3 would normally return. You can include any number of metadata headers. When including a metadata header, it should be prefaced with x-amz-meta. For example, x-amz-meta-my-custom-header: MyCustomValue. The primary use case for this is to forward GetObject metadata. Amazon Web Services provides some prebuilt Lambda functions that you can use with S3 Object Lambda to detect and redact personally identifiable information (PII) and decompress S3 objects. These Lambda functions are available in the Amazon Web Services Serverless Application Repository, and can be selected through the Amazon Web Services Management Console when you create your Object Lambda access point. Example 1: PII Access Control - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically detects personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 2: PII Redaction - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically redacts personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 3: Decompression - The Lambda function S3ObjectLambdaDecompression, is equipped to decompress objects stored in S3 in one of six compressed file formats including bzip2, gzip, snappy, zlib, zstandard and ZIP. For information on how to view and use these functions, see [Using Amazon Web Services built Lambda functions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-examples.html) in the Amazon S3 User Guide. You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: [no documentation found] (Type: `WriteGetObjectResponseInput`)
     ///
@@ -9245,6 +9527,9 @@ extension S3Client {
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: The input object for GetObject operation used to construct request.
     /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
     ///
@@ -9263,7 +9548,7 @@ extension S3Client {
     /// The presigned URL will be valid for the given expiration, in seconds.
     ///
     /// Below is the documentation for PutObject operation:
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will discontinue support for creating new Email Grantee Access Control Lists (ACL). Email Grantee ACLs created prior to this date will continue to work and remain accessible through the Amazon Web Services Management Console, Command Line Interface (CLI), SDKs, and REST API. However, you will no longer be able to create new Email Grantee ACLs. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Adds an object to a bucket.
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). Adds an object to a bucket.
     ///
     /// * Amazon S3 never adds partial objects; if you receive a success response, Amazon S3 added the entire object to the bucket. You cannot use PutObject to only update a single piece of metadata for an existing object. You must put the entire object with updated metadata if you want to update some values.
     ///
@@ -9309,6 +9594,9 @@ extension S3Client {
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: The input object for PutObject operation used to construct request.
     /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
@@ -9377,6 +9665,9 @@ extension S3Client {
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: The input object for UploadPart operation used to construct request.
     /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
     ///
@@ -9430,6 +9721,9 @@ extension S3Client {
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
     ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
+    ///
     /// - Parameter input: The input object for GetObject operation used to construct request.
     /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
     ///
@@ -9448,7 +9742,7 @@ extension S3Client {
     /// The presigned request will be valid for the given expiration, in seconds.
     ///
     /// Below is the documentation for PutObject operation:
-    /// End of support notice: Beginning October 1, 2025, Amazon S3 will discontinue support for creating new Email Grantee Access Control Lists (ACL). Email Grantee ACLs created prior to this date will continue to work and remain accessible through the Amazon Web Services Management Console, Command Line Interface (CLI), SDKs, and REST API. However, you will no longer be able to create new Email Grantee ACLs. This change affects the following Amazon Web Services Regions: US East (N. Virginia) Region, US West (N. California) Region, US West (Oregon) Region, Asia Pacific (Singapore) Region, Asia Pacific (Sydney) Region, Asia Pacific (Tokyo) Region, Europe (Ireland) Region, and South America (São Paulo) Region. Adds an object to a bucket.
+    /// End of support notice: As of October 1, 2025, Amazon S3 has discontinued support for Email Grantee Access Control Lists (ACLs). If you attempt to use an Email Grantee ACL in a request after October 1, 2025, the request will receive an HTTP 405 (Method Not Allowed) error. This change affects the following Amazon Web Services Regions: US East (N. Virginia), US West (N. California), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Europe (Ireland), and South America (São Paulo). Adds an object to a bucket.
     ///
     /// * Amazon S3 never adds partial objects; if you receive a success response, Amazon S3 added the entire object to the bucket. You cannot use PutObject to only update a single piece of metadata for an existing object. You must put the entire object with updated metadata if you want to update some values.
     ///
@@ -9494,6 +9788,9 @@ extension S3Client {
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: The input object for PutObject operation used to construct request.
     /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.
@@ -9561,6 +9858,9 @@ extension S3Client {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    ///
+    /// You must URL encode any signed header values that contain spaces. For example, if your header value is my file.txt, containing two spaces after my, you must URL encode this value to my%20%20file.txt.
     ///
     /// - Parameter input: The input object for UploadPart operation used to construct request.
     /// - Parameter expiration: The duration (in seconds) the presigned request will be valid for.

@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class GroundStationClient: ClientRuntime.Client {
     public static let clientName = "GroundStationClient"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: GroundStationClient.GroundStationClientConfiguration
     let serviceName = "GroundStation"
@@ -580,7 +580,7 @@ extension GroundStationClient {
 
     /// Performs the `CreateEphemeris` operation on the `GroundStation` service.
     ///
-    /// Creates an Ephemeris with the specified EphemerisData.
+    /// Create an ephemeris with your specified [EphemerisData].
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateEphemerisInput`)
     ///
@@ -854,7 +854,7 @@ extension GroundStationClient {
 
     /// Performs the `DeleteEphemeris` operation on the `GroundStation` service.
     ///
-    /// Deletes an ephemeris
+    /// Delete an ephemeris.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteEphemerisInput`)
     ///
@@ -865,6 +865,7 @@ extension GroundStationClient {
     /// __Possible Exceptions:__
     /// - `DependencyException` : Dependency encountered an error.
     /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceInUseException` : The specified resource is in use by non-terminal state contacts and cannot be modified or deleted.
     /// - `ResourceNotFoundException` : Resource was not found.
     public func deleteEphemeris(input: DeleteEphemerisInput) async throws -> DeleteEphemerisOutput {
         let context = Smithy.ContextBuilder()
@@ -1055,7 +1056,7 @@ extension GroundStationClient {
 
     /// Performs the `DescribeEphemeris` operation on the `GroundStation` service.
     ///
-    /// Describes an existing ephemeris.
+    /// Retrieve information about an existing ephemeris.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeEphemerisInput`)
     ///
@@ -1733,7 +1734,7 @@ extension GroundStationClient {
 
     /// Performs the `ListEphemerides` operation on the `GroundStation` service.
     ///
-    /// List existing ephemerides.
+    /// List your existing ephemerides.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListEphemeridesInput`)
     ///
@@ -2156,6 +2157,7 @@ extension GroundStationClient {
     /// __Possible Exceptions:__
     /// - `DependencyException` : Dependency encountered an error.
     /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceLimitExceededException` : Account limits for this resource have been exceeded.
     /// - `ResourceNotFoundException` : Resource was not found.
     public func reserveContact(input: ReserveContactInput) async throws -> ReserveContactOutput {
         let context = Smithy.ContextBuilder()
@@ -2493,7 +2495,7 @@ extension GroundStationClient {
 
     /// Performs the `UpdateEphemeris` operation on the `GroundStation` service.
     ///
-    /// Updates an existing ephemeris
+    /// Update an existing ephemeris.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateEphemerisInput`)
     ///

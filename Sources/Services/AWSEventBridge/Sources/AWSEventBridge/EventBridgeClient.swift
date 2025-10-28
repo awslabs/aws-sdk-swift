@@ -70,7 +70,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class EventBridgeClient: ClientRuntime.Client {
     public static let clientName = "EventBridgeClient"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: EventBridgeClient.EventBridgeClientConfiguration
     let serviceName = "EventBridge"

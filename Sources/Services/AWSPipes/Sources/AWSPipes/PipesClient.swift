@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class PipesClient: ClientRuntime.Client {
     public static let clientName = "PipesClient"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: PipesClient.PipesClientConfiguration
     let serviceName = "Pipes"

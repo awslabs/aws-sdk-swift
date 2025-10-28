@@ -1414,7 +1414,7 @@ extension ECSClientTypes {
         public var autoScalingGroupProvider: ECSClientTypes.AutoScalingGroupProvider?
         /// The Amazon Resource Name (ARN) that identifies the capacity provider.
         public var capacityProviderArn: Swift.String?
-        /// The cluster that this capacity provider is associated with. Managed instances capacity providers are cluster-scoped, meaning they can only be used within their associated cluster.
+        /// The cluster that this capacity provider is associated with. Managed instances capacity providers are cluster-scoped, meaning they can only be used within their associated cluster. This is required for Managed instances.
         public var cluster: Swift.String?
         /// The configuration for the Amazon ECS Managed Instances provider. This includes the infrastructure role, the launch template configuration, and tag propagation settings.
         public var managedInstancesProvider: ECSClientTypes.ManagedInstancesProvider?
@@ -1644,9 +1644,9 @@ extension ECSClientTypes {
         ///
         /// * Only one capacity provider in a strategy can have a base defined
         ///
-        /// * Default value is 0 if not specified
+        /// * The default value is 0 if not specified
         ///
-        /// * Valid range: 0 to 100,000
+        /// * The valid range is 0 to 100,000
         ///
         /// * Base requirements are satisfied first before weight distribution
         public var base: Swift.Int
@@ -1657,9 +1657,9 @@ extension ECSClientTypes {
         ///
         /// * Weight is considered after the base value is satisfied
         ///
-        /// * Default value is 0 if not specified
+        /// * The default value is 0 if not specified
         ///
-        /// * Valid range: 0 to 1,000
+        /// * The valid range is 0 to 1,000
         ///
         /// * At least one capacity provider must have a weight greater than zero
         ///
@@ -2080,6 +2080,25 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// Configuration for canary deployment strategy that shifts a fixed percentage of traffic to the new service revision, waits for a specified bake time, then shifts the remaining traffic. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to CANARY.
+    public struct CanaryConfiguration: Swift.Sendable {
+        /// The amount of time in minutes to wait during the canary phase before shifting the remaining production traffic to the new service revision. Valid values are 0 to 1440 minutes (24 hours). The default value is 10.
+        public var canaryBakeTimeInMinutes: Swift.Int?
+        /// The percentage of production traffic to shift to the new service revision during the canary phase. Valid values are 0.1 to 100.0. The default value is 5.0.
+        public var canaryPercent: Swift.Double?
+
+        public init(
+            canaryBakeTimeInMinutes: Swift.Int? = 0,
+            canaryPercent: Swift.Double? = 0.0
+        ) {
+            self.canaryBakeTimeInMinutes = canaryBakeTimeInMinutes
+            self.canaryPercent = canaryPercent
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If it is turned on, a service deployment will transition to a failed state and stop launching new tasks. You can also configure Amazon ECS to roll back your service to the last completed deployment after a failure. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide. For more information about API failure reasons, see [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html) in the Amazon Elastic Container Service Developer Guide.
     public struct DeploymentCircuitBreaker: Swift.Sendable {
         /// Determines whether to use the deployment circuit breaker logic for the service.
@@ -2189,14 +2208,37 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// Configuration for linear deployment strategy that shifts production traffic in equal percentage increments with configurable wait times between each step until 100% of traffic is shifted to the new service revision. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to LINEAR.
+    public struct LinearConfiguration: Swift.Sendable {
+        /// The amount of time in minutes to wait between each traffic shifting step during a linear deployment. Valid values are 0 to 1440 minutes (24 hours). The default value is 6. This bake time is not applied after reaching 100% traffic.
+        public var stepBakeTimeInMinutes: Swift.Int?
+        /// The percentage of production traffic to shift in each step during a linear deployment. Valid values are 3.0 to 100.0. The default value is 10.0.
+        public var stepPercent: Swift.Double?
+
+        public init(
+            stepBakeTimeInMinutes: Swift.Int? = 0,
+            stepPercent: Swift.Double? = 0.0
+        ) {
+            self.stepBakeTimeInMinutes = stepBakeTimeInMinutes
+            self.stepPercent = stepPercent
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum DeploymentStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case blueGreen
+        case canary
+        case linear
         case rolling
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DeploymentStrategy] {
             return [
                 .blueGreen,
+                .canary,
+                .linear,
                 .rolling
             ]
         }
@@ -2209,6 +2251,8 @@ extension ECSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .blueGreen: return "BLUE_GREEN"
+            case .canary: return "CANARY"
+            case .linear: return "LINEAR"
             case .rolling: return "ROLLING"
             case let .sdkUnknown(s): return s
             }
@@ -2224,10 +2268,14 @@ extension ECSClientTypes {
         public var alarms: ECSClientTypes.DeploymentAlarms?
         /// The time period when both blue and green service revisions are running simultaneously after the production traffic has shifted. You must provide this parameter when you use the BLUE_GREEN deployment strategy.
         public var bakeTimeInMinutes: Swift.Int?
+        /// Configuration for canary deployment strategy. Only valid when the deployment strategy is CANARY. This configuration enables shifting a fixed percentage of traffic for testing, followed by shifting the remaining traffic after a bake period.
+        public var canaryConfiguration: ECSClientTypes.CanaryConfiguration?
         /// The deployment circuit breaker can only be used for services using the rolling update (ECS) deployment type. The deployment circuit breaker determines whether a service deployment will fail if the service can't reach a steady state. If you use the deployment circuit breaker, a service deployment will transition to a failed state and stop launching new tasks. If you use the rollback option, when a service deployment fails, the service is rolled back to the last deployment that completed successfully. For more information, see [Rolling update](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html) in the Amazon Elastic Container Service Developer Guide
         public var deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker?
         /// An array of deployment lifecycle hook objects to run custom logic at specific stages of the deployment lifecycle.
         public var lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]?
+        /// Configuration for linear deployment strategy. Only valid when the deployment strategy is LINEAR. This configuration enables progressive traffic shifting in equal percentage increments with configurable bake times between each step.
+        public var linearConfiguration: ECSClientTypes.LinearConfiguration?
         /// If a service is using the rolling update (ECS) deployment type, the maximumPercent parameter represents an upper limit on the number of your service's tasks that are allowed in the RUNNING or PENDING state during a deployment, as a percentage of the desiredCount (rounded down to the nearest integer). This parameter enables you to define the deployment batch size. For example, if your service is using the REPLICA service scheduler and has a desiredCount of four tasks and a maximumPercent value of 200%, the scheduler may start four new tasks before stopping the four older tasks (provided that the cluster resources required to do this are available). The default maximumPercent value for a service using the REPLICA service scheduler is 200%. The Amazon ECS scheduler uses this parameter to replace unhealthy tasks by starting replacement tasks first and then stopping the unhealthy tasks, as long as cluster resources for starting replacement tasks are available. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). If a service is using either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and tasks in the service use the EC2 launch type, the maximum percent value is set to the default value. The maximum percent value is used to define the upper limit on the number of the tasks in the service that remain in the RUNNING state while the container instances are in the DRAINING state. You can't specify a custom maximumPercent value for a service that uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types and has tasks that use the EC2 launch type. If the service uses either the blue/green (CODE_DEPLOY) or EXTERNAL deployment types, and the tasks in the service use the Fargate launch type, the maximum percent value is not used. The value is still returned when describing your service.
         public var maximumPercent: Swift.Int?
         /// If a service is using the rolling update (ECS) deployment type, the minimumHealthyPercent represents a lower limit on the number of your service's tasks that must remain in the RUNNING state during a deployment, as a percentage of the desiredCount (rounded up to the nearest integer). This parameter enables you to deploy without using additional cluster capacity. For example, if your service has a desiredCount of four tasks and a minimumHealthyPercent of 50%, the service scheduler may stop two existing tasks to free up cluster capacity before starting two new tasks. If any tasks are unhealthy and if maximumPercent doesn't allow the Amazon ECS scheduler to start replacement tasks, the scheduler stops the unhealthy tasks one-by-one — using the minimumHealthyPercent as a constraint — to clear up capacity to launch replacement tasks. For more information about how the scheduler replaces unhealthy tasks, see [Amazon ECS services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html). For services that do not use a load balancer, the following should be noted:
@@ -2258,16 +2306,20 @@ extension ECSClientTypes {
         public init(
             alarms: ECSClientTypes.DeploymentAlarms? = nil,
             bakeTimeInMinutes: Swift.Int? = nil,
+            canaryConfiguration: ECSClientTypes.CanaryConfiguration? = nil,
             deploymentCircuitBreaker: ECSClientTypes.DeploymentCircuitBreaker? = nil,
             lifecycleHooks: [ECSClientTypes.DeploymentLifecycleHook]? = nil,
+            linearConfiguration: ECSClientTypes.LinearConfiguration? = nil,
             maximumPercent: Swift.Int? = nil,
             minimumHealthyPercent: Swift.Int? = nil,
             strategy: ECSClientTypes.DeploymentStrategy? = nil
         ) {
             self.alarms = alarms
             self.bakeTimeInMinutes = bakeTimeInMinutes
+            self.canaryConfiguration = canaryConfiguration
             self.deploymentCircuitBreaker = deploymentCircuitBreaker
             self.lifecycleHooks = lifecycleHooks
+            self.linearConfiguration = linearConfiguration
             self.maximumPercent = maximumPercent
             self.minimumHealthyPercent = minimumHealthyPercent
             self.strategy = strategy
@@ -2467,7 +2519,7 @@ extension ECSClientTypes {
     public struct AwsVpcConfiguration: Swift.Sendable {
         /// Whether the task's elastic network interface receives a public IP address. Consider the following when you set this value:
         ///
-        /// * When you use create-service or update-service, the default is DISABLED.
+        /// * When you use create-service or update-service, the The default is DISABLED.
         ///
         /// * When the service deploymentController is ECS, the value must be DISABLED.
         public var assignPublicIp: ECSClientTypes.AssignPublicIp?
@@ -3232,7 +3284,7 @@ public struct CreateServiceInput: Swift.Sendable {
     ///
     /// * For update service requests, when no value is specified for AvailabilityZoneRebalancing, Amazon ECS defaults to the existing service’s AvailabilityZoneRebalancing value. If the service never had an AvailabilityZoneRebalancing value set, Amazon ECS treats this as DISABLED.
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
-    /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy can contain a maximum of 20 capacity providers.
+    /// The capacity provider strategy to use for the service. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. A capacity provider strategy can contain a maximum of 20 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126 (inclusive) are allowed.
     public var clientToken: Swift.String?
@@ -3250,7 +3302,7 @@ public struct CreateServiceInput: Swift.Sendable {
     public var enableExecuteCommand: Swift.Bool?
     /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing, VPC Lattice, and container health checks after a task has first started. If you do not specify a health check grace period value, the default value of 0 is used. If you do not use any of the health checks, then healthCheckGracePeriodSeconds is unused. If your service has more running tasks than desired, unhealthy tasks in the grace period might be stopped to reach the desired count.
     public var healthCheckGracePeriodSeconds: Swift.Int?
-    /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
+    /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
     public var launchType: ECSClientTypes.LaunchType?
     /// A load balancer object representing the load balancers to use with your service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the ECS deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
@@ -6364,7 +6416,7 @@ extension ECSClientTypes {
         public var memory: Swift.String?
         /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
         public var networkMode: ECSClientTypes.NetworkMode?
-        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+        /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the The default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
         public var pidMode: ECSClientTypes.PidMode?
         /// An array of placement constraint objects to use for tasks. This parameter isn't supported for tasks run on Fargate.
         public var placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]?
@@ -6376,7 +6428,7 @@ extension ECSClientTypes {
         public var registeredBy: Swift.String?
         /// The container instance attributes required by your task. When an Amazon EC2 instance is registered to your cluster, the Amazon ECS container agent assigns some standard attributes to the instance. You can apply custom attributes. These are specified as key-value pairs using the Amazon ECS console or the [PutAttributes](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAttributes.html) API. These attributes are used when determining task placement for tasks hosted on Amazon EC2 instances. For more information, see [Attributes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html#attributes) in the Amazon Elastic Container Service Developer Guide. This parameter isn't supported for tasks run on Fargate.
         public var requiresAttributes: [ECSClientTypes.Attribute]?
-        /// The task launch types the task definition was validated against. The valid values are EC2, FARGATE, and EXTERNAL. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The task launch types the task definition was validated against. The valid values are MANAGED_INSTANCES, EC2, FARGATE, and EXTERNAL. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide.
         public var requiresCompatibilities: [ECSClientTypes.Compatibility]?
         /// The revision of the task in a particular family. The revision is a version number of a task definition in a family. When you register a task definition for the first time, the revision is 1. Each time that you register a new revision of a task definition in the same family, the revision value always increases by one. This is even if you deregistered previous revisions in this family.
         public var revision: Swift.Int
@@ -7220,20 +7272,28 @@ extension ECSClientTypes {
         public var arn: Swift.String?
         /// The number of pending tasks for the service revision.
         public var pendingTaskCount: Swift.Int
+        /// The percentage of production traffic that is directed to this service revision. This value represents a snapshot of the traffic distribution and may not reflect real-time changes during active deployments. Valid values are 0.0 to 100.0.
+        public var requestedProductionTrafficWeight: Swift.Double?
         /// The number of requested tasks for the service revision.
         public var requestedTaskCount: Swift.Int
+        /// The percentage of test traffic that is directed to this service revision. This value represents a snapshot of the traffic distribution and may not reflect real-time changes during active deployments. Valid values are 0.0 to 100.0.
+        public var requestedTestTrafficWeight: Swift.Double?
         /// The number of running tasks for the service revision.
         public var runningTaskCount: Swift.Int
 
         public init(
             arn: Swift.String? = nil,
             pendingTaskCount: Swift.Int = 0,
+            requestedProductionTrafficWeight: Swift.Double? = 0.0,
             requestedTaskCount: Swift.Int = 0,
+            requestedTestTrafficWeight: Swift.Double? = 0.0,
             runningTaskCount: Swift.Int = 0
         ) {
             self.arn = arn
             self.pendingTaskCount = pendingTaskCount
+            self.requestedProductionTrafficWeight = requestedProductionTrafficWeight
             self.requestedTaskCount = requestedTaskCount
+            self.requestedTestTrafficWeight = requestedTestTrafficWeight
             self.runningTaskCount = runningTaskCount
         }
     }
@@ -8882,7 +8942,7 @@ public struct ListContainerInstancesInput: Swift.Sendable {
     public var maxResults: Swift.Int?
     /// The nextToken value returned from a ListContainerInstances request indicating that more results are available to fulfill the request and further calls are needed. If maxResults was provided, it's possible the number of results to be fewer than maxResults. This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
     public var nextToken: Swift.String?
-    /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using [UpdateContainerInstancesState](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerInstancesState.html). If you don't specify this parameter, the default is to include container instances set to all states other than INACTIVE.
+    /// Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using [UpdateContainerInstancesState](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_UpdateContainerInstancesState.html). If you don't specify this parameter, the The default is to include container instances set to all states other than INACTIVE.
     public var status: ECSClientTypes.ContainerInstanceStatus?
 
     public init(
@@ -9774,7 +9834,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     public var memory: Swift.String?
     /// The Docker networking mode to use for the containers in the task. The valid values are none, bridge, awsvpc, and host. If no network mode is specified, the default is bridge. For Amazon ECS tasks on Fargate, the awsvpc network mode is required. For Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can be used. For Amazon ECS tasks on Amazon EC2 Windows instances,  or awsvpc can be used. If the network mode is set to none, you cannot specify port mappings in your container definitions, and the tasks containers do not have external connectivity. The host and awsvpc network modes offer the highest networking performance for containers because they use the EC2 network stack instead of the virtualized network stack provided by the bridge mode. With the host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port (for the host network mode) or the attached elastic network interface port (for the awsvpc network mode), so you cannot take advantage of dynamic host port mappings. When using the host network mode, you should not run containers using the root user (UID 0). It is considered best practice to use a non-root user. If the network mode is awsvpc, the task is allocated an elastic network interface, and you must specify a [NetworkConfiguration](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_NetworkConfiguration.html) value when you create a service or run a task with the task definition. For more information, see [Task Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. If the network mode is host, you cannot run multiple instantiations of the same task on a single container instance when port mappings are used.
     public var networkMode: ECSClientTypes.NetworkMode?
-    /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+    /// The process namespace to use for the containers in the task. The valid values are host or task. On Fargate for Linux containers, the only valid value is task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the same process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the The default is a private namespace for each container. If the host PID mode is used, there's a heightened risk of undesired process namespace exposure. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
     public var pidMode: ECSClientTypes.PidMode?
     /// An array of placement constraint objects to use for the task. You can specify a maximum of 10 constraints for each task. This limit includes constraints in the task definition and those specified at runtime.
     public var placementConstraints: [ECSClientTypes.TaskDefinitionPlacementConstraint]?
@@ -9861,7 +9921,7 @@ public struct RegisterTaskDefinitionOutput: Swift.Sendable {
     }
 }
 
-/// Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web Services Support](http://aws.amazon.com/contact-us/).
+/// Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/).
 public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -10037,7 +10097,7 @@ extension ECSClientTypes {
 }
 
 public struct RunTaskInput: Swift.Sendable {
-    /// The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType. A capacity provider strategy can contain a maximum of 20 capacity providers.
+    /// The capacity provider strategy to use for the task. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. If a capacityProviderStrategy is specified, the launchType parameter must be omitted. If no capacityProviderStrategy or launchType is specified, the defaultCapacityProviderStrategy for the cluster is used. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType. A capacity provider strategy can contain a maximum of 20 capacity providers.
     public var capacityProviderStrategy: [ECSClientTypes.CapacityProviderStrategyItem]?
     /// An identifier that you provide to ensure the idempotency of the request. It must be unique and is case sensitive. Up to 64 characters are allowed. The valid characters are characters in the range of 33-126, inclusive. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/ECS_Idempotency.html).
     public var clientToken: Swift.String?
@@ -10051,7 +10111,7 @@ public struct RunTaskInput: Swift.Sendable {
     public var enableExecuteCommand: Swift.Bool?
     /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
     public var group: Swift.String?
-    /// The infrastructure to run your standalone task on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A task can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.
+    /// The infrastructure to run your standalone task on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter and omit the launchType request parameter. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A task can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.
     public var launchType: ECSClientTypes.LaunchType?
     /// The network configuration for the task. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see [Task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
@@ -10931,7 +10991,7 @@ public struct UpdateServiceInput: Swift.Sendable {
     ///
     /// This parameter doesn't trigger a new service deployment.
     public var availabilityZoneRebalancing: ECSClientTypes.AvailabilityZoneRebalancing?
-    /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
+    /// The details of a capacity provider strategy. You can set a capacity provider when you create a cluster, run a task, or update a service. If you want to use Amazon ECS Managed Instances, you must use the capacityProviderStrategy request parameter. When you use Fargate, the capacity providers are FARGATE or FARGATE_SPOT. When you use Amazon EC2, the capacity providers are Auto Scaling groups. You can change capacity providers for rolling deployments and blue/green deployments. The following list provides the valid transitions:
     ///
     /// * Update the Fargate launch type to an Auto Scaling group capacity provider.
     ///
@@ -15639,8 +15699,10 @@ extension ECSClientTypes.DeploymentConfiguration {
         guard let value else { return }
         try writer["alarms"].write(value.alarms, with: ECSClientTypes.DeploymentAlarms.write(value:to:))
         try writer["bakeTimeInMinutes"].write(value.bakeTimeInMinutes)
+        try writer["canaryConfiguration"].write(value.canaryConfiguration, with: ECSClientTypes.CanaryConfiguration.write(value:to:))
         try writer["deploymentCircuitBreaker"].write(value.deploymentCircuitBreaker, with: ECSClientTypes.DeploymentCircuitBreaker.write(value:to:))
         try writer["lifecycleHooks"].writeList(value.lifecycleHooks, memberWritingClosure: ECSClientTypes.DeploymentLifecycleHook.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["linearConfiguration"].write(value.linearConfiguration, with: ECSClientTypes.LinearConfiguration.write(value:to:))
         try writer["maximumPercent"].write(value.maximumPercent)
         try writer["minimumHealthyPercent"].write(value.minimumHealthyPercent)
         try writer["strategy"].write(value.strategy)
@@ -15656,6 +15718,42 @@ extension ECSClientTypes.DeploymentConfiguration {
         value.strategy = try reader["strategy"].readIfPresent()
         value.bakeTimeInMinutes = try reader["bakeTimeInMinutes"].readIfPresent()
         value.lifecycleHooks = try reader["lifecycleHooks"].readListIfPresent(memberReadingClosure: ECSClientTypes.DeploymentLifecycleHook.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.linearConfiguration = try reader["linearConfiguration"].readIfPresent(with: ECSClientTypes.LinearConfiguration.read(from:))
+        value.canaryConfiguration = try reader["canaryConfiguration"].readIfPresent(with: ECSClientTypes.CanaryConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.CanaryConfiguration {
+
+    static func write(value: ECSClientTypes.CanaryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["canaryBakeTimeInMinutes"].write(value.canaryBakeTimeInMinutes)
+        try writer["canaryPercent"].write(value.canaryPercent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.CanaryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.CanaryConfiguration()
+        value.canaryPercent = try reader["canaryPercent"].readIfPresent()
+        value.canaryBakeTimeInMinutes = try reader["canaryBakeTimeInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension ECSClientTypes.LinearConfiguration {
+
+    static func write(value: ECSClientTypes.LinearConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["stepBakeTimeInMinutes"].write(value.stepBakeTimeInMinutes)
+        try writer["stepPercent"].write(value.stepPercent)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.LinearConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.LinearConfiguration()
+        value.stepPercent = try reader["stepPercent"].readIfPresent()
+        value.stepBakeTimeInMinutes = try reader["stepBakeTimeInMinutes"].readIfPresent()
         return value
     }
 }
@@ -16605,6 +16703,8 @@ extension ECSClientTypes.ServiceRevisionSummary {
         value.requestedTaskCount = try reader["requestedTaskCount"].readIfPresent() ?? 0
         value.runningTaskCount = try reader["runningTaskCount"].readIfPresent() ?? 0
         value.pendingTaskCount = try reader["pendingTaskCount"].readIfPresent() ?? 0
+        value.requestedTestTrafficWeight = try reader["requestedTestTrafficWeight"].readIfPresent()
+        value.requestedProductionTrafficWeight = try reader["requestedProductionTrafficWeight"].readIfPresent()
         return value
     }
 }

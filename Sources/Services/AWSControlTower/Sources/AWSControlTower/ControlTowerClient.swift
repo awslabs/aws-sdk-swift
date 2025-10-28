@@ -68,7 +68,7 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 
 public class ControlTowerClient: ClientRuntime.Client {
     public static let clientName = "ControlTowerClient"
-    public static let version = "1.5.71"
+    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: ControlTowerClient.ControlTowerClientConfiguration
     let serviceName = "ControlTower"

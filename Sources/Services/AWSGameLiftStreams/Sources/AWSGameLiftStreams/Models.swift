@@ -1242,6 +1242,7 @@ extension GameLiftStreamsClientTypes {
         case activeWithErrors
         case deleting
         case error
+        case expired
         case updatingLocations
         case sdkUnknown(Swift.String)
 
@@ -1252,6 +1253,7 @@ extension GameLiftStreamsClientTypes {
                 .activeWithErrors,
                 .deleting,
                 .error,
+                .expired,
                 .updatingLocations
             ]
         }
@@ -1268,6 +1270,7 @@ extension GameLiftStreamsClientTypes {
             case .activeWithErrors: return "ACTIVE_WITH_ERRORS"
             case .deleting: return "DELETING"
             case .error: return "ERROR"
+            case .expired: return "EXPIRED"
             case .updatingLocations: return "UPDATING_LOCATIONS"
             case let .sdkUnknown(s): return s
             }
@@ -1316,6 +1319,8 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
     /// A descriptive label for the stream group.
     public var description: Swift.String?
+    /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+    public var expiresAt: Foundation.Date?
     /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -1338,9 +1343,11 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
+    /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    ///
     /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
     ///
-    /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    /// * EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.
     ///
     /// * UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
@@ -1434,6 +1441,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         defaultApplication: GameLiftStreamsClientTypes.DefaultApplication? = nil,
         description: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         locationStates: [GameLiftStreamsClientTypes.LocationState]? = nil,
@@ -1446,6 +1454,7 @@ public struct CreateStreamGroupOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.defaultApplication = defaultApplication
         self.description = description
+        self.expiresAt = expiresAt
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.locationStates = locationStates
@@ -2311,6 +2320,8 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
     /// A descriptive label for the stream group.
     public var description: Swift.String?
+    /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+    public var expiresAt: Foundation.Date?
     /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2333,9 +2344,11 @@ public struct GetStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
+    /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    ///
     /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
     ///
-    /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    /// * EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.
     ///
     /// * UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
@@ -2429,6 +2442,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         defaultApplication: GameLiftStreamsClientTypes.DefaultApplication? = nil,
         description: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         locationStates: [GameLiftStreamsClientTypes.LocationState]? = nil,
@@ -2441,6 +2455,7 @@ public struct GetStreamGroupOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.defaultApplication = defaultApplication
         self.description = description
+        self.expiresAt = expiresAt
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.locationStates = locationStates
@@ -2478,6 +2493,8 @@ extension GameLiftStreamsClientTypes {
         public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
         /// A descriptive label for the stream group.
         public var description: Swift.String?
+        /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+        public var expiresAt: Foundation.Date?
         /// An ID that uniquely identifies the stream group resource. Example ID: sg-1AB2C3De4.
         public var id: Swift.String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2490,9 +2507,11 @@ extension GameLiftStreamsClientTypes {
         ///
         /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
         ///
+        /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+        ///
         /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
         ///
-        /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+        /// * EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.
         ///
         /// * UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
         public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
@@ -2579,6 +2598,7 @@ extension GameLiftStreamsClientTypes {
             createdAt: Foundation.Date? = nil,
             defaultApplication: GameLiftStreamsClientTypes.DefaultApplication? = nil,
             description: Swift.String? = nil,
+            expiresAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
             lastUpdatedAt: Foundation.Date? = nil,
             status: GameLiftStreamsClientTypes.StreamGroupStatus? = nil,
@@ -2588,6 +2608,7 @@ extension GameLiftStreamsClientTypes {
             self.createdAt = createdAt
             self.defaultApplication = defaultApplication
             self.description = description
+            self.expiresAt = expiresAt
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
@@ -2647,6 +2668,8 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     public var defaultApplication: GameLiftStreamsClientTypes.DefaultApplication?
     /// A descriptive label for the stream group.
     public var description: Swift.String?
+    /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+    public var expiresAt: Foundation.Date?
     /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
     public var id: Swift.String?
     /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
@@ -2669,9 +2692,11 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
     ///
     /// * ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.
     ///
+    /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    ///
     /// * ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.
     ///
-    /// * DELETING: Amazon GameLift Streams is in the process of deleting the stream group.
+    /// * EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.
     ///
     /// * UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
     public var status: GameLiftStreamsClientTypes.StreamGroupStatus?
@@ -2765,6 +2790,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         defaultApplication: GameLiftStreamsClientTypes.DefaultApplication? = nil,
         description: Swift.String? = nil,
+        expiresAt: Foundation.Date? = nil,
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         locationStates: [GameLiftStreamsClientTypes.LocationState]? = nil,
@@ -2777,6 +2803,7 @@ public struct UpdateStreamGroupOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.defaultApplication = defaultApplication
         self.description = description
+        self.expiresAt = expiresAt
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.locationStates = locationStates
@@ -3374,6 +3401,7 @@ extension CreateStreamGroupOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaultApplication = try reader["DefaultApplication"].readIfPresent(with: GameLiftStreamsClientTypes.DefaultApplication.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.id = try reader["Id"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.locationStates = try reader["LocationStates"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.LocationState.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3467,6 +3495,7 @@ extension GetStreamGroupOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaultApplication = try reader["DefaultApplication"].readIfPresent(with: GameLiftStreamsClientTypes.DefaultApplication.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.id = try reader["Id"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.locationStates = try reader["LocationStates"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.LocationState.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -3668,6 +3697,7 @@ extension UpdateStreamGroupOutput {
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.defaultApplication = try reader["DefaultApplication"].readIfPresent(with: GameLiftStreamsClientTypes.DefaultApplication.read(from:))
         value.description = try reader["Description"].readIfPresent()
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.id = try reader["Id"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.locationStates = try reader["LocationStates"].readListIfPresent(memberReadingClosure: GameLiftStreamsClientTypes.LocationState.read(from:), memberNodeInfo: "member", isFlattened: false)
@@ -4302,6 +4332,7 @@ extension GameLiftStreamsClientTypes.StreamGroupSummary {
         value.status = try reader["Status"].readIfPresent()
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiresAt = try reader["ExpiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
