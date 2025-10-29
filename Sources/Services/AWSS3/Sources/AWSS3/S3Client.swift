@@ -39,8 +39,8 @@ import enum Smithy.ClientError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol AWSSDKIdentityAPI.S3ExpressIdentityResolver
-import protocol ClientRuntime.Client
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -85,9 +85,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class S3Client: ClientRuntime.Client {
+public class S3Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3Client"
-    public static let version = "1.5.72"
     let client: ClientRuntime.SdkHttpClient
     let config: S3Client.S3ClientConfiguration
     let serviceName = "S3"
