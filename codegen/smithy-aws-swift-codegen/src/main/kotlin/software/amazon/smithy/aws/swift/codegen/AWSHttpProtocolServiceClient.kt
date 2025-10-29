@@ -32,13 +32,11 @@ class AWSHttpProtocolServiceClient(
     private val writer: SwiftWriter,
     private val serviceConfig: ServiceConfig,
 ) : HttpProtocolServiceClient(ctx, writer, serviceConfig) {
-    // Enabling the following code will cause the SDK to get version from AWSClientRuntime
-//
-//    override var clientProtocolSymbol = AWSClientRuntimeTypes.Core.AWSClient
-//
-//    override fun renderVersionProperty() {
-//        // No content, version property is provided by a protocol extension on AWSClient
-//    }
+    override var clientProtocolSymbol = AWSClientRuntimeTypes.Core.AWSServiceClient
+
+    override fun renderVersionProperty() {
+        // No content, version property is provided by a protocol extension on AWSClient
+    }
 
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
         writer.openBlock("public convenience init(region: \$N) throws {", "}", SwiftTypes.String) {
