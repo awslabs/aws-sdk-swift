@@ -115,6 +115,7 @@ final class TranscribeStreamingTests: XCTestCase, @unchecked Sendable {
     //
     // Normal retry is not applied to transcribe streaming because the request body is a
     // non-rewindable stream.
+    @Sendable
     private func attempt() async throws {
         // These throttling / resource limit errors may be returned based on the number of
         // recent requests made to AWSTranscribeStreaming.

@@ -39,6 +39,7 @@ final class S3ConcurrentTests: S3XCTestCase, @unchecked Sendable {
     // MARK: - Private methods
 
     // Puts data to S3, gets the uploaded file, asserts retrieved data == original data, deletes S3 object
+    @Sendable
     private func getObject(data: Data) async throws {
        let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
        let putObjectInput = PutObjectInput(body: .data(data), bucket: bucketName, key: objectKey)
