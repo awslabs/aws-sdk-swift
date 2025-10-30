@@ -74,8 +74,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSDKIdentityAPI](../../../../../swift/api/awssdkidentityapi/latest)
 
-[AWSSDKPartitions](../../../../../swift/api/awssdkpartitions/latest)
-
 
 ## Service Documentation
 

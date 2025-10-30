@@ -1744,6 +1744,22 @@ public struct UpdateApiKeyCredentialProviderOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    /// Configuration for enabling browser signing capabilities that allow agents to cryptographically identify themselves to websites using HTTP message signatures.
+    public struct BrowserSigningConfigInput: Swift.Sendable {
+        /// Specifies whether browser signing is enabled. When enabled, the browser will cryptographically sign HTTP requests to identify itself as an AI agent to bot control vendors.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     public enum BrowserNetworkMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `public`
         case vpc
@@ -1832,6 +1848,8 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreateBrowserInput: Swift.Sendable {
+    /// The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.
+    public var browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput?
     /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
     public var clientToken: Swift.String?
     /// The description of the browser.
@@ -1850,6 +1868,7 @@ public struct CreateBrowserInput: Swift.Sendable {
     public var tags: [Swift.String: Swift.String]?
 
     public init(
+        browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -1858,6 +1877,7 @@ public struct CreateBrowserInput: Swift.Sendable {
         recording: BedrockAgentCoreControlClientTypes.RecordingConfig? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
+        self.browserSigning = browserSigning
         self.clientToken = clientToken
         self.description = description
         self.executionRoleArn = executionRoleArn
@@ -1870,7 +1890,7 @@ public struct CreateBrowserInput: Swift.Sendable {
 
 extension CreateBrowserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBrowserInput(clientToken: \(Swift.String(describing: clientToken)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), recording: \(Swift.String(describing: recording)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+        "CreateBrowserInput(browserSigning: \(Swift.String(describing: browserSigning)), clientToken: \(Swift.String(describing: clientToken)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), recording: \(Swift.String(describing: recording)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -1991,6 +2011,22 @@ public struct GetBrowserInput: Swift.Sendable {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The current browser signing configuration that shows whether cryptographic agent identification is enabled for web bot authentication.
+    public struct BrowserSigningConfigOutput: Swift.Sendable {
+        /// Indicates whether browser signing is currently enabled for cryptographic agent identification using HTTP message signatures.
+        /// This member is required.
+        public var enabled: Swift.Bool
+
+        public init(
+            enabled: Swift.Bool = false
+        ) {
+            self.enabled = enabled
+        }
+    }
+}
+
 public struct GetBrowserOutput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the browser.
     /// This member is required.
@@ -1998,6 +2034,8 @@ public struct GetBrowserOutput: Swift.Sendable {
     /// The unique identifier of the browser.
     /// This member is required.
     public var browserId: Swift.String?
+    /// The browser signing configuration that shows whether cryptographic agent identification is enabled for web bot authentication.
+    public var browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput?
     /// The timestamp when the browser was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
@@ -2025,6 +2063,7 @@ public struct GetBrowserOutput: Swift.Sendable {
     public init(
         browserArn: Swift.String? = nil,
         browserId: Swift.String? = nil,
+        browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput? = nil,
         createdAt: Foundation.Date? = nil,
         description: Swift.String? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -2037,6 +2076,7 @@ public struct GetBrowserOutput: Swift.Sendable {
     ) {
         self.browserArn = browserArn
         self.browserId = browserId
+        self.browserSigning = browserSigning
         self.createdAt = createdAt
         self.description = description
         self.executionRoleArn = executionRoleArn
@@ -2051,7 +2091,7 @@ public struct GetBrowserOutput: Swift.Sendable {
 
 extension GetBrowserOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetBrowserOutput(browserArn: \(Swift.String(describing: browserArn)), browserId: \(Swift.String(describing: browserId)), createdAt: \(Swift.String(describing: createdAt)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), recording: \(Swift.String(describing: recording)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+        "GetBrowserOutput(browserArn: \(Swift.String(describing: browserArn)), browserId: \(Swift.String(describing: browserId)), browserSigning: \(Swift.String(describing: browserSigning)), createdAt: \(Swift.String(describing: createdAt)), executionRoleArn: \(Swift.String(describing: executionRoleArn)), failureReason: \(Swift.String(describing: failureReason)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), networkConfiguration: \(Swift.String(describing: networkConfiguration)), recording: \(Swift.String(describing: recording)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -7653,6 +7693,7 @@ extension CreateBrowserInput {
 
     static func write(value: CreateBrowserInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["browserSigning"].write(value.browserSigning, with: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
         try writer["executionRoleArn"].write(value.executionRoleArn)
@@ -8317,6 +8358,7 @@ extension GetBrowserOutput {
         var value = GetBrowserOutput()
         value.browserArn = try reader["browserArn"].readIfPresent() ?? ""
         value.browserId = try reader["browserId"].readIfPresent() ?? ""
+        value.browserSigning = try reader["browserSigning"].readIfPresent(with: BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput.read(from:))
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.description = try reader["description"].readIfPresent()
         value.executionRoleArn = try reader["executionRoleArn"].readIfPresent()
@@ -11041,6 +11083,16 @@ extension BedrockAgentCoreControlClientTypes.S3Location {
     }
 }
 
+extension BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -11254,6 +11306,14 @@ extension BedrockAgentCoreControlClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
     }
 }
 

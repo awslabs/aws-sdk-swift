@@ -2718,6 +2718,86 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The format for Service Connect access log output. Choose TEXT for human-readable logs or JSON for structured data that integrates well with log analysis tools.
+    public enum ServiceConnectAccessLoggingFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case json
+        case text
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceConnectAccessLoggingFormat] {
+            return [
+                .json,
+                .text
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .text: return "TEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Controls whether query parameters are included in Service Connect access logs. Consider security and privacy implications when enabling this feature. By default, this parameter is DISABLED.
+    public enum ServiceConnectIncludeQueryParameters: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ServiceConnectIncludeQueryParameters] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ECSClientTypes {
+
+    /// Configuration for Service Connect access logging. Access logs provide detailed information about requests made to your service, including request patterns, response codes, and timing data for debugging and monitoring purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
+    public struct ServiceConnectAccessLogConfiguration: Swift.Sendable {
+        /// The format for Service Connect access log output. Choose TEXT for human-readable logs or JSON for structured data that integrates well with log analysis tools.
+        /// This member is required.
+        public var format: ECSClientTypes.ServiceConnectAccessLoggingFormat?
+        /// Specifies whether to include query parameters in Service Connect access logs. When enabled, query parameters from HTTP requests are included in the access logs. Consider security and privacy implications when enabling this feature, as query parameters may contain sensitive information such as request IDs and tokens. By default, this parameter is DISABLED.
+        public var includeQueryParameters: ECSClientTypes.ServiceConnectIncludeQueryParameters?
+
+        public init(
+            format: ECSClientTypes.ServiceConnectAccessLoggingFormat? = nil,
+            includeQueryParameters: ECSClientTypes.ServiceConnectIncludeQueryParameters? = nil
+        ) {
+            self.format = format
+            self.includeQueryParameters = includeQueryParameters
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum LogDriver: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case awsfirelens
         case awslogs
@@ -3004,6 +3084,8 @@ extension ECSClientTypes {
 
     /// The Service Connect configuration of your Amazon ECS service. The configuration for this service to discover and connect to services, and be discovered by, and connected from, other services within a namespace. Tasks that run in a namespace can use short names to connect to services in the namespace. Tasks can connect to services across all of the clusters in the namespace. Tasks connect through a managed proxy container that collects logs and metrics for increased visibility. Only the tasks that Amazon ECS services create are supported with Service Connect. For more information, see [Service Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html) in the Amazon Elastic Container Service Developer Guide.
     public struct ServiceConnectConfiguration: Swift.Sendable {
+        /// The configuration for Service Connect access logging. Access logs capture detailed information about requests made to your service, including request patterns, response codes, and timing data. They can be useful for debugging connectivity issues, monitoring service performance, and auditing service-to-service communication for security and compliance purposes. To enable access logs, you must also specify a logConfiguration in the serviceConnectConfiguration.
+        public var accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration?
         /// Specifies whether to use Service Connect with this service.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -3023,11 +3105,13 @@ extension ECSClientTypes {
         public var services: [ECSClientTypes.ServiceConnectService]?
 
         public init(
+            accessLogConfiguration: ECSClientTypes.ServiceConnectAccessLogConfiguration? = nil,
             enabled: Swift.Bool = false,
             logConfiguration: ECSClientTypes.LogConfiguration? = nil,
             namespace: Swift.String? = nil,
             services: [ECSClientTypes.ServiceConnectService]? = nil
         ) {
+            self.accessLogConfiguration = accessLogConfiguration
             self.enabled = enabled
             self.logConfiguration = logConfiguration
             self.namespace = namespace
@@ -5497,7 +5581,7 @@ extension ECSClientTypes {
     public struct ContainerDefinition: Swift.Sendable {
         /// The command that's passed to the container. This parameter maps to Cmd in the docker container create command and the COMMAND parameter to docker run. If there are multiple arguments, each argument is a separated string in the array.
         public var command: [Swift.String]?
-        /// The number of cpu units reserved for the container. This parameter maps to CpuShares in the docker container create commandand the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the only requirement is that the total amount of CPU reserved for all containers within a task be lower than the task-level cpu value. You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the [Amazon EC2 Instances](http://aws.amazon.com/ec2/instance-types/) detail page by 1,024. Linux containers share unallocated CPU units with other containers on the container instance with the same ratio as their allocated amount. For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that's the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task is guaranteed a minimum of 512 CPU units when needed. Moreover, each container could float to higher CPU usage if the other container was not using it. If both tasks were 100% active all of the time, they would be limited to 512 CPU units. On Linux container instances, the Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. The minimum valid CPU share value that the Linux kernel allows is 2, and the maximum valid CPU share value that the Linux kernel allows is 262144. However, the CPU parameter isn't required, and you can use CPU values below 2 or above 262144 in your container definitions. For CPU values below 2 (including null) or above 262144, the behavior varies based on your Amazon ECS container agent version:
+        /// The number of cpu units reserved for the container. This parameter maps to CpuShares in the docker container create command and the --cpu-shares option to docker run. This field is optional for tasks using the Fargate launch type, and the only requirement is that the total amount of CPU reserved for all containers within a task be lower than the task-level cpu value. You can determine the number of CPU units that are available per EC2 instance type by multiplying the vCPUs listed for that instance type on the [Amazon EC2 Instances](http://aws.amazon.com/ec2/instance-types/) detail page by 1,024. Linux containers share unallocated CPU units with other containers on the container instance with the same ratio as their allocated amount. For example, if you run a single-container task on a single-core instance type with 512 CPU units specified for that container, and that's the only task running on the container instance, that container could use the full 1,024 CPU unit share at any given time. However, if you launched another copy of the same task on that container instance, each task is guaranteed a minimum of 512 CPU units when needed. Moreover, each container could float to higher CPU usage if the other container was not using it. If both tasks were 100% active all of the time, they would be limited to 512 CPU units. On Linux container instances, the Docker daemon on the container instance uses the CPU value to calculate the relative CPU share ratios for running containers. The minimum valid CPU share value that the Linux kernel allows is 2, and the maximum valid CPU share value that the Linux kernel allows is 262144. However, the CPU parameter isn't required, and you can use CPU values below 2 or above 262144 in your container definitions. For CPU values below 2 (including null) or above 262144, the behavior varies based on your Amazon ECS container agent version:
         ///
         /// * Agent versions less than or equal to 1.1.0: Null and zero CPU values are passed to Docker as 0, which Docker then converts to 1,024 CPU shares. CPU values of 1 are passed to Docker as 1, which the Linux kernel converts to two CPU shares.
         ///
@@ -6054,7 +6138,7 @@ extension ECSClientTypes {
 
     /// Information about the platform for the Amazon ECS service or task. For more information about RuntimePlatform, see [RuntimePlatform](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#runtime-platform) in the Amazon Elastic Container Service Developer Guide.
     public struct RuntimePlatform: Swift.Sendable {
-        /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to ARM64. This option is available for tasks that run on Linux Amazon EC2 instance or Linux containers on Fargate.
+        /// The CPU architecture. You can run your Linux tasks on an ARM-based platform by setting the value to ARM64. This option is available for tasks that run on Linux Amazon EC2 instance, Amazon ECS Managed Instances, or Linux containers on Fargate.
         public var cpuArchitecture: ECSClientTypes.CPUArchitecture?
         /// The operating system.
         public var operatingSystemFamily: ECSClientTypes.OSFamily?
@@ -9842,7 +9926,7 @@ public struct RegisterTaskDefinitionInput: Swift.Sendable {
     public var proxyConfiguration: ECSClientTypes.ProxyConfiguration?
     /// The task launch type that Amazon ECS validates the task definition against. A client exception is returned if the task definition doesn't validate against the compatibilities specified. If no value is specified, the parameter is omitted from the response.
     public var requiresCompatibilities: [ECSClientTypes.Compatibility]?
-    /// The operating system that your tasks definitions run on. A platform family is specified only for tasks using the Fargate launch type.
+    /// The operating system that your tasks definitions run on.
     public var runtimePlatform: ECSClientTypes.RuntimePlatform?
     /// The metadata that you apply to the task definition to help you categorize and organize them. Each tag consists of a key and an optional value. You define both of them. The following basic restrictions apply to tags:
     ///
@@ -9921,7 +10005,7 @@ public struct RegisterTaskDefinitionOutput: Swift.Sendable {
     }
 }
 
-/// Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web ServicesSupport](http://aws.amazon.com/contact-us/).
+/// Your Amazon Web Services account was blocked. For more information, contact [ Amazon Web Services Support](http://aws.amazon.com/contact-us/).
 public struct BlockedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -15382,6 +15466,7 @@ extension ECSClientTypes.ServiceConnectConfiguration {
 
     static func write(value: ECSClientTypes.ServiceConnectConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["accessLogConfiguration"].write(value.accessLogConfiguration, with: ECSClientTypes.ServiceConnectAccessLogConfiguration.write(value:to:))
         try writer["enabled"].write(value.enabled)
         try writer["logConfiguration"].write(value.logConfiguration, with: ECSClientTypes.LogConfiguration.write(value:to:))
         try writer["namespace"].write(value.namespace)
@@ -15395,6 +15480,24 @@ extension ECSClientTypes.ServiceConnectConfiguration {
         value.namespace = try reader["namespace"].readIfPresent()
         value.services = try reader["services"].readListIfPresent(memberReadingClosure: ECSClientTypes.ServiceConnectService.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.logConfiguration = try reader["logConfiguration"].readIfPresent(with: ECSClientTypes.LogConfiguration.read(from:))
+        value.accessLogConfiguration = try reader["accessLogConfiguration"].readIfPresent(with: ECSClientTypes.ServiceConnectAccessLogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.ServiceConnectAccessLogConfiguration {
+
+    static func write(value: ECSClientTypes.ServiceConnectAccessLogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format)
+        try writer["includeQueryParameters"].write(value.includeQueryParameters)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.ServiceConnectAccessLogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.ServiceConnectAccessLogConfiguration()
+        value.format = try reader["format"].readIfPresent() ?? .sdkUnknown("")
+        value.includeQueryParameters = try reader["includeQueryParameters"].readIfPresent()
         return value
     }
 }

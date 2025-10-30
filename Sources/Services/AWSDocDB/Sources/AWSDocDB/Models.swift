@@ -2680,6 +2680,100 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
 
 extension DocDBClientTypes {
 
+    public enum FailoverStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelling
+        case failingOver
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailoverStatus] {
+            return [
+                .cancelling,
+                .failingOver,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelling: return "cancelling"
+            case .failingOver: return "failing-over"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
+    /// Contains the state of scheduled or in-process operations on an Amazon DocumentDB global cluster. This data type is empty unless a switchover or failover operation is scheduled or is in progress on the global cluster.
+    public struct FailoverState: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is currently being demoted, and which is associated with this state.
+        public var fromDbClusterArn: Swift.String?
+        /// Indicates whether the operation is a global switchover or a global failover. If data loss is allowed, then the operation is a global failover. Otherwise, it's a switchover.
+        public var isDataLossAllowed: Swift.Bool?
+        /// The current status of the global cluster. Possible values are as follows:
+        ///
+        /// * pending – The service received a request to switch over or fail over the global cluster. The global cluster's primary cluster and the specified secondary cluster are being verified before the operation starts.
+        ///
+        /// * failing-over – The chosen secondary cluster is being promoted to become the new primary cluster to fail over the global cluster.
+        ///
+        /// * cancelling – The request to switch over or fail over the global cluster was cancelled and the primary cluster and the selected secondary cluster are returning to their previous states.
+        public var status: DocDBClientTypes.FailoverStatus?
+        /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is currently being promoted, and which is associated with this state.
+        public var toDbClusterArn: Swift.String?
+
+        public init(
+            fromDbClusterArn: Swift.String? = nil,
+            isDataLossAllowed: Swift.Bool? = nil,
+            status: DocDBClientTypes.FailoverStatus? = nil,
+            toDbClusterArn: Swift.String? = nil
+        ) {
+            self.fromDbClusterArn = fromDbClusterArn
+            self.isDataLossAllowed = isDataLossAllowed
+            self.status = status
+            self.toDbClusterArn = toDbClusterArn
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
+    public enum GlobalClusterMemberSynchronizationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case pendingResync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalClusterMemberSynchronizationStatus] {
+            return [
+                .connected,
+                .pendingResync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "connected"
+            case .pendingResync: return "pending-resync"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
     /// A data structure with information about any primary and secondary clusters associated with an Amazon DocumentDB global clusters.
     public struct GlobalClusterMember: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
@@ -2688,15 +2782,19 @@ extension DocDBClientTypes {
         public var isWriter: Swift.Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Amazon DocumentDB global cluster.
         public var readers: [Swift.String]?
+        /// The status of synchronization of each Amazon DocumentDB cluster in the global cluster.
+        public var synchronizationStatus: DocDBClientTypes.GlobalClusterMemberSynchronizationStatus?
 
         public init(
             dbClusterArn: Swift.String? = nil,
             isWriter: Swift.Bool? = nil,
-            readers: [Swift.String]? = nil
+            readers: [Swift.String]? = nil,
+            synchronizationStatus: DocDBClientTypes.GlobalClusterMemberSynchronizationStatus? = nil
         ) {
             self.dbClusterArn = dbClusterArn
             self.isWriter = isWriter
             self.readers = readers
+            self.synchronizationStatus = synchronizationStatus
         }
     }
 }
@@ -2713,6 +2811,8 @@ extension DocDBClientTypes {
         public var engine: Swift.String?
         /// Indicates the database engine version.
         public var engineVersion: Swift.String?
+        /// A data object containing all properties for the current state of an in-process or pending switchover or failover process for this global cluster. This object is empty unless the SwitchoverGlobalCluster or FailoverGlobalCluster operation was called on this global cluster.
+        public var failoverState: DocDBClientTypes.FailoverState?
         /// The Amazon Resource Name (ARN) for the global cluster.
         public var globalClusterArn: Swift.String?
         /// Contains a user-supplied global cluster identifier. This identifier is the unique key that identifies a global cluster.
@@ -2725,29 +2825,35 @@ extension DocDBClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global cluster.
         public var storageEncrypted: Swift.Bool?
+        /// A list of global cluster tags.
+        public var tagList: [DocDBClientTypes.Tag]?
 
         public init(
             databaseName: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            failoverState: DocDBClientTypes.FailoverState? = nil,
             globalClusterArn: Swift.String? = nil,
             globalClusterIdentifier: Swift.String? = nil,
             globalClusterMembers: [DocDBClientTypes.GlobalClusterMember]? = nil,
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool? = nil
+            storageEncrypted: Swift.Bool? = nil,
+            tagList: [DocDBClientTypes.Tag]? = nil
         ) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
+            self.failoverState = failoverState
             self.globalClusterArn = globalClusterArn
             self.globalClusterIdentifier = globalClusterIdentifier
             self.globalClusterMembers = globalClusterMembers
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
     }
 }
@@ -9218,6 +9324,38 @@ extension DocDBClientTypes.GlobalCluster {
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: DocDBClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
+        value.failoverState = try reader["FailoverState"].readIfPresent(with: DocDBClientTypes.FailoverState.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: DocDBClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension DocDBClientTypes.Tag {
+
+    static func write(value: DocDBClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.FailoverState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.FailoverState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.FailoverState()
+        value.status = try reader["Status"].readIfPresent()
+        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
+        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
+        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
         return value
     }
 }
@@ -9230,6 +9368,7 @@ extension DocDBClientTypes.GlobalClusterMember {
         value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
         value.readers = try reader["Readers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.isWriter = try reader["IsWriter"].readIfPresent()
+        value.synchronizationStatus = try reader["SynchronizationStatus"].readIfPresent()
         return value
     }
 }
@@ -9399,23 +9538,6 @@ extension DocDBClientTypes.OrderableDBInstanceOption {
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: DocDBClientTypes.AvailabilityZone.read(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         value.vpc = try reader["Vpc"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
-        return value
-    }
-}
-
-extension DocDBClientTypes.Tag {
-
-    static func write(value: DocDBClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }

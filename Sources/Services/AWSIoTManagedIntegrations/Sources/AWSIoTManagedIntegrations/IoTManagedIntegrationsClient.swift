@@ -388,6 +388,7 @@ extension IoTManagedIntegrationsClient {
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
     /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `ValidationException` : A validation error occurred when performing the API request.
     public func createAccountAssociation(input: CreateAccountAssociationInput) async throws -> CreateAccountAssociationOutput {
         let context = Smithy.ContextBuilder()
@@ -533,7 +534,9 @@ extension IoTManagedIntegrationsClient {
     /// - `AccessDeniedException` : User is not authorized.
     /// - `ConflictException` : There is a conflict with the request.
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `ValidationException` : A validation error occurred when performing the API request.
     public func createConnectorDestination(input: CreateConnectorDestinationInput) async throws -> CreateConnectorDestinationOutput {
         let context = Smithy.ContextBuilder()
@@ -594,7 +597,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `CreateCredentialLocker` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Create a product credential locker. This operation will trigger the creation of all the manufacturing resources including the Wi-Fi setup key pair and device certificate.
+    /// Create a credential locker. This operation will not trigger the creation of all the manufacturing resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateCredentialLockerInput`)
     ///
@@ -669,7 +672,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `CreateDestination` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Create a destination. IoT managed integrations uses the destination to determine where to deliver notifications for a device.
+    /// Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDestinationInput`)
     ///
@@ -816,7 +819,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `CreateManagedThing` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a protocol-specific format.
+    /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateManagedThingInput`)
     ///
@@ -965,7 +968,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `CreateOtaTask` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Create an over-the-air (OTA) task to update a device.
+    /// Create an over-the-air (OTA) task to target a device.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateOtaTaskInput`)
     ///
@@ -1189,7 +1192,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `DeleteAccountAssociation` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Remove a third party account and related devices from an end user.
+    /// Remove a third-party account association for an end user. You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account before calling the DeleteAccountAssociation API.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAccountAssociationInput`)
     ///
@@ -1272,6 +1275,7 @@ extension IoTManagedIntegrationsClient {
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `ValidationException` : A validation error occurred when performing the API request.
     public func deleteCloudConnector(input: DeleteCloudConnectorInput) async throws -> DeleteCloudConnectorOutput {
         let context = Smithy.ContextBuilder()
@@ -1328,7 +1332,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `DeleteConnectorDestination` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Delete a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
+    /// Delete a connector destination linked to a cloud-to-cloud (C2C) connector. Deletion can't be done if the account association has used this connector destination.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteConnectorDestinationInput`)
     ///
@@ -1467,7 +1471,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `DeleteDestination` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Deletes a customer-managed destination specified by id.
+    /// Deletes a notification destination specified by name.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteDestinationInput`)
     ///
@@ -1605,7 +1609,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `DeleteManagedThing` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Delete a managed thing. If a controller is deleted, all of the devices connected to it will have their status changed to PENDING. It is not possible to remove a cloud device.
+    /// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to PENDING. It is not possible to remove a cloud-to-cloud device.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteManagedThingInput`)
     ///
@@ -1957,7 +1961,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `DeregisterAccountAssociation` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Deregisters an account association, removing the connection between a managed thing and a third-party account.
+    /// Deregister an account association from a managed thing.
     ///
     /// - Parameter input: Request for deregister a managed thing from account association (Type: `DeregisterAccountAssociationInput`)
     ///
@@ -2099,7 +2103,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `GetCloudConnector` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Gets all the information about a connector for a connector developer.
+    /// Get configuration details for a cloud connector.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetCloudConnectorInput`)
     ///
@@ -2168,7 +2172,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `GetConnectorDestination` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Get a connector destination of a cloud-to-cloud (C2C) connector connecting to a customer's Amazon Web Services account.
+    /// Get connector destination details linked to a cloud-to-cloud (C2C) connector.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetConnectorDestinationInput`)
     ///
@@ -2449,7 +2453,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `GetDestination` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Gets a destination by ID.
+    /// Gets a destination by name.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetDestinationInput`)
     ///
@@ -2728,7 +2732,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `GetManagedThing` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Get the attributes and capabilities associated with a managed thing.
+    /// Get details of a managed thing including its attributes and capabilities.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetManagedThingInput`)
     ///
@@ -2856,6 +2860,77 @@ extension IoTManagedIntegrationsClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTManagedIntegrations")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetManagedThingCapabilities")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetManagedThingCertificate` operation on the `IoTManagedIntegrations` service.
+    ///
+    /// Retrieves the certificate PEM for a managed IoT thing.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetManagedThingCertificateInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetManagedThingCertificateOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User is not authorized.
+    /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
+    /// - `ValidationException` : A validation error occurred when performing the API request.
+    public func getManagedThingCertificate(input: GetManagedThingCertificateInput) async throws -> GetManagedThingCertificateOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getManagedThingCertificate")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iotmanagedintegrations")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetManagedThingCertificateInput, GetManagedThingCertificateOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetManagedThingCertificateInput, GetManagedThingCertificateOutput>(GetManagedThingCertificateInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetManagedThingCertificateInput, GetManagedThingCertificateOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetManagedThingCertificateOutput>(GetManagedThingCertificateOutput.httpOutput(from:), GetManagedThingCertificateOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetManagedThingCertificateInput, GetManagedThingCertificateOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetManagedThingCertificateOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IoT Managed Integrations", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetManagedThingCertificateOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetManagedThingCertificateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetManagedThingCertificateInput, GetManagedThingCertificateOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetManagedThingCertificateInput, GetManagedThingCertificateOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetManagedThingCertificateInput, GetManagedThingCertificateOutput>(serviceID: serviceName, version: IoTManagedIntegrationsClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IoTManagedIntegrations")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetManagedThingCertificate")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -3083,7 +3158,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `GetNotificationConfiguration` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Get a notification configuration.
+    /// Get a notification configuration for a specified event type.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetNotificationConfigurationInput`)
     ///
@@ -3152,7 +3227,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `GetOtaTask` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Get the over-the-air (OTA) task.
+    /// Get details of the over-the-air (OTA) task by its task id.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetOtaTaskInput`)
     ///
@@ -3361,7 +3436,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `GetRuntimeLogConfiguration` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Get the runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Get the runtime log configuration for a specific managed thing.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetRuntimeLogConfigurationInput`)
     ///
@@ -3572,7 +3647,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `ListCloudConnectors` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Returns a list of connectors based on permissions.
+    /// Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and type.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListCloudConnectorsInput`)
     ///
@@ -3780,7 +3855,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `ListDestinations` operation on the `IoTManagedIntegrations` service.
     ///
-    /// List all destination names under one Amazon Web Services account.
+    /// List all notification destinations.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDestinationsInput`)
     ///
@@ -5124,7 +5199,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `ResetRuntimeLogConfiguration` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Reset a runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Reset a runtime log configuration for a specific managed thing.
     ///
     /// - Parameter input: [no documentation found] (Type: `ResetRuntimeLogConfigurationInput`)
     ///
@@ -5410,7 +5485,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `StartDeviceDiscovery` operation on the `IoTManagedIntegrations` service.
     ///
-    /// This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
+    /// This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartDeviceDiscoveryInput`)
     ///
@@ -5714,6 +5789,7 @@ extension IoTManagedIntegrationsClient {
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `UnauthorizedException` : You are not authorized to perform this operation.
     /// - `ValidationException` : A validation error occurred when performing the API request.
     public func updateCloudConnector(input: UpdateCloudConnectorInput) async throws -> UpdateCloudConnectorOutput {
         let context = Smithy.ContextBuilder()
@@ -5845,7 +5921,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `UpdateDestination` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Update a destination specified by id.
+    /// Update a destination specified by name.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDestinationInput`)
     ///

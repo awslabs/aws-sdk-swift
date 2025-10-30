@@ -372,7 +372,7 @@ extension RTBFabricClient {
 extension RTBFabricClient {
     /// Performs the `AcceptLink` operation on the `RTBFabric` service.
     ///
-    /// Accepts a link request between RTB applications. When a requester RTB application requests to link with a responder RTB application, the responder can use this operation to accept the link request and establish the connection.
+    /// Accepts a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and establish the connection.
     ///
     /// - Parameter input: [no documentation found] (Type: `AcceptLinkInput`)
     ///
@@ -520,7 +520,7 @@ extension RTBFabricClient {
 
     /// Performs the `CreateLink` operation on the `RTBFabric` service.
     ///
-    /// Creates a new link between RTB applications. Establishes a connection that allows RTB applications to communicate and exchange bid requests and responses.
+    /// Creates a new link between gateways. Establishes a connection that allows gateways to communicate and exchange bid requests and responses.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateLinkInput`)
     ///
@@ -742,7 +742,7 @@ extension RTBFabricClient {
 
     /// Performs the `CreateResponderGateway` operation on the `RTBFabric` service.
     ///
-    /// Creates a responder gateway.
+    /// Creates a responder gateway. A domain name or managed endpoint is required.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateResponderGatewayInput`)
     ///
@@ -886,7 +886,7 @@ extension RTBFabricClient {
 
     /// Performs the `DeleteLink` operation on the `RTBFabric` service.
     ///
-    /// Deletes a link between RTB applications. Permanently removes the connection between RTB applications. This action cannot be undone.
+    /// Deletes a link between gateways. Permanently removes the connection between gateways. This action cannot be undone.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteLinkInput`)
     ///
@@ -1233,7 +1233,7 @@ extension RTBFabricClient {
 
     /// Performs the `GetLink` operation on the `RTBFabric` service.
     ///
-    /// Retrieves information about a link between RTB applications. Returns detailed information about the link configuration, status, and associated RTB applications.
+    /// Retrieves information about a link between gateways. Returns detailed information about the link configuration, status, and associated gateways.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLinkInput`)
     ///
@@ -1510,7 +1510,7 @@ extension RTBFabricClient {
 
     /// Performs the `ListLinks` operation on the `RTBFabric` service.
     ///
-    /// Lists links associated with an RTB application. Returns a list of all links for the specified RTB application, including their status and configuration details.
+    /// Lists links associated with gateways. Returns a list of all links for the specified gateways, including their status and configuration details.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListLinksInput`)
     ///
@@ -1783,7 +1783,7 @@ extension RTBFabricClient {
 
     /// Performs the `RejectLink` operation on the `RTBFabric` service.
     ///
-    /// Rejects a link request between RTB applications. When a requester RTB application requests to link with a responder RTB application, the responder can use this operation to decline the link request.
+    /// Rejects a link request between gateways. When a requester gateway requests to link with a responder gateway, the responder can use this operation to decline the link request.
     ///
     /// - Parameter input: [no documentation found] (Type: `RejectLinkInput`)
     ///
@@ -1995,7 +1995,7 @@ extension RTBFabricClient {
 
     /// Performs the `UpdateLink` operation on the `RTBFabric` service.
     ///
-    /// Updates the configuration of a link between RTB applications. Allows you to modify settings and parameters for an existing link.
+    /// Updates the configuration of a link between gateways. Allows you to modify settings and parameters for an existing link.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateLinkInput`)
     ///
