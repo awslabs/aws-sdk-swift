@@ -33,6 +33,7 @@ public struct ConfigFileReader {
         let arrayConfigData = stringConfigData.split(separator: "\n")
         
         var currentSection: ConfigFileSection = ConfigFileSection(name: "default")
+        var currentProperty: [String: String]
         var sections = ["default": currentSection]
         var currentSubsectionName: String? // Keep track of current subsection name
         let profileSection = try! NSRegularExpression(pattern: "\\[(?:default|profile\\s(.+?))\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile" or "default"
@@ -83,7 +84,7 @@ public struct ConfigFileReader {
                 }
             case _ where line.contains("="):
                 //Identify properties under section
-                let sectionHeader = currentSection
+                let sectionHeader = currentSection.name
                 let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                 if components.count == 1{
                     let subSectionName = String(components[0].trimmingCharacters(in: .whitespaces))
@@ -101,6 +102,7 @@ public struct ConfigFileReader {
                         currentSection.properties[key] = value
                         sections[currentSection.name] = currentSection
                         print("  Added key and value '\(key)' = '\(value)' to section '\(String(describing: sectionHeader))'")
+                        print("  The current section contains '\(String(describing: currentSection))'")
                     } else{
                         // key-value pair are indented
                         var subproperties = currentSection.subproperties
@@ -109,13 +111,25 @@ public struct ConfigFileReader {
                         subproperties[currentSubsectionName!] = subpropertyKeysAndValues
                         currentSection.subproperties = subproperties
                         sections[currentSection.name] = currentSection
-                        print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: currentSubsectionName))' Current section: \(String(describing: currentSection))")
+                        print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: currentSubsectionName))' Current section: \(String(describing: currentSection.name))")
+                        print("  The current section contains '\(String(describing: currentSection))'")
                     }
                 }
             case _ where !line.contains("="):
-                guard line.contains("profile") || line.contains("default") else {
-                    throw ParsingError.invalidFormat(line: String(line))
+//                guard line.contains("profile") || line.contains("default") else {
+//                    throw ParsingError.invalidFormat(line: String(line))
+//                }
+                let currentKeyPropertyName = currentSection.properties.keys.first!
+                let components = String(line)
+                let value = components.trimmingCharacters(in: .whitespaces)
+//                let updatedKey = currentSection.properties.updateValue(value, forKey: currentKeyPropertyName)!
+                if currentSection.properties[currentKeyPropertyName] != nil {
+                    currentSection.properties[currentKeyPropertyName]?.append(value)
+                } else {
+                    currentSection.properties[currentKeyPropertyName] = value
                 }
+                print("  Added new value '\(value)' to key '\(String(describing: currentKeyPropertyName))' within section '\(String(describing: currentSection.name))'")
+                print("  The current section contains '\(String(describing: currentSection))'")
                 break
             default:
                 print("Unrecognized line: \"\(line)\"")

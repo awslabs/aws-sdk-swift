@@ -2,12 +2,16 @@
 
 [default]
 region = us-east-1
+ us-east-2
 
 [profile business-casual]
 region = ap-southeast-2
+ ap-southeast-3
 
 [sso-session my-session]
 region = us-west-3
+    us-west-4
 
 [services my-services-config]
 region = ap-southwest-4
+ ap-southwest-5
