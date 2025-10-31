@@ -7,7 +7,6 @@
 
 import XCTest
 import AWSS3
-import AWSIntegrationTestUtils
 
 class S3ExpressXCTestCase: XCTestCase {
     // Region in which to run the test
@@ -29,8 +28,10 @@ class S3ExpressXCTestCase: XCTestCase {
     }
 
     @discardableResult
-    func createS3ExpressBucket() async throws -> String {
-        let bucket = bucket()
+    func createS3ExpressBucket(
+        baseName: String = String(UUID().uuidString.prefix(8)).lowercased()
+    ) async throws -> String {
+        let bucket = bucket(baseName: baseName)
         let input = CreateBucketInput(
             bucket: bucket,
             createBucketConfiguration: .init(
@@ -52,8 +53,8 @@ class S3ExpressXCTestCase: XCTestCase {
         _ = try await client.deleteBucket(input: deleteBucketInput)
     }
 
-    // Helper method to create a random, S3Express-compliant bucket name
-    func bucket() -> String {
-        "inttest-\(UUID().uuidString.lowercased())--\(azID)--x-s3"
+    // Helper method to create a S3Express-compliant bucket name
+    func bucket(baseName: String) -> String {
+        "a\(baseName)--\(azID)--x-s3"
     }
 }

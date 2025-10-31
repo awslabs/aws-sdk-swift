@@ -30,7 +30,7 @@ class S3EmptyBody404Tests: S3XCTestCase {
 
             // Perform the S3 HeadObject operation on a nonexistent object.
             // This will cause the 404 error without a body.
-            let input = HeadObjectInput(bucket: bucketName, key: String.uniqueID(service: "s3"))
+            let input = HeadObjectInput(bucket: bucketName, key: UUID().uuidString)
             _ = try await client.headObject(input: input)
 
             // If an error was not thrown by the HeadObject call, fail the test.
