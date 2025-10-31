@@ -10,6 +10,7 @@ import AWSKinesis
 import ClientRuntime
 import AWSClientRuntime
 import SmithyWaitersAPI
+import AWSIntegrationTestUtils
 
 class KinesisTests: XCTestCase {
 
@@ -23,7 +24,7 @@ class KinesisTests: XCTestCase {
         // Client must have AWS credentials set that allow access to the Kinesis service.
         // Resources will be cleaned up before the test concludes, pass or fail, unless the test crashes.
 
-        let streamName = UUID().uuidString
+        let streamName = String.uniqueID(service: "kinesis")
         let client = try KinesisClient(region: "us-west-2")
 
         do {
@@ -36,7 +37,7 @@ class KinesisTests: XCTestCase {
             let streamARN = stream.streamDescription?.streamARN
 
             // Make a set of 10 records, add them to the stream
-            var recordStrings = (1...10).map { _ in UUID().uuidString }
+            var recordStrings = (1...10).map { _ in String.uniqueID(service: "kinesis") }
             for record in recordStrings {
                 let putRecordInput = PutRecordInput(data: record.data(using: .utf8), explicitHashKey: nil, partitionKey: "Test", sequenceNumberForOrdering: nil, streamName: streamName)
                 let _ = try await client.putRecord(input: putRecordInput)
@@ -48,7 +49,7 @@ class KinesisTests: XCTestCase {
             let shard = shardList.shards?.first!
 
             // Create a consumer for the shard
-            let consumerName = UUID().uuidString
+            let consumerName = String.uniqueID(service: "kinesis")
             let consumerInput = RegisterStreamConsumerInput(consumerName: consumerName, streamARN: stream.streamDescription?.streamARN)
             let consumer = try await client.registerStreamConsumer(input: consumerInput)
             let consumerARN = consumer.consumer?.consumerARN

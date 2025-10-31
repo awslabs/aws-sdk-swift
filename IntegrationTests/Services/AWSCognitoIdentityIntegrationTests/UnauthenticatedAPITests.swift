@@ -12,6 +12,7 @@ import AWSClientRuntime
 import ClientRuntime
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
+import AWSIntegrationTestUtils
 
 /// Tests unauthenciated API using AWSCognitoIdentity::getId
 class UnauthenticatedAPITests: XCTestCase {
@@ -22,7 +23,7 @@ class UnauthenticatedAPITests: XCTestCase {
 
     private var accountID: String!
     private var identityPoolID: String!
-    private let identityPoolName = "idpool" + UUID().uuidString.split(separator: "-").first!.lowercased()
+    private let identityPoolName = String.uniqueID(service: "idpool")
 
     override func setUp() async throws {
         // STS client for getting the account ID, an input parameter for the unauthenticated API, getId().
