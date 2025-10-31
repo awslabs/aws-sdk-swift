@@ -17,7 +17,7 @@ final class S3ContentMD5HeaderTests: S3XCTestCase {
         try await super.setUp()
         // Generate 3 UUIDs to use as object keys and save them
         for _ in 1...3 {
-            objectKeys.append("key-\(UUID().uuidString.split(separator: "-").first!.lowercased())")
+            objectKeys.append(String.uniqueID(service: "s3"))
         }
     }
 

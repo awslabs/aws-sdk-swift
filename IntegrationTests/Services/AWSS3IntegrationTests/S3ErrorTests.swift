@@ -11,12 +11,13 @@ import XCTest
 import AWSS3
 import AWSClientRuntime
 import SmithyIdentity
+import AWSIntegrationTestUtils
 
 class S3ErrorTests: S3XCTestCase {
 
     func test_noSuchKey_throwsNoSuchKeyWhenUnknownKeyIsUsed() async throws {
         do {
-            let input = GetObjectInput(bucket: bucketName, key: UUID().uuidString)
+            let input = GetObjectInput(bucket: bucketName, key: String.uniqueID(service: "s3-error"))
             _ = try await client.getObject(input: input)
             XCTFail("Request should not have succeeded")
         } catch let error as NoSuchKey {
@@ -42,7 +43,7 @@ class S3ErrorTests: S3XCTestCase {
 
     func test_requestID_hasARequestIDAndRequestID2() async throws {
         do {
-            let input = GetObjectInput(bucket: bucketName, key: UUID().uuidString)
+            let input = GetObjectInput(bucket: bucketName, key: String.uniqueID(service: "s3-error"))
             _ = try await client.getObject(input: input)
             XCTFail("Request should not have succeeded")
         } catch let error as NoSuchKey {
@@ -57,7 +58,7 @@ class S3ErrorTests: S3XCTestCase {
 
     func test_InvalidObjectState_hasReadableProperties() async throws {
         do {
-            let key = UUID().uuidString + ".txt"
+            let key = String.uniqueID(service: "s3-error") + ".txt"
             let putInput = PutObjectInput(bucket: bucketName, key: key, storageClass: .glacier)
             _ = try await client.putObject(input: putInput)
             let getInput = GetObjectInput(bucket: bucketName, key: key)
@@ -77,7 +78,7 @@ class S3ErrorTests: S3XCTestCase {
             let credentials = AWSCredentialIdentity(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY")
             let awsCredentialIdentityResolver = StaticAWSCredentialIdentityResolver(credentials)
             let config = try await S3Client.S3ClientConfiguration(awsCredentialIdentityResolver: awsCredentialIdentityResolver, region: region)
-            let input = GetObjectInput(bucket: bucketName, key: UUID().uuidString)
+            let input = GetObjectInput(bucket: bucketName, key: String.uniqueID(service: "s3-error"))
             _ = try await S3Client(config: config).getObject(input: input)
             XCTFail("Request should not have succeeded")
         } catch let error as InvalidAccessKeyId {
