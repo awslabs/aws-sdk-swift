@@ -11,6 +11,7 @@ import ClientRuntime
 import AWSClientRuntime
 import AWSCloudFront
 import AWSCloudFrontKeyValueStore
+import AWSIntegrationTestUtils
 
 /// Tests SigV4a signing flow using CloudFrontKeyValueStore.
 class CloudFrontKeyValueStoreSigV4ATests: XCTestCase {
@@ -23,7 +24,7 @@ class CloudFrontKeyValueStoreSigV4ATests: XCTestCase {
     private let region = "us-east-1"
 
     // Temporary name of the KVS to use for the test
-    private let kvsName = "sigv4a-test-kvs-" + UUID().uuidString.split(separator: "-").first!.lowercased()
+    private let kvsName = String.uniqueID(service: "sigv4a-kvs")
 
     // The Etag to use to call CloudFront::deletKeyValueStore
     private var cfEtag: String!

@@ -10,27 +10,40 @@ import AWSS3
 
 final class S3ExpressIntegrationTests: S3ExpressXCTestCase {
 
+    // The number of buckets to create during the test
+    let n = 5
+
+    // The names of S3 buckets that were created for this test
+    var buckets = [String]()
+
+    // The object key & data contents to put in each bucket
+    let key = "hello-world.txt"
+    let originalContents = Data("Hello, World!".utf8)
+
+    override func tearDown() async throws {
+        try await super.tearDown()
+
+        // Delete the object from each bucket
+        for bucket in buckets {
+            try await deleteObject(bucket: bucket, key: key)
+        }
+
+        // Delete each directory bucket
+        for bucket in buckets {
+            try await deleteBucket(bucket: bucket)
+        }
+    }
+
     // This test:
     // - Creates multiple S3Express ("directory") buckets
     // - Puts an object with sample contents to each bucket
     // - Reads each object & compares its contents to the original data
-    // - Deletes the object from each bucket
-    // - Deletes each S3Express bucket
     func test_s3Express_operationalTest() async throws {
-
-        // The number of buckets to create
-        let n = 5
-
-        // The object key & data contents to put in each bucket
-        let key = "text"
-        let originalContents = Data("Hello, World!".utf8)
 
         // Create the S3Express-enabled directory buckets with random names,
         // save the names for later use
-        var buckets = [String]()
         for _ in 1...n {
-            let baseName = String(UUID().uuidString.prefix(8)).lowercased()
-            let newBucket = try await createS3ExpressBucket(baseName: baseName)
+            let newBucket = try await createS3ExpressBucket()
             buckets.append(newBucket)
         }
 
@@ -47,16 +60,6 @@ final class S3ExpressIntegrationTests: S3ExpressXCTestCase {
 
             let retrievedContents = try await output.body!.readData()!
             XCTAssertEqual(retrievedContents, originalContents)
-        }
-
-        // Delete the object from each bucket
-        for bucket in buckets {
-            try await deleteObject(bucket: bucket, key: key)
-        }
-
-        // Delete each directory bucket
-        for bucket in buckets {
-            try await deleteBucket(bucket: bucket)
         }
     }
 }

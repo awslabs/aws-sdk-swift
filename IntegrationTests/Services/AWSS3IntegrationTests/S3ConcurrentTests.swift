@@ -41,18 +41,18 @@ final class S3ConcurrentTests: S3XCTestCase, @unchecked Sendable {
     // Puts data to S3, gets the uploaded file, asserts retrieved data == original data, deletes S3 object
     @Sendable
     private func getObject(data: Data) async throws {
-       let objectKey = UUID().uuidString.split(separator: "-").first!.lowercased()
-       let putObjectInput = PutObjectInput(body: .data(data), bucket: bucketName, key: objectKey)
+        let objectKey = String.uniqueID(service: "s3")
+        let putObjectInput = PutObjectInput(body: .data(data), bucket: bucketName, key: objectKey)
 
-       _ = try await client.putObject(input: putObjectInput)
+        _ = try await client.putObject(input: putObjectInput)
 
-       let retrievedData = try await client.getObject(input: GetObjectInput(
-           bucket: bucketName, key: objectKey
-       )).body?.readData()
+        let retrievedData = try await client.getObject(input: GetObjectInput(
+            bucket: bucketName, key: objectKey
+        )).body?.readData()
 
-       XCTAssertEqual(data, retrievedData)
+        XCTAssertEqual(data, retrievedData)
 
-       let deleteObjectInput = DeleteObjectInput(bucket: bucketName, key: objectKey)
-       _ = try await client.deleteObject(input: deleteObjectInput)
+        let deleteObjectInput = DeleteObjectInput(bucket: bucketName, key: objectKey)
+        _ = try await client.deleteObject(input: deleteObjectInput)
    }
 }

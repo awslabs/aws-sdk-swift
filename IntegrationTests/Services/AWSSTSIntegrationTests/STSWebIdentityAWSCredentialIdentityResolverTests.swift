@@ -13,6 +13,7 @@ import ClientRuntime
 import AWSClientRuntime
 import Foundation
 import AWSSDKIdentity
+import AWSIntegrationTestUtils
 
 /// Tests STS web identity credentials provider using STS::getCallerIdentity.
 class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
@@ -30,7 +31,7 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
     private var cognitoIdentityClient: CognitoIdentityClient!
     // Regular STS client used to fetch the account ID used in fetching cognito ID.
     private var stsClient: STSClient!
-    private let identityPoolName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
+    private let identityPoolName = String.uniqueID(service: "sts-web-id")
     private var identityPoolId: String!
     private var oidcToken: String!
     private var oidcTokenFilePath: String!
@@ -39,8 +40,8 @@ class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
 
     // Used to create temporary role assumed by STS web identity credentials provider.
     private var iamClient: IAMClient!
-    private let roleName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
-    private let roleSessionName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
+    private let roleName = String.uniqueID(service: "sts-web-id")
+    private let roleSessionName = String.uniqueID(service: "sts-web-id")
     private var roleArn: String!
 
     // JSON assume role policy

@@ -11,12 +11,10 @@ import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
 import ClientRuntime
+import AWSIntegrationTestUtils
 #if canImport(InMemoryExporter)
 import InMemoryExporter
 #endif
-//#if os(Linux)
-//import OpenTelemetryConcurrency
-//#endif
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-east-1"
@@ -29,8 +27,8 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
     // Used to create temporary role assumed by STS assume role credentials provider.
     private var iamClient: IAMClient!
-    private let roleName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
-    private let roleSessionName = "aws-sts-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
+    private let roleName = String.uniqueID(service: "sts")
+    private let roleSessionName = String.uniqueID(service: "sts")
     private var roleArn: String!
 
     // JSON assume role policy

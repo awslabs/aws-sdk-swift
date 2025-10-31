@@ -11,6 +11,7 @@ import AWSGlacier
 import AWSSTS
 import enum Smithy.ByteStream
 import SmithyWaitersAPI
+import AWSIntegrationTestUtils
 
 /// Tests that Glacier operations run successfully
 class GlacierTests: XCTestCase {
@@ -18,7 +19,7 @@ class GlacierTests: XCTestCase {
     var stsClient: STSClient!
     var accountId: String!
     var archiveId: String!
-    let vaultName = UUID().uuidString.split(separator: "-").first!.lowercased() + "integ-test-vault"
+    let vaultName = String.uniqueID(service: "s3-glacier")
 
     override func setUp() async throws {
         stsClient = try STSClient(region: "us-east-1")

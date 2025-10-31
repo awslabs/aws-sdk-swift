@@ -11,6 +11,7 @@ import AWSEventBridge
 import ClientRuntime
 import AWSClientRuntime
 import AWSRoute53
+import AWSIntegrationTestUtils
 
 /// Tests SigV4a signing flow using EventBridge's global endpoint.
 class EventBridgeSigV4ATests: XCTestCase {
@@ -28,8 +29,8 @@ class EventBridgeSigV4ATests: XCTestCase {
     private let secondaryRegion = "us-east-1"
 
     // Name for the EventBridge global endpoint
-    private let endpointName = "sigv4a-test-global-endpoint-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
-    private let eventBusName = "sigv4a-integ-test-eventbus-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
+    private let endpointName = String.uniqueID(service: "eb-globalendpt")
+    private let eventBusName = String.uniqueID(service: "eb-eventbus")
     private var endpointId: String!
 
     private var healthCheckId: String!
@@ -58,7 +59,7 @@ class EventBridgeSigV4ATests: XCTestCase {
             type: .https
         )
         let createHealthCheckInput = CreateHealthCheckInput(
-            callerReference: UUID().uuidString.split(separator: "-").first!.lowercased(),
+            callerReference: String.uniqueID(service: "r53-healthchk"),
             healthCheckConfig: healthCheckConfig
         )
         let healthCheck = try await route53Client.createHealthCheck(input: createHealthCheckInput)
