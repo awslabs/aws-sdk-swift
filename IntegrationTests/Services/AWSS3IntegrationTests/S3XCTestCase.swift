@@ -10,7 +10,6 @@ import FoundationNetworking
 #endif
 import XCTest
 import AWSS3
-import AWSIntegrationTestUtils
 
 /// Provides a basic set of functions that can be used to perform S3 integration tests.
 /// Creates a bucket for testing before every test, then deletes the bucket after the test completes.
@@ -38,7 +37,7 @@ class S3XCTestCase: XCTestCase {
     }
 
     override func setUp() async throws {
-        self.bucketName = String.uniqueID(service: "s3")
+        self.bucketName = "sdk-int-test-s3-\(UUID().uuidString.lowercased())" // 52 char bucket name (max 63)
         self.client = try S3Client(region: region)
         try await createBucket(bucketName: bucketName)
         try await super.setUp()

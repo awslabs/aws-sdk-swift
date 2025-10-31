@@ -16,7 +16,6 @@ import AWSS3Control
 import AWSSTS
 import ClientRuntime
 import AWSClientRuntime
-import AWSIntegrationTestUtils
 
 /// Tests SigV4A signing flow using S3's Multi-Region Access Point (MRAP).
 class S3SigV4ATests: S3XCTestCase {
@@ -30,8 +29,8 @@ class S3SigV4ATests: S3XCTestCase {
     private var mrapArnFormat = "arn:aws:s3::%@:accesspoint/%@"
     private var mrapArn: String!
     private var mrapAlias: String!
-    private let mrapNamePrefix = "sdk-inttest-"
-    private let mrapName = "sdk-inttest-" + UUID().uuidString.lowercased()  // 3-50 chars long
+    private let mrapNamePrefix = "aws-sdk-s3-integration-test-"
+    private let mrapName = "aws-sdk-s3-integration-test-" + UUID().uuidString.split(separator: "-").first!.lowercased()
     private var mrapConfig: S3ControlClientTypes.CreateMultiRegionAccessPointInput!
 
     // The S3 control client used to create and delete MRAP
@@ -42,7 +41,7 @@ class S3SigV4ATests: S3XCTestCase {
     private var accountId: String!
 
     // Key string used for putting object in tests
-    private let key = String.uniqueID(service: "s3-sigv4a")
+    private let key = UUID().uuidString.split(separator: "-").first!.lowercased()
 
     private let NSEC_PER_SEC = 1_000_000_000
 
@@ -183,7 +182,7 @@ class S3SigV4ATests: S3XCTestCase {
         // Create S3 Multi-Region Access Point (MRAP)
         let createMRAPInput = CreateMultiRegionAccessPointInput(
             accountId: accountId,
-            clientToken: UUID().uuidString.lowercased(),
+            clientToken: UUID().uuidString.split(separator: "-").first!.lowercased(),
             details: mrapConfig
         )
         _ = try await s3ControlClient.createMultiRegionAccessPoint(input: createMRAPInput)

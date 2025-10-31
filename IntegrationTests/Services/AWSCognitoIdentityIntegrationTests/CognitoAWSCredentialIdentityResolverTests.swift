@@ -12,7 +12,6 @@ import AWSSTS
 import ClientRuntime
 import SmithyWaitersAPI
 import XCTest
-import AWSIntegrationTestUtils
 
 /// Tests CognitoAWSCredentialIdentityResolver using STS::getCallerIdentity.
 class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
@@ -20,7 +19,7 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
 
     private var cognitoIdentityClient: CognitoIdentityClient!
     private var iamClient: IAMClient!
-    private let identityPoolName = String.uniqueID(service: "cognito")
+    private let identityPoolName = "aws-cognito-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     private var identityPoolId: String!
     private var roleName: String!
 
@@ -39,7 +38,7 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
             )
         ).identityPoolId
         // Create an IAM role for unauthenticated users
-        roleName = String.uniqueID(service: "cog-role")
+        roleName = "CognitoUnauth_\(identityPoolName)"
         let trustPolicy = """
         {
             "Version": "2012-10-17",
