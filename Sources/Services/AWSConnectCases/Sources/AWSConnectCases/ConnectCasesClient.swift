@@ -969,13 +969,33 @@ extension ConnectCasesClient {
 
     /// Performs the `CreateRelatedItem` operation on the `ConnectCases` service.
     ///
-    /// Creates a related item (comments, tasks, and contacts) and associates it with a case.
+    /// Creates a related item (comments, tasks, and contacts) and associates it with a case. There's a quota for the number of fields allowed in a Custom type related item. See [Amazon Connect Cases quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#cases-quotas). Use cases Following are examples of related items that you may want to associate with a case:
+    ///
+    /// * Related contacts, such as calls, chats, emails tasks
+    ///
+    /// * Comments, for agent notes
+    ///
+    /// * SLAs, to capture target resolution goals
+    ///
+    /// * Cases, to capture related Amazon Connect Cases
+    ///
+    /// * Files, such as policy documentation or customer-provided attachments
+    ///
+    /// * Custom related items, which provide flexibility for you to define related items that such as bookings, orders, products, notices, and more
+    ///
+    ///
+    /// Important things to know
+    ///
+    /// * If you are associating a contact to a case by passing in Contact for a type, you must have [DescribeContact](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeContact.html) permission on the ARN of the contact that you provide in content.contact.contactArn.
     ///
     /// * A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.
     ///
     /// * If you provide a value for performedBy.userArn you must also have [DescribeUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html) permission on the ARN of the user that you provide.
     ///
     /// * The type field is reserved for internal use only.
+    ///
+    ///
+    /// Endpoints: See [Amazon Connect endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/connect_region.html).
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateRelatedItemInput`)
     ///
@@ -1355,9 +1375,9 @@ extension ConnectCasesClient {
     ///
     /// * Deleted fields are not included in the ListFields response.
     ///
-    /// * Calling CreateCase with a deleted field throws a ValidationException denoting which field IDs in the request have been deleted.
+    /// * Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.
     ///
-    /// * Calling GetCase with a deleted field ID returns the deleted field's value if one exists.
+    /// * Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.
     ///
     /// * Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.
     ///
@@ -2745,7 +2765,7 @@ extension ConnectCasesClient {
     ///
     /// Important things to know
     ///
-    /// * This API returns case IDs, not complete case objects. To retrieve full case details, you must make additional calls to the [GetCase](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetCase.html) API for each returned case ID.
+    /// * This API returns case identifiers, not complete case objects. To retrieve full case details, you must make additional calls to the [GetCase](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetCase.html) API for each returned case ID.
     ///
     /// * This API searches across related items content, not case fields. Use the [SearchCases](https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_SearchCases.html) API to search within case field values.
     ///
@@ -3193,6 +3213,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateCaseRule(input: UpdateCaseRuleInput) async throws -> UpdateCaseRuleOutput {
@@ -3421,6 +3442,7 @@ extension ConnectCasesClient {
     /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
     /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
     /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
     /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutput {

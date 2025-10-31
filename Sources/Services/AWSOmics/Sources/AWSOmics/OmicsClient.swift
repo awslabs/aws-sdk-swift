@@ -593,7 +593,7 @@ extension OmicsClient {
 
     /// Performs the `CancelAnnotationImportJob` operation on the `Omics` service.
     ///
-    /// Cancels an annotation import job.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Cancels an annotation import job.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelAnnotationImportJobInput`)
     ///
@@ -734,7 +734,7 @@ extension OmicsClient {
 
     /// Performs the `CancelVariantImportJob` operation on the `Omics` service.
     ///
-    /// Cancels a variant import job.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Cancels a variant import job.
     ///
     /// - Parameter input: [no documentation found] (Type: `CancelVariantImportJobInput`)
     ///
@@ -878,7 +878,7 @@ extension OmicsClient {
 
     /// Performs the `CreateAnnotationStore` operation on the `Omics` service.
     ///
-    /// Creates an annotation store.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Creates an annotation store.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateAnnotationStoreInput`)
     ///
@@ -1500,7 +1500,7 @@ extension OmicsClient {
 
     /// Performs the `CreateVariantStore` operation on the `Omics` service.
     ///
-    /// Creates a variant store.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Creates a variant store.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateVariantStoreInput`)
     ///
@@ -1576,13 +1576,18 @@ extension OmicsClient {
     ///
     /// Creates a private workflow. Before you create a private workflow, you must create and configure these required resources:
     ///
-    /// * Workflow definition files: Define your workflow in one or more workflow definition files, written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format.
+    /// * Workflow definition file: A workflow definition file written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format. For more information, see [Workflow definition files](https://docs.aws.amazon.com/omics/latest/dev/workflow-definition-files.html) in Amazon Web Services HealthOmics.
     ///
-    /// * (Optional) Parameter template: You can create a parameter template file that defines the run parameters, or Amazon Web Services HealthOmics can generate the parameter template for you.
+    /// * You can use Amazon Q CLI to build and validate your workflow definition files in WDL, Nextflow, and CWL. For more information, see [Example prompts for Amazon Q CLI](https://docs.aws.amazon.com/omics/latest/dev/getting-started.html#omics-q-prompts) and the [Amazon Web Services HealthOmics Agentic generative AI tutorial](https://github.com/aws-samples/aws-healthomics-tutorials/tree/main/generative-ai) on GitHub.
+    ///
+    ///
+    ///
+    ///
+    /// * (Optional) Parameter template file: A parameter template file written in JSON. Create the file to define the run parameters, or Amazon Web Services HealthOmics generates the parameter template for you. For more information, see [Parameter template files for HealthOmics workflows](https://docs.aws.amazon.com/omics/latest/dev/parameter-templates.html).
     ///
     /// * ECR container images: Create container images for the workflow in a private ECR repository, or synchronize images from a supported upstream registry with your Amazon ECR private repository.
     ///
-    /// * (Optional) Sentieon licenses: Request a Sentieon license if using the Sentieon software in a private workflow.
+    /// * (Optional) Sentieon licenses: Request a Sentieon license to use the Sentieon software in private workflows.
     ///
     ///
     /// For more information, see [Creating or updating a private workflow in Amazon Web Services HealthOmics](https://docs.aws.amazon.com/omics/latest/dev/creating-private-workflows.html) in the Amazon Web Services HealthOmics User Guide.
@@ -1737,7 +1742,7 @@ extension OmicsClient {
 
     /// Performs the `DeleteAnnotationStore` operation on the `Omics` service.
     ///
-    /// Deletes an annotation store.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Deletes an annotation store.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteAnnotationStoreInput`)
     ///
@@ -2461,7 +2466,7 @@ extension OmicsClient {
 
     /// Performs the `DeleteVariantStore` operation on the `Omics` service.
     ///
-    /// Deletes a variant store.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Deletes a variant store.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteVariantStoreInput`)
     ///
@@ -2680,7 +2685,7 @@ extension OmicsClient {
 
     /// Performs the `GetAnnotationImportJob` operation on the `Omics` service.
     ///
-    /// Gets information about an annotation import job.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Gets information about an annotation import job.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAnnotationImportJobInput`)
     ///
@@ -2749,7 +2754,7 @@ extension OmicsClient {
 
     /// Performs the `GetAnnotationStore` operation on the `Omics` service.
     ///
-    /// Gets information about an annotation store.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Gets information about an annotation store.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetAnnotationStoreInput`)
     ///
@@ -4025,7 +4030,7 @@ extension OmicsClient {
 
     /// Performs the `GetVariantImportJob` operation on the `Omics` service.
     ///
-    /// Gets information about a variant import job.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Gets information about a variant import job.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetVariantImportJobInput`)
     ///
@@ -4094,7 +4099,7 @@ extension OmicsClient {
 
     /// Performs the `GetVariantStore` operation on the `Omics` service.
     ///
-    /// Gets information about a variant store.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Gets information about a variant store.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetVariantStoreInput`)
     ///
@@ -4309,7 +4314,7 @@ extension OmicsClient {
 
     /// Performs the `ListAnnotationImportJobs` operation on the `Omics` service.
     ///
-    /// Retrieves a list of annotation import jobs.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Retrieves a list of annotation import jobs.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAnnotationImportJobsInput`)
     ///
@@ -4455,7 +4460,7 @@ extension OmicsClient {
 
     /// Performs the `ListAnnotationStores` operation on the `Omics` service.
     ///
-    /// Retrieves a list of annotation stores.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Retrieves a list of annotation stores.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAnnotationStoresInput`)
     ///
@@ -5706,7 +5711,7 @@ extension OmicsClient {
 
     /// Performs the `ListVariantImportJobs` operation on the `Omics` service.
     ///
-    /// Retrieves a list of variant import jobs.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Retrieves a list of variant import jobs.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListVariantImportJobsInput`)
     ///
@@ -5779,7 +5784,7 @@ extension OmicsClient {
 
     /// Performs the `ListVariantStores` operation on the `Omics` service.
     ///
-    /// Retrieves a list of variant stores.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Retrieves a list of variant stores.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListVariantStoresInput`)
     ///
@@ -6072,7 +6077,7 @@ extension OmicsClient {
 
     /// Performs the `StartAnnotationImportJob` operation on the `Omics` service.
     ///
-    /// Starts an annotation import job.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Starts an annotation import job.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartAnnotationImportJobInput`)
     ///
@@ -6470,7 +6475,7 @@ extension OmicsClient {
     /// * The retentionMode is set to the RETAIN mode by default, which allows you to manually remove runs after reaching the maximum service retention limit. Under this setting, you cannot create additional runs until you remove the excess runs.
     ///
     ///
-    /// To learn more about the retention modes, see [Run retention mode](https://docs.aws.amazon.com/omics/latest/dev/run-retention.html) in the Amazon Web Services HealthOmics User Guide.
+    /// To learn more about the retention modes, see [Run retention mode](https://docs.aws.amazon.com/omics/latest/dev/run-retention.html) in the Amazon Web Services HealthOmics User Guide. You can use Amazon Q CLI to analyze run logs and make performance optimization recommendations. To get started, see the [Amazon Web Services HealthOmics MCP server](https://github.com/awslabs/mcp/tree/main/src/aws-healthomics-mcp-server) on GitHub.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartRunInput`)
     ///
@@ -6546,7 +6551,7 @@ extension OmicsClient {
 
     /// Performs the `StartVariantImportJob` operation on the `Omics` service.
     ///
-    /// Starts a variant import job.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Starts a variant import job.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartVariantImportJobInput`)
     ///
@@ -6767,7 +6772,7 @@ extension OmicsClient {
 
     /// Performs the `UpdateAnnotationStore` operation on the `Omics` service.
     ///
-    /// Updates an annotation store.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Updates an annotation store.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateAnnotationStoreInput`)
     ///
@@ -7149,7 +7154,7 @@ extension OmicsClient {
 
     /// Performs the `UpdateVariantStore` operation on the `Omics` service.
     ///
-    /// Updates a variant store.
+    /// Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [ Amazon Web Services HealthOmics variant store and annotation store availability change](https://docs.aws.amazon.com/omics/latest/dev/variant-store-availability-change.html). Updates a variant store.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateVariantStoreInput`)
     ///

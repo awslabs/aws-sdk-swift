@@ -375,6 +375,51 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Use Slow PAL pitch correction to compensate for audio pitch changes during slow PAL frame rate conversion. This setting only applies when Slow PAL is enabled in your output video codec settings. To automatically apply audio pitch correction: Choose Enabled. MediaConvert automatically applies a pitch correction to your output to match the original content's audio pitch. To not apply audio pitch correction: Keep the default value, Disabled.
+    public enum SlowPalPitchCorrection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SlowPalPitchCorrection] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Settings for audio pitch correction during framerate conversion.
+    public struct AudioPitchCorrectionSettings: Swift.Sendable {
+        /// Use Slow PAL pitch correction to compensate for audio pitch changes during slow PAL frame rate conversion. This setting only applies when Slow PAL is enabled in your output video codec settings. To automatically apply audio pitch correction: Choose Enabled. MediaConvert automatically applies a pitch correction to your output to match the original content's audio pitch. To not apply audio pitch correction: Keep the default value, Disabled.
+        public var slowPalPitchCorrection: MediaConvertClientTypes.SlowPalPitchCorrection?
+
+        public init(
+            slowPalPitchCorrection: MediaConvertClientTypes.SlowPalPitchCorrection? = nil
+        ) {
+            self.slowPalPitchCorrection = slowPalPitchCorrection
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// When set to FOLLOW_INPUT, if the input contains an ISO 639 audio_type, then that value is passed through to the output. If the input contains no ISO 639 audio_type, the value in Audio Type is included in the output. Otherwise the value in Audio Type is included in the output. Note that this field and audioType are both ignored if audioDescriptionBroadcasterMix is set to BROADCASTER_MIXED_AD.
     public enum AudioTypeControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case followInput
@@ -3111,6 +3156,8 @@ extension MediaConvertClientTypes {
         public var audioChannelTaggingSettings: MediaConvertClientTypes.AudioChannelTaggingSettings?
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
         public var audioNormalizationSettings: MediaConvertClientTypes.AudioNormalizationSettings?
+        /// Settings for audio pitch correction during framerate conversion.
+        public var audioPitchCorrectionSettings: MediaConvertClientTypes.AudioPitchCorrectionSettings?
         /// Specifies which audio data to use from each input. In the simplest case, specify an "Audio Selector":#inputs-audio_selector by name based on its order within each input. For example if you specify "Audio Selector 3", then the third audio selector will be used from each input. If an input does not have an "Audio Selector 3", then the audio selector marked as "default" in that input will be used. If there is no audio selector marked as "default", silence will be inserted for the duration of that input. Alternatively, an "Audio Selector Group":#inputs-audio_selector_group name may be specified, with similar default/silence behavior. If no audio_source_name is specified, then "Audio Selector 1" will be chosen automatically.
         public var audioSourceName: Swift.String?
         /// Applies only if Follow Input Audio Type is unchecked (false). A number between 0 and 255. The following are defined in ISO-IEC 13818-1: 0 = Undefined, 1 = Clean Effects, 2 = Hearing Impaired, 3 = Visually Impaired Commentary, 4-255 = Reserved.
@@ -3133,6 +3180,7 @@ extension MediaConvertClientTypes {
         public init(
             audioChannelTaggingSettings: MediaConvertClientTypes.AudioChannelTaggingSettings? = nil,
             audioNormalizationSettings: MediaConvertClientTypes.AudioNormalizationSettings? = nil,
+            audioPitchCorrectionSettings: MediaConvertClientTypes.AudioPitchCorrectionSettings? = nil,
             audioSourceName: Swift.String? = nil,
             audioType: Swift.Int? = nil,
             audioTypeControl: MediaConvertClientTypes.AudioTypeControl? = nil,
@@ -3145,6 +3193,7 @@ extension MediaConvertClientTypes {
         ) {
             self.audioChannelTaggingSettings = audioChannelTaggingSettings
             self.audioNormalizationSettings = audioNormalizationSettings
+            self.audioPitchCorrectionSettings = audioPitchCorrectionSettings
             self.audioSourceName = audioSourceName
             self.audioType = audioType
             self.audioTypeControl = audioTypeControl
@@ -5401,12 +5450,13 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers.
+    /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. If more types of audio data get recognized in the future, these numberings may shift, but the numberings used for Stream mode will not. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers. Stream: Select audio by stream number. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this audio selector context, only the stream number of a track containing audio data may be used. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of audio data get recognized in the future, these numberings will not shift.
     public enum AudioSelectorType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allPcm
         case hlsRenditionGroup
         case languageCode
         case pid
+        case stream
         case track
         case sdkUnknown(Swift.String)
 
@@ -5416,6 +5466,7 @@ extension MediaConvertClientTypes {
                 .hlsRenditionGroup,
                 .languageCode,
                 .pid,
+                .stream,
                 .track
             ]
         }
@@ -5431,6 +5482,7 @@ extension MediaConvertClientTypes {
             case .hlsRenditionGroup: return "HLS_RENDITION_GROUP"
             case .languageCode: return "LANGUAGE_CODE"
             case .pid: return "PID"
+            case .stream: return "STREAM"
             case .track: return "TRACK"
             case let .sdkUnknown(s): return s
             }
@@ -5462,9 +5514,11 @@ extension MediaConvertClientTypes {
         public var programSelection: Swift.Int?
         /// Use these settings to reorder the audio channels of one input to match those of another input. This allows you to combine the two files into a single output, one after the other.
         public var remixSettings: MediaConvertClientTypes.RemixSettings?
-        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers.
+        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. If more types of audio data get recognized in the future, these numberings may shift, but the numberings used for Stream mode will not. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers. Stream: Select audio by stream number. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this audio selector context, only the stream number of a track containing audio data may be used. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of audio data get recognized in the future, these numberings will not shift.
         public var selectorType: MediaConvertClientTypes.AudioSelectorType?
-        /// Identify a track from the input audio to include in this selector by entering the track index number. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
+        /// Identify a track from the input audio to include in this selector by entering the stream index number. These numberings count all tracks in the input file, but only a track containing audio data may be used here. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
+        public var streams: [Swift.Int]?
+        /// Identify a track from the input audio to include in this selector by entering the track index number. These numberings include only tracks recognized as audio. If the service recognizes more types of audio tracks in the future, these numberings may shift. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
         public var tracks: [Swift.Int]?
 
         public init(
@@ -5479,6 +5533,7 @@ extension MediaConvertClientTypes {
             programSelection: Swift.Int? = nil,
             remixSettings: MediaConvertClientTypes.RemixSettings? = nil,
             selectorType: MediaConvertClientTypes.AudioSelectorType? = nil,
+            streams: [Swift.Int]? = nil,
             tracks: [Swift.Int]? = nil
         ) {
             self.audioDurationCorrection = audioDurationCorrection
@@ -5492,6 +5547,7 @@ extension MediaConvertClientTypes {
             self.programSelection = programSelection
             self.remixSettings = remixSettings
             self.selectorType = selectorType
+            self.streams = streams
             self.tracks = tracks
         }
     }
@@ -5979,12 +6035,16 @@ extension MediaConvertClientTypes {
 
     /// Settings specific to caption sources that are specified by track number. Currently, this is only IMSC captions in an IMF package. If your caption source is IMSC 1.1 in a separate xml file, use FileSourceSettings instead of TrackSourceSettings.
     public struct TrackSourceSettings: Swift.Sendable {
-        /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector.
+        /// Use this setting to select a single captions track from a source. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this caption selector context, only the stream number of a track containing caption data may be used. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one stream per selector. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of caption data get recognized in the future, these numberings will not shift.
+        public var streamNumber: Swift.Int?
+        /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector. If more types of caption data get recognized in the future, these numberings may shift, but the numberings used for streamNumber will not.
         public var trackNumber: Swift.Int?
 
         public init(
+            streamNumber: Swift.Int? = nil,
             trackNumber: Swift.Int? = nil
         ) {
+            self.streamNumber = streamNumber
             self.trackNumber = trackNumber
         }
     }
@@ -6676,6 +6736,8 @@ extension MediaConvertClientTypes {
     public struct VideoOverlayPosition: Swift.Sendable {
         /// To scale your video overlay to the same height as the base input video: Leave blank. To scale the height of your video overlay to a different height: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 360 and choose Pixels, your video overlay will be rendered with a height of 360. When you enter 50, choose Percentage, and your overlay's source has a height of 1080, your video overlay will be rendered with a height of 540. To scale your overlay to a specific height while automatically maintaining its original aspect ratio, enter a value for Height and leave Width blank.
         public var height: Swift.Int?
+        /// Use Opacity to specify how much of the underlying video shows through the overlay video. 0 is transparent and 100 is fully opaque. Default is 100.
+        public var opacity: Swift.Int?
         /// Specify the Unit type to use when you enter a value for X position, Y position, Width, or Height. You can choose Pixels or Percentage. Leave blank to use the default value, Pixels.
         public var unit: MediaConvertClientTypes.VideoOverlayUnit?
         /// To scale your video overlay to the same width as the base input video: Leave blank. To scale the width of your video overlay to a different width: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 640 and choose Pixels, your video overlay will scale to a height of 640 pixels. When you enter 50, choose Percentage, and your overlay's source has a width of 1920, your video overlay will scale to a width of 960. To scale your overlay to a specific width while automatically maintaining its original aspect ratio, enter a value for Width and leave Height blank.
@@ -6687,12 +6749,14 @@ extension MediaConvertClientTypes {
 
         public init(
             height: Swift.Int? = nil,
+            opacity: Swift.Int? = nil,
             unit: MediaConvertClientTypes.VideoOverlayUnit? = nil,
             width: Swift.Int? = nil,
             xPosition: Swift.Int? = nil,
             yPosition: Swift.Int? = nil
         ) {
             self.height = height
+            self.opacity = opacity
             self.unit = unit
             self.width = width
             self.xPosition = xPosition
@@ -6779,7 +6843,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify one or more Transitions for your video overlay. Use Transitions to reposition or resize your overlay over time. To use the same position and size for the duration of your video overlay: Leave blank. To specify a Transition: Enter a value for Start timecode, End Timecode, X Position, Y Position, Width, or Height.
+    /// Specify one or more Transitions for your video overlay. Use Transitions to reposition or resize your overlay over time. To use the same position and size for the duration of your video overlay: Leave blank. To specify a Transition: Enter a value for Start timecode, End Timecode, X Position, Y Position, Width, Height, or Opacity
     public struct VideoOverlayTransition: Swift.Sendable {
         /// Specify the ending position for this transition, relative to the base input video's frame. Your video overlay will move smoothly to this position, beginning at this transition's Start timecode and ending at this transition's End timecode.
         public var endPosition: MediaConvertClientTypes.VideoOverlayPosition?
@@ -7158,7 +7222,7 @@ extension MediaConvertClientTypes {
         public var sampleRange: MediaConvertClientTypes.InputSampleRange?
         /// Choose the video selector type for your HLS input. Use to specify which video rendition MediaConvert uses from your HLS input. To have MediaConvert automatically use the highest bitrate rendition from your HLS input: Keep the default value, Auto. To manually specify a rendition: Choose Stream. Then enter the unique stream number in the Streams array, starting at 1, corresponding to the stream order in the manifest.
         public var selectorType: MediaConvertClientTypes.VideoSelectorType?
-        /// Specify a stream for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream order in your HLS manifest.
+        /// Specify one or more video streams for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream number, with the first stream in your HLS multivariant playlist starting at 1.For re-encoding workflows, MediaConvert uses the video stream that you select with the highest bitrate as the input.For video passthrough workflows, you specify whether to passthrough a single video stream or multiple video streams under Video selector source in the output video encoding settings.
         public var streams: [Swift.Int]?
 
         public init(
@@ -8286,18 +8350,20 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+    /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
     public enum DashManifestStyle: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case basic
         case compact
         case distinct
+        case full
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DashManifestStyle] {
             return [
                 .basic,
                 .compact,
-                .distinct
+                .distinct,
+                .full
             ]
         }
 
@@ -8311,6 +8377,7 @@ extension MediaConvertClientTypes {
             case .basic: return "BASIC"
             case .compact: return "COMPACT"
             case .distinct: return "DISTINCT"
+            case .full: return "FULL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9311,7 +9378,7 @@ extension MediaConvertClientTypes {
         public var codecSpecification: MediaConvertClientTypes.CmafCodecSpecification?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public var dashIFrameTrickPlayNameModifier: Swift.String?
-        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
         public var dashManifestStyle: MediaConvertClientTypes.DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public var destination: Swift.String?
@@ -9886,7 +9953,7 @@ extension MediaConvertClientTypes {
         public var baseUrl: Swift.String?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public var dashIFrameTrickPlayNameModifier: Swift.String?
-        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
         public var dashManifestStyle: MediaConvertClientTypes.DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public var destination: Swift.String?
@@ -13122,7 +13189,7 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
+    /// Use this setting only in DASH output groups that include sidecar TTML, IMSC or WEBVTT captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
     public enum MpdCaptionContainerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fragmentedMp4
         case raw
@@ -13338,7 +13405,7 @@ extension MediaConvertClientTypes {
         public var accessibilityCaptionHints: MediaConvertClientTypes.MpdAccessibilityCaptionHints?
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public var audioDuration: MediaConvertClientTypes.MpdAudioDuration?
-        /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
+        /// Use this setting only in DASH output groups that include sidecar TTML, IMSC or WEBVTT captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public var captionContainerType: MediaConvertClientTypes.MpdCaptionContainerType?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public var klvMetadata: MediaConvertClientTypes.MpdKlvMetadata?
@@ -17792,6 +17859,51 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
+    public enum VideoSelectorMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case auto
+        case remuxAll
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoSelectorMode] {
+            return [
+                .auto,
+                .remuxAll
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .remuxAll: return "REMUX_ALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
+    /// Optional settings when you set Codec to the value Passthrough.
+    public struct PassthroughSettings: Swift.Sendable {
+        /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
+        public var videoSelectorMode: MediaConvertClientTypes.VideoSelectorMode?
+
+        public init(
+            videoSelectorMode: MediaConvertClientTypes.VideoSelectorMode? = nil
+        ) {
+            self.videoSelectorMode = videoSelectorMode
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs that you create from inputs that use 4:4:4 chroma sampling. Set Preserve 4:4:4 sampling to allow outputs to also use 4:4:4 chroma sampling. You must specify a value for this setting when your output codec profile supports 4:4:4 chroma sampling. Related Settings: For Apple ProRes outputs with 4:4:4 chroma sampling: Choose Preserve 4:4:4 sampling. Use when your input has 4:4:4 chroma sampling and your output codec Profile is Apple ProRes 4444 or 4444 XQ. Note that when you choose Preserve 4:4:4 sampling, you cannot include any of the following Preprocessors: Dolby Vision, HDR10+, or Noise reducer.
     public enum ProresChromaSampling: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case preserve444Sampling
@@ -20015,6 +20127,8 @@ extension MediaConvertClientTypes {
         public var h265Settings: MediaConvertClientTypes.H265Settings?
         /// Required when you set Codec to the value MPEG2.
         public var mpeg2Settings: MediaConvertClientTypes.Mpeg2Settings?
+        /// Optional settings when you set Codec to the value Passthrough.
+        public var passthroughSettings: MediaConvertClientTypes.PassthroughSettings?
         /// Required when you set Codec to the value PRORES.
         public var proresSettings: MediaConvertClientTypes.ProresSettings?
         /// Required when you set Codec, under VideoDescription>CodecSettings to the value UNCOMPRESSED.
@@ -20037,6 +20151,7 @@ extension MediaConvertClientTypes {
             h264Settings: MediaConvertClientTypes.H264Settings? = nil,
             h265Settings: MediaConvertClientTypes.H265Settings? = nil,
             mpeg2Settings: MediaConvertClientTypes.Mpeg2Settings? = nil,
+            passthroughSettings: MediaConvertClientTypes.PassthroughSettings? = nil,
             proresSettings: MediaConvertClientTypes.ProresSettings? = nil,
             uncompressedSettings: MediaConvertClientTypes.UncompressedSettings? = nil,
             vc3Settings: MediaConvertClientTypes.Vc3Settings? = nil,
@@ -20052,6 +20167,7 @@ extension MediaConvertClientTypes {
             self.h264Settings = h264Settings
             self.h265Settings = h265Settings
             self.mpeg2Settings = mpeg2Settings
+            self.passthroughSettings = passthroughSettings
             self.proresSettings = proresSettings
             self.uncompressedSettings = uncompressedSettings
             self.vc3Settings = vc3Settings
@@ -27055,6 +27171,7 @@ extension MediaConvertClientTypes.VideoCodecSettings {
         try writer["h264Settings"].write(value.h264Settings, with: MediaConvertClientTypes.H264Settings.write(value:to:))
         try writer["h265Settings"].write(value.h265Settings, with: MediaConvertClientTypes.H265Settings.write(value:to:))
         try writer["mpeg2Settings"].write(value.mpeg2Settings, with: MediaConvertClientTypes.Mpeg2Settings.write(value:to:))
+        try writer["passthroughSettings"].write(value.passthroughSettings, with: MediaConvertClientTypes.PassthroughSettings.write(value:to:))
         try writer["proresSettings"].write(value.proresSettings, with: MediaConvertClientTypes.ProresSettings.write(value:to:))
         try writer["uncompressedSettings"].write(value.uncompressedSettings, with: MediaConvertClientTypes.UncompressedSettings.write(value:to:))
         try writer["vc3Settings"].write(value.vc3Settings, with: MediaConvertClientTypes.Vc3Settings.write(value:to:))
@@ -27074,6 +27191,7 @@ extension MediaConvertClientTypes.VideoCodecSettings {
         value.h264Settings = try reader["h264Settings"].readIfPresent(with: MediaConvertClientTypes.H264Settings.read(from:))
         value.h265Settings = try reader["h265Settings"].readIfPresent(with: MediaConvertClientTypes.H265Settings.read(from:))
         value.mpeg2Settings = try reader["mpeg2Settings"].readIfPresent(with: MediaConvertClientTypes.Mpeg2Settings.read(from:))
+        value.passthroughSettings = try reader["passthroughSettings"].readIfPresent(with: MediaConvertClientTypes.PassthroughSettings.read(from:))
         value.proresSettings = try reader["proresSettings"].readIfPresent(with: MediaConvertClientTypes.ProresSettings.read(from:))
         value.uncompressedSettings = try reader["uncompressedSettings"].readIfPresent(with: MediaConvertClientTypes.UncompressedSettings.read(from:))
         value.vc3Settings = try reader["vc3Settings"].readIfPresent(with: MediaConvertClientTypes.Vc3Settings.read(from:))
@@ -27413,6 +27531,21 @@ extension MediaConvertClientTypes.ProresSettings {
         value.scanTypeConversionMode = try reader["scanTypeConversionMode"].readIfPresent()
         value.slowPal = try reader["slowPal"].readIfPresent()
         value.telecine = try reader["telecine"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.PassthroughSettings {
+
+    static func write(value: MediaConvertClientTypes.PassthroughSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["videoSelectorMode"].write(value.videoSelectorMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.PassthroughSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.PassthroughSettings()
+        value.videoSelectorMode = try reader["videoSelectorMode"].readIfPresent()
         return value
     }
 }
@@ -28708,6 +28841,7 @@ extension MediaConvertClientTypes.AudioDescription {
         guard let value else { return }
         try writer["audioChannelTaggingSettings"].write(value.audioChannelTaggingSettings, with: MediaConvertClientTypes.AudioChannelTaggingSettings.write(value:to:))
         try writer["audioNormalizationSettings"].write(value.audioNormalizationSettings, with: MediaConvertClientTypes.AudioNormalizationSettings.write(value:to:))
+        try writer["audioPitchCorrectionSettings"].write(value.audioPitchCorrectionSettings, with: MediaConvertClientTypes.AudioPitchCorrectionSettings.write(value:to:))
         try writer["audioSourceName"].write(value.audioSourceName)
         try writer["audioType"].write(value.audioType)
         try writer["audioTypeControl"].write(value.audioTypeControl)
@@ -28724,6 +28858,7 @@ extension MediaConvertClientTypes.AudioDescription {
         var value = MediaConvertClientTypes.AudioDescription()
         value.audioChannelTaggingSettings = try reader["audioChannelTaggingSettings"].readIfPresent(with: MediaConvertClientTypes.AudioChannelTaggingSettings.read(from:))
         value.audioNormalizationSettings = try reader["audioNormalizationSettings"].readIfPresent(with: MediaConvertClientTypes.AudioNormalizationSettings.read(from:))
+        value.audioPitchCorrectionSettings = try reader["audioPitchCorrectionSettings"].readIfPresent(with: MediaConvertClientTypes.AudioPitchCorrectionSettings.read(from:))
         value.audioSourceName = try reader["audioSourceName"].readIfPresent()
         value.audioType = try reader["audioType"].readIfPresent()
         value.audioTypeControl = try reader["audioTypeControl"].readIfPresent()
@@ -29138,6 +29273,21 @@ extension MediaConvertClientTypes.AacSettings {
         value.specification = try reader["specification"].readIfPresent()
         value.targetLoudnessRange = try reader["targetLoudnessRange"].readIfPresent()
         value.vbrQuality = try reader["vbrQuality"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConvertClientTypes.AudioPitchCorrectionSettings {
+
+    static func write(value: MediaConvertClientTypes.AudioPitchCorrectionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["slowPalPitchCorrection"].write(value.slowPalPitchCorrection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.AudioPitchCorrectionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConvertClientTypes.AudioPitchCorrectionSettings()
+        value.slowPalPitchCorrection = try reader["slowPalPitchCorrection"].readIfPresent()
         return value
     }
 }
@@ -30302,6 +30452,7 @@ extension MediaConvertClientTypes.VideoOverlayPosition {
     static func write(value: MediaConvertClientTypes.VideoOverlayPosition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["height"].write(value.height)
+        try writer["opacity"].write(value.opacity)
         try writer["unit"].write(value.unit)
         try writer["width"].write(value.width)
         try writer["xPosition"].write(value.xPosition)
@@ -30312,6 +30463,7 @@ extension MediaConvertClientTypes.VideoOverlayPosition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.VideoOverlayPosition()
         value.height = try reader["height"].readIfPresent()
+        value.opacity = try reader["opacity"].readIfPresent()
         value.unit = try reader["unit"].readIfPresent()
         value.width = try reader["width"].readIfPresent()
         value.xPosition = try reader["xPosition"].readIfPresent()
@@ -30561,12 +30713,14 @@ extension MediaConvertClientTypes.TrackSourceSettings {
 
     static func write(value: MediaConvertClientTypes.TrackSourceSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["streamNumber"].write(value.streamNumber)
         try writer["trackNumber"].write(value.trackNumber)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.TrackSourceSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.TrackSourceSettings()
+        value.streamNumber = try reader["streamNumber"].readIfPresent()
         value.trackNumber = try reader["trackNumber"].readIfPresent()
         return value
     }
@@ -30703,6 +30857,7 @@ extension MediaConvertClientTypes.AudioSelector {
         try writer["programSelection"].write(value.programSelection)
         try writer["remixSettings"].write(value.remixSettings, with: MediaConvertClientTypes.RemixSettings.write(value:to:))
         try writer["selectorType"].write(value.selectorType)
+        try writer["streams"].writeList(value.streams, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tracks"].writeList(value.tracks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -30720,6 +30875,7 @@ extension MediaConvertClientTypes.AudioSelector {
         value.programSelection = try reader["programSelection"].readIfPresent()
         value.remixSettings = try reader["remixSettings"].readIfPresent(with: MediaConvertClientTypes.RemixSettings.read(from:))
         value.selectorType = try reader["selectorType"].readIfPresent()
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         value.tracks = try reader["tracks"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
