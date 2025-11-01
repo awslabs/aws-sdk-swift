@@ -165,6 +165,7 @@ extension ListConnectionsInput: ClientRuntime.PaginateToken {
             name: self.name,
             nextToken: token,
             projectIdentifier: self.projectIdentifier,
+            scope: self.scope,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             type: self.type

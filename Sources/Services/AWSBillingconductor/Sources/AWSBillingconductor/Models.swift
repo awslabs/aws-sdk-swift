@@ -339,6 +339,7 @@ extension BillingconductorClientTypes {
     public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accountsAlreadyAssociated
         case accountsNotAssociated
+        case billingGroupAlreadyExistInCurrentBillingPeriod
         case cannotDeleteAutoAssociateBillingGroup
         case cannotParse
         case customLineItemAssociationExists
@@ -352,11 +353,13 @@ extension BillingconductorClientTypes {
         case illegalBillingPeriodRange
         case illegalChargeDetails
         case illegalChildAssociateResource
+        case illegalComputationRule
         case illegalCustomlineitem
         case illegalCustomlineitemModification
         case illegalCustomlineitemUpdate
         case illegalEndedBillinggroup
         case illegalExpression
+        case illegalLineItemFilter
         case illegalModifierPercentage
         case illegalOperation
         case illegalPrimaryAccount
@@ -381,6 +384,7 @@ extension BillingconductorClientTypes {
         case mismatchedPricingplanArn
         case mismatchedPricingruleArn
         case missingBillinggroup
+        case missingCostcategory
         case missingCustomlineitem
         case missingLinkedAccountIds
         case missingPricingplan
@@ -403,6 +407,7 @@ extension BillingconductorClientTypes {
             return [
                 .accountsAlreadyAssociated,
                 .accountsNotAssociated,
+                .billingGroupAlreadyExistInCurrentBillingPeriod,
                 .cannotDeleteAutoAssociateBillingGroup,
                 .cannotParse,
                 .customLineItemAssociationExists,
@@ -416,11 +421,13 @@ extension BillingconductorClientTypes {
                 .illegalBillingPeriodRange,
                 .illegalChargeDetails,
                 .illegalChildAssociateResource,
+                .illegalComputationRule,
                 .illegalCustomlineitem,
                 .illegalCustomlineitemModification,
                 .illegalCustomlineitemUpdate,
                 .illegalEndedBillinggroup,
                 .illegalExpression,
+                .illegalLineItemFilter,
                 .illegalModifierPercentage,
                 .illegalOperation,
                 .illegalPrimaryAccount,
@@ -445,6 +452,7 @@ extension BillingconductorClientTypes {
                 .mismatchedPricingplanArn,
                 .mismatchedPricingruleArn,
                 .missingBillinggroup,
+                .missingCostcategory,
                 .missingCustomlineitem,
                 .missingLinkedAccountIds,
                 .missingPricingplan,
@@ -473,6 +481,7 @@ extension BillingconductorClientTypes {
             switch self {
             case .accountsAlreadyAssociated: return "ACCOUNTS_ALREADY_ASSOCIATED"
             case .accountsNotAssociated: return "ACCOUNTS_NOT_ASSOCIATED"
+            case .billingGroupAlreadyExistInCurrentBillingPeriod: return "BILLING_GROUP_ALREADY_EXIST_IN_CURRENT_BILLING_PERIOD"
             case .cannotDeleteAutoAssociateBillingGroup: return "CANNOT_DELETE_AUTO_ASSOCIATE_BILLING_GROUP"
             case .cannotParse: return "CANNOT_PARSE"
             case .customLineItemAssociationExists: return "CUSTOM_LINE_ITEM_ASSOCIATION_EXISTS"
@@ -486,11 +495,13 @@ extension BillingconductorClientTypes {
             case .illegalBillingPeriodRange: return "ILLEGAL_BILLING_PERIOD_RANGE"
             case .illegalChargeDetails: return "ILLEGAL_CHARGE_DETAILS"
             case .illegalChildAssociateResource: return "ILLEGAL_CHILD_ASSOCIATE_RESOURCE"
+            case .illegalComputationRule: return "ILLEGAL_COMPUTATION_RULE"
             case .illegalCustomlineitem: return "ILLEGAL_CUSTOMLINEITEM"
             case .illegalCustomlineitemModification: return "ILLEGAL_CUSTOMLINEITEM_MODIFICATION"
             case .illegalCustomlineitemUpdate: return "ILLEGAL_CUSTOMLINEITEM_UPDATE"
             case .illegalEndedBillinggroup: return "ILLEGAL_ENDED_BILLINGGROUP"
             case .illegalExpression: return "ILLEGAL_EXPRESSION"
+            case .illegalLineItemFilter: return "ILLEGAL_LINE_ITEM_FILTER"
             case .illegalModifierPercentage: return "ILLEGAL_MODIFIER_PERCENTAGE"
             case .illegalOperation: return "ILLEGAL_OPERATION"
             case .illegalPrimaryAccount: return "ILLEGAL_PRIMARY_ACCOUNT"
@@ -515,6 +526,7 @@ extension BillingconductorClientTypes {
             case .mismatchedPricingplanArn: return "MISMATCHED_PRICINGPLAN_ARN"
             case .mismatchedPricingruleArn: return "MISMATCHED_PRICINGRULE_ARN"
             case .missingBillinggroup: return "MISSING_BILLINGGROUP"
+            case .missingCostcategory: return "MISSING_COSTCATEGORY"
             case .missingCustomlineitem: return "MISSING_CUSTOMLINEITEM"
             case .missingLinkedAccountIds: return "MISSING_LINKED_ACCOUNT_IDS"
             case .missingPricingplan: return "MISSING_PRICINGPLAN"
@@ -537,7 +549,7 @@ extension BillingconductorClientTypes {
     }
 }
 
-/// The input doesn't match with the constraints specified by Amazon Web Services.
+/// The input doesn't match with the constraints specified by Amazon Web Services services.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -740,7 +752,7 @@ public struct CreateBillingGroupInput: Swift.Sendable {
     /// The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family.
     /// This member is required.
     public var accountGrouping: BillingconductorClientTypes.AccountGrouping?
-    /// The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public var clientToken: Swift.String?
     /// The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group.
     /// This member is required.
@@ -1422,6 +1434,49 @@ extension BillingconductorClientTypes {
     }
 }
 
+extension BillingconductorClientTypes {
+
+    /// The display settings of the custom line item
+    public enum ComputationRuleEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case consolidated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ComputationRuleEnum] {
+            return [
+                .consolidated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .consolidated: return "CONSOLIDATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BillingconductorClientTypes {
+
+    /// The presentation configuration of the custom line item
+    public struct PresentationObject: Swift.Sendable {
+        /// This defines the service of where the custom line item is presented
+        /// This member is required.
+        public var service: Swift.String?
+
+        public init(
+            service: Swift.String? = nil
+        ) {
+            self.service = service
+        }
+    }
+}
+
 public struct CreateCustomLineItemInput: Swift.Sendable {
     /// The Amazon Web Services account in which this custom line item will be applied to.
     public var accountId: Swift.String?
@@ -1433,14 +1488,18 @@ public struct CreateCustomLineItemInput: Swift.Sendable {
     /// A CustomLineItemChargeDetails that describes the charge details for a custom line item.
     /// This member is required.
     public var chargeDetails: BillingconductorClientTypes.CustomLineItemChargeDetails?
-    /// The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public var clientToken: Swift.String?
+    /// The display settings of the custom line item
+    public var computationRule: BillingconductorClientTypes.ComputationRuleEnum?
     /// The description of the custom line item. This is shown on the Bills page in association with the charge value.
     /// This member is required.
     public var description: Swift.String?
     /// The name of the custom line item.
     /// This member is required.
     public var name: Swift.String?
+    /// The presentation configuration of the custom line item
+    public var presentationDetails: BillingconductorClientTypes.PresentationObject?
     /// A map that contains tag keys and tag values that are attached to a custom line item.
     public var tags: [Swift.String: Swift.String]?
 
@@ -1450,8 +1509,10 @@ public struct CreateCustomLineItemInput: Swift.Sendable {
         billingPeriodRange: BillingconductorClientTypes.CustomLineItemBillingPeriodRange? = nil,
         chargeDetails: BillingconductorClientTypes.CustomLineItemChargeDetails? = nil,
         clientToken: Swift.String? = nil,
+        computationRule: BillingconductorClientTypes.ComputationRuleEnum? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        presentationDetails: BillingconductorClientTypes.PresentationObject? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.accountId = accountId
@@ -1459,15 +1520,17 @@ public struct CreateCustomLineItemInput: Swift.Sendable {
         self.billingPeriodRange = billingPeriodRange
         self.chargeDetails = chargeDetails
         self.clientToken = clientToken
+        self.computationRule = computationRule
         self.description = description
         self.name = name
+        self.presentationDetails = presentationDetails
         self.tags = tags
     }
 }
 
 extension CreateCustomLineItemInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCustomLineItemInput(accountId: \(Swift.String(describing: accountId)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), billingPeriodRange: \(Swift.String(describing: billingPeriodRange)), chargeDetails: \(Swift.String(describing: chargeDetails)), clientToken: \(Swift.String(describing: clientToken)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateCustomLineItemInput(accountId: \(Swift.String(describing: accountId)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), billingPeriodRange: \(Swift.String(describing: billingPeriodRange)), chargeDetails: \(Swift.String(describing: chargeDetails)), clientToken: \(Swift.String(describing: clientToken)), computationRule: \(Swift.String(describing: computationRule)), presentationDetails: \(Swift.String(describing: presentationDetails)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCustomLineItemOutput: Swift.Sendable {
@@ -1666,6 +1729,8 @@ extension BillingconductorClientTypes {
         public var billingGroupArn: Swift.String?
         /// A ListCustomLineItemChargeDetails that describes the charge details of a custom line item.
         public var chargeDetails: BillingconductorClientTypes.ListCustomLineItemChargeDetails?
+        /// The display settings of the custom line item
+        public var computationRule: BillingconductorClientTypes.ComputationRuleEnum?
         /// The time created.
         public var creationTime: Swift.Int
         /// The custom line item's charge value currency. Only one of the valid values can be used.
@@ -1676,6 +1741,8 @@ extension BillingconductorClientTypes {
         public var lastModifiedTime: Swift.Int
         /// The custom line item's name.
         public var name: Swift.String?
+        /// The presentation configuration of the custom line item
+        public var presentationDetails: BillingconductorClientTypes.PresentationObject?
         /// The product code that's associated with the custom line item.
         public var productCode: Swift.String?
 
@@ -1685,11 +1752,13 @@ extension BillingconductorClientTypes {
             associationSize: Swift.Int = 0,
             billingGroupArn: Swift.String? = nil,
             chargeDetails: BillingconductorClientTypes.ListCustomLineItemChargeDetails? = nil,
+            computationRule: BillingconductorClientTypes.ComputationRuleEnum? = nil,
             creationTime: Swift.Int = 0,
             currencyCode: BillingconductorClientTypes.CurrencyCode? = nil,
             description: Swift.String? = nil,
             lastModifiedTime: Swift.Int = 0,
             name: Swift.String? = nil,
+            presentationDetails: BillingconductorClientTypes.PresentationObject? = nil,
             productCode: Swift.String? = nil
         ) {
             self.accountId = accountId
@@ -1697,11 +1766,13 @@ extension BillingconductorClientTypes {
             self.associationSize = associationSize
             self.billingGroupArn = billingGroupArn
             self.chargeDetails = chargeDetails
+            self.computationRule = computationRule
             self.creationTime = creationTime
             self.currencyCode = currencyCode
             self.description = description
             self.lastModifiedTime = lastModifiedTime
             self.name = name
+            self.presentationDetails = presentationDetails
             self.productCode = productCode
         }
     }
@@ -1709,7 +1780,7 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.CustomLineItemListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomLineItemListElement(accountId: \(Swift.String(describing: accountId)), arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), productCode: \(Swift.String(describing: productCode)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CustomLineItemListElement(accountId: \(Swift.String(describing: accountId)), arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), computationRule: \(Swift.String(describing: computationRule)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), presentationDetails: \(Swift.String(describing: presentationDetails)), productCode: \(Swift.String(describing: productCode)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListCustomLineItemsOutput: Swift.Sendable {
@@ -1799,6 +1870,8 @@ extension BillingconductorClientTypes {
         public var billingGroupArn: Swift.String?
         /// A representation of the charge details of a custom line item.
         public var chargeDetails: BillingconductorClientTypes.ListCustomLineItemChargeDetails?
+        /// The display settings of the custom line item
+        public var computationRule: BillingconductorClientTypes.ComputationRuleEnum?
         /// The time when the custom line item version was created.
         public var creationTime: Swift.Int
         /// The charge value currency of the custom line item.
@@ -1811,6 +1884,8 @@ extension BillingconductorClientTypes {
         public var lastModifiedTime: Swift.Int
         /// The name of the custom line item.
         public var name: Swift.String?
+        /// The presentation configuration of the custom line item
+        public var presentationDetails: BillingconductorClientTypes.PresentationObject?
         /// The product code that’s associated with the custom line item.
         public var productCode: Swift.String?
         /// The start billing period of the custom line item version.
@@ -1824,12 +1899,14 @@ extension BillingconductorClientTypes {
             associationSize: Swift.Int = 0,
             billingGroupArn: Swift.String? = nil,
             chargeDetails: BillingconductorClientTypes.ListCustomLineItemChargeDetails? = nil,
+            computationRule: BillingconductorClientTypes.ComputationRuleEnum? = nil,
             creationTime: Swift.Int = 0,
             currencyCode: BillingconductorClientTypes.CurrencyCode? = nil,
             description: Swift.String? = nil,
             endBillingPeriod: Swift.String? = nil,
             lastModifiedTime: Swift.Int = 0,
             name: Swift.String? = nil,
+            presentationDetails: BillingconductorClientTypes.PresentationObject? = nil,
             productCode: Swift.String? = nil,
             startBillingPeriod: Swift.String? = nil,
             startTime: Swift.Int = 0
@@ -1839,12 +1916,14 @@ extension BillingconductorClientTypes {
             self.associationSize = associationSize
             self.billingGroupArn = billingGroupArn
             self.chargeDetails = chargeDetails
+            self.computationRule = computationRule
             self.creationTime = creationTime
             self.currencyCode = currencyCode
             self.description = description
             self.endBillingPeriod = endBillingPeriod
             self.lastModifiedTime = lastModifiedTime
             self.name = name
+            self.presentationDetails = presentationDetails
             self.productCode = productCode
             self.startBillingPeriod = startBillingPeriod
             self.startTime = startTime
@@ -1854,7 +1933,7 @@ extension BillingconductorClientTypes {
 
 extension BillingconductorClientTypes.CustomLineItemVersionListElement: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CustomLineItemVersionListElement(accountId: \(Swift.String(describing: accountId)), arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), endBillingPeriod: \(Swift.String(describing: endBillingPeriod)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), productCode: \(Swift.String(describing: productCode)), startBillingPeriod: \(Swift.String(describing: startBillingPeriod)), startTime: \(Swift.String(describing: startTime)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CustomLineItemVersionListElement(accountId: \(Swift.String(describing: accountId)), arn: \(Swift.String(describing: arn)), associationSize: \(Swift.String(describing: associationSize)), billingGroupArn: \(Swift.String(describing: billingGroupArn)), chargeDetails: \(Swift.String(describing: chargeDetails)), computationRule: \(Swift.String(describing: computationRule)), creationTime: \(Swift.String(describing: creationTime)), currencyCode: \(Swift.String(describing: currencyCode)), endBillingPeriod: \(Swift.String(describing: endBillingPeriod)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), presentationDetails: \(Swift.String(describing: presentationDetails)), productCode: \(Swift.String(describing: productCode)), startBillingPeriod: \(Swift.String(describing: startBillingPeriod)), startTime: \(Swift.String(describing: startTime)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListCustomLineItemVersionsOutput: Swift.Sendable {
@@ -2170,7 +2249,7 @@ public struct GetBillingGroupCostReportInput: Swift.Sendable {
     public var arn: Swift.String?
     /// A time range for which the margin summary is effective. You can specify up to 12 months.
     public var billingPeriodRange: BillingconductorClientTypes.BillingPeriodRange?
-    /// A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Service name or the billing period.
+    /// A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Services service name or the billing period.
     public var groupBy: [BillingconductorClientTypes.GroupByAttributeName]?
     /// The maximum number of margin summary reports to retrieve.
     public var maxResults: Swift.Int?
@@ -2415,7 +2494,7 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
 }
 
 public struct CreatePricingPlanInput: Swift.Sendable {
-    /// The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public var clientToken: Swift.String?
     /// The description of the pricing plan.
     public var description: Swift.String?
@@ -2812,11 +2891,11 @@ extension BillingconductorClientTypes {
 public struct CreatePricingRuleInput: Swift.Sendable {
     /// The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
     public var billingEntity: Swift.String?
-    /// The token that's needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+    /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     public var clientToken: Swift.String?
     /// The pricing rule description.
     public var description: Swift.String?
-    /// A percentage modifier that's applied on the public pricing rates.
+    /// A percentage modifier that's applied on the public pricing rates. Your entry will be rounded to the nearest 2 decimal places.
     public var modifierPercentage: Swift.Double?
     /// The pricing rule name. The names must be unique to each pricing rule.
     /// This member is required.
@@ -3152,7 +3231,7 @@ public struct UpdatePricingRuleInput: Swift.Sendable {
     public var arn: Swift.String?
     /// The new description for the pricing rule.
     public var description: Swift.String?
-    /// The new modifier to show pricing plan rates as a percentage.
+    /// The new modifier to show pricing plan rates as a percentage. Your entry will be rounded to the nearest 2 decimal places.
     public var modifierPercentage: Swift.Double?
     /// The new name of the pricing rule. The name must be unique to each pricing rule.
     public var name: Swift.String?
@@ -3643,8 +3722,10 @@ extension CreateCustomLineItemInput {
         try writer["BillingGroupArn"].write(value.billingGroupArn)
         try writer["BillingPeriodRange"].write(value.billingPeriodRange, with: BillingconductorClientTypes.CustomLineItemBillingPeriodRange.write(value:to:))
         try writer["ChargeDetails"].write(value.chargeDetails, with: BillingconductorClientTypes.CustomLineItemChargeDetails.write(value:to:))
+        try writer["ComputationRule"].write(value.computationRule)
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+        try writer["PresentationDetails"].write(value.presentationDetails, with: BillingconductorClientTypes.PresentationObject.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -5180,6 +5261,23 @@ extension BillingconductorClientTypes.CustomLineItemListElement {
         value.lastModifiedTime = try reader["LastModifiedTime"].readIfPresent() ?? 0
         value.associationSize = try reader["AssociationSize"].readIfPresent() ?? 0
         value.accountId = try reader["AccountId"].readIfPresent()
+        value.computationRule = try reader["ComputationRule"].readIfPresent()
+        value.presentationDetails = try reader["PresentationDetails"].readIfPresent(with: BillingconductorClientTypes.PresentationObject.read(from:))
+        return value
+    }
+}
+
+extension BillingconductorClientTypes.PresentationObject {
+
+    static func write(value: BillingconductorClientTypes.PresentationObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Service"].write(value.service)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingconductorClientTypes.PresentationObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingconductorClientTypes.PresentationObject()
+        value.service = try reader["Service"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5255,6 +5353,8 @@ extension BillingconductorClientTypes.CustomLineItemVersionListElement {
         value.arn = try reader["Arn"].readIfPresent()
         value.startTime = try reader["StartTime"].readIfPresent() ?? 0
         value.accountId = try reader["AccountId"].readIfPresent()
+        value.computationRule = try reader["ComputationRule"].readIfPresent()
+        value.presentationDetails = try reader["PresentationDetails"].readIfPresent(with: BillingconductorClientTypes.PresentationObject.read(from:))
         return value
     }
 }

@@ -56,6 +56,27 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension LocationClientTypes {
 
+    /// Unique identifying information for an Android app. Consists of a package name and a 20 byte SHA-1 certificate fingerprint.
+    public struct AndroidApp: Swift.Sendable {
+        /// 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate.
+        /// This member is required.
+        public var certificateFingerprint: Swift.String?
+        /// Unique package name for an Android app.
+        /// This member is required.
+        public var `package`: Swift.String?
+
+        public init(
+            certificateFingerprint: Swift.String? = nil,
+            `package`: Swift.String? = nil
+        ) {
+            self.certificateFingerprint = certificateFingerprint
+            self.`package` = `package`
+        }
+    }
+}
+
+extension LocationClientTypes {
+
     public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         /// List all active API keys.
         case active
@@ -301,6 +322,22 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension LocationClientTypes {
 
+    /// Unique identifying information for an Apple app (iOS, macOS, tvOS and watchOS). Consists of an Apple Bundle ID.
+    public struct AppleApp: Swift.Sendable {
+        /// The unique identifier of the app across all Apple platforms (iOS, macOS, tvOS, watchOS, etc.)
+        /// This member is required.
+        public var bundleId: Swift.String?
+
+        public init(
+            bundleId: Swift.String? = nil
+        ) {
+            self.bundleId = bundleId
+        }
+    }
+}
+
+extension LocationClientTypes {
+
     /// API Restrictions on the allowed actions, resources, and referers for an API key resource.
     public struct ApiKeyRestrictions: Swift.Sendable {
         /// A list of allowed actions that an API key resource grants permissions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions.
@@ -372,6 +409,10 @@ extension LocationClientTypes {
         /// You must use these strings exactly. For example, to provide access to map rendering, the only valid action is geo:GetMap* as an input to the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately.
         /// This member is required.
         public var allowActions: [Swift.String]?
+        /// An optional list of allowed Android applications for which requests must originate from. Requests using this API key from other sources will not be allowed.
+        public var allowAndroidApps: [LocationClientTypes.AndroidApp]?
+        /// An optional list of allowed Apple applications for which requests must originate from. Requests using this API key from other sources will not be allowed.
+        public var allowAppleApps: [LocationClientTypes.AppleApp]?
         /// An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other domains will not be allowed. Requirements:
         ///
         /// * Contain only alphanumeric characters (A–Z, a–z, 0–9) or any symbols in this list $\-._+!*`(),;/?:@=&
@@ -399,10 +440,14 @@ extension LocationClientTypes {
 
         public init(
             allowActions: [Swift.String]? = nil,
+            allowAndroidApps: [LocationClientTypes.AndroidApp]? = nil,
+            allowAppleApps: [LocationClientTypes.AppleApp]? = nil,
             allowReferers: [Swift.String]? = nil,
             allowResources: [Swift.String]? = nil
         ) {
             self.allowActions = allowActions
+            self.allowAndroidApps = allowAndroidApps
+            self.allowAppleApps = allowAppleApps
             self.allowReferers = allowReferers
             self.allowResources = allowResources
         }
@@ -411,7 +456,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.ApiKeyRestrictions: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ApiKeyRestrictions(allowActions: \(Swift.String(describing: allowActions)), allowResources: \(Swift.String(describing: allowResources)), allowReferers: \"CONTENT_REDACTED\")"}
+        "ApiKeyRestrictions(allowActions: \(Swift.String(describing: allowActions)), allowAndroidApps: \(Swift.String(describing: allowAndroidApps)), allowAppleApps: \(Swift.String(describing: allowAppleApps)), allowResources: \(Swift.String(describing: allowResources)), allowReferers: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateKeyInput: Swift.Sendable {
@@ -1450,6 +1495,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.CalculateRouteCarModeOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CalculateRouteCarModeOptions(avoidFerries: \"CONTENT_REDACTED\", avoidTolls: \"CONTENT_REDACTED\")"}
+}
+
 extension LocationClientTypes {
 
     public enum DistanceUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1617,6 +1667,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.TruckDimensions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TruckDimensions(unit: \(Swift.String(describing: unit)), height: \"CONTENT_REDACTED\", length: \"CONTENT_REDACTED\", width: \"CONTENT_REDACTED\")"}
+}
+
 extension LocationClientTypes {
 
     public enum VehicleWeightUnit: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -1667,6 +1722,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.TruckWeight: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TruckWeight(unit: \(Swift.String(describing: unit)), total: \"CONTENT_REDACTED\")"}
+}
+
 extension LocationClientTypes {
 
     /// Contains details about additional route preferences for requests that specify TravelMode as Truck.
@@ -1692,6 +1752,11 @@ extension LocationClientTypes {
             self.weight = weight
         }
     }
+}
+
+extension LocationClientTypes.CalculateRouteTruckModeOptions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CalculateRouteTruckModeOptions(dimensions: \(Swift.String(describing: dimensions)), weight: \(Swift.String(describing: weight)), avoidFerries: \"CONTENT_REDACTED\", avoidTolls: \"CONTENT_REDACTED\")"}
 }
 
 public struct CalculateRouteInput: Swift.Sendable {
@@ -1786,7 +1851,7 @@ public struct CalculateRouteInput: Swift.Sendable {
 
 extension CalculateRouteInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRouteInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), distanceUnit: \(Swift.String(describing: distanceUnit)), includeLegGeometry: \(Swift.String(describing: includeLegGeometry)), optimizeFor: \(Swift.String(describing: optimizeFor)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), arrivalTime: \"CONTENT_REDACTED\", departurePosition: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", destinationPosition: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", waypointPositions: \"CONTENT_REDACTED\")"}
+        "CalculateRouteInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), distanceUnit: \(Swift.String(describing: distanceUnit)), optimizeFor: \(Swift.String(describing: optimizeFor)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), arrivalTime: \"CONTENT_REDACTED\", departNow: \"CONTENT_REDACTED\", departurePosition: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", destinationPosition: \"CONTENT_REDACTED\", includeLegGeometry: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", waypointPositions: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -1848,7 +1913,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.Step: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Step(distance: \(Swift.String(describing: distance)), durationSeconds: \(Swift.String(describing: durationSeconds)), geometryOffset: \(Swift.String(describing: geometryOffset)), endPosition: \"CONTENT_REDACTED\", startPosition: \"CONTENT_REDACTED\")"}
+        "Step(geometryOffset: \(Swift.String(describing: geometryOffset)), distance: \"CONTENT_REDACTED\", durationSeconds: \"CONTENT_REDACTED\", endPosition: \"CONTENT_REDACTED\", startPosition: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -1906,7 +1971,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.Leg: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Leg(distance: \(Swift.String(describing: distance)), durationSeconds: \(Swift.String(describing: durationSeconds)), geometry: \(Swift.String(describing: geometry)), steps: \(Swift.String(describing: steps)), endPosition: \"CONTENT_REDACTED\", startPosition: \"CONTENT_REDACTED\")"}
+        "Leg(geometry: \(Swift.String(describing: geometry)), steps: \(Swift.String(describing: steps)), distance: \"CONTENT_REDACTED\", durationSeconds: \"CONTENT_REDACTED\", endPosition: \"CONTENT_REDACTED\", startPosition: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -1967,7 +2032,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.CalculateRouteSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRouteSummary(dataSource: \(Swift.String(describing: dataSource)), distance: \(Swift.String(describing: distance)), distanceUnit: \(Swift.String(describing: distanceUnit)), durationSeconds: \(Swift.String(describing: durationSeconds)), routeBBox: \"CONTENT_REDACTED\")"}
+        "CalculateRouteSummary(dataSource: \(Swift.String(describing: dataSource)), distanceUnit: \(Swift.String(describing: distanceUnit)), distance: \"CONTENT_REDACTED\", durationSeconds: \"CONTENT_REDACTED\", routeBBox: \"CONTENT_REDACTED\")"}
 }
 
 /// Returns the result of the route calculation. Metadata includes legs and route summary.
@@ -2060,7 +2125,7 @@ public struct CalculateRouteMatrixInput: Swift.Sendable {
 
 extension CalculateRouteMatrixInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CalculateRouteMatrixInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), departNow: \(Swift.String(describing: departNow)), distanceUnit: \(Swift.String(describing: distanceUnit)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), departurePositions: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", destinationPositions: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
+        "CalculateRouteMatrixInput(calculatorName: \(Swift.String(describing: calculatorName)), carModeOptions: \(Swift.String(describing: carModeOptions)), distanceUnit: \(Swift.String(describing: distanceUnit)), travelMode: \(Swift.String(describing: travelMode)), truckModeOptions: \(Swift.String(describing: truckModeOptions)), departNow: \"CONTENT_REDACTED\", departurePositions: \"CONTENT_REDACTED\", departureTime: \"CONTENT_REDACTED\", destinationPositions: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -2172,6 +2237,11 @@ extension LocationClientTypes {
             self.error = error
         }
     }
+}
+
+extension LocationClientTypes.RouteMatrixEntry: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RouteMatrixEntry(error: \(Swift.String(describing: error)), distance: \"CONTENT_REDACTED\", durationSeconds: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -4410,7 +4480,7 @@ public struct GetMapTileInput: Swift.Sendable {
 
 extension GetMapTileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetMapTileInput(mapName: \(Swift.String(describing: mapName)), x: \(Swift.String(describing: x)), y: \(Swift.String(describing: y)), z: \(Swift.String(describing: z)), key: \"CONTENT_REDACTED\")"}
+        "GetMapTileInput(mapName: \(Swift.String(describing: mapName)), key: \"CONTENT_REDACTED\", x: \"CONTENT_REDACTED\", y: \"CONTENT_REDACTED\", z: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetMapTileOutput: Swift.Sendable {
@@ -4459,7 +4529,7 @@ public struct GetPlaceInput: Swift.Sendable {
 
 extension GetPlaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPlaceInput(indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), placeId: \(Swift.String(describing: placeId)), key: \"CONTENT_REDACTED\")"}
+        "GetPlaceInput(indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), key: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -4504,6 +4574,11 @@ extension LocationClientTypes {
             self.offset = offset
         }
     }
+}
+
+extension LocationClientTypes.TimeZone: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TimeZone(name: \"CONTENT_REDACTED\", offset: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -4584,6 +4659,11 @@ extension LocationClientTypes {
             self.unitType = unitType
         }
     }
+}
+
+extension LocationClientTypes.Place: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Place(geometry: \(Swift.String(describing: geometry)), timeZone: \(Swift.String(describing: timeZone)), addressNumber: \"CONTENT_REDACTED\", categories: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", interpolated: \"CONTENT_REDACTED\", label: \"CONTENT_REDACTED\", municipality: \"CONTENT_REDACTED\", neighborhood: \"CONTENT_REDACTED\", postalCode: \"CONTENT_REDACTED\", region: \"CONTENT_REDACTED\", street: \"CONTENT_REDACTED\", subMunicipality: \"CONTENT_REDACTED\", subRegion: \"CONTENT_REDACTED\", supplementalCategories: \"CONTENT_REDACTED\", unitNumber: \"CONTENT_REDACTED\", unitType: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPlaceOutput: Swift.Sendable {
@@ -5203,6 +5283,11 @@ extension LocationClientTypes {
     }
 }
 
+extension LocationClientTypes.SearchForPositionResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchForPositionResult(place: \(Swift.String(describing: place)), distance: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\")"}
+}
+
 extension LocationClientTypes {
 
     /// A summary of the request sent by using SearchPlaceIndexForPosition.
@@ -5312,7 +5397,7 @@ public struct SearchPlaceIndexForSuggestionsInput: Swift.Sendable {
 
 extension SearchPlaceIndexForSuggestionsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForSuggestionsInput(filterCategories: \(Swift.String(describing: filterCategories)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForSuggestionsInput(indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCategories: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -5341,6 +5426,11 @@ extension LocationClientTypes {
             self.text = text
         }
     }
+}
+
+extension LocationClientTypes.SearchForSuggestionsResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchForSuggestionsResult(categories: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", supplementalCategories: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -5399,7 +5489,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.SearchPlaceIndexForSuggestionsSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForSuggestionsSummary(dataSource: \(Swift.String(describing: dataSource)), filterCategories: \(Swift.String(describing: filterCategories)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForSuggestionsSummary(dataSource: \(Swift.String(describing: dataSource)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCategories: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchPlaceIndexForSuggestionsOutput: Swift.Sendable {
@@ -5468,7 +5558,7 @@ public struct SearchPlaceIndexForTextInput: Swift.Sendable {
 
 extension SearchPlaceIndexForTextInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForTextInput(filterCategories: \(Swift.String(describing: filterCategories)), indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForTextInput(indexName: \(Swift.String(describing: indexName)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCategories: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", key: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -5497,6 +5587,11 @@ extension LocationClientTypes {
             self.relevance = relevance
         }
     }
+}
+
+extension LocationClientTypes.SearchForTextResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SearchForTextResult(place: \(Swift.String(describing: place)), distance: \"CONTENT_REDACTED\", placeId: \"CONTENT_REDACTED\", relevance: \"CONTENT_REDACTED\")"}
 }
 
 extension LocationClientTypes {
@@ -5559,7 +5654,7 @@ extension LocationClientTypes {
 
 extension LocationClientTypes.SearchPlaceIndexForTextSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SearchPlaceIndexForTextSummary(dataSource: \(Swift.String(describing: dataSource)), filterCategories: \(Swift.String(describing: filterCategories)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", resultBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
+        "SearchPlaceIndexForTextSummary(dataSource: \(Swift.String(describing: dataSource)), language: \(Swift.String(describing: language)), maxResults: \(Swift.String(describing: maxResults)), biasPosition: \"CONTENT_REDACTED\", filterBBox: \"CONTENT_REDACTED\", filterCategories: \"CONTENT_REDACTED\", filterCountries: \"CONTENT_REDACTED\", resultBBox: \"CONTENT_REDACTED\", text: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchPlaceIndexForTextOutput: Swift.Sendable {
@@ -9143,6 +9238,8 @@ extension LocationClientTypes.ApiKeyRestrictions {
     static func write(value: LocationClientTypes.ApiKeyRestrictions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AllowActions"].writeList(value.allowActions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AllowAndroidApps"].writeList(value.allowAndroidApps, memberWritingClosure: LocationClientTypes.AndroidApp.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AllowAppleApps"].writeList(value.allowAppleApps, memberWritingClosure: LocationClientTypes.AppleApp.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllowReferers"].writeList(value.allowReferers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AllowResources"].writeList(value.allowResources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -9153,6 +9250,40 @@ extension LocationClientTypes.ApiKeyRestrictions {
         value.allowActions = try reader["AllowActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowResources = try reader["AllowResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowReferers = try reader["AllowReferers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowAndroidApps = try reader["AllowAndroidApps"].readListIfPresent(memberReadingClosure: LocationClientTypes.AndroidApp.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowAppleApps = try reader["AllowAppleApps"].readListIfPresent(memberReadingClosure: LocationClientTypes.AppleApp.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LocationClientTypes.AppleApp {
+
+    static func write(value: LocationClientTypes.AppleApp?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BundleId"].write(value.bundleId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.AppleApp {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.AppleApp()
+        value.bundleId = try reader["BundleId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LocationClientTypes.AndroidApp {
+
+    static func write(value: LocationClientTypes.AndroidApp?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateFingerprint"].write(value.certificateFingerprint)
+        try writer["Package"].write(value.`package`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LocationClientTypes.AndroidApp {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LocationClientTypes.AndroidApp()
+        value.`package` = try reader["Package"].readIfPresent() ?? ""
+        value.certificateFingerprint = try reader["CertificateFingerprint"].readIfPresent() ?? ""
         return value
     }
 }

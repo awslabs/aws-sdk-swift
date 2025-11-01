@@ -1706,6 +1706,78 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The Amazon Q properties of the connection.
+    public struct AmazonQPropertiesInput: Swift.Sendable {
+        /// The authentication mode of the connection's Amazon Q properties.
+        public var authMode: Swift.String?
+        /// Specifies whether Amazon Q is enabled for the connection.
+        /// This member is required.
+        public var isEnabled: Swift.Bool?
+        /// The profile ARN of the connection's Amazon Q properties.
+        public var profileArn: Swift.String?
+
+        public init(
+            authMode: Swift.String? = nil,
+            isEnabled: Swift.Bool? = nil,
+            profileArn: Swift.String? = nil
+        ) {
+            self.authMode = authMode
+            self.isEnabled = isEnabled
+            self.profileArn = profileArn
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Q properties of the connection.
+    public struct AmazonQPropertiesOutput: Swift.Sendable {
+        /// The authentication mode of the connection's Amazon Q properties.
+        public var authMode: Swift.String?
+        /// Specifies whether Amazon Q is enabled for the connection.
+        /// This member is required.
+        public var isEnabled: Swift.Bool?
+        /// The profile ARN of the connection's Amazon Q properties.
+        public var profileArn: Swift.String?
+
+        public init(
+            authMode: Swift.String? = nil,
+            isEnabled: Swift.Bool? = nil,
+            profileArn: Swift.String? = nil
+        ) {
+            self.authMode = authMode
+            self.isEnabled = isEnabled
+            self.profileArn = profileArn
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The Amazon Q properties of the connection.
+    public struct AmazonQPropertiesPatch: Swift.Sendable {
+        /// The authentication mode of the connection's Amazon Q properties.
+        public var authMode: Swift.String?
+        /// Specifies whether Amazon Q is enabled for the connection.
+        /// This member is required.
+        public var isEnabled: Swift.Bool?
+        /// The profile ARN of the connection's Amazon Q properties.
+        public var profileArn: Swift.String?
+
+        public init(
+            authMode: Swift.String? = nil,
+            isEnabled: Swift.Bool? = nil,
+            profileArn: Swift.String? = nil
+        ) {
+            self.authMode = authMode
+            self.isEnabled = isEnabled
+            self.profileArn = profileArn
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum ListingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case creating
@@ -4417,6 +4489,25 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    /// The MLflow properties of a connection.
+    public struct MlflowPropertiesInput: Swift.Sendable {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public var trackingServerArn: Swift.String?
+        /// The name of the tracking server as part of the MLflow properties of a connection.
+        public var trackingServerName: Swift.String?
+
+        public init(
+            trackingServerArn: Swift.String? = nil,
+            trackingServerName: Swift.String? = nil
+        ) {
+            self.trackingServerArn = trackingServerArn
+            self.trackingServerName = trackingServerName
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// The username and password of a connection.
     public struct UsernamePassword: Swift.Sendable {
         /// The password of a connection.
@@ -4681,6 +4772,10 @@ extension DataZoneClientTypes {
         case sparkglueproperties(DataZoneClientTypes.SparkGluePropertiesInput)
         /// The Amazon S3 properties of a connection.
         case s3properties(DataZoneClientTypes.S3PropertiesInput)
+        /// The Amazon Q properties of the connection.
+        case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesInput)
+        /// The MLflow properties of a connection.
+        case mlflowproperties(DataZoneClientTypes.MlflowPropertiesInput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -4819,6 +4914,25 @@ extension DataZoneClientTypes {
         ) {
             self.environmentId = environmentId
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The MLflow properties of a connection.
+    public struct MlflowPropertiesOutput: Swift.Sendable {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public var trackingServerArn: Swift.String?
+        /// The name of the tracking server as part of the MLflow properties of a connection.
+        public var trackingServerName: Swift.String?
+
+        public init(
+            trackingServerArn: Swift.String? = nil,
+            trackingServerName: Swift.String? = nil
+        ) {
+            self.trackingServerArn = trackingServerArn
+            self.trackingServerName = trackingServerName
         }
     }
 }
@@ -5115,6 +5229,10 @@ extension DataZoneClientTypes {
         case sparkglueproperties(DataZoneClientTypes.SparkGluePropertiesOutput)
         /// The Amazon S3 properties of a connection.
         case s3properties(DataZoneClientTypes.S3PropertiesOutput)
+        /// The Amazon Q properties of the connection.
+        case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesOutput)
+        /// The MLflow properties of a connection.
+        case mlflowproperties(DataZoneClientTypes.MlflowPropertiesOutput)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5168,6 +5286,25 @@ extension DataZoneClientTypes {
             glueLineageSyncEnabled: Swift.Bool? = nil
         ) {
             self.glueLineageSyncEnabled = glueLineageSyncEnabled
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The MLflow properties of a connection.
+    public struct MlflowPropertiesPatch: Swift.Sendable {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public var trackingServerArn: Swift.String?
+        /// The name of the tracking server as part of the MLflow properties of a connection.
+        public var trackingServerName: Swift.String?
+
+        public init(
+            trackingServerArn: Swift.String? = nil,
+            trackingServerName: Swift.String? = nil
+        ) {
+            self.trackingServerArn = trackingServerArn
+            self.trackingServerName = trackingServerName
         }
     }
 }
@@ -5291,13 +5428,47 @@ extension DataZoneClientTypes {
         case sparkemrproperties(DataZoneClientTypes.SparkEmrPropertiesPatch)
         /// The Amazon S3 properties of a connection properties patch.
         case s3properties(DataZoneClientTypes.S3PropertiesPatch)
+        /// The Amazon Q properties of the connection.
+        case amazonqproperties(DataZoneClientTypes.AmazonQPropertiesPatch)
+        /// The MLflow properties of a connection.
+        case mlflowproperties(DataZoneClientTypes.MlflowPropertiesPatch)
         case sdkUnknown(Swift.String)
     }
 }
 
 extension DataZoneClientTypes {
 
+    public enum ConnectionScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case domain
+        case project
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionScope] {
+            return [
+                .domain,
+                .project
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .domain: return "DOMAIN"
+            case .project: return "PROJECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum ConnectionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case amazonQ
         case athena
         case bigquery
         case databricks
@@ -5305,6 +5476,7 @@ extension DataZoneClientTypes {
         case dynamodb
         case hyperpod
         case iam
+        case mlflow
         case mysql
         case opensearch
         case oracle
@@ -5322,6 +5494,7 @@ extension DataZoneClientTypes {
 
         public static var allCases: [ConnectionType] {
             return [
+                .amazonQ,
                 .athena,
                 .bigquery,
                 .databricks,
@@ -5329,6 +5502,7 @@ extension DataZoneClientTypes {
                 .dynamodb,
                 .hyperpod,
                 .iam,
+                .mlflow,
                 .mysql,
                 .opensearch,
                 .oracle,
@@ -5352,6 +5526,7 @@ extension DataZoneClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .amazonQ: return "AMAZON_Q"
             case .athena: return "ATHENA"
             case .bigquery: return "BIGQUERY"
             case .databricks: return "DATABRICKS"
@@ -5359,6 +5534,7 @@ extension DataZoneClientTypes {
             case .dynamodb: return "DYNAMODB"
             case .hyperpod: return "HYPERPOD"
             case .iam: return "IAM"
+            case .mlflow: return "MLFLOW"
             case .mysql: return "MYSQL"
             case .opensearch: return "OPENSEARCH"
             case .oracle: return "ORACLE"
@@ -5511,6 +5687,8 @@ extension DataZoneClientTypes {
     public struct PhysicalEndpoint: Swift.Sendable {
         /// The location of a connection.
         public var awsLocation: DataZoneClientTypes.AwsLocation?
+        /// Specified whether trusted identity propagation for the connection is enabled.
+        public var enableTrustedIdentityPropagation: Swift.Bool?
         /// The Amazon Web Services Glue connection.
         public var glueConnection: DataZoneClientTypes.GlueConnection?
         /// The Amazon Web Services Glue connection name.
@@ -5526,6 +5704,7 @@ extension DataZoneClientTypes {
 
         public init(
             awsLocation: DataZoneClientTypes.AwsLocation? = nil,
+            enableTrustedIdentityPropagation: Swift.Bool? = nil,
             glueConnection: DataZoneClientTypes.GlueConnection? = nil,
             glueConnectionName: Swift.String? = nil,
             host: Swift.String? = nil,
@@ -5534,6 +5713,7 @@ extension DataZoneClientTypes {
             stage: Swift.String? = nil
         ) {
             self.awsLocation = awsLocation
+            self.enableTrustedIdentityPropagation = enableTrustedIdentityPropagation
             self.glueConnection = glueConnection
             self.glueConnectionName = glueConnectionName
             self.host = host
@@ -5569,6 +5749,8 @@ extension DataZoneClientTypes {
         public var projectId: Swift.String?
         /// The connection props.
         public var props: DataZoneClientTypes.ConnectionPropertiesOutput?
+        /// The scope of the connection.
+        public var scope: DataZoneClientTypes.ConnectionScope?
         /// The connection type.
         /// This member is required.
         public var type: DataZoneClientTypes.ConnectionType?
@@ -5582,6 +5764,7 @@ extension DataZoneClientTypes {
             physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]? = nil,
             projectId: Swift.String? = nil,
             props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
+            scope: DataZoneClientTypes.ConnectionScope? = nil,
             type: DataZoneClientTypes.ConnectionType? = nil
         ) {
             self.connectionId = connectionId
@@ -5592,6 +5775,7 @@ extension DataZoneClientTypes {
             self.physicalEndpoints = physicalEndpoints
             self.projectId = projectId
             self.props = props
+            self.scope = scope
             self.type = type
         }
     }
@@ -5701,37 +5885,44 @@ public struct CreateConnectionInput: Swift.Sendable {
     /// The ID of the domain where the connection is created.
     /// This member is required.
     public var domainIdentifier: Swift.String?
+    /// Specifies whether the trusted identity propagation is enabled.
+    public var enableTrustedIdentityPropagation: Swift.Bool?
     /// The ID of the environment where the connection is created.
-    /// This member is required.
     public var environmentIdentifier: Swift.String?
     /// The connection name.
     /// This member is required.
     public var name: Swift.String?
     /// The connection props.
     public var props: DataZoneClientTypes.ConnectionPropertiesInput?
+    /// The scope of the connection.
+    public var scope: DataZoneClientTypes.ConnectionScope?
 
     public init(
         awsLocation: DataZoneClientTypes.AwsLocation? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
+        enableTrustedIdentityPropagation: Swift.Bool? = nil,
         environmentIdentifier: Swift.String? = nil,
         name: Swift.String? = nil,
-        props: DataZoneClientTypes.ConnectionPropertiesInput? = nil
+        props: DataZoneClientTypes.ConnectionPropertiesInput? = nil,
+        scope: DataZoneClientTypes.ConnectionScope? = nil
     ) {
         self.awsLocation = awsLocation
         self.clientToken = clientToken
         self.description = description
         self.domainIdentifier = domainIdentifier
+        self.enableTrustedIdentityPropagation = enableTrustedIdentityPropagation
         self.environmentIdentifier = environmentIdentifier
         self.name = name
         self.props = props
+        self.scope = scope
     }
 }
 
 extension CreateConnectionInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateConnectionInput(awsLocation: \(Swift.String(describing: awsLocation)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), name: \(Swift.String(describing: name)), props: \(Swift.String(describing: props)), description: \"CONTENT_REDACTED\")"}
+        "CreateConnectionInput(awsLocation: \(Swift.String(describing: awsLocation)), clientToken: \(Swift.String(describing: clientToken)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), enableTrustedIdentityPropagation: \(Swift.String(describing: enableTrustedIdentityPropagation)), environmentIdentifier: \(Swift.String(describing: environmentIdentifier)), name: \(Swift.String(describing: name)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateConnectionOutput: Swift.Sendable {
@@ -5758,6 +5949,8 @@ public struct CreateConnectionOutput: Swift.Sendable {
     public var projectId: Swift.String?
     /// The connection props.
     public var props: DataZoneClientTypes.ConnectionPropertiesOutput?
+    /// The scope of the connection.
+    public var scope: DataZoneClientTypes.ConnectionScope?
     /// The connection type.
     /// This member is required.
     public var type: DataZoneClientTypes.ConnectionType?
@@ -5772,6 +5965,7 @@ public struct CreateConnectionOutput: Swift.Sendable {
         physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]? = nil,
         projectId: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
+        scope: DataZoneClientTypes.ConnectionScope? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
     ) {
         self.connectionId = connectionId
@@ -5783,13 +5977,14 @@ public struct CreateConnectionOutput: Swift.Sendable {
         self.physicalEndpoints = physicalEndpoints
         self.projectId = projectId
         self.props = props
+        self.scope = scope
         self.type = type
     }
 }
 
 extension CreateConnectionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+        "CreateConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -13748,6 +13943,8 @@ public struct GetConnectionOutput: Swift.Sendable {
     public var projectId: Swift.String?
     /// Connection props.
     public var props: DataZoneClientTypes.ConnectionPropertiesOutput?
+    /// The scope of the connection.
+    public var scope: DataZoneClientTypes.ConnectionScope?
     /// The type of the connection.
     /// This member is required.
     public var type: DataZoneClientTypes.ConnectionType?
@@ -13764,6 +13961,7 @@ public struct GetConnectionOutput: Swift.Sendable {
         physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]? = nil,
         projectId: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
+        scope: DataZoneClientTypes.ConnectionScope? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
     ) {
         self.connectionCredentials = connectionCredentials
@@ -13777,13 +13975,14 @@ public struct GetConnectionOutput: Swift.Sendable {
         self.physicalEndpoints = physicalEndpoints
         self.projectId = projectId
         self.props = props
+        self.scope = scope
         self.type = type
     }
 }
 
 extension GetConnectionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), environmentUserRole: \(Swift.String(describing: environmentUserRole)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), type: \(Swift.String(describing: type)), connectionCredentials: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+        "GetConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), environmentUserRole: \(Swift.String(describing: environmentUserRole)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), connectionCredentials: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetEnvironmentInput: Swift.Sendable {
@@ -15973,8 +16172,9 @@ public struct ListConnectionsInput: Swift.Sendable {
     /// When the number of connections is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of connections, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListConnections to list the next set of connections.
     public var nextToken: Swift.String?
     /// The ID of the project where you want to list connections.
-    /// This member is required.
     public var projectIdentifier: Swift.String?
+    /// The scope of the connection.
+    public var scope: DataZoneClientTypes.ConnectionScope?
     /// Specifies how you want to sort the listed connections.
     public var sortBy: DataZoneClientTypes.SortFieldConnection?
     /// Specifies the sort order for the listed connections.
@@ -15989,6 +16189,7 @@ public struct ListConnectionsInput: Swift.Sendable {
         name: Swift.String? = nil,
         nextToken: Swift.String? = nil,
         projectIdentifier: Swift.String? = nil,
+        scope: DataZoneClientTypes.ConnectionScope? = nil,
         sortBy: DataZoneClientTypes.SortFieldConnection? = nil,
         sortOrder: DataZoneClientTypes.SortOrder? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
@@ -15999,6 +16200,7 @@ public struct ListConnectionsInput: Swift.Sendable {
         self.name = name
         self.nextToken = nextToken
         self.projectIdentifier = projectIdentifier
+        self.scope = scope
         self.sortBy = sortBy
         self.sortOrder = sortOrder
         self.type = type
@@ -20820,6 +21022,8 @@ public struct UpdateConnectionOutput: Swift.Sendable {
     public var projectId: Swift.String?
     /// The connection props.
     public var props: DataZoneClientTypes.ConnectionPropertiesOutput?
+    /// The scope of the connection.
+    public var scope: DataZoneClientTypes.ConnectionScope?
     /// The connection type.
     /// This member is required.
     public var type: DataZoneClientTypes.ConnectionType?
@@ -20834,6 +21038,7 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         physicalEndpoints: [DataZoneClientTypes.PhysicalEndpoint]? = nil,
         projectId: Swift.String? = nil,
         props: DataZoneClientTypes.ConnectionPropertiesOutput? = nil,
+        scope: DataZoneClientTypes.ConnectionScope? = nil,
         type: DataZoneClientTypes.ConnectionType? = nil
     ) {
         self.connectionId = connectionId
@@ -20845,13 +21050,14 @@ public struct UpdateConnectionOutput: Swift.Sendable {
         self.physicalEndpoints = physicalEndpoints
         self.projectId = projectId
         self.props = props
+        self.scope = scope
         self.type = type
     }
 }
 
 extension UpdateConnectionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
+        "UpdateConnectionOutput(connectionId: \(Swift.String(describing: connectionId)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentId: \(Swift.String(describing: environmentId)), name: \(Swift.String(describing: name)), physicalEndpoints: \(Swift.String(describing: physicalEndpoints)), projectId: \(Swift.String(describing: projectId)), props: \(Swift.String(describing: props)), scope: \(Swift.String(describing: scope)), type: \(Swift.String(describing: type)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateEnvironmentInput: Swift.Sendable {
@@ -23985,6 +24191,10 @@ extension ListConnectionsInput {
             let sortOrderQueryItem = Smithy.URIQueryItem(name: "sortOrder".urlPercentEncoding(), value: Swift.String(sortOrder.rawValue).urlPercentEncoding())
             items.append(sortOrderQueryItem)
         }
+        if let scope = value.scope {
+            let scopeQueryItem = Smithy.URIQueryItem(name: "scope".urlPercentEncoding(), value: Swift.String(scope.rawValue).urlPercentEncoding())
+            items.append(scopeQueryItem)
+        }
         if let name = value.name {
             let nameQueryItem = Smithy.URIQueryItem(name: "name".urlPercentEncoding(), value: Swift.String(name).urlPercentEncoding())
             items.append(nameQueryItem)
@@ -23993,12 +24203,10 @@ extension ListConnectionsInput {
             let sortByQueryItem = Smithy.URIQueryItem(name: "sortBy".urlPercentEncoding(), value: Swift.String(sortBy.rawValue).urlPercentEncoding())
             items.append(sortByQueryItem)
         }
-        guard let projectIdentifier = value.projectIdentifier else {
-            let message = "Creating a URL Query Item failed. projectIdentifier is required and must not be nil."
-            throw Smithy.ClientError.unknownError(message)
+        if let projectIdentifier = value.projectIdentifier {
+            let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
+            items.append(projectIdentifierQueryItem)
         }
-        let projectIdentifierQueryItem = Smithy.URIQueryItem(name: "projectIdentifier".urlPercentEncoding(), value: Swift.String(projectIdentifier).urlPercentEncoding())
-        items.append(projectIdentifierQueryItem)
         if let type = value.type {
             let typeQueryItem = Smithy.URIQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
             items.append(typeQueryItem)
@@ -25751,9 +25959,11 @@ extension CreateConnectionInput {
         try writer["awsLocation"].write(value.awsLocation, with: DataZoneClientTypes.AwsLocation.write(value:to:))
         try writer["clientToken"].write(value.clientToken)
         try writer["description"].write(value.description)
+        try writer["enableTrustedIdentityPropagation"].write(value.enableTrustedIdentityPropagation)
         try writer["environmentIdentifier"].write(value.environmentIdentifier)
         try writer["name"].write(value.name)
         try writer["props"].write(value.props, with: DataZoneClientTypes.ConnectionPropertiesInput.write(value:to:))
+        try writer["scope"].write(value.scope)
     }
 }
 
@@ -26697,6 +26907,7 @@ extension CreateConnectionOutput {
         value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.projectId = try reader["projectId"].readIfPresent()
         value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
+        value.scope = try reader["scope"].readIfPresent()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -27533,6 +27744,7 @@ extension GetConnectionOutput {
         value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.projectId = try reader["projectId"].readIfPresent()
         value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
+        value.scope = try reader["scope"].readIfPresent()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -28955,6 +29167,7 @@ extension UpdateConnectionOutput {
         value.physicalEndpoints = try reader["physicalEndpoints"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.PhysicalEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.projectId = try reader["projectId"].readIfPresent()
         value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
+        value.scope = try reader["scope"].readIfPresent()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -33385,6 +33598,7 @@ extension DataZoneClientTypes.PhysicalEndpoint {
         value.awsLocation = try reader["awsLocation"].readIfPresent(with: DataZoneClientTypes.AwsLocation.read(from:))
         value.glueConnectionName = try reader["glueConnectionName"].readIfPresent()
         value.glueConnection = try reader["glueConnection"].readIfPresent(with: DataZoneClientTypes.GlueConnection.read(from:))
+        value.enableTrustedIdentityPropagation = try reader["enableTrustedIdentityPropagation"].readIfPresent()
         value.host = try reader["host"].readIfPresent()
         value.port = try reader["port"].readIfPresent()
         value.`protocol` = try reader["protocol"].readIfPresent()
@@ -33576,9 +33790,36 @@ extension DataZoneClientTypes.ConnectionPropertiesOutput {
                 return .sparkglueproperties(try reader["sparkGlueProperties"].read(with: DataZoneClientTypes.SparkGluePropertiesOutput.read(from:)))
             case "s3Properties":
                 return .s3properties(try reader["s3Properties"].read(with: DataZoneClientTypes.S3PropertiesOutput.read(from:)))
+            case "amazonQProperties":
+                return .amazonqproperties(try reader["amazonQProperties"].read(with: DataZoneClientTypes.AmazonQPropertiesOutput.read(from:)))
+            case "mlflowProperties":
+                return .mlflowproperties(try reader["mlflowProperties"].read(with: DataZoneClientTypes.MlflowPropertiesOutput.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MlflowPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.MlflowPropertiesOutput()
+        value.trackingServerName = try reader["trackingServerName"].readIfPresent()
+        value.trackingServerArn = try reader["trackingServerArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DataZoneClientTypes.AmazonQPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.AmazonQPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.AmazonQPropertiesOutput()
+        value.isEnabled = try reader["isEnabled"].readIfPresent() ?? false
+        value.profileArn = try reader["profileArn"].readIfPresent()
+        value.authMode = try reader["authMode"].readIfPresent()
+        return value
     }
 }
 
@@ -35167,6 +35408,7 @@ extension DataZoneClientTypes.ConnectionSummary {
         value.projectId = try reader["projectId"].readIfPresent()
         value.props = try reader["props"].readIfPresent(with: DataZoneClientTypes.ConnectionPropertiesOutput.read(from:))
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.scope = try reader["scope"].readIfPresent()
         return value
     }
 }
@@ -36766,6 +37008,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
     static func write(value: DataZoneClientTypes.ConnectionPropertiesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .amazonqproperties(amazonqproperties):
+                try writer["amazonQProperties"].write(amazonqproperties, with: DataZoneClientTypes.AmazonQPropertiesInput.write(value:to:))
             case let .athenaproperties(athenaproperties):
                 try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesInput.write(value:to:))
             case let .glueproperties(glueproperties):
@@ -36774,6 +37018,8 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
                 try writer["hyperPodProperties"].write(hyperpodproperties, with: DataZoneClientTypes.HyperPodPropertiesInput.write(value:to:))
             case let .iamproperties(iamproperties):
                 try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesInput.write(value:to:))
+            case let .mlflowproperties(mlflowproperties):
+                try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesInput.write(value:to:))
             case let .redshiftproperties(redshiftproperties):
                 try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesInput.write(value:to:))
             case let .s3properties(s3properties):
@@ -36785,6 +37031,25 @@ extension DataZoneClientTypes.ConnectionPropertiesInput {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.MlflowPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackingServerArn"].write(value.trackingServerArn)
+        try writer["trackingServerName"].write(value.trackingServerName)
+    }
+}
+
+extension DataZoneClientTypes.AmazonQPropertiesInput {
+
+    static func write(value: DataZoneClientTypes.AmazonQPropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authMode"].write(value.authMode)
+        try writer["isEnabled"].write(value.isEnabled)
+        try writer["profileArn"].write(value.profileArn)
     }
 }
 
@@ -37131,12 +37396,16 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
     static func write(value: DataZoneClientTypes.ConnectionPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .amazonqproperties(amazonqproperties):
+                try writer["amazonQProperties"].write(amazonqproperties, with: DataZoneClientTypes.AmazonQPropertiesPatch.write(value:to:))
             case let .athenaproperties(athenaproperties):
                 try writer["athenaProperties"].write(athenaproperties, with: DataZoneClientTypes.AthenaPropertiesPatch.write(value:to:))
             case let .glueproperties(glueproperties):
                 try writer["glueProperties"].write(glueproperties, with: DataZoneClientTypes.GluePropertiesPatch.write(value:to:))
             case let .iamproperties(iamproperties):
                 try writer["iamProperties"].write(iamproperties, with: DataZoneClientTypes.IamPropertiesPatch.write(value:to:))
+            case let .mlflowproperties(mlflowproperties):
+                try writer["mlflowProperties"].write(mlflowproperties, with: DataZoneClientTypes.MlflowPropertiesPatch.write(value:to:))
             case let .redshiftproperties(redshiftproperties):
                 try writer["redshiftProperties"].write(redshiftproperties, with: DataZoneClientTypes.RedshiftPropertiesPatch.write(value:to:))
             case let .s3properties(s3properties):
@@ -37146,6 +37415,25 @@ extension DataZoneClientTypes.ConnectionPropertiesPatch {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DataZoneClientTypes.MlflowPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.MlflowPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["trackingServerArn"].write(value.trackingServerArn)
+        try writer["trackingServerName"].write(value.trackingServerName)
+    }
+}
+
+extension DataZoneClientTypes.AmazonQPropertiesPatch {
+
+    static func write(value: DataZoneClientTypes.AmazonQPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["authMode"].write(value.authMode)
+        try writer["isEnabled"].write(value.isEnabled)
+        try writer["profileArn"].write(value.profileArn)
     }
 }
 

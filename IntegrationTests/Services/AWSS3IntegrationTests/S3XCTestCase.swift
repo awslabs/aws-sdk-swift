@@ -36,16 +36,19 @@ class S3XCTestCase: XCTestCase {
         }
     }
 
-    override func setUp() async throws{
-        self.bucketName = "aws-sdk-s3-integration-test-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
+    override func setUp() async throws {
+        self.bucketName = "sdk-int-test-s3-\(UUID().uuidString.lowercased())" // 52 char bucket name (max 63)
         self.client = try S3Client(region: region)
         try await createBucket(bucketName: bucketName)
+        try await super.setUp()
     }
 
     /// Empty & delete the test bucket before each test.
     override func tearDown() async throws {
+        try await super.tearDown()
         try await emptyBucket()
         try await deleteBucket(bucketName: bucketName)
+        self.client = nil
     }
 
     // MARK: Helpers

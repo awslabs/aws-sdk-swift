@@ -4399,6 +4399,7 @@ extension CloudFrontClientTypes {
         case tlsv122018
         case tlsv122019
         case tlsv122021
+        case tlsv122025
         case tlsv132025
         case sdkUnknown(Swift.String)
 
@@ -4411,6 +4412,7 @@ extension CloudFrontClientTypes {
                 .tlsv122018,
                 .tlsv122019,
                 .tlsv122021,
+                .tlsv122025,
                 .tlsv132025
             ]
         }
@@ -4429,6 +4431,7 @@ extension CloudFrontClientTypes {
             case .tlsv122018: return "TLSv1.2_2018"
             case .tlsv122019: return "TLSv1.2_2019"
             case .tlsv122021: return "TLSv1.2_2021"
+            case .tlsv122025: return "TLSv1.2_2025"
             case .tlsv132025: return "TLSv1.3_2025"
             case let .sdkUnknown(s): return s
             }
@@ -8361,7 +8364,7 @@ public struct TooManyPublicKeys: ClientRuntime.ModeledError, AWSClientRuntime.AW
 
 extension CloudFrontClientTypes {
 
-    /// Configuration information about a public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html).
+    /// Configuration information about a public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html). CloudFront supports signed URLs and signed cookies with RSA 2048 or ECDSA 256 key signatures. Field-level encryption is only compatible with RSA 2048 key signatures.
     public struct PublicKeyConfig: Swift.Sendable {
         /// A string included in the request to help make sure that the request can't be replayed.
         /// This member is required.
@@ -8403,7 +8406,7 @@ public struct CreatePublicKeyInput: Swift.Sendable {
 
 extension CloudFrontClientTypes {
 
-    /// A public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html).
+    /// A public key that you can use with [signed URLs and signed cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html), or with [field-level encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html). CloudFront supports signed URLs and signed cookies with RSA 2048 or ECDSA 256 key signatures. Field-level encryption is only compatible with RSA 2048 key signatures.
     public struct PublicKey: Swift.Sendable {
         /// The date and time when the public key was uploaded.
         /// This member is required.

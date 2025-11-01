@@ -95,19 +95,23 @@ extension EMRServerlessClientTypes {
 
 extension EMRServerlessClientTypes {
 
-    /// The IAM Identity Center Configuration that includes the Identify Center instance and application ARNs that provide trusted-identity propagation.
+    /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     public struct IdentityCenterConfiguration: Swift.Sendable {
         /// The ARN of the EMR Serverless created IAM Identity Center Application that provides trusted-identity propagation.
         public var identityCenterApplicationArn: Swift.String?
         /// The ARN of the IAM Identity Center instance.
         public var identityCenterInstanceArn: Swift.String?
+        /// Enables user background sessions for this application so Livy sessions can continue running after users log out of their interactive notebook or their Identity Center sessions expire.
+        public var userBackgroundSessionsEnabled: Swift.Bool?
 
         public init(
             identityCenterApplicationArn: Swift.String? = nil,
-            identityCenterInstanceArn: Swift.String? = nil
+            identityCenterInstanceArn: Swift.String? = nil,
+            userBackgroundSessionsEnabled: Swift.Bool? = nil
         ) {
             self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
     }
 }
@@ -594,15 +598,19 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 
 extension EMRServerlessClientTypes {
 
-    /// Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
+    /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
     public struct IdentityCenterConfigurationInput: Swift.Sendable {
         /// The ARN of the IAM Identity Center instance.
         public var identityCenterInstanceArn: Swift.String?
+        /// Enables user background sessions for this application so Livy sessions can continue running after users log out of their interactive notebook or their Identity Center sessions expire.
+        public var userBackgroundSessionsEnabled: Swift.Bool?
 
         public init(
-            identityCenterInstanceArn: Swift.String? = nil
+            identityCenterInstanceArn: Swift.String? = nil,
+            userBackgroundSessionsEnabled: Swift.Bool? = nil
         ) {
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
     }
 }
@@ -2896,6 +2904,7 @@ extension EMRServerlessClientTypes.IdentityCenterConfiguration {
         var value = EMRServerlessClientTypes.IdentityCenterConfiguration()
         value.identityCenterInstanceArn = try reader["identityCenterInstanceArn"].readIfPresent()
         value.identityCenterApplicationArn = try reader["identityCenterApplicationArn"].readIfPresent()
+        value.userBackgroundSessionsEnabled = try reader["userBackgroundSessionsEnabled"].readIfPresent()
         return value
     }
 }
@@ -3440,6 +3449,7 @@ extension EMRServerlessClientTypes.IdentityCenterConfigurationInput {
     static func write(value: EMRServerlessClientTypes.IdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["identityCenterInstanceArn"].write(value.identityCenterInstanceArn)
+        try writer["userBackgroundSessionsEnabled"].write(value.userBackgroundSessionsEnabled)
     }
 }
 

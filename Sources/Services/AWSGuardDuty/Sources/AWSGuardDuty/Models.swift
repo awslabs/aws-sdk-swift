@@ -10220,7 +10220,7 @@ public struct ListIPSetsOutput: Swift.Sendable {
 }
 
 public struct ListMalwareProtectionPlansInput: Swift.Sendable {
-    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
+    /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data. The default page size is 100 plans.
     public var nextToken: Swift.String?
 
     public init(
@@ -10746,6 +10746,11 @@ public struct UpdateFindingsFeedbackInput: Swift.Sendable {
         self.feedback = feedback
         self.findingIds = findingIds
     }
+}
+
+extension UpdateFindingsFeedbackInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateFindingsFeedbackInput(detectorId: \(Swift.String(describing: detectorId)), feedback: \(Swift.String(describing: feedback)), findingIds: \(Swift.String(describing: findingIds)), comments: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateFindingsFeedbackOutput: Swift.Sendable {

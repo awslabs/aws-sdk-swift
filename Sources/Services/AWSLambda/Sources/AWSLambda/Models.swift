@@ -492,8 +492,10 @@ public struct AddPermissionInput: Swift.Sendable {
     /// You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     /// This member is required.
     public var functionName: Swift.String?
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType?
+    /// Restricts the lambda:InvokeFunction action to function URL calls. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    public var invokedViaFunctionUrl: Swift.Bool?
     /// The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     /// This member is required.
     public var principal: Swift.String?
@@ -516,6 +518,7 @@ public struct AddPermissionInput: Swift.Sendable {
         eventSourceToken: Swift.String? = nil,
         functionName: Swift.String? = nil,
         functionUrlAuthType: LambdaClientTypes.FunctionUrlAuthType? = nil,
+        invokedViaFunctionUrl: Swift.Bool? = nil,
         principal: Swift.String? = nil,
         principalOrgID: Swift.String? = nil,
         qualifier: Swift.String? = nil,
@@ -528,6 +531,7 @@ public struct AddPermissionInput: Swift.Sendable {
         self.eventSourceToken = eventSourceToken
         self.functionName = functionName
         self.functionUrlAuthType = functionUrlAuthType
+        self.invokedViaFunctionUrl = invokedViaFunctionUrl
         self.principal = principal
         self.principalOrgID = principalOrgID
         self.qualifier = qualifier
@@ -896,7 +900,7 @@ extension LambdaClientTypes {
 
     /// Code signing configuration [policies](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies) specify the validation failure action for signature mismatch or expiry.
     public struct CodeSigningPolicies: Swift.Sendable {
-        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log. Default value: Warn
+        /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and issues a new Amazon CloudWatch metric (SignatureValidationErrors) and also stores the warning in the CloudTrail log. Default value: Warn
         public var untrustedArtifactOnDeployment: LambdaClientTypes.CodeSigningPolicy?
 
         public init(
@@ -1129,7 +1133,7 @@ extension LambdaClientTypes {
 
     /// A destination for events that failed processing. For more information, see [Adding a destination](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html#invocation-async-destinations).
     public struct OnFailure: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis](https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html), [DynamoDB](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html), [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
+        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of unsuccessful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Amazon S3 bucket, Lambda function, or Amazon EventBridge event bus as the destination. Amazon SNS destinations have a message size limit of 256 KB. If the combined size of the function request and response payload exceeds the limit, Lambda will drop the payload when sending OnFailure event to the destination. For details on this behavior, refer to [Retaining records of asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html). To retain records of failed invocations from [Kinesis](https://docs.aws.amazon.com/lambda/latest/dg/with-kinesis.html), [DynamoDB](https://docs.aws.amazon.com/lambda/latest/dg/with-ddb.html), [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public var destination: Swift.String?
 
         public init(
@@ -1144,7 +1148,7 @@ extension LambdaClientTypes {
 
     /// A destination for events that were processed successfully. To retain records of successful [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. OnSuccess is not supported in CreateEventSourceMapping or UpdateEventSourceMapping requests.
     public struct OnSuccess: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the destination resource.
+        /// The Amazon Resource Name (ARN) of the destination resource. Amazon SNS destinations have a message size limit of 256 KB. If the combined size of the function request and response payload exceeds the limit, Lambda will drop the payload when sending OnFailure event to the destination. For details on this behavior, refer to [Retaining records of asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async-retain-records.html).
         public var destination: Swift.String?
 
         public init(
@@ -2986,6 +2990,7 @@ extension LambdaClientTypes {
         case java11
         case java17
         case java21
+        case java25
         case java8
         case java8al2
         case nodejs
@@ -2996,6 +3001,7 @@ extension LambdaClientTypes {
         case nodejs18x
         case nodejs20x
         case nodejs22x
+        case nodejs24x
         case nodejs43
         case nodejs43edge
         case nodejs610
@@ -3008,6 +3014,7 @@ extension LambdaClientTypes {
         case python311
         case python312
         case python313
+        case python314
         case python36
         case python37
         case python38
@@ -3031,6 +3038,7 @@ extension LambdaClientTypes {
                 .java11,
                 .java17,
                 .java21,
+                .java25,
                 .java8,
                 .java8al2,
                 .nodejs,
@@ -3041,6 +3049,7 @@ extension LambdaClientTypes {
                 .nodejs18x,
                 .nodejs20x,
                 .nodejs22x,
+                .nodejs24x,
                 .nodejs43,
                 .nodejs43edge,
                 .nodejs610,
@@ -3053,6 +3062,7 @@ extension LambdaClientTypes {
                 .python311,
                 .python312,
                 .python313,
+                .python314,
                 .python36,
                 .python37,
                 .python38,
@@ -3082,6 +3092,7 @@ extension LambdaClientTypes {
             case .java11: return "java11"
             case .java17: return "java17"
             case .java21: return "java21"
+            case .java25: return "java25"
             case .java8: return "java8"
             case .java8al2: return "java8.al2"
             case .nodejs: return "nodejs"
@@ -3092,6 +3103,7 @@ extension LambdaClientTypes {
             case .nodejs18x: return "nodejs18.x"
             case .nodejs20x: return "nodejs20.x"
             case .nodejs22x: return "nodejs22.x"
+            case .nodejs24x: return "nodejs24.x"
             case .nodejs43: return "nodejs4.3"
             case .nodejs43edge: return "nodejs4.3-edge"
             case .nodejs610: return "nodejs6.10"
@@ -3104,6 +3116,7 @@ extension LambdaClientTypes {
             case .python311: return "python3.11"
             case .python312: return "python3.12"
             case .python313: return "python3.13"
+            case .python314: return "python3.14"
             case .python36: return "python3.6"
             case .python37: return "python3.7"
             case .python38: return "python3.8"
@@ -4083,7 +4096,7 @@ extension LambdaClientTypes {
 }
 
 public struct CreateFunctionUrlConfigInput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -4125,7 +4138,7 @@ public struct CreateFunctionUrlConfigInput: Swift.Sendable {
 }
 
 public struct CreateFunctionUrlConfigOutput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -4974,7 +4987,7 @@ public struct GetFunctionUrlConfigInput: Swift.Sendable {
 }
 
 public struct GetFunctionUrlConfigOutput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -5662,6 +5675,33 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+/// The processed request payload exceeded the Invoke request body size limit for asynchronous invocations. While the event payload may be under 1 MB, the size after internal serialization exceeds the maximum allowed size for asynchronous invocations.
+public struct SerializedRequestEntityTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The error type.
+        public internal(set) var type: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "SerializedRequestEntityTooLargeException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        type: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.type = type
+    }
+}
+
 /// The afterRestore()[runtime hook](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-runtime-hooks.html) encountered an error. For more information, check the Amazon CloudWatch logs.
 public struct SnapStartException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -5878,7 +5918,7 @@ public struct InvokeInput: Swift.Sendable {
     public var invocationType: LambdaClientTypes.InvocationType?
     /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
     public var logType: LambdaClientTypes.LogType?
-    /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
+    /// The JSON that you want to provide to your Lambda function as input. The maximum payload size is 6 MB for synchronous invocations and 1 MB for asynchronous invocations. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
     public var payload: Foundation.Data?
     /// Specify a version or alias to invoke a published version of the function.
     public var qualifier: Swift.String?
@@ -7358,7 +7398,7 @@ public struct UpdateFunctionEventInvokeConfigOutput: Swift.Sendable {
 }
 
 public struct UpdateFunctionUrlConfigInput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
     public var cors: LambdaClientTypes.Cors?
@@ -7399,7 +7439,7 @@ public struct UpdateFunctionUrlConfigInput: Swift.Sendable {
 }
 
 public struct UpdateFunctionUrlConfigOutput: Swift.Sendable {
-    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
+    /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Control access to Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -9984,6 +10024,7 @@ extension AddPermissionInput {
         try writer["Action"].write(value.action)
         try writer["EventSourceToken"].write(value.eventSourceToken)
         try writer["FunctionUrlAuthType"].write(value.functionUrlAuthType)
+        try writer["InvokedViaFunctionUrl"].write(value.invokedViaFunctionUrl)
         try writer["Principal"].write(value.principal)
         try writer["PrincipalOrgID"].write(value.principalOrgID)
         try writer["RevisionId"].write(value.revisionId)
@@ -12102,6 +12143,7 @@ enum InvokeOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "SerializedRequestEntityTooLargeException": return try SerializedRequestEntityTooLargeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
             case "SnapStartNotReadyException": return try SnapStartNotReadyException.makeError(baseError: baseError)
@@ -12163,6 +12205,7 @@ enum InvokeWithResponseStreamOutputError {
             case "ResourceConflictException": return try ResourceConflictException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ResourceNotReadyException": return try ResourceNotReadyException.makeError(baseError: baseError)
+            case "SerializedRequestEntityTooLargeException": return try SerializedRequestEntityTooLargeException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "SnapStartException": return try SnapStartException.makeError(baseError: baseError)
             case "SnapStartNotReadyException": return try SnapStartNotReadyException.makeError(baseError: baseError)
@@ -13187,6 +13230,20 @@ extension ResourceNotReadyException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceNotReadyException {
         let reader = baseError.errorBodyReader
         var value = ResourceNotReadyException()
+        value.properties.type = try reader["Type"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension SerializedRequestEntityTooLargeException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> SerializedRequestEntityTooLargeException {
+        let reader = baseError.errorBodyReader
+        var value = SerializedRequestEntityTooLargeException()
         value.properties.type = try reader["Type"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

@@ -32,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -67,9 +67,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ECSClient: ClientRuntime.Client {
+public class ECSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ECSClient"
-    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: ECSClient.ECSClientConfiguration
     let serviceName = "ECS"
@@ -559,6 +558,32 @@ extension ECSClient {
     /// * Zero downtime: When your service requires zero-downtime deployments
     ///
     /// * Instant roll back: When you need the ability to quickly roll back if issues are detected
+    ///
+    /// * Load balancer requirement: When your service uses Application Load Balancer, Network Load Balancer, or Service Connect
+    ///
+    ///
+    ///
+    ///
+    /// * LINEAR: A linear deployment strategy (LINEAR) gradually shifts traffic from the current production environment to a new environment in equal percentage increments over a specified time period. With Amazon ECS linear deployments, you can control the pace of traffic shifting and validate new service revisions with increasing amounts of production traffic. Linear deployments are best suited for the following scenarios:
+    ///
+    /// * Gradual validation: When you want to gradually validate your new service version with increasing traffic
+    ///
+    /// * Performance monitoring: When you need time to monitor metrics and performance during the deployment
+    ///
+    /// * Risk minimization: When you want to minimize risk by exposing the new version to production traffic incrementally
+    ///
+    /// * Load balancer requirement: When your service uses Application Load Balancer, Network Load Balancer, or Service Connect
+    ///
+    ///
+    ///
+    ///
+    /// * CANARY: A canary deployment strategy (CANARY) shifts a small percentage of traffic to the new service revision first, then shifts the remaining traffic all at once after a specified time period. This allows you to test the new version with a subset of users before full deployment. Canary deployments are best suited for the following scenarios:
+    ///
+    /// * Feature testing: When you want to test new features with a small subset of users before full rollout
+    ///
+    /// * Production validation: When you need to validate performance and functionality with real production traffic
+    ///
+    /// * Blast radius control: When you want to minimize blast radius if issues are discovered in the new version
     ///
     /// * Load balancer requirement: When your service uses Application Load Balancer, Network Load Balancer, or Service Connect
     ///

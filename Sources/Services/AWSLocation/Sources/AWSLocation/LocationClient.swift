@@ -32,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class LocationClient: ClientRuntime.Client {
+public class LocationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LocationClient"
-    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: LocationClient.LocationClientConfiguration
     let serviceName = "Location"
@@ -885,6 +884,17 @@ extension LocationClient {
 
     /// Performs the `CalculateRoute` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to [CalculateRoutes] or [CalculateIsolines] unless you require Grab data.
+    ///
+    /// * CalculateRoute is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 CalculateRoutes operation gives better results for point-to-point routing, while the version 2 CalculateIsolines operation adds support for calculating service areas and travel time envelopes.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under geo-routes or geo_routes, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    ///
     /// [Calculates a route](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route.html) given the following required parameters: DeparturePosition and DestinationPosition. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html). By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:
     ///
     /// * [Specifying a departure time](https://docs.aws.amazon.com/location/previous/developerguide/departure-time.html) using either DepartureTime or DepartNow. This calculates a route based on predictive traffic data at the given time. You can't specify both DepartureTime and DepartNow in a single request. Specifying both parameters returns a validation error.
@@ -962,7 +972,20 @@ extension LocationClient {
 
     /// Performs the `CalculateRouteMatrix` operation on the `Location` service.
     ///
-    /// [ Calculates a route matrix](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route-matrix.html) given the following required parameters: DeparturePositions and DestinationPositions. CalculateRouteMatrix calculates routes and returns the travel time and travel distance from each departure position to each destination position in the request. For example, given departure positions A and B, and destination positions X and Y, CalculateRouteMatrix will return time and distance for routes from A to X, A to Y, B to X, and B to Y (in that order). The number of results returned (and routes calculated) will be the number of DeparturePositions times the number of DestinationPositions. Your account is charged for each route calculated, not the number of requests. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html). By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating routes. Additional options include:
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the [V2 ]CalculateRouteMatrix unless you require Grab data.
+    ///
+    /// * This version of CalculateRouteMatrix is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 CalculateRouteMatrix operation gives better results for matrix routing calculations.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under geo-routes or geo_routes, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Routes V2 [API Reference] or the [Developer Guide].
+    ///
+    ///
+    /// [Calculates a route matrix](https://docs.aws.amazon.com/location/previous/developerguide/calculate-route-matrix.html) given the following required parameters: DeparturePositions and DestinationPositions. CalculateRouteMatrix calculates routes and returns the travel time and travel distance from each departure position to each destination position in the request. For example, given departure positions A and B, and destination positions X and Y, CalculateRouteMatrix will return time and distance for routes from A to X, A to Y, B to X, and B to Y (in that order). The number of results returned (and routes calculated) will be the number of DeparturePositions times the number of DestinationPositions. Your account is charged for each route calculated, not the number of requests. Requires that you first [create a route calculator resource](https://docs.aws.amazon.com/location-routes/latest/APIReference/API_CreateRouteCalculator.html). By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating routes. Additional options include:
     ///
     /// * [Specifying a departure time](https://docs.aws.amazon.com/location/previous/developerguide/departure-time.html) using either DepartureTime or DepartNow. This calculates routes based on predictive traffic data at the given time. You can't specify both DepartureTime and DepartNow in a single request. Specifying both parameters returns a validation error.
     ///
@@ -1112,7 +1135,7 @@ extension LocationClient {
 
     /// Performs the `CreateKey` operation on the `Location` service.
     ///
-    /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see [Using API keys](https://docs.aws.amazon.com/location/previous/developerguide/using-apikeys.html).
+    /// Creates an API key resource in your Amazon Web Services account, which lets you grant actions for Amazon Location resources to the API key bearer. For more information, see [Use API keys to authenticate](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateKeyInput`)
     ///
@@ -1184,6 +1207,19 @@ extension LocationClient {
     }
 
     /// Performs the `CreateMap` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data.
+    ///
+    /// * CreateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Maps API version 2 has a simplified interface that can be used without creating or managing map resources.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
     ///
     /// Creates a map resource in your Amazon Web Services account, which provides map tiles of different styles sourced from global location data providers. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
@@ -1258,6 +1294,19 @@ extension LocationClient {
 
     /// Performs the `CreatePlaceIndex` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
+    ///
+    /// * CreatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Places API version 2 has a simplified interface that can be used without creating or managing place index resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Places V2 [API Reference] or the [Developer Guide].
+    ///
+    ///
     /// Creates a place index resource in your Amazon Web Services account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreatePlaceIndexInput`)
@@ -1330,6 +1379,19 @@ extension LocationClient {
     }
 
     /// Performs the `CreateRouteCalculator` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
+    ///
+    /// * CreateRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under geo-routes or geo_routes, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Routes V2 [API Reference] or the [Developer Guide].
+    ///
     ///
     /// Creates a route calculator resource in your Amazon Web Services account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider. If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the [Amazon Web Services service terms](http://aws.amazon.com/service-terms) for more details.
     ///
@@ -1546,7 +1608,7 @@ extension LocationClient {
 
     /// Performs the `DeleteKey` operation on the `Location` service.
     ///
-    /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously.
+    /// Deletes the specified API key. The API key must have been deactivated more than 90 days previously. For more information, see [Use API keys to authenticate](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteKeyInput`)
     ///
@@ -1615,6 +1677,19 @@ extension LocationClient {
     }
 
     /// Performs the `DeleteMap` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data.
+    ///
+    /// * DeleteMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Maps API version 2 has a simplified interface that can be used without creating or managing map resources.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
     ///
     /// Deletes a map resource from your Amazon Web Services account. This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
     ///
@@ -1685,6 +1760,19 @@ extension LocationClient {
 
     /// Performs the `DeletePlaceIndex` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
+    ///
+    /// * DeletePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Places API version 2 has a simplified interface that can be used without creating or managing place index resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Places V2 [API Reference] or the [Developer Guide].
+    ///
+    ///
     /// Deletes a place index resource from your Amazon Web Services account. This operation deletes the resource permanently.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeletePlaceIndexInput`)
@@ -1753,6 +1841,19 @@ extension LocationClient {
     }
 
     /// Performs the `DeleteRouteCalculator` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
+    ///
+    /// * DeleteRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under geo-routes or geo_routes, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Routes V2 [API Reference] or the [Developer Guide].
+    ///
     ///
     /// Deletes a route calculator resource from your Amazon Web Services account. This operation deletes the resource permanently.
     ///
@@ -1961,7 +2062,7 @@ extension LocationClient {
 
     /// Performs the `DescribeKey` operation on the `Location` service.
     ///
-    /// Retrieves the API key resource details.
+    /// Retrieves the API key resource details. For more information, see [Use API keys to authenticate](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeKeyInput`)
     ///
@@ -2029,6 +2130,19 @@ extension LocationClient {
     }
 
     /// Performs the `DescribeMap` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data.
+    ///
+    /// * DescribeMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Maps API version 2 has a simplified interface that can be used without creating or managing map resources.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
     ///
     /// Retrieves the map resource details.
     ///
@@ -2099,6 +2213,19 @@ extension LocationClient {
 
     /// Performs the `DescribePlaceIndex` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
+    ///
+    /// * DescribePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Places API version 2 has a simplified interface that can be used without creating or managing place index resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Places V2 [API Reference] or the [Developer Guide].
+    ///
+    ///
     /// Retrieves the place index resource details.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribePlaceIndexInput`)
@@ -2167,6 +2294,19 @@ extension LocationClient {
     }
 
     /// Performs the `DescribeRouteCalculator` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
+    ///
+    /// * DescribeRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under geo-routes or geo_routes, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Routes V2 [API Reference] or the [Developer Guide].
+    ///
     ///
     /// Retrieves the route calculator resource details.
     ///
@@ -2657,6 +2797,19 @@ extension LocationClient {
 
     /// Performs the `GetMapGlyphs` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to [GetGlyphs](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetGlyphs.html) unless you require Grab data.
+    ///
+    /// * GetMapGlyphs is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 GetGlyphs operation gives a better user experience and is compatible with the remainder of the V2 Maps API.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
+    ///
     /// Retrieves glyphs used to display labels on a map.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMapGlyphsInput`)
@@ -2726,6 +2879,19 @@ extension LocationClient {
     }
 
     /// Performs the `GetMapSprites` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to [GetSprites](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetSprites.html) unless you require Grab data.
+    ///
+    /// * GetMapSprites is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 GetSprites operation gives a better user experience and is compatible with the remainder of the V2 Maps API.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
     ///
     /// Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image paired with a JSON document describing the offsets of individual icons that will be displayed on a rendered map.
     ///
@@ -2797,6 +2963,19 @@ extension LocationClient {
 
     /// Performs the `GetMapStyleDescriptor` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to [GetStyleDescriptor](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetStyleDescriptor.html) unless you require Grab data.
+    ///
+    /// * GetMapStyleDescriptor is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 GetStyleDescriptor operation gives a better user experience and is compatible with the remainder of the V2 Maps API.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
+    ///
     /// Retrieves the map style descriptor from a map resource. The style descriptor contains speciﬁcations on how features render on a map. For example, what data to display, what order to display the data in, and the style for the data. Style descriptors follow the Mapbox Style Specification.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMapStyleDescriptorInput`)
@@ -2867,6 +3046,19 @@ extension LocationClient {
 
     /// Performs the `GetMapTile` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to [GetTile](https://docs.aws.amazon.com/location/latest/APIReference/API_geomaps_GetTile.html) unless you require Grab data.
+    ///
+    /// * GetMapTile is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 GetTile operation gives a better user experience and is compatible with the remainder of the V2 Maps API.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
+    ///
     /// Retrieves a vector data tile from the map resource. Map tiles are used by clients to render a map. they're addressed using a grid arrangement with an X coordinate, Y coordinate, and Z (zoom) level. The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
     ///
     /// - Parameter input: [no documentation found] (Type: `GetMapTileInput`)
@@ -2936,6 +3128,19 @@ extension LocationClient {
     }
 
     /// Performs the `GetPlace` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the [V2 ]GetPlace operation unless you require Grab data.
+    ///
+    /// * This version of GetPlace is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * Version 2 of the GetPlace operation interoperates with the rest of the Places V2 API, while this version does not.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Places V2 [API Reference] or the [Developer Guide].
+    ///
     ///
     /// Finds a place by its unique ID. A PlaceId is returned by other search operations. A PlaceId is valid only if all of the following are the same in the original search request and the call to GetPlace.
     ///
@@ -3230,7 +3435,7 @@ extension LocationClient {
 
     /// Performs the `ListKeys` operation on the `Location` service.
     ///
-    /// Lists API key resources in your Amazon Web Services account.
+    /// Lists API key resources in your Amazon Web Services account. For more information, see [Use API keys to authenticate](https://docs.aws.amazon.com/location/latest/developerguide/using-apikeys.html) in the Amazon Location Service Developer Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListKeysInput`)
     ///
@@ -3300,6 +3505,19 @@ extension LocationClient {
     }
 
     /// Performs the `ListMaps` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data.
+    ///
+    /// * ListMaps is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Maps API version 2 has a simplified interface that can be used without creating or managing map resources.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
     ///
     /// Lists map resources in your Amazon Web Services account.
     ///
@@ -3372,6 +3590,19 @@ extension LocationClient {
 
     /// Performs the `ListPlaceIndexes` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
+    ///
+    /// * ListPlaceIndexes is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Places API version 2 has a simplified interface that can be used without creating or managing place index resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Places V2 [API Reference] or the [Developer Guide].
+    ///
+    ///
     /// Lists place index resources in your Amazon Web Services account.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPlaceIndexesInput`)
@@ -3442,6 +3673,19 @@ extension LocationClient {
     }
 
     /// Performs the `ListRouteCalculators` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
+    ///
+    /// * ListRouteCalculators is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under geo-routes or geo_routes, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Routes V2 [API Reference] or the [Developer Guide].
+    ///
     ///
     /// Lists route calculator resources in your Amazon Web Services account.
     ///
@@ -3799,6 +4043,17 @@ extension LocationClient {
 
     /// Performs the `SearchPlaceIndexForPosition` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to [ReverseGeocode] or [SearchNearby] unless you require Grab data.
+    ///
+    /// * SearchPlaceIndexForPosition is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 ReverseGeocode operation gives better results in the address reverse-geocoding use case, while the version 2 SearchNearby operation gives better results when searching for businesses and points of interest near a specific location.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    ///
     /// Reverse geocodes a given coordinate and returns a legible address. Allows you to search for Places or points of interest near a given position.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchPlaceIndexForPositionInput`)
@@ -3872,6 +4127,17 @@ extension LocationClient {
 
     /// Performs the `SearchPlaceIndexForSuggestions` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to [Suggest] or [Autocomplete] unless you require Grab data.
+    ///
+    /// * SearchPlaceIndexForSuggestions is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 Suggest operation gives better results for typeahead place search suggestions with fuzzy matching, while the version 2 Autocomplete operation gives better results for address completion based on partial input.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    ///
     /// Generates suggestions for addresses and points of interest based on partial or misspelled free-form text. This operation is also known as autocomplete, autosuggest, or fuzzy matching. Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe. You can search for suggested place names near a specified position by using BiasPosition, or filter results within a bounding box by using FilterBBox. These parameters are mutually exclusive; using both BiasPosition and FilterBBox in the same command returns an error.
     ///
     /// - Parameter input: [no documentation found] (Type: `SearchPlaceIndexForSuggestionsInput`)
@@ -3944,6 +4210,17 @@ extension LocationClient {
     }
 
     /// Performs the `SearchPlaceIndexForText` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to [Geocode] or [SearchText] unless you require Grab data.
+    ///
+    /// * SearchPlaceIndexForText is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The version 2 Geocode operation gives better results in the address geocoding use case, while the version 2 SearchText operation gives better results when searching for businesses and points of interest.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
     ///
     /// Geocodes free-form text, such as an address, name, city, or region to allow you to search for Places or points of interest. Optional parameters let you narrow your search results by bounding box or country, or bias your search toward a specific position on the globe. You can search for places near a given position using BiasPosition, or filter results within a bounding box using FilterBBox. Providing both parameters simultaneously returns an error. Search results are returned in order of highest to lowest relevance.
     ///
@@ -4304,6 +4581,19 @@ extension LocationClient {
 
     /// Performs the `UpdateMap` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend upgrading to the Maps API V2 unless you require Grab data.
+    ///
+    /// * UpdateMap is part of a previous Amazon Location Service Maps API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Maps API version 2 has a simplified interface that can be used without creating or managing map resources.
+    ///
+    /// * If you are using an AWS SDK or the AWS CLI, note that the Maps API version 2 is found under geo-maps or geo_maps, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Maps API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the [Maps V2 API Reference](https://docs.aws.amazon.com/location/latest/APIReference/API_Operations_Amazon_Location_Service_Maps_V2.html) or the [Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/maps.html).
+    ///
+    ///
     /// Updates the specified properties of a given map resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateMapInput`)
@@ -4376,6 +4666,19 @@ extension LocationClient {
 
     /// Performs the `UpdatePlaceIndex` operation on the `Location` service.
     ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Places API V2 unless you require Grab data.
+    ///
+    /// * UpdatePlaceIndex is part of a previous Amazon Location Service Places API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Places API version 2 has a simplified interface that can be used without creating or managing place index resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Places API version 2 is found under geo-places or geo_places, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Places API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Places V2 [API Reference] or the [Developer Guide].
+    ///
+    ///
     /// Updates the specified properties of a given place index resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdatePlaceIndexInput`)
@@ -4447,6 +4750,19 @@ extension LocationClient {
     }
 
     /// Performs the `UpdateRouteCalculator` operation on the `Location` service.
+    ///
+    /// This operation is no longer current and may be deprecated in the future. We recommend you upgrade to the Routes API V2 unless you require Grab data.
+    ///
+    /// * UpdateRouteCalculator is part of a previous Amazon Location Service Routes API (version 1) which has been superseded by a more intuitive, powerful, and complete API (version 2).
+    ///
+    /// * The Routes API version 2 has a simplified interface that can be used without creating or managing route calculator resources.
+    ///
+    /// * If you are using an Amazon Web Services SDK or the Amazon Web Services CLI, note that the Routes API version 2 is found under geo-routes or geo_routes, not under location.
+    ///
+    /// * Since Grab is not yet fully supported in Routes API version 2, we recommend you continue using API version 1 when using Grab.
+    ///
+    /// * Start your version 2 API journey with the Routes V2 [API Reference] or the [Developer Guide].
+    ///
     ///
     /// Updates the specified properties for a given route calculator resource.
     ///

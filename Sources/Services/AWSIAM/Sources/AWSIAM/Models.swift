@@ -653,6 +653,29 @@ public struct AccountNotManagementOrDelegatedAdministratorException: ClientRunti
     }
 }
 
+/// The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentModification" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
 public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1153,29 +1176,6 @@ public struct CreateAccessKeyOutput: Swift.Sendable {
         accessKey: IAMClientTypes.AccessKey? = nil
     ) {
         self.accessKey = accessKey
-    }
-}
-
-/// The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
-public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConcurrentModification" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -3389,6 +3389,7 @@ extension IAMClientTypes {
         case accountmfaenabled
         case accountpasswordpresent
         case accountsigningcertificatespresent
+        case assumerolepolicysizequota
         case attachedpoliciespergroupquota
         case attachedpoliciesperrolequota
         case attachedpoliciesperuserquota
@@ -3397,6 +3398,8 @@ extension IAMClientTypes {
         case groups
         case groupsperuserquota
         case groupsquota
+        case instanceprofiles
+        case instanceprofilesquota
         case mfadevices
         case mfadevicesinuse
         case policies
@@ -3404,6 +3407,10 @@ extension IAMClientTypes {
         case policysizequota
         case policyversionsinuse
         case policyversionsinusequota
+        case providers
+        case rolepolicysizequota
+        case roles
+        case rolesquota
         case servercertificates
         case servercertificatesquota
         case signingcertificatesperuserquota
@@ -3420,6 +3427,7 @@ extension IAMClientTypes {
                 .accountmfaenabled,
                 .accountpasswordpresent,
                 .accountsigningcertificatespresent,
+                .assumerolepolicysizequota,
                 .attachedpoliciespergroupquota,
                 .attachedpoliciesperrolequota,
                 .attachedpoliciesperuserquota,
@@ -3428,6 +3436,8 @@ extension IAMClientTypes {
                 .groups,
                 .groupsperuserquota,
                 .groupsquota,
+                .instanceprofiles,
+                .instanceprofilesquota,
                 .mfadevices,
                 .mfadevicesinuse,
                 .policies,
@@ -3435,6 +3445,10 @@ extension IAMClientTypes {
                 .policysizequota,
                 .policyversionsinuse,
                 .policyversionsinusequota,
+                .providers,
+                .rolepolicysizequota,
+                .roles,
+                .rolesquota,
                 .servercertificates,
                 .servercertificatesquota,
                 .signingcertificatesperuserquota,
@@ -3457,6 +3471,7 @@ extension IAMClientTypes {
             case .accountmfaenabled: return "AccountMFAEnabled"
             case .accountpasswordpresent: return "AccountPasswordPresent"
             case .accountsigningcertificatespresent: return "AccountSigningCertificatesPresent"
+            case .assumerolepolicysizequota: return "AssumeRolePolicySizeQuota"
             case .attachedpoliciespergroupquota: return "AttachedPoliciesPerGroupQuota"
             case .attachedpoliciesperrolequota: return "AttachedPoliciesPerRoleQuota"
             case .attachedpoliciesperuserquota: return "AttachedPoliciesPerUserQuota"
@@ -3465,6 +3480,8 @@ extension IAMClientTypes {
             case .groups: return "Groups"
             case .groupsperuserquota: return "GroupsPerUserQuota"
             case .groupsquota: return "GroupsQuota"
+            case .instanceprofiles: return "InstanceProfiles"
+            case .instanceprofilesquota: return "InstanceProfilesQuota"
             case .mfadevices: return "MFADevices"
             case .mfadevicesinuse: return "MFADevicesInUse"
             case .policies: return "Policies"
@@ -3472,6 +3489,10 @@ extension IAMClientTypes {
             case .policysizequota: return "PolicySizeQuota"
             case .policyversionsinuse: return "PolicyVersionsInUse"
             case .policyversionsinusequota: return "PolicyVersionsInUseQuota"
+            case .providers: return "Providers"
+            case .rolepolicysizequota: return "RolePolicySizeQuota"
+            case .roles: return "Roles"
+            case .rolesquota: return "RolesQuota"
             case .servercertificates: return "ServerCertificates"
             case .servercertificatesquota: return "ServerCertificatesQuota"
             case .signingcertificatesperuserquota: return "SigningCertificatesPerUserQuota"
@@ -13175,6 +13196,7 @@ enum AddClientIDToOpenIDConnectProviderOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15137,6 +15159,7 @@ enum RemoveClientIDFromOpenIDConnectProviderOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15645,6 +15668,7 @@ enum UpdateOpenIDConnectProviderThumbprintOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
@@ -15693,6 +15717,7 @@ enum UpdateSAMLProviderOutputError {
         let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "NoSuchEntity": return try NoSuchEntityException.makeError(baseError: baseError)
@@ -15843,6 +15868,19 @@ enum UploadSSHPublicKeyOutputError {
     }
 }
 
+extension ConcurrentModificationException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConcurrentModificationException {
+        let reader = baseError.errorBodyReader
+        var value = ConcurrentModificationException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension InvalidInputException {
 
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidInputException {
@@ -15965,19 +16003,6 @@ extension PasswordPolicyViolationException {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> PasswordPolicyViolationException {
         let reader = baseError.errorBodyReader
         var value = PasswordPolicyViolationException()
-        value.properties.message = try reader["message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension ConcurrentModificationException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> ConcurrentModificationException {
-        let reader = baseError.errorBodyReader
-        var value = ConcurrentModificationException()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

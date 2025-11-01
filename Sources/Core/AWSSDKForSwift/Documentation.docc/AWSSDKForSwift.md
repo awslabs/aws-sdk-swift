@@ -74,8 +74,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSDKIdentityAPI](../../../../../swift/api/awssdkidentityapi/latest)
 
-[AWSSDKPartitions](../../../../../swift/api/awssdkpartitions/latest)
-
 
 ## Service Documentation
 
@@ -122,8 +120,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSAppStream](../../../../../swift/api/awsappstream/latest)
 
 [AWSAppSync](../../../../../swift/api/awsappsync/latest)
-
-[AWSAppTest](../../../../../swift/api/awsapptest/latest)
 
 [AWSAppflow](../../../../../swift/api/awsappflow/latest)
 
@@ -463,8 +459,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIoTEventsData](../../../../../swift/api/awsioteventsdata/latest)
 
-[AWSIoTFleetHub](../../../../../swift/api/awsiotfleethub/latest)
-
 [AWSIoTFleetWise](../../../../../swift/api/awsiotfleetwise/latest)
 
 [AWSIoTJobsDataPlane](../../../../../swift/api/awsiotjobsdataplane/latest)
@@ -542,10 +536,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSLocation](../../../../../swift/api/awslocation/latest)
 
 [AWSLookoutEquipment](../../../../../swift/api/awslookoutequipment/latest)
-
-[AWSLookoutMetrics](../../../../../swift/api/awslookoutmetrics/latest)
-
-[AWSLookoutVision](../../../../../swift/api/awslookoutvision/latest)
 
 [AWSM2](../../../../../swift/api/awsm2/latest)
 
@@ -695,10 +685,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSQConnect](../../../../../swift/api/awsqconnect/latest)
 
-[AWSQLDB](../../../../../swift/api/awsqldb/latest)
-
-[AWSQLDBSession](../../../../../swift/api/awsqldbsession/latest)
-
 [AWSQuickSight](../../../../../swift/api/awsquicksight/latest)
 
 [AWSRAM](../../../../../swift/api/awsram/latest)
@@ -706,6 +692,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSRDS](../../../../../swift/api/awsrds/latest)
 
 [AWSRDSData](../../../../../swift/api/awsrdsdata/latest)
+
+[AWSRTBFabric](../../../../../swift/api/awsrtbfabric/latest)
 
 [AWSRUM](../../../../../swift/api/awsrum/latest)
 
@@ -728,8 +716,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSResourceGroups](../../../../../swift/api/awsresourcegroups/latest)
 
 [AWSResourceGroupsTaggingAPI](../../../../../swift/api/awsresourcegroupstaggingapi/latest)
-
-[AWSRoboMaker](../../../../../swift/api/awsrobomaker/latest)
 
 [AWSRolesAnywhere](../../../../../swift/api/awsrolesanywhere/latest)
 

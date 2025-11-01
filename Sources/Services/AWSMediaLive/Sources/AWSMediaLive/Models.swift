@@ -3965,6 +3965,75 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// The possible states of a channel alert. SET - The alert is actively happening. CLEARED - The alert is no longer happening.
+    public enum ChannelAlertState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cleared
+        case `set`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelAlertState] {
+            return [
+                .cleared,
+                .set
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cleared: return "CLEARED"
+            case .set: return "SET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// An alert on a channel
+    public struct ChannelAlert: Swift.Sendable {
+        /// The type of the alert
+        public var alertType: Swift.String?
+        /// The time when the alert was cleared
+        public var clearedTimestamp: Foundation.Date?
+        /// The unique ID for this alert instance
+        public var id: Swift.String?
+        /// The user facing alert message which can have more context
+        public var message: Swift.String?
+        /// The ID of the pipeline this alert is associated with
+        public var pipelineId: Swift.String?
+        /// The time when the alert was set
+        public var setTimestamp: Foundation.Date?
+        /// The state of the alert
+        public var state: MediaLiveClientTypes.ChannelAlertState?
+
+        public init(
+            alertType: Swift.String? = nil,
+            clearedTimestamp: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil,
+            pipelineId: Swift.String? = nil,
+            setTimestamp: Foundation.Date? = nil,
+            state: MediaLiveClientTypes.ChannelAlertState? = nil
+        ) {
+            self.alertType = alertType
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.pipelineId = pipelineId
+            self.setTimestamp = setTimestamp
+            self.state = state
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Placeholder documentation for ChannelEgressEndpoint
     public struct ChannelEgressEndpoint: Swift.Sendable {
         /// Public IP of where a channel's output comes from
@@ -5663,6 +5732,79 @@ extension MediaLiveClientTypes {
             self.targetResourceType = targetResourceType
             self.threshold = threshold
             self.treatMissingData = treatMissingData
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// The possible states of a cluster alert. SET - The alert is actively happening. CLEARED - The alert is no longer happening.
+    public enum ClusterAlertState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cleared
+        case `set`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ClusterAlertState] {
+            return [
+                .cleared,
+                .set
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cleared: return "CLEARED"
+            case .set: return "SET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// An alert on a cluster
+    public struct ClusterAlert: Swift.Sendable {
+        /// The type of the alert
+        public var alertType: Swift.String?
+        /// The ID of the channel this alert is associated with
+        public var channelId: Swift.String?
+        /// The time when the alert was cleared
+        public var clearedTimestamp: Foundation.Date?
+        /// The further subtype of this alert
+        public var id: Swift.String?
+        /// The user facing alert message which can have more context
+        public var message: Swift.String?
+        /// The ID of the node this alert is associated with
+        public var nodeId: Swift.String?
+        /// The time when the alert was set
+        public var setTimestamp: Foundation.Date?
+        /// The state of the alert
+        public var state: MediaLiveClientTypes.ClusterAlertState?
+
+        public init(
+            alertType: Swift.String? = nil,
+            channelId: Swift.String? = nil,
+            clearedTimestamp: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil,
+            nodeId: Swift.String? = nil,
+            setTimestamp: Foundation.Date? = nil,
+            state: MediaLiveClientTypes.ClusterAlertState? = nil
+        ) {
+            self.alertType = alertType
+            self.channelId = channelId
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.nodeId = nodeId
+            self.setTimestamp = setTimestamp
+            self.state = state
         }
     }
 }
@@ -8242,6 +8384,75 @@ extension MediaLiveClientTypes {
         ) {
             self.sourceIp = sourceIp
             self.url = url
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// The possible states of a multiplex alert. SET - The alert is actively happening. CLEARED - The alert is no longer happening.
+    public enum MultiplexAlertState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cleared
+        case `set`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MultiplexAlertState] {
+            return [
+                .cleared,
+                .set
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cleared: return "CLEARED"
+            case .set: return "SET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// An alert on a multiplex
+    public struct MultiplexAlert: Swift.Sendable {
+        /// The type of the alert
+        public var alertType: Swift.String?
+        /// The time when the alert was cleared
+        public var clearedTimestamp: Foundation.Date?
+        /// The unique ID for this alert instance
+        public var id: Swift.String?
+        /// The user facing alert message which can have more context
+        public var message: Swift.String?
+        /// The ID of the pipeline this alert is associated with
+        public var pipelineId: Swift.String?
+        /// The time when the alert was set
+        public var setTimestamp: Foundation.Date?
+        /// The state of the alert
+        public var state: MediaLiveClientTypes.MultiplexAlertState?
+
+        public init(
+            alertType: Swift.String? = nil,
+            clearedTimestamp: Foundation.Date? = nil,
+            id: Swift.String? = nil,
+            message: Swift.String? = nil,
+            pipelineId: Swift.String? = nil,
+            setTimestamp: Foundation.Date? = nil,
+            state: MediaLiveClientTypes.MultiplexAlertState? = nil
+        ) {
+            self.alertType = alertType
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.pipelineId = pipelineId
+            self.setTimestamp = setTimestamp
+            self.state = state
         }
     }
 }
@@ -23937,6 +24148,47 @@ extension MediaLiveClientTypes {
     }
 }
 
+/// Placeholder documentation for ListAlertsRequest
+public struct ListAlertsInput: Swift.Sendable {
+    /// The unique ID of the channel
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// The maximum number of items to return
+    public var maxResults: Swift.Int?
+    /// The next pagination token
+    public var nextToken: Swift.String?
+    /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    public var stateFilter: Swift.String?
+
+    public init(
+        channelId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stateFilter: Swift.String? = nil
+    ) {
+        self.channelId = channelId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stateFilter = stateFilter
+    }
+}
+
+/// Placeholder documentation for ListAlertsResponse
+public struct ListAlertsOutput: Swift.Sendable {
+    /// The alerts found for this channel
+    public var alerts: [MediaLiveClientTypes.ChannelAlert]?
+    /// The token to use to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        alerts: [MediaLiveClientTypes.ChannelAlert]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alerts = alerts
+        self.nextToken = nextToken
+    }
+}
+
 /// Placeholder documentation for ListChannelPlacementGroupsRequest
 public struct ListChannelPlacementGroupsInput: Swift.Sendable {
     /// The ID of the cluster
@@ -24086,6 +24338,47 @@ public struct ListCloudWatchAlarmTemplatesOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.cloudWatchAlarmTemplates = cloudWatchAlarmTemplates
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListClusterAlertsRequest
+public struct ListClusterAlertsInput: Swift.Sendable {
+    /// The unique ID of the cluster
+    /// This member is required.
+    public var clusterId: Swift.String?
+    /// The maximum number of items to return
+    public var maxResults: Swift.Int?
+    /// The next pagination token
+    public var nextToken: Swift.String?
+    /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    public var stateFilter: Swift.String?
+
+    public init(
+        clusterId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stateFilter: Swift.String? = nil
+    ) {
+        self.clusterId = clusterId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stateFilter = stateFilter
+    }
+}
+
+/// Placeholder documentation for ListClusterAlertsResponse
+public struct ListClusterAlertsOutput: Swift.Sendable {
+    /// The alerts found for this cluster
+    public var alerts: [MediaLiveClientTypes.ClusterAlert]?
+    /// The token to use to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        alerts: [MediaLiveClientTypes.ClusterAlert]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alerts = alerts
         self.nextToken = nextToken
     }
 }
@@ -24327,6 +24620,47 @@ public struct ListInputSecurityGroupsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.inputSecurityGroups = inputSecurityGroups
+        self.nextToken = nextToken
+    }
+}
+
+/// Placeholder documentation for ListMultiplexAlertsRequest
+public struct ListMultiplexAlertsInput: Swift.Sendable {
+    /// The maximum number of items to return
+    public var maxResults: Swift.Int?
+    /// The unique ID of the multiplex
+    /// This member is required.
+    public var multiplexId: Swift.String?
+    /// The next pagination token
+    public var nextToken: Swift.String?
+    /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    public var stateFilter: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        multiplexId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        stateFilter: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.multiplexId = multiplexId
+        self.nextToken = nextToken
+        self.stateFilter = stateFilter
+    }
+}
+
+/// Placeholder documentation for ListMultiplexAlertsResponse
+public struct ListMultiplexAlertsOutput: Swift.Sendable {
+    /// The alerts found for this multiplex
+    public var alerts: [MediaLiveClientTypes.MultiplexAlert]?
+    /// The token to use to retrieve the next page of results
+    public var nextToken: Swift.String?
+
+    public init(
+        alerts: [MediaLiveClientTypes.MultiplexAlert]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.alerts = alerts
         self.nextToken = nextToken
     }
 }
@@ -27577,6 +27911,36 @@ extension GetSignalMapInput {
     }
 }
 
+extension ListAlertsInput {
+
+    static func urlPathProvider(_ value: ListAlertsInput) -> Swift.String? {
+        guard let channelId = value.channelId else {
+            return nil
+        }
+        return "/prod/channels/\(channelId.urlPercentEncoding())/alerts"
+    }
+}
+
+extension ListAlertsInput {
+
+    static func queryItemProvider(_ value: ListAlertsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let stateFilter = value.stateFilter {
+            let stateFilterQueryItem = Smithy.URIQueryItem(name: "stateFilter".urlPercentEncoding(), value: Swift.String(stateFilter).urlPercentEncoding())
+            items.append(stateFilterQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListChannelPlacementGroupsInput {
 
     static func urlPathProvider(_ value: ListChannelPlacementGroupsInput) -> Swift.String? {
@@ -27687,6 +28051,36 @@ extension ListCloudWatchAlarmTemplatesInput {
         if let groupIdentifier = value.groupIdentifier {
             let groupIdentifierQueryItem = Smithy.URIQueryItem(name: "groupIdentifier".urlPercentEncoding(), value: Swift.String(groupIdentifier).urlPercentEncoding())
             items.append(groupIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListClusterAlertsInput {
+
+    static func urlPathProvider(_ value: ListClusterAlertsInput) -> Swift.String? {
+        guard let clusterId = value.clusterId else {
+            return nil
+        }
+        return "/prod/clusters/\(clusterId.urlPercentEncoding())/alerts"
+    }
+}
+
+extension ListClusterAlertsInput {
+
+    static func queryItemProvider(_ value: ListClusterAlertsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let stateFilter = value.stateFilter {
+            let stateFilterQueryItem = Smithy.URIQueryItem(name: "stateFilter".urlPercentEncoding(), value: Swift.String(stateFilter).urlPercentEncoding())
+            items.append(stateFilterQueryItem)
         }
         return items
     }
@@ -27866,6 +28260,36 @@ extension ListInputSecurityGroupsInput {
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListMultiplexAlertsInput {
+
+    static func urlPathProvider(_ value: ListMultiplexAlertsInput) -> Swift.String? {
+        guard let multiplexId = value.multiplexId else {
+            return nil
+        }
+        return "/prod/multiplexes/\(multiplexId.urlPercentEncoding())/alerts"
+    }
+}
+
+extension ListMultiplexAlertsInput {
+
+    static func queryItemProvider(_ value: ListMultiplexAlertsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let stateFilter = value.stateFilter {
+            let stateFilterQueryItem = Smithy.URIQueryItem(name: "stateFilter".urlPercentEncoding(), value: Swift.String(stateFilter).urlPercentEncoding())
+            items.append(stateFilterQueryItem)
         }
         return items
     }
@@ -30136,6 +30560,19 @@ extension GetSignalMapOutput {
     }
 }
 
+extension ListAlertsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListAlertsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListAlertsOutput()
+        value.alerts = try reader["alerts"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelAlert.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListChannelPlacementGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChannelPlacementGroupsOutput {
@@ -30183,6 +30620,19 @@ extension ListCloudWatchAlarmTemplatesOutput {
         let reader = responseReader
         var value = ListCloudWatchAlarmTemplatesOutput()
         value.cloudWatchAlarmTemplates = try reader["cloudWatchAlarmTemplates"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.CloudWatchAlarmTemplateSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListClusterAlertsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListClusterAlertsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListClusterAlertsOutput()
+        value.alerts = try reader["alerts"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ClusterAlert.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -30274,6 +30724,19 @@ extension ListInputSecurityGroupsOutput {
         let reader = responseReader
         var value = ListInputSecurityGroupsOutput()
         value.inputSecurityGroups = try reader["inputSecurityGroups"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputSecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListMultiplexAlertsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListMultiplexAlertsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListMultiplexAlertsOutput()
+        value.alerts = try reader["alerts"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.MultiplexAlert.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -32295,6 +32758,26 @@ enum GetSignalMapOutputError {
     }
 }
 
+enum ListAlertsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListChannelPlacementGroupsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -32361,6 +32844,26 @@ enum ListCloudWatchAlarmTemplatesOutputError {
         switch baseError.code {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListClusterAlertsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
@@ -32495,6 +32998,26 @@ enum ListInputSecurityGroupsOutputError {
             case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
             case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListMultiplexAlertsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadGatewayException": return try BadGatewayException.makeError(baseError: baseError)
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GatewayTimeoutException": return try GatewayTimeoutException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -38922,6 +39445,22 @@ extension MediaLiveClientTypes.Thumbnail {
     }
 }
 
+extension MediaLiveClientTypes.ChannelAlert {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ChannelAlert {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.ChannelAlert()
+        value.alertType = try reader["alertType"].readIfPresent()
+        value.clearedTimestamp = try reader["clearedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.pipelineId = try reader["pipelineId"].readIfPresent()
+        value.setTimestamp = try reader["setTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaLiveClientTypes.DescribeChannelPlacementGroupSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DescribeChannelPlacementGroupSummary {
@@ -39005,6 +39544,23 @@ extension MediaLiveClientTypes.CloudWatchAlarmTemplateSummary {
         value.targetResourceType = try reader["targetResourceType"].readIfPresent() ?? .sdkUnknown("")
         value.threshold = try reader["threshold"].readIfPresent() ?? 0.0
         value.treatMissingData = try reader["treatMissingData"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.ClusterAlert {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.ClusterAlert {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.ClusterAlert()
+        value.alertType = try reader["alertType"].readIfPresent()
+        value.channelId = try reader["channelId"].readIfPresent()
+        value.clearedTimestamp = try reader["clearedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.nodeId = try reader["nodeId"].readIfPresent()
+        value.setTimestamp = try reader["setTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -39096,6 +39652,22 @@ extension MediaLiveClientTypes.TransferringInputDeviceSummary {
         value.message = try reader["message"].readIfPresent()
         value.targetCustomerId = try reader["targetCustomerId"].readIfPresent()
         value.transferType = try reader["transferType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.MultiplexAlert {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.MultiplexAlert {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.MultiplexAlert()
+        value.alertType = try reader["alertType"].readIfPresent()
+        value.clearedTimestamp = try reader["clearedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.id = try reader["id"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.pipelineId = try reader["pipelineId"].readIfPresent()
+        value.setTimestamp = try reader["setTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }

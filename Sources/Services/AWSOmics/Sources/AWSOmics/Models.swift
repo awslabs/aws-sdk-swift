@@ -3218,13 +3218,15 @@ extension OmicsClientTypes {
         case cwl
         case nextflow
         case wdl
+        case wdlLenient
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WorkflowEngine] {
             return [
                 .cwl,
                 .nextflow,
-                .wdl
+                .wdl,
+                .wdlLenient
             ]
         }
 
@@ -3238,6 +3240,7 @@ extension OmicsClientTypes {
             case .cwl: return "CWL"
             case .nextflow: return "NEXTFLOW"
             case .wdl: return "WDL"
+            case .wdlLenient: return "WDL_LENIENT"
             case let .sdkUnknown(s): return s
             }
         }

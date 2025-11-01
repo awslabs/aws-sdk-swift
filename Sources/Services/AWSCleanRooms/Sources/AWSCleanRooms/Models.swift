@@ -6717,7 +6717,7 @@ extension CleanRoomsClientTypes {
 
     /// A table that has been configured for use in a collaboration.
     public struct ConfiguredTable: Swift.Sendable {
-        /// The columns within the underlying Glue table that can be utilized within collaborations.
+        /// The columns within the underlying Glue table that can be used within collaborations.
         /// This member is required.
         public var allowedColumns: [Swift.String]?
         /// The analysis method for the configured table. DIRECT_QUERY allows SQL queries to be run directly on this table. DIRECT_JOB allows PySpark jobs to be run directly on this table. MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
@@ -8836,6 +8836,16 @@ public struct GetProtectedQueryInput: Swift.Sendable {
 
 extension CleanRoomsClientTypes {
 
+    /// The configuration properties that define the compute environment settings for workers in Clean Rooms. These properties enable customization of the underlying compute environment to optimize performance for your specific workloads.
+    public enum WorkerComputeConfigurationProperties: Swift.Sendable {
+        /// The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
+        case spark([Swift.String: Swift.String])
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension CleanRoomsClientTypes {
+
     public enum WorkerComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cr1x
         case cr4x
@@ -8869,14 +8879,18 @@ extension CleanRoomsClientTypes {
     public struct WorkerComputeConfiguration: Swift.Sendable {
         /// The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400. PySpark jobs support a minimum value of 4 and a maximum value of 128.
         public var number: Swift.Int?
+        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+        public var properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties?
         /// The worker compute configuration type.
         public var type: CleanRoomsClientTypes.WorkerComputeType?
 
         public init(
             number: Swift.Int? = nil,
+            properties: CleanRoomsClientTypes.WorkerComputeConfigurationProperties? = nil,
             type: CleanRoomsClientTypes.WorkerComputeType? = nil
         ) {
             self.number = number
+            self.properties = properties
             self.type = type
         }
     }
@@ -16988,6 +17002,7 @@ extension CleanRoomsClientTypes.WorkerComputeConfiguration {
     static func write(value: CleanRoomsClientTypes.WorkerComputeConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["number"].write(value.number)
+        try writer["properties"].write(value.properties, with: CleanRoomsClientTypes.WorkerComputeConfigurationProperties.write(value:to:))
         try writer["type"].write(value.type)
     }
 
@@ -16996,7 +17011,32 @@ extension CleanRoomsClientTypes.WorkerComputeConfiguration {
         var value = CleanRoomsClientTypes.WorkerComputeConfiguration()
         value.type = try reader["type"].readIfPresent()
         value.number = try reader["number"].readIfPresent()
+        value.properties = try reader["properties"].readIfPresent(with: CleanRoomsClientTypes.WorkerComputeConfigurationProperties.read(from:))
         return value
+    }
+}
+
+extension CleanRoomsClientTypes.WorkerComputeConfigurationProperties {
+
+    static func write(value: CleanRoomsClientTypes.WorkerComputeConfigurationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .spark(spark):
+                try writer["spark"].writeMap(spark, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.WorkerComputeConfigurationProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "spark":
+                return .spark(try reader["spark"].readMap(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

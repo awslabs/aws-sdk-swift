@@ -2308,6 +2308,68 @@ extension LightsailClientTypes {
 
 extension LightsailClientTypes {
 
+    /// Describes a cross-origin resource sharing (CORS) rule for a Lightsail bucket. CORS rules specify which origins are allowed to access the bucket, which HTTP methods are allowed, and other access control information. For more information, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html).
+    public struct BucketCorsRule: Swift.Sendable {
+        /// Headers that are specified in the Access-Control-Request-Headers header. These headers are allowed in a preflight OPTIONS request. In response to any preflight OPTIONS request, Amazon S3 returns any requested headers that are allowed.
+        public var allowedHeaders: [Swift.String]?
+        /// The HTTP methods that are allowed when accessing the bucket from the specified origin. Each CORS rule must identify at least one origin and one method. You can use the following HTTP methods:
+        ///
+        /// * GET - Retrieves data from the server, such as downloading files or viewing content.
+        ///
+        /// * PUT - Uploads or replaces data on the server, such as uploading new files.
+        ///
+        /// * POST - Sends data to the server for processing, such as submitting forms or creating new resources.
+        ///
+        /// * DELETE - Removes data from the server, such as deleting files or resources.
+        ///
+        /// * HEAD - Retrieves only the headers from the server without the actual content, useful for checking if a resource exists.
+        /// This member is required.
+        public var allowedMethods: [Swift.String]?
+        /// One or more origins you want customers to be able to access the bucket from. Each CORS rule must identify at least one origin and one method.
+        /// This member is required.
+        public var allowedOrigins: [Swift.String]?
+        /// One or more headers in the response that you want customers to be able to access from their applications (for example, from a JavaScript XMLHttpRequest object).
+        public var exposeHeaders: [Swift.String]?
+        /// A unique identifier for the CORS rule. The ID value can be up to 255 characters long. The IDs help you find a rule in the configuration.
+        public var id: Swift.String?
+        /// The time in seconds that your browser is to cache the preflight response for the specified resource. A CORS rule can have only one maxAgeSeconds element.
+        public var maxAgeSeconds: Swift.Int?
+
+        public init(
+            allowedHeaders: [Swift.String]? = nil,
+            allowedMethods: [Swift.String]? = nil,
+            allowedOrigins: [Swift.String]? = nil,
+            exposeHeaders: [Swift.String]? = nil,
+            id: Swift.String? = nil,
+            maxAgeSeconds: Swift.Int? = nil
+        ) {
+            self.allowedHeaders = allowedHeaders
+            self.allowedMethods = allowedMethods
+            self.allowedOrigins = allowedOrigins
+            self.exposeHeaders = exposeHeaders
+            self.id = id
+            self.maxAgeSeconds = maxAgeSeconds
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
+    /// Describes the cross-origin resource sharing (CORS) configuration for a Lightsail bucket. CORS defines a way for client web applications that are loaded in one domain to interact with resources in a different domain. For more information, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html).
+    public struct BucketCorsConfig: Swift.Sendable {
+        /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 20 rules to the configuration. The total size is limited to 64 KB.
+        public var rules: [LightsailClientTypes.BucketCorsRule]?
+
+        public init(
+            rules: [LightsailClientTypes.BucketCorsRule]? = nil
+        ) {
+            self.rules = rules
+        }
+    }
+}
+
+extension LightsailClientTypes {
+
     /// Describes the state of an Amazon Lightsail bucket.
     public struct BucketState: Swift.Sendable {
         /// The state code of the bucket. The following codes are possible:
@@ -2362,6 +2424,8 @@ extension LightsailClientTypes {
         public var arn: Swift.String?
         /// The ID of the bundle currently applied to the bucket. A bucket bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. Use the [UpdateBucketBundle](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_UpdateBucketBundle.html) action to change the bundle of a bucket.
         public var bundleId: Swift.String?
+        /// An array of cross-origin resource sharing (CORS) rules that identify origins and the HTTP methods that can be executed on your bucket. This field is only included in the response when CORS configuration is requested or when updating CORS configuration. For more information, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html).
+        public var cors: LightsailClientTypes.BucketCorsConfig?
         /// The timestamp when the distribution was created.
         public var createdAt: Foundation.Date?
         /// An object that describes the location of the bucket, such as the Amazon Web Services Region and Availability Zone.
@@ -2397,6 +2461,7 @@ extension LightsailClientTypes {
             accessRules: LightsailClientTypes.AccessRules? = nil,
             arn: Swift.String? = nil,
             bundleId: Swift.String? = nil,
+            cors: LightsailClientTypes.BucketCorsConfig? = nil,
             createdAt: Foundation.Date? = nil,
             location: LightsailClientTypes.ResourceLocation? = nil,
             name: Swift.String? = nil,
@@ -2414,6 +2479,7 @@ extension LightsailClientTypes {
             self.accessRules = accessRules
             self.arn = arn
             self.bundleId = bundleId
+            self.cors = cors
             self.createdAt = createdAt
             self.location = location
             self.name = name
@@ -7876,16 +7942,20 @@ public struct GetBucketsInput: Swift.Sendable {
     public var bucketName: Swift.String?
     /// A Boolean value that indicates whether to include Lightsail instances that were given access to the bucket using the [SetResourceAccessForBucket](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_SetResourceAccessForBucket.html) action.
     public var includeConnectedResources: Swift.Bool?
+    /// A Boolean value that indicates whether to include Lightsail bucket CORS configuration in the response. For more information, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html). This parameter is only supported when getting a single bucket with bucketName specified. The default value for this parameter is False.
+    public var includeCors: Swift.Bool?
     /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBuckets request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
     public var pageToken: Swift.String?
 
     public init(
         bucketName: Swift.String? = nil,
         includeConnectedResources: Swift.Bool? = nil,
+        includeCors: Swift.Bool? = nil,
         pageToken: Swift.String? = nil
     ) {
         self.bucketName = bucketName
         self.includeConnectedResources = includeConnectedResources
+        self.includeCors = includeCors
         self.pageToken = pageToken
     }
 }
@@ -13143,6 +13213,8 @@ public struct UpdateBucketInput: Swift.Sendable {
     /// The name of the bucket to update.
     /// This member is required.
     public var bucketName: Swift.String?
+    /// Sets the cross-origin resource sharing (CORS) configuration for your bucket. If a CORS configuration exists, it is replaced with the specified configuration. For AWS CLI operations, this parameter can also be passed as a file. For more information, see [Configuring cross-origin resource sharing (CORS)](https://docs.aws.amazon.com/lightsail/latest/userguide/configure-cors.html). CORS information is only returned in a response when you update the CORS policy.
+    public var cors: LightsailClientTypes.BucketCorsConfig?
     /// An array of strings to specify the Amazon Web Services account IDs that can access the bucket. You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
     public var readonlyAccessAccounts: [Swift.String]?
     /// Specifies whether to enable or suspend versioning of objects in the bucket. The following options can be specified:
@@ -13156,12 +13228,14 @@ public struct UpdateBucketInput: Swift.Sendable {
         accessLogConfig: LightsailClientTypes.BucketAccessLogConfig? = nil,
         accessRules: LightsailClientTypes.AccessRules? = nil,
         bucketName: Swift.String? = nil,
+        cors: LightsailClientTypes.BucketCorsConfig? = nil,
         readonlyAccessAccounts: [Swift.String]? = nil,
         versioning: Swift.String? = nil
     ) {
         self.accessLogConfig = accessLogConfig
         self.accessRules = accessRules
         self.bucketName = bucketName
+        self.cors = cors
         self.readonlyAccessAccounts = readonlyAccessAccounts
         self.versioning = versioning
     }
@@ -15412,6 +15486,7 @@ extension GetBucketsInput {
         guard let value else { return }
         try writer["bucketName"].write(value.bucketName)
         try writer["includeConnectedResources"].write(value.includeConnectedResources)
+        try writer["includeCors"].write(value.includeCors)
         try writer["pageToken"].write(value.pageToken)
     }
 }
@@ -16166,6 +16241,7 @@ extension UpdateBucketInput {
         try writer["accessLogConfig"].write(value.accessLogConfig, with: LightsailClientTypes.BucketAccessLogConfig.write(value:to:))
         try writer["accessRules"].write(value.accessRules, with: LightsailClientTypes.AccessRules.write(value:to:))
         try writer["bucketName"].write(value.bucketName)
+        try writer["cors"].write(value.cors, with: LightsailClientTypes.BucketCorsConfig.write(value:to:))
         try writer["readonlyAccessAccounts"].writeList(value.readonlyAccessAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["versioning"].write(value.versioning)
     }
@@ -21710,6 +21786,47 @@ extension LightsailClientTypes.Bucket {
         value.resourcesReceivingAccess = try reader["resourcesReceivingAccess"].readListIfPresent(memberReadingClosure: LightsailClientTypes.ResourceReceivingAccess.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent(with: LightsailClientTypes.BucketState.read(from:))
         value.accessLogConfig = try reader["accessLogConfig"].readIfPresent(with: LightsailClientTypes.BucketAccessLogConfig.read(from:))
+        value.cors = try reader["cors"].readIfPresent(with: LightsailClientTypes.BucketCorsConfig.read(from:))
+        return value
+    }
+}
+
+extension LightsailClientTypes.BucketCorsConfig {
+
+    static func write(value: LightsailClientTypes.BucketCorsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["rules"].writeList(value.rules, memberWritingClosure: LightsailClientTypes.BucketCorsRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketCorsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.BucketCorsConfig()
+        value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: LightsailClientTypes.BucketCorsRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LightsailClientTypes.BucketCorsRule {
+
+    static func write(value: LightsailClientTypes.BucketCorsRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedHeaders"].writeList(value.allowedHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedMethods"].writeList(value.allowedMethods, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["allowedOrigins"].writeList(value.allowedOrigins, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["exposeHeaders"].writeList(value.exposeHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["maxAgeSeconds"].write(value.maxAgeSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LightsailClientTypes.BucketCorsRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LightsailClientTypes.BucketCorsRule()
+        value.id = try reader["id"].readIfPresent()
+        value.allowedMethods = try reader["allowedMethods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedOrigins = try reader["allowedOrigins"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedHeaders = try reader["allowedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exposeHeaders = try reader["exposeHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxAgeSeconds = try reader["maxAgeSeconds"].readIfPresent()
         return value
     }
 }

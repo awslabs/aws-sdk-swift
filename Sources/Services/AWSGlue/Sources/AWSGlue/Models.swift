@@ -12615,13 +12615,17 @@ public struct CreateGlueIdentityCenterConfigurationInput: Swift.Sendable {
     public var instanceArn: Swift.String?
     /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
     public var scopes: [Swift.String]?
+    /// Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
+    public var userBackgroundSessionsEnabled: Swift.Bool?
 
     public init(
         instanceArn: Swift.String? = nil,
-        scopes: [Swift.String]? = nil
+        scopes: [Swift.String]? = nil,
+        userBackgroundSessionsEnabled: Swift.Bool? = nil
     ) {
         self.instanceArn = instanceArn
         self.scopes = scopes
+        self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
     }
 }
 
@@ -20113,15 +20117,19 @@ public struct GetGlueIdentityCenterConfigurationOutput: Swift.Sendable {
     public var instanceArn: Swift.String?
     /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
     public var scopes: [Swift.String]?
+    /// Indicates whether users can run background sessions when using Identity Center authentication with Glue services.
+    public var userBackgroundSessionsEnabled: Swift.Bool?
 
     public init(
         applicationArn: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
-        scopes: [Swift.String]? = nil
+        scopes: [Swift.String]? = nil,
+        userBackgroundSessionsEnabled: Swift.Bool? = nil
     ) {
         self.applicationArn = applicationArn
         self.instanceArn = instanceArn
         self.scopes = scopes
+        self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
     }
 }
 
@@ -22454,6 +22462,8 @@ public struct GetStatementOutput: Swift.Sendable {
 }
 
 public struct GetTableInput: Swift.Sendable {
+    /// A structure containing the Lake Formation [audit context](https://docs.aws.amazon.com/glue/latest/webapi/API_AuditContext.html).
+    public var auditContext: GlueClientTypes.AuditContext?
     /// The ID of the Data Catalog where the table resides. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -22470,6 +22480,7 @@ public struct GetTableInput: Swift.Sendable {
     public var transactionId: Swift.String?
 
     public init(
+        auditContext: GlueClientTypes.AuditContext? = nil,
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         includeStatusDetails: Swift.Bool? = nil,
@@ -22477,6 +22488,7 @@ public struct GetTableInput: Swift.Sendable {
         queryAsOfTime: Foundation.Date? = nil,
         transactionId: Swift.String? = nil
     ) {
+        self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.includeStatusDetails = includeStatusDetails
@@ -22765,6 +22777,8 @@ public struct GetTablesInput: Swift.Sendable {
     ///
     /// * NAME, TABLE_TYPE - Names of all tables and the table types.
     public var attributesToGet: [GlueClientTypes.TableAttributes]?
+    /// A structure containing the Lake Formation [audit context](https://docs.aws.amazon.com/glue/latest/webapi/API_AuditContext.html).
+    public var auditContext: GlueClientTypes.AuditContext?
     /// The ID of the Data Catalog where the tables reside. If none is provided, the Amazon Web Services account ID is used by default.
     public var catalogId: Swift.String?
     /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
@@ -22785,6 +22799,7 @@ public struct GetTablesInput: Swift.Sendable {
 
     public init(
         attributesToGet: [GlueClientTypes.TableAttributes]? = nil,
+        auditContext: GlueClientTypes.AuditContext? = nil,
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         expression: Swift.String? = nil,
@@ -22795,6 +22810,7 @@ public struct GetTablesInput: Swift.Sendable {
         transactionId: Swift.String? = nil
     ) {
         self.attributesToGet = attributesToGet
+        self.auditContext = auditContext
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.expression = expression
@@ -27788,11 +27804,15 @@ public struct UpdateDevEndpointOutput: Swift.Sendable {
 public struct UpdateGlueIdentityCenterConfigurationInput: Swift.Sendable {
     /// A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration.
     public var scopes: [Swift.String]?
+    /// Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
+    public var userBackgroundSessionsEnabled: Swift.Bool?
 
     public init(
-        scopes: [Swift.String]? = nil
+        scopes: [Swift.String]? = nil,
+        userBackgroundSessionsEnabled: Swift.Bool? = nil
     ) {
         self.scopes = scopes
+        self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
     }
 }
 
@@ -31867,6 +31887,7 @@ extension CreateGlueIdentityCenterConfigurationInput {
         guard let value else { return }
         try writer["InstanceArn"].write(value.instanceArn)
         try writer["Scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UserBackgroundSessionsEnabled"].write(value.userBackgroundSessionsEnabled)
     }
 }
 
@@ -33031,6 +33052,7 @@ extension GetTableInput {
 
     static func write(value: GetTableInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AuditContext"].write(value.auditContext, with: GlueClientTypes.AuditContext.write(value:to:))
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["IncludeStatusDetails"].write(value.includeStatusDetails)
@@ -33056,6 +33078,7 @@ extension GetTablesInput {
     static func write(value: GetTablesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttributesToGet"].writeList(value.attributesToGet, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.TableAttributes>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AuditContext"].write(value.auditContext, with: GlueClientTypes.AuditContext.write(value:to:))
         try writer["CatalogId"].write(value.catalogId)
         try writer["DatabaseName"].write(value.databaseName)
         try writer["Expression"].write(value.expression)
@@ -34031,6 +34054,7 @@ extension UpdateGlueIdentityCenterConfigurationInput {
     static func write(value: UpdateGlueIdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UserBackgroundSessionsEnabled"].write(value.userBackgroundSessionsEnabled)
     }
 }
 
@@ -35651,6 +35675,7 @@ extension GetGlueIdentityCenterConfigurationOutput {
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
         value.instanceArn = try reader["InstanceArn"].readIfPresent()
         value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userBackgroundSessionsEnabled = try reader["UserBackgroundSessionsEnabled"].readIfPresent()
         return value
     }
 }

@@ -31,7 +31,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class MediaConvertClient: ClientRuntime.Client {
+public class MediaConvertClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MediaConvertClient"
-    public static let version = "1.5.59"
     let client: ClientRuntime.SdkHttpClient
     let config: MediaConvertClient.MediaConvertClientConfiguration
     let serviceName = "MediaConvert"
@@ -386,6 +385,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func associateCertificate(input: AssociateCertificateInput) async throws -> AssociateCertificateOutput {
         let context = Smithy.ContextBuilder()
@@ -459,6 +459,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutput {
         let context = Smithy.ContextBuilder()
@@ -529,6 +530,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createJob(input: CreateJobInput) async throws -> CreateJobOutput {
         let context = Smithy.ContextBuilder()
@@ -603,6 +605,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createJobTemplate(input: CreateJobTemplateInput) async throws -> CreateJobTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -676,6 +679,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createPreset(input: CreatePresetInput) async throws -> CreatePresetOutput {
         let context = Smithy.ContextBuilder()
@@ -749,6 +753,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createQueue(input: CreateQueueInput) async throws -> CreateQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -822,6 +827,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func createResourceShare(input: CreateResourceShareInput) async throws -> CreateResourceShareOutput {
         let context = Smithy.ContextBuilder()
@@ -895,6 +901,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func deleteJobTemplate(input: DeleteJobTemplateInput) async throws -> DeleteJobTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -965,6 +972,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func deletePolicy(input: DeletePolicyInput) async throws -> DeletePolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -1035,6 +1043,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func deletePreset(input: DeletePresetInput) async throws -> DeletePresetOutput {
         let context = Smithy.ContextBuilder()
@@ -1105,6 +1114,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func deleteQueue(input: DeleteQueueInput) async throws -> DeleteQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -1176,6 +1186,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutput {
         let context = Smithy.ContextBuilder()
@@ -1249,6 +1260,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func disassociateCertificate(input: DisassociateCertificateInput) async throws -> DisassociateCertificateOutput {
         let context = Smithy.ContextBuilder()
@@ -1319,6 +1331,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getJob(input: GetJobInput) async throws -> GetJobOutput {
         let context = Smithy.ContextBuilder()
@@ -1389,6 +1402,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getJobTemplate(input: GetJobTemplateInput) async throws -> GetJobTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -1443,6 +1457,77 @@ extension MediaConvertClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetJobsQueryResults` operation on the `MediaConvert` service.
+    ///
+    /// Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetJobsQueryResultsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetJobsQueryResultsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The service can't process your request because of a problem in the request. Please check your request form and syntax.
+    /// - `ConflictException` : The service couldn't complete your request because there is a conflict with the current state of the resource.
+    /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
+    /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
+    /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
+    /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
+    public func getJobsQueryResults(input: GetJobsQueryResultsInput) async throws -> GetJobsQueryResultsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getJobsQueryResults")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconvert")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetJobsQueryResultsInput, GetJobsQueryResultsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>(GetJobsQueryResultsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetJobsQueryResultsOutput>(GetJobsQueryResultsOutput.httpOutput(from:), GetJobsQueryResultsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetJobsQueryResultsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConvert", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetJobsQueryResultsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetJobsQueryResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetJobsQueryResultsInput, GetJobsQueryResultsOutput>(serviceID: serviceName, version: MediaConvertClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConvert")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetJobsQueryResults")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetPolicy` operation on the `MediaConvert` service.
     ///
     /// Retrieve the JSON for your policy.
@@ -1459,6 +1544,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getPolicy(input: GetPolicyInput) async throws -> GetPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -1529,6 +1615,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getPreset(input: GetPresetInput) async throws -> GetPresetOutput {
         let context = Smithy.ContextBuilder()
@@ -1599,6 +1686,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func getQueue(input: GetQueueInput) async throws -> GetQueueOutput {
         let context = Smithy.ContextBuilder()
@@ -1669,6 +1757,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listJobTemplates(input: ListJobTemplatesInput) async throws -> ListJobTemplatesOutput {
         let context = Smithy.ContextBuilder()
@@ -1740,6 +1829,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
         let context = Smithy.ContextBuilder()
@@ -1811,6 +1901,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listPresets(input: ListPresetsInput) async throws -> ListPresetsOutput {
         let context = Smithy.ContextBuilder()
@@ -1882,6 +1973,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listQueues(input: ListQueuesInput) async throws -> ListQueuesOutput {
         let context = Smithy.ContextBuilder()
@@ -1953,6 +2045,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2023,6 +2116,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func listVersions(input: ListVersionsInput) async throws -> ListVersionsOutput {
         let context = Smithy.ContextBuilder()
@@ -2094,6 +2188,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func probe(input: ProbeInput) async throws -> ProbeOutput {
         let context = Smithy.ContextBuilder()
@@ -2167,6 +2262,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func putPolicy(input: PutPolicyInput) async throws -> PutPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2240,6 +2336,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func searchJobs(input: SearchJobsInput) async throws -> SearchJobsOutput {
         let context = Smithy.ContextBuilder()
@@ -2295,6 +2392,80 @@ extension MediaConvertClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `StartJobsQuery` operation on the `MediaConvert` service.
+    ///
+    /// Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartJobsQueryInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartJobsQueryOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The service can't process your request because of a problem in the request. Please check your request form and syntax.
+    /// - `ConflictException` : The service couldn't complete your request because there is a conflict with the current state of the resource.
+    /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
+    /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
+    /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
+    /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
+    public func startJobsQuery(input: StartJobsQueryInput) async throws -> StartJobsQueryOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startJobsQuery")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "mediaconvert")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartJobsQueryInput, StartJobsQueryOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(StartJobsQueryInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartJobsQueryInput, StartJobsQueryOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartJobsQueryInput, StartJobsQueryOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartJobsQueryInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartJobsQueryInput, StartJobsQueryOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartJobsQueryOutput>(StartJobsQueryOutput.httpOutput(from:), StartJobsQueryOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartJobsQueryOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("MediaConvert", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartJobsQueryOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartJobsQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartJobsQueryInput, StartJobsQueryOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartJobsQueryInput, StartJobsQueryOutput>(serviceID: serviceName, version: MediaConvertClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "MediaConvert")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartJobsQuery")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `TagResource` operation on the `MediaConvert` service.
     ///
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
@@ -2311,6 +2482,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2384,6 +2556,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = Smithy.ContextBuilder()
@@ -2457,6 +2630,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func updateJobTemplate(input: UpdateJobTemplateInput) async throws -> UpdateJobTemplateOutput {
         let context = Smithy.ContextBuilder()
@@ -2530,6 +2704,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func updatePreset(input: UpdatePresetInput) async throws -> UpdatePresetOutput {
         let context = Smithy.ContextBuilder()
@@ -2603,6 +2778,7 @@ extension MediaConvertClient {
     /// - `ForbiddenException` : You don't have permissions for this action with the credentials you sent.
     /// - `InternalServerErrorException` : The service encountered an unexpected condition and can't fulfill your request.
     /// - `NotFoundException` : The resource you requested doesn't exist.
+    /// - `ServiceQuotaExceededException` : You attempted to create more resources than the service allows based on service quotas.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public func updateQueue(input: UpdateQueueInput) async throws -> UpdateQueueOutput {
         let context = Smithy.ContextBuilder()

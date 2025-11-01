@@ -3755,6 +3755,33 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
+/// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
+public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// Source type for the exception.
+        public internal(set) var sourceType: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFLimitsExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        sourceType: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.sourceType = sourceType
+    }
+}
+
 /// WAF couldn’t perform the operation because your resource doesn't exist. If you've just created a resource that you're using in this operation, you might just need to wait a few minutes. It can take from a few seconds to a number of minutes for changes to propagate.
 public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -3946,33 +3973,6 @@ public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClient
         message: Swift.String? = nil
     ) {
         self.properties.message = message
-    }
-}
-
-/// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
-public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// Source type for the exception.
-        public internal(set) var sourceType: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "WAFLimitsExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        sourceType: Swift.String? = nil
-    ) {
-        self.properties.message = message
-        self.properties.sourceType = sourceType
     }
 }
 
@@ -10161,6 +10161,7 @@ enum AssociateWebACLOutputError {
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
             case "WAFInvalidOperationException": return try WAFInvalidOperationException.makeError(baseError: baseError)
             case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
+            case "WAFLimitsExceededException": return try WAFLimitsExceededException.makeError(baseError: baseError)
             case "WAFNonexistentItemException": return try WAFNonexistentItemException.makeError(baseError: baseError)
             case "WAFUnavailableEntityException": return try WAFUnavailableEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -11185,6 +11186,20 @@ extension WAFInvalidParameterException {
     }
 }
 
+extension WAFLimitsExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFLimitsExceededException {
+        let reader = baseError.errorBodyReader
+        var value = WAFLimitsExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.sourceType = try reader["SourceType"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension WAFNonexistentItemException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFNonexistentItemException {
@@ -11230,20 +11245,6 @@ extension WAFInvalidResourceException {
         let reader = baseError.errorBodyReader
         var value = WAFInvalidResourceException()
         value.properties.message = try reader["Message"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
-extension WAFLimitsExceededException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFLimitsExceededException {
-        let reader = baseError.errorBodyReader
-        var value = WAFLimitsExceededException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.sourceType = try reader["SourceType"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message

@@ -41,12 +41,22 @@ public struct DeleteTelemetryRuleOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct GetTelemetryEnrichmentStatusInput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GetTelemetryEvaluationStatusForOrganizationInput: Swift.Sendable {
 
     public init() { }
 }
 
 public struct GetTelemetryEvaluationStatusInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StartTelemetryEnrichmentInput: Swift.Sendable {
 
     public init() { }
 }
@@ -67,6 +77,11 @@ public struct StartTelemetryEvaluationInput: Swift.Sendable {
 }
 
 public struct StartTelemetryEvaluationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopTelemetryEnrichmentInput: Swift.Sendable {
 
     public init() { }
 }
@@ -990,6 +1005,53 @@ public struct GetCentralizationRuleForOrganizationOutput: Swift.Sendable {
 
 extension ObservabilityAdminClientTypes {
 
+    public enum TelemetryEnrichmentStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case impaired
+        case running
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TelemetryEnrichmentStatus] {
+            return [
+                .impaired,
+                .running,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .impaired: return "Impaired"
+            case .running: return "Running"
+            case .stopped: return "Stopped"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTelemetryEnrichmentStatusOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Resource Explorer managed view used for resource tags for telemetry, if the feature is enabled.
+    public var awsResourceExplorerManagedViewArn: Swift.String?
+    /// The current status of the resource tags for telemetry feature (Running, Stopped, or Impaired).
+    public var status: ObservabilityAdminClientTypes.TelemetryEnrichmentStatus?
+
+    public init(
+        awsResourceExplorerManagedViewArn: Swift.String? = nil,
+        status: ObservabilityAdminClientTypes.TelemetryEnrichmentStatus? = nil
+    ) {
+        self.awsResourceExplorerManagedViewArn = awsResourceExplorerManagedViewArn
+        self.status = status
+    }
+}
+
+extension ObservabilityAdminClientTypes {
+
     public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case failedStart
         case failedStop
@@ -1476,6 +1538,32 @@ public struct ListTelemetryRulesForOrganizationOutput: Swift.Sendable {
     }
 }
 
+public struct StartTelemetryEnrichmentOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the Amazon Web Services Resource Explorer managed view created for resource tags for telemetry.
+    public var awsResourceExplorerManagedViewArn: Swift.String?
+    /// The status of the resource tags for telemetry feature after the start operation (Running, Stopped, or Impaired).
+    public var status: ObservabilityAdminClientTypes.TelemetryEnrichmentStatus?
+
+    public init(
+        awsResourceExplorerManagedViewArn: Swift.String? = nil,
+        status: ObservabilityAdminClientTypes.TelemetryEnrichmentStatus? = nil
+    ) {
+        self.awsResourceExplorerManagedViewArn = awsResourceExplorerManagedViewArn
+        self.status = status
+    }
+}
+
+public struct StopTelemetryEnrichmentOutput: Swift.Sendable {
+    /// The status of the resource tags for telemetry feature after the stop operation (Running, Stopped, or Impaired).
+    public var status: ObservabilityAdminClientTypes.TelemetryEnrichmentStatus?
+
+    public init(
+        status: ObservabilityAdminClientTypes.TelemetryEnrichmentStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the telemetry rule resource to tag.
     /// This member is required.
@@ -1643,6 +1731,13 @@ extension GetCentralizationRuleForOrganizationInput {
     }
 }
 
+extension GetTelemetryEnrichmentStatusInput {
+
+    static func urlPathProvider(_ value: GetTelemetryEnrichmentStatusInput) -> Swift.String? {
+        return "/GetTelemetryEnrichmentStatus"
+    }
+}
+
 extension GetTelemetryEvaluationStatusInput {
 
     static func urlPathProvider(_ value: GetTelemetryEvaluationStatusInput) -> Swift.String? {
@@ -1713,6 +1808,13 @@ extension ListTelemetryRulesForOrganizationInput {
     }
 }
 
+extension StartTelemetryEnrichmentInput {
+
+    static func urlPathProvider(_ value: StartTelemetryEnrichmentInput) -> Swift.String? {
+        return "/StartTelemetryEnrichment"
+    }
+}
+
 extension StartTelemetryEvaluationInput {
 
     static func urlPathProvider(_ value: StartTelemetryEvaluationInput) -> Swift.String? {
@@ -1724,6 +1826,13 @@ extension StartTelemetryEvaluationForOrganizationInput {
 
     static func urlPathProvider(_ value: StartTelemetryEvaluationForOrganizationInput) -> Swift.String? {
         return "/StartTelemetryEvaluationForOrganization"
+    }
+}
+
+extension StopTelemetryEnrichmentInput {
+
+    static func urlPathProvider(_ value: StopTelemetryEnrichmentInput) -> Swift.String? {
+        return "/StopTelemetryEnrichment"
     }
 }
 
@@ -2044,6 +2153,19 @@ extension GetCentralizationRuleForOrganizationOutput {
     }
 }
 
+extension GetTelemetryEnrichmentStatusOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTelemetryEnrichmentStatusOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTelemetryEnrichmentStatusOutput()
+        value.awsResourceExplorerManagedViewArn = try reader["AwsResourceExplorerManagedViewArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension GetTelemetryEvaluationStatusOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTelemetryEvaluationStatusOutput {
@@ -2179,6 +2301,19 @@ extension ListTelemetryRulesForOrganizationOutput {
     }
 }
 
+extension StartTelemetryEnrichmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTelemetryEnrichmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartTelemetryEnrichmentOutput()
+        value.awsResourceExplorerManagedViewArn = try reader["AwsResourceExplorerManagedViewArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension StartTelemetryEvaluationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTelemetryEvaluationOutput {
@@ -2190,6 +2325,18 @@ extension StartTelemetryEvaluationForOrganizationOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTelemetryEvaluationForOrganizationOutput {
         return StartTelemetryEvaluationForOrganizationOutput()
+    }
+}
+
+extension StopTelemetryEnrichmentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopTelemetryEnrichmentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StopTelemetryEnrichmentOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -2386,6 +2533,23 @@ enum GetCentralizationRuleForOrganizationOutputError {
     }
 }
 
+enum GetTelemetryEnrichmentStatusOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetTelemetryEvaluationStatusOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2558,6 +2722,23 @@ enum ListTelemetryRulesForOrganizationOutputError {
     }
 }
 
+enum StartTelemetryEnrichmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartTelemetryEvaluationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2587,6 +2768,23 @@ enum StartTelemetryEvaluationForOrganizationOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopTelemetryEnrichmentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }

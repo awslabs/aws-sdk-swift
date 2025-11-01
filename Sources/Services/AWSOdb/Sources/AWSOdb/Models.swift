@@ -732,7 +732,7 @@ extension OdbClientTypes {
         public var hostname: Swift.String?
         /// Indicates whether mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public var isMtlsEnabledVmCluster: Swift.Bool?
-        /// The Oracle license model that applies to the Autonomous VM cluster. Valid values are LICENSE_INCLUDED or BRING_YOUR_OWN_LICENSE.
+        /// The Oracle license model that applies to the Autonomous VM cluster.
         public var licenseModel: OdbClientTypes.LicenseModel?
         /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.
         public var maintenanceWindow: OdbClientTypes.MaintenanceWindow?
@@ -3178,6 +3178,8 @@ public struct CreateOdbPeeringConnectionInput: Swift.Sendable {
     /// The unique identifier of the ODB network that initiates the peering connection.
     /// This member is required.
     public var odbNetworkId: Swift.String?
+    /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+    public var peerNetworkCidrsToBeAdded: [Swift.String]?
     /// The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID.
     /// This member is required.
     public var peerNetworkId: Swift.String?
@@ -3188,12 +3190,14 @@ public struct CreateOdbPeeringConnectionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         displayName: Swift.String? = nil,
         odbNetworkId: Swift.String? = nil,
+        peerNetworkCidrsToBeAdded: [Swift.String]? = nil,
         peerNetworkId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.displayName = displayName
         self.odbNetworkId = odbNetworkId
+        self.peerNetworkCidrsToBeAdded = peerNetworkCidrsToBeAdded
         self.peerNetworkId = peerNetworkId
         self.tags = tags
     }
@@ -3205,7 +3209,7 @@ public struct CreateOdbPeeringConnectionOutput: Swift.Sendable {
     /// The unique identifier of the ODB peering connection.
     /// This member is required.
     public var odbPeeringConnectionId: Swift.String?
-    /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+    /// The status of the ODB peering connection.
     public var status: OdbClientTypes.ResourceStatus?
     /// The reason for the current status of the ODB peering connection.
     public var statusReason: Swift.String?
@@ -4030,7 +4034,7 @@ extension OdbClientTypes {
     public struct ManagedS3BackupAccess: Swift.Sendable {
         /// The IPv4 addresses for the managed Amazon S3 backup access.
         public var ipv4Addresses: [Swift.String]?
-        /// The status of the managed Amazon S3 backup access. Valid Values: enabled | disabled
+        /// The status of the managed Amazon S3 backup access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4053,7 +4057,7 @@ extension OdbClientTypes {
         public var ipv4Addresses: [Swift.String]?
         /// The endpoint policy for the Amazon S3 access.
         public var s3PolicyDocument: Swift.String?
-        /// The status of the Amazon S3 access. Valid Values: enabled | disabled
+        /// The status of the Amazon S3 access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4102,7 +4106,7 @@ extension OdbClientTypes {
     public struct ServiceNetworkEndpoint: Swift.Sendable {
         /// The identifier of the VPC endpoint.
         public var vpcEndpointId: Swift.String?
-        /// The type of the VPC endpoint. Valid Values: Interface | Gateway
+        /// The type of the VPC endpoint.
         public var vpcEndpointType: OdbClientTypes.VpcEndpointType?
 
         public init(
@@ -4121,7 +4125,7 @@ extension OdbClientTypes {
     public struct ZeroEtlAccess: Swift.Sendable {
         /// The CIDR block for the Zero-ETL access.
         public var cidr: Swift.String?
-        /// The status of the Zero-ETL access. Valid Values: enabled | disabled
+        /// The status of the Zero-ETL access.
         public var status: OdbClientTypes.ManagedResourceStatus?
 
         public init(
@@ -4330,9 +4334,11 @@ extension OdbClientTypes {
         public var odbPeeringConnectionType: Swift.String?
         /// The Amazon Resource Name (ARN) of the peer network.
         public var peerNetworkArn: Swift.String?
+        /// The CIDR blocks associated with the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+        public var peerNetworkCidrs: [Swift.String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public var percentProgress: Swift.Float?
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public var status: OdbClientTypes.ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public var statusReason: Swift.String?
@@ -4345,6 +4351,7 @@ extension OdbClientTypes {
             odbPeeringConnectionId: Swift.String? = nil,
             odbPeeringConnectionType: Swift.String? = nil,
             peerNetworkArn: Swift.String? = nil,
+            peerNetworkCidrs: [Swift.String]? = nil,
             percentProgress: Swift.Float? = nil,
             status: OdbClientTypes.ResourceStatus? = nil,
             statusReason: Swift.String? = nil
@@ -4356,6 +4363,7 @@ extension OdbClientTypes {
             self.odbPeeringConnectionId = odbPeeringConnectionId
             self.odbPeeringConnectionType = odbPeeringConnectionType
             self.peerNetworkArn = peerNetworkArn
+            self.peerNetworkCidrs = peerNetworkCidrs
             self.percentProgress = percentProgress
             self.status = status
             self.statusReason = statusReason
@@ -4640,9 +4648,11 @@ extension OdbClientTypes {
         public var odbPeeringConnectionType: Swift.String?
         /// The Amazon Resource Name (ARN) of the peer network.
         public var peerNetworkArn: Swift.String?
+        /// The CIDR blocks associated with the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection.
+        public var peerNetworkCidrs: [Swift.String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public var percentProgress: Swift.Float?
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public var status: OdbClientTypes.ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public var statusReason: Swift.String?
@@ -4655,6 +4665,7 @@ extension OdbClientTypes {
             odbPeeringConnectionId: Swift.String? = nil,
             odbPeeringConnectionType: Swift.String? = nil,
             peerNetworkArn: Swift.String? = nil,
+            peerNetworkCidrs: [Swift.String]? = nil,
             percentProgress: Swift.Float? = nil,
             status: OdbClientTypes.ResourceStatus? = nil,
             statusReason: Swift.String? = nil
@@ -4666,6 +4677,7 @@ extension OdbClientTypes {
             self.odbPeeringConnectionId = odbPeeringConnectionId
             self.odbPeeringConnectionType = odbPeeringConnectionType
             self.peerNetworkArn = peerNetworkArn
+            self.peerNetworkCidrs = peerNetworkCidrs
             self.percentProgress = percentProgress
             self.status = status
             self.statusReason = statusReason
@@ -4831,6 +4843,54 @@ public struct UpdateOdbNetworkOutput: Swift.Sendable {
     ) {
         self.displayName = displayName
         self.odbNetworkId = odbNetworkId
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+public struct UpdateOdbPeeringConnectionInput: Swift.Sendable {
+    /// A new display name for the peering connection.
+    public var displayName: Swift.String?
+    /// The identifier of the Oracle Database@Amazon Web Services peering connection to update.
+    /// This member is required.
+    public var odbPeeringConnectionId: Swift.String?
+    /// A list of CIDR blocks to add to the peering connection. These CIDR blocks define the IP address ranges that can communicate through the peering connection. The CIDR blocks must not overlap with existing CIDR blocks in the Oracle Database@Amazon Web Services network.
+    public var peerNetworkCidrsToBeAdded: [Swift.String]?
+    /// A list of CIDR blocks to remove from the peering connection. The CIDR blocks must currently exist in the peering connection.
+    public var peerNetworkCidrsToBeRemoved: [Swift.String]?
+
+    public init(
+        displayName: Swift.String? = nil,
+        odbPeeringConnectionId: Swift.String? = nil,
+        peerNetworkCidrsToBeAdded: [Swift.String]? = nil,
+        peerNetworkCidrsToBeRemoved: [Swift.String]? = nil
+    ) {
+        self.displayName = displayName
+        self.odbPeeringConnectionId = odbPeeringConnectionId
+        self.peerNetworkCidrsToBeAdded = peerNetworkCidrsToBeAdded
+        self.peerNetworkCidrsToBeRemoved = peerNetworkCidrsToBeRemoved
+    }
+}
+
+public struct UpdateOdbPeeringConnectionOutput: Swift.Sendable {
+    /// The display name of the peering connection.
+    public var displayName: Swift.String?
+    /// The identifier of the Oracle Database@Amazon Web Services peering connection that was updated.
+    /// This member is required.
+    public var odbPeeringConnectionId: Swift.String?
+    /// The status of the peering connection update operation.
+    public var status: OdbClientTypes.ResourceStatus?
+    /// Additional information about the status of the peering connection update operation.
+    public var statusReason: Swift.String?
+
+    public init(
+        displayName: Swift.String? = nil,
+        odbPeeringConnectionId: Swift.String? = nil,
+        status: OdbClientTypes.ResourceStatus? = nil,
+        statusReason: Swift.String? = nil
+    ) {
+        self.displayName = displayName
+        self.odbPeeringConnectionId = odbPeeringConnectionId
         self.status = status
         self.statusReason = statusReason
     }
@@ -5160,6 +5220,13 @@ extension UpdateOdbNetworkInput {
     }
 }
 
+extension UpdateOdbPeeringConnectionInput {
+
+    static func urlPathProvider(_ value: UpdateOdbPeeringConnectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension AcceptMarketplaceRegistrationInput {
 
     static func write(value: AcceptMarketplaceRegistrationInput?, to writer: SmithyJSON.Writer) throws {
@@ -5265,6 +5332,7 @@ extension CreateOdbPeeringConnectionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["displayName"].write(value.displayName)
         try writer["odbNetworkId"].write(value.odbNetworkId)
+        try writer["peerNetworkCidrsToBeAdded"].writeList(value.peerNetworkCidrsToBeAdded, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["peerNetworkId"].write(value.peerNetworkId)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -5577,6 +5645,17 @@ extension UpdateOdbNetworkInput {
         try writer["s3Access"].write(value.s3Access)
         try writer["s3PolicyDocument"].write(value.s3PolicyDocument)
         try writer["zeroEtlAccess"].write(value.zeroEtlAccess)
+    }
+}
+
+extension UpdateOdbPeeringConnectionInput {
+
+    static func write(value: UpdateOdbPeeringConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["displayName"].write(value.displayName)
+        try writer["odbPeeringConnectionId"].write(value.odbPeeringConnectionId)
+        try writer["peerNetworkCidrsToBeAdded"].writeList(value.peerNetworkCidrsToBeAdded, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["peerNetworkCidrsToBeRemoved"].writeList(value.peerNetworkCidrsToBeRemoved, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -6049,6 +6128,21 @@ extension UpdateOdbNetworkOutput {
         var value = UpdateOdbNetworkOutput()
         value.displayName = try reader["displayName"].readIfPresent()
         value.odbNetworkId = try reader["odbNetworkId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateOdbPeeringConnectionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateOdbPeeringConnectionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateOdbPeeringConnectionOutput()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.odbPeeringConnectionId = try reader["odbPeeringConnectionId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         return value
@@ -6768,6 +6862,25 @@ enum UpdateOdbNetworkOutputError {
     }
 }
 
+enum UpdateOdbPeeringConnectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension AccessDeniedException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> AccessDeniedException {
@@ -7374,6 +7487,7 @@ extension OdbClientTypes.OdbPeeringConnection {
         value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.peerNetworkArn = try reader["peerNetworkArn"].readIfPresent()
         value.odbPeeringConnectionType = try reader["odbPeeringConnectionType"].readIfPresent()
+        value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         return value
@@ -7706,6 +7820,7 @@ extension OdbClientTypes.OdbPeeringConnectionSummary {
         value.odbNetworkArn = try reader["odbNetworkArn"].readIfPresent()
         value.peerNetworkArn = try reader["peerNetworkArn"].readIfPresent()
         value.odbPeeringConnectionType = try reader["odbPeeringConnectionType"].readIfPresent()
+        value.peerNetworkCidrs = try reader["peerNetworkCidrs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         return value
