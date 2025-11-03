@@ -32,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -65,9 +65,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class DocDBClient: ClientRuntime.Client {
+public class DocDBClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DocDBClient"
-    public static let version = "1.5.61"
     let client: ClientRuntime.SdkHttpClient
     let config: DocDBClient.DocDBClientConfiguration
     let serviceName = "DocDB"
@@ -748,6 +747,7 @@ extension DocDBClient {
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is not supported by either DBSubnetGroup or the DB engine version.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     public func createDBCluster(input: CreateDBClusterInput) async throws -> CreateDBClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -1176,7 +1176,7 @@ extension DocDBClient {
 
     /// Performs the `CreateGlobalCluster` operation on the `DocDB` service.
     ///
-    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to give read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance. You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster. This action only applies to Amazon DocumentDB clusters.
+    /// Creates an Amazon DocumentDB global cluster that can span multiple multiple Amazon Web Services Regions. The global cluster contains one primary cluster with read-write capability, and up-to 10 read-only secondary clusters. Global clusters uses storage-based fast replication across regions with latencies less than one second, using dedicated infrastructure with no impact to your workload’s performance. You can create a global cluster that is initially empty, and then add a primary and a secondary to it. Or you can specify an existing cluster during the create operation, and this cluster becomes the primary of the global cluster. This action only applies to Amazon DocumentDB clusters.
     ///
     /// - Parameter input: Represents the input to [CreateGlobalCluster]. (Type: `CreateGlobalClusterInput`)
     ///
@@ -3030,6 +3030,7 @@ extension DocDBClient {
     /// - `InvalidDBSubnetGroupStateFault` : The subnet group can't be deleted because it's in use.
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
+    /// - `NetworkTypeNotSupported` : The network type is not supported by either DBSubnetGroup or the DB engine version.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     public func modifyDBCluster(input: ModifyDBClusterInput) async throws -> ModifyDBClusterOutput {
         let context = Smithy.ContextBuilder()
@@ -3891,6 +3892,7 @@ extension DocDBClient {
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is not supported by either DBSubnetGroup or the DB engine version.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     public func restoreDBClusterFromSnapshot(input: RestoreDBClusterFromSnapshotInput) async throws -> RestoreDBClusterFromSnapshotOutput {
         let context = Smithy.ContextBuilder()
@@ -3973,6 +3975,7 @@ extension DocDBClient {
     /// - `InvalidSubnet` : The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     /// - `InvalidVPCNetworkStateFault` : The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     /// - `KMSKeyNotAccessibleFault` : An error occurred when accessing an KMS key.
+    /// - `NetworkTypeNotSupported` : The network type is not supported by either DBSubnetGroup or the DB engine version.
     /// - `StorageQuotaExceededFault` : The request would cause you to exceed the allowed amount of storage available across all instances.
     public func restoreDBClusterToPointInTime(input: RestoreDBClusterToPointInTimeInput) async throws -> RestoreDBClusterToPointInTimeOutput {
         let context = Smithy.ContextBuilder()

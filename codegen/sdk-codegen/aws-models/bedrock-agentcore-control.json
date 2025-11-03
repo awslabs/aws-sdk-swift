@@ -470,8 +470,8 @@
                     ],
                     "maxAge": 86400
                 },
-                "smithy.api#documentation": "<note> <p> is in preview release and is subject to change.</p> </note> <p>Welcome to the Amazon Bedrock AgentCore Control plane API reference. Control plane actions configure, create, modify, and monitor Amazon Web Services resources.</p>",
-                "smithy.api#title": "Amazon Bedrock Agent Core Control Plane Fronting Layer",
+                "smithy.api#documentation": "<p>Welcome to the Amazon Bedrock AgentCore Control plane API reference. Control plane actions configure, create, modify, and monitor Amazon Web Services resources.</p>",
+                "smithy.api#title": "Amazon Bedrock AgentCore Control",
                 "smithy.rules#endpointRuleSet": {
                     "version": "1.0",
                     "parameters": {
@@ -1180,6 +1180,9 @@
         "com.amazonaws.bedrockagentcorecontrol#ApiKeyCredentialProviderArnType": {
             "type": "string",
             "traits": {
+                "aws.api#arnReference": {
+                    "type": "AWS::BedrockAgentCore::APIKeyCredentialProvider"
+                },
                 "smithy.api#pattern": "^arn:(aws|aws-us-gov):acps:[A-Za-z0-9-]{1,64}:[0-9]{12}:token-vault/[a-zA-Z0-9-.]+/apikeycredentialprovider/[a-zA-Z0-9-.]+$"
             }
         },
@@ -1256,6 +1259,48 @@
             "type": "string",
             "traits": {
                 "smithy.api#pattern": "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AtlassianOauth2ProviderConfigInput": {
+            "type": "structure",
+            "members": {
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the Atlassian OAuth2 provider. This identifier is assigned by Atlassian when you register your application.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "clientSecret": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client secret for the Atlassian OAuth2 provider. This secret is assigned by Atlassian and used along with the client ID to authenticate your application.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration settings for connecting to Atlassian services using OAuth2 authentication. This includes the client credentials required to authenticate with Atlassian's OAuth2 authorization server.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#AtlassianOauth2ProviderConfigOutput": {
+            "type": "structure",
+            "members": {
+                "oauthDiscovery": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#Oauth2Discovery",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the Atlassian OAuth2 provider.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The configuration details returned for an Atlassian OAuth2 provider, including the client ID and OAuth2 discovery information.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#AuthorizationEndpointType": {
@@ -1367,6 +1412,38 @@
             },
             "list": {
                 "target": "com.amazonaws.bedrockagentcorecontrol#ListBrowsers"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#BrowserSigningConfigInput": {
+            "type": "structure",
+            "members": {
+                "enabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Specifies whether browser signing is enabled. When enabled, the browser will cryptographically sign HTTP requests to identify itself as an AI agent to bot control vendors.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for enabling browser signing capabilities that allow agents to cryptographically identify themselves to websites using HTTP message signatures.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#BrowserSigningConfigOutput": {
+            "type": "structure",
+            "members": {
+                "enabled": {
+                    "target": "smithy.api#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Indicates whether browser signing is currently enabled for cryptographic agent identification using HTTP message signatures.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The current browser signing configuration that shows whether cryptographic agent identification is enabled for web bot authentication.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#BrowserStatus": {
@@ -1766,7 +1843,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Creates an Amazon Bedrock AgentCore Runtime.</p>",
                 "smithy.api#http": {
-                    "code": 201,
+                    "code": 202,
                     "method": "PUT",
                     "uri": "/runtimes/"
                 },
@@ -1807,7 +1884,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Creates an AgentCore Runtime endpoint.</p>",
                 "smithy.api#http": {
-                    "code": 200,
+                    "code": 202,
                     "method": "PUT",
                     "uri": "/runtimes/{agentRuntimeId}/runtime-endpoints/"
                 },
@@ -1884,6 +1961,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the AgentCore Runtime.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "agentRuntimeId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentRuntimeId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the AgentCore Runtime.</p>"
+                    }
+                },
+                "endpointName": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#EndpointName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the AgentCore Runtime endpoint.</p>"
                     }
                 },
                 "status": {
@@ -2083,6 +2172,7 @@
                 "aws.api#controlPlane": {},
                 "smithy.api#documentation": "<p>Creates a new API key credential provider.</p>",
                 "smithy.api#http": {
+                    "code": 201,
                     "uri": "/identities/CreateApiKeyCredentialProvider",
                     "method": "POST"
                 },
@@ -2104,6 +2194,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The API key to use for authentication. This value is encrypted and stored securely.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of tag keys and values to assign to the API key credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.</p>",
+                        "smithy.api#notProperty": {}
                     }
                 }
             },
@@ -2172,7 +2269,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Creates a custom browser.</p>",
                 "smithy.api#http": {
-                    "code": 201,
+                    "code": 202,
                     "method": "PUT",
                     "uri": "/browsers"
                 },
@@ -2212,6 +2309,12 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#RecordingConfig",
                     "traits": {
                         "smithy.api#documentation": "<p>The recording configuration for the browser. When enabled, browser sessions are recorded and stored in the specified Amazon S3 location.</p>"
+                    }
+                },
+                "browserSigning": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#BrowserSigningConfigInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.</p>"
                     }
                 },
                 "clientToken": {
@@ -2299,7 +2402,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Creates a custom code interpreter.</p>",
                 "smithy.api#http": {
-                    "code": 201,
+                    "code": 202,
                     "method": "PUT",
                     "uri": "/code-interpreters"
                 },
@@ -2964,6 +3067,7 @@
                 "aws.api#controlPlane": {},
                 "smithy.api#documentation": "<p>Creates a new OAuth2 credential provider.</p>",
                 "smithy.api#http": {
+                    "code": 201,
                     "uri": "/identities/CreateOauth2CredentialProvider",
                     "method": "POST"
                 },
@@ -2992,6 +3096,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The configuration settings for the OAuth2 provider, including client ID, client secret, and other vendor-specific settings.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of tag keys and values to assign to the OAuth2 credential provider. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.</p>",
+                        "smithy.api#notProperty": {}
                     }
                 }
             },
@@ -3022,6 +3133,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the OAuth2 credential provider.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "callbackUrl": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Callback URL to register on the OAuth2 credential provider as an allowed callback URL. This URL is where the OAuth2 authorization server redirects users after they complete the authorization flow.</p>"
+                    }
+                },
+                "oauth2ProviderConfigOutput": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#Oauth2ProviderConfigOutput",
+                    "traits": {
+                        "smithy.api#notProperty": {}
                     }
                 }
             },
@@ -3061,6 +3184,7 @@
                 "aws.api#controlPlane": {},
                 "smithy.api#documentation": "<p>Creates a new workload identity.</p>",
                 "smithy.api#http": {
+                    "code": 201,
                     "uri": "/identities/CreateWorkloadIdentity",
                     "method": "POST"
                 },
@@ -3081,6 +3205,13 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#ResourceOauth2ReturnUrlListType",
                     "traits": {
                         "smithy.api#documentation": "<p>The list of allowed OAuth2 return URLs for resources associated with this workload identity.</p>"
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#TagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A map of tag keys and values to assign to the workload identity. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.</p>",
+                        "smithy.api#notProperty": {}
                     }
                 }
             },
@@ -3139,6 +3270,9 @@
         "com.amazonaws.bedrockagentcorecontrol#CredentialProviderArnType": {
             "type": "string",
             "traits": {
+                "aws.api#arnReference": {
+                    "type": "AWS::BedrockAgentCore::OAuth2CredentialProvider"
+                },
                 "smithy.api#pattern": "^arn:(aws|aws-us-gov):acps:[A-Za-z0-9-]{1,64}:[0-9]{12}:token-vault/[a-zA-Z0-9-.]+/oauth2credentialprovider/[a-zA-Z0-9-.]+$"
             }
         },
@@ -3245,6 +3379,120 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "CustomOauth2"
+                    }
+                },
+                "AtlassianOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "AtlassianOauth2"
+                    }
+                },
+                "LinkedinOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "LinkedinOauth2"
+                    }
+                },
+                "XOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "XOauth2"
+                    }
+                },
+                "OktaOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OktaOauth2"
+                    }
+                },
+                "OneLoginOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OneLoginOauth2"
+                    }
+                },
+                "PingOneOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "PingOneOauth2"
+                    }
+                },
+                "FacebookOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FacebookOauth2"
+                    }
+                },
+                "YandexOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "YandexOauth2"
+                    }
+                },
+                "RedditOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RedditOauth2"
+                    }
+                },
+                "ZoomOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ZoomOauth2"
+                    }
+                },
+                "TwitchOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "TwitchOauth2"
+                    }
+                },
+                "SpotifyOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "SpotifyOauth2"
+                    }
+                },
+                "DropboxOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DropboxOauth2"
+                    }
+                },
+                "NotionOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "NotionOauth2"
+                    }
+                },
+                "HubspotOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "HubspotOauth2"
+                    }
+                },
+                "CyberArkOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CyberArkOauth2"
+                    }
+                },
+                "FusionAuthOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "FusionAuthOauth2"
+                    }
+                },
+                "Auth0Oauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "Auth0Oauth2"
+                    }
+                },
+                "CognitoOauth2": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CognitoOauth2"
                     }
                 }
             }
@@ -3471,6 +3719,12 @@
                         "smithy.api#documentation": "<p>The OAuth2 discovery information for the custom provider.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the custom OAuth2 provider.</p>"
+                    }
                 }
             },
             "traits": {
@@ -3527,7 +3781,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Deletes an Amazon Bedrock AgentCore Runtime.</p>",
                 "smithy.api#http": {
-                    "code": 200,
+                    "code": 202,
                     "method": "DELETE",
                     "uri": "/runtimes/{agentRuntimeId}/"
                 },
@@ -3562,7 +3816,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Deletes an AAgentCore Runtime endpoint.</p>",
                 "smithy.api#http": {
-                    "code": 200,
+                    "code": 202,
                     "method": "DELETE",
                     "uri": "/runtimes/{agentRuntimeId}/runtime-endpoints/{endpointName}/"
                 },
@@ -3610,6 +3864,18 @@
                         "smithy.api#documentation": "<p>The current status of the AgentCore Runtime endpoint deletion.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "agentRuntimeId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentRuntimeId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the AgentCore Runtime.</p>"
+                    }
+                },
+                "endpointName": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#EndpointName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the AgentCore Runtime endpoint.</p>"
+                    }
                 }
             },
             "traits": {
@@ -3640,6 +3906,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The current status of the AgentCore Runtime deletion.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "agentRuntimeId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AgentRuntimeId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The unique identifier of the AgentCore Runtime.</p>"
                     }
                 }
             },
@@ -3679,6 +3951,7 @@
                 "aws.api#controlPlane": {},
                 "smithy.api#documentation": "<p>Deletes an API key credential provider.</p>",
                 "smithy.api#http": {
+                    "code": 204,
                     "uri": "/identities/DeleteApiKeyCredentialProvider",
                     "method": "POST"
                 },
@@ -3741,7 +4014,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Deletes a custom browser.</p>",
                 "smithy.api#http": {
-                    "code": 200,
+                    "code": 202,
                     "method": "DELETE",
                     "uri": "/browsers/{browserId}"
                 },
@@ -3835,7 +4108,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Deletes a custom code interpreter.</p>",
                 "smithy.api#http": {
-                    "code": 200,
+                    "code": 202,
                     "method": "DELETE",
                     "uri": "/code-interpreters/{codeInterpreterId}"
                 },
@@ -4210,6 +4483,7 @@
                 "aws.api#controlPlane": {},
                 "smithy.api#documentation": "<p>Deletes an OAuth2 credential provider.</p>",
                 "smithy.api#http": {
+                    "code": 204,
                     "uri": "/identities/DeleteOauth2CredentialProvider",
                     "method": "POST"
                 },
@@ -4270,6 +4544,7 @@
                 "aws.api#controlPlane": {},
                 "smithy.api#documentation": "<p>Deletes a workload identity.</p>",
                 "smithy.api#http": {
+                    "code": 204,
                     "uri": "/identities/DeleteWorkloadIdentity",
                     "method": "POST"
                 },
@@ -5277,6 +5552,12 @@
                 "recording": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#RecordingConfig"
                 },
+                "browserSigning": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#BrowserSigningConfigOutput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The browser signing configuration that shows whether cryptographic agent identification is enabled for web bot authentication.</p>"
+                    }
+                },
                 "status": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#BrowserStatus",
                     "traits": {
@@ -5929,6 +6210,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "callbackUrl": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Callback URL to register on the OAuth2 credential provider as an allowed callback URL. This URL is where the OAuth2 authorization server redirects users after they complete the authorization flow.</p>"
+                    }
+                },
                 "oauth2ProviderConfigOutput": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Oauth2ProviderConfigOutput",
                     "traits": {
@@ -6163,6 +6450,12 @@
                         "smithy.api#documentation": "<p>The OAuth2 discovery information for the GitHub provider.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the GitHub OAuth2 provider.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6200,6 +6493,12 @@
                         "smithy.api#documentation": "<p>The OAuth2 discovery information for the Google provider.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the Google OAuth2 provider.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6213,7 +6512,67 @@
                     "min": 1,
                     "max": 256
                 },
-                "smithy.api#pattern": "^(Authorization|X-Amzn-Bedrock-AgentCore-Runtime-Custom-[a-zA-Z0-9_-]+)$"
+                "smithy.api#pattern": "^(Authorization|X-Amzn-Bedrock-AgentCore-Runtime-Custom-[a-zA-Z0-9-]+)$"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#IncludedOauth2ProviderConfigInput": {
+            "type": "structure",
+            "members": {
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the supported OAuth2 provider. This identifier is assigned by the OAuth2 provider when you register your application.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "clientSecret": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client secret for the supported OAuth2 provider. This secret is assigned by the OAuth2 provider and used along with the client ID to authenticate your application.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "issuer": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#IssuerUrlType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Token issuer of your isolated OAuth2 application tenant. This URL identifies the authorization server that issues tokens for this provider.</p>"
+                    }
+                },
+                "authorizationEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AuthorizationEndpointType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>OAuth2 authorization endpoint for your isolated OAuth2 application tenant. This is where users are redirected to authenticate and authorize access to their resources.</p>"
+                    }
+                },
+                "tokenEndpoint": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#TokenEndpointType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>OAuth2 token endpoint for your isolated OAuth2 application tenant. This is where authorization codes are exchanged for access tokens.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration settings for connecting to a supported OAuth2 provider. This includes client credentials and OAuth2 discovery information for providers that have built-in support.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#IncludedOauth2ProviderConfigOutput": {
+            "type": "structure",
+            "members": {
+                "oauthDiscovery": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#Oauth2Discovery",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the supported OAuth2 provider.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The configuration details returned for a supported OAuth2 provider, including client credentials and OAuth2 discovery information.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#InlinePayload": {
@@ -6367,6 +6726,48 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>LifecycleConfiguration lets you manage the lifecycle of runtime sessions and resources in AgentCore Runtime. This configuration helps optimize resource utilization by automatically cleaning up idle sessions and preventing long-running instances from consuming resources indefinitely.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#LinkedinOauth2ProviderConfigInput": {
+            "type": "structure",
+            "members": {
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the LinkedIn OAuth2 provider. This identifier is assigned by LinkedIn when you register your application.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "clientSecret": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientSecretType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client secret for the LinkedIn OAuth2 provider. This secret is assigned by LinkedIn and used along with the client ID to authenticate your application.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration settings for connecting to LinkedIn services using OAuth2 authentication. This includes the client credentials required to authenticate with LinkedIn's OAuth2 authorization server.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#LinkedinOauth2ProviderConfigOutput": {
+            "type": "structure",
+            "members": {
+                "oauthDiscovery": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#Oauth2Discovery",
+                    "traits": {
+                        "smithy.api#required": {}
+                    }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the LinkedIn OAuth2 provider.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The configuration details returned for a LinkedIn OAuth2 provider, including the client ID and OAuth2 discovery information.</p>"
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#ListAgentRuntimeEndpoints": {
@@ -7953,6 +8354,12 @@
                         "smithy.api#documentation": "<p>The client secret for the Microsoft OAuth2 provider.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "tenantId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#TenantIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Microsoft Entra ID (formerly Azure AD) tenant ID for your organization. This identifies the specific tenant within Microsoft's identity platform where your application is registered.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7967,6 +8374,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The OAuth2 discovery information for the Microsoft provider.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the Microsoft OAuth2 provider.</p>"
                     }
                 }
             },
@@ -8108,8 +8521,8 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The updated number of historical messages to include in processing context.</p>",
                         "smithy.api#range": {
-                            "min": 3,
-                            "max": 20
+                            "min": 0,
+                            "max": 50
                         }
                     }
                 }
@@ -8350,6 +8763,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The supported response types for the OAuth2 authorization server.</p>"
                     }
+                },
+                "tokenEndpointAuthMethods": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#TokenEndpointAuthMethodsType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The authentication methods supported by the token endpoint. This specifies how clients can authenticate when requesting tokens from the authorization server.</p>"
+                    }
                 }
             },
             "traits": {
@@ -8372,6 +8791,9 @@
                 },
                 "oauth2ProviderConfigInput": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Oauth2ProviderConfigInput"
+                },
+                "callbackUrl": {
+                    "target": "smithy.api#String"
                 },
                 "clientSecretArn": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Secret"
@@ -8508,6 +8930,24 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The configuration for a Microsoft OAuth2 provider.</p>"
                     }
+                },
+                "atlassianOauth2ProviderConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AtlassianOauth2ProviderConfigInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration settings for Atlassian OAuth2 provider integration.</p>"
+                    }
+                },
+                "linkedinOauth2ProviderConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LinkedinOauth2ProviderConfigInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Configuration settings for LinkedIn OAuth2 provider integration.</p>"
+                    }
+                },
+                "includedOauth2ProviderConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#IncludedOauth2ProviderConfigInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration for a non-custom OAuth2 provider. This includes settings for supported OAuth2 providers that have built-in integration support.</p>"
+                    }
                 }
             },
             "traits": {
@@ -8551,6 +8991,24 @@
                     "target": "com.amazonaws.bedrockagentcorecontrol#MicrosoftOauth2ProviderConfigOutput",
                     "traits": {
                         "smithy.api#documentation": "<p>The output configuration for a Microsoft OAuth2 provider.</p>"
+                    }
+                },
+                "atlassianOauth2ProviderConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#AtlassianOauth2ProviderConfigOutput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration details for the Atlassian OAuth2 provider.</p>"
+                    }
+                },
+                "linkedinOauth2ProviderConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#LinkedinOauth2ProviderConfigOutput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration details for the LinkedIn OAuth2 provider.</p>"
+                    }
+                },
+                "includedOauth2ProviderConfig": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#IncludedOauth2ProviderConfigOutput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration for a non-custom OAuth2 provider. This includes the configuration details for supported OAuth2 providers that have built-in integration support.</p>"
                     }
                 }
             },
@@ -8836,6 +9294,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The OAuth2 discovery information for the Salesforce provider.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the Salesforce OAuth2 provider.</p>"
                     }
                 }
             },
@@ -9354,6 +9818,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The OAuth2 discovery information for the Slack provider.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "clientId": {
+                    "target": "com.amazonaws.bedrockagentcorecontrol#ClientIdType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The client ID for the Slack OAuth2 provider.</p>"
                     }
                 }
             },
@@ -9893,6 +10363,15 @@
                 "smithy.api#documentation": "<p>Contains summary information about a gateway target. A target represents an endpoint that the gateway can connect to.</p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#TenantIdType": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2048
+                }
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#ThrottledException": {
             "type": "structure",
             "members": {
@@ -9953,6 +10432,12 @@
                 "smithy.api#documentation": "<p>Trigger configuration based on time.</p>"
             }
         },
+        "com.amazonaws.bedrockagentcorecontrol#TokenAuthMethod": {
+            "type": "string",
+            "traits": {
+                "smithy.api#pattern": "^(client_secret_post|client_secret_basic)$"
+            }
+        },
         "com.amazonaws.bedrockagentcorecontrol#TokenBasedTrigger": {
             "type": "structure",
             "members": {
@@ -9984,6 +10469,18 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Trigger configuration based on tokens.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagentcorecontrol#TokenEndpointAuthMethodsType": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.bedrockagentcorecontrol#TokenAuthMethod"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 2
+                }
             }
         },
         "com.amazonaws.bedrockagentcorecontrol#TokenEndpointType": {
@@ -10247,7 +10744,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Updates an existing Amazon Secure Agent.</p>",
                 "smithy.api#http": {
-                    "code": 201,
+                    "code": 202,
                     "method": "PUT",
                     "uri": "/runtimes/{agentRuntimeId}/"
                 },
@@ -10288,7 +10785,7 @@
             "traits": {
                 "smithy.api#documentation": "<p>Updates an existing Amazon Bedrock AgentCore Runtime endpoint.</p>",
                 "smithy.api#http": {
-                    "code": 200,
+                    "code": 202,
                     "method": "PUT",
                     "uri": "/runtimes/{agentRuntimeId}/runtime-endpoints/{endpointName}/"
                 },
@@ -11259,6 +11756,12 @@
                         "smithy.api#required": {}
                     }
                 },
+                "callbackUrl": {
+                    "target": "smithy.api#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Callback URL to register on the OAuth2 credential provider as an allowed callback URL. This URL is where the OAuth2 authorization server redirects users after they complete the authorization flow.</p>"
+                    }
+                },
                 "oauth2ProviderConfigOutput": {
                     "target": "com.amazonaws.bedrockagentcorecontrol#Oauth2ProviderConfigOutput",
                     "traits": {
@@ -11683,6 +12186,9 @@
         "com.amazonaws.bedrockagentcorecontrol#WorkloadIdentityArnType": {
             "type": "string",
             "traits": {
+                "aws.api#arnReference": {
+                    "type": "AWS::BedrockAgentCore::WorkloadIdentity"
+                },
                 "smithy.api#length": {
                     "min": 1,
                     "max": 1024

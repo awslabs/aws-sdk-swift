@@ -193,7 +193,7 @@ final class InvokeModelWithBidirectionalStreamTest: XCTestCase {
         (inputStream, continuation) = AsyncThrowingStream.makeStream()
 
         // Start up background task that feeds events to the stream.
-        Task {
+        Task { [CONTENT_END_EVENT, PROMPT_END_EVENT, requestEvents] in
             for event in requestEvents {
                 let currentEvent = BedrockRuntimeClientTypes.InvokeModelWithBidirectionalStreamInput.chunk(
                     BedrockRuntimeClientTypes.BidirectionalInputPayloadPart(bytes: event.data(using: .utf8))

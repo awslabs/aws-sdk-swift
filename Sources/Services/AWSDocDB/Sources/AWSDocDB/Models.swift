@@ -731,11 +731,11 @@ public struct CopyDBClusterSnapshotInput: Swift.Sendable {
     public var preSignedUrl: Swift.String?
     /// The identifier of the cluster snapshot to copy. This parameter is not case sensitive. Constraints:
     ///
-    /// * Must specify a valid system snapshot in the available state.
+    /// * Must specify a valid cluster snapshot in the available state.
     ///
-    /// * If the source snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.
+    /// * If the source cluster snapshot is in the same Amazon Web Services Region as the copy, specify a valid snapshot identifier.
     ///
-    /// * If the source snapshot is in a different Amazon Web Services Region than the copy, specify a valid cluster snapshot ARN.
+    /// * If the source cluster snapshot is in a different Amazon Web Services Region or owned by another Amazon Web Services account, specify the snapshot ARN.
     ///
     ///
     /// Example: my-cluster-snapshot1
@@ -1120,6 +1120,29 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
     }
 }
 
+/// The network type is not supported by either DBSubnetGroup or the DB engine version.
+public struct NetworkTypeNotSupported: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NetworkTypeNotSupported" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The request would cause you to exceed the allowed amount of storage available across all instances.
 public struct StorageQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -1218,6 +1241,8 @@ public struct CreateDBClusterInput: Swift.Sendable {
     ///
     /// * Cannot be a reserved word for the chosen database engine.
     public var masterUsername: Swift.String?
+    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+    public var networkType: Swift.String?
     /// The port number on which the instances in the cluster accept connections.
     public var port: Swift.Int?
     /// Not currently supported.
@@ -1238,7 +1263,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
     public var serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration?
     /// Specifies whether the cluster is encrypted.
     public var storageEncrypted: Swift.Bool?
-    /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard  When you create a DocumentDB DB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
+    /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1 Default value is standard  When you create an Amazon DocumentDB cluster with the storage type set to iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to standard.
     public var storageType: Swift.String?
     /// The tags to be assigned to the cluster.
     public var tags: [DocDBClientTypes.Tag]?
@@ -1261,6 +1286,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
         masterUsername: Swift.String? = nil,
+        networkType: Swift.String? = nil,
         port: Swift.Int? = nil,
         preSignedUrl: Swift.String? = nil,
         preferredBackupWindow: Swift.String? = nil,
@@ -1286,6 +1312,7 @@ public struct CreateDBClusterInput: Swift.Sendable {
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
         self.masterUsername = masterUsername
+        self.networkType = networkType
         self.port = port
         self.preSignedUrl = preSignedUrl
         self.preferredBackupWindow = preferredBackupWindow
@@ -1459,6 +1486,8 @@ extension DocDBClientTypes {
         public var engineVersion: Swift.String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
         public var hostedZoneId: Swift.String?
+        /// The next time you can modify the Amazon DocumentDB cluster to use the iopt1 storage type.
+        public var ioOptimizedNextAllowedModificationTime: Foundation.Date?
         /// If StorageEncrypted is true, the KMS key identifier for the encrypted cluster.
         public var kmsKeyId: Swift.String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
@@ -1469,6 +1498,8 @@ extension DocDBClientTypes {
         public var masterUsername: Swift.String?
         /// Specifies whether the cluster has instances in multiple Availability Zones.
         public var multiAZ: Swift.Bool?
+        /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+        public var networkType: Swift.String?
         /// Specifies the progress of the operation as a percentage.
         public var percentProgress: Swift.String?
         /// Specifies the port that the database engine is listening on.
@@ -1513,11 +1544,13 @@ extension DocDBClientTypes {
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             hostedZoneId: Swift.String? = nil,
+            ioOptimizedNextAllowedModificationTime: Foundation.Date? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: Foundation.Date? = nil,
             masterUserSecret: DocDBClientTypes.ClusterMasterUserSecret? = nil,
             masterUsername: Swift.String? = nil,
             multiAZ: Swift.Bool? = nil,
+            networkType: Swift.String? = nil,
             percentProgress: Swift.String? = nil,
             port: Swift.Int? = nil,
             preferredBackupWindow: Swift.String? = nil,
@@ -1549,11 +1582,13 @@ extension DocDBClientTypes {
             self.engine = engine
             self.engineVersion = engineVersion
             self.hostedZoneId = hostedZoneId
+            self.ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTime
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
             self.masterUserSecret = masterUserSecret
             self.masterUsername = masterUsername
             self.multiAZ = multiAZ
+            self.networkType = networkType
             self.percentProgress = percentProgress
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
@@ -1953,6 +1988,8 @@ extension DocDBClientTypes {
         public var subnetGroupStatus: Swift.String?
         /// Detailed information about one or more subnets within a subnet group.
         public var subnets: [DocDBClientTypes.Subnet]?
+        /// The network type of the DB subnet group. Valid Values: IPV4 | DUAL A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL).
+        public var supportedNetworkTypes: [Swift.String]?
         /// Provides the virtual private cloud (VPC) ID of the subnet group.
         public var vpcId: Swift.String?
 
@@ -1962,6 +1999,7 @@ extension DocDBClientTypes {
             dbSubnetGroupName: Swift.String? = nil,
             subnetGroupStatus: Swift.String? = nil,
             subnets: [DocDBClientTypes.Subnet]? = nil,
+            supportedNetworkTypes: [Swift.String]? = nil,
             vpcId: Swift.String? = nil
         ) {
             self.dbSubnetGroupArn = dbSubnetGroupArn
@@ -1969,6 +2007,7 @@ extension DocDBClientTypes {
             self.dbSubnetGroupName = dbSubnetGroupName
             self.subnetGroupStatus = subnetGroupStatus
             self.subnets = subnets
+            self.supportedNetworkTypes = supportedNetworkTypes
             self.vpcId = vpcId
         }
     }
@@ -2641,6 +2680,100 @@ public struct CreateGlobalClusterInput: Swift.Sendable {
 
 extension DocDBClientTypes {
 
+    public enum FailoverStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cancelling
+        case failingOver
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FailoverStatus] {
+            return [
+                .cancelling,
+                .failingOver,
+                .pending
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelling: return "cancelling"
+            case .failingOver: return "failing-over"
+            case .pending: return "pending"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
+    /// Contains the state of scheduled or in-process operations on an Amazon DocumentDB global cluster. This data type is empty unless a switchover or failover operation is scheduled or is in progress on the global cluster.
+    public struct FailoverState: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is currently being demoted, and which is associated with this state.
+        public var fromDbClusterArn: Swift.String?
+        /// Indicates whether the operation is a global switchover or a global failover. If data loss is allowed, then the operation is a global failover. Otherwise, it's a switchover.
+        public var isDataLossAllowed: Swift.Bool?
+        /// The current status of the global cluster. Possible values are as follows:
+        ///
+        /// * pending – The service received a request to switch over or fail over the global cluster. The global cluster's primary cluster and the specified secondary cluster are being verified before the operation starts.
+        ///
+        /// * failing-over – The chosen secondary cluster is being promoted to become the new primary cluster to fail over the global cluster.
+        ///
+        /// * cancelling – The request to switch over or fail over the global cluster was cancelled and the primary cluster and the selected secondary cluster are returning to their previous states.
+        public var status: DocDBClientTypes.FailoverStatus?
+        /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is currently being promoted, and which is associated with this state.
+        public var toDbClusterArn: Swift.String?
+
+        public init(
+            fromDbClusterArn: Swift.String? = nil,
+            isDataLossAllowed: Swift.Bool? = nil,
+            status: DocDBClientTypes.FailoverStatus? = nil,
+            toDbClusterArn: Swift.String? = nil
+        ) {
+            self.fromDbClusterArn = fromDbClusterArn
+            self.isDataLossAllowed = isDataLossAllowed
+            self.status = status
+            self.toDbClusterArn = toDbClusterArn
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
+    public enum GlobalClusterMemberSynchronizationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case connected
+        case pendingResync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalClusterMemberSynchronizationStatus] {
+            return [
+                .connected,
+                .pendingResync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "connected"
+            case .pendingResync: return "pending-resync"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DocDBClientTypes {
+
     /// A data structure with information about any primary and secondary clusters associated with an Amazon DocumentDB global clusters.
     public struct GlobalClusterMember: Swift.Sendable {
         /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
@@ -2649,15 +2782,19 @@ extension DocDBClientTypes {
         public var isWriter: Swift.Bool?
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Amazon DocumentDB global cluster.
         public var readers: [Swift.String]?
+        /// The status of synchronization of each Amazon DocumentDB cluster in the global cluster.
+        public var synchronizationStatus: DocDBClientTypes.GlobalClusterMemberSynchronizationStatus?
 
         public init(
             dbClusterArn: Swift.String? = nil,
             isWriter: Swift.Bool? = nil,
-            readers: [Swift.String]? = nil
+            readers: [Swift.String]? = nil,
+            synchronizationStatus: DocDBClientTypes.GlobalClusterMemberSynchronizationStatus? = nil
         ) {
             self.dbClusterArn = dbClusterArn
             self.isWriter = isWriter
             self.readers = readers
+            self.synchronizationStatus = synchronizationStatus
         }
     }
 }
@@ -2674,6 +2811,8 @@ extension DocDBClientTypes {
         public var engine: Swift.String?
         /// Indicates the database engine version.
         public var engineVersion: Swift.String?
+        /// A data object containing all properties for the current state of an in-process or pending switchover or failover process for this global cluster. This object is empty unless the SwitchoverGlobalCluster or FailoverGlobalCluster operation was called on this global cluster.
+        public var failoverState: DocDBClientTypes.FailoverState?
         /// The Amazon Resource Name (ARN) for the global cluster.
         public var globalClusterArn: Swift.String?
         /// Contains a user-supplied global cluster identifier. This identifier is the unique key that identifies a global cluster.
@@ -2686,29 +2825,35 @@ extension DocDBClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global cluster.
         public var storageEncrypted: Swift.Bool?
+        /// A list of global cluster tags.
+        public var tagList: [DocDBClientTypes.Tag]?
 
         public init(
             databaseName: Swift.String? = nil,
             deletionProtection: Swift.Bool? = nil,
             engine: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
+            failoverState: DocDBClientTypes.FailoverState? = nil,
             globalClusterArn: Swift.String? = nil,
             globalClusterIdentifier: Swift.String? = nil,
             globalClusterMembers: [DocDBClientTypes.GlobalClusterMember]? = nil,
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
-            storageEncrypted: Swift.Bool? = nil
+            storageEncrypted: Swift.Bool? = nil,
+            tagList: [DocDBClientTypes.Tag]? = nil
         ) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
+            self.failoverState = failoverState
             self.globalClusterArn = globalClusterArn
             self.globalClusterIdentifier = globalClusterIdentifier
             self.globalClusterMembers = globalClusterMembers
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
     }
 }
@@ -3231,7 +3376,17 @@ extension DocDBClientTypes {
         public var minimumEngineVersion: Swift.String?
         /// Specifies the name of the parameter.
         public var parameterName: Swift.String?
-        /// Specifies the value of the parameter.
+        /// Specifies the value of the parameter. Must be one or more of the cluster parameter's AllowedValues in CSV format: Valid values are:
+        ///
+        /// * enabled: The cluster accepts secure connections using TLS version 1.0 through 1.3.
+        ///
+        /// * disabled: The cluster does not accept secure connections using TLS.
+        ///
+        /// * fips-140-3: The cluster only accepts secure connections per the requirements of the Federal Information Processing Standards (FIPS) publication 140-3. Only supported starting with Amazon DocumentDB 5.0 (engine version 3.0.3727) clusters in these regions: ca-central-1, us-west-2, us-east-1, us-east-2, us-gov-east-1, us-gov-west-1.
+        ///
+        /// * tls1.2+: The cluster accepts secure connections using TLS version 1.2 and above. Only supported starting with Amazon DocumentDB 4.0 (engine version 2.0.10980) and Amazon DocumentDB 5.0 (engine version 3.0.11051).
+        ///
+        /// * tls1.3+: The cluster accepts secure connections using TLS version 1.3 and above. Only supported starting with Amazon DocumentDB 4.0 (engine version 2.0.10980) and Amazon DocumentDB 5.0 (engine version 3.0.11051).
         public var parameterValue: Swift.String?
         /// Indicates the source of the parameter value.
         public var source: Swift.String?
@@ -4338,7 +4493,22 @@ extension DocDBClientTypes {
 
 /// Represents the input to [ModifyDBCluster].
 public struct ModifyDBClusterInput: Swift.Sendable {
-    /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
+    /// A value that indicates whether major version upgrades are allowed. Constraints:
+    ///
+    /// * You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the cluster's current version.
+    ///
+    /// * Since some parameters are version specific, changing them requires executing a new ModifyDBCluster API call after the in-place MVU completes.
+    ///
+    ///
+    /// Performing an MVU directly impacts the following parameters:
+    ///
+    /// * MasterUserPassword
+    ///
+    /// * NewDBClusterIdentifier
+    ///
+    /// * VpcSecurityGroupIds
+    ///
+    /// * Port
     public var allowMajorVersionUpgrade: Swift.Bool?
     /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
     public var applyImmediately: Swift.Bool?
@@ -4372,6 +4542,8 @@ public struct ModifyDBClusterInput: Swift.Sendable {
     ///
     /// The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     public var masterUserSecretKmsKeyId: Swift.String?
+    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+    public var networkType: Swift.String?
     /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens.
@@ -4418,6 +4590,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         manageMasterUserPassword: Swift.Bool? = nil,
         masterUserPassword: Swift.String? = nil,
         masterUserSecretKmsKeyId: Swift.String? = nil,
+        networkType: Swift.String? = nil,
         newDBClusterIdentifier: Swift.String? = nil,
         port: Swift.Int? = nil,
         preferredBackupWindow: Swift.String? = nil,
@@ -4438,6 +4611,7 @@ public struct ModifyDBClusterInput: Swift.Sendable {
         self.manageMasterUserPassword = manageMasterUserPassword
         self.masterUserPassword = masterUserPassword
         self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
+        self.networkType = networkType
         self.newDBClusterIdentifier = newDBClusterIdentifier
         self.port = port
         self.preferredBackupWindow = preferredBackupWindow
@@ -5048,6 +5222,8 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     ///
     /// * If the snapshot or the cluster snapshot in SnapshotIdentifier is not encrypted, then the restored DB cluster is not encrypted.
     public var kmsKeyId: Swift.String?
+    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+    public var networkType: Swift.String?
     /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The same port as the original cluster.
     public var port: Swift.Int?
     /// Contains the scaling configuration of an Amazon DocumentDB Serverless cluster.
@@ -5074,6 +5250,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
+        networkType: Swift.String? = nil,
         port: Swift.Int? = nil,
         serverlessV2ScalingConfiguration: DocDBClientTypes.ServerlessV2ScalingConfiguration? = nil,
         snapshotIdentifier: Swift.String? = nil,
@@ -5090,6 +5267,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.engine = engine
         self.engineVersion = engineVersion
         self.kmsKeyId = kmsKeyId
+        self.networkType = networkType
         self.port = port
         self.serverlessV2ScalingConfiguration = serverlessV2ScalingConfiguration
         self.snapshotIdentifier = snapshotIdentifier
@@ -5136,6 +5314,8 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     ///
     /// If DBClusterIdentifier refers to a cluster that is not encrypted, then the restore request is rejected.
     public var kmsKeyId: Swift.String?
+    /// The network type of the cluster. The network type is determined by the DBSubnetGroup specified for the cluster. A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6 protocols (DUAL). For more information, see [DocumentDB clusters in a VPC](https://docs.aws.amazon.com/documentdb/latest/developerguide/vpc-clusters.html) in the Amazon DocumentDB Developer Guide. Valid Values: IPV4 | DUAL
+    public var networkType: Swift.String?
     /// The port number on which the new cluster accepts connections. Constraints: Must be a value from 1150 to 65535. Default: The default port for the engine.
     public var port: Swift.Int?
     /// The date and time to restore the cluster to. Valid values: A time in Universal Coordinated Time (UTC) format. Constraints:
@@ -5182,6 +5362,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         deletionProtection: Swift.Bool? = nil,
         enableCloudwatchLogsExports: [Swift.String]? = nil,
         kmsKeyId: Swift.String? = nil,
+        networkType: Swift.String? = nil,
         port: Swift.Int? = nil,
         restoreToTime: Foundation.Date? = nil,
         restoreType: Swift.String? = nil,
@@ -5197,6 +5378,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.deletionProtection = deletionProtection
         self.enableCloudwatchLogsExports = enableCloudwatchLogsExports
         self.kmsKeyId = kmsKeyId
+        self.networkType = networkType
         self.port = port
         self.restoreToTime = restoreToTime
         self.restoreType = restoreType
@@ -5774,6 +5956,7 @@ extension CreateDBClusterInput {
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
         try writer["MasterUsername"].write(value.masterUsername)
+        try writer["NetworkType"].write(value.networkType)
         try writer["Port"].write(value.port)
         try writer["PreSignedUrl"].write(value.preSignedUrl)
         try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
@@ -6224,6 +6407,7 @@ extension ModifyDBClusterInput {
         try writer["ManageMasterUserPassword"].write(value.manageMasterUserPassword)
         try writer["MasterUserPassword"].write(value.masterUserPassword)
         try writer["MasterUserSecretKmsKeyId"].write(value.masterUserSecretKmsKeyId)
+        try writer["NetworkType"].write(value.networkType)
         try writer["NewDBClusterIdentifier"].write(value.newDBClusterIdentifier)
         try writer["Port"].write(value.port)
         try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
@@ -6389,6 +6573,7 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["Engine"].write(value.engine)
         try writer["EngineVersion"].write(value.engineVersion)
         try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["NetworkType"].write(value.networkType)
         try writer["Port"].write(value.port)
         try writer["ServerlessV2ScalingConfiguration"].write(value.serverlessV2ScalingConfiguration, with: DocDBClientTypes.ServerlessV2ScalingConfiguration.write(value:to:))
         try writer["SnapshotIdentifier"].write(value.snapshotIdentifier)
@@ -6409,6 +6594,7 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["EnableCloudwatchLogsExports"].writeList(value.enableCloudwatchLogsExports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["NetworkType"].write(value.networkType)
         try writer["Port"].write(value.port)
         try writer["RestoreToTime"].writeTimestamp(value.restoreToTime, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["RestoreType"].write(value.restoreType)
@@ -7213,6 +7399,7 @@ enum CreateDBClusterOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7733,6 +7920,7 @@ enum ModifyDBClusterOutputError {
             case "InvalidDBSubnetGroupStateFault": return try InvalidDBSubnetGroupStateFault.makeError(baseError: baseError)
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7946,6 +8134,7 @@ enum RestoreDBClusterFromSnapshotOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -7974,6 +8163,7 @@ enum RestoreDBClusterToPointInTimeOutputError {
             case "InvalidSubnet": return try InvalidSubnet.makeError(baseError: baseError)
             case "InvalidVPCNetworkStateFault": return try InvalidVPCNetworkStateFault.makeError(baseError: baseError)
             case "KMSKeyNotAccessibleFault": return try KMSKeyNotAccessibleFault.makeError(baseError: baseError)
+            case "NetworkTypeNotSupported": return try NetworkTypeNotSupported.makeError(baseError: baseError)
             case "StorageQuotaExceeded": return try StorageQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -8372,6 +8562,19 @@ extension InvalidVPCNetworkStateFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> InvalidVPCNetworkStateFault {
         let reader = baseError.errorBodyReader
         var value = InvalidVPCNetworkStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NetworkTypeNotSupported {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> NetworkTypeNotSupported {
+        let reader = baseError.errorBodyReader
+        var value = NetworkTypeNotSupported()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -8892,9 +9095,11 @@ extension DocDBClientTypes.DBCluster {
         value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.enabledCloudwatchLogsExports = try reader["EnabledCloudwatchLogsExports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
+        value.ioOptimizedNextAllowedModificationTime = try reader["IOOptimizedNextAllowedModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageType = try reader["StorageType"].readIfPresent()
         value.serverlessV2ScalingConfiguration = try reader["ServerlessV2ScalingConfiguration"].readIfPresent(with: DocDBClientTypes.ServerlessV2ScalingConfigurationInfo.read(from:))
         value.masterUserSecret = try reader["MasterUserSecret"].readIfPresent(with: DocDBClientTypes.ClusterMasterUserSecret.read(from:))
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
@@ -9065,6 +9270,7 @@ extension DocDBClientTypes.DBSubnetGroup {
         value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
         value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: DocDBClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
         value.dbSubnetGroupArn = try reader["DBSubnetGroupArn"].readIfPresent()
+        value.supportedNetworkTypes = try reader["SupportedNetworkTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9118,6 +9324,38 @@ extension DocDBClientTypes.GlobalCluster {
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: DocDBClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
+        value.failoverState = try reader["FailoverState"].readIfPresent(with: DocDBClientTypes.FailoverState.read(from:))
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: DocDBClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension DocDBClientTypes.Tag {
+
+    static func write(value: DocDBClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.FailoverState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.FailoverState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.FailoverState()
+        value.status = try reader["Status"].readIfPresent()
+        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
+        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
+        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
         return value
     }
 }
@@ -9130,6 +9368,7 @@ extension DocDBClientTypes.GlobalClusterMember {
         value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
         value.readers = try reader["Readers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.isWriter = try reader["IsWriter"].readIfPresent()
+        value.synchronizationStatus = try reader["SynchronizationStatus"].readIfPresent()
         return value
     }
 }
@@ -9299,23 +9538,6 @@ extension DocDBClientTypes.OrderableDBInstanceOption {
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: DocDBClientTypes.AvailabilityZone.read(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         value.vpc = try reader["Vpc"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
-        return value
-    }
-}
-
-extension DocDBClientTypes.Tag {
-
-    static func write(value: DocDBClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }

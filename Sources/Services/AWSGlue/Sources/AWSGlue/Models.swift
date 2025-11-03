@@ -12615,13 +12615,17 @@ public struct CreateGlueIdentityCenterConfigurationInput: Swift.Sendable {
     public var instanceArn: Swift.String?
     /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
     public var scopes: [Swift.String]?
+    /// Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
+    public var userBackgroundSessionsEnabled: Swift.Bool?
 
     public init(
         instanceArn: Swift.String? = nil,
-        scopes: [Swift.String]? = nil
+        scopes: [Swift.String]? = nil,
+        userBackgroundSessionsEnabled: Swift.Bool? = nil
     ) {
         self.instanceArn = instanceArn
         self.scopes = scopes
+        self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
     }
 }
 
@@ -20113,15 +20117,19 @@ public struct GetGlueIdentityCenterConfigurationOutput: Swift.Sendable {
     public var instanceArn: Swift.String?
     /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
     public var scopes: [Swift.String]?
+    /// Indicates whether users can run background sessions when using Identity Center authentication with Glue services.
+    public var userBackgroundSessionsEnabled: Swift.Bool?
 
     public init(
         applicationArn: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
-        scopes: [Swift.String]? = nil
+        scopes: [Swift.String]? = nil,
+        userBackgroundSessionsEnabled: Swift.Bool? = nil
     ) {
         self.applicationArn = applicationArn
         self.instanceArn = instanceArn
         self.scopes = scopes
+        self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
     }
 }
 
@@ -27796,11 +27804,15 @@ public struct UpdateDevEndpointOutput: Swift.Sendable {
 public struct UpdateGlueIdentityCenterConfigurationInput: Swift.Sendable {
     /// A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration.
     public var scopes: [Swift.String]?
+    /// Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
+    public var userBackgroundSessionsEnabled: Swift.Bool?
 
     public init(
-        scopes: [Swift.String]? = nil
+        scopes: [Swift.String]? = nil,
+        userBackgroundSessionsEnabled: Swift.Bool? = nil
     ) {
         self.scopes = scopes
+        self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
     }
 }
 
@@ -31875,6 +31887,7 @@ extension CreateGlueIdentityCenterConfigurationInput {
         guard let value else { return }
         try writer["InstanceArn"].write(value.instanceArn)
         try writer["Scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UserBackgroundSessionsEnabled"].write(value.userBackgroundSessionsEnabled)
     }
 }
 
@@ -34041,6 +34054,7 @@ extension UpdateGlueIdentityCenterConfigurationInput {
     static func write(value: UpdateGlueIdentityCenterConfigurationInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Scopes"].writeList(value.scopes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UserBackgroundSessionsEnabled"].write(value.userBackgroundSessionsEnabled)
     }
 }
 
@@ -35661,6 +35675,7 @@ extension GetGlueIdentityCenterConfigurationOutput {
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
         value.instanceArn = try reader["InstanceArn"].readIfPresent()
         value.scopes = try reader["Scopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userBackgroundSessionsEnabled = try reader["UserBackgroundSessionsEnabled"].readIfPresent()
         return value
     }
 }

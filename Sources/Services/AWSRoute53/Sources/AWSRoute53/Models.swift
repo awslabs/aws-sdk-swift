@@ -370,6 +370,7 @@ extension Route53ClientTypes {
         case usIsoEast1
         case usIsoWest1
         case usIsobEast1
+        case usIsobWest1
         case usIsofEast1
         case usIsofSouth1
         case usWest1
@@ -418,6 +419,7 @@ extension Route53ClientTypes {
                 .usIsoEast1,
                 .usIsoWest1,
                 .usIsobEast1,
+                .usIsobWest1,
                 .usIsofEast1,
                 .usIsofSouth1,
                 .usWest1,
@@ -472,6 +474,7 @@ extension Route53ClientTypes {
             case .usIsoEast1: return "us-iso-east-1"
             case .usIsoWest1: return "us-iso-west-1"
             case .usIsobEast1: return "us-isob-east-1"
+            case .usIsobWest1: return "us-isob-west-1"
             case .usIsofEast1: return "us-isof-east-1"
             case .usIsofSouth1: return "us-isof-south-1"
             case .usWest1: return "us-west-1"
@@ -576,7 +579,7 @@ extension Route53ClientTypes {
         ///
         ///
         ///
-        /// When you create a load balancer, you configure settings for Elastic Load Balancing health checks; they're not Route 53 health checks, but they perform a similar function. Do not create Route 53 health checks for the EC2 instances that you register with an ELB load balancer. S3 buckets There are no special requirements for setting EvaluateTargetHealth to true when the alias target is an S3 bucket. Other records in the same hosted zone If the Amazon Web Services resource that you specify in DNSName is a record or a group of records (for example, a group of weighted records) but is not another alias record, we recommend that you associate a health check with all of the records in the alias target. For more information, see [What Happens When You Omit Health Checks?](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting) in the Amazon Route 53 Developer Guide. For more information and examples, see [Amazon Route 53 Health Checks and DNS Failover](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) in the Amazon Route 53 Developer Guide.
+        /// When you create a load balancer, you configure settings for Elastic Load Balancing health checks; they're not Route 53 health checks, but they perform a similar function. Do not create Route 53 health checks for the EC2 instances that you register with an ELB load balancer. API Gateway APIs There are no special requirements for setting EvaluateTargetHealth to true when the alias target is an API Gateway API. However, because API Gateway is highly available by design, EvaluateTargetHealth provides no operational benefit and [Route 53 health checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) are recommended instead for failover scenarios. S3 buckets There are no special requirements for setting EvaluateTargetHealth to true when the alias target is an S3 bucket. However, because S3 buckets are highly available by design, EvaluateTargetHealth provides no operational benefit and [Route 53 health checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) are recommended instead for failover scenarios. VPC interface endpoints There are no special requirements for setting EvaluateTargetHealth to true when the alias target is a VPC interface endpoint. However, because VPC interface endpoints are highly available by design, EvaluateTargetHealth provides no operational benefit and [Route 53 health checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) are recommended instead for failover scenarios. Other records in the same hosted zone If the Amazon Web Services resource that you specify in DNSName is a record or a group of records (for example, a group of weighted records) but is not another alias record, we recommend that you associate a health check with all of the records in the alias target. For more information, see [What Happens When You Omit Health Checks?](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-complex-configs.html#dns-failover-complex-configs-hc-omitting) in the Amazon Route 53 Developer Guide. While EvaluateTargetHealth can be set to true for highly available Amazon Web Services services (such as S3 buckets, VPC interface endpoints, and API Gateway), these services are designed for high availability and rarely experience outages that would be detected by this feature. For failover scenarios with these services, consider using [Route 53 health checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) that monitor your application's ability to access the service instead. For more information and examples, see [Amazon Route 53 Health Checks and DNS Failover](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) in the Amazon Route 53 Developer Guide.
         /// This member is required.
         public var evaluateTargetHealth: Swift.Bool
         /// Alias resource records sets only: The value used depends on where you want to route traffic: Amazon API Gateway custom regional APIs and edge-optimized APIs Specify the hosted zone ID for your API. You can get the applicable value using the CLI command [get-domain-names](https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html):
@@ -842,6 +845,7 @@ extension Route53ClientTypes {
         case usIsoEast1
         case usIsoWest1
         case usIsobEast1
+        case usIsobWest1
         case usIsofEast1
         case usIsofSouth1
         case usWest1
@@ -890,6 +894,7 @@ extension Route53ClientTypes {
                 .usIsoEast1,
                 .usIsoWest1,
                 .usIsobEast1,
+                .usIsobWest1,
                 .usIsofEast1,
                 .usIsofSouth1,
                 .usWest1,
@@ -944,6 +949,7 @@ extension Route53ClientTypes {
             case .usIsoEast1: return "us-iso-east-1"
             case .usIsoWest1: return "us-iso-west-1"
             case .usIsobEast1: return "us-isob-east-1"
+            case .usIsobWest1: return "us-isob-west-1"
             case .usIsofEast1: return "us-isof-east-1"
             case .usIsofSouth1: return "us-isof-south-1"
             case .usWest1: return "us-west-1"
@@ -2428,7 +2434,7 @@ extension Route53ClientTypes {
 public struct CreateHealthCheckInput: Swift.Sendable {
     /// A unique string that identifies the request and that allows you to retry a failed CreateHealthCheck request without the risk of creating two identical health checks:
     ///
-    /// * If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Route 53 returns the settings for the existing health check.
+    /// * If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Route 53 returns the health check configuration in the response.
     ///
     /// * If you send a CreateHealthCheck request with the same CallerReference as a deleted health check, regardless of the settings, Route 53 returns a HealthCheckAlreadyExists error.
     ///

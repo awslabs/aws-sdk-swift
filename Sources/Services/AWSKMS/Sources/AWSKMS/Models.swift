@@ -1116,6 +1116,8 @@ public struct CreateCustomKeyStoreInput: Swift.Sendable {
     ///
     /// * External key stores with VPC_ENDPOINT_SERVICE connectivity can share an Amazon VPC, but each external key store must have its own VPC endpoint service and private DNS name.
     public var xksProxyVpcEndpointServiceName: Swift.String?
+    /// Specifies the Amazon Web Services account ID that owns the Amazon VPC service endpoint for the interface that is used to communicate with your external key store proxy (XKS proxy). This parameter is optional. If not provided, the Amazon Web Services account ID calling the action will be used.
+    public var xksProxyVpcEndpointServiceOwner: Swift.String?
 
     public init(
         cloudHsmClusterId: Swift.String? = nil,
@@ -1127,7 +1129,8 @@ public struct CreateCustomKeyStoreInput: Swift.Sendable {
         xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
         xksProxyUriEndpoint: Swift.String? = nil,
         xksProxyUriPath: Swift.String? = nil,
-        xksProxyVpcEndpointServiceName: Swift.String? = nil
+        xksProxyVpcEndpointServiceName: Swift.String? = nil,
+        xksProxyVpcEndpointServiceOwner: Swift.String? = nil
     ) {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreName = customKeyStoreName
@@ -1139,12 +1142,13 @@ public struct CreateCustomKeyStoreInput: Swift.Sendable {
         self.xksProxyUriEndpoint = xksProxyUriEndpoint
         self.xksProxyUriPath = xksProxyUriPath
         self.xksProxyVpcEndpointServiceName = xksProxyVpcEndpointServiceName
+        self.xksProxyVpcEndpointServiceOwner = xksProxyVpcEndpointServiceOwner
     }
 }
 
 extension CreateCustomKeyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreName: \(Swift.String(describing: customKeyStoreName)), customKeyStoreType: \(Swift.String(describing: customKeyStoreType)), trustAnchorCertificate: \(Swift.String(describing: trustAnchorCertificate)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), keyStorePassword: \"CONTENT_REDACTED\")"}
+        "CreateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreName: \(Swift.String(describing: customKeyStoreName)), customKeyStoreType: \(Swift.String(describing: customKeyStoreType)), trustAnchorCertificate: \(Swift.String(describing: trustAnchorCertificate)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), xksProxyVpcEndpointServiceOwner: \(Swift.String(describing: xksProxyVpcEndpointServiceOwner)), keyStorePassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateCustomKeyStoreOutput: Swift.Sendable {
@@ -2398,26 +2402,30 @@ extension KMSClientTypes {
         public var uriPath: Swift.String?
         /// The Amazon VPC endpoint service used to communicate with the external key store proxy. This field appears only when the external key store proxy uses an Amazon VPC endpoint service to communicate with KMS.
         public var vpcEndpointServiceName: Swift.String?
+        /// The Amazon Web Services account ID that owns the Amazon VPC endpoint service used to communicate with the external key store proxy (XKS). This field appears only when the XKS uses an VPC endpoint service to communicate with KMS.
+        public var vpcEndpointServiceOwner: Swift.String?
 
         public init(
             accessKeyId: Swift.String? = nil,
             connectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
             uriEndpoint: Swift.String? = nil,
             uriPath: Swift.String? = nil,
-            vpcEndpointServiceName: Swift.String? = nil
+            vpcEndpointServiceName: Swift.String? = nil,
+            vpcEndpointServiceOwner: Swift.String? = nil
         ) {
             self.accessKeyId = accessKeyId
             self.connectivity = connectivity
             self.uriEndpoint = uriEndpoint
             self.uriPath = uriPath
             self.vpcEndpointServiceName = vpcEndpointServiceName
+            self.vpcEndpointServiceOwner = vpcEndpointServiceOwner
         }
     }
 }
 
 extension KMSClientTypes.XksProxyConfigurationType: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "XksProxyConfigurationType(connectivity: \(Swift.String(describing: connectivity)), uriEndpoint: \(Swift.String(describing: uriEndpoint)), uriPath: \(Swift.String(describing: uriPath)), vpcEndpointServiceName: \(Swift.String(describing: vpcEndpointServiceName)), accessKeyId: \"CONTENT_REDACTED\")"}
+        "XksProxyConfigurationType(connectivity: \(Swift.String(describing: connectivity)), uriEndpoint: \(Swift.String(describing: uriEndpoint)), uriPath: \(Swift.String(describing: uriPath)), vpcEndpointServiceName: \(Swift.String(describing: vpcEndpointServiceName)), vpcEndpointServiceOwner: \(Swift.String(describing: vpcEndpointServiceOwner)), accessKeyId: \"CONTENT_REDACTED\")"}
 }
 
 extension KMSClientTypes {
@@ -5227,6 +5235,8 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
     public var xksProxyUriPath: Swift.String?
     /// Changes the name that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is valid when the CustomKeyStoreType is EXTERNAL_KEY_STORE and the XksProxyConnectivity is VPC_ENDPOINT_SERVICE. To change this value, the external key store must be disconnected.
     public var xksProxyVpcEndpointServiceName: Swift.String?
+    /// Changes the Amazon Web Services account ID that KMS uses to identify the Amazon VPC endpoint service for your external key store proxy (XKS proxy). This parameter is optional. If not specified, the current Amazon Web Services account ID for the VPC endpoint service will not be updated. To change this value, the external key store must be disconnected.
+    public var xksProxyVpcEndpointServiceOwner: Swift.String?
 
     public init(
         cloudHsmClusterId: Swift.String? = nil,
@@ -5237,7 +5247,8 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
         xksProxyConnectivity: KMSClientTypes.XksProxyConnectivityType? = nil,
         xksProxyUriEndpoint: Swift.String? = nil,
         xksProxyUriPath: Swift.String? = nil,
-        xksProxyVpcEndpointServiceName: Swift.String? = nil
+        xksProxyVpcEndpointServiceName: Swift.String? = nil,
+        xksProxyVpcEndpointServiceOwner: Swift.String? = nil
     ) {
         self.cloudHsmClusterId = cloudHsmClusterId
         self.customKeyStoreId = customKeyStoreId
@@ -5248,12 +5259,13 @@ public struct UpdateCustomKeyStoreInput: Swift.Sendable {
         self.xksProxyUriEndpoint = xksProxyUriEndpoint
         self.xksProxyUriPath = xksProxyUriPath
         self.xksProxyVpcEndpointServiceName = xksProxyVpcEndpointServiceName
+        self.xksProxyVpcEndpointServiceOwner = xksProxyVpcEndpointServiceOwner
     }
 }
 
 extension UpdateCustomKeyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreId: \(Swift.String(describing: customKeyStoreId)), newCustomKeyStoreName: \(Swift.String(describing: newCustomKeyStoreName)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), keyStorePassword: \"CONTENT_REDACTED\")"}
+        "UpdateCustomKeyStoreInput(cloudHsmClusterId: \(Swift.String(describing: cloudHsmClusterId)), customKeyStoreId: \(Swift.String(describing: customKeyStoreId)), newCustomKeyStoreName: \(Swift.String(describing: newCustomKeyStoreName)), xksProxyAuthenticationCredential: \(Swift.String(describing: xksProxyAuthenticationCredential)), xksProxyConnectivity: \(Swift.String(describing: xksProxyConnectivity)), xksProxyUriEndpoint: \(Swift.String(describing: xksProxyUriEndpoint)), xksProxyUriPath: \(Swift.String(describing: xksProxyUriPath)), xksProxyVpcEndpointServiceName: \(Swift.String(describing: xksProxyVpcEndpointServiceName)), xksProxyVpcEndpointServiceOwner: \(Swift.String(describing: xksProxyVpcEndpointServiceOwner)), keyStorePassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateCustomKeyStoreOutput: Swift.Sendable {
@@ -5862,6 +5874,7 @@ extension CreateCustomKeyStoreInput {
         try writer["XksProxyUriEndpoint"].write(value.xksProxyUriEndpoint)
         try writer["XksProxyUriPath"].write(value.xksProxyUriPath)
         try writer["XksProxyVpcEndpointServiceName"].write(value.xksProxyVpcEndpointServiceName)
+        try writer["XksProxyVpcEndpointServiceOwner"].write(value.xksProxyVpcEndpointServiceOwner)
     }
 }
 
@@ -6352,6 +6365,7 @@ extension UpdateCustomKeyStoreInput {
         try writer["XksProxyUriEndpoint"].write(value.xksProxyUriEndpoint)
         try writer["XksProxyUriPath"].write(value.xksProxyUriPath)
         try writer["XksProxyVpcEndpointServiceName"].write(value.xksProxyVpcEndpointServiceName)
+        try writer["XksProxyVpcEndpointServiceOwner"].write(value.xksProxyVpcEndpointServiceOwner)
     }
 }
 
@@ -8822,6 +8836,7 @@ extension KMSClientTypes.XksProxyConfigurationType {
         value.uriEndpoint = try reader["UriEndpoint"].readIfPresent()
         value.uriPath = try reader["UriPath"].readIfPresent()
         value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent()
+        value.vpcEndpointServiceOwner = try reader["VpcEndpointServiceOwner"].readIfPresent()
         return value
     }
 }

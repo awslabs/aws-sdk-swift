@@ -173,6 +173,33 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Actions that can performed on a contact by an agent
+    public enum AgentAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case discard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentAction] {
+            return [
+                .discard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .discard: return "DISCARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Agentless config
     public struct AgentlessConfig: Swift.Sendable {
 
@@ -531,6 +558,47 @@ extension ConnectCampaignsV2ClientTypes {
 
 extension ConnectCampaignsV2ClientTypes {
 
+    /// Timeout Config for preview contacts.
+    public struct TimeoutConfig: Swift.Sendable {
+        /// Timeout duration for a preview contact in seconds.
+        /// This member is required.
+        public var durationInSeconds: Swift.Int?
+
+        public init(
+            durationInSeconds: Swift.Int? = nil
+        ) {
+            self.durationInSeconds = durationInSeconds
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
+    /// Preview config
+    public struct PreviewConfig: Swift.Sendable {
+        /// Actions that can be performed by agent during preview phase.
+        public var agentActions: [ConnectCampaignsV2ClientTypes.AgentAction]?
+        /// The bandwidth allocation of a queue resource.
+        /// This member is required.
+        public var bandwidthAllocation: Swift.Double?
+        /// Timeout Config for preview contacts.
+        /// This member is required.
+        public var timeoutConfig: ConnectCampaignsV2ClientTypes.TimeoutConfig?
+
+        public init(
+            agentActions: [ConnectCampaignsV2ClientTypes.AgentAction]? = nil,
+            bandwidthAllocation: Swift.Double? = nil,
+            timeoutConfig: ConnectCampaignsV2ClientTypes.TimeoutConfig? = nil
+        ) {
+            self.agentActions = agentActions
+            self.bandwidthAllocation = bandwidthAllocation
+            self.timeoutConfig = timeoutConfig
+        }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes {
+
     /// Progressive config
     public struct ProgressiveConfig: Swift.Sendable {
         /// The bandwidth allocation of a queue resource.
@@ -555,6 +623,8 @@ extension ConnectCampaignsV2ClientTypes {
         case predictive(ConnectCampaignsV2ClientTypes.PredictiveConfig)
         /// Agentless config
         case agentless(ConnectCampaignsV2ClientTypes.AgentlessConfig)
+        /// Preview config
+        case preview(ConnectCampaignsV2ClientTypes.PreviewConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -5131,6 +5201,8 @@ extension ConnectCampaignsV2ClientTypes.TelephonyOutboundMode {
                 try writer["agentless"].write(agentless, with: ConnectCampaignsV2ClientTypes.AgentlessConfig.write(value:to:))
             case let .predictive(predictive):
                 try writer["predictive"].write(predictive, with: ConnectCampaignsV2ClientTypes.PredictiveConfig.write(value:to:))
+            case let .preview(preview):
+                try writer["preview"].write(preview, with: ConnectCampaignsV2ClientTypes.PreviewConfig.write(value:to:))
             case let .progressive(progressive):
                 try writer["progressive"].write(progressive, with: ConnectCampaignsV2ClientTypes.ProgressiveConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -5148,9 +5220,45 @@ extension ConnectCampaignsV2ClientTypes.TelephonyOutboundMode {
                 return .predictive(try reader["predictive"].read(with: ConnectCampaignsV2ClientTypes.PredictiveConfig.read(from:)))
             case "agentless":
                 return .agentless(try reader["agentless"].read(with: ConnectCampaignsV2ClientTypes.AgentlessConfig.read(from:)))
+            case "preview":
+                return .preview(try reader["preview"].read(with: ConnectCampaignsV2ClientTypes.PreviewConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.PreviewConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.PreviewConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentActions"].writeList(value.agentActions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectCampaignsV2ClientTypes.AgentAction>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["bandwidthAllocation"].write(value.bandwidthAllocation)
+        try writer["timeoutConfig"].write(value.timeoutConfig, with: ConnectCampaignsV2ClientTypes.TimeoutConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.PreviewConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.PreviewConfig()
+        value.bandwidthAllocation = try reader["bandwidthAllocation"].readIfPresent() ?? 0.0
+        value.timeoutConfig = try reader["timeoutConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.TimeoutConfig.read(from:))
+        value.agentActions = try reader["agentActions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ConnectCampaignsV2ClientTypes.AgentAction>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectCampaignsV2ClientTypes.TimeoutConfig {
+
+    static func write(value: ConnectCampaignsV2ClientTypes.TimeoutConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["durationInSeconds"].write(value.durationInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.TimeoutConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCampaignsV2ClientTypes.TimeoutConfig()
+        value.durationInSeconds = try reader["durationInSeconds"].readIfPresent() ?? 0
+        return value
     }
 }
 

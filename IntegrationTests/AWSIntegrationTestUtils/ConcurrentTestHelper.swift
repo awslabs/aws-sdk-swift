@@ -36,6 +36,7 @@ public func repeatConcurrently(
 ///   - test: The function pointer for the test to run
 ///   - args: Any values to pass along to test function
 /// - Throws: Any error thrown by one of the test runs.
+@Sendable
 public func repeatConcurrentlyWithArgs<Arg: Sendable>(
     count: Int,
     test: @escaping @Sendable (Arg) async throws -> Void,

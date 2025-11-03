@@ -75,7 +75,7 @@ class S3ErrorTests: S3XCTestCase {
     func test_InvalidAccessKeyID_isThrownWhenAppropriate() async throws {
         do {
             let credentials = AWSCredentialIdentity(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY")
-            let awsCredentialIdentityResolver = try StaticAWSCredentialIdentityResolver(credentials)
+            let awsCredentialIdentityResolver = StaticAWSCredentialIdentityResolver(credentials)
             let config = try await S3Client.S3ClientConfiguration(awsCredentialIdentityResolver: awsCredentialIdentityResolver, region: region)
             let input = GetObjectInput(bucket: bucketName, key: UUID().uuidString)
             _ = try await S3Client(config: config).getObject(input: input)

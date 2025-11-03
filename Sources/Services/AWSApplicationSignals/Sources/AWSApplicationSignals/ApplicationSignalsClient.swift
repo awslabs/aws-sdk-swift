@@ -32,7 +32,7 @@ import enum ClientRuntime.DefaultTelemetry
 import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -66,9 +66,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class ApplicationSignalsClient: ClientRuntime.Client {
+public class ApplicationSignalsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApplicationSignalsClient"
-    public static let version = "1.5.61"
     let client: ClientRuntime.SdkHttpClient
     let config: ApplicationSignalsClient.ApplicationSignalsClientConfiguration
     let serviceName = "Application Signals"
@@ -611,7 +610,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `DeleteGroupingConfiguration` operation on the `ApplicationSignals` service.
     ///
-    /// Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
+    /// Deletes a grouping configuration that defines how services are grouped and organized in Application Signals. Once deleted, services will no longer be grouped according to the specified configuration rules. This operation is irreversible. After deletion, you must recreate the grouping configuration if you want to restore the same grouping behavior.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteGroupingConfigurationInput`)
     ///
@@ -882,7 +881,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `ListAuditFindings` operation on the `ApplicationSignals` service.
     ///
-    /// Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
+    /// Retrieves a list of audit findings for Application Signals resources. Audit findings identify potential issues, misconfigurations, or compliance violations in your observability setup. You can filter findings by time range, auditor type, and target resources to focus on specific areas of concern. This operation supports pagination for large result sets.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAuditFindingsInput`)
     ///
@@ -952,7 +951,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `ListGroupingAttributeDefinitions` operation on the `ApplicationSignals` service.
     ///
-    /// Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
+    /// Retrieves the available grouping attribute definitions that can be used to create grouping configurations. These definitions specify the attributes and rules available for organizing services. Use this operation to discover what grouping options are available before creating or updating grouping configurations.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListGroupingAttributeDefinitionsInput`)
     ///
@@ -1368,7 +1367,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `ListServiceStates` operation on the `ApplicationSignals` service.
     ///
-    /// Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
+    /// Retrieves the current state information for services monitored by Application Signals. Service states include health status, recent change events, and other operational metadata. You can filter results by time range, AWS account, and service attributes to focus on specific services or time periods. This operation supports pagination and can include data from linked accounts.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListServiceStatesInput`)
     ///
@@ -1571,7 +1570,7 @@ extension ApplicationSignalsClient {
 
     /// Performs the `PutGroupingConfiguration` operation on the `ApplicationSignals` service.
     ///
-    /// Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
+    /// Creates or updates a grouping configuration that defines how services are organized and grouped in Application Signals dashboards and service maps. Grouping configurations allow you to logically organize services based on attributes such as environment, team ownership, or business function, making it easier to monitor and manage related services together.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutGroupingConfigurationInput`)
     ///

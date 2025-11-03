@@ -1350,7 +1350,7 @@ extension OrganizationsClientTypes {
 ///
 /// * TAG_POLICY_VIOLATION: You attempted to create or update a resource with tags that are not compliant with the tag policy requirements for this account.
 ///
-/// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least seven days after the account was created. Invited accounts aren't subject to this waiting period.
+/// * WAIT_PERIOD_ACTIVE: After you create an Amazon Web Services account, you must wait until at least four days after the account was created. Invited accounts aren't subject to this waiting period.
 public struct ConstraintViolationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -3602,6 +3602,8 @@ extension OrganizationsClientTypes {
         public var joinedTimestamp: Foundation.Date?
         /// The friendly name of the delegated administrator's account.
         public var name: Swift.String?
+        /// Each state represents a specific phase in the account lifecycle. Use this information to manage account access, automate workflows, or trigger actions based on account state changes. For more information about account states and their implications, see [Monitor the state of your Amazon Web Services accounts ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_account_state.html) in the Organizations User Guide.
+        public var state: OrganizationsClientTypes.AccountState?
         /// The status of the delegated administrator's account in the organization.
         public var status: OrganizationsClientTypes.AccountStatus?
 
@@ -3613,6 +3615,7 @@ extension OrganizationsClientTypes {
             joinedMethod: OrganizationsClientTypes.AccountJoinedMethod? = nil,
             joinedTimestamp: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            state: OrganizationsClientTypes.AccountState? = nil,
             status: OrganizationsClientTypes.AccountStatus? = nil
         ) {
             self.arn = arn
@@ -3622,6 +3625,7 @@ extension OrganizationsClientTypes {
             self.joinedMethod = joinedMethod
             self.joinedTimestamp = joinedTimestamp
             self.name = name
+            self.state = state
             self.status = status
         }
     }
@@ -3629,7 +3633,7 @@ extension OrganizationsClientTypes {
 
 extension OrganizationsClientTypes.DelegatedAdministrator: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DelegatedAdministrator(arn: \(Swift.String(describing: arn)), delegationEnabledDate: \(Swift.String(describing: delegationEnabledDate)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "DelegatedAdministrator(arn: \(Swift.String(describing: arn)), delegationEnabledDate: \(Swift.String(describing: delegationEnabledDate)), id: \(Swift.String(describing: id)), joinedMethod: \(Swift.String(describing: joinedMethod)), joinedTimestamp: \(Swift.String(describing: joinedTimestamp)), state: \(Swift.String(describing: state)), status: \(Swift.String(describing: status)), email: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDelegatedAdministratorsOutput: Swift.Sendable {
@@ -8356,6 +8360,7 @@ extension OrganizationsClientTypes.DelegatedAdministrator {
         value.email = try reader["Email"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
         value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)

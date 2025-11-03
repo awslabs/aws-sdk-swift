@@ -502,6 +502,8 @@ public struct CreateAutomatedReasoningPolicyInput: Swift.Sendable {
     public var clientRequestToken: Swift.String?
     /// A description of the Automated Reasoning policy. Use this to provide context about the policy's purpose and the types of validations it performs.
     public var description: Swift.String?
+    /// The identifier of the KMS key to use for encrypting the automated reasoning policy and its associated artifacts. If you don't specify a KMS key, Amazon Bedrock uses an KMS managed key for encryption. For enhanced security and control, you can specify a customer managed KMS key.
+    public var kmsKeyId: Swift.String?
     /// A unique name for the Automated Reasoning policy. The name must be between 1 and 63 characters and can contain letters, numbers, hyphens, and underscores.
     /// This member is required.
     public var name: Swift.String?
@@ -513,12 +515,14 @@ public struct CreateAutomatedReasoningPolicyInput: Swift.Sendable {
     public init(
         clientRequestToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
         name: Swift.String? = nil,
         policyDefinition: BedrockClientTypes.AutomatedReasoningPolicyDefinition? = nil,
         tags: [BedrockClientTypes.Tag]? = nil
     ) {
         self.clientRequestToken = clientRequestToken
         self.description = description
+        self.kmsKeyId = kmsKeyId
         self.name = name
         self.policyDefinition = policyDefinition
         self.tags = tags
@@ -527,7 +531,7 @@ public struct CreateAutomatedReasoningPolicyInput: Swift.Sendable {
 
 extension CreateAutomatedReasoningPolicyInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAutomatedReasoningPolicyInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), policyDefinition: \(Swift.String(describing: policyDefinition)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAutomatedReasoningPolicyInput(clientRequestToken: \(Swift.String(describing: clientRequestToken)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), policyDefinition: \(Swift.String(describing: policyDefinition)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAutomatedReasoningPolicyOutput: Swift.Sendable {
@@ -755,23 +759,6 @@ extension CreateAutomatedReasoningPolicyVersionOutput: Swift.CustomDebugStringCo
         "CreateAutomatedReasoningPolicyVersionOutput(createdAt: \(Swift.String(describing: createdAt)), definitionHash: \(Swift.String(describing: definitionHash)), policyArn: \(Swift.String(describing: policyArn)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
-public struct DeleteAutomatedReasoningPolicyInput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to delete.
-    /// This member is required.
-    public var policyArn: Swift.String?
-
-    public init(
-        policyArn: Swift.String? = nil
-    ) {
-        self.policyArn = policyArn
-    }
-}
-
-public struct DeleteAutomatedReasoningPolicyOutput: Swift.Sendable {
-
-    public init() { }
-}
-
 /// Thrown when attempting to delete or modify a resource that is currently being used by other resources or operations. For example, trying to delete an Automated Reasoning policy that is referenced by an active guardrail.
 public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -793,6 +780,27 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     ) {
         self.properties.message = message
     }
+}
+
+public struct DeleteAutomatedReasoningPolicyInput: Swift.Sendable {
+    /// Specifies whether to force delete the automated reasoning policy even if it has active resources. When false, Amazon Bedrock validates if all artifacts have been deleted (e.g. policy version, test case, test result) for a policy before deletion. When true, Amazon Bedrock will delete the policy and all its artifacts without validation. Default is false.
+    public var force: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the Automated Reasoning policy to delete.
+    /// This member is required.
+    public var policyArn: Swift.String?
+
+    public init(
+        force: Swift.Bool? = nil,
+        policyArn: Swift.String? = nil
+    ) {
+        self.force = force
+        self.policyArn = policyArn
+    }
+}
+
+public struct DeleteAutomatedReasoningPolicyOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 public struct DeleteAutomatedReasoningPolicyBuildWorkflowInput: Swift.Sendable {
@@ -893,6 +901,8 @@ public struct GetAutomatedReasoningPolicyOutput: Swift.Sendable {
     public var definitionHash: Swift.String?
     /// The description of the policy.
     public var description: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the automated reasoning policy and its associated artifacts. If a KMS key is not provided during the initial CreateAutomatedReasoningPolicyRequest, the kmsKeyArn won't be included in the GetAutomatedReasoningPolicyResponse.
+    public var kmsKeyArn: Swift.String?
     /// The name of the policy.
     /// This member is required.
     public var name: Swift.String?
@@ -913,6 +923,7 @@ public struct GetAutomatedReasoningPolicyOutput: Swift.Sendable {
         createdAt: Foundation.Date? = nil,
         definitionHash: Swift.String? = nil,
         description: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         policyArn: Swift.String? = nil,
         policyId: Swift.String? = nil,
@@ -922,6 +933,7 @@ public struct GetAutomatedReasoningPolicyOutput: Swift.Sendable {
         self.createdAt = createdAt
         self.definitionHash = definitionHash
         self.description = description
+        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.policyArn = policyArn
         self.policyId = policyId
@@ -932,7 +944,7 @@ public struct GetAutomatedReasoningPolicyOutput: Swift.Sendable {
 
 extension GetAutomatedReasoningPolicyOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAutomatedReasoningPolicyOutput(createdAt: \(Swift.String(describing: createdAt)), definitionHash: \(Swift.String(describing: definitionHash)), policyArn: \(Swift.String(describing: policyArn)), policyId: \(Swift.String(describing: policyId)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetAutomatedReasoningPolicyOutput(createdAt: \(Swift.String(describing: createdAt)), definitionHash: \(Swift.String(describing: definitionHash)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), policyArn: \(Swift.String(describing: policyArn)), policyId: \(Swift.String(describing: policyId)), updatedAt: \(Swift.String(describing: updatedAt)), version: \(Swift.String(describing: version)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetAutomatedReasoningPolicyAnnotationsInput: Swift.Sendable {
@@ -12764,6 +12776,18 @@ extension DeleteAutomatedReasoningPolicyInput {
     }
 }
 
+extension DeleteAutomatedReasoningPolicyInput {
+
+    static func queryItemProvider(_ value: DeleteAutomatedReasoningPolicyInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let force = value.force {
+            let forceQueryItem = Smithy.URIQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
+            items.append(forceQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteAutomatedReasoningPolicyBuildWorkflowInput {
 
     static func urlPathProvider(_ value: DeleteAutomatedReasoningPolicyBuildWorkflowInput) -> Swift.String? {
@@ -14137,6 +14161,7 @@ extension CreateAutomatedReasoningPolicyInput {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["description"].write(value.description)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["name"].write(value.name)
         try writer["policyDefinition"].write(value.policyDefinition, with: BedrockClientTypes.AutomatedReasoningPolicyDefinition.write(value:to:))
         try writer["tags"].writeList(value.tags, memberWritingClosure: BedrockClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -14869,6 +14894,7 @@ extension GetAutomatedReasoningPolicyOutput {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.definitionHash = try reader["definitionHash"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.policyArn = try reader["policyArn"].readIfPresent() ?? ""
         value.policyId = try reader["policyId"].readIfPresent() ?? ""
@@ -16137,7 +16163,9 @@ enum DeleteAutomatedReasoningPolicyOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceInUseException": return try ResourceInUseException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)

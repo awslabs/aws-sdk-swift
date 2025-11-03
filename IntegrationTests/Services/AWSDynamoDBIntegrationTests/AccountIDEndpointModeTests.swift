@@ -137,7 +137,7 @@ final class AccountIDEndpointModeTests: XCTestCase {
     ) async throws -> DynamoDBClient {
         let accountID = setAccountID ? self.accountID : nil
         let credentials = AWSCredentialIdentity(accessKey: "abc", secret: "def", accountID: accountID)
-        let resolver = try StaticAWSCredentialIdentityResolver(credentials)
+        let resolver = StaticAWSCredentialIdentityResolver(credentials)
         let config = try await DynamoDBClient.Config(
             awsCredentialIdentityResolver: resolver,
             region: "us-east-1",

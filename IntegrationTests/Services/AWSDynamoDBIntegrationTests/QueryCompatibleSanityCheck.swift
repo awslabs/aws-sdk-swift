@@ -38,7 +38,7 @@ final class QueryCompatibleTest: XCTestCase {
         }
 
         let credentials = AWSCredentialIdentity(accessKey: "test", secret: "test")
-        let resolver = try StaticAWSCredentialIdentityResolver(credentials)
+        let resolver = StaticAWSCredentialIdentityResolver(credentials)
 
         let config = try await DynamoDBClient.Config(
             awsCredentialIdentityResolver: resolver,

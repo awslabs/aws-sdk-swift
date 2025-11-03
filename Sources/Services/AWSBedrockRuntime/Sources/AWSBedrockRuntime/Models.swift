@@ -1827,7 +1827,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The assessment for aPersonally Identifiable Information (PII) policy.
+    /// The assessment for a Personally Identifiable Information (PII) policy.
     public struct GuardrailSensitiveInformationPolicyAssessment: Swift.Sendable {
         /// The PII entities in the assessment.
         /// This member is required.
@@ -2441,8 +2441,29 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// Provides the URL and domain information for the website that was cited when performing a web search.
+    public struct WebLocation: Swift.Sendable {
+        /// The domain that was cited when performing a web search.
+        public var domain: Swift.String?
+        /// The URL that was cited when performing a web search.
+        public var url: Swift.String?
+
+        public init(
+            domain: Swift.String? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.domain = domain
+            self.url = url
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// Specifies the precise location within a source document where cited content can be found. This can include character-level positions, page numbers, or document chunks depending on the document type and indexing method.
     public enum CitationLocation: Swift.Sendable {
+        /// The web URL that was cited for this reference.
+        case web(BedrockRuntimeClientTypes.WebLocation)
         /// The character-level location within the document where the cited content is found.
         case documentchar(BedrockRuntimeClientTypes.DocumentCharLocation)
         /// The page-level location within the document where the cited content is found.
@@ -2519,7 +2540,7 @@ extension BedrockRuntimeClientTypes {
 
     /// Configuration settings for enabling and controlling document citations in Converse API responses. When enabled, the model can include citation information that links generated content back to specific source documents.
     public struct CitationsConfig: Swift.Sendable {
-        /// Specifies whether document citations should be included in the model's response. When set to true, the model can generate citations that reference the source documents used to inform the response.
+        /// Specifies whether citations from the selected document should be used in the model's response. When set to true, the model can generate citations that reference the source documents used to inform the response.
         /// This member is required.
         public var enabled: Swift.Bool?
 
@@ -2773,7 +2794,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// A text block that contains text that you want to assess with a guardrail. For more information, see [GuardrailConverseContentBlock].
+    /// A text block that contains text that you want to assess with a guardrail. For more information, see [GuardrailConverseContentBlock](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_GuardrailConverseContentBlock.html).
     public struct GuardrailConverseTextBlock: Swift.Sendable {
         /// The qualifier details for the guardrails contextual grounding filter.
         public var qualifiers: [BedrockRuntimeClientTypes.GuardrailConverseContentQualifier]?
@@ -2994,13 +3015,13 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The tool result content block.
+    /// The tool result content block. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public enum ToolResultContentBlock: Swift.Sendable {
         /// A tool result that is JSON format data.
         case json(Smithy.Document)
         /// A tool result that is text.
         case text(Swift.String)
-        /// A tool result that is an image. This field is only supported by Anthropic Claude 3 models.
+        /// A tool result that is an image. This field is only supported by Amazon Nova and Anthropic Claude 3 and 4 models.
         case image(BedrockRuntimeClientTypes.ImageBlock)
         /// A tool result that is a document.
         case document(BedrockRuntimeClientTypes.DocumentBlock)
@@ -3041,32 +3062,62 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// A tool result block that contains the results for a tool request that the model previously made.
+    /// A tool result block that contains the results for a tool request that the model previously made. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public struct ToolResultBlock: Swift.Sendable {
         /// The content for tool result content block.
         /// This member is required.
         public var content: [BedrockRuntimeClientTypes.ToolResultContentBlock]?
-        /// The status for the tool result content block. This field is only supported Anthropic Claude 3 models.
+        /// The status for the tool result content block. This field is only supported by Amazon Nova and Anthropic Claude 3 and 4 models.
         public var status: BedrockRuntimeClientTypes.ToolResultStatus?
         /// The ID of the tool request that this is the result for.
         /// This member is required.
         public var toolUseId: Swift.String?
+        /// The type for the tool result content block.
+        public var type: Swift.String?
 
         public init(
             content: [BedrockRuntimeClientTypes.ToolResultContentBlock]? = nil,
             status: BedrockRuntimeClientTypes.ToolResultStatus? = nil,
-            toolUseId: Swift.String? = nil
+            toolUseId: Swift.String? = nil,
+            type: Swift.String? = nil
         ) {
             self.content = content
             self.status = status
             self.toolUseId = toolUseId
+            self.type = type
         }
     }
 }
 
 extension BedrockRuntimeClientTypes {
 
-    /// A tool use content block. Contains information about a tool that the model is requesting be run., The model uses the result from the tool to generate a response.
+    public enum ToolUseType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case serverToolUse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ToolUseType] {
+            return [
+                .serverToolUse
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .serverToolUse: return "server_tool_use"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// A tool use content block. Contains information about a tool that the model is requesting be run., The model uses the result from the tool to generate a response. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public struct ToolUseBlock: Swift.Sendable {
         /// The input to pass to the tool.
         /// This member is required.
@@ -3077,15 +3128,19 @@ extension BedrockRuntimeClientTypes {
         /// The ID for the tool request.
         /// This member is required.
         public var toolUseId: Swift.String?
+        /// The type for the tool request.
+        public var type: BedrockRuntimeClientTypes.ToolUseType?
 
         public init(
             input: Smithy.Document? = nil,
             name: Swift.String? = nil,
-            toolUseId: Swift.String? = nil
+            toolUseId: Swift.String? = nil,
+            type: BedrockRuntimeClientTypes.ToolUseType? = nil
         ) {
             self.input = input
             self.name = name
             self.toolUseId = toolUseId
+            self.type = type
         }
     }
 }
@@ -3232,7 +3287,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// A system content block.
+    /// Contains configurations for instructions to provide the model for how to handle input. To learn more, see [Using the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/conversation-inference-call.html).
     public enum SystemContentBlock: Swift.Sendable {
         /// A system prompt for the model.
         case text(Swift.String)
@@ -3246,7 +3301,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The model must request at least one tool (no text is generated). For example, {"any" : {}}.
+    /// The model must request at least one tool (no text is generated). For example, {"any" : {}}. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public struct AnyToolChoice: Swift.Sendable {
 
         public init() { }
@@ -3255,7 +3310,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The Model automatically decides if a tool should be called or whether to generate text instead. For example, {"auto" : {}}.
+    /// The Model automatically decides if a tool should be called or whether to generate text instead. For example, {"auto" : {}}. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide
     public struct AutoToolChoice: Swift.Sendable {
 
         public init() { }
@@ -3264,7 +3319,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The model must request a specific tool. For example, {"tool" : {"name" : "Your tool name"}}. This field is only supported by Anthropic Claude 3 models.
+    /// The model must request a specific tool. For example, {"tool" : {"name" : "Your tool name"}}. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide This field is only supported by Anthropic Claude 3 models.
     public struct SpecificToolChoice: Swift.Sendable {
         /// The name of the tool that the model must request.
         /// This member is required.
@@ -3280,13 +3335,13 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// Determines which tools the model should request in a call to Converse or ConverseStream. ToolChoice is only supported by Anthropic Claude 3 models and by Mistral AI Mistral Large.
+    /// Determines which tools the model should request in a call to Converse or ConverseStream. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public enum ToolChoice: Swift.Sendable {
         /// (Default). The Model automatically decides if a tool should be called or whether to generate text instead.
         case auto(BedrockRuntimeClientTypes.AutoToolChoice)
         /// The model must request at least one tool (no text is generated).
         case any(BedrockRuntimeClientTypes.AnyToolChoice)
-        /// The Model must request the specified tool. Only supported by Anthropic Claude 3 models.
+        /// The Model must request the specified tool. Only supported by Anthropic Claude 3 and Amazon Nova models.
         case tool(BedrockRuntimeClientTypes.SpecificToolChoice)
         case sdkUnknown(Swift.String)
     }
@@ -3294,7 +3349,23 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The schema for the tool. The top level schema type must be object.
+    /// Specifies a system-defined tool for the model to use. System-defined tools are tools that are created and provided by the model provider.
+    public struct SystemTool: Swift.Sendable {
+        /// The name of the system-defined tool that you want to call.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        ) {
+            self.name = name
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The schema for the tool. The top level schema type must be object. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public enum ToolInputSchema: Swift.Sendable {
         /// The JSON schema for the tool. For more information, see [JSON Schema Reference](https://json-schema.org/understanding-json-schema/reference).
         case json(Smithy.Document)
@@ -3304,7 +3375,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The specification for the tool.
+    /// The specification for the tool. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public struct ToolSpecification: Swift.Sendable {
         /// The description for the tool.
         public var description: Swift.String?
@@ -3329,10 +3400,12 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// Information about a tool that you can use with the Converse API. For more information, see [Tool use (function calling)](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
+    /// Information about a tool that you can use with the Converse API. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public enum Tool: Swift.Sendable {
         /// The specfication for the tool.
         case toolspec(BedrockRuntimeClientTypes.ToolSpecification)
+        /// Specifies the system-defined tool that you want use.
+        case systemtool(BedrockRuntimeClientTypes.SystemTool)
         /// CachePoint to include in the tool configuration.
         case cachepoint(BedrockRuntimeClientTypes.CachePointBlock)
         case sdkUnknown(Swift.String)
@@ -3501,7 +3574,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// A Top level guardrail trace object. For more information, see [ConverseTrace].
+    /// A Top level guardrail trace object. For more information, see [ConverseTrace](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseTrace.html).
     public struct GuardrailTraceAssessment: Swift.Sendable {
         /// Provides the reason for the action taken when harmful content is detected.
         public var actionReason: Swift.String?
@@ -3543,7 +3616,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The trace object in a response from [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html). Currently, you can only trace guardrails.
+    /// The trace object in a response from [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html).
     public struct ConverseTrace: Swift.Sendable {
         /// The guardrail trace object.
         public var guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment?
@@ -3664,7 +3737,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// Configuration information for a guardrail that you use with the [ConverseStream] action.
+    /// Configuration information for a guardrail that you use with the [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html) action.
     public struct GuardrailStreamConfiguration: Swift.Sendable {
         /// The identifier for the guardrail.
         /// This member is required.
@@ -3815,6 +3888,16 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// Contains incremental updates to tool results information during streaming responses. This allows clients to build up tool results data progressively as the response is generated.
+    public enum ToolResultBlockDelta: Swift.Sendable {
+        /// The reasoning the model used to return the output.
+        case text(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// The delta for a tool use block.
     public struct ToolUseBlockDelta: Swift.Sendable {
         /// The input for a requested tool.
@@ -3837,6 +3920,8 @@ extension BedrockRuntimeClientTypes {
         case text(Swift.String)
         /// Information about a tool that the model is requesting to use.
         case tooluse(BedrockRuntimeClientTypes.ToolUseBlockDelta)
+        /// An incremental update that contains the results from a tool call.
+        case toolresult([BedrockRuntimeClientTypes.ToolResultBlockDelta])
         /// Contains content regarding the reasoning that is carried out by the model. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
         case reasoningcontent(BedrockRuntimeClientTypes.ReasoningContentBlockDelta)
         /// Incremental citation information that is streamed as part of the response generation process.
@@ -3868,7 +3953,31 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The start of a tool use block.
+    /// The start of a tool result block. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
+    public struct ToolResultBlockStart: Swift.Sendable {
+        /// The status of the tool result block.
+        public var status: BedrockRuntimeClientTypes.ToolResultStatus?
+        /// The ID of the tool that was used to generate this tool result block.
+        /// This member is required.
+        public var toolUseId: Swift.String?
+        /// The type for the tool that was used to generate this tool result block.
+        public var type: Swift.String?
+
+        public init(
+            status: BedrockRuntimeClientTypes.ToolResultStatus? = nil,
+            toolUseId: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.status = status
+            self.toolUseId = toolUseId
+            self.type = type
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The start of a tool use block. For more information, see [Call a tool with the Converse API](https://docs.aws.amazon.com/bedrock/latest/userguide/tool-use.html) in the Amazon Bedrock User Guide.
     public struct ToolUseBlockStart: Swift.Sendable {
         /// The name of the tool that the model is requesting to use.
         /// This member is required.
@@ -3876,13 +3985,17 @@ extension BedrockRuntimeClientTypes {
         /// The ID for the tool request.
         /// This member is required.
         public var toolUseId: Swift.String?
+        /// The type for the tool request.
+        public var type: BedrockRuntimeClientTypes.ToolUseType?
 
         public init(
             name: Swift.String? = nil,
-            toolUseId: Swift.String? = nil
+            toolUseId: Swift.String? = nil,
+            type: BedrockRuntimeClientTypes.ToolUseType? = nil
         ) {
             self.name = name
             self.toolUseId = toolUseId
+            self.type = type
         }
     }
 }
@@ -3893,6 +4006,8 @@ extension BedrockRuntimeClientTypes {
     public enum ContentBlockStart: Swift.Sendable {
         /// Information about a tool that the model is requesting to use.
         case tooluse(BedrockRuntimeClientTypes.ToolUseBlockStart)
+        /// The
+        case toolresult(BedrockRuntimeClientTypes.ToolResultBlockStart)
         case sdkUnknown(Swift.String)
     }
 }
@@ -3988,7 +4103,7 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
-    /// The trace object in a response from [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html). Currently, you can only trace guardrails.
+    /// The trace object in a response from [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html).
     public struct ConverseStreamTrace: Swift.Sendable {
         /// The guardrail trace object.
         public var guardrail: BedrockRuntimeClientTypes.GuardrailTraceAssessment?
@@ -6045,6 +6160,8 @@ extension BedrockRuntimeClientTypes.CitationLocation {
                 try writer["documentChunk"].write(documentchunk, with: BedrockRuntimeClientTypes.DocumentChunkLocation.write(value:to:))
             case let .documentpage(documentpage):
                 try writer["documentPage"].write(documentpage, with: BedrockRuntimeClientTypes.DocumentPageLocation.write(value:to:))
+            case let .web(web):
+                try writer["web"].write(web, with: BedrockRuntimeClientTypes.WebLocation.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -6054,6 +6171,8 @@ extension BedrockRuntimeClientTypes.CitationLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
+            case "web":
+                return .web(try reader["web"].read(with: BedrockRuntimeClientTypes.WebLocation.read(from:)))
             case "documentChar":
                 return .documentchar(try reader["documentChar"].read(with: BedrockRuntimeClientTypes.DocumentCharLocation.read(from:)))
             case "documentPage":
@@ -6119,6 +6238,23 @@ extension BedrockRuntimeClientTypes.DocumentCharLocation {
         value.documentIndex = try reader["documentIndex"].readIfPresent()
         value.start = try reader["start"].readIfPresent()
         value.end = try reader["end"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.WebLocation {
+
+    static func write(value: BedrockRuntimeClientTypes.WebLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domain"].write(value.domain)
+        try writer["url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.WebLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.WebLocation()
+        value.url = try reader["url"].readIfPresent()
+        value.domain = try reader["domain"].readIfPresent()
         return value
     }
 }
@@ -6324,6 +6460,7 @@ extension BedrockRuntimeClientTypes.ToolResultBlock {
         try writer["content"].writeList(value.content, memberWritingClosure: BedrockRuntimeClientTypes.ToolResultContentBlock.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].write(value.status)
         try writer["toolUseId"].write(value.toolUseId)
+        try writer["type"].write(value.type)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolResultBlock {
@@ -6332,6 +6469,7 @@ extension BedrockRuntimeClientTypes.ToolResultBlock {
         value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
         value.content = try reader["content"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.ToolResultContentBlock.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.status = try reader["status"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -6588,6 +6726,7 @@ extension BedrockRuntimeClientTypes.ToolUseBlock {
         try writer["input"].write(value.input)
         try writer["name"].write(value.name)
         try writer["toolUseId"].write(value.toolUseId)
+        try writer["type"].write(value.type)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolUseBlock {
@@ -6596,6 +6735,7 @@ extension BedrockRuntimeClientTypes.ToolUseBlock {
         value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.input = try reader["input"].readIfPresent() ?? [:]
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -6801,6 +6941,8 @@ extension BedrockRuntimeClientTypes.ContentBlockDelta {
                 return .text(try reader["text"].read())
             case "toolUse":
                 return .tooluse(try reader["toolUse"].read(with: BedrockRuntimeClientTypes.ToolUseBlockDelta.read(from:)))
+            case "toolResult":
+                return .toolresult(try reader["toolResult"].readList(memberReadingClosure: BedrockRuntimeClientTypes.ToolResultBlockDelta.read(from:), memberNodeInfo: "member", isFlattened: false))
             case "reasoningContent":
                 return .reasoningcontent(try reader["reasoningContent"].read(with: BedrockRuntimeClientTypes.ReasoningContentBlockDelta.read(from:)))
             case "citation":
@@ -6851,6 +6993,20 @@ extension BedrockRuntimeClientTypes.ReasoningContentBlockDelta {
     }
 }
 
+extension BedrockRuntimeClientTypes.ToolResultBlockDelta {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolResultBlockDelta {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension BedrockRuntimeClientTypes.ToolUseBlockDelta {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolUseBlockDelta {
@@ -6880,9 +7036,23 @@ extension BedrockRuntimeClientTypes.ContentBlockStart {
         switch name {
             case "toolUse":
                 return .tooluse(try reader["toolUse"].read(with: BedrockRuntimeClientTypes.ToolUseBlockStart.read(from:)))
+            case "toolResult":
+                return .toolresult(try reader["toolResult"].read(with: BedrockRuntimeClientTypes.ToolResultBlockStart.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.ToolResultBlockStart {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.ToolResultBlockStart {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.ToolResultBlockStart()
+        value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
     }
 }
 
@@ -6893,6 +7063,7 @@ extension BedrockRuntimeClientTypes.ToolUseBlockStart {
         var value = BedrockRuntimeClientTypes.ToolUseBlockStart()
         value.toolUseId = try reader["toolUseId"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -7129,11 +7300,21 @@ extension BedrockRuntimeClientTypes.Tool {
         switch value {
             case let .cachepoint(cachepoint):
                 try writer["cachePoint"].write(cachepoint, with: BedrockRuntimeClientTypes.CachePointBlock.write(value:to:))
+            case let .systemtool(systemtool):
+                try writer["systemTool"].write(systemtool, with: BedrockRuntimeClientTypes.SystemTool.write(value:to:))
             case let .toolspec(toolspec):
                 try writer["toolSpec"].write(toolspec, with: BedrockRuntimeClientTypes.ToolSpecification.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.SystemTool {
+
+    static func write(value: BedrockRuntimeClientTypes.SystemTool?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
     }
 }
 

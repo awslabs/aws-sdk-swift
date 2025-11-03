@@ -33,7 +33,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import func AWSSDKEventStreamsAuth.setupBidirectionalStreaming
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
-import protocol ClientRuntime.Client
+import protocol AWSClientRuntime.AWSServiceClient
 import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.DefaultHttpClientConfiguration
 import protocol ClientRuntime.HttpInterceptorProvider
@@ -70,9 +70,8 @@ import struct SmithyRetries.DefaultRetryStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
 import typealias SmithyHTTPAuthAPI.AuthSchemes
 
-public class QBusinessClient: ClientRuntime.Client {
+public class QBusinessClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "QBusinessClient"
-    public static let version = "1.5.61"
     let client: ClientRuntime.SdkHttpClient
     let config: QBusinessClient.QBusinessClientConfiguration
     let serviceName = "QBusiness"

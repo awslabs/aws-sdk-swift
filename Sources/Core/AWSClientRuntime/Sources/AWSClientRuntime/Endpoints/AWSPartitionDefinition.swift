@@ -5,6 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import let AWSSDKPartitions.partitions
+import let AWSSDKDynamic.partitions
 
 public let awsPartitionJSON = partitions
