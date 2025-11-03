@@ -444,14 +444,14 @@ extension KinesisClient {
 
     /// Performs the `CreateStream` operation on the `Kinesis` service.
     ///
-    /// Creates a Kinesis data stream. A stream captures and transports data records that are continuously emitted from different data sources or producers. Scale-out within a stream is explicitly supported by means of shards, which are uniquely identified groups of data records in a stream. You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read throughput per minute. With the on-demand mode, Kinesis Data Streams automatically manages the shards in order to provide the necessary throughput. For the data streams with a provisioned mode, you must specify the number of shards for the data stream. Each shard can support reads up to five transactions per second, up to a maximum data read total of 2 MiB per second. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per second. If the amount of data input increases or decreases, you can add or remove shards. The stream name identifies the stream. The name is scoped to the Amazon Web Services account used by the application. It is also scoped by Amazon Web Services Region. That is, two streams in two different accounts can have the same name, and two streams in the same account, but in two different Regions, can have the same name. CreateStream is an asynchronous operation. Upon receiving a CreateStream request, Kinesis Data Streams immediately returns and sets the stream status to CREATING. After the stream is created, Kinesis Data Streams sets the stream status to ACTIVE. You should perform read and write operations only on an ACTIVE stream. You receive a LimitExceededException when making a CreateStream request when you try to do one of the following:
+    /// Creates a Kinesis data stream. A stream captures and transports data records that are continuously emitted from different data sources or producers. Scale-out within a stream is explicitly supported by means of shards, which are uniquely identified groups of data records in a stream. You can create your data stream using either on-demand or provisioned capacity mode. Data streams with an on-demand mode require no capacity planning and automatically scale to handle gigabytes of write and read throughput per minute. With the on-demand mode, Kinesis Data Streams automatically manages the shards in order to provide the necessary throughput. If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughput in MiB per second that your stream can support in writes. For the data streams with a provisioned mode, you must specify the number of shards for the data stream. Each shard can support reads up to five transactions per second, up to a maximum data read total of 2 MiB per second. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 1 MiB per second. If the amount of data input increases or decreases, you can add or remove shards. The stream name identifies the stream. The name is scoped to the Amazon Web Services account used by the application. It is also scoped by Amazon Web Services Region. That is, two streams in two different accounts can have the same name, and two streams in the same account, but in two different Regions, can have the same name. CreateStream is an asynchronous operation. Upon receiving a CreateStream request, Kinesis Data Streams immediately returns and sets the stream status to CREATING. After the stream is created, Kinesis Data Streams sets the stream status to ACTIVE. You should perform read and write operations only on an ACTIVE stream. You receive a LimitExceededException when making a CreateStream request when you try to do one of the following:
     ///
     /// * Have more than five streams in the CREATING state at any point in time.
     ///
     /// * Create more shards than are authorized for your account.
     ///
     ///
-    /// For the default shard limit for an Amazon Web Services account, see [Amazon Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide. To increase this limit, [contact Amazon Web Services Support](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html). You can use [DescribeStreamSummary] to check the stream status, which is returned in StreamStatus. [CreateStream] has a limit of five transactions per second per account. You can add tags to the stream when making a CreateStream request by setting the Tags parameter. If you pass the Tags parameter, in addition to having the kinesis:CreateStream permission, you must also have the kinesis:AddTagsToStream permission for the stream that will be created. The kinesis:TagResource permission won’t work to tag streams on creation. Tags will take effect from the CREATING status of the stream, but you can't make any updates to the tags until the stream is in ACTIVE state.
+    /// For the default shard or on-demand throughput limits for an Amazon Web Services account, see [Amazon Kinesis Data Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide. To increase this limit, [contact Amazon Web Services Support](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html). You can use [DescribeStreamSummary] to check the stream status, which is returned in StreamStatus. [CreateStream] has a limit of five transactions per second per account. You can add tags to the stream when making a CreateStream request by setting the Tags parameter. If you pass the Tags parameter, in addition to having the kinesis:CreateStream permission, you must also have the kinesis:AddTagsToStream permission for the stream that will be created. The kinesis:TagResource permission won’t work to tag streams on creation. Tags will take effect from the CREATING status of the stream, but you can't make any updates to the tags until the stream is in ACTIVE state.
     ///
     /// - Parameter input: Represents the input for CreateStream. (Type: `CreateStreamInput`)
     ///
@@ -463,6 +463,7 @@ extension KinesisClient {
     /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
+    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
     public func createStream(input: CreateStreamInput) async throws -> CreateStreamOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -802,6 +803,75 @@ extension KinesisClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeregisterStreamConsumer")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeAccountSettings` operation on the `Kinesis` service.
+    ///
+    /// Describes the account-level settings for Amazon Kinesis Data Streams. This operation returns information about the minimum throughput billing commitments and other account-level configurations. This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeAccountSettingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeAccountSettingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    public func describeAccountSettings(input: DescribeAccountSettingsInput) async throws -> DescribeAccountSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeAccountSettings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeAccountSettingsInput, DescribeAccountSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(DescribeAccountSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeAccountSettingsOutput>(DescribeAccountSettingsOutput.httpOutput(from:), DescribeAccountSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeAccountSettingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeAccountSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(xAmzTarget: "Kinesis_20131202.DescribeAccountSettings"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeAccountSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeAccountSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeAccountSettingsInput, DescribeAccountSettingsOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeAccountSettings")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -2812,6 +2882,81 @@ extension KinesisClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateAccountSettings` operation on the `Kinesis` service.
+    ///
+    /// Updates the account-level settings for Amazon Kinesis Data Streams. Updating account settings is a synchronous operation. Upon receiving the request, Kinesis Data Streams will return immediately with your account’s updated settings. API limits
+    ///
+    /// * Certain account configurations have minimum commitment windows. Attempting to update your settings prior to the end of the minimum commitment window might have certain restrictions.
+    ///
+    /// * This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateAccountSettingsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateAccountSettingsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    public func updateAccountSettings(input: UpdateAccountSettingsInput) async throws -> UpdateAccountSettingsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAccountSettings")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateAccountSettingsInput, UpdateAccountSettingsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(UpdateAccountSettingsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateAccountSettingsOutput>(UpdateAccountSettingsOutput.httpOutput(from:), UpdateAccountSettingsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateAccountSettingsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateAccountSettingsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(xAmzTarget: "Kinesis_20131202.UpdateAccountSettings"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateAccountSettingsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateAccountSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateAccountSettingsInput, UpdateAccountSettingsOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateAccountSettings")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateMaxRecordSize` operation on the `Kinesis` service.
     ///
     /// This allows you to update the MaxRecordSize of a single record that you can write to, and read from a stream. You can ingest and digest single records up to 10240 KiB.
@@ -2979,7 +3124,7 @@ extension KinesisClient {
 
     /// Performs the `UpdateStreamMode` operation on the `Kinesis` service.
     ///
-    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream.
+    /// Updates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data stream. If you'd still like to proactively scale your on-demand data stream’s capacity, you can unlock the warm throughput feature for on-demand data streams by enabling MinimumThroughputBillingCommitment for your account. Once your account has MinimumThroughputBillingCommitment enabled, you can specify the warm throughput in MiB per second that your stream can support in writes.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateStreamModeInput`)
     ///
@@ -2992,6 +3137,7 @@ extension KinesisClient {
     /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
     public func updateStreamMode(input: UpdateStreamModeInput) async throws -> UpdateStreamModeOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -3037,6 +3183,87 @@ extension KinesisClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStreamMode")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateStreamWarmThroughput` operation on the `Kinesis` service.
+    ///
+    /// Updates the warm throughput configuration for the specified Amazon Kinesis Data Streams on-demand data stream. This operation allows you to proactively scale your on-demand data stream to a specified throughput level, enabling better performance for sudden traffic spikes. When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API. Updating the warm throughput is an asynchronous operation. Upon receiving the request, Kinesis Data Streams returns immediately and sets the status of the stream to UPDATING. After the update is complete, Kinesis Data Streams sets the status of the stream back to ACTIVE. Depending on the size of the stream, the scaling action could take a few minutes to complete. You can continue to read and write data to your stream while its status is UPDATING. This operation is only supported for data streams with the on-demand capacity mode in accounts that have MinimumThroughputBillingCommitment enabled. Provisioned capacity mode streams do not support warm throughput configuration. This operation has the following default limits. By default, you cannot do the following:
+    ///
+    /// * Scale to more than 10 GiBps for an on-demand stream.
+    ///
+    /// * This API has a call limit of 5 transactions per second (TPS) for each Amazon Web Services account. TPS over 5 will initiate the LimitExceededException.
+    ///
+    ///
+    /// For the default limits for an Amazon Web Services account, see [Streams Limits](https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html) in the Amazon Kinesis Data Streams Developer Guide. To request an increase in the call rate limit, the shard limit for this API, or your overall shard limit, use the [limits form](https://console.aws.amazon.com/support/v1#/case/create?issueType=service-limit-increase&limitType=service-code-kinesis).
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateStreamWarmThroughputInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateStreamWarmThroughputOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Specifies that you do not have the permissions required to perform this operation.
+    /// - `InvalidArgumentException` : A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
+    /// - `LimitExceededException` : The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
+    /// - `ResourceInUseException` : The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
+    /// - `ResourceNotFoundException` : The requested resource could not be found. The stream might not be specified correctly.
+    /// - `ValidationException` : Specifies that you tried to invoke this API for a data stream with the on-demand capacity mode. This API is only supported for data streams with the provisioned capacity mode.
+    public func updateStreamWarmThroughput(input: UpdateStreamWarmThroughputInput) async throws -> UpdateStreamWarmThroughputOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateStreamWarmThroughput")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kinesis")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>(UpdateStreamWarmThroughputInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateStreamWarmThroughputOutput>(UpdateStreamWarmThroughputOutput.httpOutput(from:), UpdateStreamWarmThroughputOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateStreamWarmThroughputOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kinesis", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, operationType: "control", region: config.region, streamARN: input.streamARN, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateStreamWarmThroughputOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>(xAmzTarget: "Kinesis_20131202.UpdateStreamWarmThroughput"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateStreamWarmThroughputInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateStreamWarmThroughputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateStreamWarmThroughputInput, UpdateStreamWarmThroughputOutput>(serviceID: serviceName, version: KinesisClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kinesis")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStreamWarmThroughput")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
