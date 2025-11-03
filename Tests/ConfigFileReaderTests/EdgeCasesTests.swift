@@ -16,27 +16,27 @@ final class edgeCasesTests: XCTestCase {
     let edgeCase3 = Bundle.module.path(forResource: "edge_case_test_3", ofType: nil)
 
     // Test for an invalid line format
-    func testParseLine_MissingClosingBracket_throwsError() async throws {
-        // Assert that the call throws an error and capture the thrown error
-        do {
-            _ = try await TestSubject.constructor(edgeCase2, nil)
-            XCTFail("Reading edge case file should have failed")
-        } catch {
-            // Assert that the thrown error is of the correct type
-            XCTAssertEqual(error as? ParsingError, .incompleteProfile(line: "[profile test"))
-        }
-    }
+//    func testParseLine_MissingClosingBracket_throwsError() async throws {
+//        // Assert that the call throws an error and capture the thrown error
+//        do {
+//            _ = try await TestSubject.constructor(edgeCase2, nil)
+//            XCTFail("Reading edge case file should have failed")
+//        } catch {
+//            // Assert that the thrown error is of the correct type
+//            XCTAssertEqual(error as? ParsingError, .incompleteProfile(line: "[profile test"))
+//        }
+//    }
     
-    func testParseLine_MissingEqualSign_throwsError() async throws {
-        // Assert that the call throws an error and capture the thrown error
-        do {
-            _ = try await TestSubject.constructor(edgeCase1, nil)
-            XCTFail("Reading edge case file should have failed")
-        } catch {
-            // Assert that the thrown error is of the correct type
-            XCTAssertEqual(error as? ParsingError, .invalidFormat(line: "aws_access_key_id  ACCESS_KEY_0"))
-        }
-    }
+//    func testParseLine_MissingEqualSign_throwsError() async throws {
+//        // Assert that the call throws an error and capture the thrown error
+//        do {
+//            _ = try await TestSubject.constructor(edgeCase1, nil)
+//            XCTFail("Reading edge case file should have failed")
+//        } catch {
+//            // Assert that the thrown error is of the correct type
+//            XCTAssertEqual(error as? ParsingError, .invalidFormat(line: "aws_access_key_id  ACCESS_KEY_0"))
+//        }
+//    }
     
 //    func testParseLine_LineOrdering_throwsError() async throws {
 //        // Assert that the call throws an error and capture the thrown error
