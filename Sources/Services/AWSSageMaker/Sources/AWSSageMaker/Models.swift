@@ -54489,6 +54489,8 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
     /// The name of the notebook instance to update.
     /// This member is required.
     public var notebookInstanceName: Swift.String?
+    /// The platform identifier of the notebook instance runtime environment.
+    public var platformIdentifier: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see [SageMaker AI Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html). To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     public var roleArn: Swift.String?
     /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled. If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions.
@@ -54509,6 +54511,7 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
         ipAddressType: SageMakerClientTypes.IPAddressType? = nil,
         lifecycleConfigName: Swift.String? = nil,
         notebookInstanceName: Swift.String? = nil,
+        platformIdentifier: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         rootAccess: SageMakerClientTypes.RootAccess? = nil,
         volumeSizeInGB: Swift.Int? = nil
@@ -54525,6 +54528,7 @@ public struct UpdateNotebookInstanceInput: Swift.Sendable {
         self.ipAddressType = ipAddressType
         self.lifecycleConfigName = lifecycleConfigName
         self.notebookInstanceName = notebookInstanceName
+        self.platformIdentifier = platformIdentifier
         self.roleArn = roleArn
         self.rootAccess = rootAccess
         self.volumeSizeInGB = volumeSizeInGB
@@ -61888,6 +61892,7 @@ extension UpdateNotebookInstanceInput {
         try writer["IpAddressType"].write(value.ipAddressType)
         try writer["LifecycleConfigName"].write(value.lifecycleConfigName)
         try writer["NotebookInstanceName"].write(value.notebookInstanceName)
+        try writer["PlatformIdentifier"].write(value.platformIdentifier)
         try writer["RoleArn"].write(value.roleArn)
         try writer["RootAccess"].write(value.rootAccess)
         try writer["VolumeSizeInGB"].write(value.volumeSizeInGB)

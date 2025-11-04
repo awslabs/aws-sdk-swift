@@ -1456,7 +1456,7 @@ extension ConnectCasesClientTypes {
 }
 
 public struct BatchGetCaseRuleInput: Swift.Sendable {
-    /// List of case rule identifiers.
+    /// A list of case rule identifiers.
     /// This member is required.
     public var caseRules: [ConnectCasesClientTypes.CaseRuleIdentifier]?
     /// Unique identifier of a Cases domain.
@@ -1469,6 +1469,51 @@ public struct BatchGetCaseRuleInput: Swift.Sendable {
     ) {
         self.caseRules = caseRules
         self.domainId = domainId
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A mapping between a parent field option value and child field option values.
+    public struct ParentChildFieldOptionsMapping: Swift.Sendable {
+        /// A list of allowed values in the child field.
+        /// This member is required.
+        public var childFieldOptionValues: [Swift.String]?
+        /// The value in the parent field.
+        /// This member is required.
+        public var parentFieldOptionValue: Swift.String?
+
+        public init(
+            childFieldOptionValues: [Swift.String]? = nil,
+            parentFieldOptionValue: Swift.String? = nil
+        ) {
+            self.childFieldOptionValues = childFieldOptionValues
+            self.parentFieldOptionValue = parentFieldOptionValue
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Rules that control which options are available in a child field based on the selected value in a parent field.
+    public struct FieldOptionsCaseRule: Swift.Sendable {
+        /// The identifier of the child field whose options are controlled.
+        public var childFieldId: Swift.String?
+        /// A mapping between a parent field option value and child field option values.
+        /// This member is required.
+        public var parentChildFieldOptionsMappings: [ConnectCasesClientTypes.ParentChildFieldOptionsMapping]?
+        /// The identifier of the parent field that controls options.
+        public var parentFieldId: Swift.String?
+
+        public init(
+            childFieldId: Swift.String? = nil,
+            parentChildFieldOptionsMappings: [ConnectCasesClientTypes.ParentChildFieldOptionsMapping]? = nil,
+            parentFieldId: Swift.String? = nil
+        ) {
+            self.childFieldId = childFieldId
+            self.parentChildFieldOptionsMappings = parentChildFieldOptionsMappings
+            self.parentFieldId = parentFieldId
+        }
     }
 }
 
@@ -1547,6 +1592,27 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    /// A rule that controls field visibility based on conditions. Fields can be shown or hidden dynamically based on values in other fields.
+    public struct HiddenCaseRule: Swift.Sendable {
+        /// A list of conditions that determine field visibility.
+        /// This member is required.
+        public var conditions: [ConnectCasesClientTypes.BooleanCondition]?
+        /// Whether the field is hidden when no conditions match.
+        /// This member is required.
+        public var defaultValue: Swift.Bool?
+
+        public init(
+            conditions: [ConnectCasesClientTypes.BooleanCondition]? = nil,
+            defaultValue: Swift.Bool? = nil
+        ) {
+            self.conditions = conditions
+            self.defaultValue = defaultValue
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     /// Required rule type, used to indicate whether a field is required. In the Amazon Connect admin website, case rules are known as case field conditions. For more information about case field conditions, see [Add case field conditions to a case template](https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html).
     public struct RequiredCaseRule: Swift.Sendable {
         /// List of conditions for the required rule; the first condition to evaluate to true dictates the value of the rule.
@@ -1572,6 +1638,10 @@ extension ConnectCasesClientTypes {
     public enum CaseRuleDetails: Swift.Sendable {
         /// Required rule type, used to indicate whether a field is required.
         case `required`(ConnectCasesClientTypes.RequiredCaseRule)
+        /// Which options are available in a child field based on the selected value in a parent field.
+        case fieldoptions(ConnectCasesClientTypes.FieldOptionsCaseRule)
+        /// Whether a field is visible, based on values in other fields.
+        case hidden(ConnectCasesClientTypes.HiddenCaseRule)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1653,19 +1723,23 @@ extension ConnectCasesClientTypes {
 }
 
 public struct BatchGetCaseRuleOutput: Swift.Sendable {
-    /// List of detailed case rule information.
+    /// A list of detailed case rule information.
     /// This member is required.
     public var caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]?
-    /// List of case rule errors.
+    /// A list of case rule errors.
     /// This member is required.
     public var errors: [ConnectCasesClientTypes.CaseRuleError]?
+    /// A list of unprocessed case rule identifiers.
+    public var unprocessedCaseRules: [Swift.String]?
 
     public init(
         caseRules: [ConnectCasesClientTypes.GetCaseRuleResponse]? = nil,
-        errors: [ConnectCasesClientTypes.CaseRuleError]? = nil
+        errors: [ConnectCasesClientTypes.CaseRuleError]? = nil,
+        unprocessedCaseRules: [Swift.String]? = nil
     ) {
         self.caseRules = caseRules
         self.errors = errors
+        self.unprocessedCaseRules = unprocessedCaseRules
     }
 }
 
@@ -1757,11 +1831,15 @@ public struct ListCaseRulesInput: Swift.Sendable {
 extension ConnectCasesClientTypes {
 
     public enum RuleType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fieldOptions
+        case hidden
         case `required`
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RuleType] {
             return [
+                .fieldOptions,
+                .hidden,
                 .required
             ]
         }
@@ -1773,6 +1851,8 @@ extension ConnectCasesClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .fieldOptions: return "FieldOptions"
+            case .hidden: return "Hidden"
             case .required: return "Required"
             case let .sdkUnknown(s): return s
             }
@@ -3147,12 +3227,11 @@ extension ConnectCasesClientTypes {
         /// This member is required.
         public var caseRuleId: Swift.String?
         /// Unique identifier of a field.
-        /// This member is required.
         public var fieldId: Swift.String?
 
         public init(
             caseRuleId: Swift.String? = nil,
-            fieldId: Swift.String? = nil
+            fieldId: Swift.String? = "NULL"
         ) {
             self.caseRuleId = caseRuleId
             self.fieldId = fieldId
@@ -4465,6 +4544,7 @@ extension BatchGetCaseRuleOutput {
         var value = BatchGetCaseRuleOutput()
         value.caseRules = try reader["caseRules"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.GetCaseRuleResponse.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.CaseRuleError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unprocessedCaseRules = try reader["unprocessedCaseRules"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5645,6 +5725,7 @@ enum UpdateCaseRuleOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5703,6 +5784,7 @@ enum UpdateTemplateOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -5830,6 +5912,10 @@ extension ConnectCasesClientTypes.CaseRuleDetails {
     static func write(value: ConnectCasesClientTypes.CaseRuleDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .fieldoptions(fieldoptions):
+                try writer["fieldOptions"].write(fieldoptions, with: ConnectCasesClientTypes.FieldOptionsCaseRule.write(value:to:))
+            case let .hidden(hidden):
+                try writer["hidden"].write(hidden, with: ConnectCasesClientTypes.HiddenCaseRule.write(value:to:))
             case let .`required`(`required`):
                 try writer["required"].write(`required`, with: ConnectCasesClientTypes.RequiredCaseRule.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -5843,23 +5929,27 @@ extension ConnectCasesClientTypes.CaseRuleDetails {
         switch name {
             case "required":
                 return .`required`(try reader["required"].read(with: ConnectCasesClientTypes.RequiredCaseRule.read(from:)))
+            case "fieldOptions":
+                return .fieldoptions(try reader["fieldOptions"].read(with: ConnectCasesClientTypes.FieldOptionsCaseRule.read(from:)))
+            case "hidden":
+                return .hidden(try reader["hidden"].read(with: ConnectCasesClientTypes.HiddenCaseRule.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension ConnectCasesClientTypes.RequiredCaseRule {
+extension ConnectCasesClientTypes.HiddenCaseRule {
 
-    static func write(value: ConnectCasesClientTypes.RequiredCaseRule?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ConnectCasesClientTypes.HiddenCaseRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["defaultValue"].write(value.defaultValue)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RequiredCaseRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.HiddenCaseRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectCasesClientTypes.RequiredCaseRule()
+        var value = ConnectCasesClientTypes.HiddenCaseRule()
         value.defaultValue = try reader["defaultValue"].readIfPresent() ?? false
         value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.BooleanCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
@@ -5983,6 +6073,59 @@ extension ConnectCasesClientTypes.OperandOne {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ConnectCasesClientTypes.FieldOptionsCaseRule {
+
+    static func write(value: ConnectCasesClientTypes.FieldOptionsCaseRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["childFieldId"].write(value.childFieldId)
+        try writer["parentChildFieldOptionsMappings"].writeList(value.parentChildFieldOptionsMappings, memberWritingClosure: ConnectCasesClientTypes.ParentChildFieldOptionsMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentFieldId"].write(value.parentFieldId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldOptionsCaseRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.FieldOptionsCaseRule()
+        value.parentFieldId = try reader["parentFieldId"].readIfPresent()
+        value.childFieldId = try reader["childFieldId"].readIfPresent()
+        value.parentChildFieldOptionsMappings = try reader["parentChildFieldOptionsMappings"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.ParentChildFieldOptionsMapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.ParentChildFieldOptionsMapping {
+
+    static func write(value: ConnectCasesClientTypes.ParentChildFieldOptionsMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["childFieldOptionValues"].writeList(value.childFieldOptionValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentFieldOptionValue"].write(value.parentFieldOptionValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.ParentChildFieldOptionsMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.ParentChildFieldOptionsMapping()
+        value.parentFieldOptionValue = try reader["parentFieldOptionValue"].readIfPresent() ?? ""
+        value.childFieldOptionValues = try reader["childFieldOptionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.RequiredCaseRule {
+
+    static func write(value: ConnectCasesClientTypes.RequiredCaseRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditions"].writeList(value.conditions, memberWritingClosure: ConnectCasesClientTypes.BooleanCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["defaultValue"].write(value.defaultValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.RequiredCaseRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.RequiredCaseRule()
+        value.defaultValue = try reader["defaultValue"].readIfPresent() ?? false
+        value.conditions = try reader["conditions"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.BooleanCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
@@ -6432,7 +6575,7 @@ extension ConnectCasesClientTypes.TemplateRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectCasesClientTypes.TemplateRule()
         value.caseRuleId = try reader["caseRuleId"].readIfPresent() ?? ""
-        value.fieldId = try reader["fieldId"].readIfPresent() ?? ""
+        value.fieldId = try reader["fieldId"].readIfPresent() ?? "NULL"
         return value
     }
 }

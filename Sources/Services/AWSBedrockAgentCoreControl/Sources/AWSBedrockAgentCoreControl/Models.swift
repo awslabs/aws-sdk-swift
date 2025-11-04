@@ -692,6 +692,102 @@ public struct UpdateAgentRuntimeEndpointOutput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
+    public enum AgentManagedRuntimeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case python310
+        case python311
+        case python312
+        case python313
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentManagedRuntimeType] {
+            return [
+                .python310,
+                .python311,
+                .python312,
+                .python313
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .python310: return "PYTHON_3_10"
+            case .python311: return "PYTHON_3_11"
+            case .python312: return "PYTHON_3_12"
+            case .python313: return "PYTHON_3_13"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The Amazon S3 location for storing data. This structure defines where in Amazon S3 data is stored.
+    public struct S3Location: Swift.Sendable {
+        /// The name of the Amazon S3 bucket. This bucket contains the stored data.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The prefix for objects in the Amazon S3 bucket. This prefix is added to the object keys to organize the data.
+        /// This member is required.
+        public var `prefix`: Swift.String?
+        /// The version ID of the Amazon Amazon S3 object. If not specified, the latest version of the object is used.
+        public var versionId: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            `prefix`: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.`prefix` = `prefix`
+            self.versionId = versionId
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The source code configuration that specifies the location and details of the code to be executed.
+    public enum Code: Swift.Sendable {
+        /// The Amazon Amazon S3 object that contains the source code for the agent runtime.
+        case s3(BedrockAgentCoreControlClientTypes.S3Location)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The configuration for the source code that defines how the agent runtime code should be executed, including the code location, runtime environment, and entry point.
+    public struct CodeConfiguration: Swift.Sendable {
+        /// The source code location and configuration details.
+        /// This member is required.
+        public var code: BedrockAgentCoreControlClientTypes.Code?
+        /// The entry point for the code execution, specifying the function or method that should be invoked when the code runs.
+        /// This member is required.
+        public var entryPoint: [Swift.String]?
+        /// The runtime environment for executing the code (for example, Python 3.9 or Node.js 18).
+        /// This member is required.
+        public var runtime: BedrockAgentCoreControlClientTypes.AgentManagedRuntimeType?
+
+        public init(
+            code: BedrockAgentCoreControlClientTypes.Code? = nil,
+            entryPoint: [Swift.String]? = nil,
+            runtime: BedrockAgentCoreControlClientTypes.AgentManagedRuntimeType? = nil
+        ) {
+            self.code = code
+            self.entryPoint = entryPoint
+            self.runtime = runtime
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
     /// Representation of a container configuration.
     public struct ContainerConfiguration: Swift.Sendable {
         /// The ECR URI of the container.
@@ -712,6 +808,8 @@ extension BedrockAgentCoreControlClientTypes {
     public enum AgentRuntimeArtifact: Swift.Sendable {
         /// The container configuration for the agent artifact.
         case containerconfiguration(BedrockAgentCoreControlClientTypes.ContainerConfiguration)
+        /// The code configuration for the agent runtime artifact, including the source code location and execution settings.
+        case codeconfiguration(BedrockAgentCoreControlClientTypes.CodeConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -1058,11 +1156,15 @@ public struct DeleteAgentRuntimeInput: Swift.Sendable {
     /// The unique identifier of the AgentCore Runtime to delete.
     /// This member is required.
     public var agentRuntimeId: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
+    public var clientToken: Swift.String?
 
     public init(
-        agentRuntimeId: Swift.String? = nil
+        agentRuntimeId: Swift.String? = nil,
+        clientToken: Swift.String? = nil
     ) {
         self.agentRuntimeId = agentRuntimeId
+        self.clientToken = clientToken
     }
 }
 
@@ -1803,27 +1905,6 @@ extension BedrockAgentCoreControlClientTypes {
         ) {
             self.networkMode = networkMode
             self.vpcConfig = vpcConfig
-        }
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes {
-
-    /// The Amazon S3 location for storing data. This structure defines where in Amazon S3 data is stored.
-    public struct S3Location: Swift.Sendable {
-        /// The name of the Amazon S3 bucket. This bucket contains the stored data.
-        /// This member is required.
-        public var bucket: Swift.String?
-        /// The prefix for objects in the Amazon S3 bucket. This prefix is added to the object keys to organize the data.
-        /// This member is required.
-        public var `prefix`: Swift.String?
-
-        public init(
-            bucket: Swift.String? = nil,
-            `prefix`: Swift.String? = nil
-        ) {
-            self.bucket = bucket
-            self.`prefix` = `prefix`
         }
     }
 }
@@ -7051,6 +7132,18 @@ extension DeleteAgentRuntimeInput {
     }
 }
 
+extension DeleteAgentRuntimeInput {
+
+    static func queryItemProvider(_ value: DeleteAgentRuntimeInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
 extension DeleteAgentRuntimeEndpointInput {
 
     static func urlPathProvider(_ value: DeleteAgentRuntimeEndpointInput) -> Swift.String? {
@@ -10959,6 +11052,8 @@ extension BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact {
     static func write(value: BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
+            case let .codeconfiguration(codeconfiguration):
+                try writer["codeConfiguration"].write(codeconfiguration, with: BedrockAgentCoreControlClientTypes.CodeConfiguration.write(value:to:))
             case let .containerconfiguration(containerconfiguration):
                 try writer["containerConfiguration"].write(containerconfiguration, with: BedrockAgentCoreControlClientTypes.ContainerConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
@@ -10972,9 +11067,73 @@ extension BedrockAgentCoreControlClientTypes.AgentRuntimeArtifact {
         switch name {
             case "containerConfiguration":
                 return .containerconfiguration(try reader["containerConfiguration"].read(with: BedrockAgentCoreControlClientTypes.ContainerConfiguration.read(from:)))
+            case "codeConfiguration":
+                return .codeconfiguration(try reader["codeConfiguration"].read(with: BedrockAgentCoreControlClientTypes.CodeConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.CodeConfiguration {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.CodeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["code"].write(value.code, with: BedrockAgentCoreControlClientTypes.Code.write(value:to:))
+        try writer["entryPoint"].writeList(value.entryPoint, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["runtime"].write(value.runtime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.CodeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.CodeConfiguration()
+        value.code = try reader["code"].readIfPresent(with: BedrockAgentCoreControlClientTypes.Code.read(from:))
+        value.runtime = try reader["runtime"].readIfPresent() ?? .sdkUnknown("")
+        value.entryPoint = try reader["entryPoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.Code {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.Code?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreControlClientTypes.S3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.Code {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreControlClientTypes.S3Location.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.S3Location {
+
+    static func write(value: BedrockAgentCoreControlClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["prefix"].write(value.`prefix`)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.S3Location()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent()
+        return value
     }
 }
 
@@ -11062,23 +11221,6 @@ extension BedrockAgentCoreControlClientTypes.RecordingConfig {
         var value = BedrockAgentCoreControlClientTypes.RecordingConfig()
         value.enabled = try reader["enabled"].readIfPresent() ?? false
         value.s3Location = try reader["s3Location"].readIfPresent(with: BedrockAgentCoreControlClientTypes.S3Location.read(from:))
-        return value
-    }
-}
-
-extension BedrockAgentCoreControlClientTypes.S3Location {
-
-    static func write(value: BedrockAgentCoreControlClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.S3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.S3Location()
-        value.bucket = try reader["bucket"].readIfPresent() ?? ""
-        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
         return value
     }
 }

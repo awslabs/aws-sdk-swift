@@ -4152,6 +4152,7 @@
             "deprecated" : true,
             "hostname" : "cassandra-fips.us-west-2.amazonaws.com"
           },
+          "me-central-1" : { },
           "me-south-1" : { },
           "sa-east-1" : { },
           "us-east-1" : {
@@ -36522,6 +36523,12 @@
       }
     },
     "services" : {
+      "acm" : {
+        "endpoints" : {
+          "us-iso-east-1" : { },
+          "us-iso-west-1" : { }
+        }
+      },
       "agreement-marketplace" : {
         "endpoints" : {
           "fips-us-iso-east-1" : {

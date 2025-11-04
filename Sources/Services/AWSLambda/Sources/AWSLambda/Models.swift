@@ -2990,6 +2990,7 @@ extension LambdaClientTypes {
         case java11
         case java17
         case java21
+        case java25
         case java8
         case java8al2
         case nodejs
@@ -3013,6 +3014,7 @@ extension LambdaClientTypes {
         case python311
         case python312
         case python313
+        case python314
         case python36
         case python37
         case python38
@@ -3036,6 +3038,7 @@ extension LambdaClientTypes {
                 .java11,
                 .java17,
                 .java21,
+                .java25,
                 .java8,
                 .java8al2,
                 .nodejs,
@@ -3059,6 +3062,7 @@ extension LambdaClientTypes {
                 .python311,
                 .python312,
                 .python313,
+                .python314,
                 .python36,
                 .python37,
                 .python38,
@@ -3088,6 +3092,7 @@ extension LambdaClientTypes {
             case .java11: return "java11"
             case .java17: return "java17"
             case .java21: return "java21"
+            case .java25: return "java25"
             case .java8: return "java8"
             case .java8al2: return "java8.al2"
             case .nodejs: return "nodejs"
@@ -3111,6 +3116,7 @@ extension LambdaClientTypes {
             case .python311: return "python3.11"
             case .python312: return "python3.12"
             case .python313: return "python3.13"
+            case .python314: return "python3.14"
             case .python36: return "python3.6"
             case .python37: return "python3.7"
             case .python38: return "python3.8"

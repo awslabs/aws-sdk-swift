@@ -342,7 +342,7 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = SmithyHTTPAPI.Headers()
-        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://budgets.amazonaws.eu", headers: headers, properties: properties)
+        let expected = try SmithyHTTPAPI.Endpoint(urlString: "https://budgets.eusc-de-east-1.api.amazonwebservices.eu", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

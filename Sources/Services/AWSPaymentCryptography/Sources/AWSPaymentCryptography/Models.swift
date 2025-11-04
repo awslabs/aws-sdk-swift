@@ -728,9 +728,9 @@ extension PaymentCryptographyClientTypes {
 
 extension PaymentCryptographyClientTypes {
 
-    /// Represents the replication status information for a key in a replication region. This structure contains details about the current state of key replication, including any status messages and operational information about the replication process.
+    /// Represents the replication status information for a key in a replication region for [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html). This structure contains details about the current state of key replication, including any status messages and operational information about the replication process.
     public struct ReplicationStatusType: Swift.Sendable {
-        /// The current status of key replication in this region. This field indicates whether the key replication is in progress, completed successfully, or has encountered an error. Possible values include states such as SYNCRHONIZED, IN_PROGRESS, DELETE_IN_PROGRESS, or FAILED. This provides visibility into the replication process for monitoring and troubleshooting purposes.
+        /// The current status of key replication in this Amazon Web Services Region. This field indicates whether the key replication is in progress, completed successfully, or has encountered an error. Possible values include states such as SYNCRHONIZED, IN_PROGRESS, DELETE_IN_PROGRESS, or FAILED. This provides visibility into the replication process for monitoring and troubleshooting purposes.
         /// This member is required.
         public var status: PaymentCryptographyClientTypes.KeyReplicationState?
         /// A message that provides additional information about the current replication status of the key. This field contains details about any issues or progress updates related to key replication operations. It may include information about replication failures, synchronization status, or other operational details.
@@ -783,17 +783,17 @@ extension PaymentCryptographyClientTypes {
         /// The state of key that is being created or deleted.
         /// This member is required.
         public var keyState: PaymentCryptographyClientTypes.KeyState?
-        /// Indicates whether this key is a multi-region key and its role in the multi-region key hierarchy. Multi-region keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a primary key (which can be replicated to other regions) or a replica key (which is a copy of a primary key in another region).
+        /// Indicates whether this key is a Multi-Region key and its role in the Multi-Region key hierarchy. Multi-Region replication keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a Primary Region key (PRK) (which can be replicated to other Amazon Web Services Regions) or a Replica Region key (RRK) (which is a copy of a PRK in another Region). For more information, see [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html).
         public var multiRegionKeyType: PaymentCryptographyClientTypes.MultiRegionKeyType?
         /// An Amazon Web Services Region identifier in the standard format (e.g., us-east-1, eu-west-1). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available.
         public var primaryRegion: Swift.String?
-        /// Information about the replication status of the key across different regions. This field provides details about the current state of key replication, including any status messages or operational information. It helps track the progress and health of key replication operations.
+        /// Information about the replication status of the key across different Amazon Web Services Regions. This field provides details about the current state of key replication, including any status messages or operational information. It helps track the progress and health of key replication operations.
         public var replicationStatus: [Swift.String: PaymentCryptographyClientTypes.ReplicationStatusType]?
         /// The date and time after which Amazon Web Services Payment Cryptography will start using the key material for cryptographic operations.
         public var usageStartTimestamp: Foundation.Date?
         /// The date and time after which Amazon Web Services Payment Cryptography will stop using the key material for cryptographic operations.
         public var usageStopTimestamp: Foundation.Date?
-        /// Indicates whether this key is using the account's default replication regions configuration. When set to true, the key automatically replicates to the regions specified in the account's default replication settings. When set to false, the key has a custom replication configuration that overrides the account defaults.
+        /// Indicates whether this key is using the account's default replication regions configuration for [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html). When set to true, the key automatically replicates to the regions specified in the account's default replication settings. When set to false, the key has a custom replication configuration that overrides the account defaults.
         public var usingDefaultReplicationRegions: Swift.Bool?
 
         public init(
@@ -1028,22 +1028,22 @@ public struct UpdateAliasOutput: Swift.Sendable {
 
 extension PaymentCryptographyClientTypes {
 
-    /// Metadata used in generating the CSR
+    /// The metadata used to create the certificate signing request.
     public struct CertificateSubjectType: Swift.Sendable {
-        /// City to be used in the certificate signing request
+        /// The city you provide to create the certificate signing request.
         public var city: Swift.String?
-        /// Common Name to be used in the certificate signing request
+        /// The name you provide to create the certificate signing request.
         /// This member is required.
         public var commonName: Swift.String?
-        /// Country to be used in the certificate signing request
+        /// The city you provide to create the certificate signing request.
         public var country: Swift.String?
-        /// Email to be used in the certificate signing request
+        /// The email address you provide to create the certificate signing request.
         public var emailAddress: Swift.String?
-        /// Organization to be used in the certificate signing request
+        /// The organization you provide to create the certificate signing request.
         public var organization: Swift.String?
-        /// Organization Unit to be used in the certificate signing request
+        /// The organization unit you provide to create the certificate signing request.
         public var organizationUnit: Swift.String?
-        /// State Or Province to be used in the certificate signing request
+        /// The state or province you provide to create the certificate signing request.
         public var stateOrProvince: Swift.String?
 
         public init(
@@ -1202,7 +1202,7 @@ public struct DisableDefaultKeyReplicationRegionsOutput: Swift.Sendable {
 
 /// Input parameters for enabling default key replication regions for the account.
 public struct EnableDefaultKeyReplicationRegionsInput: Swift.Sendable {
-    /// The list of Amazon Web Services Regions to enable as default replication regions for the account. New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
+    /// The list of Amazon Web Services Regions to enable as default replication regions for the Amazon Web Services account for [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html). New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
     /// This member is required.
     public var replicationRegions: [Swift.String]?
 
@@ -1602,7 +1602,7 @@ extension PaymentCryptographyClientTypes {
         public var keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders?
         /// A random number value that is unique to the TR-34 key block generated using 2 pass. The operation will fail, if a random nonce value is not provided for a TR-34 key block generated using 2 pass.
         public var randomNonce: Swift.String?
-        /// Certificate used for signing the export key
+        /// The certificate used to sign the TR-34 key block.
         public var signingKeyCertificate: Swift.String?
         /// Key Identifier used for signing the export key
         public var signingKeyIdentifier: Swift.String?
@@ -1788,13 +1788,13 @@ extension PaymentCryptographyClientTypes {
 }
 
 public struct GetCertificateSigningRequestInput: Swift.Sendable {
-    /// Certificate subject data
+    /// The metadata used to create the CSR.
     /// This member is required.
     public var certificateSubject: PaymentCryptographyClientTypes.CertificateSubjectType?
     /// Asymmetric key used for generating the certificate signing request
     /// This member is required.
     public var keyIdentifier: Swift.String?
-    /// Algorithm used to generate the certificate signing request
+    /// The cryptographic algorithm used to sign your CSR.
     /// This member is required.
     public var signingAlgorithm: PaymentCryptographyClientTypes.SigningAlgorithmType?
 
@@ -1810,7 +1810,7 @@ public struct GetCertificateSigningRequestInput: Swift.Sendable {
 }
 
 public struct GetCertificateSigningRequestOutput: Swift.Sendable {
-    /// Certificate signing request
+    /// The certificate signing request generated using the key pair associated with the key identifier.
     /// This member is required.
     public var certificateSigningRequest: Swift.String?
 
@@ -2197,7 +2197,7 @@ extension PaymentCryptographyClientTypes {
         /// The TR-34 wrapped key block to import.
         /// This member is required.
         public var wrappedKeyBlock: Swift.String?
-        /// Key Identifier used for unwrapping the import key
+        /// The certificate used to wrap the TR-34 key block.
         public var wrappingKeyCertificate: Swift.String?
         /// Key Identifier used for unwrapping the import key
         public var wrappingKeyIdentifier: Swift.String?
@@ -2356,7 +2356,7 @@ extension PaymentCryptographyClientTypes {
         /// The state of an Amazon Web Services Payment Cryptography that is being created or deleted.
         /// This member is required.
         public var keyState: PaymentCryptographyClientTypes.KeyState?
-        /// Indicates whether this key is a multi-region key and its role in the multi-region key hierarchy. Multi-region keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a primary key (which can be replicated to other regions) or a replica key (which is a copy of a primary key in another region).
+        /// Indicates whether this key is a Multi-Region key and its role in the Multi-Region key hierarchy. Multi-Region replication keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a Primary Region key (PRK) (which can be replicated to other Amazon Web Services Regions) or a Replica Region key (RRK) (which is a copy of a PRK in another Region). For more information, see [Multi-Region key replication](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-multi-region-replication.html).
         public var multiRegionKeyType: PaymentCryptographyClientTypes.MultiRegionKeyType?
         /// An Amazon Web Services Region identifier in the standard format (e.g., us-east-1, eu-west-1). Used to specify regions for key replication operations. The region must be a valid Amazon Web Services Region where Amazon Web Services Payment Cryptography is available.
         public var primaryRegion: Swift.String?
