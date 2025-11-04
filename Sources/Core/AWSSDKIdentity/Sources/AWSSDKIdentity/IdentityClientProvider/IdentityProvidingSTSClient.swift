@@ -9,6 +9,7 @@ import Foundation
 import InternalAWSSTS
 import struct Smithy.Attributes
 import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
+import protocol AWSClientRuntime.AWSServiceError
 
 struct IdentityProvidingSTSClient: Swift.Sendable {
 
@@ -75,16 +76,23 @@ struct IdentityProvidingSTSClient: Swift.Sendable {
             throw IdentityProvidingSTSClientError.expiredTokenException
         } catch is IDPCommunicationErrorException {
             throw IdentityProvidingSTSClientError.idpCommunicationErrorException
+        } catch let error as AWSServiceError {
+            throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
+                "STSWebIdentityAWSCredentialIdentityResolver.assumeRoleWithWebIdentity: " +
+                "Unhandled AWS service error of type: \(error.errorCode)"
+            )
         } catch {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
-                "STSWebIdentityAWSCredentialIdentityResolver: " +
-                "Failed to retrieve credentials from STS with web identity token."
+                "STSWebIdentityAWSCredentialIdentityResolver.assumeRoleWithWebIdentity: " +
+                "Unhandled error: \(error)"
             )
         }
+
+        // Safe-unwrap credential fields from the assumeRoleWithWebIdentity response
         guard let creds = out.credentials, let access = creds.accessKeyId, let secret = creds.secretAccessKey else {
             throw AWSCredentialIdentityResolverError.failedToResolveAWSCredentials(
                 "STSWebIdentityAWSCredentialIdentityResolver: " +
-                "Failed to retrieve credentials from STS with web identity token."
+                "Received credentials did not contain necessary fields"
             )
         }
         var properties = Attributes()
