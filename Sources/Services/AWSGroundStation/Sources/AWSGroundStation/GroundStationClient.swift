@@ -577,6 +577,77 @@ extension GroundStationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateDataflowEndpointGroupV2` operation on the `GroundStation` service.
+    ///
+    /// Creates a DataflowEndpointGroupV2 containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateDataflowEndpointGroupV2Input`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateDataflowEndpointGroupV2Output`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    public func createDataflowEndpointGroupV2(input: CreateDataflowEndpointGroupV2Input) async throws -> CreateDataflowEndpointGroupV2Output {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDataflowEndpointGroupV2")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(CreateDataflowEndpointGroupV2Input.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDataflowEndpointGroupV2Input.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDataflowEndpointGroupV2Output>(CreateDataflowEndpointGroupV2Output.httpOutput(from:), CreateDataflowEndpointGroupV2OutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDataflowEndpointGroupV2Output>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDataflowEndpointGroupV2Output, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDataflowEndpointGroupV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDataflowEndpointGroupV2Input, CreateDataflowEndpointGroupV2Output>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDataflowEndpointGroupV2")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateEphemeris` operation on the `GroundStation` service.
     ///
     /// Create an ephemeris with your specified [EphemerisData].
@@ -1175,6 +1246,73 @@ extension GroundStationClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentConfiguration")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetAgentTaskResponseUrl` operation on the `GroundStation` service.
+    ///
+    /// For use by AWS Ground Station Agent and shouldn't be called directly. Gets a presigned URL for uploading agent task response logs.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetAgentTaskResponseUrlInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetAgentTaskResponseUrlOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InvalidParameterException` : One or more parameters are not valid.
+    /// - `ResourceNotFoundException` : Resource was not found.
+    public func getAgentTaskResponseUrl(input: GetAgentTaskResponseUrlInput) async throws -> GetAgentTaskResponseUrlOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAgentTaskResponseUrl")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "groundstation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>(GetAgentTaskResponseUrlInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetAgentTaskResponseUrlOutput>(GetAgentTaskResponseUrlOutput.httpOutput(from:), GetAgentTaskResponseUrlOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetAgentTaskResponseUrlOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("GroundStation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetAgentTaskResponseUrlOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetAgentTaskResponseUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetAgentTaskResponseUrlInput, GetAgentTaskResponseUrlOutput>(serviceID: serviceName, version: GroundStationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "GroundStation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetAgentTaskResponseUrl")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

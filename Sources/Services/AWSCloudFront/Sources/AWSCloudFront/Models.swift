@@ -118,6 +118,11 @@ public struct DeleteRealtimeLogConfigOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteResourcePolicyOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteResponseHeadersPolicyOutput: Swift.Sendable {
 
     public init() { }
@@ -508,6 +513,38 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dualstack
+        case ipv4
+        case ipv6
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IpAddressType] {
+            return [
+                .dualstack,
+                .ipv4,
+                .ipv6
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dualstack: return "dualstack"
+            case .ipv4: return "ipv4"
+            case .ipv6: return "ipv6"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     /// An Anycast static IP list. For more information, see [Request Anycast static IPs to use for allowlisting](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html) in the Amazon CloudFront Developer Guide.
     public struct AnycastIpList: Swift.Sendable {
         /// The static IP addresses that are allocated to the Anycast static IP list.
@@ -519,6 +556,8 @@ extension CloudFrontClientTypes {
         /// The ID of the Anycast static IP list.
         /// This member is required.
         public var id: Swift.String?
+        /// The IP address type for the Anycast static IP list.
+        public var ipAddressType: CloudFrontClientTypes.IpAddressType?
         /// The number of IP addresses in the Anycast static IP list.
         /// This member is required.
         public var ipCount: Swift.Int?
@@ -536,6 +575,7 @@ extension CloudFrontClientTypes {
             anycastIps: [Swift.String]? = nil,
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
+            ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             ipCount: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
@@ -544,6 +584,7 @@ extension CloudFrontClientTypes {
             self.anycastIps = anycastIps
             self.arn = arn
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipCount = ipCount
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -559,9 +600,13 @@ extension CloudFrontClientTypes {
         /// The Amazon Resource Name (ARN) of the Anycast static IP list.
         /// This member is required.
         public var arn: Swift.String?
+        /// The current version (ETag value) of the Anycast static IP list.
+        public var eTag: Swift.String?
         /// The ID of the Anycast static IP list.
         /// This member is required.
         public var id: Swift.String?
+        /// The IP address type for the Anycast static IP list.
+        public var ipAddressType: CloudFrontClientTypes.IpAddressType?
         /// The number of IP addresses in the Anycast static IP list.
         /// This member is required.
         public var ipCount: Swift.Int?
@@ -577,14 +622,18 @@ extension CloudFrontClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            eTag: Swift.String? = nil,
             id: Swift.String? = nil,
+            ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             ipCount: Swift.Int? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
             status: Swift.String? = nil
         ) {
             self.arn = arn
+            self.eTag = eTag
             self.id = id
+            self.ipAddressType = ipAddressType
             self.ipCount = ipCount
             self.lastModifiedTime = lastModifiedTime
             self.name = name
@@ -3861,38 +3910,6 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
-    public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case dualstack
-        case ipv4
-        case ipv6
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [IpAddressType] {
-            return [
-                .dualstack,
-                .ipv4,
-                .ipv6
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .dualstack: return "dualstack"
-            case .ipv4: return "ipv4"
-            case .ipv6: return "ipv6"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension CloudFrontClientTypes {
-
     public enum OriginProtocolPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httpOnly
         case httpsOnly
@@ -4075,6 +4092,8 @@ extension CloudFrontClientTypes {
         public var originKeepaliveTimeout: Swift.Int?
         /// Specifies how long, in seconds, CloudFront waits for a response from the origin. This is also known as the origin response timeout. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 30 seconds. For more information, see [Response timeout](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginResponseTimeout) in the Amazon CloudFront Developer Guide.
         public var originReadTimeout: Swift.Int?
+        /// The account ID of the Amazon Web Services account that owns the VPC origin.
+        public var ownerAccountId: Swift.String?
         /// The VPC origin ID.
         /// This member is required.
         public var vpcOriginId: Swift.String?
@@ -4082,10 +4101,12 @@ extension CloudFrontClientTypes {
         public init(
             originKeepaliveTimeout: Swift.Int? = nil,
             originReadTimeout: Swift.Int? = nil,
+            ownerAccountId: Swift.String? = nil,
             vpcOriginId: Swift.String? = nil
         ) {
             self.originKeepaliveTimeout = originKeepaliveTimeout
             self.originReadTimeout = originReadTimeout
+            self.ownerAccountId = ownerAccountId
             self.vpcOriginId = vpcOriginId
         }
     }
@@ -4897,6 +4918,14 @@ extension CloudFrontClientTypes {
 }
 
 public struct CreateAnycastIpListInput: Swift.Sendable {
+    /// The IP address type for the Anycast static IP list. You can specify one of the following options:
+    ///
+    /// * ipv4 - Allocate a list of only IPv4 addresses
+    ///
+    /// * ipv6 - Allocate a list of only IPv4 addresses
+    ///
+    /// * dualstack - Allocate a list of both IPv4 and IPv6 addresses
+    public var ipAddressType: CloudFrontClientTypes.IpAddressType?
     /// The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
     /// This member is required.
     public var ipCount: Swift.Int?
@@ -4907,10 +4936,12 @@ public struct CreateAnycastIpListInput: Swift.Sendable {
     public var tags: CloudFrontClientTypes.Tags?
 
     public init(
+        ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
         ipCount: Swift.Int? = nil,
         name: Swift.String? = nil,
         tags: CloudFrontClientTypes.Tags? = nil
     ) {
+        self.ipAddressType = ipAddressType
         self.ipCount = ipCount
         self.name = name
         self.tags = tags
@@ -9693,6 +9724,8 @@ extension CloudFrontClientTypes {
 
     /// An Amazon CloudFront VPC origin.
     public struct VpcOrigin: Swift.Sendable {
+        /// The account ID of the Amazon Web Services account that owns the VPC origin.
+        public var accountId: Swift.String?
         /// The VPC origin ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -9713,6 +9746,7 @@ extension CloudFrontClientTypes {
         public var vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig?
 
         public init(
+            accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
@@ -9720,6 +9754,7 @@ extension CloudFrontClientTypes {
             status: Swift.String? = nil,
             vpcOriginEndpointConfig: CloudFrontClientTypes.VpcOriginEndpointConfig? = nil
         ) {
+            self.accountId = accountId
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -10435,6 +10470,18 @@ public struct DeleteRealtimeLogConfigInput: Swift.Sendable {
     ) {
         self.arn = arn
         self.name = name
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the CloudFront resource for which the resource policy should be deleted.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
     }
 }
 
@@ -11670,6 +11717,33 @@ public struct GetRealtimeLogConfigOutput: Swift.Sendable {
     }
 }
 
+public struct GetResourcePolicyInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the CloudFront resource that is associated with the resource policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Sendable {
+    /// The resource policy in JSON format.
+    public var policyDocument: Swift.String?
+    /// The Amazon Resource Name (ARN) of the CloudFront resource that is associated with the resource policy.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.resourceArn = resourceArn
+    }
+}
+
 public struct GetResponseHeadersPolicyInput: Swift.Sendable {
     /// The identifier for the response headers policy. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     /// This member is required.
@@ -12619,6 +12693,97 @@ public struct ListDistributionsByOriginRequestPolicyIdOutput: Swift.Sendable {
         distributionIdList: CloudFrontClientTypes.DistributionIdList? = nil
     ) {
         self.distributionIdList = distributionIdList
+    }
+}
+
+public struct ListDistributionsByOwnedResourceInput: Swift.Sendable {
+    /// Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    public var marker: Swift.String?
+    /// The maximum number of distributions to return.
+    public var maxItems: Swift.Int?
+    /// The ARN of the CloudFront resource that you've shared with other Amazon Web Services accounts.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.marker = marker
+        self.maxItems = maxItems
+        self.resourceArn = resourceArn
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// A structure that pairs a CloudFront distribution ID with its owning Amazon Web Services account ID.
+    public struct DistributionIdOwner: Swift.Sendable {
+        /// The ID of the distribution.
+        /// This member is required.
+        public var distributionId: Swift.String?
+        /// The ID of the Amazon Web Services account that owns the distribution.
+        /// This member is required.
+        public var ownerAccountId: Swift.String?
+
+        public init(
+            distributionId: Swift.String? = nil,
+            ownerAccountId: Swift.String? = nil
+        ) {
+            self.distributionId = distributionId
+            self.ownerAccountId = ownerAccountId
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
+    /// The list of distribution IDs and the Amazon Web Services accounts that they belong to.
+    public struct DistributionIdOwnerList: Swift.Sendable {
+        /// A flag that indicates whether more DistributionIdOwner objects remain to be listed. If your results were truncated, you can make a follow-up pagination request using the Marker request parameter to retrieve more results in the list.
+        /// This member is required.
+        public var isTruncated: Swift.Bool?
+        /// The number of DistributionIdOwner objects.
+        public var items: [CloudFrontClientTypes.DistributionIdOwner]?
+        /// Use this field when paginating results to indicate where to begin in your list of DistributionIdOwner objects. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+        /// This member is required.
+        public var marker: Swift.String?
+        /// The maximum number of DistributionIdOwner objects to return.
+        /// This member is required.
+        public var maxItems: Swift.Int?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public var nextMarker: Swift.String?
+        /// Specifies the actual number of DistributionIdOwner objects included in the list for the current page.
+        /// This member is required.
+        public var quantity: Swift.Int?
+
+        public init(
+            isTruncated: Swift.Bool? = nil,
+            items: [CloudFrontClientTypes.DistributionIdOwner]? = nil,
+            marker: Swift.String? = nil,
+            maxItems: Swift.Int? = nil,
+            nextMarker: Swift.String? = nil,
+            quantity: Swift.Int? = nil
+        ) {
+            self.isTruncated = isTruncated
+            self.items = items
+            self.marker = marker
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+    }
+}
+
+public struct ListDistributionsByOwnedResourceOutput: Swift.Sendable {
+    /// The list of distributions that are using the shared resource.
+    public var distributionList: CloudFrontClientTypes.DistributionIdOwnerList?
+
+    public init(
+        distributionList: CloudFrontClientTypes.DistributionIdOwnerList? = nil
+    ) {
+        self.distributionList = distributionList
     }
 }
 
@@ -14190,6 +14355,8 @@ extension CloudFrontClientTypes {
 
     /// A summary of the CloudFront VPC origin.
     public struct VpcOriginSummary: Swift.Sendable {
+        /// The account ID of the Amazon Web Services account that owns the VPC origin.
+        public var accountId: Swift.String?
         /// The VPC origin summary ARN.
         /// This member is required.
         public var arn: Swift.String?
@@ -14213,6 +14380,7 @@ extension CloudFrontClientTypes {
         public var status: Swift.String?
 
         public init(
+            accountId: Swift.String? = nil,
             arn: Swift.String? = nil,
             createdTime: Foundation.Date? = nil,
             id: Swift.String? = nil,
@@ -14221,6 +14389,7 @@ extension CloudFrontClientTypes {
             originEndpointArn: Swift.String? = nil,
             status: Swift.String? = nil
         ) {
+            self.accountId = accountId
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -14307,6 +14476,34 @@ public struct PublishFunctionOutput: Swift.Sendable {
         functionSummary: CloudFrontClientTypes.FunctionSummary? = nil
     ) {
         self.functionSummary = functionSummary
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Sendable {
+    /// The JSON-formatted resource policy to create.
+    /// This member is required.
+    public var policyDocument: Swift.String?
+    /// The Amazon Resource Name (ARN) of the CloudFront resource for which the policy is being created.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        policyDocument: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    ) {
+        self.policyDocument = policyDocument
+        self.resourceArn = resourceArn
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the CloudFront resource for which the policy was created.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    ) {
+        self.resourceArn = resourceArn
     }
 }
 
@@ -14459,6 +14656,48 @@ public struct UntagResourceInput: Swift.Sendable {
     ) {
         self.resource = resource
         self.tagKeys = tagKeys
+    }
+}
+
+public struct UpdateAnycastIpListInput: Swift.Sendable {
+    /// The ID of the Anycast static IP list.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The current version (ETag value) of the Anycast static IP list that you are updating.
+    /// This member is required.
+    public var ifMatch: Swift.String?
+    /// The IP address type for the Anycast static IP list. You can specify one of the following options:
+    ///
+    /// * ipv4 - Allocate a list of only IPv4 addresses
+    ///
+    /// * ipv6 - Allocate a list of only IPv4 addresses
+    ///
+    /// * dualstack - Allocate a list of both IPv4 and IPv6 addresses
+    public var ipAddressType: CloudFrontClientTypes.IpAddressType?
+
+    public init(
+        id: Swift.String? = nil,
+        ifMatch: Swift.String? = nil,
+        ipAddressType: CloudFrontClientTypes.IpAddressType? = nil
+    ) {
+        self.id = id
+        self.ifMatch = ifMatch
+        self.ipAddressType = ipAddressType
+    }
+}
+
+public struct UpdateAnycastIpListOutput: Swift.Sendable {
+    /// An Anycast static IP list. For more information, see [Request Anycast static IPs to use for allowlisting](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html) in the Amazon CloudFront Developer Guide.
+    public var anycastIpList: CloudFrontClientTypes.AnycastIpList?
+    /// The current version of the Anycast static IP list.
+    public var eTag: Swift.String?
+
+    public init(
+        anycastIpList: CloudFrontClientTypes.AnycastIpList? = nil,
+        eTag: Swift.String? = nil
+    ) {
+        self.anycastIpList = anycastIpList
+        self.eTag = eTag
     }
 }
 
@@ -15945,6 +16184,13 @@ extension DeleteRealtimeLogConfigInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        return "/2020-05-31/delete-resource-policy"
+    }
+}
+
 extension DeleteResponseHeadersPolicyInput {
 
     static func urlPathProvider(_ value: DeleteResponseHeadersPolicyInput) -> Swift.String? {
@@ -16429,6 +16675,13 @@ extension GetRealtimeLogConfigInput {
     }
 }
 
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        return "/2020-05-31/get-resource-policy"
+    }
+}
+
 extension GetResponseHeadersPolicyInput {
 
     static func urlPathProvider(_ value: GetResponseHeadersPolicyInput) -> Swift.String? {
@@ -16757,6 +17010,32 @@ extension ListDistributionsByOriginRequestPolicyIdInput {
 extension ListDistributionsByOriginRequestPolicyIdInput {
 
     static func queryItemProvider(_ value: ListDistributionsByOriginRequestPolicyIdInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let marker = value.marker {
+            let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
+            items.append(markerQueryItem)
+        }
+        if let maxItems = value.maxItems {
+            let maxItemsQueryItem = Smithy.URIQueryItem(name: "MaxItems".urlPercentEncoding(), value: Swift.String(maxItems).urlPercentEncoding())
+            items.append(maxItemsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListDistributionsByOwnedResourceInput {
+
+    static func urlPathProvider(_ value: ListDistributionsByOwnedResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/2020-05-31/distributionsByOwnedResource/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension ListDistributionsByOwnedResourceInput {
+
+    static func queryItemProvider(_ value: ListDistributionsByOwnedResourceInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let marker = value.marker {
             let markerQueryItem = Smithy.URIQueryItem(name: "Marker".urlPercentEncoding(), value: Swift.String(marker).urlPercentEncoding())
@@ -17262,6 +17541,13 @@ extension PublishFunctionInput {
     }
 }
 
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        return "/2020-05-31/put-resource-policy"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -17323,6 +17609,27 @@ extension UntagResourceInput {
         }
         let resourceQueryItem = Smithy.URIQueryItem(name: "Resource".urlPercentEncoding(), value: Swift.String(resource).urlPercentEncoding())
         items.append(resourceQueryItem)
+        return items
+    }
+}
+
+extension UpdateAnycastIpListInput {
+
+    static func urlPathProvider(_ value: UpdateAnycastIpListInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/2020-05-31/anycast-ip-list/\(id.urlPercentEncoding())"
+    }
+}
+
+extension UpdateAnycastIpListInput {
+
+    static func headerProvider(_ value: UpdateAnycastIpListInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let ifMatch = value.ifMatch {
+            items.add(SmithyHTTPAPI.Header(name: "If-Match", value: Swift.String(ifMatch)))
+        }
         return items
     }
 }
@@ -17778,6 +18085,7 @@ extension CreateAnycastIpListInput {
 
     static func write(value: CreateAnycastIpListInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
         try writer["IpCount"].write(value.ipCount)
         try writer["Name"].write(value.name)
         try writer["Tags"].write(value.tags, with: CloudFrontClientTypes.Tags.write(value:to:))
@@ -17997,12 +18305,28 @@ extension DeleteRealtimeLogConfigInput {
     }
 }
 
+extension DeleteResourcePolicyInput {
+
+    static func write(value: DeleteResourcePolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
 extension GetRealtimeLogConfigInput {
 
     static func write(value: GetRealtimeLogConfigInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["ARN"].write(value.arn)
         try writer["Name"].write(value.name)
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func write(value: GetResourcePolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceArn"].write(value.resourceArn)
     }
 }
 
@@ -18059,6 +18383,15 @@ extension ListDomainConflictsInput {
     }
 }
 
+extension PutResourcePolicyInput {
+
+    static func write(value: PutResourcePolicyInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["PolicyDocument"].write(value.policyDocument)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyXML.Writer) throws {
@@ -18081,6 +18414,14 @@ extension UntagResourceInput {
     static func write(value: UntagResourceInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["TagKeys"].write(value.tagKeys, with: CloudFrontClientTypes.TagKeys.write(value:to:))
+    }
+}
+
+extension UpdateAnycastIpListInput {
+
+    static func write(value: UpdateAnycastIpListInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["IpAddressType"].write(value.ipAddressType)
     }
 }
 
@@ -18840,6 +19181,13 @@ extension DeleteRealtimeLogConfigOutput {
     }
 }
 
+extension DeleteResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResourcePolicyOutput {
+        return DeleteResourcePolicyOutput()
+    }
+}
+
 extension DeleteResponseHeadersPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteResponseHeadersPolicyOutput {
@@ -19386,6 +19734,19 @@ extension GetRealtimeLogConfigOutput {
     }
 }
 
+extension GetResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetResourcePolicyOutput()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension GetResponseHeadersPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetResponseHeadersPolicyOutput {
@@ -19602,6 +19963,18 @@ extension ListDistributionsByOriginRequestPolicyIdOutput {
         let reader = responseReader
         var value = ListDistributionsByOriginRequestPolicyIdOutput()
         value.distributionIdList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionIdList.read(from:))
+        return value
+    }
+}
+
+extension ListDistributionsByOwnedResourceOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDistributionsByOwnedResourceOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDistributionsByOwnedResourceOutput()
+        value.distributionList = try reader.readIfPresent(with: CloudFrontClientTypes.DistributionIdOwnerList.read(from:))
         return value
     }
 }
@@ -19885,6 +20258,18 @@ extension PublishFunctionOutput {
     }
 }
 
+extension PutResourcePolicyOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutResourcePolicyOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutResourcePolicyOutput()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -19908,6 +20293,21 @@ extension UntagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UntagResourceOutput {
         return UntagResourceOutput()
+    }
+}
+
+extension UpdateAnycastIpListOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateAnycastIpListOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateAnycastIpListOutput()
+        if let eTagHeaderValue = httpResponse.headers.value(for: "ETag") {
+            value.eTag = eTagHeaderValue
+        }
+        value.anycastIpList = try reader.readIfPresent(with: CloudFrontClientTypes.AnycastIpList.read(from:))
+        return value
     }
 }
 
@@ -21258,6 +21658,25 @@ enum DeleteRealtimeLogConfigOutputError {
     }
 }
 
+enum DeleteResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "IllegalDelete": return try IllegalDelete.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteResponseHeadersPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21854,6 +22273,23 @@ enum GetRealtimeLogConfigOutputError {
     }
 }
 
+enum GetResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetResponseHeadersPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22113,6 +22549,23 @@ enum ListDistributionsByOriginRequestPolicyIdOutputError {
             case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "NoSuchOriginRequestPolicy": return try NoSuchOriginRequestPolicy.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDistributionsByOwnedResourceOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -22475,6 +22928,25 @@ enum PublishFunctionOutputError {
     }
 }
 
+enum PutResourcePolicyOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "IllegalUpdate": return try IllegalUpdate.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum TagResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -22522,6 +22994,25 @@ enum UntagResourceOutputError {
             case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
             case "InvalidTagging": return try InvalidTagging.makeError(baseError: baseError)
             case "NoSuchResource": return try NoSuchResource.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateAnycastIpListOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "EntityNotFound": return try EntityNotFound.makeError(baseError: baseError)
+            case "InvalidArgument": return try InvalidArgument.makeError(baseError: baseError)
+            case "InvalidIfMatchVersion": return try InvalidIfMatchVersion.makeError(baseError: baseError)
+            case "PreconditionFailed": return try PreconditionFailed.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperation.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -25883,6 +26374,7 @@ extension CloudFrontClientTypes.VpcOriginConfig {
         guard let value else { return }
         try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
         try writer["OriginReadTimeout"].write(value.originReadTimeout)
+        try writer["OwnerAccountId"].write(value.ownerAccountId)
         try writer["VpcOriginId"].write(value.vpcOriginId)
     }
 
@@ -25890,6 +26382,7 @@ extension CloudFrontClientTypes.VpcOriginConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFrontClientTypes.VpcOriginConfig()
         value.vpcOriginId = try reader["VpcOriginId"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent()
         value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
         value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
         return value
@@ -26074,6 +26567,7 @@ extension CloudFrontClientTypes.AnycastIpList {
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
         value.anycastIps = try reader["AnycastIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AnycastIp", isFlattened: false) ?? []
         value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -27591,6 +28085,7 @@ extension CloudFrontClientTypes.VpcOrigin {
         var value = CloudFrontClientTypes.VpcOrigin()
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? ""
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
@@ -27675,6 +28170,8 @@ extension CloudFrontClientTypes.AnycastIpListSummary {
         value.arn = try reader["Arn"].readIfPresent() ?? ""
         value.ipCount = try reader["IpCount"].readIfPresent() ?? 0
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.eTag = try reader["ETag"].readIfPresent()
         return value
     }
 }
@@ -27857,6 +28354,32 @@ extension CloudFrontClientTypes.DistributionIdList {
         value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
         value.quantity = try reader["Quantity"].readIfPresent() ?? 0
         value.items = try reader["Items"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "DistributionId", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionIdOwnerList {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdOwnerList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionIdOwnerList()
+        value.marker = try reader["Marker"].readIfPresent() ?? ""
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        value.maxItems = try reader["MaxItems"].readIfPresent() ?? 0
+        value.isTruncated = try reader["IsTruncated"].readIfPresent() ?? false
+        value.quantity = try reader["Quantity"].readIfPresent() ?? 0
+        value.items = try reader["Items"].readListIfPresent(memberReadingClosure: CloudFrontClientTypes.DistributionIdOwner.read(from:), memberNodeInfo: "DistributionIdOwner", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.DistributionIdOwner {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.DistributionIdOwner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.DistributionIdOwner()
+        value.distributionId = try reader["DistributionId"].readIfPresent() ?? ""
+        value.ownerAccountId = try reader["OwnerAccountId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -28205,6 +28728,7 @@ extension CloudFrontClientTypes.VpcOriginSummary {
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
         value.originEndpointArn = try reader["OriginEndpointArn"].readIfPresent() ?? ""
         return value
     }
