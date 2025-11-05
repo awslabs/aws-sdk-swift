@@ -17,6 +17,10 @@ import struct ClientRuntime.DefaultEndpointsAuthSchemeResolver
 import enum ClientRuntime.EndpointsAuthScheme
 import protocol ClientRuntime.EndpointsAuthSchemeResolver
 import protocol ClientRuntime.EndpointsRequestContextProviding
+import enum Smithy.ClientError
+#if os(Linux)
+import Foundation
+#endif
 
 @_spi(AWSEndpointResolverMiddleware)
 public struct AWSEndpointResolverMiddleware<OperationStackOutput, Params: EndpointsRequestContextProviding> {
@@ -37,12 +41,21 @@ public struct AWSEndpointResolverMiddleware<OperationStackOutput, Params: Endpoi
 }
 
 extension AWSEndpointResolverMiddleware: ApplyEndpoint {
+    func isValidRegion(_ input: String) -> Bool {
+        let pattern = "^(?!.*-$)(?!-)[a-zA-Z0-9-]{1,63}$"
+        return input.range(of: pattern, options: .regularExpression) != nil
+    }
 
     public func apply(
         request: SmithyHTTPAPI.HTTPRequest,
         selectedAuthScheme: SelectedAuthScheme?,
         attributes: Smithy.Context
     ) async throws -> SmithyHTTPAPI.HTTPRequest {
+        // Validate region.
+        guard isValidRegion(attributes.getRegion() ?? "") else {
+            throw ClientError.invalidValue("Invalid region: \(attributes.getRegion() ?? "")")
+        }
+
         let builder = request.toBuilder()
 
         let endpoint = try resolverBlock(paramsBlock(attributes))
