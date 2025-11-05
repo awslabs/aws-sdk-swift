@@ -1650,6 +1650,8 @@ extension FSxClientTypes {
     public struct SelfManagedActiveDirectoryAttributes: Swift.Sendable {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public var dnsIps: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the service account credentials used to join the file system to your self-managed Active Directory domain.
+        public var domainJoinServiceAccountSecret: Swift.String?
         /// The fully qualified domain name of the self-managed AD directory.
         public var domainName: Swift.String?
         /// The name of the domain group whose members have administrative privileges for the FSx file system.
@@ -1661,12 +1663,14 @@ extension FSxClientTypes {
 
         public init(
             dnsIps: [Swift.String]? = nil,
+            domainJoinServiceAccountSecret: Swift.String? = nil,
             domainName: Swift.String? = nil,
             fileSystemAdministratorsGroup: Swift.String? = nil,
             organizationalUnitDistinguishedName: Swift.String? = nil,
             userName: Swift.String? = nil
         ) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -5801,6 +5805,15 @@ extension FSxClientTypes {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         /// This member is required.
         public var dnsIps: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials. When provided, Amazon FSx uses the credentials stored in this secret to join the file system to your self-managed Active Directory domain. The secret must contain two key-value pairs:
+        ///
+        /// * CUSTOMER_MANAGED_ACTIVE_DIRECTORY_USERNAME - The username for the service account
+        ///
+        /// * CUSTOMER_MANAGED_ACTIVE_DIRECTORY_PASSWORD - The password for the service account
+        ///
+        ///
+        /// For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-manage-prereqs.html) or [ Using Amazon FSx for ONTAP with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/self-manage-prereqs.html).
+        public var domainJoinServiceAccountSecret: Swift.String?
         /// The fully qualified domain name of the self-managed AD directory, such as corp.example.com.
         /// This member is required.
         public var domainName: Swift.String?
@@ -5809,14 +5822,13 @@ extension FSxClientTypes {
         /// (Optional) The fully qualified distinguished name of the organizational unit within your self-managed AD directory. Amazon FSx only accepts OU as the direct parent of the file system. An example is OU=FSx,DC=yourdomain,DC=corp,DC=com. To learn more, see [RFC 2253](https://tools.ietf.org/html/rfc2253). If none is provided, the FSx file system is created in the default location of your self-managed AD directory. Only Organizational Unit (OU) objects can be the direct parent of the file system that you're creating.
         public var organizationalUnitDistinguishedName: Swift.String?
         /// The password for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain.
-        /// This member is required.
         public var password: Swift.String?
         /// The user name for the service account on your self-managed AD domain that Amazon FSx will use to join to your AD domain. This account must have the permission to join computers to the domain in the organizational unit provided in OrganizationalUnitDistinguishedName, or in the default location of your AD domain.
-        /// This member is required.
         public var userName: Swift.String?
 
         public init(
             dnsIps: [Swift.String]? = nil,
+            domainJoinServiceAccountSecret: Swift.String? = nil,
             domainName: Swift.String? = nil,
             fileSystemAdministratorsGroup: Swift.String? = nil,
             organizationalUnitDistinguishedName: Swift.String? = nil,
@@ -5824,6 +5836,7 @@ extension FSxClientTypes {
             userName: Swift.String? = nil
         ) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -5835,7 +5848,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SelfManagedActiveDirectoryConfiguration(dnsIps: \(Swift.String(describing: dnsIps)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
+        "SelfManagedActiveDirectoryConfiguration(dnsIps: \(Swift.String(describing: dnsIps)), domainJoinServiceAccountSecret: \(Swift.String(describing: domainJoinServiceAccountSecret)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -8948,6 +8961,8 @@ extension FSxClientTypes {
     public struct SelfManagedActiveDirectoryConfigurationUpdates: Swift.Sendable {
         /// A list of up to three DNS server or domain controller IP addresses in your self-managed Active Directory domain.
         public var dnsIps: [Swift.String]?
+        /// Specifies the updated Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials. Amazon FSx uses this account to join to your self-managed Active Directory domain.
+        public var domainJoinServiceAccountSecret: Swift.String?
         /// Specifies an updated fully qualified domain name of your self-managed Active Directory configuration.
         public var domainName: Swift.String?
         /// For FSx for ONTAP file systems only - Specifies the updated name of the self-managed Active Directory domain group whose members are granted administrative privileges for the Amazon FSx resource.
@@ -8961,6 +8976,7 @@ extension FSxClientTypes {
 
         public init(
             dnsIps: [Swift.String]? = nil,
+            domainJoinServiceAccountSecret: Swift.String? = nil,
             domainName: Swift.String? = nil,
             fileSystemAdministratorsGroup: Swift.String? = nil,
             organizationalUnitDistinguishedName: Swift.String? = nil,
@@ -8968,6 +8984,7 @@ extension FSxClientTypes {
             userName: Swift.String? = nil
         ) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -8979,7 +8996,7 @@ extension FSxClientTypes {
 
 extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SelfManagedActiveDirectoryConfigurationUpdates(dnsIps: \(Swift.String(describing: dnsIps)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
+        "SelfManagedActiveDirectoryConfigurationUpdates(dnsIps: \(Swift.String(describing: dnsIps)), domainJoinServiceAccountSecret: \(Swift.String(describing: domainJoinServiceAccountSecret)), domainName: \(Swift.String(describing: domainName)), fileSystemAdministratorsGroup: \(Swift.String(describing: fileSystemAdministratorsGroup)), organizationalUnitDistinguishedName: \(Swift.String(describing: organizationalUnitDistinguishedName)), userName: \(Swift.String(describing: userName)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension FSxClientTypes {
@@ -13436,6 +13453,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryAttributes {
         value.fileSystemAdministratorsGroup = try reader["FileSystemAdministratorsGroup"].readIfPresent()
         value.userName = try reader["UserName"].readIfPresent()
         value.dnsIps = try reader["DnsIps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.domainJoinServiceAccountSecret = try reader["DomainJoinServiceAccountSecret"].readIfPresent()
         return value
     }
 }
@@ -14146,6 +14164,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration {
     static func write(value: FSxClientTypes.SelfManagedActiveDirectoryConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DomainJoinServiceAccountSecret"].write(value.domainJoinServiceAccountSecret)
         try writer["DomainName"].write(value.domainName)
         try writer["FileSystemAdministratorsGroup"].write(value.fileSystemAdministratorsGroup)
         try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)
@@ -14455,6 +14474,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates {
     static func write(value: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DnsIps"].writeList(value.dnsIps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DomainJoinServiceAccountSecret"].write(value.domainJoinServiceAccountSecret)
         try writer["DomainName"].write(value.domainName)
         try writer["FileSystemAdministratorsGroup"].write(value.fileSystemAdministratorsGroup)
         try writer["OrganizationalUnitDistinguishedName"].write(value.organizationalUnitDistinguishedName)

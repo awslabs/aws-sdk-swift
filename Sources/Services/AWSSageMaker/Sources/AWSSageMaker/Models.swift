@@ -11214,6 +11214,49 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// The configurations that SageMaker uses when updating the AMI versions.
+    public struct RollingDeploymentPolicy: Swift.Sendable {
+        /// The maximum amount of instances in the cluster that SageMaker can update at a time.
+        /// This member is required.
+        public var maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
+        /// The maximum amount of instances in the cluster that SageMaker can roll back at a time.
+        public var rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
+
+        public init(
+            maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil,
+            rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil
+        ) {
+            self.maximumBatchSize = maximumBatchSize
+            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    /// The configuration to use when updating the AMI versions.
+    public struct DeploymentConfiguration: Swift.Sendable {
+        /// An array that contains the alarms that SageMaker monitors to know whether to roll back the AMI update.
+        public var autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]?
+        /// The policy that SageMaker uses when updating the AMI versions of the cluster.
+        public var rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy?
+        /// The duration in seconds that SageMaker waits before updating more instances in the cluster.
+        public var waitIntervalInSeconds: Swift.Int?
+
+        public init(
+            autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]? = nil,
+            rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy? = nil,
+            waitIntervalInSeconds: Swift.Int? = nil
+        ) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.rollingUpdatePolicy = rollingUpdatePolicy
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Defines the configuration for attaching additional storage to the instances in the SageMaker HyperPod cluster instance group. To learn more, see [SageMaker HyperPod release notes: June 20, 2024](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-hyperpod-release-notes.html#sagemaker-hyperpod-release-notes-20240620).
     public enum ClusterInstanceStorageConfig: Swift.Sendable {
         /// Defines the configuration for attaching additional Amazon Elastic Block Store (EBS) volumes to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
@@ -11636,49 +11679,6 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
-    /// The configurations that SageMaker uses when updating the AMI versions.
-    public struct RollingDeploymentPolicy: Swift.Sendable {
-        /// The maximum amount of instances in the cluster that SageMaker can update at a time.
-        /// This member is required.
-        public var maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
-        /// The maximum amount of instances in the cluster that SageMaker can roll back at a time.
-        public var rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig?
-
-        public init(
-            maximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil,
-            rollbackMaximumBatchSize: SageMakerClientTypes.CapacitySizeConfig? = nil
-        ) {
-            self.maximumBatchSize = maximumBatchSize
-            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
-    /// The configuration to use when updating the AMI versions.
-    public struct DeploymentConfiguration: Swift.Sendable {
-        /// An array that contains the alarms that SageMaker monitors to know whether to roll back the AMI update.
-        public var autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]?
-        /// The policy that SageMaker uses when updating the AMI versions of the cluster.
-        public var rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy?
-        /// The duration in seconds that SageMaker waits before updating more instances in the cluster.
-        public var waitIntervalInSeconds: Swift.Int?
-
-        public init(
-            autoRollbackConfiguration: [SageMakerClientTypes.AlarmDetails]? = nil,
-            rollingUpdatePolicy: SageMakerClientTypes.RollingDeploymentPolicy? = nil,
-            waitIntervalInSeconds: Swift.Int? = nil
-        ) {
-            self.autoRollbackConfiguration = autoRollbackConfiguration
-            self.rollingUpdatePolicy = rollingUpdatePolicy
-            self.waitIntervalInSeconds = waitIntervalInSeconds
-        }
-    }
-}
-
-extension SageMakerClientTypes {
-
     /// The configuration object of the schedule that SageMaker follows when updating the AMI.
     public struct ScheduledUpdateConfig: Swift.Sendable {
         /// The configuration to use when updating the AMI versions.
@@ -11693,6 +11693,47 @@ extension SageMakerClientTypes {
         ) {
             self.deploymentConfig = deploymentConfig
             self.scheduleExpression = scheduleExpression
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
+    public enum SoftwareUpdateStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case pending
+        case rollbackComplete
+        case rollbackInProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SoftwareUpdateStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .pending,
+                .rollbackComplete,
+                .rollbackInProgress,
+                .succeeded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .inProgress: return "InProgress"
+            case .pending: return "Pending"
+            case .rollbackComplete: return "RollbackComplete"
+            case .rollbackInProgress: return "RollbackInProgress"
+            case .succeeded: return "Succeeded"
+            case let .sdkUnknown(s): return s
+            }
         }
     }
 }
@@ -11745,6 +11786,8 @@ extension SageMakerClientTypes {
 
     /// Details of an instance group in a SageMaker HyperPod cluster.
     public struct ClusterInstanceGroupDetails: Swift.Sendable {
+        /// The configuration to use when updating the AMI versions.
+        public var activeSoftwareUpdateConfig: SageMakerClientTypes.DeploymentConfiguration?
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
         public var currentCount: Swift.Int?
         /// The ID of the Amazon Machine Image (AMI) currently in use by the instance group.
@@ -11767,6 +11810,8 @@ extension SageMakerClientTypes {
         public var overrideVpcConfig: SageMakerClientTypes.VpcConfig?
         /// The configuration object of the schedule that SageMaker follows when updating the AMI.
         public var scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig?
+        /// Status of the last software udpate request.
+        public var softwareUpdateStatus: SageMakerClientTypes.SoftwareUpdateStatus?
         /// The current status of the cluster instance group.
         ///
         /// * InService: The instance group is active and healthy.
@@ -11783,6 +11828,8 @@ extension SageMakerClientTypes {
         public var status: SageMakerClientTypes.InstanceGroupStatus?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
         public var targetCount: Swift.Int?
+        /// The number of nodes running a specific image ID since the last software update request.
+        public var targetStateCount: Swift.Int?
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of [CPU cores and threads per CPU core per instance type](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/cpu-options-supported-instances-values.html) in the Amazon Elastic Compute Cloud User Guide.
         public var threadsPerCore: Swift.Int?
         /// The Amazon Resource Name (ARN); of the training plan associated with this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see [CreateTrainingPlan](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateTrainingPlan.html).
@@ -11791,6 +11838,7 @@ extension SageMakerClientTypes {
         public var trainingPlanStatus: Swift.String?
 
         public init(
+            activeSoftwareUpdateConfig: SageMakerClientTypes.DeploymentConfiguration? = nil,
             currentCount: Swift.Int? = nil,
             currentImageId: Swift.String? = nil,
             desiredImageId: Swift.String? = nil,
@@ -11802,12 +11850,15 @@ extension SageMakerClientTypes {
             onStartDeepHealthChecks: [SageMakerClientTypes.DeepHealthCheckType]? = nil,
             overrideVpcConfig: SageMakerClientTypes.VpcConfig? = nil,
             scheduledUpdateConfig: SageMakerClientTypes.ScheduledUpdateConfig? = nil,
+            softwareUpdateStatus: SageMakerClientTypes.SoftwareUpdateStatus? = nil,
             status: SageMakerClientTypes.InstanceGroupStatus? = nil,
             targetCount: Swift.Int? = nil,
+            targetStateCount: Swift.Int? = nil,
             threadsPerCore: Swift.Int? = nil,
             trainingPlanArn: Swift.String? = nil,
             trainingPlanStatus: Swift.String? = nil
         ) {
+            self.activeSoftwareUpdateConfig = activeSoftwareUpdateConfig
             self.currentCount = currentCount
             self.currentImageId = currentImageId
             self.desiredImageId = desiredImageId
@@ -11819,8 +11870,10 @@ extension SageMakerClientTypes {
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
             self.scheduledUpdateConfig = scheduledUpdateConfig
+            self.softwareUpdateStatus = softwareUpdateStatus
             self.status = status
             self.targetCount = targetCount
+            self.targetStateCount = targetStateCount
             self.threadsPerCore = threadsPerCore
             self.trainingPlanArn = trainingPlanArn
             self.trainingPlanStatus = trainingPlanStatus
@@ -27047,7 +27100,6 @@ extension SageMakerClientTypes {
 
 public struct CreateTrainingJobInput: Swift.Sendable {
     /// The registry path of the Docker image that contains the training algorithm and algorithm-specific metadata, including the input mode. For more information about algorithms provided by SageMaker, see [Algorithms](https://docs.aws.amazon.com/sagemaker/latest/dg/algos.html). For information about providing your own algorithms, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
-    /// This member is required.
     public var algorithmSpecification: SageMakerClientTypes.AlgorithmSpecification?
     /// Contains information about the output location for managed spot training checkpoint data.
     public var checkpointConfig: SageMakerClientTypes.CheckpointConfig?
@@ -27087,7 +27139,6 @@ public struct CreateTrainingJobInput: Swift.Sendable {
     /// Configuration for remote debugging. To learn more about the remote debugging functionality of SageMaker, see [Access a training container through Amazon Web Services Systems Manager (SSM) for remote debugging](https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
     public var remoteDebugConfig: SageMakerClientTypes.RemoteDebugConfig?
     /// The resources, including the ML compute instances and ML storage volumes, to use for model training. ML storage volumes store model artifacts and incremental states. Training algorithms might also use ML storage volumes for scratch space. If you want SageMaker to use the ML storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
-    /// This member is required.
     public var resourceConfig: SageMakerClientTypes.ResourceConfig?
     /// The number of times to retry the job when the job fails due to an InternalServerError.
     public var retryStrategy: SageMakerClientTypes.RetryStrategy?
@@ -74211,23 +74262,9 @@ extension SageMakerClientTypes.ClusterInstanceGroupDetails {
         value.scheduledUpdateConfig = try reader["ScheduledUpdateConfig"].readIfPresent(with: SageMakerClientTypes.ScheduledUpdateConfig.read(from:))
         value.currentImageId = try reader["CurrentImageId"].readIfPresent()
         value.desiredImageId = try reader["DesiredImageId"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerClientTypes.ScheduledUpdateConfig {
-
-    static func write(value: SageMakerClientTypes.ScheduledUpdateConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.DeploymentConfiguration.write(value:to:))
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ScheduledUpdateConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerClientTypes.ScheduledUpdateConfig()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
-        value.deploymentConfig = try reader["DeploymentConfig"].readIfPresent(with: SageMakerClientTypes.DeploymentConfiguration.read(from:))
+        value.targetStateCount = try reader["TargetStateCount"].readIfPresent()
+        value.softwareUpdateStatus = try reader["SoftwareUpdateStatus"].readIfPresent()
+        value.activeSoftwareUpdateConfig = try reader["ActiveSoftwareUpdateConfig"].readIfPresent(with: SageMakerClientTypes.DeploymentConfiguration.read(from:))
         return value
     }
 }
@@ -74296,6 +74333,23 @@ extension SageMakerClientTypes.CapacitySizeConfig {
         var value = SageMakerClientTypes.CapacitySizeConfig()
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["Value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SageMakerClientTypes.ScheduledUpdateConfig {
+
+    static func write(value: SageMakerClientTypes.ScheduledUpdateConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeploymentConfig"].write(value.deploymentConfig, with: SageMakerClientTypes.DeploymentConfiguration.write(value:to:))
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.ScheduledUpdateConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.ScheduledUpdateConfig()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
+        value.deploymentConfig = try reader["DeploymentConfig"].readIfPresent(with: SageMakerClientTypes.DeploymentConfiguration.read(from:))
         return value
     }
 }
