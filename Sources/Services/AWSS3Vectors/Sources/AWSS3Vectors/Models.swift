@@ -100,6 +100,30 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
+/// Your request exceeds a service quota.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 /// The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
 public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -235,8 +259,15 @@ public struct CreateIndexInput: Swift.Sendable {
 }
 
 public struct CreateIndexOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the newly created vector index.
+    /// This member is required.
+    public var indexArn: Swift.String?
 
-    public init() { }
+    public init(
+        indexArn: Swift.String? = nil
+    ) {
+        self.indexArn = indexArn
+    }
 }
 
 extension S3VectorsClientTypes {
@@ -304,8 +335,15 @@ public struct CreateVectorBucketInput: Swift.Sendable {
 }
 
 public struct CreateVectorBucketOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the newly created vector bucket.
+    /// This member is required.
+    public var vectorBucketArn: Swift.String?
 
-    public init() { }
+    public init(
+        vectorBucketArn: Swift.String? = nil
+    ) {
+        self.vectorBucketArn = vectorBucketArn
+    }
 }
 
 public struct DeleteIndexInput: Swift.Sendable {
@@ -1031,13 +1069,18 @@ extension S3VectorsClientTypes {
 }
 
 public struct QueryVectorsOutput: Swift.Sendable {
+    /// The distance metric that was used for the similarity search calculation. This is the same distance metric that was configured for the vector index when it was created.
+    /// This member is required.
+    public var distanceMetric: S3VectorsClientTypes.DistanceMetric?
     /// The vectors in the approximate nearest neighbor search.
     /// This member is required.
     public var vectors: [S3VectorsClientTypes.QueryOutputVector]?
 
     public init(
+        distanceMetric: S3VectorsClientTypes.DistanceMetric? = nil,
         vectors: [S3VectorsClientTypes.QueryOutputVector]? = nil
     ) {
+        self.distanceMetric = distanceMetric
         self.vectors = vectors
     }
 }
@@ -1152,8 +1195,8 @@ public struct PutVectorBucketPolicyOutput: Swift.Sendable {
     public init() { }
 }
 
-/// Your request exceeds a service quota.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+/// The request timed out. Retry your request.
+public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
         /// This member is required.
@@ -1161,9 +1204,9 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var typeName: Swift.String { "RequestTimeoutException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
@@ -1541,14 +1584,24 @@ extension QueryVectorsInput {
 extension CreateIndexOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateIndexOutput {
-        return CreateIndexOutput()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateIndexOutput()
+        value.indexArn = try reader["indexArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
 extension CreateVectorBucketOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVectorBucketOutput {
-        return CreateVectorBucketOutput()
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateVectorBucketOutput()
+        value.vectorBucketArn = try reader["vectorBucketArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -1688,6 +1741,7 @@ extension QueryVectorsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = QueryVectorsOutput()
+        value.distanceMetric = try reader["distanceMetric"].readIfPresent() ?? .sdkUnknown("")
         value.vectors = try reader["vectors"].readListIfPresent(memberReadingClosure: S3VectorsClientTypes.QueryOutputVector.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
@@ -1697,7 +1751,7 @@ func httpServiceError(baseError: AWSClientRuntime.RestJSONError) throws -> Swift
     switch baseError.code {
         case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
         case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
-        case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+        case "RequestTimeoutException": return try RequestTimeoutException.makeError(baseError: baseError)
         case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
         case "ValidationException": return try ValidationException.makeError(baseError: baseError)
         default: return nil
@@ -1715,6 +1769,7 @@ enum CreateIndexOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1731,6 +1786,7 @@ enum CreateVectorBucketOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1952,6 +2008,7 @@ enum PutVectorsOutputError {
             case "KmsInvalidStateException": return try KmsInvalidStateException.makeError(baseError: baseError)
             case "KmsNotFoundException": return try KmsNotFoundException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -1996,6 +2053,19 @@ extension NotFoundException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotFoundException {
         let reader = baseError.errorBodyReader
         var value = NotFoundException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -2095,11 +2165,11 @@ extension InternalServerException {
     }
 }
 
-extension ServiceQuotaExceededException {
+extension RequestTimeoutException {
 
-    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RequestTimeoutException {
         let reader = baseError.errorBodyReader
-        var value = ServiceQuotaExceededException()
+        var value = RequestTimeoutException()
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

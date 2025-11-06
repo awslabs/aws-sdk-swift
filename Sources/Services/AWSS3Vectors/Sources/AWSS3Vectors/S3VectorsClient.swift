@@ -383,6 +383,7 @@ extension S3VectorsClient {
     /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
@@ -457,6 +458,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
     /// - `InternalServerException` : The request failed due to an internal server error.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
@@ -530,7 +532,7 @@ extension S3VectorsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -604,7 +606,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `ConflictException` : The request failed because a vector bucket name or a vector index name already exists. Vector bucket names must be unique within your Amazon Web Services account for each Amazon Web Services Region. Vector index names must be unique within your vector bucket. Choose a different vector bucket name or vector index name, and try again.
     /// - `InternalServerException` : The request failed due to an internal server error.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -678,7 +680,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -763,7 +765,7 @@ extension S3VectorsClient {
     /// - `KmsInvalidStateException` : The key state of the KMS key isn't compatible with the operation. For more information, see [KMSInvalidStateException](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html#API_Encrypt_Errors) in the Amazon Web Services Key Management Service API Reference.
     /// - `KmsNotFoundException` : The KMS key can't be found.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -837,7 +839,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -911,7 +913,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -985,7 +987,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1070,7 +1072,7 @@ extension S3VectorsClient {
     /// - `KmsInvalidStateException` : The key state of the KMS key isn't compatible with the operation. For more information, see [KMSInvalidStateException](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html#API_Encrypt_Errors) in the Amazon Web Services Key Management Service API Reference.
     /// - `KmsNotFoundException` : The KMS key can't be found.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1144,7 +1146,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1217,7 +1219,7 @@ extension S3VectorsClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1295,7 +1297,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1369,7 +1371,7 @@ extension S3VectorsClient {
     /// - `AccessDeniedException` : Access denied.
     /// - `InternalServerException` : The request failed due to an internal server error.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
@@ -1454,6 +1456,7 @@ extension S3VectorsClient {
     /// - `KmsInvalidStateException` : The key state of the KMS key isn't compatible with the operation. For more information, see [KMSInvalidStateException](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html#API_Encrypt_Errors) in the Amazon Web Services Key Management Service API Reference.
     /// - `KmsNotFoundException` : The KMS key can't be found.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
@@ -1543,7 +1546,7 @@ extension S3VectorsClient {
     /// - `KmsInvalidStateException` : The key state of the KMS key isn't compatible with the operation. For more information, see [KMSInvalidStateException](https://docs.aws.amazon.com/kms/latest/APIReference/API_Encrypt.html#API_Encrypt_Errors) in the Amazon Web Services Key Management Service API Reference.
     /// - `KmsNotFoundException` : The KMS key can't be found.
     /// - `NotFoundException` : The request was rejected because the specified resource can't be found.
-    /// - `ServiceQuotaExceededException` : Your request exceeds a service quota.
+    /// - `RequestTimeoutException` : The request timed out. Retry your request.
     /// - `ServiceUnavailableException` : The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.
     /// - `TooManyRequestsException` : The request was denied due to request throttling.
     /// - `ValidationException` : The requested action isn't valid.
