@@ -16,37 +16,51 @@ public struct ConfigFileReader {
         self.credentialsFilePath = credentialsFilePath ?? "~/.aws/credentials"
     }
     
-    func config() throws -> FileBasedConfigurationSectionProviding? {
+    func readAndDecodeFile(atPath path: String, fileDescription: String) -> String? {
+        // 1. Check if the path is empty
+        guard !path.isEmpty else {
+            print("\(fileDescription) file path is empty.")
+            return nil
+        }
+        
+        // 2. Read the file contents
+        guard let storedData = FileManager.default.contents(atPath: path) else {
+            print("Could not open \(fileDescription) file at: \(path)")
+            return nil
+        }
+        
+        // 3. Decode the data into a String
+        guard let decodedString = String(data: storedData, encoding: .utf8) else {
+            print("Could not decode \(fileDescription) file.")
+            return nil
+        }
+        
+        print("Successfully read \(fileDescription) file at: \(path)")
+        return decodedString
+    }
     
-        guard let storedConfigData = FileManager.default.contents(atPath: configFilePath) else {
-            print("Could not open Configuration File")
-            return nil
+    func config() throws -> FileBasedConfigurationSectionProviding? {
+        
+        // Use the helper function for the config file (which is mandatory)
+        guard let stringConfigData = readAndDecodeFile(atPath: configFilePath, fileDescription: "Configuration") else {
+            return nil // Stop if the main config file fails
         }
-        
-//        guard let storedCredentialsData = FileManager.default.contents(atPath: credentialsFilePath) else {
-//            print("Could not open Credentials File")
-//            return nil
-//        }
-        
-        guard let stringConfigData = String(data: storedConfigData, encoding: .utf8) else {
-            print ("Could not decode configuration file")
-            return nil
-        }
-        
-//        guard let stringCredentialsData = String(data: storedCredentialsData, encoding: .utf8) else {
-//            print ("Could not decode credentials file")
-//            return nil
-//        }
+
+        // Use the helper function for the credentials file (handle it optionally, if it fails, stringCredentialsData is nil)
+        let stringCredentialsData = readAndDecodeFile(atPath: credentialsFilePath, fileDescription: "Credentials")
         
         print("Successfully read configuration file at: \(configFilePath)")
         print("Successfully read credentials file at: \(credentialsFilePath)")
         
         print("Configuration File contents:", stringConfigData.split(whereSeparator: \.isNewline))
-//        print("Credential File contents:", stringCredentialsData.split(whereSeparator: \.isNewline))
+        print("Credential File contents:", stringCredentialsData?.split(whereSeparator: \.isNewline) as Any)
         
-        let arrayConfigData = stringConfigData.split(whereSeparator: \.isNewline)
-//        let arrayCredentialsData = stringCredentialsData.split(whereSeparator: \.isNewline)
-//        let combinedArrayData = arrayConfigData + arrayCredentialsData
+        let arrayData: [Substring]
+        if stringCredentialsData == nil {
+           arrayData = stringConfigData.split(whereSeparator: \.isNewline)
+        } else {
+           arrayData = stringConfigData.split(whereSeparator: \.isNewline) + stringCredentialsData!.split(whereSeparator: \.isNewline)
+        }
         
         var currentSection: ConfigFileSection?
         var sections: [String: ConfigFileSection] = [:]
@@ -55,7 +69,7 @@ public struct ConfigFileReader {
         let sessionSection = try! NSRegularExpression(pattern: "\\[sso-session\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern for "sso-session"
         let servicesSection = try! NSRegularExpression(pattern: "\\[services\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern for "services"
         
-        for line in arrayConfigData{
+        for line in arrayData{
             if line.isEmpty || line.hasPrefix("#") || line.hasPrefix(";") {
                 continue
             }
