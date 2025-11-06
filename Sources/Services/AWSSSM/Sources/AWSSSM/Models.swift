@@ -1945,6 +1945,29 @@ public struct MaxDocumentSizeExceeded: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
+/// The requested operation is no longer supported by Systems Manager.
+public struct NoLongerSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NoLongerSupported" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
 extension SSMClientTypes {
 
     public enum AttachmentsSourceKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2864,9 +2887,9 @@ public struct CreateOpsItemInput: Swift.Sendable {
     ///
     /// * /aws/issue This type of OpsItem is used for default OpsItems created by OpsCenter.
     ///
-    /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
-    ///
     /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+    ///
+    /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests. Amazon Web Services Systems Manager Change Manager will no longer be open to new customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html).
     public var opsItemType: Swift.String?
     /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     public var plannedEndTime: Foundation.Date?
@@ -3243,9 +3266,9 @@ extension SSMClientTypes {
 
     /// Defines an approval rule for a patch baseline.
     public struct PatchRule: Swift.Sendable {
-        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
+        /// The number of days after the release date of each patch matched by the rule that the patch is marked as approved in the patch baseline. For example, a value of 7 means that patches are approved seven days after they are released. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If the day represented by 7 is 2025-11-16, patches released between 2025-11-16T00:00:00Z and 2025-11-16T23:59:59Z will be included in the approval. This parameter is marked as Required: No, but your request must include a value for either ApproveAfterDays or ApproveUntilDate. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
         public var approveAfterDays: Swift.Int?
-        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2024-12-31. This parameter is marked as Required: No, but your request must include a value for either ApproveUntilDate or ApproveAfterDays. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
+        /// The cutoff date for auto approval of released patches. Any patches released on or before this date are installed automatically. Enter dates in the format YYYY-MM-DD. For example, 2025-11-16. Patch Manager evaluates patch release dates using Coordinated Universal Time (UTC). If you enter the date 2025-11-16, patches released between 2025-11-16T00:00:00Z and 2025-11-16T23:59:59Z will be included in the approval. This parameter is marked as Required: No, but your request must include a value for either ApproveUntilDate or ApproveAfterDays. Not supported for Debian Server or Ubuntu Server. Use caution when setting this value for Windows Server patch baselines. Because patch updates that are replaced by later updates are removed, setting too broad a value for this parameter can result in crucial patches not being installed. For more information, see the Windows Server tab in the topic [How security patches are selected](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html) in the Amazon Web Services Systems Manager User Guide.
         public var approveUntilDate: Swift.String?
         /// A compliance severity level for all approved patches in a patch baseline.
         public var complianceLevel: SSMClientTypes.PatchComplianceLevel?
@@ -24712,6 +24735,7 @@ enum CreateDocumentOutputError {
             case "InvalidDocumentContent": return try InvalidDocumentContent.makeError(baseError: baseError)
             case "InvalidDocumentSchemaVersion": return try InvalidDocumentSchemaVersion.makeError(baseError: baseError)
             case "MaxDocumentSizeExceeded": return try MaxDocumentSizeExceeded.makeError(baseError: baseError)
+            case "NoLongerSupported": return try NoLongerSupportedException.makeError(baseError: baseError)
             case "TooManyUpdates": return try TooManyUpdates.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -26690,6 +26714,7 @@ enum StartChangeRequestExecutionOutputError {
             case "IdempotentParameterMismatch": return try IdempotentParameterMismatch.makeError(baseError: baseError)
             case "InternalServerError": return try InternalServerError.makeError(baseError: baseError)
             case "InvalidAutomationExecutionParameters": return try InvalidAutomationExecutionParametersException.makeError(baseError: baseError)
+            case "NoLongerSupported": return try NoLongerSupportedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -27394,6 +27419,19 @@ extension MaxDocumentSizeExceeded {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> MaxDocumentSizeExceeded {
         let reader = baseError.errorBodyReader
         var value = MaxDocumentSizeExceeded()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NoLongerSupportedException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> NoLongerSupportedException {
+        let reader = baseError.errorBodyReader
+        var value = NoLongerSupportedException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

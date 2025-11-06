@@ -946,6 +946,7 @@ extension SSMClient {
     /// - `InvalidDocumentContent` : The content for the document isn't valid.
     /// - `InvalidDocumentSchemaVersion` : The version of the document schema isn't supported.
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
+    /// - `NoLongerSupportedException` : The requested operation is no longer supported by Systems Manager.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     public func createDocument(input: CreateDocumentInput) async throws -> CreateDocumentOutput {
         let context = Smithy.ContextBuilder()
@@ -7457,7 +7458,7 @@ extension SSMClient {
 
     /// Performs the `ListDocumentMetadataHistory` operation on the `SSM` service.
     ///
-    /// Information about approval reviews for a version of a change template in Change Manager.
+    /// Amazon Web Services Systems Manager Change Manager will no longer be open to new customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html). Information about approval reviews for a version of a change template in Change Manager.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListDocumentMetadataHistoryInput`)
     ///
@@ -9634,7 +9635,7 @@ extension SSMClient {
 
     /// Performs the `StartChangeRequestExecution` operation on the `SSM` service.
     ///
-    /// Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
+    /// Amazon Web Services Systems Manager Change Manager will no longer be open to new customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html). Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
     ///
     /// - Parameter input: [no documentation found] (Type: `StartChangeRequestExecutionInput`)
     ///
@@ -9650,6 +9651,7 @@ extension SSMClient {
     /// - `IdempotentParameterMismatch` : Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
     /// - `InternalServerError` : An error occurred on the server side.
     /// - `InvalidAutomationExecutionParametersException` : The supplied parameters for invoking the specified Automation runbook are incorrect. For example, they may not match the set of parameters permitted for the specified Automation document.
+    /// - `NoLongerSupportedException` : The requested operation is no longer supported by Systems Manager.
     public func startChangeRequestExecution(input: StartChangeRequestExecutionInput) async throws -> StartChangeRequestExecutionOutput {
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
@@ -10375,7 +10377,7 @@ extension SSMClient {
 
     /// Performs the `UpdateDocumentMetadata` operation on the `SSM` service.
     ///
-    /// Updates information related to approval reviews for a specific version of a change template in Change Manager.
+    /// Amazon Web Services Systems Manager Change Manager will no longer be open to new customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see [Amazon Web Services Systems Manager Change Manager availability change](https://docs.aws.amazon.com/systems-manager/latest/userguide/change-manager-availability-change.html). Updates information related to approval reviews for a specific version of a change template in Change Manager.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateDocumentMetadataInput`)
     ///

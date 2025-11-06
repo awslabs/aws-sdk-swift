@@ -451,6 +451,7 @@ extension GameLiftClientTypes {
         case amazonLinux2023
         case windows2012
         case windows2016
+        case windows2022
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OperatingSystem] {
@@ -459,7 +460,8 @@ extension GameLiftClientTypes {
                 .amazonLinux2,
                 .amazonLinux2023,
                 .windows2012,
-                .windows2016
+                .windows2016,
+                .windows2022
             ]
         }
 
@@ -475,6 +477,7 @@ extension GameLiftClientTypes {
             case .amazonLinux2023: return "AMAZON_LINUX_2023"
             case .windows2012: return "WINDOWS_2012"
             case .windows2016: return "WINDOWS_2016"
+            case .windows2022: return "WINDOWS_2022"
             case let .sdkUnknown(s): return s
             }
         }
@@ -646,7 +649,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// This data type is used with the Amazon GameLift Servers FleetIQ and game server groups. Filters which game servers may be claimed when calling ClaimGameServer.
+    /// Filters which game servers may be claimed when calling ClaimGameServer.
     public struct ClaimFilterOption: Swift.Sendable {
         /// List of instance statuses that game servers may be claimed on. If provided, the list must contain the ACTIVE status.
         public var instanceStatuses: [GameLiftClientTypes.FilterInstanceStatus]?
@@ -809,7 +812,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// This data type is used with the Amazon GameLift Servers FleetIQ and game server groups. Properties describing a game server that is running on an instance in a game server group. A game server is created by a successful call to RegisterGameServer and deleted by calling DeregisterGameServer. A game server is claimed to host a game session by calling ClaimGameServer.
+    /// Properties describing a game server that is running on an instance in a game server group. A game server is created by a successful call to RegisterGameServer and deleted by calling DeregisterGameServer. A game server is claimed to host a game session by calling ClaimGameServer.
     public struct GameServer: Swift.Sendable {
         /// Indicates when an available game server has been reserved for gameplay but has not yet started hosting a game. Once it is claimed, the game server remains in CLAIMED status for a maximum of one minute. During this time, game clients connect to the game server to start the game and trigger the game server to update its utilization status. After one minute, the game server claim status reverts to null.
         public var claimStatus: GameLiftClientTypes.GameServerClaimStatus?
@@ -2516,7 +2519,7 @@ extension GameLiftClientTypes {
         public var computeArn: Swift.String?
         /// A descriptive label for the compute resource. For instances in a managed EC2 fleet, the compute name is the same value as the InstanceId ID.
         public var computeName: Swift.String?
-        /// Current status of the compute. A compute must have an ACTIVE status to host game sessions.
+        /// Current status of the compute. A compute must have an ACTIVE status to host game sessions. Valid values include PENDING, ACTIVE, TERMINATING, and IMPAIRED. While the ComputeStatus enum type is valid for Container based servers, the result may also include other non-enumerated string values such as "Active" for fleets which are not Container-based.
         public var computeStatus: GameLiftClientTypes.ComputeStatus?
         /// A set of attributes for each container in the compute.
         public var containerAttributes: [GameLiftClientTypes.ContainerAttribute]?
@@ -4697,7 +4700,7 @@ public struct CreateFleetLocationsOutput: Swift.Sendable {
 
 extension GameLiftClientTypes {
 
-    /// This data type is used with the Amazon GameLift Servers FleetIQ and game server groups. Settings for a target-based scaling policy as part of a [GameServerGroupAutoScalingPolicy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerGroupAutoScalingPolicy.html) . These settings are used to create a target-based policy that tracks the Amazon GameLift Servers FleetIQ metric "PercentUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value.
+    /// Settings for a target-based scaling policy as part of a [GameServerGroupAutoScalingPolicy](https://docs.aws.amazon.com/gamelift/latest/apireference/API_GameServerGroupAutoScalingPolicy.html) . These settings are used to create a target-based policy that tracks the Amazon GameLift Servers FleetIQ metric "PercentUtilizedGameServers" and specifies a target value for the metric. As player usage changes, the policy triggers to adjust the game server group capacity so that the metric returns to the target value.
     public struct TargetTrackingConfiguration: Swift.Sendable {
         /// Desired value to use with a game server group target-based scaling policy.
         /// This member is required.
@@ -4713,7 +4716,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// This data type is used with the Amazon GameLift Servers FleetIQ and game server groups. Configuration settings for intelligent automatic scaling that uses target tracking. These settings are used to add an Auto Scaling policy when creating the corresponding Auto Scaling group. After the Auto Scaling group is created, all updates to Auto Scaling policies, including changing this policy and adding or removing other policies, is done directly on the Auto Scaling group.
+    /// Configuration settings for intelligent automatic scaling that uses target tracking. These settings are used to add an Auto Scaling policy when creating the corresponding Auto Scaling group. After the Auto Scaling group is created, all updates to Auto Scaling policies, including changing this policy and adding or removing other policies, is done directly on the Auto Scaling group.
     public struct GameServerGroupAutoScalingPolicy: Swift.Sendable {
         /// Length of time, in seconds, it takes for a new instance to start new game server processes and register with Amazon GameLift Servers FleetIQ. Specifying a warm-up time can be useful, particularly with game servers that take a long time to start up, because it avoids prematurely starting new instances.
         public var estimatedInstanceWarmup: Swift.Int?
@@ -5049,7 +5052,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// This data type is used with the Amazon GameLift Servers FleetIQ and game server groups. An allowed instance type for a game server group. All game server groups must have at least two instance types defined for it. Amazon GameLift Servers FleetIQ periodically evaluates each defined instance type for viability. It then updates the Auto Scaling group with the list of viable instance types.
+    /// An allowed instance type for a game server group. All game server groups must have at least two instance types defined for it. Amazon GameLift Servers FleetIQ periodically evaluates each defined instance type for viability. It then updates the Auto Scaling group with the list of viable instance types.
     public struct InstanceDefinition: Swift.Sendable {
         /// An Amazon EC2 instance type designation.
         /// This member is required.
@@ -5069,7 +5072,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// This data type is used with the Amazon GameLift Servers FleetIQ and game server groups. An Amazon Elastic Compute Cloud launch template that contains configuration settings and game server code to be deployed to all instances in a game server group. The launch template is specified when creating a new game server group.
+    /// An Amazon Elastic Compute Cloud launch template that contains configuration settings and game server code to be deployed to all instances in a game server group. The launch template is specified when creating a new game server group.
     public struct LaunchTemplateSpecification: Swift.Sendable {
         /// A unique identifier for an existing Amazon EC2 launch template.
         public var launchTemplateId: Swift.String?
@@ -5225,7 +5228,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// This data type is used with the Amazon GameLift Servers FleetIQ and game server groups. Properties that describe a game server group resource. A game server group manages certain properties related to a corresponding Amazon EC2 Auto Scaling group. A game server group is created by a successful call to CreateGameServerGroup and deleted by calling DeleteGameServerGroup. Game server group activity can be temporarily suspended and resumed by calling SuspendGameServerGroup and ResumeGameServerGroup, respectively.
+    /// Properties that describe a game server group resource. A game server group manages certain properties related to a corresponding Amazon EC2 Auto Scaling group. A game server group is created by a successful call to CreateGameServerGroup and deleted by calling DeleteGameServerGroup. Game server group activity can be temporarily suspended and resumed by calling SuspendGameServerGroup and ResumeGameServerGroup, respectively.
     public struct GameServerGroup: Swift.Sendable {
         /// A generated unique ID for the Amazon EC2 Auto Scaling group that is associated with this game server group.
         public var autoScalingGroupArn: Swift.String?
@@ -8318,7 +8321,7 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
-    /// This data type is used with the Amazon GameLift Servers FleetIQ and game server groups. Additional properties, including status, that describe an EC2 instance in a game server group. Instance configurations are set with game server group properties (see DescribeGameServerGroup and with the EC2 launch template that was used when creating the game server group. Retrieve game server instances for a game server group by calling DescribeGameServerInstances.
+    /// Additional properties, including status, that describe an EC2 instance in a game server group. Instance configurations are set with game server group properties (see DescribeGameServerGroup and with the EC2 launch template that was used when creating the game server group. Retrieve game server instances for a game server group by calling DescribeGameServerInstances.
     public struct GameServerInstance: Swift.Sendable {
         /// A generated unique identifier for the game server group that includes the game server instance.
         public var gameServerGroupArn: Swift.String?
@@ -17506,6 +17509,7 @@ enum UpdateGameSessionOutputError {
             case "InvalidGameSessionStatusException": return try InvalidGameSessionStatusException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "NotReadyException": return try NotReadyException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }

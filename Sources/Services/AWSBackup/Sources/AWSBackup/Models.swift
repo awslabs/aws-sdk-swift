@@ -1350,6 +1350,35 @@ extension BackupClientTypes {
 
 extension BackupClientTypes {
 
+    public enum EncryptionKeyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsOwnedKmsKey
+        case customerManagedKmsKey
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionKeyType] {
+            return [
+                .awsOwnedKmsKey,
+                .customerManagedKmsKey
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsOwnedKmsKey: return "AWS_OWNED_KMS_KEY"
+            case .customerManagedKmsKey: return "CUSTOMER_MANAGED_KMS_KEY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
     public enum VaultState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
         case creating
@@ -1426,6 +1455,8 @@ extension BackupClientTypes {
         public var creatorRequestId: Swift.String?
         /// A server-side encryption key you can specify to encrypt your backups from services that support full Backup management; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. If you specify a key, you must specify its ARN, not its alias. If you do not specify a key, Backup creates a KMS key for you by default. To learn which Backup services support full Backup management and how Backup handles encryption for backups from services that do not yet support full Backup, see [ Encryption for backups in Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/encryption.html)
         public var encryptionKeyArn: Swift.String?
+        /// The type of encryption key used for the backup vault. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+        public var encryptionKeyType: BackupClientTypes.EncryptionKeyType?
         /// The date and time when Backup Vault Lock configuration becomes immutable, meaning it cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var lockDate: Foundation.Date?
         /// A Boolean value that indicates whether Backup Vault Lock applies to the selected backup vault. If true, Vault Lock prevents delete and update operations on the recovery points in the selected vault.
@@ -1447,6 +1478,7 @@ extension BackupClientTypes {
             creationDate: Foundation.Date? = nil,
             creatorRequestId: Swift.String? = nil,
             encryptionKeyArn: Swift.String? = nil,
+            encryptionKeyType: BackupClientTypes.EncryptionKeyType? = nil,
             lockDate: Foundation.Date? = nil,
             locked: Swift.Bool? = nil,
             maxRetentionDays: Swift.Int? = nil,
@@ -1460,6 +1492,7 @@ extension BackupClientTypes {
             self.creationDate = creationDate
             self.creatorRequestId = creatorRequestId
             self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionKeyType = encryptionKeyType
             self.lockDate = lockDate
             self.locked = locked
             self.maxRetentionDays = maxRetentionDays
@@ -2276,6 +2309,8 @@ public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Sendable {
     public var backupVaultTags: [Swift.String: Swift.String]?
     /// The ID of the creation request. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
     public var creatorRequestId: Swift.String?
+    /// The ARN of the customer-managed KMS key to use for encrypting the logically air-gapped backup vault. If not specified, the vault will be encrypted with an Amazon Web Services-owned key managed by Amazon Web Services Backup.
+    public var encryptionKeyArn: Swift.String?
     /// The maximum retention period that the vault retains its recovery points.
     /// This member is required.
     public var maxRetentionDays: Swift.Int?
@@ -2287,12 +2322,14 @@ public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Sendable {
         backupVaultName: Swift.String? = nil,
         backupVaultTags: [Swift.String: Swift.String]? = nil,
         creatorRequestId: Swift.String? = nil,
+        encryptionKeyArn: Swift.String? = nil,
         maxRetentionDays: Swift.Int? = nil,
         minRetentionDays: Swift.Int? = nil
     ) {
         self.backupVaultName = backupVaultName
         self.backupVaultTags = backupVaultTags
         self.creatorRequestId = creatorRequestId
+        self.encryptionKeyArn = encryptionKeyArn
         self.maxRetentionDays = maxRetentionDays
         self.minRetentionDays = minRetentionDays
     }
@@ -2300,7 +2337,7 @@ public struct CreateLogicallyAirGappedBackupVaultInput: Swift.Sendable {
 
 extension CreateLogicallyAirGappedBackupVaultInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLogicallyAirGappedBackupVaultInput(backupVaultName: \(Swift.String(describing: backupVaultName)), creatorRequestId: \(Swift.String(describing: creatorRequestId)), maxRetentionDays: \(Swift.String(describing: maxRetentionDays)), minRetentionDays: \(Swift.String(describing: minRetentionDays)), backupVaultTags: \"CONTENT_REDACTED\")"}
+        "CreateLogicallyAirGappedBackupVaultInput(backupVaultName: \(Swift.String(describing: backupVaultName)), creatorRequestId: \(Swift.String(describing: creatorRequestId)), encryptionKeyArn: \(Swift.String(describing: encryptionKeyArn)), maxRetentionDays: \(Swift.String(describing: maxRetentionDays)), minRetentionDays: \(Swift.String(describing: minRetentionDays)), backupVaultTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateLogicallyAirGappedBackupVaultOutput: Swift.Sendable {
@@ -2748,7 +2785,7 @@ extension BackupClientTypes {
         public var protectedResourceType: Swift.String?
         /// You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTestingSelection. Key values are not case sensitive. See the complete list of [restore testing inferred metadata](https://docs.aws.amazon.com/aws-backup/latest/devguide/restore-testing-inferred-metadata.html).
         public var restoreMetadataOverrides: [Swift.String: Swift.String]?
-        /// The unique name of the restore testing selection that belongs to the related restore testing plan.
+        /// The unique name of the restore testing selection that belongs to the related restore testing plan. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
         /// This member is required.
         public var restoreTestingSelectionName: Swift.String?
         /// This is amount of hours (0 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
@@ -2817,7 +2854,7 @@ public struct CreateRestoreTestingSelectionOutput: Swift.Sendable {
     /// The name of the restore testing plan. The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
     /// This member is required.
     public var restoreTestingPlanName: Swift.String?
-    /// The name of the restore testing selection for the related restore testing plan.
+    /// The name of the restore testing selection for the related restore testing plan. The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
     /// This member is required.
     public var restoreTestingSelectionName: Swift.String?
 
@@ -3289,6 +3326,8 @@ public struct DescribeBackupVaultOutput: Swift.Sendable {
     public var creatorRequestId: Swift.String?
     /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
     public var encryptionKeyArn: Swift.String?
+    /// The type of encryption key used for the backup vault. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+    public var encryptionKeyType: BackupClientTypes.EncryptionKeyType?
     /// Information about the latest update to the MPA approval team association for this backup vault.
     public var latestMpaApprovalTeamUpdate: BackupClientTypes.LatestMpaApprovalTeamUpdate?
     /// The date and time when Backup Vault Lock configuration cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change any of your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -3318,6 +3357,7 @@ public struct DescribeBackupVaultOutput: Swift.Sendable {
         creationDate: Foundation.Date? = nil,
         creatorRequestId: Swift.String? = nil,
         encryptionKeyArn: Swift.String? = nil,
+        encryptionKeyType: BackupClientTypes.EncryptionKeyType? = nil,
         latestMpaApprovalTeamUpdate: BackupClientTypes.LatestMpaApprovalTeamUpdate? = nil,
         lockDate: Foundation.Date? = nil,
         locked: Swift.Bool? = nil,
@@ -3335,6 +3375,7 @@ public struct DescribeBackupVaultOutput: Swift.Sendable {
         self.creationDate = creationDate
         self.creatorRequestId = creatorRequestId
         self.encryptionKeyArn = encryptionKeyArn
+        self.encryptionKeyType = encryptionKeyType
         self.latestMpaApprovalTeamUpdate = latestMpaApprovalTeamUpdate
         self.lockDate = lockDate
         self.locked = locked
@@ -3657,6 +3698,8 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
     public var creationDate: Foundation.Date?
     /// The server-side encryption key used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
     public var encryptionKeyArn: Swift.String?
+    /// The type of encryption key used for the recovery point. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+    public var encryptionKeyType: BackupClientTypes.EncryptionKeyType?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
     /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
@@ -3714,6 +3757,7 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
         creationDate: Foundation.Date? = nil,
         encryptionKeyArn: Swift.String? = nil,
+        encryptionKeyType: BackupClientTypes.EncryptionKeyType? = nil,
         iamRoleArn: Swift.String? = nil,
         indexStatus: BackupClientTypes.IndexStatus? = nil,
         indexStatusMessage: Swift.String? = nil,
@@ -3742,6 +3786,7 @@ public struct DescribeRecoveryPointOutput: Swift.Sendable {
         self.createdBy = createdBy
         self.creationDate = creationDate
         self.encryptionKeyArn = encryptionKeyArn
+        self.encryptionKeyType = encryptionKeyType
         self.iamRoleArn = iamRoleArn
         self.indexStatus = indexStatus
         self.indexStatusMessage = indexStatusMessage
@@ -4871,7 +4916,7 @@ extension BackupClientTypes {
         /// The RestoreTestingPlanName is a unique string that is the name of the restore testing plan.
         /// This member is required.
         public var restoreTestingPlanName: Swift.String?
-        /// The unique name of the restore testing selection that belongs to the related restore testing plan.
+        /// The unique name of the restore testing selection that belongs to the related restore testing plan. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
         /// This member is required.
         public var restoreTestingSelectionName: Swift.String?
         /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
@@ -5924,6 +5969,8 @@ extension BackupClientTypes {
         public var creationDate: Foundation.Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public var encryptionKeyArn: Swift.String?
+        /// The type of encryption key used for the recovery point. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+        public var encryptionKeyType: BackupClientTypes.EncryptionKeyType?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public var iamRoleArn: Swift.String?
         /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
@@ -5969,6 +6016,7 @@ extension BackupClientTypes {
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
             creationDate: Foundation.Date? = nil,
             encryptionKeyArn: Swift.String? = nil,
+            encryptionKeyType: BackupClientTypes.EncryptionKeyType? = nil,
             iamRoleArn: Swift.String? = nil,
             indexStatus: BackupClientTypes.IndexStatus? = nil,
             indexStatusMessage: Swift.String? = nil,
@@ -5996,6 +6044,7 @@ extension BackupClientTypes {
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionKeyType = encryptionKeyType
             self.iamRoleArn = iamRoleArn
             self.indexStatus = indexStatus
             self.indexStatusMessage = indexStatusMessage
@@ -6130,6 +6179,8 @@ extension BackupClientTypes {
         public var creationDate: Foundation.Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public var encryptionKeyArn: Swift.String?
+        /// The type of encryption key used for the recovery point. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+        public var encryptionKeyType: BackupClientTypes.EncryptionKeyType?
         /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING A recovery point with an index that has the status of ACTIVE can be included in a search.
         public var indexStatus: BackupClientTypes.IndexStatus?
         /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
@@ -6154,6 +6205,7 @@ extension BackupClientTypes {
             backupVaultName: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             encryptionKeyArn: Swift.String? = nil,
+            encryptionKeyType: BackupClientTypes.EncryptionKeyType? = nil,
             indexStatus: BackupClientTypes.IndexStatus? = nil,
             indexStatusMessage: Swift.String? = nil,
             isParent: Swift.Bool = false,
@@ -6168,6 +6220,7 @@ extension BackupClientTypes {
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionKeyType = encryptionKeyType
             self.indexStatus = indexStatus
             self.indexStatusMessage = indexStatusMessage
             self.isParent = isParent
@@ -6896,7 +6949,7 @@ extension BackupClientTypes {
         /// Unique string that is the name of the restore testing plan. The name cannot be changed after creation. The name must consist of only alphanumeric characters and underscores. Maximum length is 50.
         /// This member is required.
         public var restoreTestingPlanName: Swift.String?
-        /// Unique name of a restore testing selection.
+        /// Unique name of a restore testing selection. The name consists of only alphanumeric characters and underscores. Maximum length is 50.
         /// This member is required.
         public var restoreTestingSelectionName: Swift.String?
         /// This value represents the time, in hours, data is retained after a restore test so that optional validation can be completed. Accepted value is an integer between 0 and 168 (the hourly equivalent of seven days).
@@ -9666,6 +9719,7 @@ extension CreateLogicallyAirGappedBackupVaultInput {
         guard let value else { return }
         try writer["BackupVaultTags"].writeMap(value.backupVaultTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["CreatorRequestId"].write(value.creatorRequestId)
+        try writer["EncryptionKeyArn"].write(value.encryptionKeyArn)
         try writer["MaxRetentionDays"].write(value.maxRetentionDays)
         try writer["MinRetentionDays"].write(value.minRetentionDays)
     }
@@ -10215,6 +10269,7 @@ extension DescribeBackupVaultOutput {
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
         value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
+        value.encryptionKeyType = try reader["EncryptionKeyType"].readIfPresent()
         value.latestMpaApprovalTeamUpdate = try reader["LatestMpaApprovalTeamUpdate"].readIfPresent(with: BackupClientTypes.LatestMpaApprovalTeamUpdate.read(from:))
         value.lockDate = try reader["LockDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.locked = try reader["Locked"].readIfPresent()
@@ -10310,6 +10365,7 @@ extension DescribeRecoveryPointOutput {
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.RecoveryPointCreator.read(from:))
         value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
+        value.encryptionKeyType = try reader["EncryptionKeyType"].readIfPresent()
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
         value.indexStatus = try reader["IndexStatus"].readIfPresent()
         value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
@@ -13735,6 +13791,7 @@ extension BackupClientTypes.BackupVaultListMember {
         value.minRetentionDays = try reader["MinRetentionDays"].readIfPresent()
         value.maxRetentionDays = try reader["MaxRetentionDays"].readIfPresent()
         value.lockDate = try reader["LockDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.encryptionKeyType = try reader["EncryptionKeyType"].readIfPresent()
         return value
     }
 }
@@ -13851,6 +13908,7 @@ extension BackupClientTypes.RecoveryPointByBackupVault {
         value.vaultType = try reader["VaultType"].readIfPresent()
         value.indexStatus = try reader["IndexStatus"].readIfPresent()
         value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
+        value.encryptionKeyType = try reader["EncryptionKeyType"].readIfPresent()
         return value
     }
 }
@@ -13886,6 +13944,7 @@ extension BackupClientTypes.RecoveryPointByResource {
         value.vaultType = try reader["VaultType"].readIfPresent()
         value.indexStatus = try reader["IndexStatus"].readIfPresent()
         value.indexStatusMessage = try reader["IndexStatusMessage"].readIfPresent()
+        value.encryptionKeyType = try reader["EncryptionKeyType"].readIfPresent()
         return value
     }
 }
