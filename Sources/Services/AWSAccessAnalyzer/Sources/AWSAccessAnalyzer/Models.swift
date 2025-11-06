@@ -1004,7 +1004,7 @@ extension AccessAnalyzerClientTypes {
         /// The ARN of the analyzer.
         /// This member is required.
         public var arn: Swift.String?
-        /// Specifies if the analyzer is an external access, unused access, or internal access analyzer.
+        /// Specifies if the analyzer is an external access, unused access, or internal access analyzer. The [GetAnalyzer](https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_GetAnalyzer.html) action includes this property in its response if a configuration is specified, while the [ListAnalyzers](https://docs.aws.amazon.com/access-analyzer/latest/APIReference/API_ListAnalyzers.html) action omits it.
         public var configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
         /// A timestamp for the time at which the analyzer was created.
         /// This member is required.
@@ -1021,9 +1021,9 @@ extension AccessAnalyzerClientTypes {
         public var status: AccessAnalyzerClientTypes.AnalyzerStatus?
         /// The statusReason provides more details about the current status of the analyzer. For example, if the creation for the analyzer fails, a Failed status is returned. For an analyzer with organization as the type, this failure can be due to an issue with creating the service-linked roles required in the member accounts of the Amazon Web Services organization.
         public var statusReason: AccessAnalyzerClientTypes.StatusReason?
-        /// The tags added to the analyzer.
+        /// An array of key-value pairs applied to the analyzer. The key-value pairs consist of the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. The tag key is a value that is 1 to 128 characters in length and cannot be prefixed with aws:. The tag value is a value that is 0 to 256 characters in length.
         public var tags: [Swift.String: Swift.String]?
-        /// The type of analyzer, which corresponds to the zone of trust chosen for the analyzer.
+        /// The type represents the zone of trust or scope for the analyzer.
         /// This member is required.
         public var type: AccessAnalyzerClientTypes.ModelType?
 
@@ -3021,14 +3021,18 @@ extension AccessAnalyzerClientTypes {
     public struct ResourceTypeDetails: Swift.Sendable {
         /// The total number of active cross-account findings for the resource type.
         public var totalActiveCrossAccount: Swift.Int?
+        /// The total number of active errors for the resource type.
+        public var totalActiveErrors: Swift.Int?
         /// The total number of active public findings for the resource type.
         public var totalActivePublic: Swift.Int?
 
         public init(
             totalActiveCrossAccount: Swift.Int? = nil,
+            totalActiveErrors: Swift.Int? = nil,
             totalActivePublic: Swift.Int? = nil
         ) {
             self.totalActiveCrossAccount = totalActiveCrossAccount
+            self.totalActiveErrors = totalActiveErrors
             self.totalActivePublic = totalActivePublic
         }
     }
@@ -8175,6 +8179,7 @@ extension AccessAnalyzerClientTypes.ResourceTypeDetails {
         var value = AccessAnalyzerClientTypes.ResourceTypeDetails()
         value.totalActivePublic = try reader["totalActivePublic"].readIfPresent()
         value.totalActiveCrossAccount = try reader["totalActiveCrossAccount"].readIfPresent()
+        value.totalActiveErrors = try reader["totalActiveErrors"].readIfPresent()
         return value
     }
 }

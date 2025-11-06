@@ -1843,6 +1843,14 @@ extension SageMakerClientTypes {
         case mlG54xlarge
         case mlG58xlarge
         case mlG5Xlarge
+        case mlG612xlarge
+        case mlG616xlarge
+        case mlG624xlarge
+        case mlG62xlarge
+        case mlG648xlarge
+        case mlG64xlarge
+        case mlG68xlarge
+        case mlG6Xlarge
         case mlInf224xlarge
         case mlInf248xlarge
         case mlInf28xlarge
@@ -1947,6 +1955,14 @@ extension SageMakerClientTypes {
                 .mlG54xlarge,
                 .mlG58xlarge,
                 .mlG5Xlarge,
+                .mlG612xlarge,
+                .mlG616xlarge,
+                .mlG624xlarge,
+                .mlG62xlarge,
+                .mlG648xlarge,
+                .mlG64xlarge,
+                .mlG68xlarge,
+                .mlG6Xlarge,
                 .mlInf224xlarge,
                 .mlInf248xlarge,
                 .mlInf28xlarge,
@@ -2057,6 +2073,14 @@ extension SageMakerClientTypes {
             case .mlG54xlarge: return "ml.g5.4xlarge"
             case .mlG58xlarge: return "ml.g5.8xlarge"
             case .mlG5Xlarge: return "ml.g5.xlarge"
+            case .mlG612xlarge: return "ml.g6.12xlarge"
+            case .mlG616xlarge: return "ml.g6.16xlarge"
+            case .mlG624xlarge: return "ml.g6.24xlarge"
+            case .mlG62xlarge: return "ml.g6.2xlarge"
+            case .mlG648xlarge: return "ml.g6.48xlarge"
+            case .mlG64xlarge: return "ml.g6.4xlarge"
+            case .mlG68xlarge: return "ml.g6.8xlarge"
+            case .mlG6Xlarge: return "ml.g6.xlarge"
             case .mlInf224xlarge: return "ml.inf2.24xlarge"
             case .mlInf248xlarge: return "ml.inf2.48xlarge"
             case .mlInf28xlarge: return "ml.inf2.8xlarge"
@@ -53296,6 +53320,8 @@ public struct UpdateClusterInput: Swift.Sendable {
     public var instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]?
     /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
     public var instanceGroupsToDelete: [Swift.String]?
+    /// Determines how instance provisioning is handled during cluster operations. In Continuous mode, the cluster provisions available instances incrementally and retries until the target count is reached. The cluster becomes operational once cluster-level resources are ready. Use CurrentCount and TargetCount in DescribeCluster to track provisioning progress.
+    public var nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode?
     /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
     public var nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery?
     /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
@@ -53309,6 +53335,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         clusterRole: Swift.String? = nil,
         instanceGroups: [SageMakerClientTypes.ClusterInstanceGroupSpecification]? = nil,
         instanceGroupsToDelete: [Swift.String]? = nil,
+        nodeProvisioningMode: SageMakerClientTypes.ClusterNodeProvisioningMode? = nil,
         nodeRecovery: SageMakerClientTypes.ClusterNodeRecovery? = nil,
         restrictedInstanceGroups: [SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification]? = nil,
         tieredStorageConfig: SageMakerClientTypes.ClusterTieredStorageConfig? = nil
@@ -53318,6 +53345,7 @@ public struct UpdateClusterInput: Swift.Sendable {
         self.clusterRole = clusterRole
         self.instanceGroups = instanceGroups
         self.instanceGroupsToDelete = instanceGroupsToDelete
+        self.nodeProvisioningMode = nodeProvisioningMode
         self.nodeRecovery = nodeRecovery
         self.restrictedInstanceGroups = restrictedInstanceGroups
         self.tieredStorageConfig = tieredStorageConfig
@@ -53632,6 +53660,8 @@ public struct UpdateDomainInput: Swift.Sendable {
     public var subnetIds: [Swift.String]?
     /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
     public var tagPropagation: SageMakerClientTypes.TagPropagation?
+    /// The identifier for the VPC used by the domain for network communication. Use this field only when adding VPC configuration to a SageMaker AI domain used in Amazon SageMaker Unified Studio that was created without VPC settings. SageMaker AI doesn't automatically apply VPC updates to existing applications. Stop and restart your applications to apply the changes.
+    public var vpcId: Swift.String?
 
     public init(
         appNetworkAccessType: SageMakerClientTypes.AppNetworkAccessType? = nil,
@@ -53641,7 +53671,8 @@ public struct UpdateDomainInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         domainSettingsForUpdate: SageMakerClientTypes.DomainSettingsForUpdate? = nil,
         subnetIds: [Swift.String]? = nil,
-        tagPropagation: SageMakerClientTypes.TagPropagation? = nil
+        tagPropagation: SageMakerClientTypes.TagPropagation? = nil,
+        vpcId: Swift.String? = nil
     ) {
         self.appNetworkAccessType = appNetworkAccessType
         self.appSecurityGroupManagement = appSecurityGroupManagement
@@ -53651,6 +53682,7 @@ public struct UpdateDomainInput: Swift.Sendable {
         self.domainSettingsForUpdate = domainSettingsForUpdate
         self.subnetIds = subnetIds
         self.tagPropagation = tagPropagation
+        self.vpcId = vpcId
     }
 }
 
@@ -61613,6 +61645,7 @@ extension UpdateClusterInput {
         try writer["ClusterRole"].write(value.clusterRole)
         try writer["InstanceGroups"].writeList(value.instanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InstanceGroupsToDelete"].writeList(value.instanceGroupsToDelete, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["NodeProvisioningMode"].write(value.nodeProvisioningMode)
         try writer["NodeRecovery"].write(value.nodeRecovery)
         try writer["RestrictedInstanceGroups"].writeList(value.restrictedInstanceGroups, memberWritingClosure: SageMakerClientTypes.ClusterRestrictedInstanceGroupSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TieredStorageConfig"].write(value.tieredStorageConfig, with: SageMakerClientTypes.ClusterTieredStorageConfig.write(value:to:))
@@ -61707,6 +61740,7 @@ extension UpdateDomainInput {
         try writer["DomainSettingsForUpdate"].write(value.domainSettingsForUpdate, with: SageMakerClientTypes.DomainSettingsForUpdate.write(value:to:))
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TagPropagation"].write(value.tagPropagation)
+        try writer["VpcId"].write(value.vpcId)
     }
 }
 
