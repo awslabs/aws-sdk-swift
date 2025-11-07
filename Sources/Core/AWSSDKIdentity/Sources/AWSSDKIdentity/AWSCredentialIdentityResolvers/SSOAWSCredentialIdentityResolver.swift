@@ -5,18 +5,18 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import struct Smithy.Attributes
-import class Foundation.ProcessInfo
-import enum Smithy.ClientError
-import struct SmithyIdentity.BearerTokenIdentity
-import class Foundation.FileManager
-import struct Foundation.URL
+@_spi(FileBasedConfig) import AWSSDKCommon
 import struct Foundation.Data
 import struct Foundation.Date
+import class Foundation.FileManager
 import class Foundation.JSONDecoder
 import func Foundation.NSHomeDirectory
-@_spi(FileBasedConfig) import AWSSDKCommon
+import class Foundation.ProcessInfo
+import struct Foundation.URL
+import struct Smithy.Attributes
+import enum Smithy.ClientError
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import struct SmithyIdentity.BearerTokenIdentity
 
 /// A credential identity resolver that resolves credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)

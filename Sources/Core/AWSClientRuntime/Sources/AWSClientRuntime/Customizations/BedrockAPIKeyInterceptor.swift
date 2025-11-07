@@ -5,17 +5,17 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class Foundation.ProcessInfo
-import protocol ClientRuntime.Interceptor
 import protocol ClientRuntime.AfterSerialization
-import struct Smithy.Attributes
+import protocol ClientRuntime.Interceptor
+import class Foundation.ProcessInfo
 import struct Smithy.AttributeKey
+import struct Smithy.Attributes
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
-@_spi(ClientConfigDefaultIdentityResolver) import protocol SmithyIdentityAPI.ClientConfigDefaultIdentityResolver
-import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct SmithyIdentity.BearerTokenIdentity
+import protocol SmithyIdentity.BearerTokenIdentityResolver
 import struct SmithyIdentity.StaticBearerTokenIdentityResolver
+@_spi(ClientConfigDefaultIdentityResolver) import protocol SmithyIdentityAPI.ClientConfigDefaultIdentityResolver
 
 public struct BedrockAPIKeyInterceptor<InputType, OutputType>: Interceptor {
     public typealias RequestType = HTTPRequest

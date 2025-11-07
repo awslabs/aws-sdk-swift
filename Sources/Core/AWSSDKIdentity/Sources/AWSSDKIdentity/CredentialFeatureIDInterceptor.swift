@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import protocol ClientRuntime.HttpInterceptorProvider
 import protocol ClientRuntime.Interceptor
 import protocol ClientRuntime.MutableRequest
-import protocol ClientRuntime.HttpInterceptorProvider
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 

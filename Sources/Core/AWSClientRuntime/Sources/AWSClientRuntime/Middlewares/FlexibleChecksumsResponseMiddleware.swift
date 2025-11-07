@@ -1,13 +1,13 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0.
 
-import Smithy
-import SmithyHTTPAPI
-import enum SmithyChecksumsAPI.ChecksumAlgorithm
-import enum SmithyChecksums.ChecksumMismatchException
 import ClientRuntime
 import struct Foundation.NSRange
 import class Foundation.NSRegularExpression
+import Smithy
+import enum SmithyChecksums.ChecksumMismatchException
+import enum SmithyChecksumsAPI.ChecksumAlgorithm
+import SmithyHTTPAPI
 
 public struct FlexibleChecksumsResponseMiddleware<OperationStackInput, OperationStackOutput> {
 

@@ -6,9 +6,9 @@
 //
 
 import class Foundation.ProcessInfo
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Smithy.Attributes
 @_spi(AWSCredentialIdentityResolver) import struct SmithyIdentity.AWSCredentialIdentity
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 /// A credential identity resolver that resolves credentials from the following environment variables:
 /// - `AWS_ACCESS_KEY_ID`
