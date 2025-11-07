@@ -5,13 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+@_spi(FileBasedConfig) import AWSSDKCommon
+import class Foundation.FileManager
+import class Foundation.ProcessInfo
+import struct Foundation.URL
 import struct Foundation.UUID
 import struct Smithy.Attributes
-@_spi(FileBasedConfig) import AWSSDKCommon
-import class Foundation.ProcessInfo
-import class Foundation.FileManager
-import struct Foundation.URL
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 // swiftlint:disable type_name
 // ^ Required to mute swiftlint warning about type name being too long.

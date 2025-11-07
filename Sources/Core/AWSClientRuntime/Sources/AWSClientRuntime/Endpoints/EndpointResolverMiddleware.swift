@@ -5,6 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import protocol ClientRuntime.ApplyEndpoint
+import struct ClientRuntime.DefaultEndpointsAuthSchemeResolver
+import enum ClientRuntime.EndpointsAuthScheme
+import protocol ClientRuntime.EndpointsAuthSchemeResolver
+import protocol ClientRuntime.EndpointsRequestContextProviding
+import enum Smithy.ClientError
 import class Smithy.Context
 import struct SmithyHTTPAPI.Endpoint
 import class SmithyHTTPAPI.HTTPRequest
@@ -12,12 +18,6 @@ import class SmithyHTTPAPI.HTTPRequestBuilder
 import struct SmithyHTTPAuthAPI.SelectedAuthScheme
 import enum SmithyHTTPAuthAPI.SigningAlgorithm
 import enum SmithyHTTPAuthAPI.SigningPropertyKeys
-import protocol ClientRuntime.ApplyEndpoint
-import struct ClientRuntime.DefaultEndpointsAuthSchemeResolver
-import enum ClientRuntime.EndpointsAuthScheme
-import protocol ClientRuntime.EndpointsAuthSchemeResolver
-import protocol ClientRuntime.EndpointsRequestContextProviding
-import enum Smithy.ClientError
 #if os(Linux)
 import Foundation
 #endif

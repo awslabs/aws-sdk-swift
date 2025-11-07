@@ -5,33 +5,33 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct AWSSDKIdentityAPI.S3ExpressIdentity
+import enum AwsCommonRuntimeKit.CommonRunTimeError
 import class AwsCommonRuntimeKit.HTTPRequestBase
 import class AwsCommonRuntimeKit.Signer
-import class SmithyHTTPAPI.HTTPRequest
-import class SmithyHTTPAPI.HTTPRequestBuilder
-import class Smithy.Context
-import enum AwsCommonRuntimeKit.CommonRunTimeError
-import enum Smithy.ClientError
-import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
-import enum SmithyHTTPAuthAPI.AWSSignedBodyValue
-import enum SmithyHTTPAuthAPI.AWSSignatureType
-import enum SmithyHTTPAuthAPI.SigningAlgorithm
-import enum SmithyHTTPAuthAPI.SigningPropertyKeys
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import protocol SmithyIdentityAPI.Identity
-import protocol SmithyHTTPAuthAPI.Signer
 import struct AwsCommonRuntimeKit.SigningConfig
-import struct Smithy.AttributeKey
-import struct Smithy.Attributes
-import struct Smithy.SwiftLogger
-import struct SmithyIdentity.AWSCredentialIdentity
-import struct SmithyHTTPAuth.AWSSigningConfig
-import struct SmithyHTTPAuthAPI.SigningFlags
+import AWSSDKChecksums
+import struct AWSSDKIdentityAPI.S3ExpressIdentity
 import struct Foundation.Date
 import struct Foundation.TimeInterval
 import struct Foundation.URL
-import AWSSDKChecksums
+import struct Smithy.AttributeKey
+import struct Smithy.Attributes
+import enum Smithy.ClientError
+import class Smithy.Context
+import struct Smithy.SwiftLogger
+import class SmithyHTTPAPI.HTTPRequest
+import class SmithyHTTPAPI.HTTPRequestBuilder
+import struct SmithyHTTPAuth.AWSSigningConfig
+import enum SmithyHTTPAuthAPI.AWSSignatureType
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import enum SmithyHTTPAuthAPI.AWSSignedBodyValue
+import protocol SmithyHTTPAuthAPI.Signer
+import enum SmithyHTTPAuthAPI.SigningAlgorithm
+import struct SmithyHTTPAuthAPI.SigningFlags
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
+import struct SmithyIdentity.AWSCredentialIdentity
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import protocol SmithyIdentityAPI.Identity
 
 public final class AWSSigV4Signer: SmithyHTTPAuthAPI.Signer, Sendable {
 

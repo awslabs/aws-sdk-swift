@@ -5,14 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct Foundation.Date
+import struct Foundation.TimeInterval
 import Smithy
 import SmithyHTTPAPI
+import SmithyHTTPAuth
 import SmithyHTTPAuthAPI
 import SmithyIdentity
 import SmithyIdentityAPI
-import struct Foundation.Date
-import struct Foundation.TimeInterval
-import SmithyHTTPAuth
 
 extension Context {
 

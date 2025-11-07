@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class Smithy.Context
 import struct Smithy.AttributeKey
+import class Smithy.Context
 import struct SmithyHTTPAPI.Headers
 
 struct BusinessMetrics {

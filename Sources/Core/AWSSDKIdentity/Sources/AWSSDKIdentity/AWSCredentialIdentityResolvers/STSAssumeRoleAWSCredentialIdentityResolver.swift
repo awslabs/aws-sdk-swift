@@ -5,11 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import enum Smithy.ClientError
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.TimeInterval
 import struct Foundation.UUID
 import struct Smithy.Attributes
+import enum Smithy.ClientError
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 // swiftlint:disable type_name
 // ^ Required to mute swiftlint warning about type name being too long.

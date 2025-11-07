@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Smithy.Attributes
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 #if os(Linux)
 import FoundationNetworking // For URLSession in Linux.
 #endif
