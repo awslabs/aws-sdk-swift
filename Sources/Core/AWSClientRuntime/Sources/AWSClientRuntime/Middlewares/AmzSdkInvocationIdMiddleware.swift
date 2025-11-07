@@ -6,8 +6,8 @@
 //
 
 import ClientRuntime
-import SmithyHTTPAPI
 import struct Foundation.UUID
+import SmithyHTTPAPI
 
 private let AMZ_SDK_INVOCATION_ID_HEADER = "amz-sdk-invocation-id"
 

@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct Foundation.TimeInterval
 import typealias ClientRuntime.ClockSkewProvider
 import protocol ClientRuntime.ServiceError
+import struct Foundation.TimeInterval
 import class SmithyHTTPAPI.HTTPRequest
 import class SmithyHTTPAPI.HTTPResponse
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter

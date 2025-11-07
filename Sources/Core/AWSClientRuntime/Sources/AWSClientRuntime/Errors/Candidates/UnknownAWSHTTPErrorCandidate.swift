@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class SmithyHTTPAPI.HTTPResponse
-import protocol ClientRuntime.ServiceError
 import protocol ClientRuntime.HTTPError
+import protocol ClientRuntime.ServiceError
+import class SmithyHTTPAPI.HTTPResponse
 
 /// A protocol for a type that can be matched to an HTTP error response that does not match a modeled error.
 ///

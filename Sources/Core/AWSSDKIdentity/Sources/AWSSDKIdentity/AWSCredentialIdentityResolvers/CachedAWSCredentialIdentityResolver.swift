@@ -5,10 +5,10 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import struct Foundation.TimeInterval
 import struct Foundation.Date
+import struct Foundation.TimeInterval
 import struct Smithy.Attributes
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 ///  A credential identity resolver that caches the credentials sourced from the provided resolver.
 public actor CachedAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {

@@ -6,14 +6,14 @@
 //
 
 import ClientRuntime
-import Smithy
-import SmithyHTTPAPI
 import struct Foundation.Date
 import class Foundation.DateFormatter
 import struct Foundation.Locale
 import struct Foundation.TimeInterval
 import struct Foundation.TimeZone
 import struct Foundation.UUID
+import Smithy
+import SmithyHTTPAPI
 
 private let AMZ_SDK_REQUEST_HEADER = "amz-sdk-request"
 

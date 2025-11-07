@@ -5,21 +5,21 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct SmithyIdentity.BearerTokenIdentity
-import class Foundation.FileManager
-import class Foundation.ISO8601DateFormatter
-import struct Foundation.URL
+@_spi(FileBasedConfig) import AWSSDKCommon
 import struct Foundation.Data
 import struct Foundation.Date
-import struct Foundation.TimeInterval
+import class Foundation.FileManager
+import class Foundation.ISO8601DateFormatter
 import class Foundation.JSONDecoder
 import class Foundation.JSONEncoder
+import func Foundation.NSHomeDirectory
+import struct Foundation.TimeInterval
+import struct Foundation.URL
 import struct Smithy.Attributes
 import enum Smithy.ClientError
-import func Foundation.NSHomeDirectory
-@_spi(FileBasedConfig) import AWSSDKCommon
 import struct Smithy.SwiftLogger
+import struct SmithyIdentity.BearerTokenIdentity
+import protocol SmithyIdentity.BearerTokenIdentityResolver
 
 /// The bearer token identity resolver that resolves token identity using the config file & the cached SSO token.
 /// This resolver does not handle creation of the SSO token; it must be created by the user beforehand (e.g., using AWS CLI, etc.).

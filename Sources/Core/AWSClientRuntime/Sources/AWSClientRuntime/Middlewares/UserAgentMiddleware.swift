@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class Smithy.Context
 import ClientRuntime
+import class Smithy.Context
 import SmithyHTTPAPI
 
 public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput> {

@@ -5,14 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import class AwsCommonRuntimeKit.CredentialsProvider
-import struct Smithy.Attributes
 import class Foundation.ProcessInfo
+import struct Smithy.Attributes
 import enum Smithy.ClientError
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
-import struct Foundation.Date
 @_spi(FileBasedConfig) import AWSSDKCommon
+import struct Foundation.Date
 
 /// A credential identity resolver that resolves credentials using AWS Cognito Identity.
 public actor CognitoAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
