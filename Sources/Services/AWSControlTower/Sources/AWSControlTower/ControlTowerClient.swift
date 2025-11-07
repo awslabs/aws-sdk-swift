@@ -443,7 +443,7 @@ extension ControlTowerClient {
 
     /// Performs the `DeleteLandingZone` operation on the `ControlTower` service.
     ///
-    /// Decommissions a landing zone. This API call starts an asynchronous operation that deletes Amazon Web Services Control Tower resources deployed in accounts managed by Amazon Web Services Control Tower.
+    /// Decommissions a landing zone. This API call starts an asynchronous operation that deletes Amazon Web Services Control Tower resources deployed in accounts managed by Amazon Web Services Control Tower. Decommissioning a landing zone is a process with significant consequences, and it cannot be undone. We strongly recommend that you perform this decommissioning process only if you intend to stop using your landing zone.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteLandingZoneInput`)
     ///
@@ -529,7 +529,7 @@ extension ControlTowerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func disableBaseline(input: DisableBaselineInput) async throws -> DisableBaselineOutput {
@@ -603,7 +603,7 @@ extension ControlTowerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func disableControl(input: DisableControlInput) async throws -> DisableControlOutput {
@@ -677,7 +677,7 @@ extension ControlTowerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func enableBaseline(input: EnableBaselineInput) async throws -> EnableBaselineOutput {
@@ -751,7 +751,7 @@ extension ControlTowerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func enableControl(input: EnableControlInput) async throws -> EnableControlOutput {
@@ -1823,7 +1823,7 @@ extension ControlTowerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func resetEnabledBaseline(input: ResetEnabledBaselineInput) async throws -> ResetEnabledBaselineOutput {
@@ -1884,7 +1884,7 @@ extension ControlTowerClient {
 
     /// Performs the `ResetEnabledControl` operation on the `ControlTower` service.
     ///
-    /// Resets an enabled control.
+    /// Resets an enabled control. Does not work for controls implemented with SCPs.
     ///
     /// - Parameter input: [no documentation found] (Type: `ResetEnabledControlInput`)
     ///
@@ -1897,7 +1897,7 @@ extension ControlTowerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func resetEnabledControl(input: ResetEnabledControlInput) async throws -> ResetEnabledControlOutput {
@@ -2182,7 +2182,7 @@ extension ControlTowerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func updateEnabledBaseline(input: UpdateEnabledBaselineInput) async throws -> UpdateEnabledBaselineOutput {
@@ -2256,7 +2256,7 @@ extension ControlTowerClient {
     /// - `ConflictException` : Updating or deleting the resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred during processing of a request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
-    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
     public func updateEnabledControl(input: UpdateEnabledControlInput) async throws -> UpdateEnabledControlOutput {
