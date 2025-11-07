@@ -38,7 +38,9 @@ swift run AWSSDKSwiftCLI generate-package-manifest "$@" ..
 swift run AWSSDKSwiftCLI generate-smoke-tests-package-manifest ..
 swift run AWSSDKSwiftCLI generate-doc-index ..
 swift run AWSSDKSwiftCLI generate-partitions ..
-swift run AWSSDKSwiftCLI generate-package-version ..
+# Updating package version not needed for development, and clutters PR diffs
+# Uncomment for development if testing versioning
+# swift run AWSSDKSwiftCLI generate-package-version ..
 cd ..
 
 # If on Mac, open Xcode to the newly refreshed SDK
