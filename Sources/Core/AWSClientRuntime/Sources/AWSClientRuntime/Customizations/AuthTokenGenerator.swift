@@ -7,13 +7,13 @@
 
 import struct AwsCommonRuntimeKit.CommonRuntimeKit
 import class AWSSDKHTTPAuth.AWSSigV4Signer
+import struct Foundation.Date
+import struct Foundation.TimeInterval
 import Smithy
 import SmithyHTTPAPI
 import SmithyHTTPAuth
 import SmithyHTTPAuthAPI
 import SmithyIdentity
-import struct Foundation.Date
-import struct Foundation.TimeInterval
 
 /// A utility class with utility methods that generate IAM authentication token used for connecting to RDS & Aurora DSQL.
 @_spi(AuthTokenGenerator)

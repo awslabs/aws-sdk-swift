@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentityAPI.Identity
 import struct Foundation.Date
 import struct Smithy.Attributes
+import protocol SmithyIdentityAPI.Identity
 
 public struct S3ExpressIdentity: Identity {
     public var accessKeyID: String

@@ -5,11 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+@_spi(FileBasedConfig) import AWSSDKCommon
+import struct Foundation.Locale
 import class Foundation.ProcessInfo
 import enum Smithy.ClientError
-import struct Foundation.Locale
 import struct Smithy.SwiftLogger
-@_spi(FileBasedConfig) import AWSSDKCommon
 
 public enum AWSEndpointConfig {
 

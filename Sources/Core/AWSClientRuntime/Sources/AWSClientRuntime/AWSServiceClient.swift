@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol ClientRuntime.Client
 import let AWSSDKDynamic.packageVersion
+import protocol ClientRuntime.Client
 
 public protocol AWSServiceClient: ClientRuntime.Client {}
 

@@ -5,14 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import enum SmithyChecksumsAPI.ChecksumAlgorithm
-import enum SmithyChecksums.ChecksumMismatchException
-import enum Smithy.ClientError
-import struct Smithy.URIQueryItem
-import class Smithy.Context
-import struct Foundation.Data
 import AWSSDKChecksums
 import ClientRuntime
+import struct Foundation.Data
+import enum Smithy.ClientError
+import class Smithy.Context
+import struct Smithy.URIQueryItem
+import enum SmithyChecksums.ChecksumMismatchException
+import enum SmithyChecksumsAPI.ChecksumAlgorithm
 import SmithyHTTPAPI
 
 public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationStackOutput> {

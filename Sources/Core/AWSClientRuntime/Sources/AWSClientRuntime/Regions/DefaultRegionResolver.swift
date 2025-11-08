@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct Smithy.SwiftLogger
 @_spi(FileBasedConfig) import AWSSDKCommon
+import struct Smithy.SwiftLogger
 
 @_spi(DefaultRegionResolver)
 public struct DefaultRegionResolver: RegionResolver {

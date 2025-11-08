@@ -5,12 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import struct Smithy.Attributes
-import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
-import class Foundation.ProcessInfo
-import struct Smithy.SwiftLogger
 @_spi(FileBasedConfig) import AWSSDKCommon
+import class Foundation.ProcessInfo
+import struct Smithy.Attributes
+import struct Smithy.SwiftLogger
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import struct SmithyIdentity.StaticAWSCredentialIdentityResolver
 
 /// A credential identity resolver that resolves credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
 /// The profile name and the  locations of these files are configurable via the initializer and environment variables

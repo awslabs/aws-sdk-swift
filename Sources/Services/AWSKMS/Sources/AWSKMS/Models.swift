@@ -1592,6 +1592,7 @@ extension KMSClientTypes {
 extension KMSClientTypes {
 
     public enum KeySpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eccNistEdwards25519
         case eccNistP256
         case eccNistP384
         case eccNistP521
@@ -1612,6 +1613,7 @@ extension KMSClientTypes {
 
         public static var allCases: [KeySpec] {
             return [
+                .eccNistEdwards25519,
                 .eccNistP256,
                 .eccNistP384,
                 .eccNistP521,
@@ -1638,6 +1640,7 @@ extension KMSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .eccNistEdwards25519: return "ECC_NIST_EDWARDS25519"
             case .eccNistP256: return "ECC_NIST_P256"
             case .eccNistP384: return "ECC_NIST_P384"
             case .eccNistP521: return "ECC_NIST_P521"
@@ -1794,13 +1797,20 @@ public struct CreateKeyInput: Swift.Sendable {
     ///
     ///
     ///
-    /// * Asymmetric NIST-recommended elliptic curve key pairs (signing and verification -or- deriving shared secrets)
+    /// * Asymmetric NIST-standard elliptic curve key pairs (signing and verification -or- deriving shared secrets)
     ///
     /// * ECC_NIST_P256 (secp256r1)
     ///
     /// * ECC_NIST_P384 (secp384r1)
     ///
     /// * ECC_NIST_P521 (secp521r1)
+    ///
+    /// * ECC_NIST_EDWARDS25519 (ed25519) - signing and verification only
+    ///
+    /// * Note: For ECC_NIST_EDWARDS25519 KMS keys, the ED25519_SHA_512 signing algorithm requires [MessageType:RAW], while ED25519_PH_SHA_512 requires [MessageType:DIGEST]. These message types cannot be used interchangeably.
+    ///
+    ///
+    ///
     ///
     ///
     ///
@@ -1835,7 +1845,7 @@ public struct CreateKeyInput: Swift.Sendable {
     ///
     /// * For asymmetric KMS keys with RSA key pairs, specify ENCRYPT_DECRYPT or SIGN_VERIFY.
     ///
-    /// * For asymmetric KMS keys with NIST-recommended elliptic curve key pairs, specify SIGN_VERIFY or KEY_AGREEMENT.
+    /// * For asymmetric KMS keys with NIST-standard elliptic curve key pairs, specify SIGN_VERIFY or KEY_AGREEMENT.
     ///
     /// * For asymmetric KMS keys with ECC_SECG_P256K1 key pairs, specify SIGN_VERIFY.
     ///
@@ -2166,6 +2176,8 @@ extension KMSClientTypes {
         case ecdsaSha256
         case ecdsaSha384
         case ecdsaSha512
+        case ed25519PhSha512
+        case ed25519Sha512
         case mlDsaShake256
         case rsassaPkcs1V15Sha256
         case rsassaPkcs1V15Sha384
@@ -2181,6 +2193,8 @@ extension KMSClientTypes {
                 .ecdsaSha256,
                 .ecdsaSha384,
                 .ecdsaSha512,
+                .ed25519PhSha512,
+                .ed25519Sha512,
                 .mlDsaShake256,
                 .rsassaPkcs1V15Sha256,
                 .rsassaPkcs1V15Sha384,
@@ -2202,6 +2216,8 @@ extension KMSClientTypes {
             case .ecdsaSha256: return "ECDSA_SHA_256"
             case .ecdsaSha384: return "ECDSA_SHA_384"
             case .ecdsaSha512: return "ECDSA_SHA_512"
+            case .ed25519PhSha512: return "ED25519_PH_SHA_512"
+            case .ed25519Sha512: return "ED25519_SHA_512"
             case .mlDsaShake256: return "ML_DSA_SHAKE_256"
             case .rsassaPkcs1V15Sha256: return "RSASSA_PKCS1_V1_5_SHA_256"
             case .rsassaPkcs1V15Sha384: return "RSASSA_PKCS1_V1_5_SHA_384"
@@ -2539,6 +2555,7 @@ extension KMSClientTypes {
 extension KMSClientTypes {
 
     public enum DataKeyPairSpec: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eccNistEdwards25519
         case eccNistP256
         case eccNistP384
         case eccNistP521
@@ -2551,6 +2568,7 @@ extension KMSClientTypes {
 
         public static var allCases: [DataKeyPairSpec] {
             return [
+                .eccNistEdwards25519,
                 .eccNistP256,
                 .eccNistP384,
                 .eccNistP521,
@@ -2569,6 +2587,7 @@ extension KMSClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .eccNistEdwards25519: return "ECC_NIST_EDWARDS25519"
             case .eccNistP256: return "ECC_NIST_P256"
             case .eccNistP384: return "ECC_NIST_P384"
             case .eccNistP521: return "ECC_NIST_P521"
@@ -2910,7 +2929,7 @@ public struct DeriveSharedSecretInput: Swift.Sendable {
     /// Specifies the key agreement algorithm used to derive the shared secret. The only valid value is ECDH.
     /// This member is required.
     public var keyAgreementAlgorithm: KMSClientTypes.KeyAgreementAlgorithmSpec?
-    /// Identifies an asymmetric NIST-recommended ECC or SM2 (China Regions only) KMS key. KMS uses the private key in the specified key pair to derive the shared secret. The key usage of the KMS key must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+    /// Identifies an asymmetric NIST-standard ECC or SM2 (China Regions only) KMS key. KMS uses the private key in the specified key pair to derive the shared secret. The key usage of the KMS key must be KEY_AGREEMENT. To find the KeyUsage of a KMS key, use the [DescribeKey] operation. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -2924,7 +2943,7 @@ public struct DeriveSharedSecretInput: Swift.Sendable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey]. To get the alias name and alias ARN, use [ListAliases].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Specifies the public key in your peer's NIST-recommended elliptic curve (ECC) or SM2 (China Regions only) key pair. The public key must be a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in [RFC 5280](https://tools.ietf.org/html/rfc5280). [GetPublicKey] returns the public key of an asymmetric KMS key pair in the required DER-encoded format. If you use [Amazon Web Services CLI version 1](https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-welcome.html), you must provide the DER-encoded X.509 public key in a file. Otherwise, the Amazon Web Services CLI Base64-encodes the public key a second time, resulting in a ValidationException. You can specify the public key as binary data in a file using fileb (fileb://) or in-line using a Base64 encoded string.
+    /// Specifies the public key in your peer's NIST-standard elliptic curve (ECC) or SM2 (China Regions only) key pair. The public key must be a DER-encoded X.509 public key, also known as SubjectPublicKeyInfo (SPKI), as defined in [RFC 5280](https://tools.ietf.org/html/rfc5280). [GetPublicKey] returns the public key of an asymmetric KMS key pair in the required DER-encoded format. If you use [Amazon Web Services CLI version 1](https://docs.aws.amazon.com/cli/v1/userguide/cli-chap-welcome.html), you must provide the DER-encoded X.509 public key in a file. Otherwise, the Amazon Web Services CLI Base64-encodes the public key a second time, resulting in a ValidationException. You can specify the public key as binary data in a file using fileb (fileb://) or in-line using a Base64 encoded string.
     /// This member is required.
     public var publicKey: Foundation.Data?
     /// A signed [attestation document](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/nitro-enclave-how.html#term-attestdoc) from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256. This parameter only supports attestation documents for Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM. To call DeriveSharedSecret generate an attestation document use either [Amazon Web Services Nitro Enclaves SDK](https://docs.aws.amazon.com/enclaves/latest/user/developing-applications.html#sdk) for an Amazon Web Services Nitro Enclaves or [Amazon Web Services NitroTPM tools](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/attestation-get-doc.html) for Amazon Web Services NitroTPM. Then use the Recipient parameter from any Amazon Web Services SDK to provide the attestation document for the attested environment. When you use this parameter, instead of returning a plaintext copy of the shared secret, KMS encrypts the plaintext shared secret under the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The CiphertextBlob field in the response contains the encrypted shared secret derived from the KMS key specified by the KeyId parameter and public key specified by the PublicKey parameter. The SharedSecret field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see [Cryptographic attestation support in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/cryptographic-attestation.html) in the Key Management Service Developer Guide.
@@ -5079,7 +5098,14 @@ public struct SignInput: Swift.Sendable {
     /// Specifies the message or message digest to sign. Messages can be 0-4096 bytes. To sign a larger message, provide a message digest. If you provide a message digest, use the DIGEST value of MessageType to prevent the digest from being hashed again while signing.
     /// This member is required.
     public var message: Foundation.Data?
-    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When using ECC_NIST_EDWARDS25519 KMS keys:
+    ///
+    /// * ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW
+    ///
+    /// * ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST
+    ///
+    ///
+    /// When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, this can cause verification failures when verifying with a system that assumes a single hash. The hashing algorithm that Sign uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
     ///
@@ -5343,7 +5369,14 @@ public struct VerifyInput: Swift.Sendable {
     /// Specifies the message that was signed. You can submit a raw message of up to 4096 bytes, or a hash digest of the message. If you submit a digest, use the MessageType parameter with a value of DIGEST. If the message specified here is different from the message that was signed, the signature verification fails. A message and its hash digest are considered to be the same message.
     /// This member is required.
     public var message: Foundation.Data?
-    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.
+    /// Tells KMS whether the value of the Message parameter should be hashed as part of the signing algorithm. Use RAW for unhashed messages; use DIGEST for message digests, which are already hashed; use EXTERNAL_MU for 64-byte representative μ used in ML-DSA signing as defined in NIST FIPS 204 Section 6.2. When the value of MessageType is RAW, KMS uses the standard signing algorithm, which begins with a hash function. When the value is DIGEST, KMS skips the hashing step in the signing algorithm. When the value is EXTERNAL_MU KMS skips the concatenated hashing of the public key hash and the message done in the ML-DSA signing algorithm. Use the DIGEST or EXTERNAL_MU value only when the value of the Message parameter is a message digest. If you use the DIGEST value with an unhashed message, the security of the signing operation can be compromised. When using ECC_NIST_EDWARDS25519 KMS keys:
+    ///
+    /// * ED25519_SHA_512 signing algorithm requires KMS MessageType:RAW
+    ///
+    /// * ED25519_PH_SHA_512 signing algorithm requires KMS MessageType:DIGEST
+    ///
+    ///
+    /// When the value of MessageType is DIGEST, the length of the Message value must match the length of hashed messages for the specified signing algorithm. When the value of MessageType is EXTERNAL_MU the length of the Message value must be 64 bytes. You can submit a message digest and omit the MessageType or specify RAW so the digest is hashed again while signing. However, if the signed message is hashed once while signing, but twice while verifying, verification fails, even when the message hasn't changed. The hashing algorithm that Verify uses is based on the SigningAlgorithm value.
     ///
     /// * Signing algorithms that end in SHA_256 use the SHA_256 hashing algorithm.
     ///

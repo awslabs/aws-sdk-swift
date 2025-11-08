@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import ClientRuntime
 import class Smithy.Context
-import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import struct SmithyHTTPAPI.Headers
 
 public struct AWSUserAgentMetadata {

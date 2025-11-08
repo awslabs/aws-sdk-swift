@@ -5,12 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class Smithy.Context
-import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
-import enum SmithyHTTPAuthAPI.SigningPropertyKeys
-import protocol SmithyHTTPAuthAPI.AuthScheme
-import protocol SmithyHTTPAuthAPI.Signer
 import struct Smithy.Attributes
+import class Smithy.Context
+import protocol SmithyHTTPAuthAPI.AuthScheme
+import enum SmithyHTTPAuthAPI.AWSSignedBodyHeader
+import protocol SmithyHTTPAuthAPI.Signer
+import enum SmithyHTTPAuthAPI.SigningPropertyKeys
 
 public struct SigV4S3ExpressAuthScheme: AuthScheme {
     public let schemeID: String = "aws.auth#sigv4-s3express"

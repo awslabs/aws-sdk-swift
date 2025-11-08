@@ -887,13 +887,13 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// Describes the IAM federation options configured for the domain.
+    /// Output parameters showing the current IAM identity federation configuration.
     public struct IAMFederationOptionsOutput: Swift.Sendable {
-        /// True if IAM federation is enabled.
+        /// Indicates whether IAM identity federation is currently enabled for the domain.
         public var enabled: Swift.Bool?
-        /// The key used for matching the IAM federation roles attribute.
+        /// The configured key in the SAML assertion for the user's role information.
         public var rolesKey: Swift.String?
-        /// The key used for matching the IAM federation subject attribute.
+        /// The configured key in the SAML assertion for the user's subject identifier.
         public var subjectKey: Swift.String?
 
         public init(
@@ -997,7 +997,7 @@ extension OpenSearchClientTypes {
         public var anonymousAuthEnabled: Swift.Bool?
         /// True if fine-grained access control is enabled.
         public var enabled: Swift.Bool?
-        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        /// Configuration options for IAM identity federation in advanced security settings.
         public var iamFederationOptions: OpenSearchClientTypes.IAMFederationOptionsOutput?
         /// True if the internal user database is enabled.
         public var internalUserDatabaseEnabled: Swift.Bool?
@@ -1028,13 +1028,13 @@ extension OpenSearchClientTypes {
 
 extension OpenSearchClientTypes {
 
-    /// The IAM federation authentication configuration for an Amazon OpenSearch Service domain.
+    /// Input parameters for configuring IAM identity federation settings.
     public struct IAMFederationOptionsInput: Swift.Sendable {
-        /// True to enable IAM federation authentication for a domain.
+        /// Specifies whether IAM identity federation is enabled for the OpenSearch domain.
         public var enabled: Swift.Bool?
-        /// Element of the IAM federation assertion to use for backend roles. Default is roles.
+        /// The key in the SAML assertion that contains the user's role information.
         public var rolesKey: Swift.String?
-        /// Element of the IAM federation assertion to use for the user name. Default is sub.
+        /// The key in the SAML assertion that contains the user's subject identifier.
         public var subjectKey: Swift.String?
 
         public init(
@@ -1156,7 +1156,7 @@ extension OpenSearchClientTypes {
         public var anonymousAuthEnabled: Swift.Bool?
         /// True to enable fine-grained access control.
         public var enabled: Swift.Bool?
-        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        /// Input configuration for IAM identity federation within advanced security options.
         public var iamFederationOptions: OpenSearchClientTypes.IAMFederationOptionsInput?
         /// True to enable the internal user database.
         public var internalUserDatabaseEnabled: Swift.Bool?
@@ -7221,6 +7221,22 @@ public struct GetDataSourceOutput: Swift.Sendable {
     }
 }
 
+public struct GetDefaultApplicationSettingInput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct GetDefaultApplicationSettingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    ) {
+        self.applicationArn = applicationArn
+    }
+}
+
 public struct GetDirectQueryDataSourceInput: Swift.Sendable {
     /// A unique, user-defined label that identifies the data source within your OpenSearch Service environment.
     /// This member is required.
@@ -8479,6 +8495,34 @@ public struct PurchaseReservedInstanceOfferingOutput: Swift.Sendable {
     }
 }
 
+public struct PutDefaultApplicationSettingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    /// This member is required.
+    public var applicationArn: Swift.String?
+    /// Set to true to set the specified ARN as the default application. Set to false to clear the default application.
+    /// This member is required.
+    public var setAsDefault: Swift.Bool?
+
+    public init(
+        applicationArn: Swift.String? = nil,
+        setAsDefault: Swift.Bool? = nil
+    ) {
+        self.applicationArn = applicationArn
+        self.setAsDefault = setAsDefault
+    }
+}
+
+public struct PutDefaultApplicationSettingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the domain. See [Identifiers for IAM Entities ](https://docs.aws.amazon.com/IAM/latest/UserGuide/index.html) in Using Amazon Web Services Identity and Access Management for more information.
+    public var applicationArn: Swift.String?
+
+    public init(
+        applicationArn: Swift.String? = nil
+    ) {
+        self.applicationArn = applicationArn
+    }
+}
+
 /// Container for the request parameters to the RejectInboundConnection operation.
 public struct RejectInboundConnectionInput: Swift.Sendable {
     /// The unique identifier of the inbound connection to reject.
@@ -9705,6 +9749,13 @@ extension GetDataSourceInput {
     }
 }
 
+extension GetDefaultApplicationSettingInput {
+
+    static func urlPathProvider(_ value: GetDefaultApplicationSettingInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/defaultApplicationSetting"
+    }
+}
+
 extension GetDirectQueryDataSourceInput {
 
     static func urlPathProvider(_ value: GetDirectQueryDataSourceInput) -> Swift.String? {
@@ -10142,6 +10193,13 @@ extension PurchaseReservedInstanceOfferingInput {
     }
 }
 
+extension PutDefaultApplicationSettingInput {
+
+    static func urlPathProvider(_ value: PutDefaultApplicationSettingInput) -> Swift.String? {
+        return "/2021-01-01/opensearch/defaultApplicationSetting"
+    }
+}
+
 extension RejectInboundConnectionInput {
 
     static func urlPathProvider(_ value: RejectInboundConnectionInput) -> Swift.String? {
@@ -10490,6 +10548,15 @@ extension PurchaseReservedInstanceOfferingInput {
         try writer["InstanceCount"].write(value.instanceCount)
         try writer["ReservationName"].write(value.reservationName)
         try writer["ReservedInstanceOfferingId"].write(value.reservedInstanceOfferingId)
+    }
+}
+
+extension PutDefaultApplicationSettingInput {
+
+    static func write(value: PutDefaultApplicationSettingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["applicationArn"].write(value.applicationArn)
+        try writer["setAsDefault"].write(value.setAsDefault)
     }
 }
 
@@ -11177,6 +11244,18 @@ extension GetDataSourceOutput {
     }
 }
 
+extension GetDefaultApplicationSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDefaultApplicationSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDefaultApplicationSettingOutput()
+        value.applicationArn = try reader["applicationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension GetDirectQueryDataSourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDirectQueryDataSourceOutput {
@@ -11439,6 +11518,18 @@ extension PurchaseReservedInstanceOfferingOutput {
         var value = PurchaseReservedInstanceOfferingOutput()
         value.reservationName = try reader["ReservationName"].readIfPresent()
         value.reservedInstanceId = try reader["ReservedInstanceId"].readIfPresent()
+        return value
+    }
+}
+
+extension PutDefaultApplicationSettingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutDefaultApplicationSettingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = PutDefaultApplicationSettingOutput()
+        value.applicationArn = try reader["applicationArn"].readIfPresent()
         return value
     }
 }
@@ -12367,6 +12458,23 @@ enum GetDataSourceOutputError {
     }
 }
 
+enum GetDefaultApplicationSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetDirectQueryDataSourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12713,6 +12821,23 @@ enum PurchaseReservedInstanceOfferingOutputError {
             case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceAlreadyExistsException": return try ResourceAlreadyExistsException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum PutDefaultApplicationSettingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalException": return try InternalException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)

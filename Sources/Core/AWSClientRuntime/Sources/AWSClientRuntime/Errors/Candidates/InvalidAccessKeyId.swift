@@ -5,8 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class SmithyHTTPAPI.HTTPResponse
 import protocol ClientRuntime.HTTPError
+import class SmithyHTTPAPI.HTTPResponse
 
 /// An error that may be returned by AWS when the access key used cannot be found by the server.
 ///

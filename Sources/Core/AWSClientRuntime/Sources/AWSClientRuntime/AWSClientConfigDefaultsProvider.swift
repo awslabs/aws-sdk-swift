@@ -5,12 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import enum AWSSDKChecksums.AWSChecksumCalculationMode
 @_spi(FileBasedConfig) import class AWSSDKCommon.CRTFileBasedConfiguration
 import struct AWSSDKCommon.FieldResolver
+import class ClientRuntime.ClientConfigDefaultsProvider
 import struct SmithyRetries.ExponentialBackoffStrategy
 import struct SmithyRetriesAPI.RetryStrategyOptions
-import enum AWSSDKChecksums.AWSChecksumCalculationMode
-import class ClientRuntime.ClientConfigDefaultsProvider
 
 /// Provides default configuration properties for AWS services.
 public class AWSClientConfigDefaultsProvider: ClientConfigDefaultsProvider {
