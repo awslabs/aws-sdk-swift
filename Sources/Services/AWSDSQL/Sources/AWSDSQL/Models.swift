@@ -443,6 +443,8 @@ public struct CreateClusterOutput: Swift.Sendable {
     public var deletionProtectionEnabled: Swift.Bool?
     /// The encryption configuration for the cluster that was specified during the creation process, including the KMS key identifier and encryption state.
     public var encryptionDetails: DSQLClientTypes.EncryptionDetails?
+    /// The connection endpoint for the created cluster.
+    public var endpoint: Swift.String?
     /// The ID of the created cluster.
     /// This member is required.
     public var identifier: Swift.String?
@@ -457,6 +459,7 @@ public struct CreateClusterOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         encryptionDetails: DSQLClientTypes.EncryptionDetails? = nil,
+        endpoint: Swift.String? = nil,
         identifier: Swift.String? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil
@@ -465,6 +468,7 @@ public struct CreateClusterOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.encryptionDetails = encryptionDetails
+        self.endpoint = endpoint
         self.identifier = identifier
         self.multiRegionProperties = multiRegionProperties
         self.status = status
@@ -606,6 +610,8 @@ public struct GetClusterOutput: Swift.Sendable {
     public var deletionProtectionEnabled: Swift.Bool?
     /// The current encryption configuration details for the cluster.
     public var encryptionDetails: DSQLClientTypes.EncryptionDetails?
+    /// The connection endpoint for the cluster.
+    public var endpoint: Swift.String?
     /// The ID of the retrieved cluster.
     /// This member is required.
     public var identifier: Swift.String?
@@ -622,6 +628,7 @@ public struct GetClusterOutput: Swift.Sendable {
         creationTime: Foundation.Date? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         encryptionDetails: DSQLClientTypes.EncryptionDetails? = nil,
+        endpoint: Swift.String? = nil,
         identifier: Swift.String? = nil,
         multiRegionProperties: DSQLClientTypes.MultiRegionProperties? = nil,
         status: DSQLClientTypes.ClusterStatus? = nil,
@@ -631,6 +638,7 @@ public struct GetClusterOutput: Swift.Sendable {
         self.creationTime = creationTime
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.encryptionDetails = encryptionDetails
+        self.endpoint = endpoint
         self.identifier = identifier
         self.multiRegionProperties = multiRegionProperties
         self.status = status
@@ -1191,6 +1199,7 @@ extension CreateClusterOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.encryptionDetails = try reader["encryptionDetails"].readIfPresent(with: DSQLClientTypes.EncryptionDetails.read(from:))
+        value.endpoint = try reader["endpoint"].readIfPresent()
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
@@ -1236,6 +1245,7 @@ extension GetClusterOutput {
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtectionEnabled = try reader["deletionProtectionEnabled"].readIfPresent() ?? false
         value.encryptionDetails = try reader["encryptionDetails"].readIfPresent(with: DSQLClientTypes.EncryptionDetails.read(from:))
+        value.endpoint = try reader["endpoint"].readIfPresent()
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.multiRegionProperties = try reader["multiRegionProperties"].readIfPresent(with: DSQLClientTypes.MultiRegionProperties.read(from:))
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")

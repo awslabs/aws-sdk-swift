@@ -726,6 +726,75 @@ extension InvoicingClientTypes {
     }
 }
 
+public struct GetInvoicePDFInput: Swift.Sendable {
+    /// Your unique invoice ID.
+    /// This member is required.
+    public var invoiceId: Swift.String?
+
+    public init(
+        invoiceId: Swift.String? = nil
+    ) {
+        self.invoiceId = invoiceId
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Supplemental document associated with the invoice.
+    public struct SupplementalDocument: Swift.Sendable {
+        /// The pre-signed URL to download invoice supplemental document.
+        public var documentUrl: Swift.String?
+        /// The pre-signed URL expiration date of invoice supplemental document.
+        public var documentUrlExpirationDate: Foundation.Date?
+
+        public init(
+            documentUrl: Swift.String? = nil,
+            documentUrlExpirationDate: Foundation.Date? = nil
+        ) {
+            self.documentUrl = documentUrl
+            self.documentUrlExpirationDate = documentUrlExpirationDate
+        }
+    }
+}
+
+extension InvoicingClientTypes {
+
+    /// Invoice document data.
+    public struct InvoicePDF: Swift.Sendable {
+        /// The pre-signed URL to download the invoice document.
+        public var documentUrl: Swift.String?
+        /// The pre-signed URL expiration date of the invoice document.
+        public var documentUrlExpirationDate: Foundation.Date?
+        /// Your unique invoice ID.
+        public var invoiceId: Swift.String?
+        /// List of supplemental documents associated with the invoice.
+        public var supplementalDocuments: [InvoicingClientTypes.SupplementalDocument]?
+
+        public init(
+            documentUrl: Swift.String? = nil,
+            documentUrlExpirationDate: Foundation.Date? = nil,
+            invoiceId: Swift.String? = nil,
+            supplementalDocuments: [InvoicingClientTypes.SupplementalDocument]? = nil
+        ) {
+            self.documentUrl = documentUrl
+            self.documentUrlExpirationDate = documentUrlExpirationDate
+            self.invoiceId = invoiceId
+            self.supplementalDocuments = supplementalDocuments
+        }
+    }
+}
+
+public struct GetInvoicePDFOutput: Swift.Sendable {
+    /// The invoice document and supplemental documents associated with the invoice.
+    public var invoicePDF: InvoicingClientTypes.InvoicePDF?
+
+    public init(
+        invoicePDF: InvoicingClientTypes.InvoicePDF? = nil
+    ) {
+        self.invoicePDF = invoicePDF
+    }
+}
+
 public struct GetInvoiceUnitInput: Swift.Sendable {
     /// The state of an invoice unit at a specified time. You can see legacy invoice units that are currently deleted if the AsOf time is set to before it was deleted. If an AsOf is not provided, the default value is the current time.
     public var asOf: Foundation.Date?
@@ -1233,6 +1302,13 @@ extension DeleteInvoiceUnitInput {
     }
 }
 
+extension GetInvoicePDFInput {
+
+    static func urlPathProvider(_ value: GetInvoicePDFInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetInvoiceUnitInput {
 
     static func urlPathProvider(_ value: GetInvoiceUnitInput) -> Swift.String? {
@@ -1308,6 +1384,14 @@ extension DeleteInvoiceUnitInput {
     static func write(value: DeleteInvoiceUnitInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["InvoiceUnitArn"].write(value.invoiceUnitArn)
+    }
+}
+
+extension GetInvoicePDFInput {
+
+    static func write(value: GetInvoicePDFInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InvoiceId"].write(value.invoiceId)
     }
 }
 
@@ -1411,6 +1495,18 @@ extension DeleteInvoiceUnitOutput {
         let reader = responseReader
         var value = DeleteInvoiceUnitOutput()
         value.invoiceUnitArn = try reader["InvoiceUnitArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GetInvoicePDFOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetInvoicePDFOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetInvoicePDFOutput()
+        value.invoicePDF = try reader["InvoicePDF"].readIfPresent(with: InvoicingClientTypes.InvoicePDF.read(from:))
         return value
     }
 }
@@ -1533,6 +1629,24 @@ enum CreateInvoiceUnitOutputError {
 }
 
 enum DeleteInvoiceUnitOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvoicingAccessDenied": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InvoicingInternalServer": return try InternalServerException.makeError(baseError: baseError)
+            case "InvoicingResourceNotFound": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "InvoicingThrottling": return try ThrottlingException.makeError(baseError: baseError)
+            case "InvoicingValidation": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetInvoicePDFOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1792,6 +1906,30 @@ extension InvoicingClientTypes.ReceiverAddress {
         value.countryCode = try reader["CountryCode"].readIfPresent()
         value.companyName = try reader["CompanyName"].readIfPresent()
         value.postalCode = try reader["PostalCode"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.InvoicePDF {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoicePDF {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.InvoicePDF()
+        value.invoiceId = try reader["InvoiceId"].readIfPresent()
+        value.documentUrl = try reader["DocumentUrl"].readIfPresent()
+        value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.supplementalDocuments = try reader["SupplementalDocuments"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.SupplementalDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension InvoicingClientTypes.SupplementalDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.SupplementalDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.SupplementalDocument()
+        value.documentUrl = try reader["DocumentUrl"].readIfPresent()
+        value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
