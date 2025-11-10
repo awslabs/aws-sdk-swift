@@ -5,14 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class Foundation.ISO8601DateFormatter
-import class Foundation.JSONDecoder
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
+import typealias AWSSDKCommon.CRTFileBasedConfiguration
 @_spi(FileBasedConfig) import struct AWSSDKCommon.FieldResolver
 import struct Foundation.Date
+import class Foundation.ISO8601DateFormatter
+import class Foundation.JSONDecoder
 import struct Foundation.URL
 import struct Smithy.Attributes
-import typealias AWSSDKCommon.CRTFileBasedConfiguration
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 /// A credentials provider that uses IMDSv2 to fetch credentials within an EC2 instance.
 public actor IMDSAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {

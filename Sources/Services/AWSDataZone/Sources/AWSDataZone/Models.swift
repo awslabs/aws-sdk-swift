@@ -8998,6 +8998,8 @@ public struct CreateProjectInput: Swift.Sendable {
     public var name: Swift.String?
     /// The ID of the project profile.
     public var projectProfileId: Swift.String?
+    /// The resource tags of the project.
+    public var resourceTags: [Swift.String: Swift.String]?
     /// The user parameters of the project.
     public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
@@ -9008,6 +9010,7 @@ public struct CreateProjectInput: Swift.Sendable {
         glossaryTerms: [Swift.String]? = nil,
         name: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
+        resourceTags: [Swift.String: Swift.String]? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     ) {
         self.description = description
@@ -9016,13 +9019,14 @@ public struct CreateProjectInput: Swift.Sendable {
         self.glossaryTerms = glossaryTerms
         self.name = name
         self.projectProfileId = projectProfileId
+        self.resourceTags = resourceTags
         self.userParameters = userParameters
     }
 }
 
 extension CreateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), projectProfileId: \(Swift.String(describing: projectProfileId)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), projectProfileId: \(Swift.String(describing: projectProfileId)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -9142,6 +9146,61 @@ extension DataZoneClientTypes {
     }
 }
 
+extension DataZoneClientTypes {
+
+    public enum ResourceTagSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case project
+        case projectProfile
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceTagSource] {
+            return [
+                .project,
+                .projectProfile
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .project: return "PROJECT"
+            case .projectProfile: return "PROJECT_PROFILE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
+    /// The resource tag of the project.
+    public struct ResourceTag: Swift.Sendable {
+        /// The key of the resource tag of the project.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The source of the resource tag of the project.
+        /// This member is required.
+        public var source: DataZoneClientTypes.ResourceTagSource?
+        /// The value of the resource tag of the project.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            source: DataZoneClientTypes.ResourceTagSource? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.source = source
+            self.value = value
+        }
+    }
+}
+
 public struct CreateProjectOutput: Swift.Sendable {
     /// The timestamp of when the project was created.
     public var createdAt: Foundation.Date?
@@ -9173,6 +9232,8 @@ public struct CreateProjectOutput: Swift.Sendable {
     public var projectProfileId: Swift.String?
     /// The status of the Amazon DataZone project that was created.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
+    /// The resource tags of the project.
+    public var resourceTags: [DataZoneClientTypes.ResourceTag]?
     /// The user parameters of the project.
     public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
@@ -9190,6 +9251,7 @@ public struct CreateProjectOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
+        resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     ) {
         self.createdAt = createdAt
@@ -9205,13 +9267,14 @@ public struct CreateProjectOutput: Swift.Sendable {
         self.name = name
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
+        self.resourceTags = resourceTags
         self.userParameters = userParameters
     }
 }
 
 extension CreateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -9443,6 +9506,32 @@ extension DataZoneClientTypes.EnvironmentConfiguration: Swift.CustomDebugStringC
 
 extension DataZoneClientTypes {
 
+    /// The resource tag parameter of the project profile.
+    public struct ResourceTagParameter: Swift.Sendable {
+        /// Specifies whether the value of the resource tag parameter of the project profile is editable at the project level.
+        /// This member is required.
+        public var isValueEditable: Swift.Bool?
+        /// The key of the resource tag parameter of the project profile.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the resource tag parameter key of the project profile.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            isValueEditable: Swift.Bool? = nil,
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.isValueEditable = isValueEditable
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     public enum Status: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case enabled
@@ -9471,6 +9560,8 @@ extension DataZoneClientTypes {
 }
 
 public struct CreateProjectProfileInput: Swift.Sendable {
+    /// Specifies whether custom project resource tags are supported.
+    public var allowCustomProjectResourceTags: Swift.Bool?
     /// A description of a project profile.
     public var description: Swift.String?
     /// A domain ID of the project profile.
@@ -9483,32 +9574,44 @@ public struct CreateProjectProfileInput: Swift.Sendable {
     /// Project profile name.
     /// This member is required.
     public var name: Swift.String?
+    /// The resource tags of the project profile.
+    public var projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]?
+    /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+    public var projectResourceTagsDescription: Swift.String?
     /// Project profile status.
     public var status: DataZoneClientTypes.Status?
 
     public init(
+        allowCustomProjectResourceTags: Swift.Bool? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         domainUnitIdentifier: Swift.String? = nil,
         environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]? = nil,
         name: Swift.String? = nil,
+        projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]? = nil,
+        projectResourceTagsDescription: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
     ) {
+        self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.domainUnitIdentifier = domainUnitIdentifier
         self.environmentConfigurations = environmentConfigurations
         self.name = name
+        self.projectResourceTags = projectResourceTags
+        self.projectResourceTagsDescription = projectResourceTagsDescription
         self.status = status
     }
 }
 
 extension CreateProjectProfileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectProfileInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitIdentifier: \(Swift.String(describing: domainUnitIdentifier)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectProfileInput(allowCustomProjectResourceTags: \(Swift.String(describing: allowCustomProjectResourceTags)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitIdentifier: \(Swift.String(describing: domainUnitIdentifier)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), projectResourceTags: \(Swift.String(describing: projectResourceTags)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", projectResourceTagsDescription: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateProjectProfileOutput: Swift.Sendable {
+    /// Specifies whether custom project resource tags are supported.
+    public var allowCustomProjectResourceTags: Swift.Bool?
     /// A timestamp at which a project profile is created.
     public var createdAt: Foundation.Date?
     /// A user who created a project profile.
@@ -9531,10 +9634,15 @@ public struct CreateProjectProfileOutput: Swift.Sendable {
     /// Project profile name.
     /// This member is required.
     public var name: Swift.String?
+    /// The resource tags of the project profile.
+    public var projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]?
+    /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+    public var projectResourceTagsDescription: Swift.String?
     /// Project profile status.
     public var status: DataZoneClientTypes.Status?
 
     public init(
+        allowCustomProjectResourceTags: Swift.Bool? = nil,
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -9544,8 +9652,11 @@ public struct CreateProjectProfileOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]? = nil,
+        projectResourceTagsDescription: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
     ) {
+        self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -9555,13 +9666,15 @@ public struct CreateProjectProfileOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectResourceTags = projectResourceTags
+        self.projectResourceTagsDescription = projectResourceTagsDescription
         self.status = status
     }
 }
 
 extension CreateProjectProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProjectProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateProjectProfileOutput(allowCustomProjectResourceTags: \(Swift.String(describing: allowCustomProjectResourceTags)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectResourceTags: \(Swift.String(describing: projectResourceTags)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", projectResourceTagsDescription: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
@@ -14900,6 +15013,8 @@ public struct GetProjectOutput: Swift.Sendable {
     public var projectProfileId: Swift.String?
     /// The status of the project.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
+    /// The resource tags of the project.
+    public var resourceTags: [DataZoneClientTypes.ResourceTag]?
     /// The user parameters of a project.
     public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
@@ -14917,6 +15032,7 @@ public struct GetProjectOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
+        resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     ) {
         self.createdAt = createdAt
@@ -14932,13 +15048,14 @@ public struct GetProjectOutput: Swift.Sendable {
         self.name = name
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
+        self.resourceTags = resourceTags
         self.userParameters = userParameters
     }
 }
 
 extension GetProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetProjectProfileInput: Swift.Sendable {
@@ -14959,6 +15076,8 @@ public struct GetProjectProfileInput: Swift.Sendable {
 }
 
 public struct GetProjectProfileOutput: Swift.Sendable {
+    /// Specifies whether custom project resource tags are supported.
+    public var allowCustomProjectResourceTags: Swift.Bool?
     /// The timestamp of when the project profile was created.
     public var createdAt: Foundation.Date?
     /// The user who created the project profile.
@@ -14981,10 +15100,15 @@ public struct GetProjectProfileOutput: Swift.Sendable {
     /// The name of the project profile.
     /// This member is required.
     public var name: Swift.String?
+    /// The resource tags of the project profile.
+    public var projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]?
+    /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+    public var projectResourceTagsDescription: Swift.String?
     /// The status of the project profile.
     public var status: DataZoneClientTypes.Status?
 
     public init(
+        allowCustomProjectResourceTags: Swift.Bool? = nil,
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -14994,8 +15118,11 @@ public struct GetProjectProfileOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]? = nil,
+        projectResourceTagsDescription: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
     ) {
+        self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -15005,13 +15132,15 @@ public struct GetProjectProfileOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectResourceTags = projectResourceTags
+        self.projectResourceTagsDescription = projectResourceTagsDescription
         self.status = status
     }
 }
 
 extension GetProjectProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetProjectProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetProjectProfileOutput(allowCustomProjectResourceTags: \(Swift.String(describing: allowCustomProjectResourceTags)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectResourceTags: \(Swift.String(describing: projectResourceTags)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", projectResourceTagsDescription: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetSubscriptionInput: Swift.Sendable {
@@ -21533,6 +21662,8 @@ public struct UpdateProjectInput: Swift.Sendable {
     public var name: Swift.String?
     /// The project profile version to which the project should be updated. You can only specify the following string for this parameter: latest.
     public var projectProfileVersion: Swift.String?
+    /// The resource tags of the project.
+    public var resourceTags: [Swift.String: Swift.String]?
     /// The user parameters of the project.
     public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
@@ -21545,6 +21676,7 @@ public struct UpdateProjectInput: Swift.Sendable {
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
         projectProfileVersion: Swift.String? = nil,
+        resourceTags: [Swift.String: Swift.String]? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     ) {
         self.description = description
@@ -21555,13 +21687,14 @@ public struct UpdateProjectInput: Swift.Sendable {
         self.identifier = identifier
         self.name = name
         self.projectProfileVersion = projectProfileVersion
+        self.resourceTags = resourceTags
         self.userParameters = userParameters
     }
 }
 
 extension UpdateProjectInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), projectProfileVersion: \(Swift.String(describing: projectProfileVersion)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), identifier: \(Swift.String(describing: identifier)), projectProfileVersion: \(Swift.String(describing: projectProfileVersion)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectOutput: Swift.Sendable {
@@ -21595,6 +21728,8 @@ public struct UpdateProjectOutput: Swift.Sendable {
     public var projectProfileId: Swift.String?
     /// The status of the project.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
+    /// The resource tags of the project.
+    public var resourceTags: [DataZoneClientTypes.ResourceTag]?
     /// The user parameters of the project.
     public var userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]?
 
@@ -21612,6 +21747,7 @@ public struct UpdateProjectOutput: Swift.Sendable {
         name: Swift.String? = nil,
         projectProfileId: Swift.String? = nil,
         projectStatus: DataZoneClientTypes.ProjectStatus? = nil,
+        resourceTags: [DataZoneClientTypes.ResourceTag]? = nil,
         userParameters: [DataZoneClientTypes.EnvironmentConfigurationUserParameter]? = nil
     ) {
         self.createdAt = createdAt
@@ -21627,16 +21763,19 @@ public struct UpdateProjectOutput: Swift.Sendable {
         self.name = name
         self.projectProfileId = projectProfileId
         self.projectStatus = projectStatus
+        self.resourceTags = resourceTags
         self.userParameters = userParameters
     }
 }
 
 extension UpdateProjectOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentDeploymentDetails: \(Swift.String(describing: environmentDeploymentDetails)), failureReasons: \(Swift.String(describing: failureReasons)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectProfileId: \(Swift.String(describing: projectProfileId)), projectStatus: \(Swift.String(describing: projectStatus)), resourceTags: \(Swift.String(describing: resourceTags)), userParameters: \(Swift.String(describing: userParameters)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectProfileInput: Swift.Sendable {
+    /// Specifies whether custom project resource tags are supported.
+    public var allowCustomProjectResourceTags: Swift.Bool?
     /// The description of a project profile.
     public var description: Swift.String?
     /// The ID of the domain where a project profile is to be updated.
@@ -21651,34 +21790,46 @@ public struct UpdateProjectProfileInput: Swift.Sendable {
     public var identifier: Swift.String?
     /// The name of a project profile.
     public var name: Swift.String?
+    /// The resource tags of the project profile.
+    public var projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]?
+    /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+    public var projectResourceTagsDescription: Swift.String?
     /// The status of a project profile.
     public var status: DataZoneClientTypes.Status?
 
     public init(
+        allowCustomProjectResourceTags: Swift.Bool? = nil,
         description: Swift.String? = nil,
         domainIdentifier: Swift.String? = nil,
         domainUnitIdentifier: Swift.String? = nil,
         environmentConfigurations: [DataZoneClientTypes.EnvironmentConfiguration]? = nil,
         identifier: Swift.String? = nil,
         name: Swift.String? = nil,
+        projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]? = nil,
+        projectResourceTagsDescription: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
     ) {
+        self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
         self.description = description
         self.domainIdentifier = domainIdentifier
         self.domainUnitIdentifier = domainUnitIdentifier
         self.environmentConfigurations = environmentConfigurations
         self.identifier = identifier
         self.name = name
+        self.projectResourceTags = projectResourceTags
+        self.projectResourceTagsDescription = projectResourceTagsDescription
         self.status = status
     }
 }
 
 extension UpdateProjectProfileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectProfileInput(domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitIdentifier: \(Swift.String(describing: domainUnitIdentifier)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), identifier: \(Swift.String(describing: identifier)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectProfileInput(allowCustomProjectResourceTags: \(Swift.String(describing: allowCustomProjectResourceTags)), domainIdentifier: \(Swift.String(describing: domainIdentifier)), domainUnitIdentifier: \(Swift.String(describing: domainUnitIdentifier)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), identifier: \(Swift.String(describing: identifier)), projectResourceTags: \(Swift.String(describing: projectResourceTags)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", projectResourceTagsDescription: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateProjectProfileOutput: Swift.Sendable {
+    /// Specifies whether custom project resource tags are supported.
+    public var allowCustomProjectResourceTags: Swift.Bool?
     /// The timestamp at which a project profile is created.
     public var createdAt: Foundation.Date?
     /// The user who created a project profile.
@@ -21701,10 +21852,15 @@ public struct UpdateProjectProfileOutput: Swift.Sendable {
     /// The name of the project profile.
     /// This member is required.
     public var name: Swift.String?
+    /// The resource tags of the project profile.
+    public var projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]?
+    /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+    public var projectResourceTagsDescription: Swift.String?
     /// The status of the project profile.
     public var status: DataZoneClientTypes.Status?
 
     public init(
+        allowCustomProjectResourceTags: Swift.Bool? = nil,
         createdAt: Foundation.Date? = nil,
         createdBy: Swift.String? = nil,
         description: Swift.String? = nil,
@@ -21714,8 +21870,11 @@ public struct UpdateProjectProfileOutput: Swift.Sendable {
         id: Swift.String? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        projectResourceTags: [DataZoneClientTypes.ResourceTagParameter]? = nil,
+        projectResourceTagsDescription: Swift.String? = nil,
         status: DataZoneClientTypes.Status? = nil
     ) {
+        self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
         self.createdAt = createdAt
         self.createdBy = createdBy
         self.description = description
@@ -21725,13 +21884,15 @@ public struct UpdateProjectProfileOutput: Swift.Sendable {
         self.id = id
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.projectResourceTags = projectResourceTags
+        self.projectResourceTagsDescription = projectResourceTagsDescription
         self.status = status
     }
 }
 
 extension UpdateProjectProfileOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateProjectProfileOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "UpdateProjectProfileOutput(allowCustomProjectResourceTags: \(Swift.String(describing: allowCustomProjectResourceTags)), createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), domainUnitId: \(Swift.String(describing: domainUnitId)), environmentConfigurations: \(Swift.String(describing: environmentConfigurations)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), projectResourceTags: \(Swift.String(describing: projectResourceTags)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", projectResourceTagsDescription: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateSubscriptionGrantStatusInput: Swift.Sendable {
@@ -26163,6 +26324,7 @@ extension CreateProjectInput {
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["projectProfileId"].write(value.projectProfileId)
+        try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -26180,10 +26342,13 @@ extension CreateProjectProfileInput {
 
     static func write(value: CreateProjectProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowCustomProjectResourceTags"].write(value.allowCustomProjectResourceTags)
         try writer["description"].write(value.description)
         try writer["domainUnitIdentifier"].write(value.domainUnitIdentifier)
         try writer["environmentConfigurations"].writeList(value.environmentConfigurations, memberWritingClosure: DataZoneClientTypes.EnvironmentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["projectResourceTags"].writeList(value.projectResourceTags, memberWritingClosure: DataZoneClientTypes.ResourceTagParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["projectResourceTagsDescription"].write(value.projectResourceTagsDescription)
         try writer["status"].write(value.status)
     }
 }
@@ -26593,6 +26758,7 @@ extension UpdateProjectInput {
         try writer["glossaryTerms"].writeList(value.glossaryTerms, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["projectProfileVersion"].write(value.projectProfileVersion)
+        try writer["resourceTags"].writeMap(value.resourceTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["userParameters"].writeList(value.userParameters, memberWritingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -26601,10 +26767,13 @@ extension UpdateProjectProfileInput {
 
     static func write(value: UpdateProjectProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["allowCustomProjectResourceTags"].write(value.allowCustomProjectResourceTags)
         try writer["description"].write(value.description)
         try writer["domainUnitIdentifier"].write(value.domainUnitIdentifier)
         try writer["environmentConfigurations"].writeList(value.environmentConfigurations, memberWritingClosure: DataZoneClientTypes.EnvironmentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["projectResourceTags"].writeList(value.projectResourceTags, memberWritingClosure: DataZoneClientTypes.ResourceTagParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["projectResourceTagsDescription"].write(value.projectResourceTagsDescription)
         try writer["status"].write(value.status)
     }
 }
@@ -27238,6 +27407,7 @@ extension CreateProjectOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
+        value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -27257,6 +27427,7 @@ extension CreateProjectProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = CreateProjectProfileOutput()
+        value.allowCustomProjectResourceTags = try reader["allowCustomProjectResourceTags"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
@@ -27266,6 +27437,8 @@ extension CreateProjectProfileOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectResourceTags = try reader["projectResourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTagParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projectResourceTagsDescription = try reader["projectResourceTagsDescription"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -28252,6 +28425,7 @@ extension GetProjectOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
+        value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -28264,6 +28438,7 @@ extension GetProjectProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = GetProjectProfileOutput()
+        value.allowCustomProjectResourceTags = try reader["allowCustomProjectResourceTags"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
@@ -28273,6 +28448,8 @@ extension GetProjectProfileOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectResourceTags = try reader["projectResourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTagParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projectResourceTagsDescription = try reader["projectResourceTagsDescription"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -29414,6 +29591,7 @@ extension UpdateProjectOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.projectProfileId = try reader["projectProfileId"].readIfPresent()
         value.projectStatus = try reader["projectStatus"].readIfPresent()
+        value.resourceTags = try reader["resourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.userParameters = try reader["userParameters"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.EnvironmentConfigurationUserParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -29426,6 +29604,7 @@ extension UpdateProjectProfileOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateProjectProfileOutput()
+        value.allowCustomProjectResourceTags = try reader["allowCustomProjectResourceTags"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.createdBy = try reader["createdBy"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
@@ -29435,6 +29614,8 @@ extension UpdateProjectProfileOutput {
         value.id = try reader["id"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent() ?? ""
+        value.projectResourceTags = try reader["projectResourceTags"].readListIfPresent(memberReadingClosure: DataZoneClientTypes.ResourceTagParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.projectResourceTagsDescription = try reader["projectResourceTagsDescription"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
     }
@@ -34564,6 +34745,18 @@ extension DataZoneClientTypes.ProjectDeletionError {
     }
 }
 
+extension DataZoneClientTypes.ResourceTag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ResourceTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ResourceTag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension DataZoneClientTypes.EnvironmentConfigurationUserParameter {
 
     static func write(value: DataZoneClientTypes.EnvironmentConfigurationUserParameter?, to writer: SmithyJSON.Writer) throws {
@@ -34634,6 +34827,25 @@ extension DataZoneClientTypes.EnvironmentDeploymentDetails {
         var value = DataZoneClientTypes.EnvironmentDeploymentDetails()
         value.overallDeploymentStatus = try reader["overallDeploymentStatus"].readIfPresent()
         value.environmentFailureReasons = try reader["environmentFailureReasons"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: DataZoneClientTypes.EnvironmentError.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension DataZoneClientTypes.ResourceTagParameter {
+
+    static func write(value: DataZoneClientTypes.ResourceTagParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isValueEditable"].write(value.isValueEditable)
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.ResourceTagParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataZoneClientTypes.ResourceTagParameter()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.isValueEditable = try reader["isValueEditable"].readIfPresent() ?? false
         return value
     }
 }

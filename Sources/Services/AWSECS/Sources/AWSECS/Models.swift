@@ -2080,11 +2080,11 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
-    /// Configuration for canary deployment strategy that shifts a fixed percentage of traffic to the new service revision, waits for a specified bake time, then shifts the remaining traffic. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to CANARY.
+    /// Configuration for a canary deployment strategy that shifts a fixed percentage of traffic to the new service revision, waits for a specified bake time, then shifts the remaining traffic. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to CANARY.
     public struct CanaryConfiguration: Swift.Sendable {
         /// The amount of time in minutes to wait during the canary phase before shifting the remaining production traffic to the new service revision. Valid values are 0 to 1440 minutes (24 hours). The default value is 10.
         public var canaryBakeTimeInMinutes: Swift.Int?
-        /// The percentage of production traffic to shift to the new service revision during the canary phase. Valid values are 0.1 to 100.0. The default value is 5.0.
+        /// The percentage of production traffic to shift to the new service revision during the canary phase. Valid values are multiples of 0.1 from 0.1 to 100.0. The default value is 5.0.
         public var canaryPercent: Swift.Double?
 
         public init(
@@ -2210,9 +2210,9 @@ extension ECSClientTypes {
 
     /// Configuration for linear deployment strategy that shifts production traffic in equal percentage increments with configurable wait times between each step until 100% of traffic is shifted to the new service revision. This is only valid when you run CreateService or UpdateService with deploymentController set to ECS and a deploymentConfiguration with a strategy set to LINEAR.
     public struct LinearConfiguration: Swift.Sendable {
-        /// The amount of time in minutes to wait between each traffic shifting step during a linear deployment. Valid values are 0 to 1440 minutes (24 hours). The default value is 6. This bake time is not applied after reaching 100% traffic.
+        /// The amount of time in minutes to wait between each traffic shifting step during a linear deployment. Valid values are 0 to 1440 minutes (24 hours). The default value is 6. This bake time is not applied after reaching 100 percent traffic.
         public var stepBakeTimeInMinutes: Swift.Int?
-        /// The percentage of production traffic to shift in each step during a linear deployment. Valid values are 3.0 to 100.0. The default value is 10.0.
+        /// The percentage of production traffic to shift in each step during a linear deployment. Valid values are multiples of 0.1 from 3.0 to 100.0. The default value is 10.0.
         public var stepPercent: Swift.Double?
 
         public init(
@@ -2301,6 +2301,10 @@ extension ECSClientTypes {
         /// * ROLLING - When you create a service which uses the rolling update (ROLLING) deployment strategy, the Amazon ECS service scheduler replaces the currently running tasks with new tasks. The number of tasks that Amazon ECS adds or removes from the service during a rolling update is controlled by the service deployment configuration.
         ///
         /// * BLUE_GREEN - A blue/green deployment strategy (BLUE_GREEN) is a release methodology that reduces downtime and risk by running two identical production environments called blue and green. With Amazon ECS blue/green deployments, you can validate new service revisions before directing production traffic to them. This approach provides a safer way to deploy changes with the ability to quickly roll back if needed.
+        ///
+        /// * LINEAR - A linear deployment strategy (LINEAR) gradually shifts traffic from the current production environment to a new environment in equal percentages over time. With Amazon ECS linear deployments, you can control the pace of traffic shifting and validate new service revisions with increasing amounts of production traffic.
+        ///
+        /// * CANARY - A canary deployment strategy (CANARY) shifts a small percentage of traffic to the new service revision first, then shifts the remaining traffic all at once after a specified time period. This allows you to test the new version with a subset of users before full deployment.
         public var strategy: ECSClientTypes.DeploymentStrategy?
 
         public init(

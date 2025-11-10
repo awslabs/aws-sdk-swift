@@ -1157,8 +1157,10 @@ extension BedrockAgentCoreControlClient {
         config.httpInterceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
+        builder.interceptors.add(ClientRuntime.IdempotencyTokenMiddleware<DeleteAgentRuntimeInput, DeleteAgentRuntimeOutput>(keyPath: \.clientToken))
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteAgentRuntimeInput, DeleteAgentRuntimeOutput>(DeleteAgentRuntimeInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteAgentRuntimeInput, DeleteAgentRuntimeOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<DeleteAgentRuntimeInput, DeleteAgentRuntimeOutput>(DeleteAgentRuntimeInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteAgentRuntimeOutput>(DeleteAgentRuntimeOutput.httpOutput(from:), DeleteAgentRuntimeOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteAgentRuntimeInput, DeleteAgentRuntimeOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())

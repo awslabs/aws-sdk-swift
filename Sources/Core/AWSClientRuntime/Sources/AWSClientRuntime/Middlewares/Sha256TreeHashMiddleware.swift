@@ -1,11 +1,11 @@
 // Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0.
 
-import class Smithy.Context
 import ClientRuntime
-import SmithyHTTPAPI
 import struct Foundation.Data
 import struct Smithy.AttributeKey
+import class Smithy.Context
+import SmithyHTTPAPI
 
 public struct Sha256TreeHashMiddleware<OperationStackInput, OperationStackOutput> {
     public let id: String = "Sha256TreeHash"

@@ -5,11 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import protocol SmithyIdentity.BearerTokenIdentityResolver
-import struct SmithyIdentity.BearerTokenIdentity
-@_spi(ClientConfigDefaultIdentityResolver) import protocol SmithyIdentityAPI.ClientConfigDefaultIdentityResolver
 import struct Smithy.Attributes
 import enum Smithy.ClientError
+import struct SmithyIdentity.BearerTokenIdentity
+import protocol SmithyIdentity.BearerTokenIdentityResolver
+@_spi(ClientConfigDefaultIdentityResolver) import protocol SmithyIdentityAPI.ClientConfigDefaultIdentityResolver
 
 /// The default chain of bearer token identity resolvers.
 /// This is the default resolver when no token identity resolver is provided by the user.

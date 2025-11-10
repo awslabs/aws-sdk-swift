@@ -28,6 +28,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.Document
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// You do not have sufficient access to perform this action.
@@ -652,7 +653,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-/// The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+/// The request would cause a service quota to be exceeded. See [Service quotas](https://docs.aws.amazon.com/controltower/latest/userguide/request-an-increase.html).
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -678,17 +679,19 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 
 public struct DisableControlInput: Swift.Sendable {
     /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
-    /// This member is required.
     public var controlIdentifier: Swift.String?
+    /// The ARN of the enabled control to be disabled, which uniquely identifies the control instance on the target organizational unit.
+    public var enabledControlIdentifier: Swift.String?
     /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
-    /// This member is required.
     public var targetIdentifier: Swift.String?
 
     public init(
         controlIdentifier: Swift.String? = nil,
+        enabledControlIdentifier: Swift.String? = nil,
         targetIdentifier: Swift.String? = nil
     ) {
         self.controlIdentifier = controlIdentifier
+        self.enabledControlIdentifier = enabledControlIdentifier
         self.targetIdentifier = targetIdentifier
     }
 }
@@ -1307,6 +1310,55 @@ extension ControlTowerClientTypes {
 
 extension ControlTowerClientTypes {
 
+    /// Represents drift information related to control inheritance between organizational units.
+    public struct EnabledControlInheritanceDrift: Swift.Sendable {
+        /// The status of inheritance drift for the enabled control, indicating whether inheritance configuration matches expectations.
+        public var status: ControlTowerClientTypes.DriftStatus?
+
+        public init(
+            status: ControlTowerClientTypes.DriftStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    /// Represents drift information related to the underlying Amazon Web Services resources managed by the control.
+    public struct EnabledControlResourceDrift: Swift.Sendable {
+        /// The status of resource drift for the enabled control, indicating whether the underlying resources match the expected configuration.
+        public var status: ControlTowerClientTypes.DriftStatus?
+
+        public init(
+            status: ControlTowerClientTypes.DriftStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
+    /// Defines the various categories of drift that can occur for an enabled control resource.
+    public struct EnabledControlDriftTypes: Swift.Sendable {
+        /// Indicates drift related to inheritance configuration between parent and child controls.
+        public var inheritance: ControlTowerClientTypes.EnabledControlInheritanceDrift?
+        /// Indicates drift related to the underlying Amazon Web Services resources managed by the control.
+        public var resource: ControlTowerClientTypes.EnabledControlResourceDrift?
+
+        public init(
+            inheritance: ControlTowerClientTypes.EnabledControlInheritanceDrift? = nil,
+            resource: ControlTowerClientTypes.EnabledControlResourceDrift? = nil
+        ) {
+            self.inheritance = inheritance
+            self.resource = resource
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+
     /// The drift summary of the enabled control. Amazon Web Services Control Tower expects the enabled control configuration to include all supported and governed Regions. If the enabled control differs from the expected configuration, it is defined to be in a state of drift. You can repair this drift by resetting the enabled control.
     public struct DriftStatusSummary: Swift.Sendable {
         /// The drift status of the enabled control. Valid values:
@@ -1319,11 +1371,15 @@ extension ControlTowerClientTypes {
         ///
         /// * UNKNOWN: Amazon Web Services Control Tower is not able to check the drift status for the enabled control.
         public var driftStatus: ControlTowerClientTypes.DriftStatus?
+        /// An object that categorizes the different types of drift detected for the enabled control.
+        public var types: ControlTowerClientTypes.EnabledControlDriftTypes?
 
         public init(
-            driftStatus: ControlTowerClientTypes.DriftStatus? = nil
+            driftStatus: ControlTowerClientTypes.DriftStatus? = nil,
+            types: ControlTowerClientTypes.EnabledControlDriftTypes? = nil
         ) {
             self.driftStatus = driftStatus
+            self.types = types
         }
     }
 }
@@ -1376,6 +1432,8 @@ extension ControlTowerClientTypes {
         public var driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary?
         /// Array of EnabledControlParameter objects.
         public var parameters: [ControlTowerClientTypes.EnabledControlParameterSummary]?
+        /// The ARN of the parent enabled control from which this control inherits its configuration, if applicable.
+        public var parentIdentifier: Swift.String?
         /// The deployment summary of the enabled control.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
         /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
@@ -1388,6 +1446,7 @@ extension ControlTowerClientTypes {
             controlIdentifier: Swift.String? = nil,
             driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary? = nil,
             parameters: [ControlTowerClientTypes.EnabledControlParameterSummary]? = nil,
+            parentIdentifier: Swift.String? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil,
             targetRegions: [ControlTowerClientTypes.Region]? = nil
@@ -1396,6 +1455,7 @@ extension ControlTowerClientTypes {
             self.controlIdentifier = controlIdentifier
             self.driftStatusSummary = driftStatusSummary
             self.parameters = parameters
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
             self.targetRegions = targetRegions
@@ -1423,16 +1483,28 @@ extension ControlTowerClientTypes {
         public var controlIdentifiers: [Swift.String]?
         /// A list of DriftStatus items.
         public var driftStatuses: [ControlTowerClientTypes.DriftStatus]?
+        /// Filters enabled controls by their inheritance drift status, allowing you to find controls with specific inheritance-related drift conditions.
+        public var inheritanceDriftStatuses: [ControlTowerClientTypes.DriftStatus]?
+        /// Filters enabled controls by their parent control identifiers, allowing you to find child controls of specific parent controls.
+        public var parentIdentifiers: [Swift.String]?
+        /// Filters enabled controls by their resource drift status, allowing you to find controls with specific resource-related drift conditions.
+        public var resourceDriftStatuses: [ControlTowerClientTypes.DriftStatus]?
         /// A list of EnablementStatus items.
         public var statuses: [ControlTowerClientTypes.EnablementStatus]?
 
         public init(
             controlIdentifiers: [Swift.String]? = nil,
             driftStatuses: [ControlTowerClientTypes.DriftStatus]? = nil,
+            inheritanceDriftStatuses: [ControlTowerClientTypes.DriftStatus]? = nil,
+            parentIdentifiers: [Swift.String]? = nil,
+            resourceDriftStatuses: [ControlTowerClientTypes.DriftStatus]? = nil,
             statuses: [ControlTowerClientTypes.EnablementStatus]? = nil
         ) {
             self.controlIdentifiers = controlIdentifiers
             self.driftStatuses = driftStatuses
+            self.inheritanceDriftStatuses = inheritanceDriftStatuses
+            self.parentIdentifiers = parentIdentifiers
+            self.resourceDriftStatuses = resourceDriftStatuses
             self.statuses = statuses
         }
     }
@@ -1441,6 +1513,8 @@ extension ControlTowerClientTypes {
 public struct ListEnabledControlsInput: Swift.Sendable {
     /// An input filter for the ListEnabledControls API that lets you select the types of control operations to view.
     public var filter: ControlTowerClientTypes.EnabledControlFilter?
+    /// A boolean value that determines whether to include enabled controls from child organizational units in the response.
+    public var includeChildren: Swift.Bool?
     /// How many results to return per API call.
     public var maxResults: Swift.Int?
     /// The token to continue the list from a previous API call with the same parameters.
@@ -1450,11 +1524,13 @@ public struct ListEnabledControlsInput: Swift.Sendable {
 
     public init(
         filter: ControlTowerClientTypes.EnabledControlFilter? = nil,
+        includeChildren: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         targetIdentifier: Swift.String? = nil
     ) {
         self.filter = filter
+        self.includeChildren = includeChildren
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.targetIdentifier = targetIdentifier
@@ -1471,6 +1547,8 @@ extension ControlTowerClientTypes {
         public var controlIdentifier: Swift.String?
         /// The drift status of the enabled control.
         public var driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary?
+        /// The ARN of the parent enabled control from which this control inherits its configuration, if applicable.
+        public var parentIdentifier: Swift.String?
         /// A short description of the status of the enabled control.
         public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
         /// The ARN of the organizational unit.
@@ -1480,12 +1558,14 @@ extension ControlTowerClientTypes {
             arn: Swift.String? = nil,
             controlIdentifier: Swift.String? = nil,
             driftStatusSummary: ControlTowerClientTypes.DriftStatusSummary? = nil,
+            parentIdentifier: Swift.String? = nil,
             statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
             targetIdentifier: Swift.String? = nil
         ) {
             self.arn = arn
             self.controlIdentifier = controlIdentifier
             self.driftStatusSummary = driftStatusSummary
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
         }
@@ -1778,10 +1858,38 @@ public struct ListLandingZoneOperationsOutput: Swift.Sendable {
     }
 }
 
+extension ControlTowerClientTypes {
+
+    public enum RemediationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inheritanceDrift
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RemediationType] {
+            return [
+                .inheritanceDrift
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inheritanceDrift: return "INHERITANCE_DRIFT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateLandingZoneInput: Swift.Sendable {
     /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
     /// This member is required.
     public var manifest: Smithy.Document?
+    /// Specifies the types of remediation actions to apply when creating the landing zone, such as automatic drift correction or compliance enforcement.
+    public var remediationTypes: [ControlTowerClientTypes.RemediationType]?
     /// Tags to be applied to the landing zone.
     public var tags: [Swift.String: Swift.String]?
     /// The landing zone version, for example, 3.0.
@@ -1790,10 +1898,12 @@ public struct CreateLandingZoneInput: Swift.Sendable {
 
     public init(
         manifest: Smithy.Document? = nil,
+        remediationTypes: [ControlTowerClientTypes.RemediationType]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
     ) {
         self.manifest = manifest
+        self.remediationTypes = remediationTypes
         self.tags = tags
         self.version = version
     }
@@ -1945,6 +2055,8 @@ extension ControlTowerClientTypes {
         /// The landing zone manifest JSON text file that specifies the landing zone configurations.
         /// This member is required.
         public var manifest: Smithy.Document?
+        /// The types of remediation actions configured for the landing zone, such as automatic drift correction or compliance enforcement.
+        public var remediationTypes: [ControlTowerClientTypes.RemediationType]?
         /// The landing zone deployment status. One of ACTIVE, PROCESSING, FAILED.
         public var status: ControlTowerClientTypes.LandingZoneStatus?
         /// The landing zone's current deployed version.
@@ -1956,6 +2068,7 @@ extension ControlTowerClientTypes {
             driftStatus: ControlTowerClientTypes.LandingZoneDriftStatusSummary? = nil,
             latestAvailableVersion: Swift.String? = nil,
             manifest: Smithy.Document? = nil,
+            remediationTypes: [ControlTowerClientTypes.RemediationType]? = nil,
             status: ControlTowerClientTypes.LandingZoneStatus? = nil,
             version: Swift.String? = nil
         ) {
@@ -1963,6 +2076,7 @@ extension ControlTowerClientTypes {
             self.driftStatus = driftStatus
             self.latestAvailableVersion = latestAvailableVersion
             self.manifest = manifest
+            self.remediationTypes = remediationTypes
             self.status = status
             self.version = version
         }
@@ -2058,6 +2172,8 @@ public struct UpdateLandingZoneInput: Swift.Sendable {
     /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch). The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
     /// This member is required.
     public var manifest: Smithy.Document?
+    /// Specifies the types of remediation actions to apply when updating the landing zone configuration.
+    public var remediationTypes: [ControlTowerClientTypes.RemediationType]?
     /// The landing zone version, for example, 3.2.
     /// This member is required.
     public var version: Swift.String?
@@ -2065,10 +2181,12 @@ public struct UpdateLandingZoneInput: Swift.Sendable {
     public init(
         landingZoneIdentifier: Swift.String? = nil,
         manifest: Smithy.Document? = nil,
+        remediationTypes: [ControlTowerClientTypes.RemediationType]? = nil,
         version: Swift.String? = nil
     ) {
         self.landingZoneIdentifier = landingZoneIdentifier
         self.manifest = manifest
+        self.remediationTypes = remediationTypes
         self.version = version
     }
 }
@@ -2379,6 +2497,7 @@ extension CreateLandingZoneInput {
     static func write(value: CreateLandingZoneInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["manifest"].write(value.manifest)
+        try writer["remediationTypes"].writeList(value.remediationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.RemediationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["version"].write(value.version)
     }
@@ -2405,6 +2524,7 @@ extension DisableControlInput {
     static func write(value: DisableControlInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["controlIdentifier"].write(value.controlIdentifier)
+        try writer["enabledControlIdentifier"].write(value.enabledControlIdentifier)
         try writer["targetIdentifier"].write(value.targetIdentifier)
     }
 }
@@ -2523,6 +2643,7 @@ extension ListEnabledControlsInput {
     static func write(value: ListEnabledControlsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["filter"].write(value.filter, with: ControlTowerClientTypes.EnabledControlFilter.write(value:to:))
+        try writer["includeChildren"].write(value.includeChildren)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["targetIdentifier"].write(value.targetIdentifier)
@@ -2605,6 +2726,7 @@ extension UpdateLandingZoneInput {
         guard let value else { return }
         try writer["landingZoneIdentifier"].write(value.landingZoneIdentifier)
         try writer["manifest"].write(value.manifest)
+        try writer["remediationTypes"].writeList(value.remediationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.RemediationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["version"].write(value.version)
     }
 }
@@ -3665,9 +3787,10 @@ extension ControlTowerClientTypes.EnabledControlDetails {
         value.arn = try reader["arn"].readIfPresent()
         value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
         value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
-        value.targetRegions = try reader["targetRegions"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.Region.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         value.driftStatusSummary = try reader["driftStatusSummary"].readIfPresent(with: ControlTowerClientTypes.DriftStatusSummary.read(from:))
+        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
+        value.targetRegions = try reader["targetRegions"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.Region.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledControlParameterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
@@ -3684,22 +3807,54 @@ extension ControlTowerClientTypes.EnabledControlParameterSummary {
     }
 }
 
-extension ControlTowerClientTypes.DriftStatusSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.DriftStatusSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.DriftStatusSummary()
-        value.driftStatus = try reader["driftStatus"].readIfPresent()
-        return value
-    }
-}
-
 extension ControlTowerClientTypes.Region {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.Region {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.Region()
         value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.DriftStatusSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.DriftStatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.DriftStatusSummary()
+        value.driftStatus = try reader["driftStatus"].readIfPresent()
+        value.types = try reader["types"].readIfPresent(with: ControlTowerClientTypes.EnabledControlDriftTypes.read(from:))
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledControlDriftTypes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlDriftTypes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledControlDriftTypes()
+        value.inheritance = try reader["inheritance"].readIfPresent(with: ControlTowerClientTypes.EnabledControlInheritanceDrift.read(from:))
+        value.resource = try reader["resource"].readIfPresent(with: ControlTowerClientTypes.EnabledControlResourceDrift.read(from:))
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledControlResourceDrift {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlResourceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledControlResourceDrift()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledControlInheritanceDrift {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlInheritanceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledControlInheritanceDrift()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -3711,6 +3866,7 @@ extension ControlTowerClientTypes.LandingZoneDetail {
         var value = ControlTowerClientTypes.LandingZoneDetail()
         value.version = try reader["version"].readIfPresent() ?? ""
         value.manifest = try reader["manifest"].readIfPresent() ?? [:]
+        value.remediationTypes = try reader["remediationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ControlTowerClientTypes.RemediationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.arn = try reader["arn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.latestAvailableVersion = try reader["latestAvailableVersion"].readIfPresent()
@@ -3795,11 +3951,12 @@ extension ControlTowerClientTypes.EnabledControlSummary {
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledControlSummary()
-        value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
+        value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
         value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         value.driftStatusSummary = try reader["driftStatusSummary"].readIfPresent(with: ControlTowerClientTypes.DriftStatusSummary.read(from:))
+        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         return value
     }
 }
@@ -3874,6 +4031,9 @@ extension ControlTowerClientTypes.EnabledControlFilter {
         guard let value else { return }
         try writer["controlIdentifiers"].writeList(value.controlIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["driftStatuses"].writeList(value.driftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inheritanceDriftStatuses"].writeList(value.inheritanceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceDriftStatuses"].writeList(value.resourceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnablementStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }

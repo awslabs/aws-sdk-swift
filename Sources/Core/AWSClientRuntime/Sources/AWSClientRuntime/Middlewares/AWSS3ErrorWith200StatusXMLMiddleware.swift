@@ -5,13 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import ClientRuntime
+import struct Foundation.Data
 import enum Smithy.ByteStream
 import class Smithy.Context
-import ClientRuntime
 import SmithyHTTPAPI
-@_spi(SmithyReadWrite) import SmithyXML
-import struct Foundation.Data
 import SmithyStreams
+@_spi(SmithyReadWrite) import SmithyXML
 
 public struct AWSS3ErrorWith200StatusXMLMiddleware<OperationStackInput, OperationStackOutput> {
     public let id: String = "AWSS3ErrorWith200StatusXMLMiddleware"

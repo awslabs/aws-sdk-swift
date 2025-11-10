@@ -5,9 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import struct Smithy.AttributeKey
 import class Smithy.Context
 import class Smithy.ContextBuilder
-import struct Smithy.AttributeKey
 
 public extension Context {
     var requestChecksumCalculation: AWSChecksumCalculationMode {

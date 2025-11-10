@@ -5,14 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct Foundation.TimeInterval
 import enum AwsCommonRuntimeKit.CommonRunTimeError
-import protocol SmithyRetriesAPI.RetryErrorInfoProvider
 import enum ClientRuntime.DefaultRetryErrorInfoProvider
-import struct SmithyRetriesAPI.RetryErrorInfo
-import protocol ClientRuntime.ServiceError
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
+import struct Foundation.TimeInterval
+import struct SmithyRetriesAPI.RetryErrorInfo
+import protocol SmithyRetriesAPI.RetryErrorInfoProvider
 
 public enum AWSRetryErrorInfoProvider: RetryErrorInfoProvider {
 

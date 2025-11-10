@@ -5,12 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import class AwsCommonRuntimeKit.Signer
 import AWSSDKHTTPAuth
+import struct Foundation.Data
 import Smithy
 import SmithyEventStreamsAPI
 import SmithyEventStreamsAuthAPI
-import struct Foundation.Data
-import class AwsCommonRuntimeKit.Signer
 import SmithyHTTPAuth
 
 extension AWSSigV4Signer: MessageDataSigner {

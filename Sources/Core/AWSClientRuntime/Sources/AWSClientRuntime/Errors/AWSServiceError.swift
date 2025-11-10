@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-import protocol ClientRuntime.ServiceError
 import protocol ClientRuntime.ModeledError
+import protocol ClientRuntime.ServiceError
 
 /// Provides properties for an error returned by an AWS service.
 public protocol AWSServiceError: ServiceError {

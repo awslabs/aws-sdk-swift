@@ -13,12 +13,12 @@ import class Foundation.Pipe
 // Foundation.Process is not available in non-mac apple platforms for security reasons.
 import class Foundation.Process
 #endif
-import class Foundation.ProcessInfo
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
 import struct Foundation.Data
 import struct Foundation.Date
+import class Foundation.ProcessInfo
 import struct Foundation.URL
 import struct Smithy.Attributes
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 /// The process credential identity resolver resolves credentials from running a command or process.
 /// The command to run is sourced from a profile in the AWS config file, using the standard

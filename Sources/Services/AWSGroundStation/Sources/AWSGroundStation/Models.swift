@@ -1685,6 +1685,66 @@ public struct UpdateConfigOutput: Swift.Sendable {
 
 extension GroundStationClientTypes {
 
+    /// Connection details for Ground Station to Agent and Agent to customer
+    public struct DownlinkConnectionDetails: Swift.Sendable {
+        /// Ingress address of AgentEndpoint with a port range and an optional mtu.
+        /// This member is required.
+        public var agentIpAndPortAddress: GroundStationClientTypes.RangedConnectionDetails?
+        /// Egress address of AgentEndpoint with an optional mtu.
+        /// This member is required.
+        public var egressAddressAndPort: GroundStationClientTypes.ConnectionDetails?
+
+        public init(
+            agentIpAndPortAddress: GroundStationClientTypes.RangedConnectionDetails? = nil,
+            egressAddressAndPort: GroundStationClientTypes.ConnectionDetails? = nil
+        ) {
+            self.agentIpAndPortAddress = agentIpAndPortAddress
+            self.egressAddressAndPort = egressAddressAndPort
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Dataflow details for a downlink endpoint
+    public enum DownlinkDataflowDetails: Swift.Sendable {
+        /// Downlink connection details for customer to Agent and Agent to Ground Station
+        case agentconnectiondetails(GroundStationClientTypes.DownlinkConnectionDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Details for a downlink agent endpoint
+    public struct DownlinkAwsGroundStationAgentEndpointDetails: Swift.Sendable {
+        /// Status of the agent associated with the downlink dataflow endpoint
+        public var agentStatus: GroundStationClientTypes.AgentStatus?
+        /// Health audit results for the downlink dataflow endpoint
+        public var auditResults: GroundStationClientTypes.AuditResults?
+        /// Dataflow details for the downlink endpoint
+        /// This member is required.
+        public var dataflowDetails: GroundStationClientTypes.DownlinkDataflowDetails?
+        /// Downlink dataflow endpoint name
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            agentStatus: GroundStationClientTypes.AgentStatus? = nil,
+            auditResults: GroundStationClientTypes.AuditResults? = nil,
+            dataflowDetails: GroundStationClientTypes.DownlinkDataflowDetails? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.agentStatus = agentStatus
+            self.auditResults = auditResults
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     public enum EndpointStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case created
         case creating
@@ -1776,10 +1836,72 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
+    /// Connection details for customer to Agent and Agent to Ground Station
+    public struct UplinkConnectionDetails: Swift.Sendable {
+        /// Ingress address of AgentEndpoint with a port range and an optional mtu.
+        /// This member is required.
+        public var agentIpAndPortAddress: GroundStationClientTypes.RangedConnectionDetails?
+        /// Egress address of AgentEndpoint with an optional mtu.
+        /// This member is required.
+        public var ingressAddressAndPort: GroundStationClientTypes.ConnectionDetails?
+
+        public init(
+            agentIpAndPortAddress: GroundStationClientTypes.RangedConnectionDetails? = nil,
+            ingressAddressAndPort: GroundStationClientTypes.ConnectionDetails? = nil
+        ) {
+            self.agentIpAndPortAddress = agentIpAndPortAddress
+            self.ingressAddressAndPort = ingressAddressAndPort
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Dataflow details for an uplink endpoint
+    public enum UplinkDataflowDetails: Swift.Sendable {
+        /// Uplink connection details for customer to Agent and Agent to Ground Station
+        case agentconnectiondetails(GroundStationClientTypes.UplinkConnectionDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Details for an uplink agent endpoint
+    public struct UplinkAwsGroundStationAgentEndpointDetails: Swift.Sendable {
+        /// Status of the agent associated with the uplink dataflow endpoint
+        public var agentStatus: GroundStationClientTypes.AgentStatus?
+        /// Health audit results for the uplink dataflow endpoint
+        public var auditResults: GroundStationClientTypes.AuditResults?
+        /// Dataflow details for the uplink endpoint
+        /// This member is required.
+        public var dataflowDetails: GroundStationClientTypes.UplinkDataflowDetails?
+        /// Uplink dataflow endpoint name
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            agentStatus: GroundStationClientTypes.AgentStatus? = nil,
+            auditResults: GroundStationClientTypes.AuditResults? = nil,
+            dataflowDetails: GroundStationClientTypes.UplinkDataflowDetails? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.agentStatus = agentStatus
+            self.auditResults = auditResults
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     /// Information about the endpoint details.
     public struct EndpointDetails: Swift.Sendable {
         /// An agent endpoint.
         public var awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint?
+        /// Definition for a downlink agent endpoint
+        public var downlinkAwsGroundStationAgentEndpoint: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails?
         /// A dataflow endpoint.
         public var endpoint: GroundStationClientTypes.DataflowEndpoint?
         /// Health reasons for a dataflow endpoint. This field is ignored when calling CreateDataflowEndpointGroup.
@@ -1788,19 +1910,25 @@ extension GroundStationClientTypes {
         public var healthStatus: GroundStationClientTypes.CapabilityHealth?
         /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public var securityDetails: GroundStationClientTypes.SecurityDetails?
+        /// Definition for an uplink agent endpoint
+        public var uplinkAwsGroundStationAgentEndpoint: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails?
 
         public init(
             awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint? = nil,
+            downlinkAwsGroundStationAgentEndpoint: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails? = nil,
             endpoint: GroundStationClientTypes.DataflowEndpoint? = nil,
             healthReasons: [GroundStationClientTypes.CapabilityHealthReason]? = nil,
             healthStatus: GroundStationClientTypes.CapabilityHealth? = nil,
-            securityDetails: GroundStationClientTypes.SecurityDetails? = nil
+            securityDetails: GroundStationClientTypes.SecurityDetails? = nil,
+            uplinkAwsGroundStationAgentEndpoint: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails? = nil
         ) {
             self.awsGroundStationAgentEndpoint = awsGroundStationAgentEndpoint
+            self.downlinkAwsGroundStationAgentEndpoint = downlinkAwsGroundStationAgentEndpoint
             self.endpoint = endpoint
             self.healthReasons = healthReasons
             self.healthStatus = healthStatus
             self.securityDetails = securityDetails
+            self.uplinkAwsGroundStationAgentEndpoint = uplinkAwsGroundStationAgentEndpoint
         }
     }
 }
@@ -2400,6 +2528,122 @@ public struct CreateDataflowEndpointGroupInput: Swift.Sendable {
 ///
 public struct CreateDataflowEndpointGroupOutput: Swift.Sendable {
     /// UUID of a dataflow endpoint group.
+    public var dataflowEndpointGroupId: Swift.String?
+
+    public init(
+        dataflowEndpointGroupId: Swift.String? = nil
+    ) {
+        self.dataflowEndpointGroupId = dataflowEndpointGroupId
+    }
+}
+
+/// Request would cause a service quota to be exceeded.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// Parameter name that caused the exception
+        public internal(set) var parameterName: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        parameterName: Swift.String? = nil
+    ) {
+        self.properties.message = message
+        self.properties.parameterName = parameterName
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Definition for a downlink agent endpoint
+    public struct DownlinkAwsGroundStationAgentEndpoint: Swift.Sendable {
+        /// Dataflow details for the downlink endpoint
+        /// This member is required.
+        public var dataflowDetails: GroundStationClientTypes.DownlinkDataflowDetails?
+        /// Downlink dataflow endpoint name
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            dataflowDetails: GroundStationClientTypes.DownlinkDataflowDetails? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Definition for an uplink agent endpoint
+    public struct UplinkAwsGroundStationAgentEndpoint: Swift.Sendable {
+        /// Dataflow details for the uplink endpoint
+        /// This member is required.
+        public var dataflowDetails: GroundStationClientTypes.UplinkDataflowDetails?
+        /// Uplink dataflow endpoint name
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            dataflowDetails: GroundStationClientTypes.UplinkDataflowDetails? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Endpoint definition used for creating a dataflow endpoint
+    public enum CreateEndpointDetails: Swift.Sendable {
+        /// Definition for an uplink agent endpoint
+        case uplinkawsgroundstationagentendpoint(GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint)
+        /// Definition for a downlink agent endpoint
+        case downlinkawsgroundstationagentendpoint(GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct CreateDataflowEndpointGroupV2Input: Swift.Sendable {
+    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    public var contactPostPassDurationSeconds: Swift.Int?
+    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    public var contactPrePassDurationSeconds: Swift.Int?
+    /// Dataflow endpoint group's endpoint definitions
+    /// This member is required.
+    public var endpoints: [GroundStationClientTypes.CreateEndpointDetails]?
+    /// Tags of a V2 dataflow endpoint group.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        contactPostPassDurationSeconds: Swift.Int? = nil,
+        contactPrePassDurationSeconds: Swift.Int? = nil,
+        endpoints: [GroundStationClientTypes.CreateEndpointDetails]? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
+        self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
+        self.endpoints = endpoints
+        self.tags = tags
+    }
+}
+
+public struct CreateDataflowEndpointGroupV2Output: Swift.Sendable {
+    /// Dataflow endpoint group ID
     public var dataflowEndpointGroupId: Swift.String?
 
     public init(
@@ -3351,6 +3595,45 @@ extension GroundStationClientTypes {
     }
 }
 
+public struct GetAgentTaskResponseUrlInput: Swift.Sendable {
+    /// UUID of agent requesting the response URL.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// GUID of the agent task for which the response URL is being requested.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.taskId = taskId
+    }
+}
+
+public struct GetAgentTaskResponseUrlOutput: Swift.Sendable {
+    /// UUID of the agent.
+    /// This member is required.
+    public var agentId: Swift.String?
+    /// Presigned URL for uploading agent task response logs.
+    /// This member is required.
+    public var presignedLogUrl: Swift.String?
+    /// GUID of the agent task.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        agentId: Swift.String? = nil,
+        presignedLogUrl: Swift.String? = nil,
+        taskId: Swift.String? = nil
+    ) {
+        self.agentId = agentId
+        self.presignedLogUrl = presignedLogUrl
+        self.taskId = taskId
+    }
+}
+
 ///
 public struct GetMinuteUsageInput: Swift.Sendable {
     /// The month being requested, with a value of 1-12.
@@ -3842,6 +4125,13 @@ extension CreateDataflowEndpointGroupInput {
     }
 }
 
+extension CreateDataflowEndpointGroupV2Input {
+
+    static func urlPathProvider(_ value: CreateDataflowEndpointGroupV2Input) -> Swift.String? {
+        return "/dataflowEndpointGroupV2"
+    }
+}
+
 extension CreateEphemerisInput {
 
     static func urlPathProvider(_ value: CreateEphemerisInput) -> Swift.String? {
@@ -3926,6 +4216,19 @@ extension GetAgentConfigurationInput {
             return nil
         }
         return "/agent/\(agentId.urlPercentEncoding())/configuration"
+    }
+}
+
+extension GetAgentTaskResponseUrlInput {
+
+    static func urlPathProvider(_ value: GetAgentTaskResponseUrlInput) -> Swift.String? {
+        guard let agentId = value.agentId else {
+            return nil
+        }
+        guard let taskId = value.taskId else {
+            return nil
+        }
+        return "/agentResponseUrl/\(agentId.urlPercentEncoding())/\(taskId.urlPercentEncoding())"
     }
 }
 
@@ -4252,6 +4555,17 @@ extension CreateDataflowEndpointGroupInput {
     }
 }
 
+extension CreateDataflowEndpointGroupV2Input {
+
+    static func write(value: CreateDataflowEndpointGroupV2Input?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contactPostPassDurationSeconds"].write(value.contactPostPassDurationSeconds)
+        try writer["contactPrePassDurationSeconds"].write(value.contactPrePassDurationSeconds)
+        try writer["endpoints"].writeList(value.endpoints, memberWritingClosure: GroundStationClientTypes.CreateEndpointDetails.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateEphemerisInput {
 
     static func write(value: CreateEphemerisInput?, to writer: SmithyJSON.Writer) throws {
@@ -4434,6 +4748,18 @@ extension CreateDataflowEndpointGroupOutput {
     }
 }
 
+extension CreateDataflowEndpointGroupV2Output {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDataflowEndpointGroupV2Output {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateDataflowEndpointGroupV2Output()
+        value.dataflowEndpointGroupId = try reader["dataflowEndpointGroupId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateEphemerisOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateEphemerisOutput {
@@ -4568,6 +4894,20 @@ extension GetAgentConfigurationOutput {
         var value = GetAgentConfigurationOutput()
         value.agentId = try reader["agentId"].readIfPresent()
         value.taskingDocument = try reader["taskingDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension GetAgentTaskResponseUrlOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetAgentTaskResponseUrlOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetAgentTaskResponseUrlOutput()
+        value.agentId = try reader["agentId"].readIfPresent() ?? ""
+        value.presignedLogUrl = try reader["presignedLogUrl"].readIfPresent() ?? ""
+        value.taskId = try reader["taskId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4901,6 +5241,23 @@ enum CreateDataflowEndpointGroupOutputError {
     }
 }
 
+enum CreateDataflowEndpointGroupV2OutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateEphemerisOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -5031,6 +5388,22 @@ enum DescribeEphemerisOutputError {
 }
 
 enum GetAgentConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "DependencyException": return try DependencyException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetAgentTaskResponseUrlOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -5438,6 +5811,20 @@ extension ResourceLimitExceededException {
     }
 }
 
+extension ServiceQuotaExceededException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ServiceQuotaExceededException {
+        let reader = baseError.errorBodyReader
+        var value = ServiceQuotaExceededException()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.properties.parameterName = try reader["parameterName"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ResourceInUseException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ResourceInUseException {
@@ -5531,10 +5918,12 @@ extension GroundStationClientTypes.EndpointDetails {
     static func write(value: GroundStationClientTypes.EndpointDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["awsGroundStationAgentEndpoint"].write(value.awsGroundStationAgentEndpoint, with: GroundStationClientTypes.AwsGroundStationAgentEndpoint.write(value:to:))
+        try writer["downlinkAwsGroundStationAgentEndpoint"].write(value.downlinkAwsGroundStationAgentEndpoint, with: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails.write(value:to:))
         try writer["endpoint"].write(value.endpoint, with: GroundStationClientTypes.DataflowEndpoint.write(value:to:))
         try writer["healthReasons"].writeList(value.healthReasons, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GroundStationClientTypes.CapabilityHealthReason>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["healthStatus"].write(value.healthStatus)
         try writer["securityDetails"].write(value.securityDetails, with: GroundStationClientTypes.SecurityDetails.write(value:to:))
+        try writer["uplinkAwsGroundStationAgentEndpoint"].write(value.uplinkAwsGroundStationAgentEndpoint, with: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails.write(value:to:))
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.EndpointDetails {
@@ -5543,31 +5932,106 @@ extension GroundStationClientTypes.EndpointDetails {
         value.securityDetails = try reader["securityDetails"].readIfPresent(with: GroundStationClientTypes.SecurityDetails.read(from:))
         value.endpoint = try reader["endpoint"].readIfPresent(with: GroundStationClientTypes.DataflowEndpoint.read(from:))
         value.awsGroundStationAgentEndpoint = try reader["awsGroundStationAgentEndpoint"].readIfPresent(with: GroundStationClientTypes.AwsGroundStationAgentEndpoint.read(from:))
+        value.uplinkAwsGroundStationAgentEndpoint = try reader["uplinkAwsGroundStationAgentEndpoint"].readIfPresent(with: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails.read(from:))
+        value.downlinkAwsGroundStationAgentEndpoint = try reader["downlinkAwsGroundStationAgentEndpoint"].readIfPresent(with: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails.read(from:))
         value.healthStatus = try reader["healthStatus"].readIfPresent()
         value.healthReasons = try reader["healthReasons"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GroundStationClientTypes.CapabilityHealthReason>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+extension GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails {
 
-    static func write(value: GroundStationClientTypes.AwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["agentStatus"].write(value.agentStatus)
         try writer["auditResults"].write(value.auditResults)
-        try writer["egressAddress"].write(value.egressAddress, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
-        try writer["ingressAddress"].write(value.ingressAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.DownlinkDataflowDetails.write(value:to:))
         try writer["name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.AwsGroundStationAgentEndpoint()
+        var value = GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpointDetails()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.egressAddress = try reader["egressAddress"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
-        value.ingressAddress = try reader["ingressAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        value.dataflowDetails = try reader["dataflowDetails"].readIfPresent(with: GroundStationClientTypes.DownlinkDataflowDetails.read(from:))
         value.agentStatus = try reader["agentStatus"].readIfPresent()
         value.auditResults = try reader["auditResults"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.DownlinkDataflowDetails {
+
+    static func write(value: GroundStationClientTypes.DownlinkDataflowDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .agentconnectiondetails(agentconnectiondetails):
+                try writer["agentConnectionDetails"].write(agentconnectiondetails, with: GroundStationClientTypes.DownlinkConnectionDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkDataflowDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentConnectionDetails":
+                return .agentconnectiondetails(try reader["agentConnectionDetails"].read(with: GroundStationClientTypes.DownlinkConnectionDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.DownlinkConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.DownlinkConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentIpAndPortAddress"].write(value.agentIpAndPortAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["egressAddressAndPort"].write(value.egressAddressAndPort, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.DownlinkConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.DownlinkConnectionDetails()
+        value.agentIpAndPortAddress = try reader["agentIpAndPortAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        value.egressAddressAndPort = try reader["egressAddressAndPort"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.ConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.ConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mtu"].write(value.mtu)
+        try writer["socketAddress"].write(value.socketAddress, with: GroundStationClientTypes.SocketAddress.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.ConnectionDetails()
+        value.socketAddress = try reader["socketAddress"].readIfPresent(with: GroundStationClientTypes.SocketAddress.read(from:))
+        value.mtu = try reader["mtu"].readIfPresent()
+        return value
+    }
+}
+
+extension GroundStationClientTypes.SocketAddress {
+
+    static func write(value: GroundStationClientTypes.SocketAddress?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SocketAddress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.SocketAddress()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5623,36 +6087,87 @@ extension GroundStationClientTypes.IntegerRange {
     }
 }
 
-extension GroundStationClientTypes.ConnectionDetails {
+extension GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails {
 
-    static func write(value: GroundStationClientTypes.ConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["mtu"].write(value.mtu)
-        try writer["socketAddress"].write(value.socketAddress, with: GroundStationClientTypes.SocketAddress.write(value:to:))
+        try writer["agentStatus"].write(value.agentStatus)
+        try writer["auditResults"].write(value.auditResults)
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.UplinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.ConnectionDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.ConnectionDetails()
-        value.socketAddress = try reader["socketAddress"].readIfPresent(with: GroundStationClientTypes.SocketAddress.read(from:))
-        value.mtu = try reader["mtu"].readIfPresent()
+        var value = GroundStationClientTypes.UplinkAwsGroundStationAgentEndpointDetails()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.dataflowDetails = try reader["dataflowDetails"].readIfPresent(with: GroundStationClientTypes.UplinkDataflowDetails.read(from:))
+        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.auditResults = try reader["auditResults"].readIfPresent()
         return value
     }
 }
 
-extension GroundStationClientTypes.SocketAddress {
+extension GroundStationClientTypes.UplinkDataflowDetails {
 
-    static func write(value: GroundStationClientTypes.SocketAddress?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GroundStationClientTypes.UplinkDataflowDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["port"].write(value.port)
+        switch value {
+            case let .agentconnectiondetails(agentconnectiondetails):
+                try writer["agentConnectionDetails"].write(agentconnectiondetails, with: GroundStationClientTypes.UplinkConnectionDetails.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.SocketAddress {
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkDataflowDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GroundStationClientTypes.SocketAddress()
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "agentConnectionDetails":
+                return .agentconnectiondetails(try reader["agentConnectionDetails"].read(with: GroundStationClientTypes.UplinkConnectionDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.UplinkConnectionDetails {
+
+    static func write(value: GroundStationClientTypes.UplinkConnectionDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentIpAndPortAddress"].write(value.agentIpAndPortAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["ingressAddressAndPort"].write(value.ingressAddressAndPort, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.UplinkConnectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.UplinkConnectionDetails()
+        value.ingressAddressAndPort = try reader["ingressAddressAndPort"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        value.agentIpAndPortAddress = try reader["agentIpAndPortAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.AwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["agentStatus"].write(value.agentStatus)
+        try writer["auditResults"].write(value.auditResults)
+        try writer["egressAddress"].write(value.egressAddress, with: GroundStationClientTypes.ConnectionDetails.write(value:to:))
+        try writer["ingressAddress"].write(value.ingressAddress, with: GroundStationClientTypes.RangedConnectionDetails.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.AwsGroundStationAgentEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.AwsGroundStationAgentEndpoint()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.port = try reader["port"].readIfPresent() ?? 0
+        value.egressAddress = try reader["egressAddress"].readIfPresent(with: GroundStationClientTypes.ConnectionDetails.read(from:))
+        value.ingressAddress = try reader["ingressAddress"].readIfPresent(with: GroundStationClientTypes.RangedConnectionDetails.read(from:))
+        value.agentStatus = try reader["agentStatus"].readIfPresent()
+        value.auditResults = try reader["auditResults"].readIfPresent()
         return value
     }
 }
@@ -6267,6 +6782,39 @@ extension GroundStationClientTypes.SatelliteListItem {
         value.groundStations = try reader["groundStations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.currentEphemeris = try reader["currentEphemeris"].readIfPresent(with: GroundStationClientTypes.EphemerisMetaData.read(from:))
         return value
+    }
+}
+
+extension GroundStationClientTypes.CreateEndpointDetails {
+
+    static func write(value: GroundStationClientTypes.CreateEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .downlinkawsgroundstationagentendpoint(downlinkawsgroundstationagentendpoint):
+                try writer["downlinkAwsGroundStationAgentEndpoint"].write(downlinkawsgroundstationagentendpoint, with: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint.write(value:to:))
+            case let .uplinkawsgroundstationagentendpoint(uplinkawsgroundstationagentendpoint):
+                try writer["uplinkAwsGroundStationAgentEndpoint"].write(uplinkawsgroundstationagentendpoint, with: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.DownlinkAwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.DownlinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+}
+
+extension GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint {
+
+    static func write(value: GroundStationClientTypes.UplinkAwsGroundStationAgentEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataflowDetails"].write(value.dataflowDetails, with: GroundStationClientTypes.UplinkDataflowDetails.write(value:to:))
+        try writer["name"].write(value.name)
     }
 }
 
