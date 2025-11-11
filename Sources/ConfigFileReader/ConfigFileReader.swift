@@ -62,14 +62,17 @@ public struct ConfigFileReader {
            arrayData = stringConfigData.split(whereSeparator: \.isNewline) + stringCredentialsData!.split(whereSeparator: \.isNewline)
         }
         
+        var currentLineNumber: Int = 0
         var currentSection: ConfigFileSection?
         var sections: [String: ConfigFileSection] = [:]
-        var currentSubsectionName: String?
+        var currentProperty: String?
+        var currentSubProperty: String?
         let profileSection = try! NSRegularExpression(pattern: "\\[(?:default|profile\\s(.+?))\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile" or "default"
         let sessionSection = try! NSRegularExpression(pattern: "\\[sso-session\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern for "sso-session"
         let servicesSection = try! NSRegularExpression(pattern: "\\[services\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern for "services"
         
         for line in arrayData{
+            currentLineNumber += 1
             if line.isEmpty || line.hasPrefix("#") || line.hasPrefix(";") {
                 continue
             }
@@ -83,7 +86,7 @@ public struct ConfigFileReader {
                         let section = ConfigFileSection(name: sectionName)
                         sections[sectionName] = section
                         currentSection = section
-                        print("Found new profile: \(sectionName)") // For demonstration
+                        print("Found new profile named: '\(sectionName)' on line number: '\(currentLineNumber)'") // For demonstration
                     } else {
                         print("Current profile is still: \(sectionName)")
                         continue
@@ -96,7 +99,7 @@ public struct ConfigFileReader {
                         currentSection = section
                         print("A user profile was not configured, the \(sectionName) will be used")
                     } else {
-                        print("Current profile is still: \(sectionName)")
+                        print("Current profile is still: '\(sectionName)' on line number: '\(currentLineNumber)'")
                         continue
                 }
             }
@@ -108,7 +111,7 @@ public struct ConfigFileReader {
                         let section = ConfigFileSection(name: sectionName)
                         sections[sectionName] = section
                         currentSection = section
-                        print("Found new session: \(sectionName)")
+                        print("Found new session named: '\(sectionName)' on line number: '\(currentLineNumber)'")
                     } else {
                         print("Current session is still: \(sectionName)")
                         continue
@@ -121,27 +124,47 @@ public struct ConfigFileReader {
                     let section = ConfigFileSection(name: sectionName)
                     sections[sectionName] = section
                     currentSection = section
-                    print("Found new service: \(sectionName)")
+                    print("Found new service named: '\(sectionName)' on line number: '\(currentLineNumber)'")
                 }
             case _ where line.contains("="):
                 if currentSection != nil {
                     //Identify properties under section
                     let sectionHeader = currentSection?.name
+                    var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
                     let components = line.split(separator: "=", maxSplits: 1).map(String.init)
                     if components.count == 1{
-                        guard line.hasPrefix(" ") && !line.hasPrefix("\t") else {
-                            throw "Property did not have a name"
-                        }
-                        var subSectionName = String(components[0].trimmingCharacters(in: .whitespaces))
-                        // Check for and remove the first comment character found
                         let commentPattern = " +[#;]"
-                        if let commentRange = subSectionName.range(of:commentPattern, options: .regularExpression) {
-                            subSectionName = String(subSectionName[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
+                        var propertyName: String!
+                        let key = components[0]
+                        if !line.hasPrefix(" ") && !line.hasPrefix("\t"){
+                            propertyName = String(key.trimmingCharacters(in: .whitespaces))
+                            // Check for and remove the first comment character found
+                            if let commentRange = propertyName.range(of:commentPattern, options: .regularExpression) {
+                                propertyName = String(propertyName[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
+                            }
+                            currentProperty = propertyName  // subsection has ended if there's no indent
+                            currentSection?.properties[propertyName] = ""
+                            sections[currentSection!.name] = currentSection
+                            print("Found new property key with no value: '\(String(currentProperty!))' on line number: '\(currentLineNumber)', added to section: '\(String(currentSection!.name))'")
+                        } else if line.hasPrefix(" ") || line.hasPrefix("\t") {
+                            let subKey = key
+                            propertyName = String(subKey.trimmingCharacters(in: .whitespaces))
+                            // Check for and remove the first comment character found
+                            if let commentRange = propertyName.range(of:commentPattern, options: .regularExpression) {
+                                propertyName = String(propertyName[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
+                            }
+                            currentSubProperty = propertyName //Start of a property
+                            var subprops = currentSection?.subproperties ?? [String: [String: String]]()
+                            var subKeyValues = subprops[currentProperty!] ?? [String: String]()
+                            subKeyValues[propertyName] = "" // Add the blank value
+                            subprops[currentProperty!] = subKeyValues
+                            currentSection?.subproperties = subprops
+                            sections[currentSection!.name] = currentSection
+                            print("Found new sub-property key with no value: '\(String(currentSubProperty!))' on line number: '\(currentLineNumber)', added to section: '\(String(currentSection!.name))'")
+                        } else {
+                            throw MyError("Property did not have a name")
                         }
-                        let subSection = ConfigFileSection(name: subSectionName)
-                        sections[subSectionName] = subSection
-                        currentSubsectionName = subSectionName
-                        print("Found new subsection: \(subSection.name), added under section: \(String(describing: currentSection?.name))")
+                        print("  The current section contains '\(String(describing: currentSection))'")
                     } else if components.count == 2{
                         // This handles properties key-value pairs within a section
                         let key = components[0].trimmingCharacters(in: .whitespaces).lowercased()
@@ -152,35 +175,46 @@ public struct ConfigFileReader {
                                 value = String(value[..<commentRange.lowerBound].trimmingCharacters(in: .whitespaces))
                             }
                             // key-value pair aren't indented
-                            currentSubsectionName = nil  // subsection has ended if there's no indent
                             currentSection?.properties[key] = value
                             sections[currentSection!.name] = currentSection
-                            print("  Added key and value '\(key)' = '\(value)' to section '\(String(describing: sectionHeader))'")
+                            print("  Added new property key and value '\(key)' = '\(value)' to section '\(String(describing: sectionHeader))'")
                             print("  The current section contains '\(String(describing: currentSection))'")
                         } else{
                             // key-value pair are indented
-                            var subproperties = currentSection?.subproperties
-                            var subpropertyKeysAndValues = subproperties?[currentSubsectionName!] ?? [String: String]()
-                            if subpropertyKeysAndValues[key] != nil {
-                                subpropertyKeysAndValues[key] = value
-                                subproperties?[currentSubsectionName!] = subpropertyKeysAndValues
-                                currentSection?.subproperties = subproperties!
-                                sections[currentSection!.name] = currentSection
-                                print("  Added sub-property key and value '\(key)' = '\(value)' to subsection '\(String(describing: currentSubsectionName))' Current section: \(String(describing: currentSection?.name))")
-                                print("  The current section contains '\(String(describing: currentSection))'")
-                            } else {
-                                throw "Property did not have a name in sub-property"
+                            guard let currentSectionName = currentSection?.name,
+                                  let currentPropertyName = currentProperty,
+                                  !currentPropertyName.isEmpty else {
+                                throw MyError("Property did not have a name in sub-property")
                             }
+                            
+                            var subpropertyKeysAndValues = subproperties[currentPropertyName] ?? [String: String]()
+                            subpropertyKeysAndValues[key] = value
+                            subproperties[currentPropertyName] = subpropertyKeysAndValues
+                            currentSection?.subproperties = subproperties
+                            sections[currentSectionName] = currentSection
+//                            var subproperties = currentSection?.subproperties
+//                            var subpropertyKeysAndValues = subproperties?[currentProperty!] ?? [String: String]()
+//                            if subpropertyKeysAndValues[key] != nil {
+//                                subpropertyKeysAndValues[key] = value
+//                                subproperties?[currentProperty!] = subpropertyKeysAndValues
+//                                currentSection?.subproperties = subproperties!
+//                                sections[currentSection!.name] = currentSection
+                            print("  Added sub-property key and value '\(key)' = '\(value)' under property '\(String(describing: currentProperty))' in section: \(String(describing: currentSection?.name))")
+                            print("  The current section contains '\(String(describing: currentSection))'")
+//                            } else {
+//                                let errorMessage = "Property did not have a name in sub-property"
+//                                throw errorMessage
+//                            }
                         }
                     }
                 } else{
-                    throw "Expected a section definition"
+                    throw MyError("Expected a section definition")
                 }
             case _ where !line.contains("="):
-                if currentSubsectionName != nil {
+                if currentProperty != nil {
                     
                     guard let currentKeyPropertyName = currentSection?.properties.keys.first else {
-                        throw "Property key did not have a name"
+                        throw MyError("Property key did not have a name")
                     }
                     let components = String(line)
                     let value = components.trimmingCharacters(in: .whitespaces)
@@ -194,11 +228,11 @@ public struct ConfigFileReader {
                     print("  Added new value '\(value)' to key '\(String(describing: currentKeyPropertyName))' within section '\(String(describing: currentSection?.name))'")
                     print("  The current section contains '\(String(describing: currentSection))")
                 } else {
-                    throw "Expected a property definition"
+                    throw MyError("Expected a property definition")
                 }
             break
             default:
-                print("Unrecognized line: \"\(line)\"")
+                print("Unrecognized line: \"\(line)\" on line number: '\(currentLineNumber)'")
             }
         }
         return ConfigFile(sections: sections)
@@ -250,6 +284,7 @@ struct Config: FileBasedConfigurationSectionProviding {
 }
 extension String: @retroactive Error {
     var description: String { self }
+    var localizedDescription: String { self }
 }
 
 struct Subsection: FileBasedConfigurationSubsection {
@@ -257,5 +292,13 @@ struct Subsection: FileBasedConfigurationSubsection {
 
     func value(for name: AWSSDKCommon.FileBasedConfigurationKey) -> String? {
         subproperties[name.rawValue]
+    }
+}
+
+struct MyError: Error {
+    let localizedDescription: String
+
+    init(_ msg: String) {
+        self.localizedDescription = msg
     }
 }
