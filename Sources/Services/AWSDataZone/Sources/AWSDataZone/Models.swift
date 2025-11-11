@@ -4493,15 +4493,11 @@ extension DataZoneClientTypes {
     public struct MlflowPropertiesInput: Swift.Sendable {
         /// The tracking server ARN as part of the MLflow properties of a connection.
         public var trackingServerArn: Swift.String?
-        /// The name of the tracking server as part of the MLflow properties of a connection.
-        public var trackingServerName: Swift.String?
 
         public init(
-            trackingServerArn: Swift.String? = nil,
-            trackingServerName: Swift.String? = nil
+            trackingServerArn: Swift.String? = nil
         ) {
             self.trackingServerArn = trackingServerArn
-            self.trackingServerName = trackingServerName
         }
     }
 }
@@ -4924,15 +4920,11 @@ extension DataZoneClientTypes {
     public struct MlflowPropertiesOutput: Swift.Sendable {
         /// The tracking server ARN as part of the MLflow properties of a connection.
         public var trackingServerArn: Swift.String?
-        /// The name of the tracking server as part of the MLflow properties of a connection.
-        public var trackingServerName: Swift.String?
 
         public init(
-            trackingServerArn: Swift.String? = nil,
-            trackingServerName: Swift.String? = nil
+            trackingServerArn: Swift.String? = nil
         ) {
             self.trackingServerArn = trackingServerArn
-            self.trackingServerName = trackingServerName
         }
     }
 }
@@ -5296,15 +5288,11 @@ extension DataZoneClientTypes {
     public struct MlflowPropertiesPatch: Swift.Sendable {
         /// The tracking server ARN as part of the MLflow properties of a connection.
         public var trackingServerArn: Swift.String?
-        /// The name of the tracking server as part of the MLflow properties of a connection.
-        public var trackingServerName: Swift.String?
 
         public init(
-            trackingServerArn: Swift.String? = nil,
-            trackingServerName: Swift.String? = nil
+            trackingServerArn: Swift.String? = nil
         ) {
             self.trackingServerArn = trackingServerArn
-            self.trackingServerName = trackingServerName
         }
     }
 }
@@ -33986,7 +33974,6 @@ extension DataZoneClientTypes.MlflowPropertiesOutput {
     static func read(from reader: SmithyJSON.Reader) throws -> DataZoneClientTypes.MlflowPropertiesOutput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = DataZoneClientTypes.MlflowPropertiesOutput()
-        value.trackingServerName = try reader["trackingServerName"].readIfPresent()
         value.trackingServerArn = try reader["trackingServerArn"].readIfPresent()
         return value
     }
@@ -37251,7 +37238,6 @@ extension DataZoneClientTypes.MlflowPropertiesInput {
     static func write(value: DataZoneClientTypes.MlflowPropertiesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["trackingServerArn"].write(value.trackingServerArn)
-        try writer["trackingServerName"].write(value.trackingServerName)
     }
 }
 
@@ -37635,7 +37621,6 @@ extension DataZoneClientTypes.MlflowPropertiesPatch {
     static func write(value: DataZoneClientTypes.MlflowPropertiesPatch?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["trackingServerArn"].write(value.trackingServerArn)
-        try writer["trackingServerName"].write(value.trackingServerName)
     }
 }
 

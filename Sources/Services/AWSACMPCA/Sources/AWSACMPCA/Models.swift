@@ -493,6 +493,9 @@ extension ACMPCAClientTypes {
         case ecPrime256v1
         case ecSecp384r1
         case ecSecp521r1
+        case mlDsa44
+        case mlDsa65
+        case mlDsa87
         case rsa2048
         case rsa3072
         case rsa4096
@@ -504,6 +507,9 @@ extension ACMPCAClientTypes {
                 .ecPrime256v1,
                 .ecSecp384r1,
                 .ecSecp521r1,
+                .mlDsa44,
+                .mlDsa65,
+                .mlDsa87,
                 .rsa2048,
                 .rsa3072,
                 .rsa4096,
@@ -521,6 +527,9 @@ extension ACMPCAClientTypes {
             case .ecPrime256v1: return "EC_prime256v1"
             case .ecSecp384r1: return "EC_secp384r1"
             case .ecSecp521r1: return "EC_secp521r1"
+            case .mlDsa44: return "ML_DSA_44"
+            case .mlDsa65: return "ML_DSA_65"
+            case .mlDsa87: return "ML_DSA_87"
             case .rsa2048: return "RSA_2048"
             case .rsa3072: return "RSA_3072"
             case .rsa4096: return "RSA_4096"
@@ -534,6 +543,9 @@ extension ACMPCAClientTypes {
 extension ACMPCAClientTypes {
 
     public enum SigningAlgorithm: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case mlDsa44
+        case mlDsa65
+        case mlDsa87
         case sha256withecdsa
         case sha256withrsa
         case sha384withecdsa
@@ -545,6 +557,9 @@ extension ACMPCAClientTypes {
 
         public static var allCases: [SigningAlgorithm] {
             return [
+                .mlDsa44,
+                .mlDsa65,
+                .mlDsa87,
                 .sha256withecdsa,
                 .sha256withrsa,
                 .sha384withecdsa,
@@ -562,6 +577,9 @@ extension ACMPCAClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .mlDsa44: return "ML_DSA_44"
+            case .mlDsa65: return "ML_DSA_65"
+            case .mlDsa87: return "ML_DSA_87"
             case .sha256withecdsa: return "SHA256WITHECDSA"
             case .sha256withrsa: return "SHA256WITHRSA"
             case .sha384withecdsa: return "SHA384WITHECDSA"

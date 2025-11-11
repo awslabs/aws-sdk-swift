@@ -4138,6 +4138,10 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
     public var expectedCompletionTimeMinutes: Swift.Int?
     /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
     public var iamRoleArn: Swift.String?
+    /// This is a boolean value indicating whether the restore job is a parent (composite) restore job.
+    public var isParent: Swift.Bool
+    /// This is the unique identifier of the parent restore job for the selected restore job.
+    public var parentJobId: Swift.String?
     /// Contains an estimated percentage that is complete of a job at the time the job status was queried.
     public var percentDone: Swift.String?
     /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -4171,6 +4175,8 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
         deletionStatusMessage: Swift.String? = nil,
         expectedCompletionTimeMinutes: Swift.Int? = nil,
         iamRoleArn: Swift.String? = nil,
+        isParent: Swift.Bool = false,
+        parentJobId: Swift.String? = nil,
         percentDone: Swift.String? = nil,
         recoveryPointArn: Swift.String? = nil,
         recoveryPointCreationDate: Foundation.Date? = nil,
@@ -4193,6 +4199,8 @@ public struct DescribeRestoreJobOutput: Swift.Sendable {
         self.deletionStatusMessage = deletionStatusMessage
         self.expectedCompletionTimeMinutes = expectedCompletionTimeMinutes
         self.iamRoleArn = iamRoleArn
+        self.isParent = isParent
+        self.parentJobId = parentJobId
         self.percentDone = percentDone
         self.recoveryPointArn = recoveryPointArn
         self.recoveryPointCreationDate = recoveryPointCreationDate
@@ -6462,6 +6470,8 @@ public struct ListRestoreJobsInput: Swift.Sendable {
     public var byCreatedAfter: Foundation.Date?
     /// Returns only restore jobs that were created before the specified date.
     public var byCreatedBefore: Foundation.Date?
+    /// This is a filter to list child (nested) restore jobs based on parent restore job ID.
+    public var byParentJobId: Swift.String?
     /// Include this parameter to return only restore jobs for the specified resources:
     ///
     /// * Aurora for Amazon Aurora
@@ -6511,6 +6521,7 @@ public struct ListRestoreJobsInput: Swift.Sendable {
         byCompleteBefore: Foundation.Date? = nil,
         byCreatedAfter: Foundation.Date? = nil,
         byCreatedBefore: Foundation.Date? = nil,
+        byParentJobId: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
         byRestoreTestingPlanArn: Swift.String? = nil,
         byStatus: BackupClientTypes.RestoreJobStatus? = nil,
@@ -6522,6 +6533,7 @@ public struct ListRestoreJobsInput: Swift.Sendable {
         self.byCompleteBefore = byCompleteBefore
         self.byCreatedAfter = byCreatedAfter
         self.byCreatedBefore = byCreatedBefore
+        self.byParentJobId = byParentJobId
         self.byResourceType = byResourceType
         self.byRestoreTestingPlanArn = byRestoreTestingPlanArn
         self.byStatus = byStatus
@@ -6556,6 +6568,10 @@ extension BackupClientTypes {
         public var expectedCompletionTimeMinutes: Swift.Int?
         /// The IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public var iamRoleArn: Swift.String?
+        /// This is a boolean value indicating whether the restore job is a parent (composite) restore job.
+        public var isParent: Swift.Bool
+        /// This is the unique identifier of the parent restore job for the selected restore job.
+        public var parentJobId: Swift.String?
         /// Contains an estimated percentage complete of a job at the time the job status was queried.
         public var percentDone: Swift.String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -6589,6 +6605,8 @@ extension BackupClientTypes {
             deletionStatusMessage: Swift.String? = nil,
             expectedCompletionTimeMinutes: Swift.Int? = nil,
             iamRoleArn: Swift.String? = nil,
+            isParent: Swift.Bool = false,
+            parentJobId: Swift.String? = nil,
             percentDone: Swift.String? = nil,
             recoveryPointArn: Swift.String? = nil,
             recoveryPointCreationDate: Foundation.Date? = nil,
@@ -6611,6 +6629,8 @@ extension BackupClientTypes {
             self.deletionStatusMessage = deletionStatusMessage
             self.expectedCompletionTimeMinutes = expectedCompletionTimeMinutes
             self.iamRoleArn = iamRoleArn
+            self.isParent = isParent
+            self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.recoveryPointCreationDate = recoveryPointCreationDate
@@ -9252,6 +9272,10 @@ extension ListRestoreJobsInput {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let byParentJobId = value.byParentJobId {
+            let byParentJobIdQueryItem = Smithy.URIQueryItem(name: "parentJobId".urlPercentEncoding(), value: Swift.String(byParentJobId).urlPercentEncoding())
+            items.append(byParentJobIdQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -10443,6 +10467,8 @@ extension DescribeRestoreJobOutput {
         value.deletionStatusMessage = try reader["DeletionStatusMessage"].readIfPresent()
         value.expectedCompletionTimeMinutes = try reader["ExpectedCompletionTimeMinutes"].readIfPresent()
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        value.isParent = try reader["IsParent"].readIfPresent() ?? false
+        value.parentJobId = try reader["ParentJobId"].readIfPresent()
         value.percentDone = try reader["PercentDone"].readIfPresent()
         value.recoveryPointArn = try reader["RecoveryPointArn"].readIfPresent()
         value.recoveryPointCreationDate = try reader["RecoveryPointCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -13998,6 +14024,8 @@ extension BackupClientTypes.RestoreJobsListMember {
         value.createdResourceArn = try reader["CreatedResourceArn"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.recoveryPointCreationDate = try reader["RecoveryPointCreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isParent = try reader["IsParent"].readIfPresent() ?? false
+        value.parentJobId = try reader["ParentJobId"].readIfPresent()
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.RestoreJobCreator.read(from:))
         value.validationStatus = try reader["ValidationStatus"].readIfPresent()
         value.validationStatusMessage = try reader["ValidationStatusMessage"].readIfPresent()

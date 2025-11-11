@@ -648,6 +648,7 @@ extension ListRestoreJobsInput: ClientRuntime.PaginateToken {
             byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
+            byParentJobId: self.byParentJobId,
             byResourceType: self.byResourceType,
             byRestoreTestingPlanArn: self.byRestoreTestingPlanArn,
             byStatus: self.byStatus,

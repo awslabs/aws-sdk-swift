@@ -866,6 +866,51 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Intelligent rebalancing status. The default intelligent rebalancing status is ACTIVE for all new Express-based clusters.
+    public enum RebalancingStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case paused
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RebalancingStatus] {
+            return [
+                .active,
+                .paused
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .paused: return "PAUSED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Specifies whether or not intelligent rebalancing is turned on for a newly created MSK Provisioned cluster with Express brokers. Intelligent rebalancing performs automatic partition balancing operations when you scale your clusters up or down. By default, intelligent rebalancing is ACTIVE for all new Express-based clusters.
+    public struct Rebalancing: Swift.Sendable {
+        /// Intelligent rebalancing status. The default intelligent rebalancing status is ACTIVE for all new Express-based clusters.
+        public var status: KafkaClientTypes.RebalancingStatus?
+
+        public init(
+            status: KafkaClientTypes.RebalancingStatus? = nil
+        ) {
+            self.status = status
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Controls storage mode for various supported storage tiers.
     public enum StorageMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case local
@@ -918,6 +963,8 @@ extension KafkaClientTypes {
         public var numberOfBrokerNodes: Swift.Int?
         /// The settings for open monitoring.
         public var openMonitoring: KafkaClientTypes.OpenMonitoringInfo?
+        /// Specifies whether or not intelligent rebalancing is turned on for a newly created MSK Provisioned cluster with Express brokers. Intelligent rebalancing performs automatic partition balancing operations when you scale your clusters up or down. By default, intelligent rebalancing is ACTIVE for all new Express-based clusters.
+        public var rebalancing: KafkaClientTypes.Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public var storageMode: KafkaClientTypes.StorageMode?
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
@@ -935,6 +982,7 @@ extension KafkaClientTypes {
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil,
+            rebalancing: KafkaClientTypes.Rebalancing? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil,
             zookeeperConnectString: Swift.String? = nil,
             zookeeperConnectStringTls: Swift.String? = nil
@@ -948,6 +996,7 @@ extension KafkaClientTypes {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
             self.zookeeperConnectString = zookeeperConnectString
             self.zookeeperConnectStringTls = zookeeperConnectStringTls
@@ -1242,6 +1291,8 @@ extension KafkaClientTypes {
         public var numberOfBrokerNodes: Swift.Int?
         /// Settings for open monitoring using Prometheus.
         public var openMonitoring: KafkaClientTypes.OpenMonitoring?
+        /// Contains information about intelligent rebalancing for new MSK Provisioned clusters with Express brokers. By default, intelligent rebalancing status is ACTIVE.
+        public var rebalancing: KafkaClientTypes.Rebalancing?
         /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public var state: KafkaClientTypes.ClusterState?
         public var stateInfo: KafkaClientTypes.StateInfo?
@@ -1269,6 +1320,7 @@ extension KafkaClientTypes {
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoring? = nil,
+            rebalancing: KafkaClientTypes.Rebalancing? = nil,
             state: KafkaClientTypes.ClusterState? = nil,
             stateInfo: KafkaClientTypes.StateInfo? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil,
@@ -1290,6 +1342,7 @@ extension KafkaClientTypes {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.state = state
             self.stateInfo = stateInfo
             self.storageMode = storageMode
@@ -1421,6 +1474,8 @@ extension KafkaClientTypes {
         public var numberOfBrokerNodes: Swift.Int?
         /// The settings for open monitoring.
         public var openMonitoring: KafkaClientTypes.OpenMonitoring?
+        /// Describes the intelligent rebalancing configuration of an MSK Provisioned cluster with Express brokers.
+        public var rebalancing: KafkaClientTypes.Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public var storageMode: KafkaClientTypes.StorageMode?
 
@@ -1437,6 +1492,7 @@ extension KafkaClientTypes {
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoring? = nil,
+            rebalancing: KafkaClientTypes.Rebalancing? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil
         ) {
             self.brokerCountUpdateInfo = brokerCountUpdateInfo
@@ -1451,6 +1507,7 @@ extension KafkaClientTypes {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
         }
     }
@@ -2938,6 +2995,8 @@ public struct CreateClusterInput: Swift.Sendable {
     public var numberOfBrokerNodes: Swift.Int?
     /// The settings for open monitoring.
     public var openMonitoring: KafkaClientTypes.OpenMonitoringInfo?
+    /// Specifies if intelligent rebalancing should be turned on for the new MSK Provisioned cluster with Express brokers. By default, intelligent rebalancing status is ACTIVE for all new clusters.
+    public var rebalancing: KafkaClientTypes.Rebalancing?
     /// This controls storage mode for supported storage tiers.
     public var storageMode: KafkaClientTypes.StorageMode?
     /// Create tags when creating the cluster.
@@ -2954,6 +3013,7 @@ public struct CreateClusterInput: Swift.Sendable {
         loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
         numberOfBrokerNodes: Swift.Int? = nil,
         openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil,
+        rebalancing: KafkaClientTypes.Rebalancing? = nil,
         storageMode: KafkaClientTypes.StorageMode? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
@@ -2967,6 +3027,7 @@ public struct CreateClusterInput: Swift.Sendable {
         self.loggingInfo = loggingInfo
         self.numberOfBrokerNodes = numberOfBrokerNodes
         self.openMonitoring = openMonitoring
+        self.rebalancing = rebalancing
         self.storageMode = storageMode
         self.tags = tags
     }
@@ -3016,6 +3077,8 @@ extension KafkaClientTypes {
         public var numberOfBrokerNodes: Swift.Int?
         /// The settings for open monitoring.
         public var openMonitoring: KafkaClientTypes.OpenMonitoringInfo?
+        /// Specifies if intelligent rebalancing is turned on for your MSK Provisioned cluster with Express brokers. For all new Express-based clusters that you create, intelligent rebalancing is turned on by default.
+        public var rebalancing: KafkaClientTypes.Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public var storageMode: KafkaClientTypes.StorageMode?
 
@@ -3029,6 +3092,7 @@ extension KafkaClientTypes {
             loggingInfo: KafkaClientTypes.LoggingInfo? = nil,
             numberOfBrokerNodes: Swift.Int? = nil,
             openMonitoring: KafkaClientTypes.OpenMonitoringInfo? = nil,
+            rebalancing: KafkaClientTypes.Rebalancing? = nil,
             storageMode: KafkaClientTypes.StorageMode? = nil
         ) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
@@ -3040,6 +3104,7 @@ extension KafkaClientTypes {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
         }
     }
@@ -4726,6 +4791,43 @@ public struct UpdateMonitoringOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateRebalancingInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The current version of the cluster.
+    /// This member is required.
+    public var currentVersion: Swift.String?
+    /// Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express brokers.
+    /// This member is required.
+    public var rebalancing: KafkaClientTypes.Rebalancing?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        currentVersion: Swift.String? = nil,
+        rebalancing: KafkaClientTypes.Rebalancing? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.currentVersion = currentVersion
+        self.rebalancing = rebalancing
+    }
+}
+
+public struct UpdateRebalancingOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the cluster whose intelligent rebalancing status you've updated.
+    public var clusterArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the cluster operation.
+    public var clusterOperationArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        clusterOperationArn: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.clusterOperationArn = clusterOperationArn
+    }
+}
+
 extension KafkaClientTypes {
 
     /// Details for updating the topic replication of a replicator.
@@ -5615,6 +5717,16 @@ extension UpdateMonitoringInput {
     }
 }
 
+extension UpdateRebalancingInput {
+
+    static func urlPathProvider(_ value: UpdateRebalancingInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/rebalancing"
+    }
+}
+
 extension UpdateReplicationInfoInput {
 
     static func urlPathProvider(_ value: UpdateReplicationInfoInput) -> Swift.String? {
@@ -5675,6 +5787,7 @@ extension CreateClusterInput {
         try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
         try writer["numberOfBrokerNodes"].write(value.numberOfBrokerNodes)
         try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
+        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
         try writer["storageMode"].write(value.storageMode)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -5833,6 +5946,15 @@ extension UpdateMonitoringInput {
         try writer["enhancedMonitoring"].write(value.enhancedMonitoring)
         try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
         try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
+    }
+}
+
+extension UpdateRebalancingInput {
+
+    static func write(value: UpdateRebalancingInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["currentVersion"].write(value.currentVersion)
+        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
     }
 }
 
@@ -6516,6 +6638,19 @@ extension UpdateMonitoringOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = UpdateMonitoringOutput()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension UpdateRebalancingOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateRebalancingOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateRebalancingOutput()
         value.clusterArn = try reader["clusterArn"].readIfPresent()
         value.clusterOperationArn = try reader["clusterOperationArn"].readIfPresent()
         return value
@@ -7466,6 +7601,26 @@ enum UpdateMonitoringOutputError {
     }
 }
 
+enum UpdateRebalancingOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateReplicationInfoOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7669,6 +7824,7 @@ extension KafkaClientTypes.ClusterInfo {
         var value = KafkaClientTypes.ClusterInfo()
         value.activeOperationArn = try reader["activeOperationArn"].readIfPresent()
         value.brokerNodeGroupInfo = try reader["brokerNodeGroupInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeGroupInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
         value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
         value.clusterArn = try reader["clusterArn"].readIfPresent()
         value.clusterName = try reader["clusterName"].readIfPresent()
@@ -7989,6 +8145,21 @@ extension KafkaClientTypes.Scram {
     }
 }
 
+extension KafkaClientTypes.Rebalancing {
+
+    static func write(value: KafkaClientTypes.Rebalancing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Rebalancing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Rebalancing()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
 extension KafkaClientTypes.BrokerNodeGroupInfo {
 
     static func write(value: KafkaClientTypes.BrokerNodeGroupInfo?, to writer: SmithyJSON.Writer) throws {
@@ -8254,6 +8425,7 @@ extension KafkaClientTypes.MutableClusterInfo {
         value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
         value.storageMode = try reader["storageMode"].readIfPresent()
         value.brokerCountUpdateInfo = try reader["brokerCountUpdateInfo"].readIfPresent(with: KafkaClientTypes.BrokerCountUpdateInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
         return value
     }
 }
@@ -8476,6 +8648,7 @@ extension KafkaClientTypes.Provisioned {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.Provisioned()
         value.brokerNodeGroupInfo = try reader["brokerNodeGroupInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeGroupInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
         value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
         value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
         value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
@@ -8891,6 +9064,7 @@ extension KafkaClientTypes.ProvisionedRequest {
         try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
         try writer["numberOfBrokerNodes"].write(value.numberOfBrokerNodes)
         try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
+        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
         try writer["storageMode"].write(value.storageMode)
     }
 }

@@ -3537,17 +3537,21 @@ public struct CreatePublishingDestinationInput: Swift.Sendable {
     /// The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the Settings page in the GuardDuty console, or run the [ListDetectors](https://docs.aws.amazon.com/guardduty/latest/APIReference/API_ListDetectors.html) API.
     /// This member is required.
     public var detectorId: Swift.String?
+    /// The tags to be added to a new publishing destination resource.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         destinationProperties: GuardDutyClientTypes.DestinationProperties? = nil,
         destinationType: GuardDutyClientTypes.DestinationType? = nil,
-        detectorId: Swift.String? = nil
+        detectorId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.destinationProperties = destinationProperties
         self.destinationType = destinationType
         self.detectorId = detectorId
+        self.tags = tags
     }
 }
 
@@ -5170,19 +5174,23 @@ public struct DescribePublishingDestinationOutput: Swift.Sendable {
     /// The status of the publishing destination.
     /// This member is required.
     public var status: GuardDutyClientTypes.PublishingStatus?
+    /// The tags of the publishing destination resource.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         destinationId: Swift.String? = nil,
         destinationProperties: GuardDutyClientTypes.DestinationProperties? = nil,
         destinationType: GuardDutyClientTypes.DestinationType? = nil,
         publishingFailureStartTimestamp: Swift.Int? = nil,
-        status: GuardDutyClientTypes.PublishingStatus? = nil
+        status: GuardDutyClientTypes.PublishingStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.destinationId = destinationId
         self.destinationProperties = destinationProperties
         self.destinationType = destinationType
         self.publishingFailureStartTimestamp = publishingFailureStartTimestamp
         self.status = status
+        self.tags = tags
     }
 }
 
@@ -12463,6 +12471,7 @@ extension CreatePublishingDestinationInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["destinationProperties"].write(value.destinationProperties, with: GuardDutyClientTypes.DestinationProperties.write(value:to:))
         try writer["destinationType"].write(value.destinationType)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -13108,6 +13117,7 @@ extension DescribePublishingDestinationOutput {
         value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
         value.publishingFailureStartTimestamp = try reader["publishingFailureStartTimestamp"].readIfPresent() ?? 0
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

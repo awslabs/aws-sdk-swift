@@ -1191,6 +1191,140 @@ public struct CreateAccountAliasInput: Swift.Sendable {
     }
 }
 
+extension IAMClientTypes {
+
+    public enum PolicyParameterTypeEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case string
+        case stringList
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyParameterTypeEnum] {
+            return [
+                .string,
+                .stringList
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .string: return "string"
+            case .stringList: return "stringList"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    ///
+    public struct PolicyParameter: Swift.Sendable {
+        ///
+        public var name: Swift.String?
+        ///
+        public var type: IAMClientTypes.PolicyParameterTypeEnum?
+        ///
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            type: IAMClientTypes.PolicyParameterTypeEnum? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.type = type
+            self.values = values
+        }
+    }
+}
+
+extension IAMClientTypes {
+
+    ///
+    public struct DelegationPermission: Swift.Sendable {
+        ///
+        public var parameters: [IAMClientTypes.PolicyParameter]?
+        /// The Amazon Resource Name (ARN). ARNs are unique identifiers for Amazon Web Services resources. For more information about ARNs, go to [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+        public var policyTemplateArn: Swift.String?
+
+        public init(
+            parameters: [IAMClientTypes.PolicyParameter]? = nil,
+            policyTemplateArn: Swift.String? = nil
+        ) {
+            self.parameters = parameters
+            self.policyTemplateArn = policyTemplateArn
+        }
+    }
+}
+
+public struct CreateDelegationRequestInput: Swift.Sendable {
+    ///
+    /// This member is required.
+    public var description: Swift.String?
+    ///
+    /// This member is required.
+    public var notificationChannel: Swift.String?
+    ///
+    public var onlySendByOwner: Swift.Bool?
+    ///
+    public var ownerAccountId: Swift.String?
+    ///
+    /// This member is required.
+    public var permissions: IAMClientTypes.DelegationPermission?
+    ///
+    public var redirectUrl: Swift.String?
+    ///
+    public var requestMessage: Swift.String?
+    ///
+    /// This member is required.
+    public var requestorWorkflowId: Swift.String?
+    ///
+    /// This member is required.
+    public var sessionDuration: Swift.Int?
+
+    public init(
+        description: Swift.String? = nil,
+        notificationChannel: Swift.String? = nil,
+        onlySendByOwner: Swift.Bool? = false,
+        ownerAccountId: Swift.String? = nil,
+        permissions: IAMClientTypes.DelegationPermission? = nil,
+        redirectUrl: Swift.String? = nil,
+        requestMessage: Swift.String? = nil,
+        requestorWorkflowId: Swift.String? = nil,
+        sessionDuration: Swift.Int? = nil
+    ) {
+        self.description = description
+        self.notificationChannel = notificationChannel
+        self.onlySendByOwner = onlySendByOwner
+        self.ownerAccountId = ownerAccountId
+        self.permissions = permissions
+        self.redirectUrl = redirectUrl
+        self.requestMessage = requestMessage
+        self.requestorWorkflowId = requestorWorkflowId
+        self.sessionDuration = sessionDuration
+    }
+}
+
+public struct CreateDelegationRequestOutput: Swift.Sendable {
+    ///
+    public var consoleDeepLink: Swift.String?
+    ///
+    public var delegationRequestId: Swift.String?
+
+    public init(
+        consoleDeepLink: Swift.String? = nil,
+        delegationRequestId: Swift.String? = nil
+    ) {
+        self.consoleDeepLink = consoleDeepLink
+        self.delegationRequestId = delegationRequestId
+    }
+}
+
 public struct CreateGroupInput: Swift.Sendable {
     /// The name of the group to create. Do not include the path in this value. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both "MyResource" and "myresource".
     /// This member is required.
@@ -8490,6 +8624,13 @@ extension CreateAccountAliasInput {
     }
 }
 
+extension CreateDelegationRequestInput {
+
+    static func urlPathProvider(_ value: CreateDelegationRequestInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CreateGroupInput {
 
     static func urlPathProvider(_ value: CreateGroupInput) -> Swift.String? {
@@ -9668,6 +9809,24 @@ extension CreateAccountAliasInput {
         guard let value else { return }
         try writer["AccountAlias"].write(value.accountAlias)
         try writer["Action"].write("CreateAccountAlias")
+        try writer["Version"].write("2010-05-08")
+    }
+}
+
+extension CreateDelegationRequestInput {
+
+    static func write(value: CreateDelegationRequestInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["NotificationChannel"].write(value.notificationChannel)
+        try writer["OnlySendByOwner"].write(value.onlySendByOwner)
+        try writer["OwnerAccountId"].write(value.ownerAccountId)
+        try writer["Permissions"].write(value.permissions, with: IAMClientTypes.DelegationPermission.write(value:to:))
+        try writer["RedirectUrl"].write(value.redirectUrl)
+        try writer["RequestMessage"].write(value.requestMessage)
+        try writer["RequestorWorkflowId"].write(value.requestorWorkflowId)
+        try writer["SessionDuration"].write(value.sessionDuration)
+        try writer["Action"].write("CreateDelegationRequest")
         try writer["Version"].write("2010-05-08")
     }
 }
@@ -11527,6 +11686,19 @@ extension CreateAccountAliasOutput {
     }
 }
 
+extension CreateDelegationRequestOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDelegationRequestOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["CreateDelegationRequestResult"]
+        var value = CreateDelegationRequestOutput()
+        value.consoleDeepLink = try reader["ConsoleDeepLink"].readIfPresent()
+        value.delegationRequestId = try reader["DelegationRequestId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateGroupOutput {
@@ -13340,6 +13512,24 @@ enum CreateAccountAliasOutputError {
         switch baseError.code {
             case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
             case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
+            case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
+            case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateDelegationRequestOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConcurrentModification": return try ConcurrentModificationException.makeError(baseError: baseError)
+            case "EntityAlreadyExists": return try EntityAlreadyExistsException.makeError(baseError: baseError)
+            case "InvalidInput": return try InvalidInputException.makeError(baseError: baseError)
             case "LimitExceeded": return try LimitExceededException.makeError(baseError: baseError)
             case "ServiceFailure": return try ServiceFailureException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17006,6 +17196,25 @@ extension IAMClientTypes.OrganizationsDecisionDetail {
         var value = IAMClientTypes.OrganizationsDecisionDetail()
         value.allowedByOrganizations = try reader["AllowedByOrganizations"].readIfPresent() ?? false
         return value
+    }
+}
+
+extension IAMClientTypes.DelegationPermission {
+
+    static func write(value: IAMClientTypes.DelegationPermission?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Parameters"].writeList(value.parameters, memberWritingClosure: IAMClientTypes.PolicyParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PolicyTemplateArn"].write(value.policyTemplateArn)
+    }
+}
+
+extension IAMClientTypes.PolicyParameter {
+
+    static func write(value: IAMClientTypes.PolicyParameter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
