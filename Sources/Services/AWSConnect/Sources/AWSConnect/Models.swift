@@ -9036,7 +9036,7 @@ public struct DescribeAuthenticationProfileInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. Information about an authentication profile. An authentication profile is a resource that stores the authentication settings for users in your contact center. You use authentication profiles to set up IP address range restrictions and session timeouts. For more information, see [Set IP address restrictions or session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html).
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. Information about an authentication profile. An authentication profile is a resource that stores the authentication settings for users in your contact center. You use authentication profiles to set up IP address range restrictions and session timeouts. For more information, see [Set IP address restrictions or session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html).
     public struct AuthenticationProfile: Swift.Sendable {
         /// A list of IP address range strings that are allowed to access the Amazon Connect instance. For more information about how to configure IP addresses, see [Configure IP address based access control](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-ip-based-ac) in the Amazon Connect Administrator Guide.
         public var allowedIps: [Swift.String]?
@@ -16080,7 +16080,7 @@ public struct ListAuthenticationProfilesInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web ServicesSupport. A summary of a given authentication profile.
+    /// This API is in preview release for Amazon Connect and is subject to change. To request access to this API, contact Amazon Web Services Support. A summary of a given authentication profile.
     public struct AuthenticationProfileSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the authentication profile summary.
         public var arn: Swift.String?
@@ -24916,7 +24916,7 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
 }
 
 public struct UpdateInstanceAttributeInput: Swift.Sendable {
-    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web ServicesSupport for allowlisting.
+    /// The type of attribute. Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
     /// This member is required.
     public var attributeType: ConnectClientTypes.InstanceAttributeType?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).

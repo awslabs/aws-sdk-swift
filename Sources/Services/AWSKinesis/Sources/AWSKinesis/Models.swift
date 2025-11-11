@@ -2580,22 +2580,6 @@ public struct UntagResourceInput: Swift.Sendable {
     }
 }
 
-public struct UpdateMaxRecordSizeInput: Swift.Sendable {
-    /// The maximum record size of a single record in KiB that you can write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10 MiB). If you specify a value that is out of this range, UpdateMaxRecordSize sends back an ValidationException message.
-    /// This member is required.
-    public var maxRecordSizeInKiB: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the stream for the MaxRecordSize update.
-    public var streamARN: Swift.String?
-
-    public init(
-        maxRecordSizeInKiB: Swift.Int? = nil,
-        streamARN: Swift.String? = nil
-    ) {
-        self.maxRecordSizeInKiB = maxRecordSizeInKiB
-        self.streamARN = streamARN
-    }
-}
-
 extension KinesisClientTypes {
 
     public enum MinimumThroughputBillingCommitmentInputStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {

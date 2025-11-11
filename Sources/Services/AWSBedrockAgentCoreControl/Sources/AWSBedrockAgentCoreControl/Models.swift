@@ -11235,16 +11235,6 @@ extension BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
     }
 }
 
-extension BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BedrockAgentCoreControlClientTypes.BrowserSigningConfigOutput()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
 extension BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration {
 
     static func write(value: BedrockAgentCoreControlClientTypes.CodeInterpreterNetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
