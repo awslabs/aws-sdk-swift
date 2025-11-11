@@ -507,6 +507,35 @@ public struct CopyImageSetOutput: Swift.Sendable {
     }
 }
 
+extension MedicalImagingClientTypes {
+
+    public enum LosslessStorageFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case htj2k
+        case jpeg2000Lossless
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LosslessStorageFormat] {
+            return [
+                .htj2k,
+                .jpeg2000Lossless
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .htj2k: return "HTJ2K"
+            case .jpeg2000Lossless: return "JPEG_2000_LOSSLESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct CreateDatastoreInput: Swift.Sendable {
     /// A unique identifier for API idempotency.
     /// This member is required.
@@ -517,6 +546,8 @@ public struct CreateDatastoreInput: Swift.Sendable {
     public var kmsKeyArn: Swift.String?
     /// The ARN of the authorizer's Lambda function.
     public var lambdaAuthorizerArn: Swift.String?
+    /// The lossless storage format for the datastore.
+    public var losslessStorageFormat: MedicalImagingClientTypes.LosslessStorageFormat?
     /// The tags provided when creating a data store.
     public var tags: [Swift.String: Swift.String]?
 
@@ -525,12 +556,14 @@ public struct CreateDatastoreInput: Swift.Sendable {
         datastoreName: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
         lambdaAuthorizerArn: Swift.String? = nil,
+        losslessStorageFormat: MedicalImagingClientTypes.LosslessStorageFormat? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.datastoreName = datastoreName
         self.kmsKeyArn = kmsKeyArn
         self.lambdaAuthorizerArn = lambdaAuthorizerArn
+        self.losslessStorageFormat = losslessStorageFormat
         self.tags = tags
     }
 }
@@ -652,6 +685,8 @@ extension MedicalImagingClientTypes {
         public var kmsKeyArn: Swift.String?
         /// The ARN of the authorizer's Lambda function.
         public var lambdaAuthorizerArn: Swift.String?
+        /// The datastore's lossless storage format.
+        public var losslessStorageFormat: MedicalImagingClientTypes.LosslessStorageFormat?
         /// The timestamp when the data store was last updated.
         public var updatedAt: Foundation.Date?
 
@@ -663,6 +698,7 @@ extension MedicalImagingClientTypes {
             datastoreStatus: MedicalImagingClientTypes.DatastoreStatus? = nil,
             kmsKeyArn: Swift.String? = nil,
             lambdaAuthorizerArn: Swift.String? = nil,
+            losslessStorageFormat: MedicalImagingClientTypes.LosslessStorageFormat? = nil,
             updatedAt: Foundation.Date? = nil
         ) {
             self.createdAt = createdAt
@@ -672,6 +708,7 @@ extension MedicalImagingClientTypes {
             self.datastoreStatus = datastoreStatus
             self.kmsKeyArn = kmsKeyArn
             self.lambdaAuthorizerArn = lambdaAuthorizerArn
+            self.losslessStorageFormat = losslessStorageFormat
             self.updatedAt = updatedAt
         }
     }
@@ -1054,6 +1091,38 @@ extension MedicalImagingClientTypes {
     }
 }
 
+extension MedicalImagingClientTypes {
+
+    /// Storage tier for image sets
+    public enum StorageTier: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Archive instant access storage tier for image sets that are accessed infrequently
+        case archiveInstantAccess
+        /// Frequent access storage tier for image sets that are accessed regularly
+        case frequentAccess
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageTier] {
+            return [
+                .archiveInstantAccess,
+                .frequentAccess
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .archiveInstantAccess: return "ARCHIVE_INSTANT_ACCESS"
+            case .frequentAccess: return "FREQUENT_ACCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct GetImageSetOutput: Swift.Sendable {
     /// The timestamp when image set properties were created.
     public var createdAt: Foundation.Date?
@@ -1074,10 +1143,14 @@ public struct GetImageSetOutput: Swift.Sendable {
     public var imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus?
     /// The flag to determine whether the image set is primary or not.
     public var isPrimary: Swift.Bool?
+    /// When the image set was last accessed.
+    public var lastAccessedAt: Foundation.Date?
     /// The error message thrown if an image set action fails.
     public var message: Swift.String?
     /// This object contains the details of any overrides used while creating a specific image set version. If an image set was copied or updated using the force flag, this object will contain the forced flag.
     public var overrides: MedicalImagingClientTypes.Overrides?
+    /// The storage tier of the image set.
+    public var storageTier: MedicalImagingClientTypes.StorageTier?
     /// The timestamp when image set properties were updated.
     public var updatedAt: Foundation.Date?
     /// The image set version identifier.
@@ -1093,8 +1166,10 @@ public struct GetImageSetOutput: Swift.Sendable {
         imageSetState: MedicalImagingClientTypes.ImageSetState? = nil,
         imageSetWorkflowStatus: MedicalImagingClientTypes.ImageSetWorkflowStatus? = nil,
         isPrimary: Swift.Bool? = nil,
+        lastAccessedAt: Foundation.Date? = nil,
         message: Swift.String? = nil,
         overrides: MedicalImagingClientTypes.Overrides? = nil,
+        storageTier: MedicalImagingClientTypes.StorageTier? = nil,
         updatedAt: Foundation.Date? = nil,
         versionId: Swift.String? = nil
     ) {
@@ -1106,8 +1181,10 @@ public struct GetImageSetOutput: Swift.Sendable {
         self.imageSetState = imageSetState
         self.imageSetWorkflowStatus = imageSetWorkflowStatus
         self.isPrimary = isPrimary
+        self.lastAccessedAt = lastAccessedAt
         self.message = message
         self.overrides = overrides
+        self.storageTier = storageTier
         self.updatedAt = updatedAt
         self.versionId = versionId
     }
@@ -1690,6 +1767,10 @@ extension MedicalImagingClientTypes {
         public var imageSetId: Swift.String?
         /// The flag to determine whether the image set is primary or not.
         public var isPrimary: Swift.Bool?
+        /// When the image set was last accessed.
+        public var lastAccessedAt: Foundation.Date?
+        /// The image set's storage tier.
+        public var storageTier: MedicalImagingClientTypes.StorageTier?
         /// The time an image set was last updated.
         public var updatedAt: Foundation.Date?
         /// The image set version.
@@ -1700,6 +1781,8 @@ extension MedicalImagingClientTypes {
             dicomTags: MedicalImagingClientTypes.DICOMTags? = nil,
             imageSetId: Swift.String? = nil,
             isPrimary: Swift.Bool? = nil,
+            lastAccessedAt: Foundation.Date? = nil,
+            storageTier: MedicalImagingClientTypes.StorageTier? = nil,
             updatedAt: Foundation.Date? = nil,
             version: Swift.Int? = nil
         ) {
@@ -1707,6 +1790,8 @@ extension MedicalImagingClientTypes {
             self.dicomTags = dicomTags
             self.imageSetId = imageSetId
             self.isPrimary = isPrimary
+            self.lastAccessedAt = lastAccessedAt
+            self.storageTier = storageTier
             self.updatedAt = updatedAt
             self.version = version
         }
@@ -2318,6 +2403,7 @@ extension CreateDatastoreInput {
         try writer["datastoreName"].write(value.datastoreName)
         try writer["kmsKeyArn"].write(value.kmsKeyArn)
         try writer["lambdaAuthorizerArn"].write(value.lambdaAuthorizerArn)
+        try writer["losslessStorageFormat"].write(value.losslessStorageFormat)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -2480,8 +2566,10 @@ extension GetImageSetOutput {
         value.imageSetState = try reader["imageSetState"].readIfPresent() ?? .sdkUnknown("")
         value.imageSetWorkflowStatus = try reader["imageSetWorkflowStatus"].readIfPresent()
         value.isPrimary = try reader["isPrimary"].readIfPresent()
+        value.lastAccessedAt = try reader["lastAccessedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.message = try reader["message"].readIfPresent()
         value.overrides = try reader["overrides"].readIfPresent(with: MedicalImagingClientTypes.Overrides.read(from:))
+        value.storageTier = try reader["storageTier"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.versionId = try reader["versionId"].readIfPresent() ?? ""
         return value
@@ -3096,6 +3184,7 @@ extension MedicalImagingClientTypes.DatastoreProperties {
         value.datastoreStatus = try reader["datastoreStatus"].readIfPresent() ?? .sdkUnknown("")
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.lambdaAuthorizerArn = try reader["lambdaAuthorizerArn"].readIfPresent()
+        value.losslessStorageFormat = try reader["losslessStorageFormat"].readIfPresent()
         value.datastoreArn = try reader["datastoreArn"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
@@ -3192,6 +3281,8 @@ extension MedicalImagingClientTypes.ImageSetsMetadataSummary {
         value.version = try reader["version"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastAccessedAt = try reader["lastAccessedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.storageTier = try reader["storageTier"].readIfPresent()
         value.dicomTags = try reader["DICOMTags"].readIfPresent(with: MedicalImagingClientTypes.DICOMTags.read(from:))
         value.isPrimary = try reader["isPrimary"].readIfPresent()
         return value

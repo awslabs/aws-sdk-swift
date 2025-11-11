@@ -3133,14 +3133,18 @@ extension AppStreamClientTypes {
     public struct NetworkAccessConfiguration: Swift.Sendable {
         /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
         public var eniId: Swift.String?
+        /// The IPv6 addresses of the elastic network interface that is attached to instances in your VPC.
+        public var eniIpv6Addresses: [Swift.String]?
         /// The private IP address of the elastic network interface that is attached to instances in your VPC.
         public var eniPrivateIpAddress: Swift.String?
 
         public init(
             eniId: Swift.String? = nil,
+            eniIpv6Addresses: [Swift.String]? = nil,
             eniPrivateIpAddress: Swift.String? = nil
         ) {
             self.eniId = eniId
+            self.eniIpv6Addresses = eniIpv6Addresses
             self.eniPrivateIpAddress = eniPrivateIpAddress
         }
     }
@@ -11581,6 +11585,7 @@ extension AppStreamClientTypes.NetworkAccessConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppStreamClientTypes.NetworkAccessConfiguration()
         value.eniPrivateIpAddress = try reader["EniPrivateIpAddress"].readIfPresent()
+        value.eniIpv6Addresses = try reader["EniIpv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.eniId = try reader["EniId"].readIfPresent()
         return value
     }

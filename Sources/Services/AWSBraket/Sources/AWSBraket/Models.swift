@@ -58,9 +58,9 @@ extension BraketClientTypes {
         /// The type of action associated with the quantum task.
         /// This member is required.
         public var actionType: Swift.String?
-        /// The number of executables in a program set. This is only available for a Program Set.
+        /// The number of executables in a program set. This is only available for a program set.
         public var executableCount: Swift.Int?
-        /// The number of programs in a program set. This is only available for a Program Set.
+        /// The number of programs in a program set. This is only available for a program set.
         public var programCount: Swift.Int?
 
         public init(
@@ -1669,6 +1669,45 @@ public struct CancelQuantumTaskOutput: Swift.Sendable {
     }
 }
 
+extension BraketClientTypes {
+
+    public enum ExperimentalCapabilitiesEnablementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case all
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExperimentalCapabilitiesEnablementType] {
+            return [
+                .all,
+                .none
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BraketClientTypes {
+
+    /// Enabled experimental capabilities for quantum hardware. Note that the use of these features may impact device capabilities and performance beyond its standard specifications.
+    public enum ExperimentalCapabilities: Swift.Sendable {
+        /// Enabled experimental capabilities.
+        case enabled(BraketClientTypes.ExperimentalCapabilitiesEnablementType)
+        case sdkUnknown(Swift.String)
+    }
+}
+
 public struct CreateQuantumTaskInput: Swift.Sendable {
     /// The action associated with the quantum task.
     /// This member is required.
@@ -1683,6 +1722,8 @@ public struct CreateQuantumTaskInput: Swift.Sendable {
     public var deviceArn: Swift.String?
     /// The parameters for the device to run the quantum task on.
     public var deviceParameters: Swift.String?
+    /// Enable experimental capabilities for the quantum task.
+    public var experimentalCapabilities: BraketClientTypes.ExperimentalCapabilities?
     /// The token for an Amazon Braket hybrid job that associates it with the quantum task.
     public var jobToken: Swift.String?
     /// The S3 bucket to store quantum task result files in.
@@ -1703,6 +1744,7 @@ public struct CreateQuantumTaskInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deviceArn: Swift.String? = nil,
         deviceParameters: Swift.String? = nil,
+        experimentalCapabilities: BraketClientTypes.ExperimentalCapabilities? = nil,
         jobToken: Swift.String? = nil,
         outputS3Bucket: Swift.String? = nil,
         outputS3KeyPrefix: Swift.String? = nil,
@@ -1714,6 +1756,7 @@ public struct CreateQuantumTaskInput: Swift.Sendable {
         self.clientToken = clientToken
         self.deviceArn = deviceArn
         self.deviceParameters = deviceParameters
+        self.experimentalCapabilities = experimentalCapabilities
         self.jobToken = jobToken
         self.outputS3Bucket = outputS3Bucket
         self.outputS3KeyPrefix = outputS3KeyPrefix
@@ -1865,6 +1908,8 @@ public struct GetQuantumTaskOutput: Swift.Sendable {
     public var deviceParameters: Swift.String?
     /// The time at which the quantum task ended.
     public var endedAt: Foundation.Date?
+    /// Enabled experimental capabilities for the quantum task, if any.
+    public var experimentalCapabilities: BraketClientTypes.ExperimentalCapabilities?
     /// The reason that a quantum task failed.
     public var failureReason: Swift.String?
     /// The ARN of the Amazon Braket job associated with the quantum task.
@@ -1898,6 +1943,7 @@ public struct GetQuantumTaskOutput: Swift.Sendable {
         deviceArn: Swift.String? = nil,
         deviceParameters: Swift.String? = nil,
         endedAt: Foundation.Date? = nil,
+        experimentalCapabilities: BraketClientTypes.ExperimentalCapabilities? = nil,
         failureReason: Swift.String? = nil,
         jobArn: Swift.String? = nil,
         numSuccessfulShots: Swift.Int? = nil,
@@ -1915,6 +1961,7 @@ public struct GetQuantumTaskOutput: Swift.Sendable {
         self.deviceArn = deviceArn
         self.deviceParameters = deviceParameters
         self.endedAt = endedAt
+        self.experimentalCapabilities = experimentalCapabilities
         self.failureReason = failureReason
         self.jobArn = jobArn
         self.numSuccessfulShots = numSuccessfulShots
@@ -2325,6 +2372,7 @@ extension CreateQuantumTaskInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["deviceArn"].write(value.deviceArn)
         try writer["deviceParameters"].write(value.deviceParameters)
+        try writer["experimentalCapabilities"].write(value.experimentalCapabilities, with: BraketClientTypes.ExperimentalCapabilities.write(value:to:))
         try writer["jobToken"].write(value.jobToken)
         try writer["outputS3Bucket"].write(value.outputS3Bucket)
         try writer["outputS3KeyPrefix"].write(value.outputS3KeyPrefix)
@@ -2484,6 +2532,7 @@ extension GetQuantumTaskOutput {
         value.deviceArn = try reader["deviceArn"].readIfPresent() ?? ""
         value.deviceParameters = try reader["deviceParameters"].readIfPresent() ?? ""
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.experimentalCapabilities = try reader["experimentalCapabilities"].readIfPresent(with: BraketClientTypes.ExperimentalCapabilities.read(from:))
         value.failureReason = try reader["failureReason"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.numSuccessfulShots = try reader["numSuccessfulShots"].readIfPresent()
@@ -3172,6 +3221,30 @@ extension BraketClientTypes.ActionMetadata {
         value.programCount = try reader["programCount"].readIfPresent()
         value.executableCount = try reader["executableCount"].readIfPresent()
         return value
+    }
+}
+
+extension BraketClientTypes.ExperimentalCapabilities {
+
+    static func write(value: BraketClientTypes.ExperimentalCapabilities?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .enabled(enabled):
+                try writer["enabled"].write(enabled)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BraketClientTypes.ExperimentalCapabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "enabled":
+                return .enabled(try reader["enabled"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

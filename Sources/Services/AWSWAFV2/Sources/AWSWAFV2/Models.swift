@@ -4981,12 +4981,14 @@ public struct DeleteIPSetOutput: Swift.Sendable {
 extension WAFV2ClientTypes {
 
     public enum LogScope: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cloudwatchTelemetryRuleManaged
         case customer
         case securityLake
         case sdkUnknown(Swift.String)
 
         public static var allCases: [LogScope] {
             return [
+                .cloudwatchTelemetryRuleManaged,
                 .customer,
                 .securityLake
             ]
@@ -4999,6 +5001,7 @@ extension WAFV2ClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .cloudwatchTelemetryRuleManaged: return "CLOUDWATCH_TELEMETRY_RULE_MANAGED"
             case .customer: return "CUSTOMER"
             case .securityLake: return "SECURITY_LAKE"
             case let .sdkUnknown(s): return s
@@ -5034,7 +5037,7 @@ extension WAFV2ClientTypes {
 }
 
 public struct DeleteLoggingConfigurationInput: Swift.Sendable {
-    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) in the Amazon CloudWatch Logs user guide. Default: CUSTOMER
     public var logScope: WAFV2ClientTypes.LogScope?
     /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
     public var logType: WAFV2ClientTypes.LogType?
@@ -5621,7 +5624,7 @@ public struct GetIPSetOutput: Swift.Sendable {
 }
 
 public struct GetLoggingConfigurationInput: Swift.Sendable {
-    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) in the Amazon CloudWatch Logs user guide. Default: CUSTOMER
     public var logScope: WAFV2ClientTypes.LogScope?
     /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
     public var logType: WAFV2ClientTypes.LogType?
@@ -5794,7 +5797,7 @@ extension WAFV2ClientTypes {
         /// The logging destination configuration that you want to associate with the web ACL. You can associate one logging destination to a web ACL.
         /// This member is required.
         public var logDestinationConfigs: [Swift.String]?
-        /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+        /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) in the Amazon CloudWatch Logs user guide. Default: CUSTOMER
         public var logScope: WAFV2ClientTypes.LogScope?
         /// Used to distinguish between various logging options. Currently, there is one option. Default: WAF_LOGS
         public var logType: WAFV2ClientTypes.LogType?
@@ -6778,7 +6781,7 @@ public struct ListIPSetsOutput: Swift.Sendable {
 public struct ListLoggingConfigurationsInput: Swift.Sendable {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
-    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. Default: CUSTOMER
+    /// The owner of the logging configuration, which must be set to CUSTOMER for the configurations that you manage. The log scope SECURITY_LAKE indicates a configuration that is managed through Amazon Security Lake. You can use Security Lake to collect log and event data from various sources for normalization, analysis, and management. For information, see [Collecting data from Amazon Web Services services](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html) in the Amazon Security Lake user guide. The log scope CLOUDWATCH_TELEMETRY_RULE_MANAGED indicates a configuration that is managed through Amazon CloudWatch Logs for telemetry data collection and analysis. For information, see [What is Amazon CloudWatch Logs ?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/WhatIsCloudWatchLogs.html) in the Amazon CloudWatch Logs user guide. Default: CUSTOMER
     public var logScope: WAFV2ClientTypes.LogScope?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?

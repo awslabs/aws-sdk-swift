@@ -824,6 +824,116 @@ extension BedrockDataAutomationClientTypes {
 
 extension BedrockDataAutomationClientTypes {
 
+    /// Configuration for Audio output language
+    public enum AudioGenerativeOutputLanguage: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `default`
+        case en
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AudioGenerativeOutputLanguage] {
+            return [
+                .default,
+                .en
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .default: return "DEFAULT"
+            case .en: return "EN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Supported input languages
+    public enum Language: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cn
+        case de
+        case en
+        case es
+        case fr
+        case hk
+        case it
+        case ja
+        case ko
+        case pt
+        case tw
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Language] {
+            return [
+                .cn,
+                .de,
+                .en,
+                .es,
+                .fr,
+                .hk,
+                .it,
+                .ja,
+                .ko,
+                .pt,
+                .tw
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cn: return "CN"
+            case .de: return "DE"
+            case .en: return "EN"
+            case .es: return "ES"
+            case .fr: return "FR"
+            case .hk: return "HK"
+            case .it: return "IT"
+            case .ja: return "JA"
+            case .ko: return "KO"
+            case .pt: return "PT"
+            case .tw: return "TW"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
+    /// Optional configuration for audio language settings
+    public struct AudioLanguageConfiguration: Swift.Sendable {
+        /// Configuration for Audio output language
+        public var generativeOutputLanguage: BedrockDataAutomationClientTypes.AudioGenerativeOutputLanguage?
+        /// Enable multiple language identification in audio
+        public var identifyMultipleLanguages: Swift.Bool?
+        /// List of supported audio languages
+        public var inputLanguages: [BedrockDataAutomationClientTypes.Language]?
+
+        public init(
+            generativeOutputLanguage: BedrockDataAutomationClientTypes.AudioGenerativeOutputLanguage? = nil,
+            identifyMultipleLanguages: Swift.Bool? = nil,
+            inputLanguages: [BedrockDataAutomationClientTypes.Language]? = nil
+        ) {
+            self.generativeOutputLanguage = generativeOutputLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
+            self.inputLanguages = inputLanguages
+        }
+    }
+}
+
+extension BedrockDataAutomationClientTypes {
+
     /// State
     public enum State: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
@@ -871,12 +981,16 @@ extension BedrockDataAutomationClientTypes {
 
     /// Override Configuration of Audio
     public struct AudioOverrideConfiguration: Swift.Sendable {
+        /// Optional configuration for audio language settings
+        public var languageConfiguration: BedrockDataAutomationClientTypes.AudioLanguageConfiguration?
         /// Configuration to enable/disable processing of modality
         public var modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration?
 
         public init(
+            languageConfiguration: BedrockDataAutomationClientTypes.AudioLanguageConfiguration? = nil,
             modalityProcessing: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration? = nil
         ) {
+            self.languageConfiguration = languageConfiguration
             self.modalityProcessing = modalityProcessing
         }
     }
@@ -3172,6 +3286,7 @@ extension BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
 
     static func write(value: BedrockDataAutomationClientTypes.AudioOverrideConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["languageConfiguration"].write(value.languageConfiguration, with: BedrockDataAutomationClientTypes.AudioLanguageConfiguration.write(value:to:))
         try writer["modalityProcessing"].write(value.modalityProcessing, with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.write(value:to:))
     }
 
@@ -3179,6 +3294,26 @@ extension BedrockDataAutomationClientTypes.AudioOverrideConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockDataAutomationClientTypes.AudioOverrideConfiguration()
         value.modalityProcessing = try reader["modalityProcessing"].readIfPresent(with: BedrockDataAutomationClientTypes.ModalityProcessingConfiguration.read(from:))
+        value.languageConfiguration = try reader["languageConfiguration"].readIfPresent(with: BedrockDataAutomationClientTypes.AudioLanguageConfiguration.read(from:))
+        return value
+    }
+}
+
+extension BedrockDataAutomationClientTypes.AudioLanguageConfiguration {
+
+    static func write(value: BedrockDataAutomationClientTypes.AudioLanguageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["generativeOutputLanguage"].write(value.generativeOutputLanguage)
+        try writer["identifyMultipleLanguages"].write(value.identifyMultipleLanguages)
+        try writer["inputLanguages"].writeList(value.inputLanguages, memberWritingClosure: SmithyReadWrite.WritingClosureBox<BedrockDataAutomationClientTypes.Language>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockDataAutomationClientTypes.AudioLanguageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockDataAutomationClientTypes.AudioLanguageConfiguration()
+        value.inputLanguages = try reader["inputLanguages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BedrockDataAutomationClientTypes.Language>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.generativeOutputLanguage = try reader["generativeOutputLanguage"].readIfPresent()
+        value.identifyMultipleLanguages = try reader["identifyMultipleLanguages"].readIfPresent()
         return value
     }
 }

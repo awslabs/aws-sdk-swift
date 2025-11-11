@@ -1013,6 +1013,78 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateDelegationRequest` operation on the `IAM` service.
+    ///
+    /// This API is currently unavailable for general use.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateDelegationRequestInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateDelegationRequestOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : The request was rejected because multiple requests to change this object were submitted simultaneously. Wait a few minutes and submit your request again.
+    /// - `EntityAlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
+    /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
+    public func createDelegationRequest(input: CreateDelegationRequestInput) async throws -> CreateDelegationRequestOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createDelegationRequest")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateDelegationRequestInput, CreateDelegationRequestOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(CreateDelegationRequestInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateDelegationRequestOutput>(CreateDelegationRequestOutput.httpOutput(from:), CreateDelegationRequestOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateDelegationRequestOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateDelegationRequestOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: CreateDelegationRequestInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateDelegationRequestInput, CreateDelegationRequestOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateDelegationRequest")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateGroup` operation on the `IAM` service.
     ///
     /// Creates a new group. For information about the number of groups you can create, see [IAM and STS quotas](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html) in the IAM User Guide.
