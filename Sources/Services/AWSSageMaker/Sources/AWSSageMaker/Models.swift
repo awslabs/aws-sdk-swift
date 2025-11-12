@@ -935,7 +935,6 @@ extension SageMakerClientTypes {
         /// The framework version of the Model Package Container Image.
         public var frameworkVersion: Swift.String?
         /// The Amazon Elastic Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
-        /// This member is required.
         public var image: Swift.String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public var imageDigest: Swift.String?
@@ -11404,6 +11403,7 @@ extension SageMakerClientTypes {
         case mlT3Xlarge
         case mlTrn1n32xlarge
         case mlTrn132xlarge
+        case mlTrn23xlarge
         case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
@@ -11521,6 +11521,7 @@ extension SageMakerClientTypes {
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn132xlarge,
+                .mlTrn23xlarge,
                 .mlTrn248xlarge
             ]
         }
@@ -11644,6 +11645,7 @@ extension SageMakerClientTypes {
             case .mlT3Xlarge: return "ml.t3.xlarge"
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn23xlarge: return "ml.trn2.3xlarge"
             case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
@@ -27172,7 +27174,6 @@ public struct CreateTrainingJobInput: Swift.Sendable {
     /// Contains information about attribute-based access control (ABAC) for the training job.
     public var sessionChainingConfig: SageMakerClientTypes.SessionChainingConfig?
     /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, SageMaker ends the training job. Use this API to cap model training costs. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
-    /// This member is required.
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
     /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). Do not include any security-sensitive information including account access IDs, secrets, or tokens in any tags. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request tag variable or plain text fields.
     public var tags: [SageMakerClientTypes.Tag]?
@@ -37756,7 +37757,6 @@ extension SageMakerClientTypes {
 
 public struct DescribeTrainingJobOutput: Swift.Sendable {
     /// Information about the algorithm used for training, and algorithm metadata.
-    /// This member is required.
     public var algorithmSpecification: SageMakerClientTypes.AlgorithmSpecification?
     /// The Amazon Resource Name (ARN) of an AutoML job.
     public var autoMLJobArn: Swift.String?
@@ -37819,7 +37819,6 @@ public struct DescribeTrainingJobOutput: Swift.Sendable {
     /// Configuration for remote debugging. To learn more about the remote debugging functionality of SageMaker, see [Access a training container through Amazon Web Services Systems Manager (SSM) for remote debugging](https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
     public var remoteDebugConfig: SageMakerClientTypes.RemoteDebugConfig?
     /// Resources, including ML compute instances and ML storage volumes, that are configured for model training.
-    /// This member is required.
     public var resourceConfig: SageMakerClientTypes.ResourceConfig?
     /// The number of times to retry the job when the job fails due to an InternalServerError.
     public var retryStrategy: SageMakerClientTypes.RetryStrategy?
@@ -72576,7 +72575,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageContainerDefinition()
         value.containerHostname = try reader["ContainerHostname"].readIfPresent()
-        value.image = try reader["Image"].readIfPresent() ?? ""
+        value.image = try reader["Image"].readIfPresent()
         value.imageDigest = try reader["ImageDigest"].readIfPresent()
         value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
         value.modelDataSource = try reader["ModelDataSource"].readIfPresent(with: SageMakerClientTypes.ModelDataSource.read(from:))

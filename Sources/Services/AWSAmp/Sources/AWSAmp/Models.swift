@@ -707,10 +707,33 @@ extension AmpClientTypes {
 
 extension AmpClientTypes {
 
+    /// The Amazon VPC configuration that specifies the network settings for a Prometheus collector to securely connect to Amazon MSK clusters. This configuration includes the security groups and subnets that control network access and placement for the collector.
+    public struct VpcConfiguration: Swift.Sendable {
+        /// The security group IDs that control network access for the Prometheus collector. These security groups must allow the collector to communicate with your Amazon MSK cluster on the required ports.
+        /// This member is required.
+        public var securityGroupIds: [Swift.String]?
+        /// The subnet IDs where the Prometheus collector will be deployed. The subnets must be in the same Amazon VPC as your Amazon MSK cluster and have network connectivity to the cluster.
+        /// This member is required.
+        public var subnetIds: [Swift.String]?
+
+        public init(
+            securityGroupIds: [Swift.String]? = nil,
+            subnetIds: [Swift.String]? = nil
+        ) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+    }
+}
+
+extension AmpClientTypes {
+
     /// The source of collected metrics for a scraper.
     public enum Source: Swift.Sendable {
         /// The Amazon EKS cluster from which a scraper collects metrics.
         case eksconfiguration(AmpClientTypes.EksConfiguration)
+        /// The Amazon VPC configuration for the Prometheus collector when connecting to Amazon MSK clusters. This configuration enables secure, private network connectivity between the collector and your Amazon MSK cluster within your Amazon VPC.
+        case vpcconfiguration(AmpClientTypes.VpcConfiguration)
         case sdkUnknown(Swift.String)
     }
 }
@@ -729,7 +752,7 @@ public struct CreateScraperInput: Swift.Sendable {
     /// The configuration file to use in the new scraper. For more information, see [Scraper configuration](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-collector-how-to.html#AMP-collector-configuration) in the Amazon Managed Service for Prometheus User Guide.
     /// This member is required.
     public var scrapeConfiguration: AmpClientTypes.ScrapeConfiguration?
-    /// The Amazon EKS cluster from which the scraper will collect metrics.
+    /// The Amazon EKS or Amazon Web Services cluster from which the scraper will collect metrics.
     /// This member is required.
     public var source: AmpClientTypes.Source?
     /// (Optional) The list of tag keys and values to associate with the scraper.
@@ -5996,6 +6019,8 @@ extension AmpClientTypes.Source {
         switch value {
             case let .eksconfiguration(eksconfiguration):
                 try writer["eksConfiguration"].write(eksconfiguration, with: AmpClientTypes.EksConfiguration.write(value:to:))
+            case let .vpcconfiguration(vpcconfiguration):
+                try writer["vpcConfiguration"].write(vpcconfiguration, with: AmpClientTypes.VpcConfiguration.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -6007,9 +6032,28 @@ extension AmpClientTypes.Source {
         switch name {
             case "eksConfiguration":
                 return .eksconfiguration(try reader["eksConfiguration"].read(with: AmpClientTypes.EksConfiguration.read(from:)))
+            case "vpcConfiguration":
+                return .vpcconfiguration(try reader["vpcConfiguration"].read(with: AmpClientTypes.VpcConfiguration.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension AmpClientTypes.VpcConfiguration {
+
+    static func write(value: AmpClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.VpcConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
