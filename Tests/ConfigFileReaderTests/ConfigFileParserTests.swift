@@ -61,7 +61,7 @@ class ConfigFileParserTests: XCTestCase {
         let allTests = try JSONDecoder().decode(ParserTests.self, from: testData)
 
         // Run each test
-        for test in allTests.tests.filter({ $0.name == "Sub-property definitions can have an empty value." }){
+        for test in allTests.tests.filter({ $0.name == "profile name with extra whitespace" }){
 
             // If config file contents were given, write them to a file on disk for use during the test.
             // If no config file contents were given, the file will not exist.

@@ -67,7 +67,7 @@ public struct ConfigFileReader {
         var sections: [String: ConfigFileSection] = [:]
         var currentProperty: String?
         var currentSubProperty: String?
-        let profileSection = try! NSRegularExpression(pattern: "\\[(?:default|profile\\s(.+?))\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile" or "default"
+        let profileSection = try! NSRegularExpression(pattern: "\\[\\s*(?:default|profile\\s+(.+?))\\s*\\]", options: .caseInsensitive) // Regex pattern to match any line containing "profile" or "default"
         let sessionSection = try! NSRegularExpression(pattern: "\\[sso-session\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern for "sso-session"
         let servicesSection = try! NSRegularExpression(pattern: "\\[services\\s(.+?)\\]", options: .caseInsensitive) // Regex pattern for "services"
         
@@ -79,8 +79,8 @@ public struct ConfigFileReader {
             switch line{
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
                 // Extract the profile name using another regex or string manipulation
-                if let range = line.range(of: "\\[profile\\s(.+?)\\]", options: .regularExpression),
-                   let NameRange = line.range(of: "\\s(.+?)\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
+                if let range = line.range(of: "\\[\\s*(?:default|profile\\s+(.+?))\\s*\\]", options: .regularExpression),
+                   let NameRange = line.range(of: "\\s+(.+?)\\s*\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
                     let sectionName = String(line[NameRange].dropFirst().dropLast().trimmingCharacters(in: .whitespaces)) // Remove space and ']'
                     if sectionName != currentSection?.name {
                         let section = ConfigFileSection(name: sectionName)
