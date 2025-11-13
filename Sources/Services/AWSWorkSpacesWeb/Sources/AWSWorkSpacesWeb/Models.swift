@@ -630,11 +630,142 @@ extension WorkSpacesWebClientTypes.Tag: Swift.CustomDebugStringConvertible {
     }
 }
 
+extension WorkSpacesWebClientTypes {
+
+    public enum Category: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chat
+        case criminalActivity
+        case cults
+        case downloadSites
+        case gambling
+        case games
+        case generativeAi
+        case hacking
+        case hateAndIntolerance
+        case illegalDrug
+        case illegalSoftware
+        case imageSharing
+        case instantMessaging
+        case nudity
+        case parkedDomains
+        case peerToPeer
+        case pornography
+        case professionalNetwork
+        case schoolCheating
+        case selfHarm
+        case sexEducation
+        case socialNetworking
+        case streamingMediaAndDownloads
+        case tasteless
+        case violence
+        case weapons
+        case webBasedEmail
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Category] {
+            return [
+                .chat,
+                .criminalActivity,
+                .cults,
+                .downloadSites,
+                .gambling,
+                .games,
+                .generativeAi,
+                .hacking,
+                .hateAndIntolerance,
+                .illegalDrug,
+                .illegalSoftware,
+                .imageSharing,
+                .instantMessaging,
+                .nudity,
+                .parkedDomains,
+                .peerToPeer,
+                .pornography,
+                .professionalNetwork,
+                .schoolCheating,
+                .selfHarm,
+                .sexEducation,
+                .socialNetworking,
+                .streamingMediaAndDownloads,
+                .tasteless,
+                .violence,
+                .weapons,
+                .webBasedEmail
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chat: return "Chat"
+            case .criminalActivity: return "CriminalActivity"
+            case .cults: return "Cults"
+            case .downloadSites: return "DownloadSites"
+            case .gambling: return "Gambling"
+            case .games: return "Games"
+            case .generativeAi: return "GenerativeAI"
+            case .hacking: return "Hacking"
+            case .hateAndIntolerance: return "HateAndIntolerance"
+            case .illegalDrug: return "IllegalDrug"
+            case .illegalSoftware: return "IllegalSoftware"
+            case .imageSharing: return "ImageSharing"
+            case .instantMessaging: return "InstantMessaging"
+            case .nudity: return "Nudity"
+            case .parkedDomains: return "ParkedDomains"
+            case .peerToPeer: return "PeerToPeer"
+            case .pornography: return "Pornography"
+            case .professionalNetwork: return "ProfessionalNetwork"
+            case .schoolCheating: return "SchoolCheating"
+            case .selfHarm: return "SelfHarm"
+            case .sexEducation: return "SexEducation"
+            case .socialNetworking: return "SocialNetworking"
+            case .streamingMediaAndDownloads: return "StreamingMediaAndDownloads"
+            case .tasteless: return "Tasteless"
+            case .violence: return "Violence"
+            case .weapons: return "Weapons"
+            case .webBasedEmail: return "WebBasedEmail"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+
+    /// The policy that specifies which URLs end users are allowed to access or which URLs or domain categories they are restricted from accessing for enhanced security.
+    public struct WebContentFilteringPolicy: Swift.Sendable {
+        /// URLs and domains that are always accessible to end users.
+        public var allowedUrls: [Swift.String]?
+        /// Categories of websites that are blocked on the end user’s browsers.
+        public var blockedCategories: [WorkSpacesWebClientTypes.Category]?
+        /// URLs and domains that end users cannot access.
+        public var blockedUrls: [Swift.String]?
+
+        public init(
+            allowedUrls: [Swift.String]? = nil,
+            blockedCategories: [WorkSpacesWebClientTypes.Category]? = nil,
+            blockedUrls: [Swift.String]? = nil
+        ) {
+            self.allowedUrls = allowedUrls
+            self.blockedCategories = blockedCategories
+            self.blockedUrls = blockedUrls
+        }
+    }
+}
+
+extension WorkSpacesWebClientTypes.WebContentFilteringPolicy: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "WebContentFilteringPolicy(blockedCategories: \(Swift.String(describing: blockedCategories)), allowedUrls: \"CONTENT_REDACTED\", blockedUrls: \"CONTENT_REDACTED\")"}
+}
+
 public struct CreateBrowserSettingsInput: Swift.Sendable {
     /// Additional encryption context of the browser settings.
     public var additionalEncryptionContext: [Swift.String: Swift.String]?
     /// A JSON string containing Chrome Enterprise policies that will be applied to all streaming sessions.
-    /// This member is required.
     public var browserPolicy: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
@@ -642,25 +773,29 @@ public struct CreateBrowserSettingsInput: Swift.Sendable {
     public var customerManagedKey: Swift.String?
     /// The tags to add to the browser settings resource. A tag is a key-value pair.
     public var tags: [WorkSpacesWebClientTypes.Tag]?
+    /// The policy that specifies which URLs end users are allowed to access or which URLs or domain categories they are restricted from accessing for enhanced security.
+    public var webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy?
 
     public init(
         additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
         browserPolicy: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         customerManagedKey: Swift.String? = nil,
-        tags: [WorkSpacesWebClientTypes.Tag]? = nil
+        tags: [WorkSpacesWebClientTypes.Tag]? = nil,
+        webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy? = nil
     ) {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.browserPolicy = browserPolicy
         self.clientToken = clientToken
         self.customerManagedKey = customerManagedKey
         self.tags = tags
+        self.webContentFilteringPolicy = webContentFilteringPolicy
     }
 }
 
 extension CreateBrowserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBrowserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), browserPolicy: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateBrowserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), webContentFilteringPolicy: \(Swift.String(describing: webContentFilteringPolicy)), browserPolicy: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateBrowserSettingsOutput: Swift.Sendable {
@@ -719,26 +854,30 @@ extension WorkSpacesWebClientTypes {
         public var browserSettingsArn: Swift.String?
         /// The customer managed key used to encrypt sensitive information in the browser settings.
         public var customerManagedKey: Swift.String?
+        /// The policy that specifies which URLs end users are allowed to access or which URLs or domain categories they are restricted from accessing for enhanced security.
+        public var webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy?
 
         public init(
             additionalEncryptionContext: [Swift.String: Swift.String]? = nil,
             associatedPortalArns: [Swift.String]? = nil,
             browserPolicy: Swift.String? = nil,
             browserSettingsArn: Swift.String? = nil,
-            customerManagedKey: Swift.String? = nil
+            customerManagedKey: Swift.String? = nil,
+            webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy? = nil
         ) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.browserPolicy = browserPolicy
             self.browserSettingsArn = browserSettingsArn
             self.customerManagedKey = customerManagedKey
+            self.webContentFilteringPolicy = webContentFilteringPolicy
         }
     }
 }
 
 extension WorkSpacesWebClientTypes.BrowserSettings: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BrowserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), browserPolicy: \"CONTENT_REDACTED\")"}
+        "BrowserSettings(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), webContentFilteringPolicy: \(Swift.String(describing: webContentFilteringPolicy)), browserPolicy: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetBrowserSettingsOutput: Swift.Sendable {
@@ -806,21 +945,25 @@ public struct UpdateBrowserSettingsInput: Swift.Sendable {
     public var browserSettingsArn: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
     public var clientToken: Swift.String?
+    /// The policy that specifies which URLs end users are allowed to access or which URLs or domain categories they are restricted from accessing for enhanced security.
+    public var webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy?
 
     public init(
         browserPolicy: Swift.String? = nil,
         browserSettingsArn: Swift.String? = nil,
-        clientToken: Swift.String? = nil
+        clientToken: Swift.String? = nil,
+        webContentFilteringPolicy: WorkSpacesWebClientTypes.WebContentFilteringPolicy? = nil
     ) {
         self.browserPolicy = browserPolicy
         self.browserSettingsArn = browserSettingsArn
         self.clientToken = clientToken
+        self.webContentFilteringPolicy = webContentFilteringPolicy
     }
 }
 
 extension UpdateBrowserSettingsInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateBrowserSettingsInput(browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), clientToken: \(Swift.String(describing: clientToken)), browserPolicy: \"CONTENT_REDACTED\")"}
+        "UpdateBrowserSettingsInput(browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), clientToken: \(Swift.String(describing: clientToken)), webContentFilteringPolicy: \(Swift.String(describing: webContentFilteringPolicy)), browserPolicy: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateBrowserSettingsOutput: Swift.Sendable {
@@ -3171,6 +3314,7 @@ extension WorkSpacesWebClientTypes {
         case sessionStart
         case tabClose
         case tabOpen
+        case urlBlockByContentFilter
         case urlLoad
         case websiteInteract
         case sdkUnknown(Swift.String)
@@ -3191,6 +3335,7 @@ extension WorkSpacesWebClientTypes {
                 .sessionStart,
                 .tabClose,
                 .tabOpen,
+                .urlBlockByContentFilter,
                 .urlLoad,
                 .websiteInteract
             ]
@@ -3217,6 +3362,7 @@ extension WorkSpacesWebClientTypes {
             case .sessionStart: return "SessionStart"
             case .tabClose: return "TabClose"
             case .tabOpen: return "TabOpen"
+            case .urlBlockByContentFilter: return "UrlBlockByContentFilter"
             case .urlLoad: return "UrlLoad"
             case .websiteInteract: return "WebsiteInteract"
             case let .sdkUnknown(s): return s
@@ -5855,6 +6001,7 @@ extension CreateBrowserSettingsInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["customerManagedKey"].write(value.customerManagedKey)
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["webContentFilteringPolicy"].write(value.webContentFilteringPolicy, with: WorkSpacesWebClientTypes.WebContentFilteringPolicy.write(value:to:))
     }
 }
 
@@ -5996,6 +6143,7 @@ extension UpdateBrowserSettingsInput {
         guard let value else { return }
         try writer["browserPolicy"].write(value.browserPolicy)
         try writer["clientToken"].write(value.clientToken)
+        try writer["webContentFilteringPolicy"].write(value.webContentFilteringPolicy, with: WorkSpacesWebClientTypes.WebContentFilteringPolicy.write(value:to:))
     }
 }
 
@@ -8428,6 +8576,26 @@ extension WorkSpacesWebClientTypes.BrowserSettings {
         value.browserPolicy = try reader["browserPolicy"].readIfPresent()
         value.customerManagedKey = try reader["customerManagedKey"].readIfPresent()
         value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.webContentFilteringPolicy = try reader["webContentFilteringPolicy"].readIfPresent(with: WorkSpacesWebClientTypes.WebContentFilteringPolicy.read(from:))
+        return value
+    }
+}
+
+extension WorkSpacesWebClientTypes.WebContentFilteringPolicy {
+
+    static func write(value: WorkSpacesWebClientTypes.WebContentFilteringPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedUrls"].writeList(value.allowedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["blockedCategories"].writeList(value.blockedCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WorkSpacesWebClientTypes.Category>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["blockedUrls"].writeList(value.blockedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WorkSpacesWebClientTypes.WebContentFilteringPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WorkSpacesWebClientTypes.WebContentFilteringPolicy()
+        value.blockedCategories = try reader["blockedCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WorkSpacesWebClientTypes.Category>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedUrls = try reader["allowedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.blockedUrls = try reader["blockedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

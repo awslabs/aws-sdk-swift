@@ -1871,7 +1871,9 @@ extension ElasticLoadBalancingv2ClientTypes {
         case geneve
         case http
         case https
+        case quic
         case tcp
+        case tcpQuic
         case tcpUdp
         case tls
         case udp
@@ -1882,7 +1884,9 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .geneve,
                 .http,
                 .https,
+                .quic,
                 .tcp,
+                .tcpQuic,
                 .tcpUdp,
                 .tls,
                 .udp
@@ -1899,7 +1903,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             case .geneve: return "GENEVE"
             case .http: return "HTTP"
             case .https: return "HTTPS"
+            case .quic: return "QUIC"
             case .tcp: return "TCP"
+            case .tcpQuic: return "TCP_QUIC"
             case .tcpUdp: return "TCP_UDP"
             case .tls: return "TLS"
             case .udp: return "UDP"
@@ -3696,15 +3702,19 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var id: Swift.String?
         /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This parameter is not used if the target is a Lambda function.
         public var port: Swift.Int?
+        /// The server ID for the targets. This value is required if the protocol is QUIC or TCP_QUIC and can't be used with other protocols. The ID consists of the 0x prefix followed by 16 hexadecimal characters. Any letters must be lowercase. The value must be unique at the listener level. You can't modify the server ID for a registered target. You must deregister the target and then provide a new server ID when you register the target again.
+        public var quicServerId: Swift.String?
 
         public init(
             availabilityZone: Swift.String? = nil,
             id: Swift.String? = nil,
-            port: Swift.Int? = nil
+            port: Swift.Int? = nil,
+            quicServerId: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
             self.id = id
             self.port = port
+            self.quicServerId = quicServerId
         }
     }
 }
@@ -9725,6 +9735,7 @@ extension ElasticLoadBalancingv2ClientTypes.TargetDescription {
         try writer["AvailabilityZone"].write(value.availabilityZone)
         try writer["Id"].write(value.id)
         try writer["Port"].write(value.port)
+        try writer["QuicServerId"].write(value.quicServerId)
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetDescription {
@@ -9733,6 +9744,7 @@ extension ElasticLoadBalancingv2ClientTypes.TargetDescription {
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.port = try reader["Port"].readIfPresent()
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.quicServerId = try reader["QuicServerId"].readIfPresent()
         return value
     }
 }
