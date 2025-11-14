@@ -61,7 +61,7 @@ class ConfigFileParserTests: XCTestCase {
         let allTests = try JSONDecoder().decode(ParserTests.self, from: testData)
 
         // Run each test
-        for test in allTests.tests.filter({ $0.name == "profile name with extra whitespace" }){
+        for test in allTests.tests.filter({ $0.name == "Blank lines are ignored." }){
 
             // If config file contents were given, write them to a file on disk for use during the test.
             // If no config file contents were given, the file will not exist.
@@ -123,13 +123,13 @@ class ConfigFileParserTests: XCTestCase {
                     let actualSections = try result.get()
                     for (ssoSessionName, ssoSessionValue) in expectedSSOSessions {
                         guard let actualSSOSession = actualSections?.section(for: ssoSessionName, type: .ssoSession) else {
-                            XCTFail("Test \"\(test.name)\" Expected SSO session \"\(ssoSessionName)\" not in actual")
+                            XCTFail("Test \"\(test.name)\" Expected sso-session \"\(ssoSessionName)\" not in actual")
                             continue
                         }
                         if compare(testName: test.name, profileName: ssoSessionName, isSSO: true, expectedProfile: ssoSessionValue, actualProfile: actualSSOSession) {
                             // Profiles match, no error
                         } else {
-                            XCTFail("Test \"\(test.name)\" SSO session named \"\(ssoSessionName)\" didn't match")
+                            XCTFail("Test \"\(test.name)\" sso-session named \"\(ssoSessionName)\" didn't match")
                         }
                     }
                 } catch {
