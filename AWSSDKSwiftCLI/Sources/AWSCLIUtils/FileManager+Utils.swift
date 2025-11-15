@@ -57,6 +57,8 @@ public extension FileManager {
             .contentsOfDirectory(atPath: "../smithy-swift/Sources")
             .sorted()
             .filter { $0 != "libxml2" } // Ignore libxml module
+            .filter { $0 != "SmithyCodegenCLI" } // Ignore codegen component
+            .filter { $0 != "SmithyCodegenCore" } // Ignore codegen component
             .filter { !$0.hasPrefix(".") }
     }
 

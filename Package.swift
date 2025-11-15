@@ -480,6 +480,11 @@ extension Target.Dependency {
     static var SmithyXML: Self { .product(name: "SmithyXML", package: "smithy-swift") }
 }
 
+extension Target.PluginUsage {
+    // Smithy plugins
+    static var SmithyCodeGenerator: Self { .plugin(name: "SmithyCodeGenerator", package: "smithy-swift") }
+}
+
 // MARK: Base Package
 
 let package = Package(
@@ -636,22 +641,26 @@ private var runtimeTargets: [Target] {
         .target(
             name: "InternalAWSSTS",
             dependencies: internalAWSSTSDependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSTS/Sources/InternalAWSSTS"
+            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSTS/Sources/InternalAWSSTS",
+            plugins: [.SmithyCodeGenerator]
         ),
         .target(
             name: "InternalAWSSSO",
             dependencies: internalAWSSSODependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSO/Sources/InternalAWSSSO"
+            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSO/Sources/InternalAWSSSO",
+            plugins: [.SmithyCodeGenerator]
         ),
         .target(
             name: "InternalAWSSSOOIDC",
             dependencies: internalAWSSSOOIDCDependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSOOIDC/Sources/InternalAWSSSOOIDC"
+            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSOOIDC/Sources/InternalAWSSSOOIDC",
+            plugins: [.SmithyCodeGenerator]
         ),
         .target(
             name: "InternalAWSCognitoIdentity",
             dependencies: internalAWSCognitoIdentityDependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSCognitoIdentity/Sources/InternalAWSCognitoIdentity"
+            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSCognitoIdentity/Sources/InternalAWSCognitoIdentity",
+            plugins: [.SmithyCodeGenerator]
         ),
         .target(
             name: "AWSSDKChecksums",
@@ -724,7 +733,8 @@ private func target(_ service: String, _ dependencies: [Target.Dependency]) -> T
     .target(
         name: service,
         dependencies: dependencies,
-        path: "Sources/Services/\(service)/Sources/\(service)"
+        path: "Sources/Services/\(service)/Sources/\(service)",
+        plugins: [.SmithyCodeGenerator]
     )
 }
 
