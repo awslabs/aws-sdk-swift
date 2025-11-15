@@ -19,8 +19,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [SmithyChecksumsAPI](../../../../../swift/api/smithychecksumsapi/latest)
 
-[SmithyCodegenCLI](../../../../../swift/api/smithycodegencli/latest)
-
 [SmithyEventStreams](../../../../../swift/api/smithyeventstreams/latest)
 
 [SmithyEventStreamsAPI](../../../../../swift/api/smithyeventstreamsapi/latest)
