@@ -12,24 +12,26 @@ class PackageManifestJSONIntegration : SwiftIntegration {
     override fun writeAdditionalFiles(
         ctx: SwiftCodegenContext,
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
-        delegator: SwiftDelegator
+        delegator: SwiftDelegator,
     ) {
         delegator.useFileWriter("Dependencies.json") { writer ->
             writer.setIndentText("  ") // two spaces
             writer.openBlock("{", "}") {
                 // Write the path to the model as "modelPath".
                 val sdkId = protocolGenerationContext.service.expectTrait<ServiceTrait>().sdkId
-                val modelFileName = sdkId
-                    .lowercase()
-                    .replace(",", "")
-                    .replace(" ", "-")
+                val modelFileName =
+                    sdkId
+                        .lowercase()
+                        .replace(",", "")
+                        .replace(" ", "-")
                 writer.write("\"modelPath\": \"codegen/sdk-codegen/aws-models/$modelFileName.json\",")
 
                 // Write the dependencies as an array of strings to key "dependencies".
                 writer.openBlock("\"dependencies\": [", "]") {
-                    val externalDependencies = delegator.dependencies.filter {
-                        it.getProperty("url", String::class.java).isPresent
-                    }
+                    val externalDependencies =
+                        delegator.dependencies.filter {
+                            it.getProperty("url", String::class.java).isPresent
+                        }
 
                     val dependenciesByTarget =
                         externalDependencies
