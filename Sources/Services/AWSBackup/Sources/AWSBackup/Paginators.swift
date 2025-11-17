@@ -260,6 +260,7 @@ extension ListCopyJobsInput: ClientRuntime.PaginateToken {
             byParentJobId: self.byParentJobId,
             byResourceArn: self.byResourceArn,
             byResourceType: self.byResourceType,
+            bySourceRecoveryPointArn: self.bySourceRecoveryPointArn,
             byState: self.byState,
             maxResults: self.maxResults,
             nextToken: token

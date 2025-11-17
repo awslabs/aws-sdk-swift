@@ -15745,6 +15745,66 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Av1 Spatial Aq
+    public enum Av1SpatialAq: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1SpatialAq] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Av1 Temporal Aq
+    public enum Av1TemporalAq: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1TemporalAq] {
+            return [
+                .disabled,
+                .enabled
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Timecode Burnin Font Size
     public enum TimecodeBurninFontSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case extraSmall10
@@ -15899,6 +15959,10 @@ extension MediaLiveClientTypes {
         public var rateControlMode: MediaLiveClientTypes.Av1RateControlMode?
         /// Controls whether MediaLive inserts I-frames when it detects a scene change. ENABLED or DISABLED.
         public var sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect?
+        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. Enabled: MediaLive will determine the appropriate level of spatial AQ to apply. Disabled: No spatial AQ. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
+        public var spatialAq: MediaLiveClientTypes.Av1SpatialAq?
+        /// Temporal AQ makes adjustments within each frame based on variations in content complexity over time. Enabled: MediaLive will determine the appropriate level of temporal AQ to apply. Disabled: No temporal AQ. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
+        public var temporalAq: MediaLiveClientTypes.Av1TemporalAq?
         /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
 
@@ -15922,6 +15986,8 @@ extension MediaLiveClientTypes {
             qvbrQualityLevel: Swift.Int? = nil,
             rateControlMode: MediaLiveClientTypes.Av1RateControlMode? = nil,
             sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect? = nil,
+            spatialAq: MediaLiveClientTypes.Av1SpatialAq? = nil,
+            temporalAq: MediaLiveClientTypes.Av1TemporalAq? = nil,
             timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil
         ) {
             self.afdSignaling = afdSignaling
@@ -15943,6 +16009,8 @@ extension MediaLiveClientTypes {
             self.qvbrQualityLevel = qvbrQualityLevel
             self.rateControlMode = rateControlMode
             self.sceneChangeDetect = sceneChangeDetect
+            self.spatialAq = spatialAq
+            self.temporalAq = temporalAq
             self.timecodeBurninSettings = timecodeBurninSettings
         }
     }
@@ -17300,6 +17368,15 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Hlg2020 Settings
+    public struct Hlg2020Settings: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// H265 Color Space Settings
     public struct H265ColorSpaceSettings: Swift.Sendable {
         /// Passthrough applies no color space conversion to the output
@@ -17308,6 +17385,8 @@ extension MediaLiveClientTypes {
         public var dolbyVision81Settings: MediaLiveClientTypes.DolbyVision81Settings?
         /// Hdr10 Settings
         public var hdr10Settings: MediaLiveClientTypes.Hdr10Settings?
+        /// Hlg2020 Settings
+        public var hlg2020Settings: MediaLiveClientTypes.Hlg2020Settings?
         /// Rec601 Settings
         public var rec601Settings: MediaLiveClientTypes.Rec601Settings?
         /// Rec709 Settings
@@ -17317,12 +17396,14 @@ extension MediaLiveClientTypes {
             colorSpacePassthroughSettings: MediaLiveClientTypes.ColorSpacePassthroughSettings? = nil,
             dolbyVision81Settings: MediaLiveClientTypes.DolbyVision81Settings? = nil,
             hdr10Settings: MediaLiveClientTypes.Hdr10Settings? = nil,
+            hlg2020Settings: MediaLiveClientTypes.Hlg2020Settings? = nil,
             rec601Settings: MediaLiveClientTypes.Rec601Settings? = nil,
             rec709Settings: MediaLiveClientTypes.Rec709Settings? = nil
         ) {
             self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
             self.dolbyVision81Settings = dolbyVision81Settings
             self.hdr10Settings = hdr10Settings
+            self.hlg2020Settings = hlg2020Settings
             self.rec601Settings = rec601Settings
             self.rec709Settings = rec709Settings
         }
@@ -35603,6 +35684,8 @@ extension MediaLiveClientTypes.Av1Settings {
         try writer["qvbrQualityLevel"].write(value.qvbrQualityLevel)
         try writer["rateControlMode"].write(value.rateControlMode)
         try writer["sceneChangeDetect"].write(value.sceneChangeDetect)
+        try writer["spatialAq"].write(value.spatialAq)
+        try writer["temporalAq"].write(value.temporalAq)
         try writer["timecodeBurninSettings"].write(value.timecodeBurninSettings, with: MediaLiveClientTypes.TimecodeBurninSettings.write(value:to:))
     }
 
@@ -35629,6 +35712,8 @@ extension MediaLiveClientTypes.Av1Settings {
         value.bitrate = try reader["bitrate"].readIfPresent()
         value.rateControlMode = try reader["rateControlMode"].readIfPresent()
         value.minBitrate = try reader["minBitrate"].readIfPresent()
+        value.spatialAq = try reader["spatialAq"].readIfPresent()
+        value.temporalAq = try reader["temporalAq"].readIfPresent()
         return value
     }
 }
@@ -35929,6 +36014,7 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings {
         try writer["colorSpacePassthroughSettings"].write(value.colorSpacePassthroughSettings, with: MediaLiveClientTypes.ColorSpacePassthroughSettings.write(value:to:))
         try writer["dolbyVision81Settings"].write(value.dolbyVision81Settings, with: MediaLiveClientTypes.DolbyVision81Settings.write(value:to:))
         try writer["hdr10Settings"].write(value.hdr10Settings, with: MediaLiveClientTypes.Hdr10Settings.write(value:to:))
+        try writer["hlg2020Settings"].write(value.hlg2020Settings, with: MediaLiveClientTypes.Hlg2020Settings.write(value:to:))
         try writer["rec601Settings"].write(value.rec601Settings, with: MediaLiveClientTypes.Rec601Settings.write(value:to:))
         try writer["rec709Settings"].write(value.rec709Settings, with: MediaLiveClientTypes.Rec709Settings.write(value:to:))
     }
@@ -35941,7 +36027,21 @@ extension MediaLiveClientTypes.H265ColorSpaceSettings {
         value.hdr10Settings = try reader["hdr10Settings"].readIfPresent(with: MediaLiveClientTypes.Hdr10Settings.read(from:))
         value.rec601Settings = try reader["rec601Settings"].readIfPresent(with: MediaLiveClientTypes.Rec601Settings.read(from:))
         value.rec709Settings = try reader["rec709Settings"].readIfPresent(with: MediaLiveClientTypes.Rec709Settings.read(from:))
+        value.hlg2020Settings = try reader["hlg2020Settings"].readIfPresent(with: MediaLiveClientTypes.Hlg2020Settings.read(from:))
         return value
+    }
+}
+
+extension MediaLiveClientTypes.Hlg2020Settings {
+
+    static func write(value: MediaLiveClientTypes.Hlg2020Settings?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Hlg2020Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MediaLiveClientTypes.Hlg2020Settings()
     }
 }
 
