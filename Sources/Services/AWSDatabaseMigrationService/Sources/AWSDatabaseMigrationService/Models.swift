@@ -372,6 +372,137 @@ public struct BatchStartRecommendationsOutput: Swift.Sendable {
     }
 }
 
+public struct CancelMetadataModelConversionInput: Swift.Sendable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// The identifier for the metadata model conversion operation to cancel. This operation was initiated by StartMetadataModelConversion.
+    /// This member is required.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil,
+        requestIdentifier: Swift.String? = nil
+    ) {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Provides error information about a schema conversion operation.
+    public struct DefaultErrorDetails: Swift.Sendable {
+        /// The error message.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        ) {
+            self.message = message
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Provides error information about a project.
+    public enum ErrorDetails: Swift.Sendable {
+        /// Error information about a project.
+        case defaulterrordetails(DatabaseMigrationClientTypes.DefaultErrorDetails)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Provides information about a metadata model assessment exported to SQL.
+    public struct ExportSqlDetails: Swift.Sendable {
+        /// The URL for the object containing the exported metadata model assessment.
+        public var objectURL: Swift.String?
+        /// The Amazon S3 object key for the object containing the exported metadata model assessment.
+        public var s3ObjectKey: Swift.String?
+
+        public init(
+            objectURL: Swift.String? = nil,
+            s3ObjectKey: Swift.String? = nil
+        ) {
+            self.objectURL = objectURL
+            self.s3ObjectKey = s3ObjectKey
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Provides information about a schema conversion action.
+    public struct SchemaConversionRequest: Swift.Sendable {
+        /// Provides error information about a project.
+        public var error: DatabaseMigrationClientTypes.ErrorDetails?
+        /// Provides information about a metadata model assessment exported to SQL.
+        public var exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails?
+        /// The migration project ARN.
+        public var migrationProjectArn: Swift.String?
+        /// The identifier for the schema conversion action.
+        public var requestIdentifier: Swift.String?
+        /// The schema conversion action status.
+        public var status: Swift.String?
+
+        public init(
+            error: DatabaseMigrationClientTypes.ErrorDetails? = nil,
+            exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails? = nil,
+            migrationProjectArn: Swift.String? = nil,
+            requestIdentifier: Swift.String? = nil,
+            status: Swift.String? = nil
+        ) {
+            self.error = error
+            self.exportSqlDetails = exportSqlDetails
+            self.migrationProjectArn = migrationProjectArn
+            self.requestIdentifier = requestIdentifier
+            self.status = status
+        }
+    }
+}
+
+public struct CancelMetadataModelConversionOutput: Swift.Sendable {
+    /// Provides information about a schema conversion action.
+    public var request: DatabaseMigrationClientTypes.SchemaConversionRequest?
+
+    public init(
+        request: DatabaseMigrationClientTypes.SchemaConversionRequest? = nil
+    ) {
+        self.request = request
+    }
+}
+
+public struct CancelMetadataModelCreationInput: Swift.Sendable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// The identifier for the metadata model creation operation to cancel. This operation was initiated by StartMetadataModelCreation.
+    /// This member is required.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil,
+        requestIdentifier: Swift.String? = nil
+    ) {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+public struct CancelMetadataModelCreationOutput: Swift.Sendable {
+    /// Provides information about a schema conversion action.
+    public var request: DatabaseMigrationClientTypes.SchemaConversionRequest?
+
+    public init(
+        request: DatabaseMigrationClientTypes.SchemaConversionRequest? = nil
+    ) {
+        self.request = request
+    }
+}
+
 ///
 public struct CancelReplicationTaskAssessmentRunInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the premigration assessment run to be canceled.
@@ -7217,81 +7348,6 @@ public struct DescribeExtensionPackAssociationsInput: Swift.Sendable {
     }
 }
 
-extension DatabaseMigrationClientTypes {
-
-    /// Provides error information about a schema conversion operation.
-    public struct DefaultErrorDetails: Swift.Sendable {
-        /// The error message.
-        public var message: Swift.String?
-
-        public init(
-            message: Swift.String? = nil
-        ) {
-            self.message = message
-        }
-    }
-}
-
-extension DatabaseMigrationClientTypes {
-
-    /// Provides error information about a project.
-    public enum ErrorDetails: Swift.Sendable {
-        /// Error information about a project.
-        case defaulterrordetails(DatabaseMigrationClientTypes.DefaultErrorDetails)
-        case sdkUnknown(Swift.String)
-    }
-}
-
-extension DatabaseMigrationClientTypes {
-
-    /// Provides information about a metadata model assessment exported to SQL.
-    public struct ExportSqlDetails: Swift.Sendable {
-        /// The URL for the object containing the exported metadata model assessment.
-        public var objectURL: Swift.String?
-        /// The Amazon S3 object key for the object containing the exported metadata model assessment.
-        public var s3ObjectKey: Swift.String?
-
-        public init(
-            objectURL: Swift.String? = nil,
-            s3ObjectKey: Swift.String? = nil
-        ) {
-            self.objectURL = objectURL
-            self.s3ObjectKey = s3ObjectKey
-        }
-    }
-}
-
-extension DatabaseMigrationClientTypes {
-
-    /// Provides information about a schema conversion action.
-    public struct SchemaConversionRequest: Swift.Sendable {
-        /// Provides error information about a project.
-        public var error: DatabaseMigrationClientTypes.ErrorDetails?
-        /// Provides information about a metadata model assessment exported to SQL.
-        public var exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails?
-        /// The migration project ARN.
-        public var migrationProjectArn: Swift.String?
-        /// The identifier for the schema conversion action.
-        public var requestIdentifier: Swift.String?
-        /// The schema conversion action status.
-        public var status: Swift.String?
-
-        public init(
-            error: DatabaseMigrationClientTypes.ErrorDetails? = nil,
-            exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails? = nil,
-            migrationProjectArn: Swift.String? = nil,
-            requestIdentifier: Swift.String? = nil,
-            status: Swift.String? = nil
-        ) {
-            self.error = error
-            self.exportSqlDetails = exportSqlDetails
-            self.migrationProjectArn = migrationProjectArn
-            self.requestIdentifier = requestIdentifier
-            self.status = status
-        }
-    }
-}
-
 public struct DescribeExtensionPackAssociationsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
@@ -8008,6 +8064,99 @@ public struct DescribeInstanceProfilesOutput: Swift.Sendable {
     }
 }
 
+extension DatabaseMigrationClientTypes {
+
+    public enum OriginTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case source
+        case target
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OriginTypeValue] {
+            return [
+                .source,
+                .target
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .source: return "SOURCE"
+            case .target: return "TARGET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeMetadataModelInput: Swift.Sendable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
+    /// This member is required.
+    public var origin: DatabaseMigrationClientTypes.OriginTypeValue?
+    /// The JSON string that specifies which metadata model to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see [Selection Rules](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html) in the DMS User Guide.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil,
+        origin: DatabaseMigrationClientTypes.OriginTypeValue? = nil,
+        selectionRules: Swift.String? = nil
+    ) {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.origin = origin
+        self.selectionRules = selectionRules
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// A reference to a metadata model, including its name and selection rules for location identification.
+    public struct MetadataModelReference: Swift.Sendable {
+        /// The name of the metadata model.
+        public var metadataModelName: Swift.String?
+        /// The JSON string representing metadata model location.
+        public var selectionRules: Swift.String?
+
+        public init(
+            metadataModelName: Swift.String? = nil,
+            selectionRules: Swift.String? = nil
+        ) {
+            self.metadataModelName = metadataModelName
+            self.selectionRules = selectionRules
+        }
+    }
+}
+
+public struct DescribeMetadataModelOutput: Swift.Sendable {
+    /// The SQL text of the metadata model. This field might not be populated for some metadata models.
+    public var definition: Swift.String?
+    /// The name of the metadata model.
+    public var metadataModelName: Swift.String?
+    /// The type of the metadata model.
+    public var metadataModelType: Swift.String?
+    /// A list of counterpart metadata models in the target. This field is populated only when Origin is SOURCE and after the object has been converted by DMS Schema Conversion.
+    public var targetMetadataModels: [DatabaseMigrationClientTypes.MetadataModelReference]?
+
+    public init(
+        definition: Swift.String? = nil,
+        metadataModelName: Swift.String? = nil,
+        metadataModelType: Swift.String? = nil,
+        targetMetadataModels: [DatabaseMigrationClientTypes.MetadataModelReference]? = nil
+    ) {
+        self.definition = definition
+        self.metadataModelName = metadataModelName
+        self.metadataModelType = metadataModelType
+        self.targetMetadataModels = targetMetadataModels
+    }
+}
+
 public struct DescribeMetadataModelAssessmentsInput: Swift.Sendable {
     /// Filters applied to the metadata model assessments described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
@@ -8047,6 +8196,51 @@ public struct DescribeMetadataModelAssessmentsOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeMetadataModelChildrenInput: Swift.Sendable {
+    /// Specifies the unique pagination token that indicates where the next page should start. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of metadata model children to include in the response. If more items exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
+    public var maxRecords: Swift.Int?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
+    /// This member is required.
+    public var origin: DatabaseMigrationClientTypes.OriginTypeValue?
+    /// The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see [Selection Rules](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.Selections.html) in the DMS User Guide.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        migrationProjectIdentifier: Swift.String? = nil,
+        origin: DatabaseMigrationClientTypes.OriginTypeValue? = nil,
+        selectionRules: Swift.String? = nil
+    ) {
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.origin = origin
+        self.selectionRules = selectionRules
+    }
+}
+
+public struct DescribeMetadataModelChildrenOutput: Swift.Sendable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of metadata model children. If a marker is returned, there are more metadata model children available.
+    public var marker: Swift.String?
+    /// A list of child metadata models.
+    public var metadataModelChildren: [DatabaseMigrationClientTypes.MetadataModelReference]?
+
+    public init(
+        marker: Swift.String? = nil,
+        metadataModelChildren: [DatabaseMigrationClientTypes.MetadataModelReference]? = nil
+    ) {
+        self.marker = marker
+        self.metadataModelChildren = metadataModelChildren
+    }
+}
+
 public struct DescribeMetadataModelConversionsInput: Swift.Sendable {
     /// Filters applied to the metadata model conversions described in the form of key-value pairs.
     public var filters: [DatabaseMigrationClientTypes.Filter]?
@@ -8075,6 +8269,45 @@ public struct DescribeMetadataModelConversionsOutput: Swift.Sendable {
     /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
     public var marker: Swift.String?
     /// A paginated list of metadata model conversions.
+    public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+
+    public init(
+        marker: Swift.String? = nil,
+        requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+    ) {
+        self.marker = marker
+        self.requests = requests
+    }
+}
+
+public struct DescribeMetadataModelCreationsInput: Swift.Sendable {
+    /// Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned by a previous response, there are more metadata model creation requests available.
+    public var marker: Swift.String?
+    /// The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    ) {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+public struct DescribeMetadataModelCreationsOutput: Swift.Sendable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned, there are more metadata model creation requests available.
+    public var marker: Swift.String?
+    /// A list of metadata model creation requests. The ExportSqlDetails field will never be populated for the DescribeMetadataModelCreations operation.
     public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
 
     public init(
@@ -9815,6 +10048,34 @@ public struct ExportMetadataModelAssessmentOutput: Swift.Sendable {
     }
 }
 
+public struct GetTargetSelectionRulesInput: Swift.Sendable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// The JSON string representing the source selection rules for conversion. Selection rules must contain only supported metadata model types. For more information, see Selection Rules in the DMS User Guide.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil,
+        selectionRules: Swift.String? = nil
+    ) {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.selectionRules = selectionRules
+    }
+}
+
+public struct GetTargetSelectionRulesOutput: Swift.Sendable {
+    /// The JSON string representing the counterpart selection rules in the target.
+    public var targetSelectionRules: Swift.String?
+
+    public init(
+        targetSelectionRules: Swift.String? = nil
+    ) {
+        self.targetSelectionRules = targetSelectionRules
+    }
+}
+
 /// The certificate was not valid.
 public struct InvalidCertificateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -11035,30 +11296,65 @@ public struct StartMetadataModelConversionOutput: Swift.Sendable {
 
 extension DatabaseMigrationClientTypes {
 
-    public enum OriginTypeValue: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case source
-        case target
+    /// The properties of the statement for metadata model creation.
+    public struct StatementProperties: Swift.Sendable {
+        /// The SQL text of the statement.
+        /// This member is required.
+        public var definition: Swift.String?
+
+        public init(
+            definition: Swift.String? = nil
+        ) {
+            self.definition = definition
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.
+    public enum MetadataModelProperties: Swift.Sendable {
+        /// The properties of the statement.
+        case statementproperties(DatabaseMigrationClientTypes.StatementProperties)
         case sdkUnknown(Swift.String)
+    }
+}
 
-        public static var allCases: [OriginTypeValue] {
-            return [
-                .source,
-                .target
-            ]
-        }
+public struct StartMetadataModelCreationInput: Swift.Sendable {
+    /// The name of the metadata model.
+    /// This member is required.
+    public var metadataModelName: Swift.String?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.
+    /// This member is required.
+    public var properties: DatabaseMigrationClientTypes.MetadataModelProperties?
+    /// The JSON string that specifies the location where the metadata model will be created. Selection rules must specify a single schema. For more information, see Selection Rules in the DMS User Guide.
+    /// This member is required.
+    public var selectionRules: Swift.String?
 
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
+    public init(
+        metadataModelName: Swift.String? = nil,
+        migrationProjectIdentifier: Swift.String? = nil,
+        properties: DatabaseMigrationClientTypes.MetadataModelProperties? = nil,
+        selectionRules: Swift.String? = nil
+    ) {
+        self.metadataModelName = metadataModelName
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.properties = properties
+        self.selectionRules = selectionRules
+    }
+}
 
-        public var rawValue: Swift.String {
-            switch self {
-            case .source: return "SOURCE"
-            case .target: return "TARGET"
-            case let .sdkUnknown(s): return s
-            }
-        }
+public struct StartMetadataModelCreationOutput: Swift.Sendable {
+    /// The identifier for the metadata model creation operation.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        requestIdentifier: Swift.String? = nil
+    ) {
+        self.requestIdentifier = requestIdentifier
     }
 }
 
@@ -11580,6 +11876,20 @@ extension BatchStartRecommendationsInput {
     }
 }
 
+extension CancelMetadataModelConversionInput {
+
+    static func urlPathProvider(_ value: CancelMetadataModelConversionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CancelMetadataModelCreationInput {
+
+    static func urlPathProvider(_ value: CancelMetadataModelCreationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension CancelReplicationTaskAssessmentRunInput {
 
     static func urlPathProvider(_ value: CancelReplicationTaskAssessmentRunInput) -> Swift.String? {
@@ -11916,6 +12226,13 @@ extension DescribeInstanceProfilesInput {
     }
 }
 
+extension DescribeMetadataModelInput {
+
+    static func urlPathProvider(_ value: DescribeMetadataModelInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeMetadataModelAssessmentsInput {
 
     static func urlPathProvider(_ value: DescribeMetadataModelAssessmentsInput) -> Swift.String? {
@@ -11923,9 +12240,23 @@ extension DescribeMetadataModelAssessmentsInput {
     }
 }
 
+extension DescribeMetadataModelChildrenInput {
+
+    static func urlPathProvider(_ value: DescribeMetadataModelChildrenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeMetadataModelConversionsInput {
 
     static func urlPathProvider(_ value: DescribeMetadataModelConversionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DescribeMetadataModelCreationsInput {
+
+    static func urlPathProvider(_ value: DescribeMetadataModelCreationsInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12080,6 +12411,13 @@ extension DescribeTableStatisticsInput {
 extension ExportMetadataModelAssessmentInput {
 
     static func urlPathProvider(_ value: ExportMetadataModelAssessmentInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetTargetSelectionRulesInput {
+
+    static func urlPathProvider(_ value: GetTargetSelectionRulesInput) -> Swift.String? {
         return "/"
     }
 }
@@ -12252,6 +12590,13 @@ extension StartMetadataModelConversionInput {
     }
 }
 
+extension StartMetadataModelCreationInput {
+
+    static func urlPathProvider(_ value: StartMetadataModelCreationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension StartMetadataModelExportAsScriptInput {
 
     static func urlPathProvider(_ value: StartMetadataModelExportAsScriptInput) -> Swift.String? {
@@ -12367,6 +12712,24 @@ extension BatchStartRecommendationsInput {
     static func write(value: BatchStartRecommendationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Data"].writeList(value.data, memberWritingClosure: DatabaseMigrationClientTypes.StartRecommendationsRequestEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CancelMetadataModelConversionInput {
+
+    static func write(value: CancelMetadataModelConversionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+        try writer["RequestIdentifier"].write(value.requestIdentifier)
+    }
+}
+
+extension CancelMetadataModelCreationInput {
+
+    static func write(value: CancelMetadataModelCreationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+        try writer["RequestIdentifier"].write(value.requestIdentifier)
     }
 }
 
@@ -12917,6 +13280,16 @@ extension DescribeInstanceProfilesInput {
     }
 }
 
+extension DescribeMetadataModelInput {
+
+    static func write(value: DescribeMetadataModelInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+        try writer["Origin"].write(value.origin)
+        try writer["SelectionRules"].write(value.selectionRules)
+    }
+}
+
 extension DescribeMetadataModelAssessmentsInput {
 
     static func write(value: DescribeMetadataModelAssessmentsInput?, to writer: SmithyJSON.Writer) throws {
@@ -12928,9 +13301,32 @@ extension DescribeMetadataModelAssessmentsInput {
     }
 }
 
+extension DescribeMetadataModelChildrenInput {
+
+    static func write(value: DescribeMetadataModelChildrenInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+        try writer["Origin"].write(value.origin)
+        try writer["SelectionRules"].write(value.selectionRules)
+    }
+}
+
 extension DescribeMetadataModelConversionsInput {
 
     static func write(value: DescribeMetadataModelConversionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: DatabaseMigrationClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Marker"].write(value.marker)
+        try writer["MaxRecords"].write(value.maxRecords)
+        try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+    }
+}
+
+extension DescribeMetadataModelCreationsInput {
+
+    static func write(value: DescribeMetadataModelCreationsInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: DatabaseMigrationClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Marker"].write(value.marker)
@@ -13159,6 +13555,15 @@ extension ExportMetadataModelAssessmentInput {
         guard let value else { return }
         try writer["AssessmentReportTypes"].writeList(value.assessmentReportTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<DatabaseMigrationClientTypes.AssessmentReportType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["FileName"].write(value.fileName)
+        try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+        try writer["SelectionRules"].write(value.selectionRules)
+    }
+}
+
+extension GetTargetSelectionRulesInput {
+
+    static func write(value: GetTargetSelectionRulesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
         try writer["SelectionRules"].write(value.selectionRules)
     }
@@ -13469,6 +13874,17 @@ extension StartMetadataModelConversionInput {
     }
 }
 
+extension StartMetadataModelCreationInput {
+
+    static func write(value: StartMetadataModelCreationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetadataModelName"].write(value.metadataModelName)
+        try writer["MigrationProjectIdentifier"].write(value.migrationProjectIdentifier)
+        try writer["Properties"].write(value.properties, with: DatabaseMigrationClientTypes.MetadataModelProperties.write(value:to:))
+        try writer["SelectionRules"].write(value.selectionRules)
+    }
+}
+
 extension StartMetadataModelExportAsScriptInput {
 
     static func write(value: StartMetadataModelExportAsScriptInput?, to writer: SmithyJSON.Writer) throws {
@@ -13628,6 +14044,30 @@ extension BatchStartRecommendationsOutput {
         let reader = responseReader
         var value = BatchStartRecommendationsOutput()
         value.errorEntries = try reader["ErrorEntries"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CancelMetadataModelConversionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelMetadataModelConversionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelMetadataModelConversionOutput()
+        value.request = try reader["Request"].readIfPresent(with: DatabaseMigrationClientTypes.SchemaConversionRequest.read(from:))
+        return value
+    }
+}
+
+extension CancelMetadataModelCreationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CancelMetadataModelCreationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CancelMetadataModelCreationOutput()
+        value.request = try reader["Request"].readIfPresent(with: DatabaseMigrationClientTypes.SchemaConversionRequest.read(from:))
         return value
     }
 }
@@ -14222,6 +14662,21 @@ extension DescribeInstanceProfilesOutput {
     }
 }
 
+extension DescribeMetadataModelOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetadataModelOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMetadataModelOutput()
+        value.definition = try reader["Definition"].readIfPresent()
+        value.metadataModelName = try reader["MetadataModelName"].readIfPresent()
+        value.metadataModelType = try reader["MetadataModelType"].readIfPresent()
+        value.targetMetadataModels = try reader["TargetMetadataModels"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.MetadataModelReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeMetadataModelAssessmentsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetadataModelAssessmentsOutput {
@@ -14235,6 +14690,19 @@ extension DescribeMetadataModelAssessmentsOutput {
     }
 }
 
+extension DescribeMetadataModelChildrenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetadataModelChildrenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMetadataModelChildrenOutput()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.metadataModelChildren = try reader["MetadataModelChildren"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.MetadataModelReference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeMetadataModelConversionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetadataModelConversionsOutput {
@@ -14242,6 +14710,19 @@ extension DescribeMetadataModelConversionsOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = DescribeMetadataModelConversionsOutput()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.requests = try reader["Requests"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.SchemaConversionRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DescribeMetadataModelCreationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeMetadataModelCreationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeMetadataModelCreationsOutput()
         value.marker = try reader["Marker"].readIfPresent()
         value.requests = try reader["Requests"].readListIfPresent(memberReadingClosure: DatabaseMigrationClientTypes.SchemaConversionRequest.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
@@ -14537,6 +15018,18 @@ extension ExportMetadataModelAssessmentOutput {
     }
 }
 
+extension GetTargetSelectionRulesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTargetSelectionRulesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTargetSelectionRulesOutput()
+        value.targetSelectionRules = try reader["TargetSelectionRules"].readIfPresent()
+        return value
+    }
+}
+
 extension ImportCertificateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ImportCertificateOutput {
@@ -14821,6 +15314,18 @@ extension StartMetadataModelConversionOutput {
     }
 }
 
+extension StartMetadataModelCreationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMetadataModelCreationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartMetadataModelCreationOutput()
+        value.requestIdentifier = try reader["RequestIdentifier"].readIfPresent()
+        return value
+    }
+}
+
 extension StartMetadataModelExportAsScriptOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartMetadataModelExportAsScriptOutput {
@@ -15002,6 +15507,38 @@ enum ApplyPendingMaintenanceActionOutputError {
 }
 
 enum BatchStartRecommendationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelMetadataModelConversionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CancelMetadataModelCreationOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -15787,6 +16324,21 @@ enum DescribeInstanceProfilesOutputError {
     }
 }
 
+enum DescribeMetadataModelOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeMetadataModelAssessmentsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15801,6 +16353,21 @@ enum DescribeMetadataModelAssessmentsOutputError {
     }
 }
 
+enum DescribeMetadataModelChildrenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeMetadataModelConversionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15809,6 +16376,21 @@ enum DescribeMetadataModelConversionsOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeMetadataModelCreationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16126,6 +16708,22 @@ enum ExportMetadataModelAssessmentOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTargetSelectionRulesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "InvalidResourceStateFault": return try InvalidResourceStateFault.makeError(baseError: baseError)
             case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -16552,6 +17150,23 @@ enum StartMetadataModelConversionOutputError {
             case "ResourceQuotaExceededFault": return try ResourceQuotaExceededFault.makeError(baseError: baseError)
             case "S3AccessDeniedFault": return try S3AccessDeniedFault.makeError(baseError: baseError)
             case "S3ResourceNotFoundFault": return try S3ResourceNotFoundFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StartMetadataModelCreationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedFault": return try AccessDeniedFault.makeError(baseError: baseError)
+            case "ResourceAlreadyExistsFault": return try ResourceAlreadyExistsFault.makeError(baseError: baseError)
+            case "ResourceNotFoundFault": return try ResourceNotFoundFault.makeError(baseError: baseError)
+            case "ResourceQuotaExceededFault": return try ResourceQuotaExceededFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -17161,6 +17776,55 @@ extension DatabaseMigrationClientTypes.BatchStartRecommendationsErrorEntry {
         value.databaseId = try reader["DatabaseId"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         value.code = try reader["Code"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.SchemaConversionRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SchemaConversionRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.SchemaConversionRequest()
+        value.status = try reader["Status"].readIfPresent()
+        value.requestIdentifier = try reader["RequestIdentifier"].readIfPresent()
+        value.migrationProjectArn = try reader["MigrationProjectArn"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: DatabaseMigrationClientTypes.ErrorDetails.read(from:))
+        value.exportSqlDetails = try reader["ExportSqlDetails"].readIfPresent(with: DatabaseMigrationClientTypes.ExportSqlDetails.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ExportSqlDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ExportSqlDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ExportSqlDetails()
+        value.s3ObjectKey = try reader["S3ObjectKey"].readIfPresent()
+        value.objectURL = try reader["ObjectURL"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "defaultErrorDetails":
+                return .defaulterrordetails(try reader["defaultErrorDetails"].read(with: DatabaseMigrationClientTypes.DefaultErrorDetails.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes.DefaultErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DefaultErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.DefaultErrorDetails()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -18967,55 +19631,6 @@ extension DatabaseMigrationClientTypes.Event {
     }
 }
 
-extension DatabaseMigrationClientTypes.SchemaConversionRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SchemaConversionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.SchemaConversionRequest()
-        value.status = try reader["Status"].readIfPresent()
-        value.requestIdentifier = try reader["RequestIdentifier"].readIfPresent()
-        value.migrationProjectArn = try reader["MigrationProjectArn"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: DatabaseMigrationClientTypes.ErrorDetails.read(from:))
-        value.exportSqlDetails = try reader["ExportSqlDetails"].readIfPresent(with: DatabaseMigrationClientTypes.ExportSqlDetails.read(from:))
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ExportSqlDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ExportSqlDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.ExportSqlDetails()
-        value.s3ObjectKey = try reader["S3ObjectKey"].readIfPresent()
-        value.objectURL = try reader["ObjectURL"].readIfPresent()
-        return value
-    }
-}
-
-extension DatabaseMigrationClientTypes.ErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "defaultErrorDetails":
-                return .defaulterrordetails(try reader["defaultErrorDetails"].read(with: DatabaseMigrationClientTypes.DefaultErrorDetails.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension DatabaseMigrationClientTypes.DefaultErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.DefaultErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DatabaseMigrationClientTypes.DefaultErrorDetails()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
 extension DatabaseMigrationClientTypes.CollectorResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.CollectorResponse {
@@ -19183,6 +19798,17 @@ extension DatabaseMigrationClientTypes.DatabaseShortInfoResponse {
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.databaseIpAddress = try reader["DatabaseIpAddress"].readIfPresent()
         value.databaseEngine = try reader["DatabaseEngine"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.MetadataModelReference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.MetadataModelReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.MetadataModelReference()
+        value.metadataModelName = try reader["MetadataModelName"].readIfPresent()
+        value.selectionRules = try reader["SelectionRules"].readIfPresent()
         return value
     }
 }
@@ -19549,6 +20175,27 @@ extension DatabaseMigrationClientTypes.TableToReload {
         guard let value else { return }
         try writer["SchemaName"].write(value.schemaName)
         try writer["TableName"].write(value.tableName)
+    }
+}
+
+extension DatabaseMigrationClientTypes.MetadataModelProperties {
+
+    static func write(value: DatabaseMigrationClientTypes.MetadataModelProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .statementproperties(statementproperties):
+                try writer["StatementProperties"].write(statementproperties, with: DatabaseMigrationClientTypes.StatementProperties.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes.StatementProperties {
+
+    static func write(value: DatabaseMigrationClientTypes.StatementProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Definition"].write(value.definition)
     }
 }
 

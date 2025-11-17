@@ -458,6 +458,111 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
 
 extension CloudFormationClientTypes {
 
+    public enum AnnotationSeverityLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case critical
+        case high
+        case informational
+        case low
+        case medium
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnnotationSeverityLevel] {
+            return [
+                .critical,
+                .high,
+                .informational,
+                .low,
+                .medium
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .critical: return "CRITICAL"
+            case .high: return "HIGH"
+            case .informational: return "INFORMATIONAL"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum AnnotationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case passed
+        case skipped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnnotationStatus] {
+            return [
+                .failed,
+                .passed,
+                .skipped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .passed: return "PASSED"
+            case .skipped: return "SKIPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// The Annotation data type. A GetHookResult call returns detailed information and remediation guidance from Control Tower, Guard, Lambda, or custom Hooks for a Hook invocation result.
+    public struct Annotation: Swift.Sendable {
+        /// An identifier for the evaluation logic that was used when invoking the Hook. For Control Tower, this is the control ID. For Guard, this is the rule ID. For Lambda and custom Hooks, this is a user-defined identifier.
+        public var annotationName: Swift.String?
+        /// A URL that you can access for additional remediation guidance.
+        public var remediationLink: Swift.String?
+        /// Suggests what to change if your Hook returns a FAILED status. For example, "Block public access to the bucket".
+        public var remediationMessage: Swift.String?
+        /// The relative risk associated with any violations of this type.
+        public var severityLevel: CloudFormationClientTypes.AnnotationSeverityLevel?
+        /// The status of the Hook invocation from the downstream service.
+        public var status: CloudFormationClientTypes.AnnotationStatus?
+        /// The explanation for the specific status assigned to this Hook invocation. For example, "Bucket does not block public access".
+        public var statusMessage: Swift.String?
+
+        public init(
+            annotationName: Swift.String? = nil,
+            remediationLink: Swift.String? = nil,
+            remediationMessage: Swift.String? = nil,
+            severityLevel: CloudFormationClientTypes.AnnotationSeverityLevel? = nil,
+            status: CloudFormationClientTypes.AnnotationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.annotationName = annotationName
+            self.remediationLink = remediationLink
+            self.remediationMessage = remediationMessage
+            self.severityLevel = severityLevel
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
     public enum AttributeChangeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case add
         case modify
@@ -1378,7 +1483,7 @@ extension CloudFormationClientTypes {
     public struct ChangeSetHookTargetDetails: Swift.Sendable {
         /// Required if TargetType is RESOURCE.
         public var resourceTargetDetails: CloudFormationClientTypes.ChangeSetHookResourceTargetDetails?
-        /// The name of the type.
+        /// The Hook target type.
         public var targetType: CloudFormationClientTypes.HookTargetType?
 
         public init(
@@ -1918,7 +2023,7 @@ extension CloudFormationClientTypes {
 public struct CreateChangeSetInput: Swift.Sendable {
     /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.
     ///
-    /// * CAPABILITY_IAM and CAPABILITY_NAMED_IAM Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.
+    /// * CAPABILITY_IAM and CAPABILITY_NAMED_IAM Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.
     ///
     /// * If you have IAM resources, you can specify either capability.
     ///
@@ -1981,7 +2086,7 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var onStackFailure: CloudFormationClientTypes.OnStackFailure?
     /// A list of Parameter structures that specify input parameters for the change set. For more information, see the [Parameter] data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with if you execute this change set, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see [Control access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html) in the CloudFormation User Guide. Only one of the Capabilities and ResourceType parameters can be specified.
+    /// Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see [Control CloudFormation access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html) in the CloudFormation User Guide. Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// The resources to import into your stack.
     public var resourcesToImport: [CloudFormationClientTypes.ResourceToImport]?
@@ -1994,11 +2099,11 @@ public struct CreateChangeSetInput: Swift.Sendable {
     public var stackName: Swift.String?
     /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to resources in the stack. You can specify a maximum of 50 tags.
     public var tags: [CloudFormationClientTypes.Tag]?
-    /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
+    /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateBody: Swift.String?
-    /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify only TemplateBody or TemplateURL.
+    /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateURL: Swift.String?
-    /// Whether to reuse the template that's associated with the stack to create the change set.
+    /// Whether to reuse the template that's associated with the stack to create the change set. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are applied correctly. For more information, see [AWS::LanguageExtensions transform](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/transform-aws-languageextensions.html). Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
 
     public init(
@@ -2317,7 +2422,7 @@ public struct CreateStackInput: Swift.Sendable {
     public var onFailure: CloudFormationClientTypes.OnFailure?
     /// A list of Parameter structures that specify input parameters for the stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with for this create stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. Use the following syntax to describe template resource types: AWS::* (for all Amazon Web Services resources), Custom::* (for all custom resources), Custom::logical_ID  (for a specific custom resource), AWS::service_name::* (for all resources of a particular Amazon Web Services service), and AWS::service_name::resource_logical_ID  (for a specific Amazon Web Services resource). If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html). Only one of the Capabilities and ResourceType parameters can be specified.
+    /// Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control CloudFormation access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html). Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
@@ -3344,7 +3449,7 @@ public struct DeregisterTypeOutput: Swift.Sendable {
 
 /// The input for the [DescribeAccountLimits] action.
 public struct DescribeAccountLimitsInput: Swift.Sendable {
-    /// A string that identifies the next page of limits that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -3377,7 +3482,7 @@ public struct DescribeChangeSetInput: Swift.Sendable {
     public var changeSetName: Swift.String?
     /// If true, the returned changes include detailed changes in the property values.
     public var includePropertyValues: Swift.Bool?
-    /// A string (provided by the [DescribeChangeSet] response output) that identifies the next page of information that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
     public var stackName: Swift.String?
@@ -3499,7 +3604,7 @@ public struct DescribeChangeSetHooksInput: Swift.Sendable {
     public var changeSetName: Swift.String?
     /// If specified, lists only the Hooks related to the specified LogicalResourceId.
     public var logicalResourceId: Swift.String?
-    /// A string, provided by the DescribeChangeSetHooks response output, that identifies the next page of information that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// If you specified the name of a change set, specify the stack name or stack ID (ARN) of the change set you want to describe.
     public var stackName: Swift.String?
@@ -3530,7 +3635,7 @@ public struct DescribeChangeSetHooksOutput: Swift.Sendable {
     public var stackId: Swift.String?
     /// The stack name.
     public var stackName: Swift.String?
-    /// Provides the status of the change set hook.
+    /// Provides the status of the change set Hook.
     public var status: CloudFormationClientTypes.ChangeSetHooksStatus?
 
     public init(
@@ -4283,13 +4388,14 @@ public struct DescribeStackDriftDetectionStatusOutput: Swift.Sendable {
 
 /// The input for [DescribeStackEvents] action.
 public struct DescribeStackEventsInput: Swift.Sendable {
-    /// A string that identifies the next page of events that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
     ///
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
     /// * Deleted stacks: You must specify the unique stack ID.
+    /// This member is required.
     public var stackName: Swift.String?
 
     public init(
@@ -5165,7 +5271,7 @@ public struct DescribeStackResourceOutput: Swift.Sendable {
 public struct DescribeStackResourceDriftsInput: Swift.Sendable {
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of stack resource drift results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name of the stack for which you want drift information.
     /// This member is required.
@@ -5476,7 +5582,7 @@ public struct DescribeStackResourcesOutput: Swift.Sendable {
 
 /// The input for [DescribeStacks] action.
 public struct DescribeStacksInput: Swift.Sendable {
-    /// A string that identifies the next page of stacks that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the [ListStacks] API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] } The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
     ///
@@ -6927,6 +7033,173 @@ public struct GetGeneratedTemplateOutput: Swift.Sendable {
     }
 }
 
+/// The specified target doesn't have any requested Hook invocations.
+public struct HookResultNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "HookResultNotFound" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetHookResultInput: Swift.Sendable {
+    /// The unique identifier (ID) of the Hook invocation result that you want details about. You can get the ID from the [ListHookResults](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListHookResults.html) operation.
+    public var hookResultId: Swift.String?
+
+    public init(
+        hookResultId: Swift.String? = nil
+    ) {
+        self.hookResultId = hookResultId
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    public enum HookTargetAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case create
+        case delete
+        case `import`
+        case update
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HookTargetAction] {
+            return [
+                .create,
+                .delete,
+                .import,
+                .update
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .create: return "CREATE"
+            case .delete: return "DELETE"
+            case .import: return "IMPORT"
+            case .update: return "UPDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+
+    /// The HookTarget data type.
+    public struct HookTarget: Swift.Sendable {
+        /// The action that invoked the Hook.
+        /// This member is required.
+        public var action: CloudFormationClientTypes.HookTargetAction?
+        /// The unique identifier of the Hook invocation target.
+        /// This member is required.
+        public var targetId: Swift.String?
+        /// The target type.
+        /// This member is required.
+        public var targetType: CloudFormationClientTypes.HookTargetType?
+        /// The target name, for example, AWS::S3::Bucket.
+        /// This member is required.
+        public var targetTypeName: Swift.String?
+
+        public init(
+            action: CloudFormationClientTypes.HookTargetAction? = nil,
+            targetId: Swift.String? = nil,
+            targetType: CloudFormationClientTypes.HookTargetType? = nil,
+            targetTypeName: Swift.String? = nil
+        ) {
+            self.action = action
+            self.targetId = targetId
+            self.targetType = targetType
+            self.targetTypeName = targetTypeName
+        }
+    }
+}
+
+public struct GetHookResultOutput: Swift.Sendable {
+    /// A list of objects with additional information and guidance that can help you resolve a failed Hook invocation.
+    public var annotations: [CloudFormationClientTypes.Annotation]?
+    /// The failure mode of the invocation.
+    public var failureMode: CloudFormationClientTypes.HookFailureMode?
+    /// The unique identifier of the Hook result.
+    public var hookResultId: Swift.String?
+    /// A message that provides additional details about the Hook invocation status.
+    public var hookStatusReason: Swift.String?
+    /// The specific point in the provisioning process where the Hook is invoked.
+    public var invocationPoint: CloudFormationClientTypes.HookInvocationPoint?
+    /// The timestamp when the Hook was invoked.
+    public var invokedAt: Foundation.Date?
+    /// The original public type name of the Hook when an alias is used. For example, if you activate AWS::Hooks::GuardHook with alias MyCompany::Custom::GuardHook, then TypeName will be MyCompany::Custom::GuardHook and OriginalTypeName will be AWS::Hooks::GuardHook.
+    public var originalTypeName: Swift.String?
+    /// The status of the Hook invocation. The following statuses are possible:
+    ///
+    /// * HOOK_IN_PROGRESS: The Hook is currently running.
+    ///
+    /// * HOOK_COMPLETE_SUCCEEDED: The Hook completed successfully.
+    ///
+    /// * HOOK_COMPLETE_FAILED: The Hook completed but failed validation.
+    ///
+    /// * HOOK_FAILED: The Hook encountered an error during execution.
+    public var status: CloudFormationClientTypes.HookStatus?
+    /// Information about the target of the Hook invocation.
+    public var target: CloudFormationClientTypes.HookTarget?
+    /// The Amazon Resource Name (ARN) of the Hook.
+    public var typeArn: Swift.String?
+    /// The version identifier of the Hook configuration data that was used during invocation.
+    public var typeConfigurationVersionId: Swift.String?
+    /// The name of the Hook that was invoked.
+    public var typeName: Swift.String?
+    /// The version identifier of the Hook that was invoked.
+    public var typeVersionId: Swift.String?
+
+    public init(
+        annotations: [CloudFormationClientTypes.Annotation]? = nil,
+        failureMode: CloudFormationClientTypes.HookFailureMode? = nil,
+        hookResultId: Swift.String? = nil,
+        hookStatusReason: Swift.String? = nil,
+        invocationPoint: CloudFormationClientTypes.HookInvocationPoint? = nil,
+        invokedAt: Foundation.Date? = nil,
+        originalTypeName: Swift.String? = nil,
+        status: CloudFormationClientTypes.HookStatus? = nil,
+        target: CloudFormationClientTypes.HookTarget? = nil,
+        typeArn: Swift.String? = nil,
+        typeConfigurationVersionId: Swift.String? = nil,
+        typeName: Swift.String? = nil,
+        typeVersionId: Swift.String? = nil
+    ) {
+        self.annotations = annotations
+        self.failureMode = failureMode
+        self.hookResultId = hookResultId
+        self.hookStatusReason = hookStatusReason
+        self.invocationPoint = invocationPoint
+        self.invokedAt = invokedAt
+        self.originalTypeName = originalTypeName
+        self.status = status
+        self.target = target
+        self.typeArn = typeArn
+        self.typeConfigurationVersionId = typeConfigurationVersionId
+        self.typeName = typeName
+        self.typeVersionId = typeVersionId
+    }
+}
+
 /// The input for the [GetStackPolicy] action.
 public struct GetStackPolicyInput: Swift.Sendable {
     /// The name or unique stack ID that's associated with the stack whose policy you want to get.
@@ -6942,7 +7215,7 @@ public struct GetStackPolicyInput: Swift.Sendable {
 
 /// The output for the [GetStackPolicy] action.
 public struct GetStackPolicyOutput: Swift.Sendable {
-    /// Structure that contains the stack policy body. (For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide.)
+    /// Structure that contains the stack policy body. For more information, see [Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide.
     public var stackPolicyBody: Swift.String?
 
     public init(
@@ -7284,7 +7557,7 @@ public struct ImportStacksToStackSetOutput: Swift.Sendable {
 
 /// The input for the [ListChangeSets] action.
 public struct ListChangeSetsInput: Swift.Sendable {
-    /// A string (provided by the [ListChangeSets] response output) that identifies the next page of change sets that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name or the Amazon Resource Name (ARN) of the stack for which you want to list change sets.
     /// This member is required.
@@ -7316,7 +7589,7 @@ public struct ListChangeSetsOutput: Swift.Sendable {
 }
 
 public struct ListExportsInput: Swift.Sendable {
-    /// A string (provided by the [ListExports] response output) that identifies the next page of exported output values that you asked to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -7367,7 +7640,7 @@ public struct ListExportsOutput: Swift.Sendable {
 public struct ListGeneratedTemplatesInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListGeneratedTemplates API action will return at most 50 results in each response. The maximum value is 100.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of resource scan results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -7449,29 +7722,6 @@ public struct ListGeneratedTemplatesOutput: Swift.Sendable {
     }
 }
 
-/// The specified target doesn't have any requested Hook invocations.
-public struct HookResultNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "HookResultNotFound" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
 extension CloudFormationClientTypes {
 
     public enum ListHookResultsTargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -7508,7 +7758,7 @@ extension CloudFormationClientTypes {
 }
 
 public struct ListHookResultsInput: Swift.Sendable {
-    /// A string that identifies the next page of events that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// Filters results by the status of Hook invocations. Can only be used in combination with TypeArn. Valid values are:
     ///
@@ -7544,11 +7794,11 @@ public struct ListHookResultsInput: Swift.Sendable {
 
 extension CloudFormationClientTypes {
 
-    /// Describes a Hook invocation, its status, and the reason for its status.
+    /// A ListHookResults call returns a summary of a Hook invocation.
     public struct HookResultSummary: Swift.Sendable {
         /// The failure mode of the invocation.
         public var failureMode: CloudFormationClientTypes.HookFailureMode?
-        /// The ARN of the target stack or request token of the Cloud Control API operation. Only shown in responses when the request does not specify TargetType and TargetId filters.
+        /// The Amazon Resource Name (ARN) of the target stack or request token of the Cloud Control API operation. Only shown in responses when the request does not specify TargetType and TargetId filters.
         public var hookExecutionTarget: Swift.String?
         /// The unique identifier for this Hook invocation result.
         public var hookResultId: Swift.String?
@@ -7640,7 +7890,7 @@ public struct ListImportsInput: Swift.Sendable {
     /// The name of the exported output value. CloudFormation returns the stack names that are importing this value.
     /// This member is required.
     public var exportName: Swift.String?
-    /// A string (provided by the [ListImports] response output) that identifies the next page of stacks that are importing the specified exported output value.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -7714,7 +7964,7 @@ extension CloudFormationClientTypes {
 public struct ListResourceScanRelatedResourcesInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListResourceScanRelatedResources API action will return up to 100 results in each response. The maximum value is 100.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of resource scan results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the resource scan.
     /// This member is required.
@@ -7777,7 +8027,7 @@ public struct ListResourceScanRelatedResourcesOutput: Swift.Sendable {
 public struct ListResourceScanResourcesInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListResourceScanResources API action will return at most 100 results in each response. The maximum value is 100.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of resource scan results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// If specified, the returned resources will have the specified resource identifier (or one of them in the case where the resource has multiple identifiers).
     public var resourceIdentifier: Swift.String?
@@ -7857,7 +8107,7 @@ extension CloudFormationClientTypes {
 public struct ListResourceScansInput: Swift.Sendable {
     /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. The default value is 10. The maximum value is 100.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of resource scan results.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The scan type that you want to get summary information about. The default is FULL.
     public var scanTypeFilter: CloudFormationClientTypes.ScanType?
@@ -7936,7 +8186,7 @@ public struct ListStackInstanceResourceDriftsInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The unique ID of the drift operation.
     /// This member is required.
@@ -8115,7 +8365,7 @@ public struct ListStackInstancesInput: Swift.Sendable {
     public var filters: [CloudFormationClientTypes.StackInstanceFilter]?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous request didn't return all the remaining results, the response's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name of the Amazon Web Services account that you want to list stack instances for.
     public var stackInstanceAccount: Swift.String?
@@ -8238,7 +8488,7 @@ public struct ListStackInstancesOutput: Swift.Sendable {
 public struct ListStackRefactorActionsInput: Swift.Sendable {
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The ID associated with the stack refactor created from the [CreateStackRefactor] action.
     /// This member is required.
@@ -8422,7 +8672,7 @@ public struct ListStackRefactorsInput: Swift.Sendable {
     public var executionStatusFilter: [CloudFormationClientTypes.StackRefactorExecutionStatus]?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
 
     public init(
@@ -8501,7 +8751,7 @@ public struct ListStackRefactorsOutput: Swift.Sendable {
 
 /// The input for the [ListStackResource] action.
 public struct ListStackResourcesInput: Swift.Sendable {
-    /// A string that identifies the next page of stack resources that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:
     ///
@@ -8613,7 +8863,7 @@ public struct ListStackResourcesOutput: Swift.Sendable {
 
 /// The input for [ListStacks] action.
 public struct ListStacksInput: Swift.Sendable {
-    /// A string that identifies the next page of stacks that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the [Stack] data type.
     public var stackStatusFilter: [CloudFormationClientTypes.StackStatus]?
@@ -8738,7 +8988,7 @@ public struct ListStackSetAutoDeploymentTargetsInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// A string that identifies the next page of deployment targets that you want to retrieve.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name or unique ID of the StackSet that you want to get automatic deployment targets for.
     /// This member is required.
@@ -8847,7 +9097,7 @@ public struct ListStackSetOperationResultsInput: Swift.Sendable {
     public var filters: [CloudFormationClientTypes.OperationResultFilter]?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The ID of the StackSet operation.
     /// This member is required.
@@ -8980,7 +9230,7 @@ public struct ListStackSetOperationsInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperations again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The name or unique ID of the StackSet that you want to get operation summaries for.
     /// This member is required.
@@ -9078,7 +9328,7 @@ public struct ListStackSetsInput: Swift.Sendable {
     public var callAs: CloudFormationClientTypes.CallAs?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSets again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The status of the StackSets that you want to get summary information about.
     public var status: CloudFormationClientTypes.StackSetStatus?
@@ -9173,7 +9423,7 @@ public struct ListStackSetsOutput: Swift.Sendable {
 public struct ListTypeRegistrationsInput: Swift.Sendable {
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The current status of the extension registration request. The default is IN_PROGRESS.
     public var registrationStatusFilter: CloudFormationClientTypes.RegistrationStatus?
@@ -9265,7 +9515,7 @@ public struct ListTypesInput: Swift.Sendable {
     public var filters: CloudFormationClientTypes.TypeFilters?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// For resource types, the provisioning behavior of the resource type. CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:
     ///
@@ -9415,7 +9665,7 @@ public struct ListTypeVersionsInput: Swift.Sendable {
     public var deprecatedStatus: CloudFormationClientTypes.DeprecatedStatus?
     /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
     public var maxResults: Swift.Int?
-    /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    /// The token for the next set of items to return. (You received this token from a previous call.)
     public var nextToken: Swift.String?
     /// The publisher ID of the extension publisher. Extensions published by Amazon aren't assigned a publisher ID.
     public var publisherId: Swift.String?
@@ -10229,7 +10479,7 @@ public struct UpdateStackInput: Swift.Sendable {
     public var notificationARNs: [Swift.String]?
     /// A list of Parameter structures that specify input parameters for the stack. For more information, see the [Parameter](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_Parameter.html) data type.
     public var parameters: [CloudFormationClientTypes.Parameter]?
-    /// The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html). Only one of the Capabilities and ResourceType parameters can be specified.
+    /// Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Control CloudFormation access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/control-access-with-iam.html). Only one of the Capabilities and ResourceType parameters can be specified.
     public var resourceTypes: [Swift.String]?
     /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
@@ -10254,7 +10504,7 @@ public struct UpdateStackInput: Swift.Sendable {
     public var templateBody: Swift.String?
     /// The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateURL: Swift.String?
-    /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+    /// Reuse the existing template that is associated with the stack that you are updating. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are applied correctly. For more information, see [AWS::LanguageExtensions transform](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/transform-aws-languageextensions.html). Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
 
     public init(
@@ -10929,6 +11179,13 @@ extension ExecuteStackRefactorInput {
 extension GetGeneratedTemplateInput {
 
     static func urlPathProvider(_ value: GetGeneratedTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension GetHookResultInput {
+
+    static func urlPathProvider(_ value: GetHookResultInput) -> Swift.String? {
         return "/"
     }
 }
@@ -11810,6 +12067,16 @@ extension GetGeneratedTemplateInput {
         try writer["Format"].write(value.format)
         try writer["GeneratedTemplateName"].write(value.generatedTemplateName)
         try writer["Action"].write("GetGeneratedTemplate")
+        try writer["Version"].write("2010-05-15")
+    }
+}
+
+extension GetHookResultInput {
+
+    static func write(value: GetHookResultInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["HookResultId"].write(value.hookResultId)
+        try writer["Action"].write("GetHookResult")
         try writer["Version"].write("2010-05-15")
     }
 }
@@ -12984,6 +13251,30 @@ extension GetGeneratedTemplateOutput {
         var value = GetGeneratedTemplateOutput()
         value.status = try reader["Status"].readIfPresent()
         value.templateBody = try reader["TemplateBody"].readIfPresent()
+        return value
+    }
+}
+
+extension GetHookResultOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetHookResultOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetHookResultResult"]
+        var value = GetHookResultOutput()
+        value.annotations = try reader["Annotations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Annotation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureMode = try reader["FailureMode"].readIfPresent()
+        value.hookResultId = try reader["HookResultId"].readIfPresent()
+        value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
+        value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
+        value.invokedAt = try reader["InvokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.originalTypeName = try reader["OriginalTypeName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.target = try reader["Target"].readIfPresent(with: CloudFormationClientTypes.HookTarget.read(from:))
+        value.typeArn = try reader["TypeArn"].readIfPresent()
+        value.typeConfigurationVersionId = try reader["TypeConfigurationVersionId"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent()
+        value.typeVersionId = try reader["TypeVersionId"].readIfPresent()
         return value
     }
 }
@@ -14169,6 +14460,20 @@ enum GetGeneratedTemplateOutputError {
     }
 }
 
+enum GetHookResultOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "HookResultNotFound": return try HookResultNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetStackPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -15087,11 +15392,11 @@ extension StackRefactorNotFoundException {
     }
 }
 
-extension StackNotFoundException {
+extension HookResultNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StackNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HookResultNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = StackNotFoundException()
+        var value = HookResultNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15100,11 +15405,11 @@ extension StackNotFoundException {
     }
 }
 
-extension HookResultNotFoundException {
+extension StackNotFoundException {
 
-    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> HookResultNotFoundException {
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> StackNotFoundException {
         let reader = baseError.errorBodyReader
-        var value = HookResultNotFoundException()
+        var value = StackNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
@@ -15888,6 +16193,34 @@ extension CloudFormationClientTypes.RequiredActivatedType {
         value.originalTypeName = try reader["OriginalTypeName"].readIfPresent()
         value.publisherId = try reader["PublisherId"].readIfPresent()
         value.supportedMajorVersions = try reader["SupportedMajorVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.HookTarget {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.HookTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.HookTarget()
+        value.targetType = try reader["TargetType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetTypeName = try reader["TargetTypeName"].readIfPresent() ?? ""
+        value.targetId = try reader["TargetId"].readIfPresent() ?? ""
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.Annotation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Annotation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Annotation()
+        value.annotationName = try reader["AnnotationName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.remediationMessage = try reader["RemediationMessage"].readIfPresent()
+        value.remediationLink = try reader["RemediationLink"].readIfPresent()
+        value.severityLevel = try reader["SeverityLevel"].readIfPresent()
         return value
     }
 }

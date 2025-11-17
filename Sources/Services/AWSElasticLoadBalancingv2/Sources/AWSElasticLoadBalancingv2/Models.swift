@@ -259,7 +259,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
     /// Information about the target group stickiness for a rule.
     public struct TargetGroupStickinessConfig: Swift.Sendable {
-        /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days). You must specify this value when enabling target group stickiness.
+        /// [Application Load Balancers] The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days). You must specify this value when enabling target group stickiness.
         public var durationSeconds: Swift.Int?
         /// Indicates whether target group stickiness is enabled.
         public var enabled: Swift.Bool?
@@ -280,7 +280,7 @@ extension ElasticLoadBalancingv2ClientTypes {
     public struct ForwardActionConfig: Swift.Sendable {
         /// The target group stickiness for the rule.
         public var targetGroupStickinessConfig: ElasticLoadBalancingv2ClientTypes.TargetGroupStickinessConfig?
-        /// The target groups. For Network Load Balancers, you can specify a single target group.
+        /// The target groups.
         public var targetGroups: [ElasticLoadBalancingv2ClientTypes.TargetGroupTuple]?
 
         public init(
@@ -289,6 +289,89 @@ extension ElasticLoadBalancingv2ClientTypes {
         ) {
             self.targetGroupStickinessConfig = targetGroupStickinessConfig
             self.targetGroups = targetGroups
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    public enum JwtValidationActionAdditionalClaimFormatEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case singleString
+        case spaceSeparatedValues
+        case stringArray
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JwtValidationActionAdditionalClaimFormatEnum] {
+            return [
+                .singleString,
+                .spaceSeparatedValues,
+                .stringArray
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .singleString: return "single-string"
+            case .spaceSeparatedValues: return "space-separated-values"
+            case .stringArray: return "string-array"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    /// Information about an additional claim to validate.
+    public struct JwtValidationActionAdditionalClaim: Swift.Sendable {
+        /// The format of the claim value.
+        /// This member is required.
+        public var format: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaimFormatEnum?
+        /// The name of the claim. You can't specify exp, iss, nbf, or iat because we validate them by default.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The claim value. The maximum size of the list is 10. Each value can be up to 256 characters in length. If the format is space-separated-values, the values can't include spaces.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            format: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaimFormatEnum? = nil,
+            name: Swift.String? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.format = format
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes {
+
+    /// Information about a JSON Web Token (JWT) validation action.
+    public struct JwtValidationActionConfig: Swift.Sendable {
+        /// Additional claims to validate. The maximum size of the list is 10. We validate the exp, iss, nbf, and iat claims by default.
+        public var additionalClaims: [ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim]?
+        /// The issuer of the JWT. The maximum length is 256 characters.
+        /// This member is required.
+        public var issuer: Swift.String?
+        /// The JSON Web Key Set (JWKS) endpoint. This endpoint contains JSON Web Keys (JWK) that are used to validate signatures from the provider. This must be a full URL, including the HTTPS protocol, the domain, and the path. The maximum length is 256 characters.
+        /// This member is required.
+        public var jwksEndpoint: Swift.String?
+
+        public init(
+            additionalClaims: [ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim]? = nil,
+            issuer: Swift.String? = nil,
+            jwksEndpoint: Swift.String? = nil
+        ) {
+            self.additionalClaims = additionalClaims
+            self.issuer = issuer
+            self.jwksEndpoint = jwksEndpoint
         }
     }
 }
@@ -378,6 +461,7 @@ extension ElasticLoadBalancingv2ClientTypes {
         case authenticateOidc
         case fixedResponse
         case forward
+        case jwtValidation
         case redirect
         case sdkUnknown(Swift.String)
 
@@ -387,6 +471,7 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .authenticateOidc,
                 .fixedResponse,
                 .forward,
+                .jwtValidation,
                 .redirect
             ]
         }
@@ -402,6 +487,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             case .authenticateOidc: return "authenticate-oidc"
             case .fixedResponse: return "fixed-response"
             case .forward: return "forward"
+            case .jwtValidation: return "jwt-validation"
             case .redirect: return "redirect"
             case let .sdkUnknown(s): return s
             }
@@ -411,7 +497,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 
 extension ElasticLoadBalancingv2ClientTypes {
 
-    /// Information about an action. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed.
+    /// Information about an action. Each rule must include exactly one of the following routing actions: forward, fixed-response, or redirect, and it must be the last action to be performed. Optionally, a rule for an HTTPS listener can also include one of the following user authentication actions: authenticate-oidc, authenticate-cognito, or jwt-validation.
     public struct Action: Swift.Sendable {
         /// [HTTPS listeners] Information for using Amazon Cognito to authenticate users. Specify only when Type is authenticate-cognito.
         public var authenticateCognitoConfig: ElasticLoadBalancingv2ClientTypes.AuthenticateCognitoActionConfig?
@@ -419,13 +505,15 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var authenticateOidcConfig: ElasticLoadBalancingv2ClientTypes.AuthenticateOidcActionConfig?
         /// [Application Load Balancer] Information for creating an action that returns a custom HTTP response. Specify only when Type is fixed-response.
         public var fixedResponseConfig: ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig?
-        /// Information for creating an action that distributes requests among one or more target groups. For Network Load Balancers, you can specify a single target group. Specify only when Type is forward. If you specify both ForwardConfig and TargetGroupArn, you can specify only one target group using ForwardConfig and it must be the same target group specified in TargetGroupArn.
+        /// Information for creating an action that distributes requests among multiple target groups. Specify only when Type is forward. If you specify both ForwardConfig and TargetGroupArn, you can specify only one target group using ForwardConfig and it must be the same target group specified in TargetGroupArn.
         public var forwardConfig: ElasticLoadBalancingv2ClientTypes.ForwardActionConfig?
+        /// [HTTPS listeners] Information for validating JWT access tokens in client requests. Specify only when Type is jwt-validation.
+        public var jwtValidationConfig: ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig?
         /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first.
         public var order: Swift.Int?
         /// [Application Load Balancer] Information for creating a redirect action. Specify only when Type is redirect.
         public var redirectConfig: ElasticLoadBalancingv2ClientTypes.RedirectActionConfig?
-        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward and you want to route to a single target group. To route to one or more target groups, use ForwardConfig instead.
+        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward and you want to route to a single target group. To route to multiple target groups, you must use ForwardConfig instead.
         public var targetGroupArn: Swift.String?
         /// The type of action.
         /// This member is required.
@@ -436,6 +524,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             authenticateOidcConfig: ElasticLoadBalancingv2ClientTypes.AuthenticateOidcActionConfig? = nil,
             fixedResponseConfig: ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig? = nil,
             forwardConfig: ElasticLoadBalancingv2ClientTypes.ForwardActionConfig? = nil,
+            jwtValidationConfig: ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig? = nil,
             order: Swift.Int? = nil,
             redirectConfig: ElasticLoadBalancingv2ClientTypes.RedirectActionConfig? = nil,
             targetGroupArn: Swift.String? = nil,
@@ -445,6 +534,7 @@ extension ElasticLoadBalancingv2ClientTypes {
             self.authenticateOidcConfig = authenticateOidcConfig
             self.fixedResponseConfig = fixedResponseConfig
             self.forwardConfig = forwardConfig
+            self.jwtValidationConfig = jwtValidationConfig
             self.order = order
             self.redirectConfig = redirectConfig
             self.targetGroupArn = targetGroupArn
@@ -1781,7 +1871,9 @@ extension ElasticLoadBalancingv2ClientTypes {
         case geneve
         case http
         case https
+        case quic
         case tcp
+        case tcpQuic
         case tcpUdp
         case tls
         case udp
@@ -1792,7 +1884,9 @@ extension ElasticLoadBalancingv2ClientTypes {
                 .geneve,
                 .http,
                 .https,
+                .quic,
                 .tcp,
+                .tcpQuic,
                 .tcpUdp,
                 .tls,
                 .udp
@@ -1809,7 +1903,9 @@ extension ElasticLoadBalancingv2ClientTypes {
             case .geneve: return "GENEVE"
             case .http: return "HTTP"
             case .https: return "HTTPS"
+            case .quic: return "QUIC"
             case .tcp: return "TCP"
+            case .tcpQuic: return "TCP_QUIC"
             case .tcpUdp: return "TCP_UDP"
             case .tls: return "TLS"
             case .udp: return "UDP"
@@ -3606,15 +3702,19 @@ extension ElasticLoadBalancingv2ClientTypes {
         public var id: Swift.String?
         /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This parameter is not used if the target is a Lambda function.
         public var port: Swift.Int?
+        /// The server ID for the targets. This value is required if the protocol is QUIC or TCP_QUIC and can't be used with other protocols. The ID consists of the 0x prefix followed by 16 hexadecimal characters. Any letters must be lowercase. The value must be unique at the listener level. You can't modify the server ID for a registered target. You must deregister the target and then provide a new server ID when you register the target again.
+        public var quicServerId: Swift.String?
 
         public init(
             availabilityZone: Swift.String? = nil,
             id: Swift.String? = nil,
-            port: Swift.Int? = nil
+            port: Swift.Int? = nil,
+            quicServerId: Swift.String? = nil
         ) {
             self.availabilityZone = availabilityZone
             self.id = id
             self.port = port
+            self.quicServerId = quicServerId
         }
     }
 }
@@ -4556,13 +4656,13 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// If the target state is unhealthy, the reason code can be one of the following values:
         ///
-        /// * Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code. Applies only to Application Load Balancers and Gateway Load Balancers.
+        /// * Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.
         ///
-        /// * Target.Timeout - The health check requests timed out. Applies only to Application Load Balancers and Gateway Load Balancers.
+        /// * Target.Timeout - The health check requests timed out.
         ///
         /// * Target.FailedHealthChecks - The load balancer received an error while establishing a connection to the target or the target response was malformed.
         ///
-        /// * Elb.InternalError - The health checks failed due to an internal error. Applies only to Application Load Balancers.
+        /// * Elb.InternalError - The health checks failed due to an internal error.
         ///
         ///
         /// If the target state is unused, the reason code can be one of the following values:
@@ -4583,9 +4683,9 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// If the target state is unavailable, the reason code can be the following value:
         ///
-        /// * Target.HealthCheckDisabled - Health checks are disabled for the target group. Applies only to Application Load Balancers.
+        /// * Target.HealthCheckDisabled - Health checks are disabled for the target group.
         ///
-        /// * Elb.InternalError - Target health is unavailable due to an internal error. Applies only to Network Load Balancers.
+        /// * Elb.InternalError - Target health is unavailable due to an internal error.
         public var reason: ElasticLoadBalancingv2ClientTypes.TargetHealthReasonEnum?
         /// The state of the target.
         public var state: ElasticLoadBalancingv2ClientTypes.TargetHealthStateEnum?
@@ -5535,7 +5635,7 @@ extension ElasticLoadBalancingv2ClientTypes {
 }
 
 public struct SetSecurityGroupsInput: Swift.Sendable {
-    /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink. The default is on.
+    /// Indicates whether to evaluate inbound security group rules for traffic sent to a Network Load Balancer through Amazon Web Services PrivateLink. Applies only if the load balancer has an associated security group. The default is on.
     public var enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: ElasticLoadBalancingv2ClientTypes.EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
     /// The Amazon Resource Name (ARN) of the load balancer.
     /// This member is required.
@@ -8842,6 +8942,7 @@ extension ElasticLoadBalancingv2ClientTypes.Action {
         try writer["AuthenticateOidcConfig"].write(value.authenticateOidcConfig, with: ElasticLoadBalancingv2ClientTypes.AuthenticateOidcActionConfig.write(value:to:))
         try writer["FixedResponseConfig"].write(value.fixedResponseConfig, with: ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig.write(value:to:))
         try writer["ForwardConfig"].write(value.forwardConfig, with: ElasticLoadBalancingv2ClientTypes.ForwardActionConfig.write(value:to:))
+        try writer["JwtValidationConfig"].write(value.jwtValidationConfig, with: ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig.write(value:to:))
         try writer["Order"].write(value.order)
         try writer["RedirectConfig"].write(value.redirectConfig, with: ElasticLoadBalancingv2ClientTypes.RedirectActionConfig.write(value:to:))
         try writer["TargetGroupArn"].write(value.targetGroupArn)
@@ -8859,6 +8960,45 @@ extension ElasticLoadBalancingv2ClientTypes.Action {
         value.redirectConfig = try reader["RedirectConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.RedirectActionConfig.read(from:))
         value.fixedResponseConfig = try reader["FixedResponseConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.FixedResponseActionConfig.read(from:))
         value.forwardConfig = try reader["ForwardConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.ForwardActionConfig.read(from:))
+        value.jwtValidationConfig = try reader["JwtValidationConfig"].readIfPresent(with: ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig.read(from:))
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalClaims"].writeList(value.additionalClaims, memberWritingClosure: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Issuer"].write(value.issuer)
+        try writer["JwksEndpoint"].write(value.jwksEndpoint)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.JwtValidationActionConfig()
+        value.jwksEndpoint = try reader["JwksEndpoint"].readIfPresent() ?? ""
+        value.issuer = try reader["Issuer"].readIfPresent() ?? ""
+        value.additionalClaims = try reader["AdditionalClaims"].readListIfPresent(memberReadingClosure: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim {
+
+    static func write(value: ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Format"].write(value.format)
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticLoadBalancingv2ClientTypes.JwtValidationActionAdditionalClaim()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9595,6 +9735,7 @@ extension ElasticLoadBalancingv2ClientTypes.TargetDescription {
         try writer["AvailabilityZone"].write(value.availabilityZone)
         try writer["Id"].write(value.id)
         try writer["Port"].write(value.port)
+        try writer["QuicServerId"].write(value.quicServerId)
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticLoadBalancingv2ClientTypes.TargetDescription {
@@ -9603,6 +9744,7 @@ extension ElasticLoadBalancingv2ClientTypes.TargetDescription {
         value.id = try reader["Id"].readIfPresent() ?? ""
         value.port = try reader["Port"].readIfPresent()
         value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.quicServerId = try reader["QuicServerId"].readIfPresent()
         return value
     }
 }

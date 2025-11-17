@@ -579,6 +579,148 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CancelMetadataModelConversion` operation on the `DatabaseMigration` service.
+    ///
+    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelMetadataModelConversionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelMetadataModelConversionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
+    /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    public func cancelMetadataModelConversion(input: CancelMetadataModelConversionInput) async throws -> CancelMetadataModelConversionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelMetadataModelConversion")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>(CancelMetadataModelConversionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMetadataModelConversionOutput>(CancelMetadataModelConversionOutput.httpOutput(from:), CancelMetadataModelConversionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelMetadataModelConversionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Database Migration", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelMetadataModelConversionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>(xAmzTarget: "AmazonDMSv20160101.CancelMetadataModelConversion"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelMetadataModelConversionInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelMetadataModelConversionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelMetadataModelConversionInput, CancelMetadataModelConversionOutput>(serviceID: serviceName, version: DatabaseMigrationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelMetadataModelConversion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `CancelMetadataModelCreation` operation on the `DatabaseMigration` service.
+    ///
+    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CancelMetadataModelCreationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CancelMetadataModelCreationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
+    /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    public func cancelMetadataModelCreation(input: CancelMetadataModelCreationInput) async throws -> CancelMetadataModelCreationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "cancelMetadataModelCreation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>(CancelMetadataModelCreationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CancelMetadataModelCreationOutput>(CancelMetadataModelCreationOutput.httpOutput(from:), CancelMetadataModelCreationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CancelMetadataModelCreationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Database Migration", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CancelMetadataModelCreationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>(xAmzTarget: "AmazonDMSv20160101.CancelMetadataModelCreation"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CancelMetadataModelCreationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CancelMetadataModelCreationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CancelMetadataModelCreationInput, CancelMetadataModelCreationOutput>(serviceID: serviceName, version: DatabaseMigrationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CancelMetadataModelCreation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CancelReplicationTaskAssessmentRun` operation on the `DatabaseMigration` service.
     ///
     /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual assessments that are currently running.
@@ -3961,6 +4103,76 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeMetadataModel` operation on the `DatabaseMigration` service.
+    ///
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeMetadataModelOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    public func describeMetadataModel(input: DescribeMetadataModelInput) async throws -> DescribeMetadataModelOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMetadataModel")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMetadataModelInput, DescribeMetadataModelOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>(DescribeMetadataModelInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetadataModelOutput>(DescribeMetadataModelOutput.httpOutput(from:), DescribeMetadataModelOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetadataModelOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Database Migration", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMetadataModelOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>(xAmzTarget: "AmazonDMSv20160101.DescribeMetadataModel"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMetadataModelInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMetadataModelOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMetadataModelInput, DescribeMetadataModelOutput>(serviceID: serviceName, version: DatabaseMigrationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMetadataModel")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeMetadataModelAssessments` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of metadata model assessments for your account in the current region.
@@ -4030,6 +4242,76 @@ extension DatabaseMigrationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DescribeMetadataModelChildren` operation on the `DatabaseMigration` service.
+    ///
+    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelChildrenInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeMetadataModelChildrenOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    public func describeMetadataModelChildren(input: DescribeMetadataModelChildrenInput) async throws -> DescribeMetadataModelChildrenOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMetadataModelChildren")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>(DescribeMetadataModelChildrenInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetadataModelChildrenOutput>(DescribeMetadataModelChildrenOutput.httpOutput(from:), DescribeMetadataModelChildrenOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetadataModelChildrenOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Database Migration", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMetadataModelChildrenOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>(xAmzTarget: "AmazonDMSv20160101.DescribeMetadataModelChildren"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMetadataModelChildrenInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMetadataModelChildrenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>(serviceID: serviceName, version: DatabaseMigrationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMetadataModelChildren")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `DescribeMetadataModelConversions` operation on the `DatabaseMigration` service.
     ///
     /// Returns a paginated list of metadata model conversions for a migration project.
@@ -4087,6 +4369,76 @@ extension DatabaseMigrationClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMetadataModelConversions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DescribeMetadataModelCreations` operation on the `DatabaseMigration` service.
+    ///
+    /// Returns a paginated list of metadata model creation requests for a migration project.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DescribeMetadataModelCreationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DescribeMetadataModelCreationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    public func describeMetadataModelCreations(input: DescribeMetadataModelCreationsInput) async throws -> DescribeMetadataModelCreationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMetadataModelCreations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(DescribeMetadataModelCreationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DescribeMetadataModelCreationsOutput>(DescribeMetadataModelCreationsOutput.httpOutput(from:), DescribeMetadataModelCreationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DescribeMetadataModelCreationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Database Migration", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DescribeMetadataModelCreationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(xAmzTarget: "AmazonDMSv20160101.DescribeMetadataModelCreations"))
+        builder.serialize(ClientRuntime.BodyMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: DescribeMetadataModelCreationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DescribeMetadataModelCreationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(serviceID: serviceName, version: DatabaseMigrationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DescribeMetadataModelCreations")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5610,6 +5962,77 @@ extension DatabaseMigrationClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ExportMetadataModelAssessment")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetTargetSelectionRules` operation on the `DatabaseMigration` service.
+    ///
+    /// Converts source selection rules into their target counterparts for schema conversion operations.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTargetSelectionRulesInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTargetSelectionRulesOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
+    /// - `InvalidResourceStateFault` : The resource is in a state that prevents it from being used for database migration.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    public func getTargetSelectionRules(input: GetTargetSelectionRulesInput) async throws -> GetTargetSelectionRulesOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTargetSelectionRules")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>(GetTargetSelectionRulesInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTargetSelectionRulesOutput>(GetTargetSelectionRulesOutput.httpOutput(from:), GetTargetSelectionRulesOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTargetSelectionRulesOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Database Migration", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTargetSelectionRulesOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>(xAmzTarget: "AmazonDMSv20160101.GetTargetSelectionRules"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTargetSelectionRulesInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTargetSelectionRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTargetSelectionRulesInput, GetTargetSelectionRulesOutput>(serviceID: serviceName, version: DatabaseMigrationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTargetSelectionRules")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -7355,6 +7778,78 @@ extension DatabaseMigrationClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMetadataModelConversion")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `StartMetadataModelCreation` operation on the `DatabaseMigration` service.
+    ///
+    /// Creates source metadata model of the given type with the specified properties for schema conversion operations. This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `StartMetadataModelCreationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `StartMetadataModelCreationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedFault` : DMS was denied access to the endpoint. Check that the role is correctly configured.
+    /// - `ResourceAlreadyExistsFault` : The resource you are attempting to create already exists.
+    /// - `ResourceNotFoundFault` : The resource could not be found.
+    /// - `ResourceQuotaExceededFault` : The quota for this resource quota has been exceeded.
+    public func startMetadataModelCreation(input: StartMetadataModelCreationInput) async throws -> StartMetadataModelCreationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startMetadataModelCreation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "dms")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<StartMetadataModelCreationInput, StartMetadataModelCreationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>(StartMetadataModelCreationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<StartMetadataModelCreationOutput>(StartMetadataModelCreationOutput.httpOutput(from:), StartMetadataModelCreationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<StartMetadataModelCreationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Database Migration", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<StartMetadataModelCreationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.interceptors.add(AWSClientRuntime.XAmzTargetMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>(xAmzTarget: "AmazonDMSv20160101.StartMetadataModelCreation"))
+        builder.serialize(ClientRuntime.BodyMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: StartMetadataModelCreationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>(contentType: "application/x-amz-json-1.1"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<StartMetadataModelCreationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<StartMetadataModelCreationInput, StartMetadataModelCreationOutput>(serviceID: serviceName, version: DatabaseMigrationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "DatabaseMigration")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "StartMetadataModelCreation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

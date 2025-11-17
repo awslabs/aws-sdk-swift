@@ -453,6 +453,39 @@ extension DescribeMetadataModelAssessmentsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeMetadataModelChildrenOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMetadataModelChildrenInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelChildrenOutput`
+    public func describeMetadataModelChildrenPaginated(input: DescribeMetadataModelChildrenInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelChildrenInput, DescribeMetadataModelChildrenOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeMetadataModelChildren(input:))
+    }
+}
+
+extension DescribeMetadataModelChildrenInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMetadataModelChildrenInput {
+        return DescribeMetadataModelChildrenInput(
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier,
+            origin: self.origin,
+            selectionRules: self.selectionRules
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeMetadataModelChildrenInput, OperationStackOutput == DescribeMetadataModelChildrenOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMetadataModelChildrenPaginated`
+    /// to access the nested member `[DatabaseMigrationClientTypes.MetadataModelReference]`
+    /// - Returns: `[DatabaseMigrationClientTypes.MetadataModelReference]`
+    public func metadataModelChildren() async throws -> [DatabaseMigrationClientTypes.MetadataModelReference] {
+        return try await self.asyncCompactMap { item in item.metadataModelChildren }
+    }
+}
+extension DatabaseMigrationClient {
     /// Paginate over `[DescribeMetadataModelConversionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -474,6 +507,38 @@ extension DescribeMetadataModelConversionsInput: ClientRuntime.PaginateToken {
             maxRecords: self.maxRecords,
             migrationProjectIdentifier: self.migrationProjectIdentifier
         )}
+}
+extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeMetadataModelCreationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMetadataModelCreationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelCreationsOutput`
+    public func describeMetadataModelCreationsPaginated(input: DescribeMetadataModelCreationsInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelCreationsInput, DescribeMetadataModelCreationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.describeMetadataModelCreations(input:))
+    }
+}
+
+extension DescribeMetadataModelCreationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMetadataModelCreationsInput {
+        return DescribeMetadataModelCreationsInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeMetadataModelCreationsInput, OperationStackOutput == DescribeMetadataModelCreationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMetadataModelCreationsPaginated`
+    /// to access the nested member `[DatabaseMigrationClientTypes.SchemaConversionRequest]`
+    /// - Returns: `[DatabaseMigrationClientTypes.SchemaConversionRequest]`
+    public func requests() async throws -> [DatabaseMigrationClientTypes.SchemaConversionRequest] {
+        return try await self.asyncCompactMap { item in item.requests }
+    }
 }
 extension DatabaseMigrationClient {
     /// Paginate over `[DescribeMetadataModelExportsAsScriptOutput]` results.

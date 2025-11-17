@@ -935,7 +935,6 @@ extension SageMakerClientTypes {
         /// The framework version of the Model Package Container Image.
         public var frameworkVersion: Swift.String?
         /// The Amazon Elastic Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see [Using Your Own Algorithms with Amazon SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms.html).
-        /// This member is required.
         public var image: Swift.String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public var imageDigest: Swift.String?
@@ -8494,6 +8493,25 @@ extension SageMakerClientTypes {
 
 extension SageMakerClientTypes {
 
+    /// Contains information about an available upgrade for a SageMaker Partner AI App, including the version number and release notes.
+    public struct AvailableUpgrade: Swift.Sendable {
+        /// A list of release notes describing the changes and improvements included in the available upgrade version.
+        public var releaseNotes: [Swift.String]?
+        /// The semantic version number of the available upgrade for the SageMaker Partner AI App.
+        public var version: Swift.String?
+
+        public init(
+            releaseNotes: [Swift.String]? = nil,
+            version: Swift.String? = nil
+        ) {
+            self.releaseNotes = releaseNotes
+            self.version = version
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     public enum AwsManagedHumanLoopRequestSource: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rekognitionDetectModerationLabelsImageV3
         case textractAnalyzeDocumentFormsV1
@@ -11404,6 +11422,7 @@ extension SageMakerClientTypes {
         case mlT3Xlarge
         case mlTrn1n32xlarge
         case mlTrn132xlarge
+        case mlTrn23xlarge
         case mlTrn248xlarge
         case sdkUnknown(Swift.String)
 
@@ -11521,6 +11540,7 @@ extension SageMakerClientTypes {
                 .mlT3Xlarge,
                 .mlTrn1n32xlarge,
                 .mlTrn132xlarge,
+                .mlTrn23xlarge,
                 .mlTrn248xlarge
             ]
         }
@@ -11644,6 +11664,7 @@ extension SageMakerClientTypes {
             case .mlT3Xlarge: return "ml.t3.xlarge"
             case .mlTrn1n32xlarge: return "ml.trn1n.32xlarge"
             case .mlTrn132xlarge: return "ml.trn1.32xlarge"
+            case .mlTrn23xlarge: return "ml.trn2.3xlarge"
             case .mlTrn248xlarge: return "ml.trn2.48xlarge"
             case let .sdkUnknown(s): return s
             }
@@ -25421,19 +25442,48 @@ public struct CreateOptimizationJobOutput: Swift.Sendable {
 
 extension SageMakerClientTypes {
 
+    /// Defines the mapping between an in-app role and the AWS IAM Identity Center group patterns that should be assigned to that role within the SageMaker Partner AI App.
+    public struct RoleGroupAssignment: Swift.Sendable {
+        /// A list of AWS IAM Identity Center group patterns that should be assigned to the specified role. Group patterns support wildcard matching using *.
+        /// This member is required.
+        public var groupPatterns: [Swift.String]?
+        /// The name of the in-app role within the SageMaker Partner AI App. The specific roles available depend on the app type and version.
+        /// This member is required.
+        public var roleName: Swift.String?
+
+        public init(
+            groupPatterns: [Swift.String]? = nil,
+            roleName: Swift.String? = nil
+        ) {
+            self.groupPatterns = groupPatterns
+            self.roleName = roleName
+        }
+    }
+}
+
+extension SageMakerClientTypes {
+
     /// Configuration settings for the SageMaker Partner AI App.
     public struct PartnerAppConfig: Swift.Sendable {
         /// The list of users that are given admin access to the SageMaker Partner AI App.
         public var adminUsers: [Swift.String]?
         /// This is a map of required inputs for a SageMaker Partner AI App. Based on the application type, the map is populated with a key and value pair that is specific to the user and application.
         public var arguments: [Swift.String: Swift.String]?
+        /// A list of Amazon Web Services IAM Identity Center group patterns that can access the SageMaker Partner AI App. Group names support wildcard matching using *. An empty list indicates the app will not use Identity Center group features. All groups specified in RoleGroupAssignments must match patterns in this list.
+        public var assignedGroupPatterns: [Swift.String]?
+        /// A map of in-app roles to Amazon Web Services IAM Identity Center group patterns. Groups assigned to specific roles receive those permissions, while groups in AssignedGroupPatterns but not in this map receive default in-app role depending on app type. Group patterns support wildcard matching using *. Currently supported by Fiddler version 1.3 and later with roles: ORG_MEMBER (default) and ORG_ADMIN.
+        public var roleGroupAssignments: [SageMakerClientTypes.RoleGroupAssignment]?
 
         public init(
             adminUsers: [Swift.String]? = nil,
-            arguments: [Swift.String: Swift.String]? = nil
+            arguments: [Swift.String: Swift.String]? = nil,
+            assignedGroupPatterns: [Swift.String]? = nil,
+            roleGroupAssignments: [SageMakerClientTypes.RoleGroupAssignment]? = nil
         ) {
             self.adminUsers = adminUsers
             self.arguments = arguments
+            self.assignedGroupPatterns = assignedGroupPatterns
+            self.roleGroupAssignments = roleGroupAssignments
         }
     }
 }
@@ -25522,6 +25572,8 @@ public struct CreatePartnerAppInput: Swift.Sendable {
     public var authType: SageMakerClientTypes.PartnerAppAuthType?
     /// A unique token that guarantees that the call to this API is idempotent.
     public var clientToken: Swift.String?
+    /// When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available. Default is FALSE.
+    public var enableAutoMinorVersionUpgrade: Swift.Bool?
     /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
     public var enableIamSessionBasedIdentity: Swift.Bool?
     /// The ARN of the IAM role that the partner application uses.
@@ -25547,6 +25599,7 @@ public struct CreatePartnerAppInput: Swift.Sendable {
         applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
         authType: SageMakerClientTypes.PartnerAppAuthType? = nil,
         clientToken: Swift.String? = nil,
+        enableAutoMinorVersionUpgrade: Swift.Bool? = nil,
         enableIamSessionBasedIdentity: Swift.Bool? = nil,
         executionRoleArn: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
@@ -25559,6 +25612,7 @@ public struct CreatePartnerAppInput: Swift.Sendable {
         self.applicationConfig = applicationConfig
         self.authType = authType
         self.clientToken = clientToken
+        self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
         self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
         self.executionRoleArn = executionRoleArn
         self.kmsKeyId = kmsKeyId
@@ -27172,7 +27226,6 @@ public struct CreateTrainingJobInput: Swift.Sendable {
     /// Contains information about attribute-based access control (ABAC) for the training job.
     public var sessionChainingConfig: SageMakerClientTypes.SessionChainingConfig?
     /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, SageMaker ends the training job. Use this API to cap model training costs. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
-    /// This member is required.
     public var stoppingCondition: SageMakerClientTypes.StoppingCondition?
     /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html). Do not include any security-sensitive information including account access IDs, secrets, or tokens in any tags. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request tag variable or plain text fields.
     public var tags: [SageMakerClientTypes.Tag]?
@@ -36195,11 +36248,15 @@ public struct DescribePartnerAppInput: Swift.Sendable {
     /// The ARN of the SageMaker Partner AI App to describe.
     /// This member is required.
     public var arn: Swift.String?
+    /// When set to TRUE, the response includes available upgrade information for the SageMaker Partner AI App. Default is FALSE.
+    public var includeAvailableUpgrade: Swift.Bool?
 
     public init(
-        arn: Swift.String? = nil
+        arn: Swift.String? = nil,
+        includeAvailableUpgrade: Swift.Bool? = nil
     ) {
         self.arn = arn
+        self.includeAvailableUpgrade = includeAvailableUpgrade
     }
 }
 
@@ -36273,10 +36330,16 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
     public var arn: Swift.String?
     /// The authorization type that users use to access the SageMaker Partner AI App.
     public var authType: SageMakerClientTypes.PartnerAppAuthType?
+    /// A map of available minor version upgrades for the SageMaker Partner AI App. The key is the semantic version number, and the value is a list of release notes for that version. A null value indicates no upgrades are available.
+    public var availableUpgrade: SageMakerClientTypes.AvailableUpgrade?
     /// The URL of the SageMaker Partner AI App that the Application SDK uses to support in-app calls for the user.
     public var baseUrl: Swift.String?
     /// The time that the SageMaker Partner AI App was created.
     public var creationTime: Foundation.Date?
+    /// The end-of-life date for the current version of the SageMaker Partner AI App.
+    public var currentVersionEolDate: Foundation.Date?
+    /// Indicates whether the SageMaker Partner AI App is configured for automatic minor version upgrades during scheduled maintenance windows.
+    public var enableAutoMinorVersionUpgrade: Swift.Bool?
     /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
     public var enableIamSessionBasedIdentity: Swift.Bool?
     /// This is an error field object that contains the error code and the reason for an operation failure.
@@ -36318,8 +36381,11 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
         applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
         arn: Swift.String? = nil,
         authType: SageMakerClientTypes.PartnerAppAuthType? = nil,
+        availableUpgrade: SageMakerClientTypes.AvailableUpgrade? = nil,
         baseUrl: Swift.String? = nil,
         creationTime: Foundation.Date? = nil,
+        currentVersionEolDate: Foundation.Date? = nil,
+        enableAutoMinorVersionUpgrade: Swift.Bool? = nil,
         enableIamSessionBasedIdentity: Swift.Bool? = nil,
         error: SageMakerClientTypes.ErrorInfo? = nil,
         executionRoleArn: Swift.String? = nil,
@@ -36335,8 +36401,11 @@ public struct DescribePartnerAppOutput: Swift.Sendable {
         self.applicationConfig = applicationConfig
         self.arn = arn
         self.authType = authType
+        self.availableUpgrade = availableUpgrade
         self.baseUrl = baseUrl
         self.creationTime = creationTime
+        self.currentVersionEolDate = currentVersionEolDate
+        self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
         self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
         self.error = error
         self.executionRoleArn = executionRoleArn
@@ -37756,7 +37825,6 @@ extension SageMakerClientTypes {
 
 public struct DescribeTrainingJobOutput: Swift.Sendable {
     /// Information about the algorithm used for training, and algorithm metadata.
-    /// This member is required.
     public var algorithmSpecification: SageMakerClientTypes.AlgorithmSpecification?
     /// The Amazon Resource Name (ARN) of an AutoML job.
     public var autoMLJobArn: Swift.String?
@@ -37819,7 +37887,6 @@ public struct DescribeTrainingJobOutput: Swift.Sendable {
     /// Configuration for remote debugging. To learn more about the remote debugging functionality of SageMaker, see [Access a training container through Amazon Web Services Systems Manager (SSM) for remote debugging](https://docs.aws.amazon.com/sagemaker/latest/dg/train-remote-debugging.html).
     public var remoteDebugConfig: SageMakerClientTypes.RemoteDebugConfig?
     /// Resources, including ML compute instances and ML storage volumes, that are configured for model training.
-    /// This member is required.
     public var resourceConfig: SageMakerClientTypes.ResourceConfig?
     /// The number of times to retry the job when the job fails due to an InternalServerError.
     public var retryStrategy: SageMakerClientTypes.RetryStrategy?
@@ -54649,6 +54716,8 @@ public struct UpdateNotebookInstanceLifecycleConfigOutput: Swift.Sendable {
 }
 
 public struct UpdatePartnerAppInput: Swift.Sendable {
+    /// The semantic version to upgrade the SageMaker Partner AI App to. Must be the same semantic version returned in the AvailableUpgrade field from DescribePartnerApp. Version skipping and downgrades are not supported.
+    public var appVersion: Swift.String?
     /// Configuration settings for the SageMaker Partner AI App.
     public var applicationConfig: SageMakerClientTypes.PartnerAppConfig?
     /// The ARN of the SageMaker Partner AI App to update.
@@ -54656,6 +54725,8 @@ public struct UpdatePartnerAppInput: Swift.Sendable {
     public var arn: Swift.String?
     /// A unique token that guarantees that the call to this API is idempotent.
     public var clientToken: Swift.String?
+    /// When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available.
+    public var enableAutoMinorVersionUpgrade: Swift.Bool?
     /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
     public var enableIamSessionBasedIdentity: Swift.Bool?
     /// Maintenance configuration settings for the SageMaker Partner AI App.
@@ -54666,17 +54737,21 @@ public struct UpdatePartnerAppInput: Swift.Sendable {
     public var tier: Swift.String?
 
     public init(
+        appVersion: Swift.String? = nil,
         applicationConfig: SageMakerClientTypes.PartnerAppConfig? = nil,
         arn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        enableAutoMinorVersionUpgrade: Swift.Bool? = nil,
         enableIamSessionBasedIdentity: Swift.Bool? = nil,
         maintenanceConfig: SageMakerClientTypes.PartnerAppMaintenanceConfig? = nil,
         tags: [SageMakerClientTypes.Tag]? = nil,
         tier: Swift.String? = nil
     ) {
+        self.appVersion = appVersion
         self.applicationConfig = applicationConfig
         self.arn = arn
         self.clientToken = clientToken
+        self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
         self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
         self.maintenanceConfig = maintenanceConfig
         self.tags = tags
@@ -58623,6 +58698,7 @@ extension CreatePartnerAppInput {
         try writer["ApplicationConfig"].write(value.applicationConfig, with: SageMakerClientTypes.PartnerAppConfig.write(value:to:))
         try writer["AuthType"].write(value.authType)
         try writer["ClientToken"].write(value.clientToken)
+        try writer["EnableAutoMinorVersionUpgrade"].write(value.enableAutoMinorVersionUpgrade)
         try writer["EnableIamSessionBasedIdentity"].write(value.enableIamSessionBasedIdentity)
         try writer["ExecutionRoleArn"].write(value.executionRoleArn)
         try writer["KmsKeyId"].write(value.kmsKeyId)
@@ -59800,6 +59876,7 @@ extension DescribePartnerAppInput {
     static func write(value: DescribePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
+        try writer["IncludeAvailableUpgrade"].write(value.includeAvailableUpgrade)
     }
 }
 
@@ -61998,9 +62075,11 @@ extension UpdatePartnerAppInput {
 
     static func write(value: UpdatePartnerAppInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AppVersion"].write(value.appVersion)
         try writer["ApplicationConfig"].write(value.applicationConfig, with: SageMakerClientTypes.PartnerAppConfig.write(value:to:))
         try writer["Arn"].write(value.arn)
         try writer["ClientToken"].write(value.clientToken)
+        try writer["EnableAutoMinorVersionUpgrade"].write(value.enableAutoMinorVersionUpgrade)
         try writer["EnableIamSessionBasedIdentity"].write(value.enableIamSessionBasedIdentity)
         try writer["MaintenanceConfig"].write(value.maintenanceConfig, with: SageMakerClientTypes.PartnerAppMaintenanceConfig.write(value:to:))
         try writer["Tags"].writeList(value.tags, memberWritingClosure: SageMakerClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -64710,8 +64789,11 @@ extension DescribePartnerAppOutput {
         value.applicationConfig = try reader["ApplicationConfig"].readIfPresent(with: SageMakerClientTypes.PartnerAppConfig.read(from:))
         value.arn = try reader["Arn"].readIfPresent()
         value.authType = try reader["AuthType"].readIfPresent()
+        value.availableUpgrade = try reader["AvailableUpgrade"].readIfPresent(with: SageMakerClientTypes.AvailableUpgrade.read(from:))
         value.baseUrl = try reader["BaseUrl"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currentVersionEolDate = try reader["CurrentVersionEolDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.enableAutoMinorVersionUpgrade = try reader["EnableAutoMinorVersionUpgrade"].readIfPresent()
         value.enableIamSessionBasedIdentity = try reader["EnableIamSessionBasedIdentity"].readIfPresent()
         value.error = try reader["Error"].readIfPresent(with: SageMakerClientTypes.ErrorInfo.read(from:))
         value.executionRoleArn = try reader["ExecutionRoleArn"].readIfPresent()
@@ -72576,7 +72658,7 @@ extension SageMakerClientTypes.ModelPackageContainerDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SageMakerClientTypes.ModelPackageContainerDefinition()
         value.containerHostname = try reader["ContainerHostname"].readIfPresent()
-        value.image = try reader["Image"].readIfPresent() ?? ""
+        value.image = try reader["Image"].readIfPresent()
         value.imageDigest = try reader["ImageDigest"].readIfPresent()
         value.modelDataUrl = try reader["ModelDataUrl"].readIfPresent()
         value.modelDataSource = try reader["ModelDataSource"].readIfPresent(with: SageMakerClientTypes.ModelDataSource.read(from:))
@@ -79820,6 +79902,8 @@ extension SageMakerClientTypes.PartnerAppConfig {
         guard let value else { return }
         try writer["AdminUsers"].writeList(value.adminUsers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Arguments"].writeMap(value.arguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AssignedGroupPatterns"].writeList(value.assignedGroupPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RoleGroupAssignments"].writeList(value.roleGroupAssignments, memberWritingClosure: SageMakerClientTypes.RoleGroupAssignment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.PartnerAppConfig {
@@ -79827,6 +79911,25 @@ extension SageMakerClientTypes.PartnerAppConfig {
         var value = SageMakerClientTypes.PartnerAppConfig()
         value.adminUsers = try reader["AdminUsers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.assignedGroupPatterns = try reader["AssignedGroupPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roleGroupAssignments = try reader["RoleGroupAssignments"].readListIfPresent(memberReadingClosure: SageMakerClientTypes.RoleGroupAssignment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerClientTypes.RoleGroupAssignment {
+
+    static func write(value: SageMakerClientTypes.RoleGroupAssignment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupPatterns"].writeList(value.groupPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RoleName"].write(value.roleName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.RoleGroupAssignment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.RoleGroupAssignment()
+        value.roleName = try reader["RoleName"].readIfPresent() ?? ""
+        value.groupPatterns = try reader["GroupPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -79838,6 +79941,17 @@ extension SageMakerClientTypes.ErrorInfo {
         var value = SageMakerClientTypes.ErrorInfo()
         value.code = try reader["Code"].readIfPresent()
         value.reason = try reader["Reason"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerClientTypes.AvailableUpgrade {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerClientTypes.AvailableUpgrade {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerClientTypes.AvailableUpgrade()
+        value.version = try reader["Version"].readIfPresent()
+        value.releaseNotes = try reader["ReleaseNotes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

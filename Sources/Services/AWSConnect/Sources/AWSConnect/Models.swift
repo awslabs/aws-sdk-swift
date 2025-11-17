@@ -9061,7 +9061,12 @@ extension ConnectClientTypes {
         /// The name for the authentication profile.
         public var name: Swift.String?
         /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, see [Configure the session duration](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Amazon Connect Administrator Guide.
+        @available(*, deprecated, message: "PeriodicSessionDuration is deprecated. Use SessionInactivityDuration instead. API deprecated since 10/31/2025")
         public var periodicSessionDuration: Swift.Int?
+        /// The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
+        public var sessionInactivityDuration: Swift.Int?
+        /// Determines if automatic logout on user inactivity is enabled.
+        public var sessionInactivityHandlingEnabled: Swift.Bool?
 
         public init(
             allowedIps: [Swift.String]? = nil,
@@ -9075,7 +9080,9 @@ extension ConnectClientTypes {
             lastModifiedTime: Foundation.Date? = nil,
             maxSessionDuration: Swift.Int? = nil,
             name: Swift.String? = nil,
-            periodicSessionDuration: Swift.Int? = nil
+            periodicSessionDuration: Swift.Int? = nil,
+            sessionInactivityDuration: Swift.Int? = nil,
+            sessionInactivityHandlingEnabled: Swift.Bool? = false
         ) {
             self.allowedIps = allowedIps
             self.arn = arn
@@ -9089,6 +9096,8 @@ extension ConnectClientTypes {
             self.maxSessionDuration = maxSessionDuration
             self.name = name
             self.periodicSessionDuration = periodicSessionDuration
+            self.sessionInactivityDuration = sessionInactivityDuration
+            self.sessionInactivityHandlingEnabled = sessionInactivityHandlingEnabled
         }
     }
 }
@@ -24429,7 +24438,12 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
     /// The name for the authentication profile.
     public var name: Swift.String?
     /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, For more information on how to configure IP addresses, see [Configure session timeouts](https://docs.aws.amazon.com/connect/latest/adminguide/authentication-profiles.html#configure-session-timeouts) in the Amazon Connect Administrator Guide.
+    @available(*, deprecated, message: "PeriodicSessionDuration is deprecated. Use SessionInactivityDuration instead. API deprecated since 10/31/2025")
     public var periodicSessionDuration: Swift.Int?
+    /// The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
+    public var sessionInactivityDuration: Swift.Int?
+    /// Determines if automatic logout on user inactivity is enabled.
+    public var sessionInactivityHandlingEnabled: Swift.Bool?
 
     public init(
         allowedIps: [Swift.String]? = nil,
@@ -24438,7 +24452,9 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
-        periodicSessionDuration: Swift.Int? = nil
+        periodicSessionDuration: Swift.Int? = nil,
+        sessionInactivityDuration: Swift.Int? = nil,
+        sessionInactivityHandlingEnabled: Swift.Bool? = false
     ) {
         self.allowedIps = allowedIps
         self.authenticationProfileId = authenticationProfileId
@@ -24447,6 +24463,8 @@ public struct UpdateAuthenticationProfileInput: Swift.Sendable {
         self.instanceId = instanceId
         self.name = name
         self.periodicSessionDuration = periodicSessionDuration
+        self.sessionInactivityDuration = sessionInactivityDuration
+        self.sessionInactivityHandlingEnabled = sessionInactivityHandlingEnabled
     }
 }
 
@@ -34032,6 +34050,8 @@ extension UpdateAuthenticationProfileInput {
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
         try writer["PeriodicSessionDuration"].write(value.periodicSessionDuration)
+        try writer["SessionInactivityDuration"].write(value.sessionInactivityDuration)
+        try writer["SessionInactivityHandlingEnabled"].write(value.sessionInactivityHandlingEnabled)
     }
 }
 
@@ -43515,6 +43535,8 @@ extension ConnectClientTypes.AuthenticationProfile {
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         value.periodicSessionDuration = try reader["PeriodicSessionDuration"].readIfPresent()
         value.maxSessionDuration = try reader["MaxSessionDuration"].readIfPresent()
+        value.sessionInactivityDuration = try reader["SessionInactivityDuration"].readIfPresent()
+        value.sessionInactivityHandlingEnabled = try reader["SessionInactivityHandlingEnabled"].readIfPresent()
         return value
     }
 }

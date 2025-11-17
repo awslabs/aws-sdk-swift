@@ -6636,7 +6636,7 @@ extension MediaConvertClientTypes {
     public struct InputVideoGenerator: Swift.Sendable {
         /// Specify the number of audio channels to include in your video generator input. MediaConvert creates these audio channels as silent audio within a single audio track. Enter an integer from 1 to 32.
         public var channels: Swift.Int?
-        /// Specify the duration, in milliseconds, for your video generator input. Enter an integer from 50 to 86400000.
+        /// Specify the duration, in milliseconds, for your video generator input. Enter an integer from 1 to 86400000.
         public var duration: Swift.Int?
         /// Specify the denominator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate numerator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
         public var framerateDenominator: Swift.Int?
@@ -11260,6 +11260,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+    public enum CmfcC2paManifest: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmfcC2paManifest] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
     public enum CmfcDescriptiveVideoServiceFlag: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dontFlag
@@ -11510,6 +11540,10 @@ extension MediaConvertClientTypes {
         public var audioRenditionSets: Swift.String?
         /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. Choose Audio-only variant stream (AUDIO_ONLY_VARIANT_STREAM) for any variant that you want to prohibit the client from playing with video. This causes MediaConvert to represent the variant as an EXT-X-STREAM-INF in the HLS manifest. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
         public var audioTrackType: MediaConvertClientTypes.CmfcAudioTrackType?
+        /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+        public var c2paManifest: MediaConvertClientTypes.CmfcC2paManifest?
+        /// Specify the name or ARN of the AWS Secrets Manager secret that contains your C2PA public certificate chain in PEM format. Provide a valid secret name or ARN. Note that your MediaConvert service role must allow access to this secret. The public certificate chain is added to the COSE header (x5chain) for signature validation. Include the signer's certificate and all intermediate certificates. Do not include the root certificate. For details on COSE, see: https://opensource.contentauthenticity.org/docs/manifest/signing-manifests
+        public var certificateSecret: Swift.String?
         /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
         public var descriptiveVideoServiceFlag: MediaConvertClientTypes.CmfcDescriptiveVideoServiceFlag?
         /// Choose Include to have MediaConvert generate an HLS child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude.
@@ -11522,6 +11556,8 @@ extension MediaConvertClientTypes {
         public var scte35Esam: MediaConvertClientTypes.CmfcScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
         public var scte35Source: MediaConvertClientTypes.CmfcScte35Source?
+        /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
+        public var signingKmsKey: Swift.String?
         /// To include ID3 metadata in this output: Set ID3 metadata to Passthrough. Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
         public var timedMetadata: MediaConvertClientTypes.CmfcTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata to Passthrough.
@@ -11536,12 +11572,15 @@ extension MediaConvertClientTypes {
             audioGroupId: Swift.String? = nil,
             audioRenditionSets: Swift.String? = nil,
             audioTrackType: MediaConvertClientTypes.CmfcAudioTrackType? = nil,
+            c2paManifest: MediaConvertClientTypes.CmfcC2paManifest? = nil,
+            certificateSecret: Swift.String? = nil,
             descriptiveVideoServiceFlag: MediaConvertClientTypes.CmfcDescriptiveVideoServiceFlag? = nil,
             iFrameOnlyManifest: MediaConvertClientTypes.CmfcIFrameOnlyManifest? = nil,
             klvMetadata: MediaConvertClientTypes.CmfcKlvMetadata? = nil,
             manifestMetadataSignaling: MediaConvertClientTypes.CmfcManifestMetadataSignaling? = nil,
             scte35Esam: MediaConvertClientTypes.CmfcScte35Esam? = nil,
             scte35Source: MediaConvertClientTypes.CmfcScte35Source? = nil,
+            signingKmsKey: Swift.String? = nil,
             timedMetadata: MediaConvertClientTypes.CmfcTimedMetadata? = nil,
             timedMetadataBoxVersion: MediaConvertClientTypes.CmfcTimedMetadataBoxVersion? = nil,
             timedMetadataSchemeIdUri: Swift.String? = nil,
@@ -11551,12 +11590,15 @@ extension MediaConvertClientTypes {
             self.audioGroupId = audioGroupId
             self.audioRenditionSets = audioRenditionSets
             self.audioTrackType = audioTrackType
+            self.c2paManifest = c2paManifest
+            self.certificateSecret = certificateSecret
             self.descriptiveVideoServiceFlag = descriptiveVideoServiceFlag
             self.iFrameOnlyManifest = iFrameOnlyManifest
             self.klvMetadata = klvMetadata
             self.manifestMetadataSignaling = manifestMetadataSignaling
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
+            self.signingKmsKey = signingKmsKey
             self.timedMetadata = timedMetadata
             self.timedMetadataBoxVersion = timedMetadataBoxVersion
             self.timedMetadataSchemeIdUri = timedMetadataSchemeIdUri
@@ -13189,6 +13231,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+    public enum MpdC2paManifest: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case exclude
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MpdC2paManifest] {
+            return [
+                .exclude,
+                .include
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .exclude: return "EXCLUDE"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Use this setting only in DASH output groups that include sidecar TTML, IMSC or WEBVTT captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
     public enum MpdCaptionContainerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case fragmentedMp4
@@ -13405,8 +13477,12 @@ extension MediaConvertClientTypes {
         public var accessibilityCaptionHints: MediaConvertClientTypes.MpdAccessibilityCaptionHints?
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public var audioDuration: MediaConvertClientTypes.MpdAudioDuration?
+        /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+        public var c2paManifest: MediaConvertClientTypes.MpdC2paManifest?
         /// Use this setting only in DASH output groups that include sidecar TTML, IMSC or WEBVTT captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public var captionContainerType: MediaConvertClientTypes.MpdCaptionContainerType?
+        /// Specify the name or ARN of the AWS Secrets Manager secret that contains your C2PA public certificate chain in PEM format. Provide a valid secret name or ARN. Note that your MediaConvert service role must allow access to this secret. The public certificate chain is added to the COSE header (x5chain) for signature validation. Include the signer's certificate and all intermediate certificates. Do not include the root certificate. For details on COSE, see: https://opensource.contentauthenticity.org/docs/manifest/signing-manifests
+        public var certificateSecret: Swift.String?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public var klvMetadata: MediaConvertClientTypes.MpdKlvMetadata?
         /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata to Passthrough.
@@ -13415,6 +13491,8 @@ extension MediaConvertClientTypes {
         public var scte35Esam: MediaConvertClientTypes.MpdScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
         public var scte35Source: MediaConvertClientTypes.MpdScte35Source?
+        /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
+        public var signingKmsKey: Swift.String?
         /// To include ID3 metadata in this output: Set ID3 metadata to Passthrough. Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
         public var timedMetadata: MediaConvertClientTypes.MpdTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output. For more information, see ISO/IEC 23009-1:2022 section 5.10.3.3.3 Syntax. Leave blank to use the default value Version 0. When you specify Version 1, you must also set ID3 metadata to Passthrough.
@@ -13427,11 +13505,14 @@ extension MediaConvertClientTypes {
         public init(
             accessibilityCaptionHints: MediaConvertClientTypes.MpdAccessibilityCaptionHints? = nil,
             audioDuration: MediaConvertClientTypes.MpdAudioDuration? = nil,
+            c2paManifest: MediaConvertClientTypes.MpdC2paManifest? = nil,
             captionContainerType: MediaConvertClientTypes.MpdCaptionContainerType? = nil,
+            certificateSecret: Swift.String? = nil,
             klvMetadata: MediaConvertClientTypes.MpdKlvMetadata? = nil,
             manifestMetadataSignaling: MediaConvertClientTypes.MpdManifestMetadataSignaling? = nil,
             scte35Esam: MediaConvertClientTypes.MpdScte35Esam? = nil,
             scte35Source: MediaConvertClientTypes.MpdScte35Source? = nil,
+            signingKmsKey: Swift.String? = nil,
             timedMetadata: MediaConvertClientTypes.MpdTimedMetadata? = nil,
             timedMetadataBoxVersion: MediaConvertClientTypes.MpdTimedMetadataBoxVersion? = nil,
             timedMetadataSchemeIdUri: Swift.String? = nil,
@@ -13439,11 +13520,14 @@ extension MediaConvertClientTypes {
         ) {
             self.accessibilityCaptionHints = accessibilityCaptionHints
             self.audioDuration = audioDuration
+            self.c2paManifest = c2paManifest
             self.captionContainerType = captionContainerType
+            self.certificateSecret = certificateSecret
             self.klvMetadata = klvMetadata
             self.manifestMetadataSignaling = manifestMetadataSignaling
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
+            self.signingKmsKey = signingKmsKey
             self.timedMetadata = timedMetadata
             self.timedMetadataBoxVersion = timedMetadataBoxVersion
             self.timedMetadataSchemeIdUri = timedMetadataSchemeIdUri
@@ -17859,6 +17943,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Choose how MediaConvert handles start and end times for input clipping with video passthrough. Your input video codec must be H.264 or H.265 to use IFRAME. To clip at the nearest IDR-frame: Choose Nearest IDR. If an IDR-frame is not found at the frame that you specify, MediaConvert uses the next compatible IDR-frame. Note that your output may be shorter than your input clip duration. To clip at the nearest I-frame: Choose Nearest I-frame. If an I-frame is not found at the frame that you specify, MediaConvert uses the next compatible I-frame. Note that your output may be shorter than your input clip duration. We only recommend this setting for special workflows, and when you choose this setting your output may not be compatible with most players.
+    public enum FrameControl: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case nearestIdrframe
+        case nearestIframe
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FrameControl] {
+            return [
+                .nearestIdrframe,
+                .nearestIframe
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .nearestIdrframe: return "NEAREST_IDRFRAME"
+            case .nearestIframe: return "NEAREST_IFRAME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
     public enum VideoSelectorMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case auto
@@ -17891,12 +18005,16 @@ extension MediaConvertClientTypes {
 
     /// Optional settings when you set Codec to the value Passthrough.
     public struct PassthroughSettings: Swift.Sendable {
+        /// Choose how MediaConvert handles start and end times for input clipping with video passthrough. Your input video codec must be H.264 or H.265 to use IFRAME. To clip at the nearest IDR-frame: Choose Nearest IDR. If an IDR-frame is not found at the frame that you specify, MediaConvert uses the next compatible IDR-frame. Note that your output may be shorter than your input clip duration. To clip at the nearest I-frame: Choose Nearest I-frame. If an I-frame is not found at the frame that you specify, MediaConvert uses the next compatible I-frame. Note that your output may be shorter than your input clip duration. We only recommend this setting for special workflows, and when you choose this setting your output may not be compatible with most players.
+        public var frameControl: MediaConvertClientTypes.FrameControl?
         /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
         public var videoSelectorMode: MediaConvertClientTypes.VideoSelectorMode?
 
         public init(
+            frameControl: MediaConvertClientTypes.FrameControl? = nil,
             videoSelectorMode: MediaConvertClientTypes.VideoSelectorMode? = nil
         ) {
+            self.frameControl = frameControl
             self.videoSelectorMode = videoSelectorMode
         }
     }
@@ -27539,12 +27657,14 @@ extension MediaConvertClientTypes.PassthroughSettings {
 
     static func write(value: MediaConvertClientTypes.PassthroughSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["frameControl"].write(value.frameControl)
         try writer["videoSelectorMode"].write(value.videoSelectorMode)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.PassthroughSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.PassthroughSettings()
+        value.frameControl = try reader["frameControl"].readIfPresent()
         value.videoSelectorMode = try reader["videoSelectorMode"].readIfPresent()
         return value
     }
@@ -28161,11 +28281,14 @@ extension MediaConvertClientTypes.MpdSettings {
         guard let value else { return }
         try writer["accessibilityCaptionHints"].write(value.accessibilityCaptionHints)
         try writer["audioDuration"].write(value.audioDuration)
+        try writer["c2paManifest"].write(value.c2paManifest)
         try writer["captionContainerType"].write(value.captionContainerType)
+        try writer["certificateSecret"].write(value.certificateSecret)
         try writer["klvMetadata"].write(value.klvMetadata)
         try writer["manifestMetadataSignaling"].write(value.manifestMetadataSignaling)
         try writer["scte35Esam"].write(value.scte35Esam)
         try writer["scte35Source"].write(value.scte35Source)
+        try writer["signingKmsKey"].write(value.signingKmsKey)
         try writer["timedMetadata"].write(value.timedMetadata)
         try writer["timedMetadataBoxVersion"].write(value.timedMetadataBoxVersion)
         try writer["timedMetadataSchemeIdUri"].write(value.timedMetadataSchemeIdUri)
@@ -28177,11 +28300,14 @@ extension MediaConvertClientTypes.MpdSettings {
         var value = MediaConvertClientTypes.MpdSettings()
         value.accessibilityCaptionHints = try reader["accessibilityCaptionHints"].readIfPresent()
         value.audioDuration = try reader["audioDuration"].readIfPresent()
+        value.c2paManifest = try reader["c2paManifest"].readIfPresent()
         value.captionContainerType = try reader["captionContainerType"].readIfPresent()
+        value.certificateSecret = try reader["certificateSecret"].readIfPresent()
         value.klvMetadata = try reader["klvMetadata"].readIfPresent()
         value.manifestMetadataSignaling = try reader["manifestMetadataSignaling"].readIfPresent()
         value.scte35Esam = try reader["scte35Esam"].readIfPresent()
         value.scte35Source = try reader["scte35Source"].readIfPresent()
+        value.signingKmsKey = try reader["signingKmsKey"].readIfPresent()
         value.timedMetadata = try reader["timedMetadata"].readIfPresent()
         value.timedMetadataBoxVersion = try reader["timedMetadataBoxVersion"].readIfPresent()
         value.timedMetadataSchemeIdUri = try reader["timedMetadataSchemeIdUri"].readIfPresent()
@@ -28493,12 +28619,15 @@ extension MediaConvertClientTypes.CmfcSettings {
         try writer["audioGroupId"].write(value.audioGroupId)
         try writer["audioRenditionSets"].write(value.audioRenditionSets)
         try writer["audioTrackType"].write(value.audioTrackType)
+        try writer["c2paManifest"].write(value.c2paManifest)
+        try writer["certificateSecret"].write(value.certificateSecret)
         try writer["descriptiveVideoServiceFlag"].write(value.descriptiveVideoServiceFlag)
         try writer["iFrameOnlyManifest"].write(value.iFrameOnlyManifest)
         try writer["klvMetadata"].write(value.klvMetadata)
         try writer["manifestMetadataSignaling"].write(value.manifestMetadataSignaling)
         try writer["scte35Esam"].write(value.scte35Esam)
         try writer["scte35Source"].write(value.scte35Source)
+        try writer["signingKmsKey"].write(value.signingKmsKey)
         try writer["timedMetadata"].write(value.timedMetadata)
         try writer["timedMetadataBoxVersion"].write(value.timedMetadataBoxVersion)
         try writer["timedMetadataSchemeIdUri"].write(value.timedMetadataSchemeIdUri)
@@ -28512,12 +28641,15 @@ extension MediaConvertClientTypes.CmfcSettings {
         value.audioGroupId = try reader["audioGroupId"].readIfPresent()
         value.audioRenditionSets = try reader["audioRenditionSets"].readIfPresent()
         value.audioTrackType = try reader["audioTrackType"].readIfPresent()
+        value.c2paManifest = try reader["c2paManifest"].readIfPresent()
+        value.certificateSecret = try reader["certificateSecret"].readIfPresent()
         value.descriptiveVideoServiceFlag = try reader["descriptiveVideoServiceFlag"].readIfPresent()
         value.iFrameOnlyManifest = try reader["iFrameOnlyManifest"].readIfPresent()
         value.klvMetadata = try reader["klvMetadata"].readIfPresent()
         value.manifestMetadataSignaling = try reader["manifestMetadataSignaling"].readIfPresent()
         value.scte35Esam = try reader["scte35Esam"].readIfPresent()
         value.scte35Source = try reader["scte35Source"].readIfPresent()
+        value.signingKmsKey = try reader["signingKmsKey"].readIfPresent()
         value.timedMetadata = try reader["timedMetadata"].readIfPresent()
         value.timedMetadataBoxVersion = try reader["timedMetadataBoxVersion"].readIfPresent()
         value.timedMetadataSchemeIdUri = try reader["timedMetadataSchemeIdUri"].readIfPresent()

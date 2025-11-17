@@ -3858,7 +3858,7 @@ extension IoTWirelessClient {
 
     /// Performs the `GetPosition` operation on the `IoTWireless` service.
     ///
-    /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
+    /// Get the position information for a given resource. This action is no longer supported. Calls to retrieve the position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetPositionInput`)
@@ -3929,7 +3929,7 @@ extension IoTWirelessClient {
 
     /// Performs the `GetPositionConfiguration` operation on the `IoTWireless` service.
     ///
-    /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
+    /// Get position configuration for a given resource. This action is no longer supported. Calls to retrieve the position configuration should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
     /// - Parameter input: [no documentation found] (Type: `GetPositionConfigurationInput`)
@@ -5668,7 +5668,7 @@ extension IoTWirelessClient {
 
     /// Performs the `ListPositionConfigurations` operation on the `IoTWireless` service.
     ///
-    /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_GetResourcePosition.html) API operation instead.
+    /// List position configurations for a given resource, such as positioning solvers. This action is no longer supported. Calls to retrieve position information should use the [GetResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_GetResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPositionConfigurationsInput`)
@@ -5947,7 +5947,7 @@ extension IoTWirelessClient {
 
     /// Performs the `ListWirelessDeviceImportTasks` operation on the `IoTWireless` service.
     ///
-    /// List wireless devices that have been added to an import task.
+    /// List of import tasks and summary information of onboarding status of devices in each import task.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListWirelessDeviceImportTasksInput`)
     ///
@@ -6225,7 +6225,7 @@ extension IoTWirelessClient {
 
     /// Performs the `PutPositionConfiguration` operation on the `IoTWireless` service.
     ///
-    /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
+    /// Put position configuration for a given resource. This action is no longer supported. Calls to update the position configuration should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
     /// - Parameter input: [no documentation found] (Type: `PutPositionConfigurationInput`)
@@ -7884,7 +7884,7 @@ extension IoTWirelessClient {
 
     /// Performs the `UpdatePosition` operation on the `IoTWireless` service.
     ///
-    /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/2020-11-22/apireference/API_UpdateResourcePosition.html) API operation instead.
+    /// Update the position information of a resource. This action is no longer supported. Calls to update the position information should use the [UpdateResourcePosition](https://docs.aws.amazon.com/iot-wireless/latest/apireference/API_UpdateResourcePosition.html) API operation instead.
     @available(*, deprecated, message: "This operation is no longer supported.")
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdatePositionInput`)
