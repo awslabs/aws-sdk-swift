@@ -204,26 +204,6 @@ private var runtimeTargets: [Target] {
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
         ),
         .target(
-            name: "InternalAWSSTS",
-            dependencies: internalAWSSTSData.dependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSTS/Sources/InternalAWSSTS"
-        ),
-        .target(
-            name: "InternalAWSSSO",
-            dependencies: internalAWSSSOData.dependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSO/Sources/InternalAWSSSO"
-        ),
-        .target(
-            name: "InternalAWSSSOOIDC",
-            dependencies: internalAWSSSOOIDCData.dependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSOOIDC/Sources/InternalAWSSSOOIDC"
-        ),
-        .target(
-            name: "InternalAWSCognitoIdentity",
-            dependencies: internalAWSCognitoIdentityData.dependencies,
-            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSCognitoIdentity/Sources/InternalAWSCognitoIdentity"
-        ),
-        .target(
             name: "AWSSDKChecksums",
             dependencies: [
                 .CRT,
@@ -237,7 +217,11 @@ private var runtimeTargets: [Target] {
             name: "AWSSDKDynamic",
             path: "Sources/Core/AWSSDKDynamic/Sources/AWSSDKDynamic"
         ),
-    ]
+    ] + internalServiceTargets
+}
+
+private var internalServiceTargets: [Target] {
+    filterServiceTargets(isInternal: true)
 }
 
 private var runtimeTestTargets: [Target] {
@@ -291,15 +275,15 @@ private var runtimeTestTargets: [Target] {
 }
 
 private var serviceTargets: [Target] {
-    serviceClientData.map(target(_:))
+    filterServiceTargets(isInternal: false)
+}
+
+private func filterServiceTargets(isInternal: Bool) -> [Target] {
+    serviceClientData.filter { $0.isInternal == isInternal }.map(target(_:))
 }
 
 private func target(_ service: ServiceClientData) -> Target {
-    .target(
-        name: service.name,
-        dependencies: service.dependencies,
-        path: "Sources/Services/\(service.name)/Sources/\(service.name)"
-    )
+    .target(name: service.name, dependencies: service.dependencies, path: service.sourcePath)
 }
 
 private var serviceTestTargets: [Target] {
@@ -326,10 +310,18 @@ struct ServiceClientData {
     let name: String
     let modelPath: String
     let dependencies: [Target.Dependency]
+    let isInternal: Bool
 
-    init(_ name: String, _ modelPath: String, _ dependencies: [Target.Dependency]) {
+    init(_ name: String, _ modelPath: String, _ dependencies: [Target.Dependency], isInternal: Bool = false) {
         self.name = name
         self.modelPath = modelPath
         self.dependencies = dependencies
+        self.isInternal = isInternal
+    }
+
+    var sourcePath: String {
+        isInternal ?
+            "Sources/Core/AWSSDKIdentity/InternalClients/\(name)/Sources/\(name)" :
+            "Sources/Services/\(name)/Sources/\(name)"
     }
 }

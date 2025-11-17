@@ -96,10 +96,43 @@ struct GeneratePackageManifest {
     ///
     /// - Returns: The contents of the generated package manifest.
     func generatePackageManifestContents() throws -> String {
+
+        struct ServiceClientInfo: Decodable {
+            let modelPath: String
+            let dependencies: [String]
+        }
+
         let versions = try resolveVersions()
-        let services = try resolveServices().map { PackageManifestBuilder.Service(name: $0) }
+        let serviceNames = try resolveServices()
+        let services = serviceNames.map { name in
+            let fileURL = URL(fileURLWithPath: "Sources/Services/\(name)/Dependencies.json")
+            let data = try! Data(contentsOf: fileURL)
+            let info = try! JSONDecoder().decode(ServiceClientInfo.self, from: data)
+            let modelFileName = URL(fileURLWithPath: info.modelPath).lastPathComponent
+            return PackageManifestBuilder.Service(
+                moduleName: name,
+                codegenName: modelFileName,
+                dependencies: info.dependencies,
+                isInternal: false
+            )
+        }
+
+        let internalServiceNames = ["AWSSTS", "AWSSSO", "AWSSSOOIDC", "AWSCognitoIdentity"]
+        let internalServices = internalServiceNames.map { name in
+            let fileURL = URL(fileURLWithPath: "Sources/Core/AWSSDKIdentity/InternalClients/Internal\(name)/Dependencies.json")
+            let data = try! Data(contentsOf: fileURL)
+            let info = try! JSONDecoder().decode(ServiceClientInfo.self, from: data)
+            let modelFileName = URL(fileURLWithPath: info.modelPath).lastPathComponent
+            return PackageManifestBuilder.Service(
+                moduleName: "Internal\(name)",
+                codegenName: modelFileName,
+                dependencies: info.dependencies,
+                isInternal: true
+            )
+        }
+
         log("Creating package manifest contents...")
-        let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services)
+        let contents = try buildPackageManifest(versions.clientRuntime, versions.crt, services + internalServices)
         log("Successfully created package manifest contents")
         return contents
     }
