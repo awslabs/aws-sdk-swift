@@ -435,6 +435,70 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
+    /// The database object that the schema conversion operation currently uses.
+    public struct ProcessedObject: Swift.Sendable {
+        /// The type of the data provider. This parameter can store one of the following values: "SOURCE" or "TARGET".
+        public var endpointType: Swift.String?
+        /// The name of the database object.
+        public var name: Swift.String?
+        /// The type of the database object. For example, a table, view, procedure, and so on.
+        public var type: Swift.String?
+
+        public init(
+            endpointType: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: Swift.String? = nil
+        ) {
+            self.endpointType = endpointType
+            self.name = name
+            self.type = type
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
+    /// Provides information about the progress of the schema conversion operation.
+    public struct Progress: Swift.Sendable {
+        /// The name of the database object that the schema conversion operation currently uses.
+        public var processedObject: DatabaseMigrationClientTypes.ProcessedObject?
+        /// The percent complete for the current step of the schema conversion operation.
+        public var progressPercent: Swift.Double?
+        /// The step of the schema conversion operation. This parameter can store one of the following values:
+        ///
+        /// * IN_PROGRESS – The operation is running.
+        ///
+        /// * LOADING_METADATA – Loads metadata from the source database.
+        ///
+        /// * COUNTING_OBJECTS – Determines the number of objects involved in the operation.
+        ///
+        /// * ANALYZING – Analyzes the source database objects.
+        ///
+        /// * CONVERTING – Converts the source database objects to a format compatible with the target database.
+        ///
+        /// * APPLYING – Applies the converted code to the target database.
+        ///
+        /// * FINISHED – The operation completed successfully.
+        public var progressStep: Swift.String?
+        /// The number of objects in this schema conversion operation.
+        public var totalObjects: Swift.Int
+
+        public init(
+            processedObject: DatabaseMigrationClientTypes.ProcessedObject? = nil,
+            progressPercent: Swift.Double? = nil,
+            progressStep: Swift.String? = nil,
+            totalObjects: Swift.Int = 0
+        ) {
+            self.processedObject = processedObject
+            self.progressPercent = progressPercent
+            self.progressStep = progressStep
+            self.totalObjects = totalObjects
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
     /// Provides information about a schema conversion action.
     public struct SchemaConversionRequest: Swift.Sendable {
         /// Provides error information about a project.
@@ -443,6 +507,8 @@ extension DatabaseMigrationClientTypes {
         public var exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails?
         /// The migration project ARN.
         public var migrationProjectArn: Swift.String?
+        /// Provides information about the progress of the schema conversion operation.
+        public var progress: DatabaseMigrationClientTypes.Progress?
         /// The identifier for the schema conversion action.
         public var requestIdentifier: Swift.String?
         /// The schema conversion action status.
@@ -452,12 +518,14 @@ extension DatabaseMigrationClientTypes {
             error: DatabaseMigrationClientTypes.ErrorDetails? = nil,
             exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails? = nil,
             migrationProjectArn: Swift.String? = nil,
+            progress: DatabaseMigrationClientTypes.Progress? = nil,
             requestIdentifier: Swift.String? = nil,
             status: Swift.String? = nil
         ) {
             self.error = error
             self.exportSqlDetails = exportSqlDetails
             self.migrationProjectArn = migrationProjectArn
+            self.progress = progress
             self.requestIdentifier = requestIdentifier
             self.status = status
         }
@@ -1594,6 +1662,41 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes {
 
+    /// Provides information that defines an SAP ASE data provider.
+    public struct SybaseAseDataProviderSettings: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The database name on the SAP ASE data provider.
+        public var databaseName: Swift.String?
+        /// Specifies whether to encrypt the password when connecting to the Sybase ASE database. When set to true, the connection password is encrypted during transmission. Default is true.
+        public var encryptPassword: Swift.Bool?
+        /// The port value for the SAP ASE data provider.
+        public var port: Swift.Int?
+        /// The name of the SAP ASE server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the SAP ASE data provider. The default value is none.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            encryptPassword: Swift.Bool? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        ) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.encryptPassword = encryptPassword
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+
     /// Provides information that defines a data provider.
     public enum DataProviderSettings: Swift.Sendable {
         /// Provides information that defines an Amazon Redshift data provider.
@@ -1604,6 +1707,8 @@ extension DatabaseMigrationClientTypes {
         case mysqlsettings(DatabaseMigrationClientTypes.MySqlDataProviderSettings)
         /// Provides information that defines an Oracle data provider.
         case oraclesettings(DatabaseMigrationClientTypes.OracleDataProviderSettings)
+        /// Provides information that defines an SAP ASE data provider.
+        case sybaseasesettings(DatabaseMigrationClientTypes.SybaseAseDataProviderSettings)
         /// Provides information that defines a Microsoft SQL Server data provider.
         case microsoftsqlserversettings(DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings)
         /// Provides information that defines a DocumentDB data provider.
@@ -1625,7 +1730,7 @@ public struct CreateDataProviderInput: Swift.Sendable {
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
     public var description: Swift.String?
-    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     /// This member is required.
     public var engine: Swift.String?
     /// The settings in JSON format for a data provider.
@@ -1665,7 +1770,7 @@ extension DatabaseMigrationClientTypes {
         public var dataProviderName: Swift.String?
         /// A description of the data provider. Descriptions can have up to 31 characters. A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
         public var description: Swift.String?
-        /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public var engine: Swift.String?
         /// The settings in JSON format for a data provider.
         public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
@@ -10263,7 +10368,7 @@ public struct ModifyDataProviderInput: Swift.Sendable {
     public var dataProviderName: Swift.String?
     /// A user-friendly description of the data provider.
     public var description: Swift.String?
-    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// The type of database engine for the data provider. Valid values include "aurora", "aurora-postgresql", "mysql", "oracle", "postgres", "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     public var engine: Swift.String?
     /// If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:
     ///
@@ -17790,6 +17895,32 @@ extension DatabaseMigrationClientTypes.SchemaConversionRequest {
         value.migrationProjectArn = try reader["MigrationProjectArn"].readIfPresent()
         value.error = try reader["Error"].readIfPresent(with: DatabaseMigrationClientTypes.ErrorDetails.read(from:))
         value.exportSqlDetails = try reader["ExportSqlDetails"].readIfPresent(with: DatabaseMigrationClientTypes.ExportSqlDetails.read(from:))
+        value.progress = try reader["Progress"].readIfPresent(with: DatabaseMigrationClientTypes.Progress.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.Progress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.Progress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.Progress()
+        value.progressPercent = try reader["ProgressPercent"].readIfPresent()
+        value.totalObjects = try reader["TotalObjects"].readIfPresent() ?? 0
+        value.progressStep = try reader["ProgressStep"].readIfPresent()
+        value.processedObject = try reader["ProcessedObject"].readIfPresent(with: DatabaseMigrationClientTypes.ProcessedObject.read(from:))
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.ProcessedObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.ProcessedObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.ProcessedObject()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
         return value
     }
 }
@@ -18011,6 +18142,8 @@ extension DatabaseMigrationClientTypes.DataProviderSettings {
                 try writer["PostgreSqlSettings"].write(postgresqlsettings, with: DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings.write(value:to:))
             case let .redshiftsettings(redshiftsettings):
                 try writer["RedshiftSettings"].write(redshiftsettings, with: DatabaseMigrationClientTypes.RedshiftDataProviderSettings.write(value:to:))
+            case let .sybaseasesettings(sybaseasesettings):
+                try writer["SybaseAseSettings"].write(sybaseasesettings, with: DatabaseMigrationClientTypes.SybaseAseDataProviderSettings.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -18028,6 +18161,8 @@ extension DatabaseMigrationClientTypes.DataProviderSettings {
                 return .mysqlsettings(try reader["MySqlSettings"].read(with: DatabaseMigrationClientTypes.MySqlDataProviderSettings.read(from:)))
             case "OracleSettings":
                 return .oraclesettings(try reader["OracleSettings"].read(with: DatabaseMigrationClientTypes.OracleDataProviderSettings.read(from:)))
+            case "SybaseAseSettings":
+                return .sybaseasesettings(try reader["SybaseAseSettings"].read(with: DatabaseMigrationClientTypes.SybaseAseDataProviderSettings.read(from:)))
             case "MicrosoftSqlServerSettings":
                 return .microsoftsqlserversettings(try reader["MicrosoftSqlServerSettings"].read(with: DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings.read(from:)))
             case "DocDbSettings":
@@ -18200,6 +18335,31 @@ extension DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings {
         value.certificateArn = try reader["CertificateArn"].readIfPresent()
         value.s3Path = try reader["S3Path"].readIfPresent()
         value.s3AccessRoleArn = try reader["S3AccessRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DatabaseMigrationClientTypes.SybaseAseDataProviderSettings {
+
+    static func write(value: DatabaseMigrationClientTypes.SybaseAseDataProviderSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CertificateArn"].write(value.certificateArn)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["EncryptPassword"].write(value.encryptPassword)
+        try writer["Port"].write(value.port)
+        try writer["ServerName"].write(value.serverName)
+        try writer["SslMode"].write(value.sslMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DatabaseMigrationClientTypes.SybaseAseDataProviderSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DatabaseMigrationClientTypes.SybaseAseDataProviderSettings()
+        value.serverName = try reader["ServerName"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.sslMode = try reader["SslMode"].readIfPresent()
+        value.encryptPassword = try reader["EncryptPassword"].readIfPresent()
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
         return value
     }
 }
