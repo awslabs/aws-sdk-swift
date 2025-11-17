@@ -1349,12 +1349,14 @@ extension Route53ResolverClientTypes {
 
     public enum DnsThreatProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dga
+        case dictionaryDga
         case dnsTunneling
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DnsThreatProtection] {
             return [
                 .dga,
+                .dictionaryDga,
                 .dnsTunneling
             ]
         }
@@ -1367,6 +1369,7 @@ extension Route53ResolverClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .dga: return "DGA"
+            case .dictionaryDga: return "DICTIONARY_DGA"
             case .dnsTunneling: return "DNS_TUNNELING"
             case let .sdkUnknown(s): return s
             }

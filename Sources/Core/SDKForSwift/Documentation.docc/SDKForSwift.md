@@ -545,6 +545,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSMWAA](../../../../../sdk-for-swift/latest/api/awsmwaa)
 
+[AWSMWAAServerless](../../../../../sdk-for-swift/latest/api/awsmwaaserverless)
+
 [AWSMachineLearning](../../../../../sdk-for-swift/latest/api/awsmachinelearning)
 
 [AWSMacie2](../../../../../sdk-for-swift/latest/api/awsmacie2)

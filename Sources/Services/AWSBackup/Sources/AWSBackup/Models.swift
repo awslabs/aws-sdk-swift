@@ -490,10 +490,38 @@ extension BackupClientTypes {
 
 extension BackupClientTypes {
 
+    public enum LifecycleDeleteAfterEvent: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleteAfterCopy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LifecycleDeleteAfterEvent] {
+            return [
+                .deleteAfterCopy
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteAfterCopy: return "DELETE_AFTER_COPY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BackupClientTypes {
+
     /// Specifies the time period, in days, before a recovery point transitions to cold storage or is deleted. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, on the console, the retention setting must be 90 days greater than the transition to cold after days setting. The transition to cold after days setting can't be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. To remove the existing lifecycle and retention periods and keep your recovery points indefinitely, specify -1 for MoveToColdStorageAfterDays and DeleteAfterDays.
     public struct Lifecycle: Swift.Sendable {
         /// The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays.
         public var deleteAfterDays: Swift.Int?
+        /// The event after which a recovery point is deleted. A recovery point with both DeleteAfterDays and DeleteAfterEvent will delete after whichever condition is satisfied first. Not valid as an input.
+        public var deleteAfterEvent: BackupClientTypes.LifecycleDeleteAfterEvent?
         /// The number of days after creation that a recovery point is moved to cold storage.
         public var moveToColdStorageAfterDays: Swift.Int?
         /// If the value is true, your backup plan transitions supported resources to archive (cold) storage tier in accordance with your lifecycle settings.
@@ -501,10 +529,12 @@ extension BackupClientTypes {
 
         public init(
             deleteAfterDays: Swift.Int? = nil,
+            deleteAfterEvent: BackupClientTypes.LifecycleDeleteAfterEvent? = nil,
             moveToColdStorageAfterDays: Swift.Int? = nil,
             optInToArchiveForSupportedResources: Swift.Bool? = nil
         ) {
             self.deleteAfterDays = deleteAfterDays
+            self.deleteAfterEvent = deleteAfterEvent
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
             self.optInToArchiveForSupportedResources = optInToArchiveForSupportedResources
         }
@@ -874,6 +904,8 @@ extension BackupClientTypes {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         /// This member is required.
         public var targetBackupVaultName: Swift.String?
+        /// The ARN of a logically air-gapped vault. ARN must be in the same account and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other supported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported resources only back up to the specified backup vault.
+        public var targetLogicallyAirGappedBackupVaultArn: Swift.String?
 
         public init(
             completionWindowMinutes: Swift.Int? = nil,
@@ -887,7 +919,8 @@ extension BackupClientTypes {
             scheduleExpression: Swift.String? = nil,
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
-            targetBackupVaultName: Swift.String? = nil
+            targetBackupVaultName: Swift.String? = nil,
+            targetLogicallyAirGappedBackupVaultArn: Swift.String? = nil
         ) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
@@ -901,13 +934,14 @@ extension BackupClientTypes {
             self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
+            self.targetLogicallyAirGappedBackupVaultArn = targetLogicallyAirGappedBackupVaultArn
         }
     }
 }
 
 extension BackupClientTypes.BackupRule: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), targetLogicallyAirGappedBackupVaultArn: \(Swift.String(describing: targetLogicallyAirGappedBackupVaultArn)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -967,6 +1001,8 @@ extension BackupClientTypes {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         /// This member is required.
         public var targetBackupVaultName: Swift.String?
+        /// The ARN of a logically air-gapped vault. ARN must be in the same account and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other supported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported resources only back up to the specified backup vault.
+        public var targetLogicallyAirGappedBackupVaultArn: Swift.String?
 
         public init(
             completionWindowMinutes: Swift.Int? = nil,
@@ -979,7 +1015,8 @@ extension BackupClientTypes {
             scheduleExpression: Swift.String? = nil,
             scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
-            targetBackupVaultName: Swift.String? = nil
+            targetBackupVaultName: Swift.String? = nil,
+            targetLogicallyAirGappedBackupVaultArn: Swift.String? = nil
         ) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
@@ -992,13 +1029,14 @@ extension BackupClientTypes {
             self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
+            self.targetLogicallyAirGappedBackupVaultArn = targetLogicallyAirGappedBackupVaultArn
         }
     }
 }
 
 extension BackupClientTypes.BackupRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), indexActions: \(Swift.String(describing: indexActions)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), targetLogicallyAirGappedBackupVaultArn: \(Swift.String(describing: targetLogicallyAirGappedBackupVaultArn)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -1715,6 +1753,8 @@ extension BackupClientTypes {
         public var copyJobId: Swift.String?
         /// Contains information about the backup plan and rule that Backup used to initiate the recovery point backup.
         public var createdBy: BackupClientTypes.RecoveryPointCreator?
+        /// The backup job ID that initiated this copy job. Only applicable to scheduled copy jobs and automatic copy jobs to logically air-gapped vault.
+        public var createdByBackupJobId: Swift.String?
         /// The date and time a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public var creationDate: Foundation.Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
@@ -1762,6 +1802,7 @@ extension BackupClientTypes {
             compositeMemberIdentifier: Swift.String? = nil,
             copyJobId: Swift.String? = nil,
             createdBy: BackupClientTypes.RecoveryPointCreator? = nil,
+            createdByBackupJobId: Swift.String? = nil,
             creationDate: Foundation.Date? = nil,
             destinationBackupVaultArn: Swift.String? = nil,
             destinationEncryptionKeyArn: Swift.String? = nil,
@@ -1789,6 +1830,7 @@ extension BackupClientTypes {
             self.compositeMemberIdentifier = compositeMemberIdentifier
             self.copyJobId = copyJobId
             self.createdBy = createdBy
+            self.createdByBackupJobId = createdByBackupJobId
             self.creationDate = creationDate
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.destinationEncryptionKeyArn = destinationEncryptionKeyArn
@@ -3478,7 +3520,7 @@ public struct DescribeGlobalSettingsInput: Swift.Sendable {
 }
 
 public struct DescribeGlobalSettingsOutput: Swift.Sendable {
-    /// The status of the flags isCrossAccountBackupEnabled and isMpaEnabled ('Mpa' refers to multi-party approval).
+    /// The status of the flags isCrossAccountBackupEnabled, isMpaEnabled ('Mpa' refers to multi-party approval), and isDelegatedAdministratorEnabled.
     public var globalSettings: [Swift.String: Swift.String]?
     /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
     public var lastUpdateTime: Foundation.Date?
@@ -5413,6 +5455,8 @@ public struct ListCopyJobsInput: Swift.Sendable {
     ///
     /// * VirtualMachine for VMware virtual machines
     public var byResourceType: Swift.String?
+    /// Filters copy jobs by the specified source recovery point ARN.
+    public var bySourceRecoveryPointArn: Swift.String?
     /// Returns only copy jobs that are in the specified state.
     public var byState: BackupClientTypes.CopyJobState?
     /// The maximum number of items to be returned.
@@ -5431,6 +5475,7 @@ public struct ListCopyJobsInput: Swift.Sendable {
         byParentJobId: Swift.String? = nil,
         byResourceArn: Swift.String? = nil,
         byResourceType: Swift.String? = nil,
+        bySourceRecoveryPointArn: Swift.String? = nil,
         byState: BackupClientTypes.CopyJobState? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
@@ -5445,6 +5490,7 @@ public struct ListCopyJobsInput: Swift.Sendable {
         self.byParentJobId = byParentJobId
         self.byResourceArn = byResourceArn
         self.byResourceType = byResourceType
+        self.bySourceRecoveryPointArn = bySourceRecoveryPointArn
         self.byState = byState
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -7211,6 +7257,8 @@ public struct StartBackupJobInput: Swift.Sendable {
     public var index: BackupClientTypes.Index?
     /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that can transition to cold storage are listed in the [Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/backup-feature-availability.html#features-by-resource) table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
     public var lifecycle: BackupClientTypes.Lifecycle?
+    /// The ARN of a logically air-gapped vault. ARN must be in the same account and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other supported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported resources only back up to the specified backup vault.
+    public var logicallyAirGappedBackupVaultArn: Swift.String?
     /// The tags to assign to the resources.
     public var recoveryPointTags: [Swift.String: Swift.String]?
     /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -7227,6 +7275,7 @@ public struct StartBackupJobInput: Swift.Sendable {
         idempotencyToken: Swift.String? = nil,
         index: BackupClientTypes.Index? = nil,
         lifecycle: BackupClientTypes.Lifecycle? = nil,
+        logicallyAirGappedBackupVaultArn: Swift.String? = nil,
         recoveryPointTags: [Swift.String: Swift.String]? = nil,
         resourceArn: Swift.String? = nil,
         startWindowMinutes: Swift.Int? = nil
@@ -7238,6 +7287,7 @@ public struct StartBackupJobInput: Swift.Sendable {
         self.idempotencyToken = idempotencyToken
         self.index = index
         self.lifecycle = lifecycle
+        self.logicallyAirGappedBackupVaultArn = logicallyAirGappedBackupVaultArn
         self.recoveryPointTags = recoveryPointTags
         self.resourceArn = resourceArn
         self.startWindowMinutes = startWindowMinutes
@@ -7246,7 +7296,7 @@ public struct StartBackupJobInput: Swift.Sendable {
 
 extension StartBackupJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartBackupJobInput(backupOptions: \(Swift.String(describing: backupOptions)), backupVaultName: \(Swift.String(describing: backupVaultName)), completeWindowMinutes: \(Swift.String(describing: completeWindowMinutes)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), idempotencyToken: \(Swift.String(describing: idempotencyToken)), index: \(Swift.String(describing: index)), lifecycle: \(Swift.String(describing: lifecycle)), resourceArn: \(Swift.String(describing: resourceArn)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "StartBackupJobInput(backupOptions: \(Swift.String(describing: backupOptions)), backupVaultName: \(Swift.String(describing: backupVaultName)), completeWindowMinutes: \(Swift.String(describing: completeWindowMinutes)), iamRoleArn: \(Swift.String(describing: iamRoleArn)), idempotencyToken: \(Swift.String(describing: idempotencyToken)), index: \(Swift.String(describing: index)), lifecycle: \(Swift.String(describing: lifecycle)), logicallyAirGappedBackupVaultArn: \(Swift.String(describing: logicallyAirGappedBackupVaultArn)), resourceArn: \(Swift.String(describing: resourceArn)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartBackupJobOutput: Swift.Sendable {
@@ -7606,7 +7656,7 @@ public struct UpdateFrameworkOutput: Swift.Sendable {
 }
 
 public struct UpdateGlobalSettingsInput: Swift.Sendable {
-    /// Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2.
+    /// Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2. A value for Backup Service-Linked Role creation, styled asisDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false --region us-west-2.
     public var globalSettings: [Swift.String: Swift.String]?
 
     public init(
@@ -8810,6 +8860,10 @@ extension ListCopyJobsInput {
             let byResourceTypeQueryItem = Smithy.URIQueryItem(name: "resourceType".urlPercentEncoding(), value: Swift.String(byResourceType).urlPercentEncoding())
             items.append(byResourceTypeQueryItem)
         }
+        if let bySourceRecoveryPointArn = value.bySourceRecoveryPointArn {
+            let bySourceRecoveryPointArnQueryItem = Smithy.URIQueryItem(name: "sourceRecoveryPointArn".urlPercentEncoding(), value: Swift.String(bySourceRecoveryPointArn).urlPercentEncoding())
+            items.append(bySourceRecoveryPointArnQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -9856,6 +9910,7 @@ extension StartBackupJobInput {
         try writer["IdempotencyToken"].write(value.idempotencyToken)
         try writer["Index"].write(value.index)
         try writer["Lifecycle"].write(value.lifecycle, with: BackupClientTypes.Lifecycle.write(value:to:))
+        try writer["LogicallyAirGappedBackupVaultArn"].write(value.logicallyAirGappedBackupVaultArn)
         try writer["RecoveryPointTags"].writeMap(value.recoveryPointTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["StartWindowMinutes"].write(value.startWindowMinutes)
@@ -13200,6 +13255,7 @@ extension BackupClientTypes.Lifecycle {
     static func write(value: BackupClientTypes.Lifecycle?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["DeleteAfterDays"].write(value.deleteAfterDays)
+        try writer["DeleteAfterEvent"].write(value.deleteAfterEvent)
         try writer["MoveToColdStorageAfterDays"].write(value.moveToColdStorageAfterDays)
         try writer["OptInToArchiveForSupportedResources"].write(value.optInToArchiveForSupportedResources)
     }
@@ -13210,6 +13266,7 @@ extension BackupClientTypes.Lifecycle {
         value.moveToColdStorageAfterDays = try reader["MoveToColdStorageAfterDays"].readIfPresent()
         value.deleteAfterDays = try reader["DeleteAfterDays"].readIfPresent()
         value.optInToArchiveForSupportedResources = try reader["OptInToArchiveForSupportedResources"].readIfPresent()
+        value.deleteAfterEvent = try reader["DeleteAfterEvent"].readIfPresent()
         return value
     }
 }
@@ -13268,6 +13325,7 @@ extension BackupClientTypes.CopyJob {
         value.backupSizeInBytes = try reader["BackupSizeInBytes"].readIfPresent()
         value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
         value.createdBy = try reader["CreatedBy"].readIfPresent(with: BackupClientTypes.RecoveryPointCreator.read(from:))
+        value.createdByBackupJobId = try reader["CreatedByBackupJobId"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.parentJobId = try reader["ParentJobId"].readIfPresent()
         value.isParent = try reader["IsParent"].readIfPresent() ?? false
@@ -13465,6 +13523,7 @@ extension BackupClientTypes.BackupRule {
         var value = BackupClientTypes.BackupRule()
         value.ruleName = try reader["RuleName"].readIfPresent() ?? ""
         value.targetBackupVaultName = try reader["TargetBackupVaultName"].readIfPresent() ?? ""
+        value.targetLogicallyAirGappedBackupVaultArn = try reader["TargetLogicallyAirGappedBackupVaultArn"].readIfPresent()
         value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
         value.startWindowMinutes = try reader["StartWindowMinutes"].readIfPresent()
         value.completionWindowMinutes = try reader["CompletionWindowMinutes"].readIfPresent()
@@ -14108,6 +14167,7 @@ extension BackupClientTypes.BackupRuleInput {
         try writer["ScheduleExpressionTimezone"].write(value.scheduleExpressionTimezone)
         try writer["StartWindowMinutes"].write(value.startWindowMinutes)
         try writer["TargetBackupVaultName"].write(value.targetBackupVaultName)
+        try writer["TargetLogicallyAirGappedBackupVaultArn"].write(value.targetLogicallyAirGappedBackupVaultArn)
     }
 }
 

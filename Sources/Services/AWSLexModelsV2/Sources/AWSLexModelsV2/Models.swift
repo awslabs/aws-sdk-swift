@@ -2362,6 +2362,36 @@ extension LexModelsV2ClientTypes {
 
 extension LexModelsV2ClientTypes {
 
+    /// Defines the operational mode for Assisted Natural Language Understanding. This enum determines how the enhanced NLU capabilities integrate with standard intent recognition.
+    public enum AssistedNluMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fallback
+        case primary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssistedNluMode] {
+            return [
+                .fallback,
+                .primary
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fallback: return "Fallback"
+            case .primary: return "Primary"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes {
+
     /// The object containing information that associates the recommended intent/slot type with a conversation.
     public struct AssociatedTranscript: Swift.Sendable {
         /// The content of the transcript that meets the search filter criteria. For the JSON format of the transcript, see [Output transcript format](https://docs.aws.amazon.com/lexv2/latest/dg/designing-output-format.html).
@@ -5721,15 +5751,19 @@ public struct CreateBotAliasOutput: Swift.Sendable {
 
 extension LexModelsV2ClientTypes {
 
-    /// Specifies whether the assisted nlu feature is turned on or off.
+    /// Configures the Assisted Natural Language Understanding (NLU) feature for your bot. This specification determines whether enhanced intent recognition and utterance understanding capabilities are active.
     public struct NluImprovementSpecification: Swift.Sendable {
-        /// Specifies whether the assisted nlu feature is enabled.
+        /// Specifies the mode for Assisted NLU operation. Use Primary to make Assisted NLU the primary intent recognition method, or Fallback to use it only when standard NLU confidence is low.
+        public var assistedNluMode: LexModelsV2ClientTypes.AssistedNluMode?
+        /// Determines whether the Assisted NLU feature is enabled for the bot. When set to true, Amazon Lex uses advanced models to improve intent recognition and slot resolution, with the default being false.
         /// This member is required.
         public var enabled: Swift.Bool
 
         public init(
+            assistedNluMode: LexModelsV2ClientTypes.AssistedNluMode? = nil,
             enabled: Swift.Bool = false
         ) {
+            self.assistedNluMode = assistedNluMode
             self.enabled = enabled
         }
     }
@@ -5759,7 +5793,7 @@ extension LexModelsV2ClientTypes {
 
     /// Contains specifications about the Amazon Lex runtime generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
     public struct RuntimeSettings: Swift.Sendable {
-        /// An object containing specifications for the assisted nlu feature.
+        /// An object containing specifications for the Assisted NLU feature within the bot's runtime settings. These settings determine how the bot processes and interprets user utterances during conversations.
         public var nluImprovement: LexModelsV2ClientTypes.NluImprovementSpecification?
         /// An object containing specifications for the assisted slot resolution feature.
         public var slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification?
@@ -22628,6 +22662,7 @@ extension LexModelsV2ClientTypes.NluImprovementSpecification {
 
     static func write(value: LexModelsV2ClientTypes.NluImprovementSpecification?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["assistedNluMode"].write(value.assistedNluMode)
         try writer["enabled"].write(value.enabled)
     }
 
@@ -22635,6 +22670,7 @@ extension LexModelsV2ClientTypes.NluImprovementSpecification {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LexModelsV2ClientTypes.NluImprovementSpecification()
         value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.assistedNluMode = try reader["assistedNluMode"].readIfPresent()
         return value
     }
 }
