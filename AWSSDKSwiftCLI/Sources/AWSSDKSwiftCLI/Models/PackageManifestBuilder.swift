@@ -199,8 +199,10 @@ struct PackageManifestBuilder {
             let dependencies: [String]
         }
 
-        let jsonFileData = FileManager.default.contents(atPath: jsonFilePath) ?? Data("[]".utf8)
-        let info = try! JSONDecoder().decode(ServiceClientInfo.self, from: jsonFileData)
+        print("CWD: \(FileManager.default.currentDirectoryPath)")
+        print("jsonFilePath: \(jsonFilePath)")
+        let jsonFileData = FileManager.default.contents(atPath: jsonFilePath)
+        let info = try! JSONDecoder().decode(ServiceClientInfo.self, from: jsonFileData!)
         let modelFileName = info.modelPath
         return (modelFileName.wrappedInQuotes(), "[" + info.dependencies.map { ".\($0)" }.joined(separator: ", ") + "]")
     }
