@@ -40,7 +40,7 @@ class PackageManifestBuilderTests: XCTestCase {
         let subject = try PackageManifestBuilder(
             clientRuntimeVersion: .init("1.2.3"),
             crtVersion: .init("4.5.6"),
-            services: ["A","B","C","D","E"].map { PackageManifestBuilder.Service(name: $0) },
+            services: ["A","B","C","D","E"].map { .init(name: $0) },
             excludeRuntimeTests: false,
             previewBuild: false,
             prefixContents: { "<contents of prefix>" },

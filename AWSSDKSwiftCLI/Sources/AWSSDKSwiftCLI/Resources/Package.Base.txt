@@ -54,14 +54,14 @@ let package = Package(
     ],
     products:
         runtimeProducts +
-        serviceTargets.map(productForService(_:_:)),
+        serviceProducts,
     dependencies:
-        [smithySwiftDependency, crtDependency, doccDependencyOrNil].compactMap { $0 },
+        dependencies,
     targets:
         runtimeTargets +
         runtimeTestTargets +
-        serviceTargets.map(target(_:_:)) +
-        serviceTargets.map(unitTestTarget(_:_:))
+        serviceTargets +
+        serviceTestTargets
 )
 
 // MARK: Products
@@ -78,11 +78,19 @@ private var runtimeProducts: [Product] {
     ].map { .library(name: $0, targets: [$0]) }
 }
 
-private func productForService(_ service: String, _ dependencies: [Target.Dependency]) -> Product {
-    .library(name: service, targets: [service])
+private var serviceProducts: [Product] {
+    serviceClientData.map(productForService(_:))
+}
+
+private func productForService(_ service: ServiceClientData) -> Product {
+    .library(name: service.name, targets: [service.name])
 }
 
 // MARK: Dependencies
+
+private var dependencies: [Package.Dependency] {
+    [smithySwiftDependency, crtDependency, doccDependencyOrNil].compactMap { $0 }
+}
 
 private var smithySwiftDependency: Package.Dependency {
     let previewPath = "./smithy-swift"
@@ -197,22 +205,22 @@ private var runtimeTargets: [Target] {
         ),
         .target(
             name: "InternalAWSSTS",
-            dependencies: internalAWSSTSDependencies,
+            dependencies: internalAWSSTSData.dependencies,
             path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSTS/Sources/InternalAWSSTS"
         ),
         .target(
             name: "InternalAWSSSO",
-            dependencies: internalAWSSSODependencies,
+            dependencies: internalAWSSSOData.dependencies,
             path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSO/Sources/InternalAWSSSO"
         ),
         .target(
             name: "InternalAWSSSOOIDC",
-            dependencies: internalAWSSSOOIDCDependencies,
+            dependencies: internalAWSSSOOIDCData.dependencies,
             path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSSOOIDC/Sources/InternalAWSSSOOIDC"
         ),
         .target(
             name: "InternalAWSCognitoIdentity",
-            dependencies: internalAWSCognitoIdentityDependencies,
+            dependencies: internalAWSCognitoIdentityData.dependencies,
             path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSCognitoIdentity/Sources/InternalAWSCognitoIdentity"
         ),
         .target(
@@ -282,24 +290,46 @@ private var runtimeTestTargets: [Target] {
     ]
 }
 
-private func target(_ service: String, _ dependencies: [Target.Dependency]) -> Target {
+private var serviceTargets: [Target] {
+    serviceClientData.map(target(_:))
+}
+
+private func target(_ service: ServiceClientData) -> Target {
     .target(
-        name: service,
-        dependencies: dependencies,
-        path: "Sources/Services/\(service)/Sources/\(service)"
+        name: service.name,
+        dependencies: service.dependencies,
+        path: "Sources/Services/\(service.name)/Sources/\(service.name)"
     )
 }
 
-private func unitTestTarget(_ service: String, _ dependencies: [Target.Dependency]) -> Target {
-    let testName = "\(service)Tests"
+private var serviceTestTargets: [Target] {
+    guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS"] != nil else { return [] }
+    return serviceClientData.map(unitTestTarget(_:))
+}
+
+private func unitTestTarget(_ service: ServiceClientData) -> Target {
+    let testName = "\(service.name)Tests"
+    let modelName = URL(fileURLWithPath: service.modelPath).lastPathComponent
     return .testTarget(
         name: "\(testName)",
         dependencies: [
-            .byName(name: service),
+            .byName(name: service.name),
             .ClientRuntime,
             .AWSClientRuntime,
             .SmithyTestUtil,
         ],
-        path: "Sources/Services/\(service)/Tests/\(testName)"
+        path: "codegen/sdk-codegen/build/smithyprojections/sdk-codegen/\(modelName)/swift-codegen/Tests/\(testName)"
     )
+}
+
+struct ServiceClientData {
+    let name: String
+    let modelPath: String
+    let dependencies: [Target.Dependency]
+
+    init(_ name: String, _ modelPath: String, _ dependencies: [Target.Dependency]) {
+        self.name = name
+        self.modelPath = modelPath
+        self.dependencies = dependencies
+    }
 }

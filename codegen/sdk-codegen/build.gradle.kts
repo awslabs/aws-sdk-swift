@@ -228,10 +228,10 @@ task("stageSdks") {
                     // Exclude `SmokeTests` directory
                     val fileIsSmokeTests = details.file.name.endsWith("SmokeTests")
 
-                    // Exclude test files for internal clients
-                    val fileIsInternalClientGeneratedTests = it.internalClient && details.relativePath.startsWith("Tests")
+                    // Exclude service client test files
+                    val fileIsServiceClientTests = details.relativePath.startsWith("Tests")
 
-                    fileIsSmokeTests || fileIsInternalClientGeneratedTests
+                    fileIsSmokeTests || fileIsServiceClientTests
                 }
             }
 
