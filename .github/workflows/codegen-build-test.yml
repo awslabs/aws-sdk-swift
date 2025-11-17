@@ -10,6 +10,7 @@ on:
 
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
+  AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS: 1
 
 jobs:
   codegen-build-test:

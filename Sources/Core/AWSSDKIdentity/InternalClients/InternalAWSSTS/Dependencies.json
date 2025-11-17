@@ -1,4 +1,6 @@
-[
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/sts.json",
+  "dependencies": [
     "AWSClientRuntime",
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
@@ -14,4 +16,5 @@
     "SmithyTestUtil",
     "SmithyTimestamps",
     "SmithyXML"
-]
+  ]
+}
