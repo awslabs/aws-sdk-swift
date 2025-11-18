@@ -22,7 +22,7 @@ class PackageManifestBuilderTests: XCTestCase {
 
         let isPreviewBuild = false
 
-        let serviceClientData: [ServiceClientData] = [
+        private let serviceClientData: [ServiceClientData] = [
             .init(
                 "A",
                 "A.json",
@@ -82,7 +82,7 @@ class PackageManifestBuilderTests: XCTestCase {
 
         let isPreviewBuild = true
 
-        let serviceClientData: [ServiceClientData] = [
+        private let serviceClientData: [ServiceClientData] = [
             .init(
                 "A",
                 "A.json",
