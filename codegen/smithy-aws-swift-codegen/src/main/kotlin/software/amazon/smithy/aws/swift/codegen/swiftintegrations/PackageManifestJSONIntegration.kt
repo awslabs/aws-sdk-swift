@@ -6,6 +6,7 @@ import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.model.expectTrait
+import software.amazon.smithy.swift.codegen.model.hasTrait
 import software.amazon.smithy.swift.codegen.targetName
 
 class PackageManifestJSONIntegration : SwiftIntegration {
@@ -14,6 +15,12 @@ class PackageManifestJSONIntegration : SwiftIntegration {
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
         delegator: SwiftDelegator,
     ) {
+        // Some protocol tests may not have a ServiceTrait.  Skip this file in that case,
+        // since it's not used in protocol tests anyway.
+        // If an AWS service doesn't have a protocol trait, this file will skip generation,
+        // but the SDK will fail to generate its main Package.swift later.
+        if (!protocolGenerationContext.service.hasTrait<ServiceTrait>()) { return }
+
         delegator.useFileWriter("Dependencies.json") { writer ->
             writer.setIndentText("  ") // two spaces
             writer.openBlock("{", "}") {
