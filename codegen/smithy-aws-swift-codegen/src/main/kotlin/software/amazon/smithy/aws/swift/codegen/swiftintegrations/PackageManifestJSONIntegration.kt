@@ -10,6 +10,11 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
 import software.amazon.smithy.swift.codegen.targetName
 
 class PackageManifestJSONIntegration : SwiftIntegration {
+    // Highest possible order so this integration runs last.
+    // If it's not the very last integration to run, it may miss dependencies
+    // that were added in other integrations.
+    override val order: Byte = 127
+
     override fun writeAdditionalFiles(
         ctx: SwiftCodegenContext,
         protocolGenerationContext: ProtocolGenerator.GenerationContext,
