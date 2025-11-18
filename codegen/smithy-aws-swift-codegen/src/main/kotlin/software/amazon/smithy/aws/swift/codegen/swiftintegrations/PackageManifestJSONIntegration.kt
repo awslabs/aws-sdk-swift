@@ -49,6 +49,7 @@ class PackageManifestJSONIntegration : SwiftIntegration {
 
                     val dependenciesByTarget =
                         externalDependencies
+                            .filter { it.targetName != "SmithyTestUtil" }
                             .distinctBy { it.targetName + it.packageName }
                             .sortedBy { it.targetName }
 

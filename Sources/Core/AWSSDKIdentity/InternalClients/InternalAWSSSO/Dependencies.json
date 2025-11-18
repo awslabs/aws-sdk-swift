@@ -12,7 +12,6 @@
     "SmithyJSON",
     "SmithyReadWrite",
     "SmithyRetries",
-    "SmithyRetriesAPI",
-    "SmithyTestUtil"
+    "SmithyRetriesAPI"
   ]
 }
