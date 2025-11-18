@@ -2913,6 +2913,102 @@ public struct CreateRestoreTestingSelectionOutput: Swift.Sendable {
     }
 }
 
+extension BackupClientTypes {
+
+    /// This contains metadata about resource selection for tiering configurations. You can specify up to 5 different resource selections per tiering configuration. Data moved to lower-cost tier remains there until deletion (one-way transition).
+    public struct ResourceSelection: Swift.Sendable {
+        /// The type of Amazon Web Services resource; for example, S3 for Amazon S3. For tiering configurations, this is currently limited to S3.
+        /// This member is required.
+        public var resourceType: Swift.String?
+        /// An array of strings that either contains ARNs of the associated resources or contains a wildcard * to specify all resources. You can specify up to 100 specific resources per tiering configuration.
+        /// This member is required.
+        public var resources: [Swift.String]?
+        /// The number of days after creation within a backup vault that an object can transition to the low cost warm storage tier. Must be a positive integer between 60 and 36500 days.
+        /// This member is required.
+        public var tieringDownSettingsInDays: Swift.Int?
+
+        public init(
+            resourceType: Swift.String? = nil,
+            resources: [Swift.String]? = nil,
+            tieringDownSettingsInDays: Swift.Int? = nil
+        ) {
+            self.resourceType = resourceType
+            self.resources = resources
+            self.tieringDownSettingsInDays = tieringDownSettingsInDays
+        }
+    }
+}
+
+extension BackupClientTypes {
+
+    /// This contains metadata about a tiering configuration for create operations.
+    public struct TieringConfigurationInputForCreate: Swift.Sendable {
+        /// The name of the backup vault where the tiering configuration applies. Use * to apply to all backup vaults.
+        /// This member is required.
+        public var backupVaultName: Swift.String?
+        /// An array of resource selection objects that specify which resources are included in the tiering configuration and their tiering settings.
+        /// This member is required.
+        public var resourceSelection: [BackupClientTypes.ResourceSelection]?
+        /// The unique name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+        /// This member is required.
+        public var tieringConfigurationName: Swift.String?
+
+        public init(
+            backupVaultName: Swift.String? = nil,
+            resourceSelection: [BackupClientTypes.ResourceSelection]? = nil,
+            tieringConfigurationName: Swift.String? = nil
+        ) {
+            self.backupVaultName = backupVaultName
+            self.resourceSelection = resourceSelection
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+    }
+}
+
+public struct CreateTieringConfigurationInput: Swift.Sendable {
+    /// This is a unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+    public var creatorRequestId: Swift.String?
+    /// A tiering configuration must contain a unique TieringConfigurationName string you create and must contain a BackupVaultName and ResourceSelection. You may optionally include a CreatorRequestId string. The TieringConfigurationName is a unique string that is the name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+    /// This member is required.
+    public var tieringConfiguration: BackupClientTypes.TieringConfigurationInputForCreate?
+    /// The tags to assign to the tiering configuration.
+    public var tieringConfigurationTags: [Swift.String: Swift.String]?
+
+    public init(
+        creatorRequestId: Swift.String? = nil,
+        tieringConfiguration: BackupClientTypes.TieringConfigurationInputForCreate? = nil,
+        tieringConfigurationTags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.creatorRequestId = creatorRequestId
+        self.tieringConfiguration = tieringConfiguration
+        self.tieringConfigurationTags = tieringConfigurationTags
+    }
+}
+
+extension CreateTieringConfigurationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateTieringConfigurationInput(creatorRequestId: \(Swift.String(describing: creatorRequestId)), tieringConfiguration: \(Swift.String(describing: tieringConfiguration)), tieringConfigurationTags: \"CONTENT_REDACTED\")"}
+}
+
+public struct CreateTieringConfigurationOutput: Swift.Sendable {
+    /// The date and time a tiering configuration was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+    public var creationTime: Foundation.Date?
+    /// An Amazon Resource Name (ARN) that uniquely identifies the created tiering configuration.
+    public var tieringConfigurationArn: Swift.String?
+    /// This unique string is the name of the tiering configuration. The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 200.
+    public var tieringConfigurationName: Swift.String?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        tieringConfigurationArn: Swift.String? = nil,
+        tieringConfigurationName: Swift.String? = nil
+    ) {
+        self.creationTime = creationTime
+        self.tieringConfigurationArn = tieringConfigurationArn
+        self.tieringConfigurationName = tieringConfigurationName
+    }
+}
+
 public struct DeleteBackupPlanInput: Swift.Sendable {
     /// Uniquely identifies a backup plan.
     /// This member is required.
@@ -3081,6 +3177,23 @@ public struct DeleteRestoreTestingSelectionInput: Swift.Sendable {
         self.restoreTestingPlanName = restoreTestingPlanName
         self.restoreTestingSelectionName = restoreTestingSelectionName
     }
+}
+
+public struct DeleteTieringConfigurationInput: Swift.Sendable {
+    /// The unique name of a tiering configuration.
+    /// This member is required.
+    public var tieringConfigurationName: Swift.String?
+
+    public init(
+        tieringConfigurationName: Swift.String? = nil
+    ) {
+        self.tieringConfigurationName = tieringConfigurationName
+    }
+}
+
+public struct DeleteTieringConfigurationOutput: Swift.Sendable {
+
+    public init() { }
 }
 
 /// A dependent Amazon Web Services service or resource returned an error to the Backup service, and the action cannot be completed.
@@ -5055,6 +5168,71 @@ public struct GetSupportedResourceTypesOutput: Swift.Sendable {
         resourceTypes: [Swift.String]? = nil
     ) {
         self.resourceTypes = resourceTypes
+    }
+}
+
+public struct GetTieringConfigurationInput: Swift.Sendable {
+    /// The unique name of a tiering configuration.
+    /// This member is required.
+    public var tieringConfigurationName: Swift.String?
+
+    public init(
+        tieringConfigurationName: Swift.String? = nil
+    ) {
+        self.tieringConfigurationName = tieringConfigurationName
+    }
+}
+
+extension BackupClientTypes {
+
+    /// This contains metadata about a tiering configuration.
+    public struct TieringConfiguration: Swift.Sendable {
+        /// The name of the backup vault where the tiering configuration applies. Use * to apply to all backup vaults.
+        /// This member is required.
+        public var backupVaultName: Swift.String?
+        /// The date and time a tiering configuration was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public var creationTime: Foundation.Date?
+        /// This is a unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+        public var creatorRequestId: Swift.String?
+        /// The date and time a tiering configuration was updated, in Unix format and Coordinated Universal Time (UTC). The value of LastUpdatedTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public var lastUpdatedTime: Foundation.Date?
+        /// An array of resource selection objects that specify which resources are included in the tiering configuration and their tiering settings.
+        /// This member is required.
+        public var resourceSelection: [BackupClientTypes.ResourceSelection]?
+        /// An Amazon Resource Name (ARN) that uniquely identifies the tiering configuration.
+        public var tieringConfigurationArn: Swift.String?
+        /// The unique name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+        /// This member is required.
+        public var tieringConfigurationName: Swift.String?
+
+        public init(
+            backupVaultName: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            creatorRequestId: Swift.String? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            resourceSelection: [BackupClientTypes.ResourceSelection]? = nil,
+            tieringConfigurationArn: Swift.String? = nil,
+            tieringConfigurationName: Swift.String? = nil
+        ) {
+            self.backupVaultName = backupVaultName
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resourceSelection = resourceSelection
+            self.tieringConfigurationArn = tieringConfigurationArn
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+    }
+}
+
+public struct GetTieringConfigurationOutput: Swift.Sendable {
+    /// Specifies the body of a tiering configuration. Includes TieringConfigurationName.
+    public var tieringConfiguration: BackupClientTypes.TieringConfiguration?
+
+    public init(
+        tieringConfiguration: BackupClientTypes.TieringConfiguration? = nil
+    ) {
+        self.tieringConfiguration = tieringConfiguration
     }
 }
 
@@ -7095,6 +7273,67 @@ extension ListTagsOutput: Swift.CustomDebugStringConvertible {
         "ListTagsOutput(nextToken: \(Swift.String(describing: nextToken)), tags: \"CONTENT_REDACTED\")"}
 }
 
+public struct ListTieringConfigurationsInput: Swift.Sendable {
+    /// The maximum number of items to be returned.
+    public var maxResults: Swift.Int?
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BackupClientTypes {
+
+    /// This contains metadata about a tiering configuration returned in a list.
+    public struct TieringConfigurationsListMember: Swift.Sendable {
+        /// The name of the backup vault where the tiering configuration applies. Use * to apply to all backup vaults.
+        public var backupVaultName: Swift.String?
+        /// The date and time a tiering configuration was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public var creationTime: Foundation.Date?
+        /// The date and time a tiering configuration was updated, in Unix format and Coordinated Universal Time (UTC). The value of LastUpdatedTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public var lastUpdatedTime: Foundation.Date?
+        /// An Amazon Resource Name (ARN) that uniquely identifies the tiering configuration.
+        public var tieringConfigurationArn: Swift.String?
+        /// The unique name of the tiering configuration.
+        public var tieringConfigurationName: Swift.String?
+
+        public init(
+            backupVaultName: Swift.String? = nil,
+            creationTime: Foundation.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            tieringConfigurationArn: Swift.String? = nil,
+            tieringConfigurationName: Swift.String? = nil
+        ) {
+            self.backupVaultName = backupVaultName
+            self.creationTime = creationTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.tieringConfigurationArn = tieringConfigurationArn
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+    }
+}
+
+public struct ListTieringConfigurationsOutput: Swift.Sendable {
+    /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    public var nextToken: Swift.String?
+    /// An array of tiering configurations returned by the ListTieringConfigurations call.
+    public var tieringConfigurations: [BackupClientTypes.TieringConfigurationsListMember]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        tieringConfigurations: [BackupClientTypes.TieringConfigurationsListMember]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.tieringConfigurations = tieringConfigurations
+    }
+}
+
 public struct PutBackupVaultAccessPolicyInput: Swift.Sendable {
     /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
     /// This member is required.
@@ -7982,6 +8221,67 @@ public struct UpdateRestoreTestingSelectionOutput: Swift.Sendable {
     }
 }
 
+extension BackupClientTypes {
+
+    /// This contains metadata about a tiering configuration for update operations.
+    public struct TieringConfigurationInputForUpdate: Swift.Sendable {
+        /// The name of the backup vault where the tiering configuration applies. Use * to apply to all backup vaults.
+        /// This member is required.
+        public var backupVaultName: Swift.String?
+        /// An array of resource selection objects that specify which resources are included in the tiering configuration and their tiering settings.
+        /// This member is required.
+        public var resourceSelection: [BackupClientTypes.ResourceSelection]?
+
+        public init(
+            backupVaultName: Swift.String? = nil,
+            resourceSelection: [BackupClientTypes.ResourceSelection]? = nil
+        ) {
+            self.backupVaultName = backupVaultName
+            self.resourceSelection = resourceSelection
+        }
+    }
+}
+
+public struct UpdateTieringConfigurationInput: Swift.Sendable {
+    /// Specifies the body of a tiering configuration.
+    /// This member is required.
+    public var tieringConfiguration: BackupClientTypes.TieringConfigurationInputForUpdate?
+    /// The name of a tiering configuration to update.
+    /// This member is required.
+    public var tieringConfigurationName: Swift.String?
+
+    public init(
+        tieringConfiguration: BackupClientTypes.TieringConfigurationInputForUpdate? = nil,
+        tieringConfigurationName: Swift.String? = nil
+    ) {
+        self.tieringConfiguration = tieringConfiguration
+        self.tieringConfigurationName = tieringConfigurationName
+    }
+}
+
+public struct UpdateTieringConfigurationOutput: Swift.Sendable {
+    /// The date and time a tiering configuration was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+    public var creationTime: Foundation.Date?
+    /// The date and time a tiering configuration was updated, in Unix format and Coordinated Universal Time (UTC). The value of LastUpdatedTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+    public var lastUpdatedTime: Foundation.Date?
+    /// An Amazon Resource Name (ARN) that uniquely identifies the updated tiering configuration.
+    public var tieringConfigurationArn: Swift.String?
+    /// This unique string is the name of the tiering configuration.
+    public var tieringConfigurationName: Swift.String?
+
+    public init(
+        creationTime: Foundation.Date? = nil,
+        lastUpdatedTime: Foundation.Date? = nil,
+        tieringConfigurationArn: Swift.String? = nil,
+        tieringConfigurationName: Swift.String? = nil
+    ) {
+        self.creationTime = creationTime
+        self.lastUpdatedTime = lastUpdatedTime
+        self.tieringConfigurationArn = tieringConfigurationArn
+        self.tieringConfigurationName = tieringConfigurationName
+    }
+}
+
 extension AssociateBackupVaultMpaApprovalTeamInput {
 
     static func urlPathProvider(_ value: AssociateBackupVaultMpaApprovalTeamInput) -> Swift.String? {
@@ -8102,6 +8402,13 @@ extension CreateRestoreTestingSelectionInput {
     }
 }
 
+extension CreateTieringConfigurationInput {
+
+    static func urlPathProvider(_ value: CreateTieringConfigurationInput) -> Swift.String? {
+        return "/tiering-configurations"
+    }
+}
+
 extension DeleteBackupPlanInput {
 
     static func urlPathProvider(_ value: DeleteBackupPlanInput) -> Swift.String? {
@@ -8218,6 +8525,16 @@ extension DeleteRestoreTestingSelectionInput {
             return nil
         }
         return "/restore-testing/plans/\(restoreTestingPlanName.urlPercentEncoding())/selections/\(restoreTestingSelectionName.urlPercentEncoding())"
+    }
+}
+
+extension DeleteTieringConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteTieringConfigurationInput) -> Swift.String? {
+        guard let tieringConfigurationName = value.tieringConfigurationName else {
+            return nil
+        }
+        return "/tiering-configurations/\(tieringConfigurationName.urlPercentEncoding())"
     }
 }
 
@@ -8599,6 +8916,16 @@ extension GetSupportedResourceTypesInput {
 
     static func urlPathProvider(_ value: GetSupportedResourceTypesInput) -> Swift.String? {
         return "/supported-resource-types"
+    }
+}
+
+extension GetTieringConfigurationInput {
+
+    static func urlPathProvider(_ value: GetTieringConfigurationInput) -> Swift.String? {
+        guard let tieringConfigurationName = value.tieringConfigurationName else {
+            return nil
+        }
+        return "/tiering-configurations/\(tieringConfigurationName.urlPercentEncoding())"
     }
 }
 
@@ -9510,6 +9837,29 @@ extension ListTagsInput {
     }
 }
 
+extension ListTieringConfigurationsInput {
+
+    static func urlPathProvider(_ value: ListTieringConfigurationsInput) -> Swift.String? {
+        return "/tiering-configurations"
+    }
+}
+
+extension ListTieringConfigurationsInput {
+
+    static func queryItemProvider(_ value: ListTieringConfigurationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension PutBackupVaultAccessPolicyInput {
 
     static func urlPathProvider(_ value: PutBackupVaultAccessPolicyInput) -> Swift.String? {
@@ -9729,6 +10079,16 @@ extension UpdateRestoreTestingSelectionInput {
     }
 }
 
+extension UpdateTieringConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateTieringConfigurationInput) -> Swift.String? {
+        guard let tieringConfigurationName = value.tieringConfigurationName else {
+            return nil
+        }
+        return "/tiering-configurations/\(tieringConfigurationName.urlPercentEncoding())"
+    }
+}
+
 extension AssociateBackupVaultMpaApprovalTeamInput {
 
     static func write(value: AssociateBackupVaultMpaApprovalTeamInput?, to writer: SmithyJSON.Writer) throws {
@@ -9844,6 +10204,16 @@ extension CreateRestoreTestingSelectionInput {
         guard let value else { return }
         try writer["CreatorRequestId"].write(value.creatorRequestId)
         try writer["RestoreTestingSelection"].write(value.restoreTestingSelection, with: BackupClientTypes.RestoreTestingSelectionForCreate.write(value:to:))
+    }
+}
+
+extension CreateTieringConfigurationInput {
+
+    static func write(value: CreateTieringConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatorRequestId"].write(value.creatorRequestId)
+        try writer["TieringConfiguration"].write(value.tieringConfiguration, with: BackupClientTypes.TieringConfigurationInputForCreate.write(value:to:))
+        try writer["TieringConfigurationTags"].writeMap(value.tieringConfigurationTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -10046,6 +10416,14 @@ extension UpdateRestoreTestingSelectionInput {
     }
 }
 
+extension UpdateTieringConfigurationInput {
+
+    static func write(value: UpdateTieringConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TieringConfiguration"].write(value.tieringConfiguration, with: BackupClientTypes.TieringConfigurationInputForUpdate.write(value:to:))
+    }
+}
+
 extension AssociateBackupVaultMpaApprovalTeamOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateBackupVaultMpaApprovalTeamOutput {
@@ -10208,6 +10586,20 @@ extension CreateRestoreTestingSelectionOutput {
     }
 }
 
+extension CreateTieringConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTieringConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTieringConfigurationOutput()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tieringConfigurationArn = try reader["TieringConfigurationArn"].readIfPresent()
+        value.tieringConfigurationName = try reader["TieringConfigurationName"].readIfPresent()
+        return value
+    }
+}
+
 extension DeleteBackupPlanOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBackupPlanOutput {
@@ -10290,6 +10682,13 @@ extension DeleteRestoreTestingSelectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteRestoreTestingSelectionOutput {
         return DeleteRestoreTestingSelectionOutput()
+    }
+}
+
+extension DeleteTieringConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTieringConfigurationOutput {
+        return DeleteTieringConfigurationOutput()
     }
 }
 
@@ -10778,6 +11177,18 @@ extension GetSupportedResourceTypesOutput {
     }
 }
 
+extension GetTieringConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTieringConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTieringConfigurationOutput()
+        value.tieringConfiguration = try reader["TieringConfiguration"].readIfPresent(with: BackupClientTypes.TieringConfiguration.read(from:))
+        return value
+    }
+}
+
 extension ListBackupJobsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBackupJobsOutput {
@@ -11119,6 +11530,19 @@ extension ListTagsOutput {
     }
 }
 
+extension ListTieringConfigurationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTieringConfigurationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTieringConfigurationsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.tieringConfigurations = try reader["TieringConfigurations"].readListIfPresent(memberReadingClosure: BackupClientTypes.TieringConfigurationsListMember.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension PutBackupVaultAccessPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PutBackupVaultAccessPolicyOutput {
@@ -11347,6 +11771,21 @@ extension UpdateRestoreTestingSelectionOutput {
     }
 }
 
+extension UpdateTieringConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTieringConfigurationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTieringConfigurationOutput()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tieringConfigurationArn = try reader["TieringConfigurationArn"].readIfPresent()
+        value.tieringConfigurationName = try reader["TieringConfigurationName"].readIfPresent()
+        return value
+    }
+}
+
 enum AssociateBackupVaultMpaApprovalTeamOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11567,6 +12006,25 @@ enum CreateRestoreTestingSelectionOutputError {
     }
 }
 
+enum CreateTieringConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteBackupPlanOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -11750,6 +12208,23 @@ enum DeleteRestoreTestingSelectionOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTieringConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -12244,6 +12719,23 @@ enum GetSupportedResourceTypesOutputError {
     }
 }
 
+enum GetTieringConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListBackupJobsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -12661,6 +13153,21 @@ enum ListTagsOutputError {
     }
 }
 
+enum ListTieringConfigurationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PutBackupVaultAccessPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13027,6 +13534,26 @@ enum UpdateRestoreTestingSelectionOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateTieringConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AlreadyExistsException": return try AlreadyExistsException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InvalidParameterValueException": return try InvalidParameterValueException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "MissingParameterValueException": return try MissingParameterValueException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -13759,6 +14286,41 @@ extension BackupClientTypes.KeyValue {
     }
 }
 
+extension BackupClientTypes.TieringConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.TieringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.TieringConfiguration()
+        value.tieringConfigurationName = try reader["TieringConfigurationName"].readIfPresent() ?? ""
+        value.tieringConfigurationArn = try reader["TieringConfigurationArn"].readIfPresent()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent() ?? ""
+        value.resourceSelection = try reader["ResourceSelection"].readListIfPresent(memberReadingClosure: BackupClientTypes.ResourceSelection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.creatorRequestId = try reader["CreatorRequestId"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BackupClientTypes.ResourceSelection {
+
+    static func write(value: BackupClientTypes.ResourceSelection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TieringDownSettingsInDays"].write(value.tieringDownSettingsInDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.ResourceSelection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.ResourceSelection()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.tieringDownSettingsInDays = try reader["TieringDownSettingsInDays"].readIfPresent() ?? 0
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BackupClientTypes.BackupJob {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.BackupJob {
@@ -14142,6 +14704,20 @@ extension BackupClientTypes.RestoreTestingSelectionForList {
     }
 }
 
+extension BackupClientTypes.TieringConfigurationsListMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupClientTypes.TieringConfigurationsListMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupClientTypes.TieringConfigurationsListMember()
+        value.tieringConfigurationArn = try reader["TieringConfigurationArn"].readIfPresent()
+        value.tieringConfigurationName = try reader["TieringConfigurationName"].readIfPresent()
+        value.backupVaultName = try reader["BackupVaultName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension BackupClientTypes.BackupPlanInput {
 
     static func write(value: BackupClientTypes.BackupPlanInput?, to writer: SmithyJSON.Writer) throws {
@@ -14197,6 +14773,16 @@ extension BackupClientTypes.RestoreTestingSelectionForCreate {
     }
 }
 
+extension BackupClientTypes.TieringConfigurationInputForCreate {
+
+    static func write(value: BackupClientTypes.TieringConfigurationInputForCreate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackupVaultName"].write(value.backupVaultName)
+        try writer["ResourceSelection"].writeList(value.resourceSelection, memberWritingClosure: BackupClientTypes.ResourceSelection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TieringConfigurationName"].write(value.tieringConfigurationName)
+    }
+}
+
 extension BackupClientTypes.RestoreTestingPlanForUpdate {
 
     static func write(value: BackupClientTypes.RestoreTestingPlanForUpdate?, to writer: SmithyJSON.Writer) throws {
@@ -14217,6 +14803,15 @@ extension BackupClientTypes.RestoreTestingSelectionForUpdate {
         try writer["ProtectedResourceConditions"].write(value.protectedResourceConditions, with: BackupClientTypes.ProtectedResourceConditions.write(value:to:))
         try writer["RestoreMetadataOverrides"].writeMap(value.restoreMetadataOverrides, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ValidationWindowHours"].write(value.validationWindowHours)
+    }
+}
+
+extension BackupClientTypes.TieringConfigurationInputForUpdate {
+
+    static func write(value: BackupClientTypes.TieringConfigurationInputForUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackupVaultName"].write(value.backupVaultName)
+        try writer["ResourceSelection"].writeList(value.resourceSelection, memberWritingClosure: BackupClientTypes.ResourceSelection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
