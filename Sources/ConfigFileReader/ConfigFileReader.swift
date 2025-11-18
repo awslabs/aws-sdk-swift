@@ -64,6 +64,7 @@ public struct ConfigFileReader {
         
         var currentLineNumber: Int = 0
         var currentSection: ConfigFileSection?
+        var isCurrentSectionValid = true
         var sections: [String: ConfigFileSection] = [:]
         var currentProperty: String?
         var currentSubProperty: String?
@@ -74,11 +75,12 @@ public struct ConfigFileReader {
         for line in arrayData{
             currentLineNumber += 1
             let blankLine = " "
-            if line.isEmpty || line.hasPrefix("#") || line.hasPrefix(";") || line == blankLine{
+            guard !line.isEmpty && !line.hasPrefix("#") && !line.hasPrefix(";") && line != blankLine else{
                 continue
             }
             switch line{
             case _ where profileSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
+                isCurrentSectionValid = true
                 // Extract the profile name using another regex or string manipulation
                 if let range = line.range(of: "\\[\\s*(?:default|profile\\s+(.+?))\\s*\\]", options: .regularExpression),
                    let NameRange = line.range(of: "\\s+(.+?)\\s*\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
@@ -94,10 +96,12 @@ public struct ConfigFileReader {
                         sections[sectionName] = section
                         currentSection = section
                         print("Found new profile named: '\(sectionName)' on line number: '\(currentLineNumber)'") // For demonstration
+                        isCurrentSectionValid = true
                     } else {
                         print("Found dulpicate section matching current profile on line number: '\(currentLineNumber)' current profile will remain unchanged: '\(sectionName)' ")
                         currentProperty = nil
                         currentSubProperty = nil
+                        isCurrentSectionValid = true
                         continue
                     }
                 } else if line.contains("[default]"){
@@ -107,13 +111,18 @@ public struct ConfigFileReader {
                         sections[sectionName] = section
                         currentSection = section
                         print("A user profile was not configured, the \(sectionName) will be used")
+                        isCurrentSectionValid = true
                     } else {
                         print("Found dulpicate section matching current profile on line number: '\(currentLineNumber)' current profile will remain unchanged: '\(sectionName)' ")
                         currentProperty = nil
                         currentSubProperty = nil
+                        isCurrentSectionValid = true
                         continue
+                    }
+                } else {
+                    print("Found invalid section: '\(line)' on line number: '\(currentLineNumber)'")
+                    isCurrentSectionValid = false
                 }
-            }
             case _ where sessionSection.firstMatch(in: String(line), options: [], range: NSRange(line.startIndex..., in: line)) != nil:
                 if let range = line.range(of: "\\[\\s*sso-session\\s+(.+?)\\s*\\]", options: .regularExpression),
                    let NameRange = line.range(of: "\\s+(.+?)\\s*\\]", options: .regularExpression, range: range.lowerBound..<range.upperBound) {
@@ -159,8 +168,14 @@ public struct ConfigFileReader {
                     }
                 }
             case _ where line.contains("="):
+                if !isCurrentSectionValid {
+                        print("Skipping line because previous section: '\(line)' was invalid")
+                        continue // Skip this line and move to the next iteration
+                    }
                 do {
-                if currentSection != nil {
+                guard currentSection != nil else{
+                    throw MyError("Expected a section definition")
+                }
                     //Identify properties under section
                     let sectionHeader = currentSection?.name
                     var subproperties = currentSection?.subproperties ?? [String: [String: String]]()
@@ -226,37 +241,26 @@ public struct ConfigFileReader {
                             subproperties[currentPropertyName] = subpropertyKeysAndValues
                             currentSection?.subproperties = subproperties
                             sections[currentSectionName] = currentSection
-//                            var subproperties = currentSection?.subproperties
-//                            var subpropertyKeysAndValues = subproperties?[currentProperty!] ?? [String: String]()
-//                            if subpropertyKeysAndValues[key] != nil {
-//                                subpropertyKeysAndValues[key] = value
-//                                subproperties?[currentProperty!] = subpropertyKeysAndValues
-//                                currentSection?.subproperties = subproperties!
-//                                sections[currentSection!.name] = currentSection
                             print("  Added sub-property key and value '\(key)' = '\(value)' under property '\(currentProperty!)' in section: \(currentSection!.name)")
                             print("  The current section contains '\(currentSection!)'")
-//                            } else {
-//                                let errorMessage = "Property did not have a name in sub-property"
-//                                throw errorMessage
-//                            }
                         }
                     }
-                } else{
-                    throw MyError("Expected a section definition")
-                }
             } catch let error as MyError {
-                print("Local Error in Property Case on line number: '\(currentLineNumber)'")
+                print("Local Error in Property Case")
+                print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
                 throw error.localizedDescription
             }
             case _ where !line.contains("="):
-                if line.isEmpty || line == blankLine {
-                    continue
-                }
+                if !isCurrentSectionValid {
+                        print("Skipping line because previous section: '\(line)' was invalid")
+                        continue // Skip this line and move to the next iteration
+                    }
                 do {
-                    if line.hasPrefix("[") && line.hasSuffix("]"){
+                    guard !line.hasPrefix("[") && !line.hasSuffix("]") else{
                         continue
-                    } else if !line.hasSuffix("]"){
-                        throw MyError("Section definition must end with ']'")
+                    }
+                    guard currentSection != nil else{
+                        throw MyError("Expected a section definition")
                     }
                     if currentProperty != nil {
                         
@@ -264,7 +268,10 @@ public struct ConfigFileReader {
                             throw MyError("Property key did not have a name")
                         }
                         let components = String(line)
-                        let value = components.trimmingCharacters(in: .whitespaces)
+                        let value = components.dropFirst().dropLast().trimmingCharacters(in: .whitespacesAndNewlines)
+                        guard !value.isEmpty && !value.contains(" ") && value != blankLine  else{
+                            continue
+                        }
 
                         if currentSection?.properties[currentKeyPropertyName] != nil {
                             currentSection?.properties[currentKeyPropertyName]?.append("\n" + value)
@@ -283,11 +290,21 @@ public struct ConfigFileReader {
                         }
                     }
                 } catch let error as MyError {
-                    print("Local Error in Property Continuation Case on line number: '\(currentLineNumber)'")
+                    print("Local Error in Property Continuation Case ")
+                    print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
                     throw error.localizedDescription
                 }
             default:
                 print("Unrecognized line: \"\(line)\" on line number: '\(currentLineNumber)'")
+                do{
+                    if line.hasPrefix("[") && !line.hasSuffix("]"){
+                        print("Local Error in Section Definition")
+                        throw MyError("Section definition must end with ']'")
+                    }
+                } catch let error as MyError{
+                    print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
+                    throw error.localizedDescription
+                    }
 
             }
         }
