@@ -2165,7 +2165,7 @@ private var runtimeProducts: [Product] {
 }
 
 private var serviceProducts: [Product] {
-    serviceClientData.map(productForService(_:))
+    serviceClientData.filter { !$0.isInternal }.map(productForService(_:))
 }
 
 private func productForService(_ service: ServiceClientData) -> Product {
