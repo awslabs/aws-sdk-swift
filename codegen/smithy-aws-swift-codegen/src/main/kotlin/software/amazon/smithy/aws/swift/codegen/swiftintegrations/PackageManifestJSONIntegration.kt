@@ -19,7 +19,9 @@ class PackageManifestJSONIntegration : SwiftIntegration {
         // since it's not used in protocol tests anyway.
         // If an AWS service doesn't have a protocol trait, this file will skip generation,
         // but the SDK will fail to generate its main Package.swift later.
-        if (!protocolGenerationContext.service.hasTrait<ServiceTrait>()) { return }
+        if (!protocolGenerationContext.service.hasTrait<ServiceTrait>()) {
+            return
+        }
 
         delegator.useFileWriter("Dependencies.json") { writer ->
             writer.setIndentText("  ") // two spaces

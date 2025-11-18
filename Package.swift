@@ -2392,7 +2392,7 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
     )
 }
 
-struct ServiceClientData {
+struct ServiceClientData: Sendable {
     let name: String
     let modelPath: String
     let dependencies: [Target.Dependency]
