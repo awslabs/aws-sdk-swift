@@ -2374,7 +2374,7 @@ private func target(_ service: ServiceClientData) -> Target {
 
 private var serviceTestTargets: [Target] {
     guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS"] != nil else { return [] }
-    return serviceClientData.map(unitTestTarget(_:))
+    return serviceClientData.filter { !$0.isInternal }.map(unitTestTarget(_:))
 }
 
 private func unitTestTarget(_ service: ServiceClientData) -> Target {
