@@ -22,7 +22,7 @@ let excludeRuntimeUnitTests = false
 
 let isPreviewBuild = false
 
-let serviceClientData: [ServiceClientData] = [
+private let serviceClientData: [ServiceClientData] = [
     .init(
         "AWSACM",
         "acm.json",
@@ -2062,25 +2062,25 @@ let serviceClientData: [ServiceClientData] = [
         "InternalAWSSTS",
         "sts.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyFormURL, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps, .SmithyXML],
-        isInternal: true
+        .internalUse
     ),
     .init(
         "InternalAWSSSO",
         "sso.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI],
-        isInternal: true
+        .internalUse
     ),
     .init(
         "InternalAWSSSOOIDC",
         "sso-oidc.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI],
-        isInternal: true
+        .internalUse
     ),
     .init(
         "InternalAWSCognitoIdentity",
         "cognito-identity.json",
         [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps],
-        isInternal: true
+        .internalUse
     ),
 ]
 
@@ -2165,7 +2165,7 @@ private var runtimeProducts: [Product] {
 }
 
 private var serviceProducts: [Product] {
-    serviceClientData.filter { !$0.isInternal }.map(productForService(_:))
+    serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(productForService(_:))
 }
 
 private func productForService(_ service: ServiceClientData) -> Product {
@@ -2307,7 +2307,7 @@ private var runtimeTargets: [Target] {
 }
 
 private var internalServiceTargets: [Target] {
-    filterServiceTargets(isInternal: true)
+    serviceClientData.filter { $0.serviceType == .internalUse }.map(target(_:))
 }
 
 private var runtimeTestTargets: [Target] {
@@ -2361,11 +2361,7 @@ private var runtimeTestTargets: [Target] {
 }
 
 private var serviceTargets: [Target] {
-    filterServiceTargets(isInternal: false)
-}
-
-private func filterServiceTargets(isInternal: Bool) -> [Target] {
-    serviceClientData.filter { $0.isInternal == isInternal }.map(target(_:))
+    serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(target(_:))
 }
 
 private func target(_ service: ServiceClientData) -> Target {
@@ -2374,7 +2370,7 @@ private func target(_ service: ServiceClientData) -> Target {
 
 private var serviceTestTargets: [Target] {
     guard ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_ENABLE_SERVICE_TESTS"] != nil else { return [] }
-    return serviceClientData.filter { !$0.isInternal }.map(unitTestTarget(_:))
+    return serviceClientData.filter { $0.serviceType == .awsServiceClient }.map(unitTestTarget(_:))
 }
 
 private func unitTestTarget(_ service: ServiceClientData) -> Target {
@@ -2393,22 +2389,31 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
 }
 
 // As of Swift 6.2, @unchecked is not needed, but for Swift 6.0 it is
-struct ServiceClientData: @unchecked Sendable {
+private struct ServiceClientData: @unchecked Sendable {
+
+    enum ServiceType {
+        case awsServiceClient
+        case internalUse
+    }
+
     let name: String
     let modelPath: String
     let dependencies: [Target.Dependency]
-    let isInternal: Bool
+    let serviceType: ServiceType
 
-    init(_ name: String, _ modelPath: String, _ dependencies: [Target.Dependency], isInternal: Bool = false) {
+    init(_ name: String, _ modelPath: String, _ dependencies: [Target.Dependency], _ serviceType: ServiceType = .awsServiceClient) {
         self.name = name
         self.modelPath = modelPath
         self.dependencies = dependencies
-        self.isInternal = isInternal
+        self.serviceType = serviceType
     }
 
     var sourcePath: String {
-        isInternal ?
-            "Sources/Core/AWSSDKIdentity/InternalClients/\(name)/Sources/\(name)" :
-            "Sources/Services/\(name)/Sources/\(name)"
+        switch serviceType {
+        case .awsServiceClient:
+            return "Sources/Services/\(name)/Sources/\(name)"
+        case .internalUse:
+            return "Sources/Core/AWSSDKIdentity/InternalClients/\(name)/Sources/\(name)"
+        }
     }
 }

@@ -144,10 +144,10 @@ struct PackageManifestBuilder {
     /// and calls the `addServiceTarget` for each item.
     private func buildServiceTargets() -> String {
         guard !services.isEmpty else {
-            return "let serviceClientData: [ServiceClientData] = []"
+            return "private let serviceClientData: [ServiceClientData] = []"
         }
         var lines: [String] = []
-        lines += ["let serviceClientData: [ServiceClientData] = ["]
+        lines += ["private let serviceClientData: [ServiceClientData] = ["]
         lines += services.map { serviceTargetData(service: $0) }
         lines += ["]"]
         return lines.joined(separator: .newline)
@@ -160,7 +160,7 @@ struct PackageManifestBuilder {
         lines += ["        \(service.codegenName.wrappedInQuotes()),"]
         if service.isInternal {
             lines += ["        \(clientDependencies(service: service)),"]
-            lines += ["        isInternal: true"]
+            lines += ["        .internalUse"]
         } else {
             lines += ["        \(clientDependencies(service: service))"]
         }
