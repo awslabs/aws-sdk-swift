@@ -306,7 +306,8 @@ private func unitTestTarget(_ service: ServiceClientData) -> Target {
     )
 }
 
-struct ServiceClientData: Sendable {
+// As of Swift 6.2, @unchecked is not needed, but for Swift 6.0 it is
+struct ServiceClientData: @unchecked Sendable {
     let name: String
     let modelPath: String
     let dependencies: [Target.Dependency]
