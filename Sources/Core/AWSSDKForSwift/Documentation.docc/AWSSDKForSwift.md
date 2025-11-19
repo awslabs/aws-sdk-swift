@@ -649,6 +649,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSPanorama](../../../../../swift/api/awspanorama/latest)
 
+[AWSPartnerCentralChannel](../../../../../swift/api/awspartnercentralchannel/latest)
+
 [AWSPartnerCentralSelling](../../../../../swift/api/awspartnercentralselling/latest)
 
 [AWSPaymentCryptography](../../../../../swift/api/awspaymentcryptography/latest)
@@ -816,6 +818,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSShield](../../../../../swift/api/awsshield/latest)
 
 [AWSSigner](../../../../../swift/api/awssigner/latest)
+
+[AWSSignin](../../../../../swift/api/awssignin/latest)
 
 [AWSSimSpaceWeaver](../../../../../swift/api/awssimspaceweaver/latest)
 

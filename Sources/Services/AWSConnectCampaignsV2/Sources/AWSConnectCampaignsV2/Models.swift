@@ -527,15 +527,19 @@ extension ConnectCampaignsV2ClientTypes {
         public var connectContactFlowId: Swift.String?
         /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
         public var connectSourcePhoneNumber: Swift.String?
+        /// Ring timeout for outbound calls
+        public var ringTimeout: Swift.Int?
 
         public init(
             answerMachineDetectionConfig: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig? = nil,
             connectContactFlowId: Swift.String? = nil,
-            connectSourcePhoneNumber: Swift.String? = nil
+            connectSourcePhoneNumber: Swift.String? = nil,
+            ringTimeout: Swift.Int? = nil
         ) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.connectContactFlowId = connectContactFlowId
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
+            self.ringTimeout = ringTimeout
         }
     }
 }
@@ -2458,24 +2462,28 @@ extension ConnectCampaignsV2ClientTypes {
         /// The phone number of the customer, in E.164 format.
         /// This member is required.
         public var destinationPhoneNumber: Swift.String?
+        /// Ring timeout for outbound calls
+        public var ringTimeout: Swift.Int?
 
         public init(
             answerMachineDetectionConfig: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig? = nil,
             attributes: [Swift.String: Swift.String]? = nil,
             connectSourcePhoneNumber: Swift.String? = nil,
-            destinationPhoneNumber: Swift.String? = nil
+            destinationPhoneNumber: Swift.String? = nil,
+            ringTimeout: Swift.Int? = nil
         ) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.attributes = attributes
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
             self.destinationPhoneNumber = destinationPhoneNumber
+            self.ringTimeout = ringTimeout
         }
     }
 }
 
 extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TelephonyChannelSubtypeParameters(answerMachineDetectionConfig: \(Swift.String(describing: answerMachineDetectionConfig)), connectSourcePhoneNumber: \(Swift.String(describing: connectSourcePhoneNumber)), attributes: \"CONTENT_REDACTED\", destinationPhoneNumber: \"CONTENT_REDACTED\")"}
+        "TelephonyChannelSubtypeParameters(answerMachineDetectionConfig: \(Swift.String(describing: answerMachineDetectionConfig)), connectSourcePhoneNumber: \(Swift.String(describing: connectSourcePhoneNumber)), ringTimeout: \(Swift.String(describing: ringTimeout)), attributes: \"CONTENT_REDACTED\", destinationPhoneNumber: \"CONTENT_REDACTED\")"}
 }
 
 extension ConnectCampaignsV2ClientTypes {
@@ -5163,6 +5171,7 @@ extension ConnectCampaignsV2ClientTypes.TelephonyOutboundConfig {
         try writer["answerMachineDetectionConfig"].write(value.answerMachineDetectionConfig, with: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig.write(value:to:))
         try writer["connectContactFlowId"].write(value.connectContactFlowId)
         try writer["connectSourcePhoneNumber"].write(value.connectSourcePhoneNumber)
+        try writer["ringTimeout"].write(value.ringTimeout)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCampaignsV2ClientTypes.TelephonyOutboundConfig {
@@ -5171,6 +5180,7 @@ extension ConnectCampaignsV2ClientTypes.TelephonyOutboundConfig {
         value.connectContactFlowId = try reader["connectContactFlowId"].readIfPresent() ?? ""
         value.connectSourcePhoneNumber = try reader["connectSourcePhoneNumber"].readIfPresent()
         value.answerMachineDetectionConfig = try reader["answerMachineDetectionConfig"].readIfPresent(with: ConnectCampaignsV2ClientTypes.AnswerMachineDetectionConfig.read(from:))
+        value.ringTimeout = try reader["ringTimeout"].readIfPresent()
         return value
     }
 }
@@ -5608,6 +5618,7 @@ extension ConnectCampaignsV2ClientTypes.TelephonyChannelSubtypeParameters {
         try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["connectSourcePhoneNumber"].write(value.connectSourcePhoneNumber)
         try writer["destinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["ringTimeout"].write(value.ringTimeout)
     }
 }
 

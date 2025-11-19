@@ -603,6 +603,27 @@ extension ECSClientTypes {
 
 extension ECSClientTypes {
 
+    /// The configuration that controls how Amazon ECS optimizes your infrastructure.
+    public struct InfrastructureOptimization: Swift.Sendable {
+        /// This parameter defines the number of seconds Amazon ECS Managed Instances waits before optimizing EC2 instances that have become idle or underutilized. A longer delay increases the likelihood of placing new tasks on idle or underutilized instances instances, reducing startup time. A shorter delay helps reduce infrastructure costs by optimizing idle or underutilized instances,instances more quickly. Valid values are:
+        ///
+        /// * null - Uses the default optimization behavior.
+        ///
+        /// * -1 - Disables automatic infrastructure optimization.
+        ///
+        /// * A value between 0 and 3600 (inclusive) - Specifies the number of seconds to wait before optimizing instances.
+        public var scaleInAfter: Swift.Int?
+
+        public init(
+            scaleInAfter: Swift.Int? = nil
+        ) {
+            self.scaleInAfter = scaleInAfter
+        }
+    }
+}
+
+extension ECSClientTypes {
+
     public enum BareMetal: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case excluded
         case included
@@ -1167,6 +1188,8 @@ extension ECSClientTypes {
 
     /// The configuration for creating a Amazon ECS Managed Instances provider. This specifies how Amazon ECS should manage Amazon EC2 instances, including the infrastructure role, instance launch template, and whether to propagate tags from the capacity provider to the instances.
     public struct CreateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in your capacity provider. Provides control over the delay between when EC2 instances become idle or underutilized and when Amazon ECS optimizes them.
+        public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
         /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS uses to manage instances on your behalf. This role must have permissions to launch, terminate, and manage Amazon EC2 instances, as well as access to other Amazon Web Services services required for Amazon ECS Managed Instances functionality. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
         /// This member is required.
         public var infrastructureRoleArn: Swift.String?
@@ -1177,10 +1200,12 @@ extension ECSClientTypes {
         public var propagateTags: ECSClientTypes.PropagateMITags?
 
         public init(
+            infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
             infrastructureRoleArn: Swift.String? = nil,
             instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplate? = nil,
             propagateTags: ECSClientTypes.PropagateMITags? = nil
         ) {
+            self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
             self.propagateTags = propagateTags
@@ -1267,6 +1292,8 @@ extension ECSClientTypes {
 
     /// The configuration for a Amazon ECS Managed Instances provider. Amazon ECS uses this configuration to automatically launch, manage, and terminate Amazon EC2 instances on your behalf. Managed instances provide access to the full range of Amazon EC2 instance types and features while offloading infrastructure management to Amazon Web Services.
     public struct ManagedInstancesProvider: Swift.Sendable {
+        /// Defines how Amazon ECS Managed Instances optimizes the infrastastructure in your capacity provider. Configure it to turn on or off the infrastructure optimization in your capacity provider, and to control the idle or underutilized EC2 instances optimization delay.
+        public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
         /// The Amazon Resource Name (ARN) of the infrastructure role that Amazon ECS assumes to manage instances. This role must include permissions for Amazon EC2 instance lifecycle management, networking, and any additional Amazon Web Services services required for your workloads. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
         public var infrastructureRoleArn: Swift.String?
         /// The launch template that defines how Amazon ECS launches Amazon ECS Managed Instances. This includes the instance profile for your tasks, network and storage configuration, and instance requirements that determine which Amazon EC2 instance types can be used. For more information, see [Store instance launch parameters in Amazon EC2 launch templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html) in the Amazon EC2 User Guide.
@@ -1275,10 +1302,12 @@ extension ECSClientTypes {
         public var propagateTags: ECSClientTypes.PropagateMITags?
 
         public init(
+            infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
             infrastructureRoleArn: Swift.String? = nil,
             instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplate? = nil,
             propagateTags: ECSClientTypes.PropagateMITags? = nil
         ) {
+            self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
             self.propagateTags = propagateTags
@@ -10839,6 +10868,8 @@ extension ECSClientTypes {
 
     /// The updated configuration for a Amazon ECS Managed Instances provider. You can modify the infrastructure role, instance launch template, and tag propagation settings. Changes apply to new instances launched after the update.
     public struct UpdateManagedInstancesProviderConfiguration: Swift.Sendable {
+        /// The updated infrastructure optimization configuration. Changes to this setting affect how Amazon ECS optimizes instances going forward.
+        public var infrastructureOptimization: ECSClientTypes.InfrastructureOptimization?
         /// The updated Amazon Resource Name (ARN) of the infrastructure role. The new role must have the necessary permissions to manage instances and access required Amazon Web Services services. For more information, see [Amazon ECS infrastructure IAM role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/infrastructure_IAM_role.html) in the Amazon ECS Developer Guide.
         /// This member is required.
         public var infrastructureRoleArn: Swift.String?
@@ -10849,10 +10880,12 @@ extension ECSClientTypes {
         public var propagateTags: ECSClientTypes.PropagateMITags?
 
         public init(
+            infrastructureOptimization: ECSClientTypes.InfrastructureOptimization? = nil,
             infrastructureRoleArn: Swift.String? = nil,
             instanceLaunchTemplate: ECSClientTypes.InstanceLaunchTemplateUpdate? = nil,
             propagateTags: ECSClientTypes.PropagateMITags? = nil
         ) {
+            self.infrastructureOptimization = infrastructureOptimization
             self.infrastructureRoleArn = infrastructureRoleArn
             self.instanceLaunchTemplate = instanceLaunchTemplate
             self.propagateTags = propagateTags
@@ -14695,6 +14728,22 @@ extension ECSClientTypes.ManagedInstancesProvider {
         value.infrastructureRoleArn = try reader["infrastructureRoleArn"].readIfPresent()
         value.instanceLaunchTemplate = try reader["instanceLaunchTemplate"].readIfPresent(with: ECSClientTypes.InstanceLaunchTemplate.read(from:))
         value.propagateTags = try reader["propagateTags"].readIfPresent()
+        value.infrastructureOptimization = try reader["infrastructureOptimization"].readIfPresent(with: ECSClientTypes.InfrastructureOptimization.read(from:))
+        return value
+    }
+}
+
+extension ECSClientTypes.InfrastructureOptimization {
+
+    static func write(value: ECSClientTypes.InfrastructureOptimization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scaleInAfter"].write(value.scaleInAfter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ECSClientTypes.InfrastructureOptimization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ECSClientTypes.InfrastructureOptimization()
+        value.scaleInAfter = try reader["scaleInAfter"].readIfPresent()
         return value
     }
 }
@@ -17129,6 +17178,7 @@ extension ECSClientTypes.CreateManagedInstancesProviderConfiguration {
 
     static func write(value: ECSClientTypes.CreateManagedInstancesProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: ECSClientTypes.InfrastructureOptimization.write(value:to:))
         try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
         try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: ECSClientTypes.InstanceLaunchTemplate.write(value:to:))
         try writer["propagateTags"].write(value.propagateTags)
@@ -17245,6 +17295,7 @@ extension ECSClientTypes.UpdateManagedInstancesProviderConfiguration {
 
     static func write(value: ECSClientTypes.UpdateManagedInstancesProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["infrastructureOptimization"].write(value.infrastructureOptimization, with: ECSClientTypes.InfrastructureOptimization.write(value:to:))
         try writer["infrastructureRoleArn"].write(value.infrastructureRoleArn)
         try writer["instanceLaunchTemplate"].write(value.instanceLaunchTemplate, with: ECSClientTypes.InstanceLaunchTemplateUpdate.write(value:to:))
         try writer["propagateTags"].write(value.propagateTags)

@@ -174,6 +174,7 @@ extension NetworkFlowMonitorClientTypes {
         case awsRegion
         case awsSubnet
         case awsVpc
+        case eksCluster
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MonitorLocalResourceType] {
@@ -181,7 +182,8 @@ extension NetworkFlowMonitorClientTypes {
                 .awsAz,
                 .awsRegion,
                 .awsSubnet,
-                .awsVpc
+                .awsVpc,
+                .eksCluster
             ]
         }
 
@@ -196,6 +198,7 @@ extension NetworkFlowMonitorClientTypes {
             case .awsRegion: return "AWS::Region"
             case .awsSubnet: return "AWS::EC2::Subnet"
             case .awsVpc: return "AWS::EC2::VPC"
+            case .eksCluster: return "AWS::EKS::Cluster"
             case let .sdkUnknown(s): return s
             }
         }
@@ -204,12 +207,18 @@ extension NetworkFlowMonitorClientTypes {
 
 extension NetworkFlowMonitorClientTypes {
 
-    /// A local resource is the host where the agent is installed. Local resources can be a a subnet, a VPC, an Availability Zone, or an Amazon Web Services service.
+    /// A local resource is the host where the agent is installed. Local resources can be a a subnet, a VPC, an Availability Zone, an EKS cluster or an Amazon Web Services Region.
     public struct MonitorLocalResource: Swift.Sendable {
-        /// The identifier of the local resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b.
+        /// The identifier of the local resource. The values you can specify are the following:
+        ///
+        /// * For a VPC, subnet or EKS cluster, this identifier is the VPC Amazon Resource Name (ARN), subnet ARN or cluster ARN.
+        ///
+        /// * For an Availability Zone, this identifier is the AZ name, for example, us-west-2b.
+        ///
+        /// * For a Region, this identifier is the Region name, for example, us-west-2.
         /// This member is required.
         public var identifier: Swift.String?
-        /// The type of the local resource. Valid values are AWS::EC2::VPCAWS::AvailabilityZone, AWS::EC2::Subnet, or AWS::Region.
+        /// The type of the local resource. Valid values are AWS::EC2::VPCAWS::AvailabilityZone, AWS::EC2::Subnet, AWS::EKS::Cluster, or AWS::Region.
         /// This member is required.
         public var type: NetworkFlowMonitorClientTypes.MonitorLocalResourceType?
 
@@ -263,7 +272,18 @@ extension NetworkFlowMonitorClientTypes {
 
 extension NetworkFlowMonitorClientTypes {
 
-    /// A remote resource is the other endpoint in a network flow. That is, one endpoint is the local resource and the other is the remote resource. Remote resources can be a a subnet, a VPC, an Availability Zone, an Amazon Web Services service, or an Amazon Web Services Region. When a remote resource is an Amazon Web Services Region, Network Flow Monitor provides network performance measurements up to the edge of the Region that you specify.
+    /// A remote resource is the other endpoint in a network flow. That is, one endpoint is the local resource and the other is the remote resource. The values you can specify are the following:
+    ///
+    /// * For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN.
+    ///
+    /// * For a service, this identifier is one of the following strings: S3 or DynamoDB.
+    ///
+    /// * For an Availability Zone, this identifier is the AZ name, for example, us-west-2b.
+    ///
+    /// * For a Region, this identifier is the Region name, for example, us-west-2.
+    ///
+    ///
+    /// When a remote resource is an Amazon Web Services Region, Network Flow Monitor provides network performance measurements up to the edge of the Region that you specify.
     public struct MonitorRemoteResource: Swift.Sendable {
         /// The identifier of the remote resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b. For an Amazon Web Services Region , this identifier is the Region name, for example, us-west-2.
         /// This member is required.

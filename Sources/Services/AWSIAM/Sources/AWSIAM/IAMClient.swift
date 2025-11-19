@@ -4191,6 +4191,74 @@ extension IAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `DisableOutboundWebIdentityFederation` operation on the `IAM` service.
+    ///
+    /// Disables the outbound identity federation feature for your Amazon Web Services account. When disabled, IAM principals in the account cannot use the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for authentication with external services. This operation does not affect tokens that were issued before the feature was disabled.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DisableOutboundWebIdentityFederationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DisableOutboundWebIdentityFederationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureDisabledException` : The request failed because outbound identity federation is already disabled for your Amazon Web Services account. You cannot disable the feature multiple times
+    public func disableOutboundWebIdentityFederation(input: DisableOutboundWebIdentityFederationInput) async throws -> DisableOutboundWebIdentityFederationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableOutboundWebIdentityFederation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(DisableOutboundWebIdentityFederationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DisableOutboundWebIdentityFederationOutput>(DisableOutboundWebIdentityFederationOutput.httpOutput(from:), DisableOutboundWebIdentityFederationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DisableOutboundWebIdentityFederationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DisableOutboundWebIdentityFederationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: DisableOutboundWebIdentityFederationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DisableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DisableOutboundWebIdentityFederationInput, DisableOutboundWebIdentityFederationOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DisableOutboundWebIdentityFederation")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `EnableMFADevice` operation on the `IAM` service.
     ///
     /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
@@ -4405,6 +4473,74 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableOrganizationsRootSessions")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `EnableOutboundWebIdentityFederation` operation on the `IAM` service.
+    ///
+    /// Enables the outbound identity federation feature for your Amazon Web Services account. When enabled, IAM principals in your account can use the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for secure authentication with external services. This operation also generates a unique issuer URL for your Amazon Web Services account.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `EnableOutboundWebIdentityFederationInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `EnableOutboundWebIdentityFederationOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureEnabledException` : The request failed because outbound identity federation is already enabled for your Amazon Web Services account. You cannot enable the feature multiple times. To fetch the current configuration (including the unique issuer URL), use the GetOutboundWebIdentityFederationInfo operation.
+    public func enableOutboundWebIdentityFederation(input: EnableOutboundWebIdentityFederationInput) async throws -> EnableOutboundWebIdentityFederationOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableOutboundWebIdentityFederation")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(EnableOutboundWebIdentityFederationInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<EnableOutboundWebIdentityFederationOutput>(EnableOutboundWebIdentityFederationOutput.httpOutput(from:), EnableOutboundWebIdentityFederationOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<EnableOutboundWebIdentityFederationOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<EnableOutboundWebIdentityFederationOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: EnableOutboundWebIdentityFederationInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<EnableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<EnableOutboundWebIdentityFederationInput, EnableOutboundWebIdentityFederationOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "EnableOutboundWebIdentityFederation")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -5738,6 +5874,74 @@ extension IAMClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOrganizationsAccessReport")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `GetOutboundWebIdentityFederationInfo` operation on the `IAM` service.
+    ///
+    /// Retrieves the configuration information for the outbound identity federation feature in your Amazon Web Services account. The response includes the unique issuer URL for your Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetOutboundWebIdentityFederationInfoInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetOutboundWebIdentityFederationInfoOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `FeatureDisabledException` : The request failed because outbound identity federation is already disabled for your Amazon Web Services account. You cannot disable the feature multiple times
+    public func getOutboundWebIdentityFederationInfo(input: GetOutboundWebIdentityFederationInfoInput) async throws -> GetOutboundWebIdentityFederationInfoOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getOutboundWebIdentityFederationInfo")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "iam")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(GetOutboundWebIdentityFederationInfoInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>())
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetOutboundWebIdentityFederationInfoOutput>(GetOutboundWebIdentityFederationInfoOutput.httpOutput(from:), GetOutboundWebIdentityFederationInfoOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetOutboundWebIdentityFederationInfoOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("IAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetOutboundWebIdentityFederationInfoOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput, SmithyFormURL.Writer>(rootNodeInfo: "", inputWritingClosure: GetOutboundWebIdentityFederationInfoInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetOutboundWebIdentityFederationInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetOutboundWebIdentityFederationInfoInput, GetOutboundWebIdentityFederationInfoOutput>(serviceID: serviceName, version: IAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "IAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetOutboundWebIdentityFederationInfo")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

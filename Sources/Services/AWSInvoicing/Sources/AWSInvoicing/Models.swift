@@ -565,12 +565,16 @@ extension InvoicingClientTypes {
 
     /// This is used to categorize the invoice unit. Values are Amazon Web Services account IDs. Currently, the only supported rule is LINKED_ACCOUNT.
     public struct InvoiceUnitRule: Swift.Sendable {
+        /// A list of Amazon Web Services account account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account.
+        public var billSourceAccounts: [Swift.String]?
         /// The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit.
         public var linkedAccounts: [Swift.String]?
 
         public init(
+            billSourceAccounts: [Swift.String]? = nil,
             linkedAccounts: [Swift.String]? = nil
         ) {
+            self.billSourceAccounts = billSourceAccounts
             self.linkedAccounts = linkedAccounts
         }
     }
@@ -709,6 +713,8 @@ extension InvoicingClientTypes {
     public struct Filters: Swift.Sendable {
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
         public var accounts: [Swift.String]?
+        /// A list of Amazon Web Services account account IDs used to filter invoice units. These are payer accounts from other Organizations that have delegated their billing responsibility to the receiver account through the billing transfer feature.
+        public var billSourceAccounts: [Swift.String]?
         /// You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. This filter only matches the specified accounts on the invoice receivers of the invoice units.
         public var invoiceReceivers: [Swift.String]?
         /// An optional input to the list API. You can specify a list of invoice unit names inside filters to return invoice units that match only the specified invoice unit names. If multiple names are provided, the result is an OR condition (match any) of the specified invoice unit names.
@@ -716,10 +722,12 @@ extension InvoicingClientTypes {
 
         public init(
             accounts: [Swift.String]? = nil,
+            billSourceAccounts: [Swift.String]? = nil,
             invoiceReceivers: [Swift.String]? = nil,
             names: [Swift.String]? = nil
         ) {
             self.accounts = accounts
+            self.billSourceAccounts = billSourceAccounts
             self.invoiceReceivers = invoiceReceivers
             self.names = names
         }
@@ -1938,6 +1946,7 @@ extension InvoicingClientTypes.InvoiceUnitRule {
 
     static func write(value: InvoicingClientTypes.InvoiceUnitRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["BillSourceAccounts"].writeList(value.billSourceAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LinkedAccounts"].writeList(value.linkedAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
@@ -1945,6 +1954,7 @@ extension InvoicingClientTypes.InvoiceUnitRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = InvoicingClientTypes.InvoiceUnitRule()
         value.linkedAccounts = try reader["LinkedAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.billSourceAccounts = try reader["BillSourceAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2182,6 +2192,7 @@ extension InvoicingClientTypes.Filters {
     static func write(value: InvoicingClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BillSourceAccounts"].writeList(value.billSourceAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["InvoiceReceivers"].writeList(value.invoiceReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }

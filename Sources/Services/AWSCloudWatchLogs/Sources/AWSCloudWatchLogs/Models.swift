@@ -5079,13 +5079,13 @@ extension CloudWatchLogsClientTypes {
 
     /// Information about a destination where scheduled query results are processed and delivered.
     public struct ScheduledQueryDestination: Swift.Sendable {
-        /// The destination identifier (S3 URI or EventBridge ARN).
+        /// The destination identifier (S3 URI).
         public var destinationIdentifier: Swift.String?
-        /// The type of destination (S3 or EVENTBRIDGE).
+        /// The type of destination (S3).
         public var destinationType: CloudWatchLogsClientTypes.ScheduledQueryDestinationType?
         /// Error message if the destination processing failed.
         public var errorMessage: Swift.String?
-        /// The processed identifier returned for the destination (S3 key or event ID).
+        /// The processed identifier returned for the destination (S3 key).
         public var processedIdentifier: Swift.String?
         /// The processing status for this destination (IN_PROGRESS, ERROR, FAILED, or COMPLETE).
         public var status: CloudWatchLogsClientTypes.ActionStatus?
@@ -5110,11 +5110,11 @@ extension CloudWatchLogsClientTypes {
 
     /// A record of a scheduled query execution, including its status and destination processing information.
     public struct TriggerHistoryRecord: Swift.Sendable {
-        /// The list of destinations where the scheduled query results were delivered for this execution. This includes S3 buckets and EventBridge targets configured for the scheduled query.
+        /// The list of destinations where the scheduled query results were delivered for this execution. This includes S3 buckets configured for the scheduled query.
         public var destinations: [CloudWatchLogsClientTypes.ScheduledQueryDestination]?
         /// The error message if the scheduled query execution failed. This field is only populated when the execution status indicates a failure.
         public var errorMessage: Swift.String?
-        /// The status of the query execution (SUCCEEDED, FAILED, TIMEOUT, or INVALID_QUERY).
+        /// The status of the query execution (Running, Complete, Failed, Timeout, or InvalidQuery).
         public var executionStatus: CloudWatchLogsClientTypes.ExecutionStatus?
         /// The unique identifier for the query execution.
         public var queryId: Swift.String?
@@ -5393,11 +5393,13 @@ extension CloudWatchLogsClientTypes {
 
     public enum OCSFVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case v11
+        case v15
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OCSFVersion] {
             return [
-                .v11
+                .v11,
+                .v15
             ]
         }
 
@@ -5409,6 +5411,7 @@ extension CloudWatchLogsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .v11: return "V1.1"
+            case .v15: return "V1.5"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5417,11 +5420,13 @@ extension CloudWatchLogsClientTypes {
 
 extension CloudWatchLogsClientTypes {
 
-    /// This processor converts logs into [Open Cybersecurity Schema Framework (OCSF)](https://ocsf.io) events. For more information about this processor including examples, see [ parseToOSCF](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseToOCSF) in the CloudWatch Logs User Guide.
+    /// This processor converts logs into [Open Cybersecurity Schema Framework (OCSF)](https://ocsf.io) events. For more information about this processor including examples, see [parseToOCSF](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-parseToOCSF) in the CloudWatch Logs User Guide.
     public struct ParseToOCSF: Swift.Sendable {
         /// Specify the service or process that produces the log events that will be converted with this processor.
         /// This member is required.
         public var eventSource: CloudWatchLogsClientTypes.EventSource?
+        /// Identifies the specific release of the Open Cybersecurity Schema Framework (OCSF) transformer being used to parse OCSF data. Defaults to the latest version if not specified. Does not automatically update.
+        public var mappingVersion: Swift.String?
         /// Specify which version of the OCSF schema to use for the transformed log events.
         /// This member is required.
         public var ocsfVersion: CloudWatchLogsClientTypes.OCSFVersion?
@@ -5430,10 +5435,12 @@ extension CloudWatchLogsClientTypes {
 
         public init(
             eventSource: CloudWatchLogsClientTypes.EventSource? = nil,
+            mappingVersion: Swift.String? = nil,
             ocsfVersion: CloudWatchLogsClientTypes.OCSFVersion? = nil,
             source: Swift.String? = nil
         ) {
             self.eventSource = eventSource
+            self.mappingVersion = mappingVersion
             self.ocsfVersion = ocsfVersion
             self.source = source
         }
@@ -6590,7 +6597,11 @@ public struct PutDeliverySourceInput: Swift.Sendable {
     ///
     /// * For IAM Identity Center, the valid value is ERROR_LOGS.
     ///
+    /// * For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.
+    ///
     /// * For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.
+    ///
+    /// * For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.
     ///
     /// * For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.
     ///
@@ -13531,6 +13542,7 @@ extension CloudWatchLogsClientTypes.ParseToOCSF {
     static func write(value: CloudWatchLogsClientTypes.ParseToOCSF?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["eventSource"].write(value.eventSource)
+        try writer["mappingVersion"].write(value.mappingVersion)
         try writer["ocsfVersion"].write(value.ocsfVersion)
         try writer["source"].write(value.source)
     }
@@ -13541,6 +13553,7 @@ extension CloudWatchLogsClientTypes.ParseToOCSF {
         value.source = try reader["source"].readIfPresent()
         value.eventSource = try reader["eventSource"].readIfPresent() ?? .sdkUnknown("")
         value.ocsfVersion = try reader["ocsfVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.mappingVersion = try reader["mappingVersion"].readIfPresent()
         return value
     }
 }

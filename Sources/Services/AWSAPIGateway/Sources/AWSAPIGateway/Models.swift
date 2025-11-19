@@ -365,6 +365,41 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes {
 
+    public enum ApiStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case failed
+        case pending
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApiStatus] {
+            return [
+                .available,
+                .failed,
+                .pending,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
     /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
     public enum AuthorizerType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case cognitoUserPools
@@ -1214,6 +1249,35 @@ public struct CreateDocumentationVersionOutput: Swift.Sendable {
 
 extension APIGatewayClientTypes {
 
+    public enum EndpointAccessMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case basic
+        case strict
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EndpointAccessMode] {
+            return [
+                .basic,
+                .strict
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .strict: return "STRICT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
     public enum IpAddressType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case dualstack
         case ipv4
@@ -1351,12 +1415,30 @@ extension APIGatewayClientTypes {
 extension APIGatewayClientTypes {
 
     public enum SecurityPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case securitypolicyTls122018Edge
+        case securitypolicyTls12Pfs2025Edge
+        case securitypolicyTls1312202106
+        case securitypolicyTls1312FipsPq202509
+        case securitypolicyTls1312PfsPq202509
+        case securitypolicyTls1312Pq202509
+        case securitypolicyTls1313202509
+        case securitypolicyTls1313Fips202509
+        case securitypolicyTls132025Edge
         case tls10
         case tls12
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SecurityPolicy] {
             return [
+                .securitypolicyTls122018Edge,
+                .securitypolicyTls12Pfs2025Edge,
+                .securitypolicyTls1312202106,
+                .securitypolicyTls1312FipsPq202509,
+                .securitypolicyTls1312PfsPq202509,
+                .securitypolicyTls1312Pq202509,
+                .securitypolicyTls1313202509,
+                .securitypolicyTls1313Fips202509,
+                .securitypolicyTls132025Edge,
                 .tls10,
                 .tls12
             ]
@@ -1369,6 +1451,15 @@ extension APIGatewayClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .securitypolicyTls122018Edge: return "SecurityPolicy_TLS12_2018_EDGE"
+            case .securitypolicyTls12Pfs2025Edge: return "SecurityPolicy_TLS12_PFS_2025_EDGE"
+            case .securitypolicyTls1312202106: return "SecurityPolicy_TLS13_1_2_2021_06"
+            case .securitypolicyTls1312FipsPq202509: return "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09"
+            case .securitypolicyTls1312PfsPq202509: return "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09"
+            case .securitypolicyTls1312Pq202509: return "SecurityPolicy_TLS13_1_2_PQ_2025_09"
+            case .securitypolicyTls1313202509: return "SecurityPolicy_TLS13_1_3_2025_09"
+            case .securitypolicyTls1313Fips202509: return "SecurityPolicy_TLS13_1_3_FIPS_2025_09"
+            case .securitypolicyTls132025Edge: return "SecurityPolicy_TLS13_2025_EDGE"
             case .tls10: return "TLS_1_0"
             case .tls12: return "TLS_1_2"
             case let .sdkUnknown(s): return s
@@ -1392,6 +1483,8 @@ public struct CreateDomainNameInput: Swift.Sendable {
     /// The name of the DomainName resource.
     /// This member is required.
     public var domainName: Swift.String?
+    /// The endpoint access mode of the DomainName. Only available for DomainNames that use security policies that start with SecurityPolicy_.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
@@ -1406,7 +1499,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
     public var regionalCertificateName: Swift.String?
     /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     public var routingMode: APIGatewayClientTypes.RoutingMode?
-    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName.
     public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
     public var tags: [Swift.String: Swift.String]?
@@ -1418,6 +1511,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         certificateName: Swift.String? = nil,
         certificatePrivateKey: Swift.String? = nil,
         domainName: Swift.String? = nil,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthenticationInput? = nil,
         ownershipVerificationCertificateArn: Swift.String? = nil,
@@ -1434,6 +1528,7 @@ public struct CreateDomainNameInput: Swift.Sendable {
         self.certificateName = certificateName
         self.certificatePrivateKey = certificatePrivateKey
         self.domainName = domainName
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.mutualTlsAuthentication = mutualTlsAuthentication
         self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
@@ -1450,6 +1545,7 @@ extension APIGatewayClientTypes {
 
     public enum DomainNameStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case available
+        case failed
         case pending
         case pendingCertificateReimport
         case pendingOwnershipVerification
@@ -1459,6 +1555,7 @@ extension APIGatewayClientTypes {
         public static var allCases: [DomainNameStatus] {
             return [
                 .available,
+                .failed,
                 .pending,
                 .pendingCertificateReimport,
                 .pendingOwnershipVerification,
@@ -1474,6 +1571,7 @@ extension APIGatewayClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .available: return "AVAILABLE"
+            case .failed: return "FAILED"
             case .pending: return "PENDING"
             case .pendingCertificateReimport: return "PENDING_CERTIFICATE_REIMPORT"
             case .pendingOwnershipVerification: return "PENDING_OWNERSHIP_VERIFICATION"
@@ -1529,6 +1627,8 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
+    /// The endpoint access mode of the DomainName.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
@@ -1549,7 +1649,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
     public var regionalHostedZoneId: Swift.String?
     /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     public var routingMode: APIGatewayClientTypes.RoutingMode?
-    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName.
     public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String: Swift.String]?
@@ -1565,6 +1665,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
         domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
@@ -1588,6 +1689,7 @@ public struct CreateDomainNameOutput: Swift.Sendable {
         self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
@@ -1879,6 +1981,35 @@ extension APIGatewayClientTypes {
 
 extension APIGatewayClientTypes {
 
+    public enum ResponseTransferMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case buffered
+        case stream
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponseTransferMode] {
+            return [
+                .buffered,
+                .stream
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .buffered: return "BUFFERED"
+            case .stream: return "STREAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension APIGatewayClientTypes {
+
     /// Specifies the TLS configuration for an integration.
     public struct TlsConfig: Swift.Sendable {
         /// Specifies whether or not API Gateway skips verification that the certificate for an integration endpoint is issued by a supported certificate authority. This isn’t recommended, but it enables you to use certificates that are signed by private certificate authorities, or certificates that are self-signed. If enabled, API Gateway still performs basic certificate validation, which includes checking the certificate's expiration date, hostname, and presence of a root certificate authority. Supported only for HTTP and HTTP_PROXY integrations. Enabling insecureSkipVerification isn't recommended, especially for integrations with public HTTPS endpoints. If you enable insecureSkipVerification, you increase the risk of man-in-the-middle attacks.
@@ -1957,6 +2088,8 @@ extension APIGatewayClientTypes {
         public var requestParameters: [Swift.String: Swift.String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public var requestTemplates: [Swift.String: Swift.String]?
+        /// The response transfer mode of the integration.
+        public var responseTransferMode: APIGatewayClientTypes.ResponseTransferMode?
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
         public var timeoutInMillis: Swift.Int
         /// Specifies the TLS configuration for an integration.
@@ -1978,6 +2111,7 @@ extension APIGatewayClientTypes {
             passthroughBehavior: Swift.String? = nil,
             requestParameters: [Swift.String: Swift.String]? = nil,
             requestTemplates: [Swift.String: Swift.String]? = nil,
+            responseTransferMode: APIGatewayClientTypes.ResponseTransferMode? = nil,
             timeoutInMillis: Swift.Int = 0,
             tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
             type: APIGatewayClientTypes.IntegrationType? = nil,
@@ -1994,6 +2128,7 @@ extension APIGatewayClientTypes {
             self.passthroughBehavior = passthroughBehavior
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
+            self.responseTransferMode = responseTransferMode
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
             self.type = type
@@ -2120,6 +2255,8 @@ public struct CreateRestApiInput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint
     public var disableExecuteApiEndpoint: Swift.Bool?
+    /// The endpoint access mode of the RestApi. Only available for RestApis that use security policies that start with SecurityPolicy_.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
@@ -2129,6 +2266,8 @@ public struct CreateRestApiInput: Swift.Sendable {
     public var name: Swift.String?
     /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
     public var policy: Swift.String?
+    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+    public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
     public var tags: [Swift.String: Swift.String]?
     /// A version identifier for the API.
@@ -2140,10 +2279,12 @@ public struct CreateRestApiInput: Swift.Sendable {
         cloneFrom: Swift.String? = nil,
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool? = false,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         minimumCompressionSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
+        securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil
     ) {
@@ -2152,10 +2293,12 @@ public struct CreateRestApiInput: Swift.Sendable {
         self.cloneFrom = cloneFrom
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.minimumCompressionSize = minimumCompressionSize
         self.name = name
         self.policy = policy
+        self.securityPolicy = securityPolicy
         self.tags = tags
         self.version = version
     }
@@ -2165,6 +2308,10 @@ public struct CreateRestApiInput: Swift.Sendable {
 public struct CreateRestApiOutput: Swift.Sendable {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
+    /// The ApiStatus of the RestApi.
+    public var apiStatus: APIGatewayClientTypes.ApiStatus?
+    /// The status message of the RestApi. When the status message is UPDATING you can still invoke it.
+    public var apiStatusMessage: Swift.String?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
     public var binaryMediaTypes: [Swift.String]?
     /// The timestamp when the API was created.
@@ -2173,6 +2320,8 @@ public struct CreateRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
+    /// The endpoint access mode of the RestApi.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
@@ -2185,6 +2334,8 @@ public struct CreateRestApiOutput: Swift.Sendable {
     public var policy: Swift.String?
     /// The API's root resource ID.
     public var rootResourceId: Swift.String?
+    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+    public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String: Swift.String]?
     /// A version identifier for the API.
@@ -2194,31 +2345,39 @@ public struct CreateRestApiOutput: Swift.Sendable {
 
     public init(
         apiKeySource: APIGatewayClientTypes.ApiKeySourceType? = nil,
+        apiStatus: APIGatewayClientTypes.ApiStatus? = nil,
+        apiStatusMessage: Swift.String? = nil,
         binaryMediaTypes: [Swift.String]? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool = false,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         id: Swift.String? = nil,
         minimumCompressionSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
         rootResourceId: Swift.String? = nil,
+        securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
     ) {
         self.apiKeySource = apiKeySource
+        self.apiStatus = apiStatus
+        self.apiStatusMessage = apiStatusMessage
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.id = id
         self.minimumCompressionSize = minimumCompressionSize
         self.name = name
         self.policy = policy
         self.rootResourceId = rootResourceId
+        self.securityPolicy = securityPolicy
         self.tags = tags
         self.version = version
         self.warnings = warnings
@@ -4199,6 +4358,8 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
+    /// The endpoint access mode of the DomainName.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
@@ -4219,7 +4380,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
     public var regionalHostedZoneId: Swift.String?
     /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     public var routingMode: APIGatewayClientTypes.RoutingMode?
-    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName.
     public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String: Swift.String]?
@@ -4235,6 +4396,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
         domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
@@ -4258,6 +4420,7 @@ public struct GetDomainNameOutput: Swift.Sendable {
         self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
@@ -4411,6 +4574,8 @@ extension APIGatewayClientTypes {
         public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public var domainNameStatusMessage: Swift.String?
+        /// The endpoint access mode of the DomainName.
+        public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
         /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
         public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
         /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
@@ -4431,7 +4596,7 @@ extension APIGatewayClientTypes {
         public var regionalHostedZoneId: Swift.String?
         /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
         public var routingMode: APIGatewayClientTypes.RoutingMode?
-        /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+        /// The Transport Layer Security (TLS) version + cipher suite for this DomainName.
         public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
         /// The collection of tags. Each tag element is associated with a given resource.
         public var tags: [Swift.String: Swift.String]?
@@ -4447,6 +4612,7 @@ extension APIGatewayClientTypes {
             domainNameId: Swift.String? = nil,
             domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
             domainNameStatusMessage: Swift.String? = nil,
+            endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
             endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
             managementPolicy: Swift.String? = nil,
             mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
@@ -4470,6 +4636,7 @@ extension APIGatewayClientTypes {
             self.domainNameId = domainNameId
             self.domainNameStatus = domainNameStatus
             self.domainNameStatusMessage = domainNameStatusMessage
+            self.endpointAccessMode = endpointAccessMode
             self.endpointConfiguration = endpointConfiguration
             self.managementPolicy = managementPolicy
             self.mutualTlsAuthentication = mutualTlsAuthentication
@@ -4714,6 +4881,8 @@ public struct GetIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
+    /// The response transfer mode of the integration.
+    public var responseTransferMode: APIGatewayClientTypes.ResponseTransferMode?
     /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
@@ -4735,6 +4904,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         passthroughBehavior: Swift.String? = nil,
         requestParameters: [Swift.String: Swift.String]? = nil,
         requestTemplates: [Swift.String: Swift.String]? = nil,
+        responseTransferMode: APIGatewayClientTypes.ResponseTransferMode? = nil,
         timeoutInMillis: Swift.Int = 0,
         tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
         type: APIGatewayClientTypes.IntegrationType? = nil,
@@ -4751,6 +4921,7 @@ public struct GetIntegrationOutput: Swift.Sendable {
         self.passthroughBehavior = passthroughBehavior
         self.requestParameters = requestParameters
         self.requestTemplates = requestTemplates
+        self.responseTransferMode = responseTransferMode
         self.timeoutInMillis = timeoutInMillis
         self.tlsConfig = tlsConfig
         self.type = type
@@ -5330,6 +5501,10 @@ public struct GetRestApiInput: Swift.Sendable {
 public struct GetRestApiOutput: Swift.Sendable {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
+    /// The ApiStatus of the RestApi.
+    public var apiStatus: APIGatewayClientTypes.ApiStatus?
+    /// The status message of the RestApi. When the status message is UPDATING you can still invoke it.
+    public var apiStatusMessage: Swift.String?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
     public var binaryMediaTypes: [Swift.String]?
     /// The timestamp when the API was created.
@@ -5338,6 +5513,8 @@ public struct GetRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
+    /// The endpoint access mode of the RestApi.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
@@ -5350,6 +5527,8 @@ public struct GetRestApiOutput: Swift.Sendable {
     public var policy: Swift.String?
     /// The API's root resource ID.
     public var rootResourceId: Swift.String?
+    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+    public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String: Swift.String]?
     /// A version identifier for the API.
@@ -5359,31 +5538,39 @@ public struct GetRestApiOutput: Swift.Sendable {
 
     public init(
         apiKeySource: APIGatewayClientTypes.ApiKeySourceType? = nil,
+        apiStatus: APIGatewayClientTypes.ApiStatus? = nil,
+        apiStatusMessage: Swift.String? = nil,
         binaryMediaTypes: [Swift.String]? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool = false,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         id: Swift.String? = nil,
         minimumCompressionSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
         rootResourceId: Swift.String? = nil,
+        securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
     ) {
         self.apiKeySource = apiKeySource
+        self.apiStatus = apiStatus
+        self.apiStatusMessage = apiStatusMessage
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.id = id
         self.minimumCompressionSize = minimumCompressionSize
         self.name = name
         self.policy = policy
         self.rootResourceId = rootResourceId
+        self.securityPolicy = securityPolicy
         self.tags = tags
         self.version = version
         self.warnings = warnings
@@ -5412,6 +5599,10 @@ extension APIGatewayClientTypes {
     public struct RestApi: Swift.Sendable {
         /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
         public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
+        /// The ApiStatus of the RestApi.
+        public var apiStatus: APIGatewayClientTypes.ApiStatus?
+        /// The status message of the RestApi. When the status message is UPDATING you can still invoke it.
+        public var apiStatusMessage: Swift.String?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
         public var binaryMediaTypes: [Swift.String]?
         /// The timestamp when the API was created.
@@ -5420,6 +5611,8 @@ extension APIGatewayClientTypes {
         public var description: Swift.String?
         /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
         public var disableExecuteApiEndpoint: Swift.Bool
+        /// The endpoint access mode of the RestApi.
+        public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
         /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
         public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
         /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
@@ -5432,6 +5625,8 @@ extension APIGatewayClientTypes {
         public var policy: Swift.String?
         /// The API's root resource ID.
         public var rootResourceId: Swift.String?
+        /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+        public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
         /// The collection of tags. Each tag element is associated with a given resource.
         public var tags: [Swift.String: Swift.String]?
         /// A version identifier for the API.
@@ -5441,31 +5636,39 @@ extension APIGatewayClientTypes {
 
         public init(
             apiKeySource: APIGatewayClientTypes.ApiKeySourceType? = nil,
+            apiStatus: APIGatewayClientTypes.ApiStatus? = nil,
+            apiStatusMessage: Swift.String? = nil,
             binaryMediaTypes: [Swift.String]? = nil,
             createdDate: Foundation.Date? = nil,
             description: Swift.String? = nil,
             disableExecuteApiEndpoint: Swift.Bool = false,
+            endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
             endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
             id: Swift.String? = nil,
             minimumCompressionSize: Swift.Int? = nil,
             name: Swift.String? = nil,
             policy: Swift.String? = nil,
             rootResourceId: Swift.String? = nil,
+            securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             version: Swift.String? = nil,
             warnings: [Swift.String]? = nil
         ) {
             self.apiKeySource = apiKeySource
+            self.apiStatus = apiStatus
+            self.apiStatusMessage = apiStatusMessage
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
             self.description = description
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+            self.endpointAccessMode = endpointAccessMode
             self.endpointConfiguration = endpointConfiguration
             self.id = id
             self.minimumCompressionSize = minimumCompressionSize
             self.name = name
             self.policy = policy
             self.rootResourceId = rootResourceId
+            self.securityPolicy = securityPolicy
             self.tags = tags
             self.version = version
             self.warnings = warnings
@@ -6453,6 +6656,10 @@ public struct ImportRestApiInput: Swift.Sendable {
 public struct ImportRestApiOutput: Swift.Sendable {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
+    /// The ApiStatus of the RestApi.
+    public var apiStatus: APIGatewayClientTypes.ApiStatus?
+    /// The status message of the RestApi. When the status message is UPDATING you can still invoke it.
+    public var apiStatusMessage: Swift.String?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
     public var binaryMediaTypes: [Swift.String]?
     /// The timestamp when the API was created.
@@ -6461,6 +6668,8 @@ public struct ImportRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
+    /// The endpoint access mode of the RestApi.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
@@ -6473,6 +6682,8 @@ public struct ImportRestApiOutput: Swift.Sendable {
     public var policy: Swift.String?
     /// The API's root resource ID.
     public var rootResourceId: Swift.String?
+    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+    public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String: Swift.String]?
     /// A version identifier for the API.
@@ -6482,31 +6693,39 @@ public struct ImportRestApiOutput: Swift.Sendable {
 
     public init(
         apiKeySource: APIGatewayClientTypes.ApiKeySourceType? = nil,
+        apiStatus: APIGatewayClientTypes.ApiStatus? = nil,
+        apiStatusMessage: Swift.String? = nil,
         binaryMediaTypes: [Swift.String]? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool = false,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         id: Swift.String? = nil,
         minimumCompressionSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
         rootResourceId: Swift.String? = nil,
+        securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
     ) {
         self.apiKeySource = apiKeySource
+        self.apiStatus = apiStatus
+        self.apiStatusMessage = apiStatusMessage
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.id = id
         self.minimumCompressionSize = minimumCompressionSize
         self.name = name
         self.policy = policy
         self.rootResourceId = rootResourceId
+        self.securityPolicy = securityPolicy
         self.tags = tags
         self.version = version
         self.warnings = warnings
@@ -6599,6 +6818,8 @@ public struct PutIntegrationInput: Swift.Sendable {
     /// Specifies a put integration request's resource ID.
     /// This member is required.
     public var resourceId: Swift.String?
+    /// The response transfer mode of the integration.
+    public var responseTransferMode: APIGatewayClientTypes.ResponseTransferMode?
     /// The string identifier of the associated RestApi.
     /// This member is required.
     public var restApiId: Swift.String?
@@ -6625,6 +6846,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         requestParameters: [Swift.String: Swift.String]? = nil,
         requestTemplates: [Swift.String: Swift.String]? = nil,
         resourceId: Swift.String? = nil,
+        responseTransferMode: APIGatewayClientTypes.ResponseTransferMode? = nil,
         restApiId: Swift.String? = nil,
         timeoutInMillis: Swift.Int? = nil,
         tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
@@ -6643,6 +6865,7 @@ public struct PutIntegrationInput: Swift.Sendable {
         self.requestParameters = requestParameters
         self.requestTemplates = requestTemplates
         self.resourceId = resourceId
+        self.responseTransferMode = responseTransferMode
         self.restApiId = restApiId
         self.timeoutInMillis = timeoutInMillis
         self.tlsConfig = tlsConfig
@@ -6675,6 +6898,8 @@ public struct PutIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
+    /// The response transfer mode of the integration.
+    public var responseTransferMode: APIGatewayClientTypes.ResponseTransferMode?
     /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
@@ -6696,6 +6921,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
         passthroughBehavior: Swift.String? = nil,
         requestParameters: [Swift.String: Swift.String]? = nil,
         requestTemplates: [Swift.String: Swift.String]? = nil,
+        responseTransferMode: APIGatewayClientTypes.ResponseTransferMode? = nil,
         timeoutInMillis: Swift.Int = 0,
         tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
         type: APIGatewayClientTypes.IntegrationType? = nil,
@@ -6712,6 +6938,7 @@ public struct PutIntegrationOutput: Swift.Sendable {
         self.passthroughBehavior = passthroughBehavior
         self.requestParameters = requestParameters
         self.requestTemplates = requestTemplates
+        self.responseTransferMode = responseTransferMode
         self.timeoutInMillis = timeoutInMillis
         self.tlsConfig = tlsConfig
         self.type = type
@@ -6989,6 +7216,10 @@ public struct PutRestApiInput: Swift.Sendable {
 public struct PutRestApiOutput: Swift.Sendable {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
+    /// The ApiStatus of the RestApi.
+    public var apiStatus: APIGatewayClientTypes.ApiStatus?
+    /// The status message of the RestApi. When the status message is UPDATING you can still invoke it.
+    public var apiStatusMessage: Swift.String?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
     public var binaryMediaTypes: [Swift.String]?
     /// The timestamp when the API was created.
@@ -6997,6 +7228,8 @@ public struct PutRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
+    /// The endpoint access mode of the RestApi.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
@@ -7009,6 +7242,8 @@ public struct PutRestApiOutput: Swift.Sendable {
     public var policy: Swift.String?
     /// The API's root resource ID.
     public var rootResourceId: Swift.String?
+    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+    public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String: Swift.String]?
     /// A version identifier for the API.
@@ -7018,31 +7253,39 @@ public struct PutRestApiOutput: Swift.Sendable {
 
     public init(
         apiKeySource: APIGatewayClientTypes.ApiKeySourceType? = nil,
+        apiStatus: APIGatewayClientTypes.ApiStatus? = nil,
+        apiStatusMessage: Swift.String? = nil,
         binaryMediaTypes: [Swift.String]? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool = false,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         id: Swift.String? = nil,
         minimumCompressionSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
         rootResourceId: Swift.String? = nil,
+        securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
     ) {
         self.apiKeySource = apiKeySource
+        self.apiStatus = apiStatus
+        self.apiStatusMessage = apiStatusMessage
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.id = id
         self.minimumCompressionSize = minimumCompressionSize
         self.name = name
         self.policy = policy
         self.rootResourceId = rootResourceId
+        self.securityPolicy = securityPolicy
         self.tags = tags
         self.version = version
         self.warnings = warnings
@@ -7766,6 +8009,8 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var domainNameStatus: APIGatewayClientTypes.DomainNameStatus?
     /// An optional text message containing detailed information about status of the DomainName migration.
     public var domainNameStatusMessage: Swift.String?
+    /// The endpoint access mode of the DomainName.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
@@ -7786,7 +8031,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
     public var regionalHostedZoneId: Swift.String?
     /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
     public var routingMode: APIGatewayClientTypes.RoutingMode?
-    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+    /// The Transport Layer Security (TLS) version + cipher suite for this DomainName.
     public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String: Swift.String]?
@@ -7802,6 +8047,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
         domainNameId: Swift.String? = nil,
         domainNameStatus: APIGatewayClientTypes.DomainNameStatus? = nil,
         domainNameStatusMessage: Swift.String? = nil,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         managementPolicy: Swift.String? = nil,
         mutualTlsAuthentication: APIGatewayClientTypes.MutualTlsAuthentication? = nil,
@@ -7825,6 +8071,7 @@ public struct UpdateDomainNameOutput: Swift.Sendable {
         self.domainNameId = domainNameId
         self.domainNameStatus = domainNameStatus
         self.domainNameStatusMessage = domainNameStatusMessage
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.managementPolicy = managementPolicy
         self.mutualTlsAuthentication = mutualTlsAuthentication
@@ -7941,6 +8188,8 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
     public var requestParameters: [Swift.String: Swift.String]?
     /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     public var requestTemplates: [Swift.String: Swift.String]?
+    /// The response transfer mode of the integration.
+    public var responseTransferMode: APIGatewayClientTypes.ResponseTransferMode?
     /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     public var timeoutInMillis: Swift.Int
     /// Specifies the TLS configuration for an integration.
@@ -7962,6 +8211,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
         passthroughBehavior: Swift.String? = nil,
         requestParameters: [Swift.String: Swift.String]? = nil,
         requestTemplates: [Swift.String: Swift.String]? = nil,
+        responseTransferMode: APIGatewayClientTypes.ResponseTransferMode? = nil,
         timeoutInMillis: Swift.Int = 0,
         tlsConfig: APIGatewayClientTypes.TlsConfig? = nil,
         type: APIGatewayClientTypes.IntegrationType? = nil,
@@ -7978,6 +8228,7 @@ public struct UpdateIntegrationOutput: Swift.Sendable {
         self.passthroughBehavior = passthroughBehavior
         self.requestParameters = requestParameters
         self.requestTemplates = requestTemplates
+        self.responseTransferMode = responseTransferMode
         self.timeoutInMillis = timeoutInMillis
         self.tlsConfig = tlsConfig
         self.type = type
@@ -8343,6 +8594,10 @@ public struct UpdateRestApiInput: Swift.Sendable {
 public struct UpdateRestApiOutput: Swift.Sendable {
     /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
     public var apiKeySource: APIGatewayClientTypes.ApiKeySourceType?
+    /// The ApiStatus of the RestApi.
+    public var apiStatus: APIGatewayClientTypes.ApiStatus?
+    /// The status message of the RestApi. When the status message is UPDATING you can still invoke it.
+    public var apiStatusMessage: Swift.String?
     /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
     public var binaryMediaTypes: [Swift.String]?
     /// The timestamp when the API was created.
@@ -8351,6 +8606,8 @@ public struct UpdateRestApiOutput: Swift.Sendable {
     public var description: Swift.String?
     /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     public var disableExecuteApiEndpoint: Swift.Bool
+    /// The endpoint access mode of the RestApi.
+    public var endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode?
     /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     public var endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration?
     /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
@@ -8363,6 +8620,8 @@ public struct UpdateRestApiOutput: Swift.Sendable {
     public var policy: Swift.String?
     /// The API's root resource ID.
     public var rootResourceId: Swift.String?
+    /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+    public var securityPolicy: APIGatewayClientTypes.SecurityPolicy?
     /// The collection of tags. Each tag element is associated with a given resource.
     public var tags: [Swift.String: Swift.String]?
     /// A version identifier for the API.
@@ -8372,31 +8631,39 @@ public struct UpdateRestApiOutput: Swift.Sendable {
 
     public init(
         apiKeySource: APIGatewayClientTypes.ApiKeySourceType? = nil,
+        apiStatus: APIGatewayClientTypes.ApiStatus? = nil,
+        apiStatusMessage: Swift.String? = nil,
         binaryMediaTypes: [Swift.String]? = nil,
         createdDate: Foundation.Date? = nil,
         description: Swift.String? = nil,
         disableExecuteApiEndpoint: Swift.Bool = false,
+        endpointAccessMode: APIGatewayClientTypes.EndpointAccessMode? = nil,
         endpointConfiguration: APIGatewayClientTypes.EndpointConfiguration? = nil,
         id: Swift.String? = nil,
         minimumCompressionSize: Swift.Int? = nil,
         name: Swift.String? = nil,
         policy: Swift.String? = nil,
         rootResourceId: Swift.String? = nil,
+        securityPolicy: APIGatewayClientTypes.SecurityPolicy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         version: Swift.String? = nil,
         warnings: [Swift.String]? = nil
     ) {
         self.apiKeySource = apiKeySource
+        self.apiStatus = apiStatus
+        self.apiStatusMessage = apiStatusMessage
         self.binaryMediaTypes = binaryMediaTypes
         self.createdDate = createdDate
         self.description = description
         self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+        self.endpointAccessMode = endpointAccessMode
         self.endpointConfiguration = endpointConfiguration
         self.id = id
         self.minimumCompressionSize = minimumCompressionSize
         self.name = name
         self.policy = policy
         self.rootResourceId = rootResourceId
+        self.securityPolicy = securityPolicy
         self.tags = tags
         self.version = version
         self.warnings = warnings
@@ -10882,6 +11149,7 @@ extension CreateDomainNameInput {
         try writer["certificateName"].write(value.certificateName)
         try writer["certificatePrivateKey"].write(value.certificatePrivateKey)
         try writer["domainName"].write(value.domainName)
+        try writer["endpointAccessMode"].write(value.endpointAccessMode)
         try writer["endpointConfiguration"].write(value.endpointConfiguration, with: APIGatewayClientTypes.EndpointConfiguration.write(value:to:))
         try writer["mutualTlsAuthentication"].write(value.mutualTlsAuthentication, with: APIGatewayClientTypes.MutualTlsAuthenticationInput.write(value:to:))
         try writer["ownershipVerificationCertificateArn"].write(value.ownershipVerificationCertificateArn)
@@ -10943,10 +11211,12 @@ extension CreateRestApiInput {
         try writer["cloneFrom"].write(value.cloneFrom)
         try writer["description"].write(value.description)
         try writer["disableExecuteApiEndpoint"].write(value.disableExecuteApiEndpoint)
+        try writer["endpointAccessMode"].write(value.endpointAccessMode)
         try writer["endpointConfiguration"].write(value.endpointConfiguration, with: APIGatewayClientTypes.EndpointConfiguration.write(value:to:))
         try writer["minimumCompressionSize"].write(value.minimumCompressionSize)
         try writer["name"].write(value.name)
         try writer["policy"].write(value.policy)
+        try writer["securityPolicy"].write(value.securityPolicy)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["version"].write(value.version)
     }
@@ -11059,6 +11329,7 @@ extension PutIntegrationInput {
         try writer["passthroughBehavior"].write(value.passthroughBehavior)
         try writer["requestParameters"].writeMap(value.requestParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["requestTemplates"].writeMap(value.requestTemplates, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["responseTransferMode"].write(value.responseTransferMode)
         try writer["timeoutInMillis"].write(value.timeoutInMillis)
         try writer["tlsConfig"].write(value.tlsConfig, with: APIGatewayClientTypes.TlsConfig.write(value:to:))
         try writer["type"].write(value.type)
@@ -11435,6 +11706,7 @@ extension CreateDomainNameOutput {
         value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
         value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
@@ -11522,16 +11794,20 @@ extension CreateRestApiOutput {
         let reader = responseReader
         var value = CreateRestApiOutput()
         value.apiKeySource = try reader["apiKeySource"].readIfPresent()
+        value.apiStatus = try reader["apiStatus"].readIfPresent()
+        value.apiStatusMessage = try reader["apiStatusMessage"].readIfPresent()
         value.binaryMediaTypes = try reader["binaryMediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent() ?? false
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
         value.id = try reader["id"].readIfPresent()
         value.minimumCompressionSize = try reader["minimumCompressionSize"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.policy = try reader["policy"].readIfPresent()
         value.rootResourceId = try reader["rootResourceId"].readIfPresent()
+        value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.version = try reader["version"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12044,6 +12320,7 @@ extension GetDomainNameOutput {
         value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
         value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
@@ -12155,6 +12432,7 @@ extension GetIntegrationOutput {
         value.passthroughBehavior = try reader["passthroughBehavior"].readIfPresent()
         value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requestTemplates = try reader["requestTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.responseTransferMode = try reader["responseTransferMode"].readIfPresent()
         value.timeoutInMillis = try reader["timeoutInMillis"].readIfPresent() ?? 0
         value.tlsConfig = try reader["tlsConfig"].readIfPresent(with: APIGatewayClientTypes.TlsConfig.read(from:))
         value.type = try reader["type"].readIfPresent()
@@ -12321,16 +12599,20 @@ extension GetRestApiOutput {
         let reader = responseReader
         var value = GetRestApiOutput()
         value.apiKeySource = try reader["apiKeySource"].readIfPresent()
+        value.apiStatus = try reader["apiStatus"].readIfPresent()
+        value.apiStatusMessage = try reader["apiStatusMessage"].readIfPresent()
         value.binaryMediaTypes = try reader["binaryMediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent() ?? false
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
         value.id = try reader["id"].readIfPresent()
         value.minimumCompressionSize = try reader["minimumCompressionSize"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.policy = try reader["policy"].readIfPresent()
         value.rootResourceId = try reader["rootResourceId"].readIfPresent()
+        value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.version = try reader["version"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12593,16 +12875,20 @@ extension ImportRestApiOutput {
         let reader = responseReader
         var value = ImportRestApiOutput()
         value.apiKeySource = try reader["apiKeySource"].readIfPresent()
+        value.apiStatus = try reader["apiStatus"].readIfPresent()
+        value.apiStatusMessage = try reader["apiStatusMessage"].readIfPresent()
         value.binaryMediaTypes = try reader["binaryMediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent() ?? false
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
         value.id = try reader["id"].readIfPresent()
         value.minimumCompressionSize = try reader["minimumCompressionSize"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.policy = try reader["policy"].readIfPresent()
         value.rootResourceId = try reader["rootResourceId"].readIfPresent()
+        value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.version = try reader["version"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12644,6 +12930,7 @@ extension PutIntegrationOutput {
         value.passthroughBehavior = try reader["passthroughBehavior"].readIfPresent()
         value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requestTemplates = try reader["requestTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.responseTransferMode = try reader["responseTransferMode"].readIfPresent()
         value.timeoutInMillis = try reader["timeoutInMillis"].readIfPresent() ?? 0
         value.tlsConfig = try reader["tlsConfig"].readIfPresent(with: APIGatewayClientTypes.TlsConfig.read(from:))
         value.type = try reader["type"].readIfPresent()
@@ -12712,16 +12999,20 @@ extension PutRestApiOutput {
         let reader = responseReader
         var value = PutRestApiOutput()
         value.apiKeySource = try reader["apiKeySource"].readIfPresent()
+        value.apiStatus = try reader["apiStatus"].readIfPresent()
+        value.apiStatusMessage = try reader["apiStatusMessage"].readIfPresent()
         value.binaryMediaTypes = try reader["binaryMediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent() ?? false
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
         value.id = try reader["id"].readIfPresent()
         value.minimumCompressionSize = try reader["minimumCompressionSize"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.policy = try reader["policy"].readIfPresent()
         value.rootResourceId = try reader["rootResourceId"].readIfPresent()
+        value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.version = try reader["version"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -12933,6 +13224,7 @@ extension UpdateDomainNameOutput {
         value.domainNameId = try reader["domainNameId"].readIfPresent()
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
         value.managementPolicy = try reader["managementPolicy"].readIfPresent()
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
@@ -12983,6 +13275,7 @@ extension UpdateIntegrationOutput {
         value.passthroughBehavior = try reader["passthroughBehavior"].readIfPresent()
         value.requestParameters = try reader["requestParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.requestTemplates = try reader["requestTemplates"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.responseTransferMode = try reader["responseTransferMode"].readIfPresent()
         value.timeoutInMillis = try reader["timeoutInMillis"].readIfPresent() ?? 0
         value.tlsConfig = try reader["tlsConfig"].readIfPresent(with: APIGatewayClientTypes.TlsConfig.read(from:))
         value.type = try reader["type"].readIfPresent()
@@ -13098,16 +13391,20 @@ extension UpdateRestApiOutput {
         let reader = responseReader
         var value = UpdateRestApiOutput()
         value.apiKeySource = try reader["apiKeySource"].readIfPresent()
+        value.apiStatus = try reader["apiStatus"].readIfPresent()
+        value.apiStatusMessage = try reader["apiStatusMessage"].readIfPresent()
         value.binaryMediaTypes = try reader["binaryMediaTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.description = try reader["description"].readIfPresent()
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent() ?? false
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.endpointConfiguration = try reader["endpointConfiguration"].readIfPresent(with: APIGatewayClientTypes.EndpointConfiguration.read(from:))
         value.id = try reader["id"].readIfPresent()
         value.minimumCompressionSize = try reader["minimumCompressionSize"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.policy = try reader["policy"].readIfPresent()
         value.rootResourceId = try reader["rootResourceId"].readIfPresent()
+        value.securityPolicy = try reader["securityPolicy"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.version = try reader["version"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
@@ -15641,6 +15938,7 @@ extension APIGatewayClientTypes.Integration {
         value.cacheKeyParameters = try reader["cacheKeyParameters"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.integrationResponses = try reader["integrationResponses"].readMapIfPresent(valueReadingClosure: APIGatewayClientTypes.IntegrationResponse.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.tlsConfig = try reader["tlsConfig"].readIfPresent(with: APIGatewayClientTypes.TlsConfig.read(from:))
+        value.responseTransferMode = try reader["responseTransferMode"].readIfPresent()
         return value
     }
 }
@@ -15929,6 +16227,7 @@ extension APIGatewayClientTypes.DomainName {
         value.domainNameStatus = try reader["domainNameStatus"].readIfPresent()
         value.domainNameStatusMessage = try reader["domainNameStatusMessage"].readIfPresent()
         value.securityPolicy = try reader["securityPolicy"].readIfPresent()
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.mutualTlsAuthentication = try reader["mutualTlsAuthentication"].readIfPresent(with: APIGatewayClientTypes.MutualTlsAuthentication.read(from:))
         value.ownershipVerificationCertificateArn = try reader["ownershipVerificationCertificateArn"].readIfPresent()
@@ -16013,6 +16312,10 @@ extension APIGatewayClientTypes.RestApi {
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.disableExecuteApiEndpoint = try reader["disableExecuteApiEndpoint"].readIfPresent() ?? false
         value.rootResourceId = try reader["rootResourceId"].readIfPresent()
+        value.securityPolicy = try reader["securityPolicy"].readIfPresent()
+        value.endpointAccessMode = try reader["endpointAccessMode"].readIfPresent()
+        value.apiStatus = try reader["apiStatus"].readIfPresent()
+        value.apiStatusMessage = try reader["apiStatusMessage"].readIfPresent()
         return value
     }
 }

@@ -1971,11 +1971,7 @@ extension S3ClientTypes {
         public var location: S3ClientTypes.LocationInfo?
         /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region). This functionality is not supported for directory buckets.
         public var locationConstraint: S3ClientTypes.BucketLocationConstraint?
-        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access.
-        ///
-        /// * This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html).
-        ///
-        /// * You must have the s3express:TagResource permission to create a directory bucket with tags.
+        /// An array of tags that you can apply to the bucket that you're creating. Tags are key-value pairs of metadata used to categorize and organize your buckets, track costs, and control access. This parameter is only supported for S3 directory buckets. For more information, see [Using tags with directory buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/directory-buckets-tagging.html). You must have the s3express:TagResource permission to create a directory bucket with tags.
         public var tags: [S3ClientTypes.Tag]?
 
         public init(
@@ -4898,6 +4894,59 @@ extension S3ClientTypes.ServerSideEncryptionByDefault: Swift.CustomDebugStringCo
 
 extension S3ClientTypes {
 
+    public enum EncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case sseC
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .none,
+                .sseC
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .sseC: return "SSE-C"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3ClientTypes {
+
+    /// A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects encrypted with the specified server-side encryption type. For example, blocking an encryption type will block PutObject, CopyObject, PostObject, multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see [Blocking an encryption type for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/userguide/block-encryption-type.html). This data type is used with the following actions:
+    ///
+    /// * [PutBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html)
+    ///
+    /// * [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
+    ///
+    /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
+    ///
+    ///
+    /// Permissions You must have the s3:PutEncryptionConfiguration permission to block or unblock an encryption type for a bucket. You must have the s3:GetEncryptionConfiguration permission to view a bucket's encryption type.
+    public struct BlockedEncryptionTypes: Swift.Sendable {
+        /// The object encryption type that you want to block or unblock for an Amazon S3 general purpose bucket. Currently, this parameter only supports blocking or unblocking server side encryption with customer-provided keys (SSE-C). For more information about SSE-C, see [Using server-side encryption with customer-provided keys (SSE-C)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html).
+        public var encryptionType: [S3ClientTypes.EncryptionType]?
+
+        public init(
+            encryptionType: [S3ClientTypes.EncryptionType]? = nil
+        ) {
+            self.encryptionType = encryptionType
+        }
+    }
+}
+
+extension S3ClientTypes {
+
     /// Specifies the default server-side encryption configuration.
     ///
     /// * General purpose buckets - If you're specifying a customer managed KMS key, we recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS resolves the key within the requester’s account. This behavior can result in data that's encrypted with a KMS key that belongs to the requester, and not the bucket owner.
@@ -4906,6 +4955,8 @@ extension S3ClientTypes {
     public struct ServerSideEncryptionRule: Swift.Sendable {
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public var applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault?
+        /// A bucket-level setting for Amazon S3 general purpose buckets used to prevent the upload of new objects encrypted with the specified server-side encryption type. For example, blocking an encryption type will block PutObject, CopyObject, PostObject, multipart upload, and replication requests to the bucket for objects with the specified encryption type. However, you can continue to read and list any pre-existing objects already encrypted with the specified encryption type. For more information, see [Blocking an encryption type for a general purpose bucket](https://docs.aws.amazon.com/AmazonS3/userguide/block-encryption-type.html). Currently, this parameter only supports blocking or unblocking Server Side Encryption with Customer Provided Keys (SSE-C). For more information about SSE-C, see [Using server-side encryption with customer-provided keys (SSE-C)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html).
+        public var blockedEncryptionTypes: S3ClientTypes.BlockedEncryptionTypes?
         /// Specifies whether Amazon S3 should use an S3 Bucket Key with server-side encryption using KMS (SSE-KMS) for new objects in the bucket. Existing objects are not affected. Setting the BucketKeyEnabled element to true causes Amazon S3 to use an S3 Bucket Key.
         ///
         /// * General purpose buckets - By default, S3 Bucket Key is not enabled. For more information, see [Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-key.html) in the Amazon S3 User Guide.
@@ -4915,9 +4966,11 @@ extension S3ClientTypes {
 
         public init(
             applyServerSideEncryptionByDefault: S3ClientTypes.ServerSideEncryptionByDefault? = nil,
+            blockedEncryptionTypes: S3ClientTypes.BlockedEncryptionTypes? = nil,
             bucketKeyEnabled: Swift.Bool? = nil
         ) {
             self.applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefault
+            self.blockedEncryptionTypes = blockedEncryptionTypes
             self.bucketKeyEnabled = bucketKeyEnabled
         }
     }
@@ -12925,7 +12978,7 @@ extension S3ClientTypes {
 
     /// The container for the records event.
     public struct RecordsEvent: Swift.Sendable {
-        /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDKforJava) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
+        /// The byte array of partial, one or more result records. S3 Select doesn't guarantee that a record will be self-contained in one record frame. To ensure continuous streaming of data, S3 Select might split the same record across multiple record frames instead of aggregating the results in memory. Some S3 clients (for example, the SDK for Java) handle this behavior by creating a ByteStream out of the response by default. Other clients might not handle this behavior by default. In those cases, you must aggregate the results on the client side and parse the response.
         public var payload: Foundation.Data?
 
         public init(
@@ -21824,6 +21877,7 @@ extension S3ClientTypes.ServerSideEncryptionRule {
     static func write(value: S3ClientTypes.ServerSideEncryptionRule?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["ApplyServerSideEncryptionByDefault"].write(value.applyServerSideEncryptionByDefault, with: S3ClientTypes.ServerSideEncryptionByDefault.write(value:to:))
+        try writer["BlockedEncryptionTypes"].write(value.blockedEncryptionTypes, with: S3ClientTypes.BlockedEncryptionTypes.write(value:to:))
         try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
     }
 
@@ -21832,6 +21886,22 @@ extension S3ClientTypes.ServerSideEncryptionRule {
         var value = S3ClientTypes.ServerSideEncryptionRule()
         value.applyServerSideEncryptionByDefault = try reader["ApplyServerSideEncryptionByDefault"].readIfPresent(with: S3ClientTypes.ServerSideEncryptionByDefault.read(from:))
         value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent()
+        value.blockedEncryptionTypes = try reader["BlockedEncryptionTypes"].readIfPresent(with: S3ClientTypes.BlockedEncryptionTypes.read(from:))
+        return value
+    }
+}
+
+extension S3ClientTypes.BlockedEncryptionTypes {
+
+    static func write(value: S3ClientTypes.BlockedEncryptionTypes?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionType"].writeList(value.encryptionType, memberWritingClosure: SmithyReadWrite.WritingClosureBox<S3ClientTypes.EncryptionType>().write(value:to:), memberNodeInfo: "EncryptionType", isFlattened: true)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ClientTypes.BlockedEncryptionTypes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ClientTypes.BlockedEncryptionTypes()
+        value.encryptionType = try reader["EncryptionType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<S3ClientTypes.EncryptionType>().read(from:), memberNodeInfo: "EncryptionType", isFlattened: true)
         return value
     }
 }
