@@ -2472,6 +2472,64 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Includes identification info about the topic.
+    public struct TopicInfo: Swift.Sendable {
+        /// Number of out-of-sync replicas for a topic.
+        public var outOfSyncReplicaCount: Swift.Int?
+        /// Partition count for a topic.
+        public var partitionCount: Swift.Int?
+        /// Replication factor for a topic.
+        public var replicationFactor: Swift.Int?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public var topicArn: Swift.String?
+        /// Name for a topic.
+        public var topicName: Swift.String?
+
+        public init(
+            outOfSyncReplicaCount: Swift.Int? = nil,
+            partitionCount: Swift.Int? = nil,
+            replicationFactor: Swift.Int? = nil,
+            topicArn: Swift.String? = nil,
+            topicName: Swift.String? = nil
+        ) {
+            self.outOfSyncReplicaCount = outOfSyncReplicaCount
+            self.partitionCount = partitionCount
+            self.replicationFactor = replicationFactor
+            self.topicArn = topicArn
+            self.topicName = topicName
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// Contains information about a topic partition.
+    public struct TopicPartitionInfo: Swift.Sendable {
+        /// The list of in-sync replica broker IDs for the partition.
+        public var isr: [Swift.Int]?
+        /// The leader broker ID for the partition.
+        public var leader: Swift.Int?
+        /// The partition ID.
+        public var partition: Swift.Int?
+        /// The list of replica broker IDs for the partition.
+        public var replicas: [Swift.Int]?
+
+        public init(
+            isr: [Swift.Int]? = nil,
+            leader: Swift.Int? = nil,
+            partition: Swift.Int? = nil,
+            replicas: [Swift.Int]? = nil
+        ) {
+            self.isr = isr
+            self.leader = leader
+            self.partition = partition
+            self.replicas = replicas
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Error info for scram secret associate/disassociate failure.
     public struct UnprocessedScramSecret: Swift.Sendable {
         /// Error code for associate/disassociate failure.
@@ -3765,6 +3823,130 @@ public struct DescribeReplicatorOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeTopicInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The Kafka topic name that uniquely identifies the topic.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.topicName = topicName
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The state of a topic request.
+    public enum TopicState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct DescribeTopicOutput: Swift.Sendable {
+    /// Topic configurations encoded as a Base64 string.
+    public var configs: Swift.String?
+    /// The partition count of the topic.
+    public var partitionCount: Swift.Int?
+    /// The replication factor of the topic.
+    public var replicationFactor: Swift.Int?
+    /// The status of the topic.
+    public var status: KafkaClientTypes.TopicState?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The Kafka topic name of the topic.
+    public var topicName: Swift.String?
+
+    public init(
+        configs: Swift.String? = nil,
+        partitionCount: Swift.Int? = nil,
+        replicationFactor: Swift.Int? = nil,
+        status: KafkaClientTypes.TopicState? = nil,
+        topicArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.configs = configs
+        self.partitionCount = partitionCount
+        self.replicationFactor = replicationFactor
+        self.status = status
+        self.topicArn = topicArn
+        self.topicName = topicName
+    }
+}
+
+public struct DescribeTopicPartitionsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    public var maxResults: Swift.Int?
+    /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// The Kafka topic name that uniquely identifies the topic.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.topicName = topicName
+    }
+}
+
+public struct DescribeTopicPartitionsOutput: Swift.Sendable {
+    /// The paginated results marker. When the result of a DescribeTopicPartitions operation is truncated, the call returns NextToken in the response. To get another batch of configurations, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// The list of partition information for the topic.
+    public var partitions: [KafkaClientTypes.TopicPartitionInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        partitions: [KafkaClientTypes.TopicPartitionInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.partitions = partitions
+    }
+}
+
 public struct DescribeVpcConnectionInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC connection.
     /// This member is required.
@@ -4322,6 +4504,45 @@ public struct ListTagsForResourceOutput: Swift.Sendable {
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.tags = tags
+    }
+}
+
+public struct ListTopicsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    public var maxResults: Swift.Int?
+    /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// Returns topics starting with given name.
+    public var topicNameFilter: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        topicNameFilter: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.topicNameFilter = topicNameFilter
+    }
+}
+
+public struct ListTopicsOutput: Swift.Sendable {
+    /// The paginated results marker. When the result of a ListTopics operation is truncated, the call returns NextToken in the response. To get another batch of configurations, provide this token in your next request.
+    public var nextToken: Swift.String?
+    /// List containing topics info.
+    public var topics: [KafkaClientTypes.TopicInfo]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        topics: [KafkaClientTypes.TopicInfo]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.topics = topics
     }
 }
 
@@ -5202,6 +5423,48 @@ extension DescribeReplicatorInput {
     }
 }
 
+extension DescribeTopicInput {
+
+    static func urlPathProvider(_ value: DescribeTopicInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicName = value.topicName else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics/\(topicName.urlPercentEncoding())"
+    }
+}
+
+extension DescribeTopicPartitionsInput {
+
+    static func urlPathProvider(_ value: DescribeTopicPartitionsInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicName = value.topicName else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics/\(topicName.urlPercentEncoding())/partitions"
+    }
+}
+
+extension DescribeTopicPartitionsInput {
+
+    static func queryItemProvider(_ value: DescribeTopicPartitionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension DescribeVpcConnectionInput {
 
     static func urlPathProvider(_ value: DescribeVpcConnectionInput) -> Swift.String? {
@@ -5545,6 +5808,36 @@ extension ListTagsForResourceInput {
             return nil
         }
         return "/v1/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+extension ListTopicsInput {
+
+    static func urlPathProvider(_ value: ListTopicsInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics"
+    }
+}
+
+extension ListTopicsInput {
+
+    static func queryItemProvider(_ value: ListTopicsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let topicNameFilter = value.topicNameFilter {
+            let topicNameFilterQueryItem = Smithy.URIQueryItem(name: "topicNameFilter".urlPercentEncoding(), value: Swift.String(topicNameFilter).urlPercentEncoding())
+            items.append(topicNameFilterQueryItem)
+        }
+        return items
     }
 }
 
@@ -6260,6 +6553,36 @@ extension DescribeReplicatorOutput {
     }
 }
 
+extension DescribeTopicOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTopicOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTopicOutput()
+        value.configs = try reader["configs"].readIfPresent()
+        value.partitionCount = try reader["partitionCount"].readIfPresent()
+        value.replicationFactor = try reader["replicationFactor"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        return value
+    }
+}
+
+extension DescribeTopicPartitionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTopicPartitionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTopicPartitionsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.partitions = try reader["partitions"].readListIfPresent(memberReadingClosure: KafkaClientTypes.TopicPartitionInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DescribeVpcConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeVpcConnectionOutput {
@@ -6477,6 +6800,19 @@ extension ListTagsForResourceOutput {
         let reader = responseReader
         var value = ListTagsForResourceOutput()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ListTopicsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTopicsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTopicsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.topics = try reader["topics"].readListIfPresent(memberReadingClosure: KafkaClientTypes.TopicInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7056,6 +7392,42 @@ enum DescribeReplicatorOutputError {
     }
 }
 
+enum DescribeTopicOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeTopicPartitionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeVpcConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7341,6 +7713,24 @@ enum ListTagsForResourceOutputError {
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTopicsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8873,6 +9263,19 @@ extension KafkaClientTypes.ReplicationStateInfo {
     }
 }
 
+extension KafkaClientTypes.TopicPartitionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicPartitionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicPartitionInfo()
+        value.partition = try reader["partition"].readIfPresent()
+        value.leader = try reader["leader"].readIfPresent()
+        value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isr = try reader["isr"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension KafkaClientTypes.CompatibleKafkaVersion {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CompatibleKafkaVersion {
@@ -9032,6 +9435,20 @@ extension KafkaClientTypes.KafkaClusterSummary {
         var value = KafkaClientTypes.KafkaClusterSummary()
         value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
         value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicInfo()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        value.replicationFactor = try reader["replicationFactor"].readIfPresent()
+        value.partitionCount = try reader["partitionCount"].readIfPresent()
+        value.outOfSyncReplicaCount = try reader["outOfSyncReplicaCount"].readIfPresent()
         return value
     }
 }

@@ -388,6 +388,7 @@ extension WAFV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `WAFFeatureNotIncludedInPricingPlanException` : The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
     /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     /// - `WAFInvalidOperationException` : The operation isn't valid.
     /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
@@ -3984,6 +3985,7 @@ extension WAFV2Client {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `WAFFeatureNotIncludedInPricingPlanException` : The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
     /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     /// - `WAFInvalidOperationException` : The operation isn't valid.
     /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:
@@ -4820,6 +4822,7 @@ extension WAFV2Client {
     /// - `WAFConfigurationWarningException` : The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components. Rules that inspect the body must either provide an OversizeHandling configuration or they must be preceded by a SizeConstraintStatement that blocks the body content from being too large. Rules that inspect the headers or cookies must provide an OversizeHandling configuration. Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
     /// - `WAFDuplicateItemException` : WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
     /// - `WAFExpiredManagedRuleGroupVersionException` : The operation failed because the specified version for the managed rule group has expired. You can retrieve the available versions for the managed rule group by calling [ListAvailableManagedRuleGroupVersions].
+    /// - `WAFFeatureNotIncludedInPricingPlanException` : The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
     /// - `WAFInternalErrorException` : Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
     /// - `WAFInvalidOperationException` : The operation isn't valid.
     /// - `WAFInvalidParameterException` : The operation failed because WAF didn't recognize a parameter in the request. For example:

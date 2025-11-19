@@ -3427,6 +3427,52 @@ extension WAFV2ClientTypes {
     }
 }
 
+extension WAFV2ClientTypes {
+
+    /// A WAF feature that is not supported by the CloudFront pricing plan associated with the web ACL.
+    public struct DisallowedFeature: Swift.Sendable {
+        /// The name of the disallowed WAF feature.
+        public var feature: Swift.String?
+        /// The name of the CloudFront pricing plan required to use the WAF feature.
+        public var requiredPricingPlan: Swift.String?
+
+        public init(
+            feature: Swift.String? = nil,
+            requiredPricingPlan: Swift.String? = nil
+        ) {
+            self.feature = feature
+            self.requiredPricingPlan = requiredPricingPlan
+        }
+    }
+}
+
+/// The operation failed because the specified WAF feature isn't supported by the CloudFront pricing plan associated with the web ACL.
+public struct WAFFeatureNotIncludedInPricingPlanException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The names of the disallowed WAF features.
+        public internal(set) var disallowedFeatures: [WAFV2ClientTypes.DisallowedFeature]? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "WAFFeatureNotIncludedInPricingPlanException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        disallowedFeatures: [WAFV2ClientTypes.DisallowedFeature]? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.disallowedFeatures = disallowedFeatures
+        self.properties.message = message
+    }
+}
+
 /// Your request is valid, but WAF couldn’t perform the operation because of a system problem. Retry your request.
 public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -10161,6 +10207,7 @@ enum AssociateWebACLOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
             case "WAFInvalidOperationException": return try WAFInvalidOperationException.makeError(baseError: baseError)
             case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
@@ -10954,6 +11001,7 @@ enum PutLoggingConfigurationOutputError {
         let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
             case "WAFInvalidOperationException": return try WAFInvalidOperationException.makeError(baseError: baseError)
             case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
@@ -11133,6 +11181,7 @@ enum UpdateWebACLOutputError {
             case "WAFConfigurationWarningException": return try WAFConfigurationWarningException.makeError(baseError: baseError)
             case "WAFDuplicateItemException": return try WAFDuplicateItemException.makeError(baseError: baseError)
             case "WAFExpiredManagedRuleGroupVersionException": return try WAFExpiredManagedRuleGroupVersionException.makeError(baseError: baseError)
+            case "WAFFeatureNotIncludedInPricingPlanException": return try WAFFeatureNotIncludedInPricingPlanException.makeError(baseError: baseError)
             case "WAFInternalErrorException": return try WAFInternalErrorException.makeError(baseError: baseError)
             case "WAFInvalidOperationException": return try WAFInvalidOperationException.makeError(baseError: baseError)
             case "WAFInvalidParameterException": return try WAFInvalidParameterException.makeError(baseError: baseError)
@@ -11144,6 +11193,20 @@ enum UpdateWebACLOutputError {
             case "WAFUnavailableEntityException": return try WAFUnavailableEntityException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
+    }
+}
+
+extension WAFFeatureNotIncludedInPricingPlanException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> WAFFeatureNotIncludedInPricingPlanException {
+        let reader = baseError.errorBodyReader
+        var value = WAFFeatureNotIncludedInPricingPlanException()
+        value.properties.disallowedFeatures = try reader["DisallowedFeatures"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.DisallowedFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
     }
 }
 
@@ -13727,6 +13790,17 @@ extension WAFV2ClientTypes.TagInfoForResource {
         var value = WAFV2ClientTypes.TagInfoForResource()
         value.resourceARN = try reader["ResourceARN"].readIfPresent()
         value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.DisallowedFeature {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DisallowedFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.DisallowedFeature()
+        value.feature = try reader["Feature"].readIfPresent()
+        value.requiredPricingPlan = try reader["RequiredPricingPlan"].readIfPresent()
         return value
     }
 }

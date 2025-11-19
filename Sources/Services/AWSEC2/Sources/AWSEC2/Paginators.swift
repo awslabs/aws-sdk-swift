@@ -4370,6 +4370,39 @@ extension PaginatorSequence where OperationStackInput == DescribeVpcsInput, Oper
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeVpnConcentratorsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeVpnConcentratorsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeVpnConcentratorsOutput`
+    public func describeVpnConcentratorsPaginated(input: DescribeVpnConcentratorsInput) -> ClientRuntime.PaginatorSequence<DescribeVpnConcentratorsInput, DescribeVpnConcentratorsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeVpnConcentratorsInput, DescribeVpnConcentratorsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeVpnConcentrators(input:))
+    }
+}
+
+extension DescribeVpnConcentratorsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeVpnConcentratorsInput {
+        return DescribeVpnConcentratorsInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            vpnConcentratorIds: self.vpnConcentratorIds
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeVpnConcentratorsInput, OperationStackOutput == DescribeVpnConcentratorsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeVpnConcentratorsPaginated`
+    /// to access the nested member `[EC2ClientTypes.VpnConcentrator]`
+    /// - Returns: `[EC2ClientTypes.VpnConcentrator]`
+    public func vpnConcentrators() async throws -> [EC2ClientTypes.VpnConcentrator] {
+        return try await self.asyncCompactMap { item in item.vpnConcentrators }
+    }
+}
+extension EC2Client {
     /// Paginate over `[GetAssociatedIpv6PoolCidrsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
