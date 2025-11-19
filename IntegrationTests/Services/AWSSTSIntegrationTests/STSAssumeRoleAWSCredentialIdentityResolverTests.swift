@@ -62,19 +62,31 @@ class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
 
     // Confirm STS assume role credentials provider works by validating response.
     func testGetCallerIdentity() async throws {
-        let response = try await assumeRoleStsClient.getCallerIdentity(
-            input: GetCallerIdentityInput()
-        )
+        // Retry to handle IAM eventual consistency
+        var lastError: Error?
+        let totalRetries = 3
+        for attempt in 0..<totalRetries {
+            do {
+                let response = try await assumeRoleStsClient.getCallerIdentity(
+                    input: GetCallerIdentityInput()
+                )
 
-        // Ensure returned caller info aren't nil
-        let account = try XCTUnwrap(response.account)
-        let userId = try XCTUnwrap(response.userId)
-        let arn = try XCTUnwrap(response.arn)
+                let account = try XCTUnwrap(response.account)
+                let userId = try XCTUnwrap(response.userId)
+                let arn = try XCTUnwrap(response.arn)
 
-        // Ensure returned caller info aren't empty strings
-        XCTAssertNotEqual(account, "")
-        XCTAssertNotEqual(userId, "")
-        XCTAssertNotEqual(arn, "")
+                XCTAssertNotEqual(account, "")
+                XCTAssertNotEqual(userId, "")
+                XCTAssertNotEqual(arn, "")
+                return
+            } catch {
+                lastError = error
+                if attempt < (totalRetries-1) {
+                    try await Task.sleep(nanoseconds: 3_000_000_000) // 3 seconds
+                }
+            }
+        }
+        throw lastError!
     }
 
     // Right now opentelemetry-swift doesnt support linux or visionos
