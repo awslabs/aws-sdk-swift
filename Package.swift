@@ -438,6 +438,7 @@ let internalAWSSTSDependencies: [Target.Dependency] = [.AWSClientRuntime, .AWSSD
 let internalAWSSSODependencies: [Target.Dependency] = [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI]
 let internalAWSSSOOIDCDependencies: [Target.Dependency] = [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI]
 let internalAWSCognitoIdentityDependencies: [Target.Dependency] = [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI, .SmithyTimestamps]
+let internalAWSSigninDependencies: [Target.Dependency] = [.AWSClientRuntime, .AWSSDKChecksums, .AWSSDKHTTPAuth, .ClientRuntime, .Smithy, .SmithyHTTPAPI, .SmithyHTTPAuthAPI, .SmithyIdentity, .SmithyJSON, .SmithyReadWrite, .SmithyRetries, .SmithyRetriesAPI]
 
 // MARK: - Static Content
 
@@ -633,6 +634,7 @@ private var runtimeTargets: [Target] {
                 "InternalAWSSSO",
                 "InternalAWSSSOOIDC",
                 "InternalAWSCognitoIdentity",
+                "InternalAWSSignin"
             ],
             path: "Sources/Core/AWSSDKIdentity/Sources/AWSSDKIdentity"
         ),
@@ -655,6 +657,11 @@ private var runtimeTargets: [Target] {
             name: "InternalAWSCognitoIdentity",
             dependencies: internalAWSCognitoIdentityDependencies,
             path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSCognitoIdentity/Sources/InternalAWSCognitoIdentity"
+        ),
+        .target(
+            name: "InternalAWSSignin",
+            dependencies: internalAWSSigninDependencies,
+            path: "Sources/Core/AWSSDKIdentity/InternalClients/InternalAWSSignin/Sources/InternalAWSSignin"
         ),
         .target(
             name: "AWSSDKChecksums",
