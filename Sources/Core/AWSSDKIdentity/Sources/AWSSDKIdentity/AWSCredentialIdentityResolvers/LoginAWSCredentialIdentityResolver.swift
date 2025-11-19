@@ -20,7 +20,6 @@ import struct Foundation.TimeInterval
 import struct Foundation.URL
 import struct Foundation.UUID
 import InternalAWSSignin
-import Security
 import struct Smithy.Attributes
 import enum Smithy.ClientError
 import SmithyHTTPAPI
