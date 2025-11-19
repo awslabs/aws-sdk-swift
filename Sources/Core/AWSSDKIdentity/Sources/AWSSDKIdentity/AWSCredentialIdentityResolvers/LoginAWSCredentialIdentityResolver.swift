@@ -8,22 +8,23 @@
 import AwsCommonRuntimeKit
 @_spi(FileBasedConfig) import AWSSDKCommon
 import ClientRuntime
-import protocol SmithyIdentity.AWSCredentialIdentityResolver
-import struct Smithy.Attributes
-import class Foundation.ProcessInfo
-import enum Smithy.ClientError
-import class Foundation.FileManager
-import class Foundation.ISO8601DateFormatter
-import struct Foundation.URL
 import struct Foundation.Data
 import struct Foundation.Date
-import struct Foundation.TimeInterval
+import class Foundation.FileManager
+import class Foundation.ISO8601DateFormatter
 import class Foundation.JSONDecoder
 import class Foundation.JSONEncoder
+import func Foundation.NSHomeDirectory
+import class Foundation.ProcessInfo
+import struct Foundation.TimeInterval
+import struct Foundation.URL
 import struct Foundation.UUID
 import InternalAWSSignin
 import Security
+import struct Smithy.Attributes
+import enum Smithy.ClientError
 import SmithyHTTPAPI
+import protocol SmithyIdentity.AWSCredentialIdentityResolver
 
 public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
     private let profileName: String?
@@ -233,7 +234,7 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
                 secretAccessKey: secretKey,
                 sessionToken: sessionToken,
                 accountId: loginToken.accessToken.accountId,
-                expiresAt: Date.now.addingTimeInterval(Double(expiresAt))
+                expiresAt: Date().addingTimeInterval(Double(expiresAt))
             ),
             tokenType: loginToken.tokenType,
             refreshToken: refreshToken,
