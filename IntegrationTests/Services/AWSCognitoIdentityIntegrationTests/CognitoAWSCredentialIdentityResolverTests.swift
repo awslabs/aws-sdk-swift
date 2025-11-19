@@ -98,7 +98,7 @@ class CognitoAWSCredentialIdentityResolverTests: XCTestCase {
 
         // Retry to handle IAM eventual consistency
         var lastError: Error?
-        let totalRetries = 3
+        let totalRetries = 5
         for attempt in 0..<totalRetries {
             do {
                 let response = try await cognitoStsClient.getCallerIdentity(
