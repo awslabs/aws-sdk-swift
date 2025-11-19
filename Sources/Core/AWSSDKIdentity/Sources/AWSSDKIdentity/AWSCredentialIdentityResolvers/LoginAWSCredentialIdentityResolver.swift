@@ -342,15 +342,6 @@ private extension Data {
     }
 }
 
-private extension String {
-    func minimize() -> String {
-        self.replacingOccurrences(of: " ", with: "")
-            .replacingOccurrences(of: "\t", with: "")
-            .replacingOccurrences(of: "\n", with: "")
-            .replacingOccurrences(of: "\r", with: "")
-    }
-}
-
 class DPoPInterceptor<InputType, OutputType>: Interceptor {
     typealias RequestType = SmithyHTTPAPI.HTTPRequest
     typealias ResponseType = HTTPResponse
