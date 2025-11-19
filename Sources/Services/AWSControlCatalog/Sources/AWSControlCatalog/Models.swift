@@ -759,12 +759,14 @@ extension ControlCatalogClientTypes {
     public enum MappingType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case commonControl
         case framework
+        case relatedControl
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MappingType] {
             return [
                 .commonControl,
-                .framework
+                .framework,
+                .relatedControl
             ]
         }
 
@@ -777,6 +779,7 @@ extension ControlCatalogClientTypes {
             switch self {
             case .commonControl: return "COMMON_CONTROL"
             case .framework: return "FRAMEWORK"
+            case .relatedControl: return "RELATED_CONTROL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -848,12 +851,66 @@ extension ControlCatalogClientTypes {
 
 extension ControlCatalogClientTypes {
 
+    public enum ControlRelationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case alternative
+        case complementary
+        case mutuallyExclusive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ControlRelationType] {
+            return [
+                .alternative,
+                .complementary,
+                .mutuallyExclusive
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .alternative: return "ALTERNATIVE"
+            case .complementary: return "COMPLEMENTARY"
+            case .mutuallyExclusive: return "MUTUALLY_EXCLUSIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
+    /// A structure that describes a control's relationship status with other controls.
+    public struct RelatedControlMappingDetails: Swift.Sendable {
+        /// The unique identifier of a control.
+        public var controlArn: Swift.String?
+        /// Returns an enumerated value that represents the relationship between two or more controls.
+        /// This member is required.
+        public var relationType: ControlCatalogClientTypes.ControlRelationType?
+
+        public init(
+            controlArn: Swift.String? = nil,
+            relationType: ControlCatalogClientTypes.ControlRelationType? = nil
+        ) {
+            self.controlArn = controlArn
+            self.relationType = relationType
+        }
+    }
+}
+
+extension ControlCatalogClientTypes {
+
     /// A structure that contains the details of a mapping relationship, which can be either to a framework or to a common control.
     public enum Mapping: Swift.Sendable {
         /// The framework mapping details when the mapping type relates to a compliance framework.
         case framework(ControlCatalogClientTypes.FrameworkMappingDetails)
         /// The common control mapping details when the mapping type relates to a common control.
         case commoncontrol(ControlCatalogClientTypes.CommonControlMappingDetails)
+        /// Returns information about controls that are related to the specified control.
+        case relatedcontrol(ControlCatalogClientTypes.RelatedControlMappingDetails)
         case sdkUnknown(Swift.String)
     }
 }
@@ -865,10 +922,10 @@ extension ControlCatalogClientTypes {
         /// The Amazon Resource Name (ARN) that identifies the control in the mapping.
         /// This member is required.
         public var controlArn: Swift.String?
-        /// The details of the mapping relationship, containing either framework or common control information.
+        /// The details of the mapping relationship, for example, containing framework, common control, or related control information.
         /// This member is required.
         public var mapping: ControlCatalogClientTypes.Mapping?
-        /// The type of mapping relationship between the control and other entities. Indicates whether the mapping is to a framework or common control.
+        /// The type of mapping relationship between the control and other entities.
         /// This member is required.
         public var mappingType: ControlCatalogClientTypes.MappingType?
 
@@ -1515,9 +1572,22 @@ extension ControlCatalogClientTypes.Mapping {
                 return .framework(try reader["Framework"].read(with: ControlCatalogClientTypes.FrameworkMappingDetails.read(from:)))
             case "CommonControl":
                 return .commoncontrol(try reader["CommonControl"].read(with: ControlCatalogClientTypes.CommonControlMappingDetails.read(from:)))
+            case "RelatedControl":
+                return .relatedcontrol(try reader["RelatedControl"].read(with: ControlCatalogClientTypes.RelatedControlMappingDetails.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension ControlCatalogClientTypes.RelatedControlMappingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlCatalogClientTypes.RelatedControlMappingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlCatalogClientTypes.RelatedControlMappingDetails()
+        value.controlArn = try reader["ControlArn"].readIfPresent()
+        value.relationType = try reader["RelationType"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

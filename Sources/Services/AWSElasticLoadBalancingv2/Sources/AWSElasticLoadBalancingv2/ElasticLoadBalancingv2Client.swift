@@ -1983,7 +1983,7 @@ extension ElasticLoadBalancingv2Client {
 
     /// Performs the `DescribeRules` operation on the `ElasticLoadBalancingv2` service.
     ///
-    /// Describes the specified rules or the rules for the specified listener. You must specify either a listener or one or more rules.
+    /// Describes the specified rules or the rules for the specified listener. You must specify either a listener or rules.
     ///
     /// - Parameter input: [no documentation found] (Type: `DescribeRulesInput`)
     ///

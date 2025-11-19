@@ -1602,8 +1602,7 @@ public struct CreateContainerRecipeInput: Swift.Sendable {
     /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
     /// This member is required.
     public var clientToken: Swift.String?
-    /// Components for build and test that are included in the container recipe. Recipes require a minimum of one build component, and can have a maximum of 20 build and test components in any combination.
-    /// This member is required.
+    /// The components included in the container recipe.
     public var components: [ImagebuilderClientTypes.ComponentConfiguration]?
     /// The type of container to create.
     /// This member is required.
@@ -2441,7 +2440,6 @@ public struct CreateImageRecipeInput: Swift.Sendable {
     /// This member is required.
     public var clientToken: Swift.String?
     /// The components included in the image recipe.
-    /// This member is required.
     public var components: [ImagebuilderClientTypes.ComponentConfiguration]?
     /// The description of the image recipe.
     public var description: Swift.String?

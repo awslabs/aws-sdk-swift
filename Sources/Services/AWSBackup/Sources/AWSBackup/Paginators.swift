@@ -260,6 +260,7 @@ extension ListCopyJobsInput: ClientRuntime.PaginateToken {
             byParentJobId: self.byParentJobId,
             byResourceArn: self.byResourceArn,
             byResourceType: self.byResourceType,
+            bySourceRecoveryPointArn: self.bySourceRecoveryPointArn,
             byState: self.byState,
             maxResults: self.maxResults,
             nextToken: token
@@ -806,4 +807,34 @@ extension ListTagsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             resourceArn: self.resourceArn
         )}
+}
+extension BackupClient {
+    /// Paginate over `[ListTieringConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTieringConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTieringConfigurationsOutput`
+    public func listTieringConfigurationsPaginated(input: ListTieringConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListTieringConfigurationsInput, ListTieringConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTieringConfigurationsInput, ListTieringConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTieringConfigurations(input:))
+    }
+}
+
+extension ListTieringConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTieringConfigurationsInput {
+        return ListTieringConfigurationsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTieringConfigurationsInput, OperationStackOutput == ListTieringConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTieringConfigurationsPaginated`
+    /// to access the nested member `[BackupClientTypes.TieringConfigurationsListMember]`
+    /// - Returns: `[BackupClientTypes.TieringConfigurationsListMember]`
+    public func tieringConfigurations() async throws -> [BackupClientTypes.TieringConfigurationsListMember] {
+        return try await self.asyncCompactMap { item in item.tieringConfigurations }
+    }
 }

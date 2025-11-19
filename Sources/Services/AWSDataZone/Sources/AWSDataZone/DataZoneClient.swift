@@ -464,6 +464,7 @@ extension DataZoneClient {
     /// - `ConflictException` : There is a conflict while performing this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.
@@ -2945,6 +2946,7 @@ extension DataZoneClient {
     /// - `ConflictException` : There is a conflict while performing this action.
     /// - `InternalServerException` : The request has failed because of an unknown error, exception or failure.
     /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ServiceQuotaExceededException` : The request has exceeded the specified service quota.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UnauthorizedException` : You do not have permission to perform this action.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the Amazon Web Services service.

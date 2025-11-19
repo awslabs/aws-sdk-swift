@@ -3908,14 +3908,12 @@ extension RDSClientTypes {
 
     public enum ClusterScalabilityType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case limitless
-        case scaleout
         case standard
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ClusterScalabilityType] {
             return [
                 .limitless,
-                .scaleout,
                 .standard
             ]
         }
@@ -3928,7 +3926,6 @@ extension RDSClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .limitless: return "limitless"
-            case .scaleout: return "scaleout"
             case .standard: return "standard"
             case let .sdkUnknown(s): return s
             }

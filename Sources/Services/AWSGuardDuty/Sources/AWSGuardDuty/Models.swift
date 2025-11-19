@@ -10504,6 +10504,45 @@ public struct ListTrustedEntitySetsOutput: Swift.Sendable {
     }
 }
 
+extension GuardDutyClientTypes {
+
+    /// The S3 object path to initiate a scan, including bucket name, object key, and optional version ID.
+    public struct S3ObjectForSendObjectMalwareScan: Swift.Sendable {
+        /// The name of the S3 bucket containing the object to scan. The bucket must have GuardDuty Malware Protection enabled.
+        public var bucket: Swift.String?
+        /// The key (name) of the S3 object to scan for malware. This must be the full key path of the object within the bucket.
+        public var key: Swift.String?
+        /// The version ID of the S3 object to scan. If not specified, the latest version of the object is scanned.
+        public var versionId: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            key: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.key = key
+            self.versionId = versionId
+        }
+    }
+}
+
+public struct SendObjectMalwareScanInput: Swift.Sendable {
+    /// The S3 object information for the object you want to scan. The bucket must have a Malware Protection plan configured to use this API.
+    public var s3Object: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan?
+
+    public init(
+        s3Object: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan? = nil
+    ) {
+        self.s3Object = s3Object
+    }
+}
+
+public struct SendObjectMalwareScanOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct StartMalwareScanInput: Swift.Sendable {
     /// Amazon Resource Name (ARN) of the resource for which you invoked the API.
     /// This member is required.
@@ -12166,6 +12205,13 @@ extension ListTrustedEntitySetsInput {
     }
 }
 
+extension SendObjectMalwareScanInput {
+
+    static func urlPathProvider(_ value: SendObjectMalwareScanInput) -> Swift.String? {
+        return "/object-malware-scan/send"
+    }
+}
+
 extension StartMalwareScanInput {
 
     static func urlPathProvider(_ value: StartMalwareScanInput) -> Swift.String? {
@@ -12679,6 +12725,14 @@ extension ListFindingsInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["sortCriteria"].write(value.sortCriteria, with: GuardDutyClientTypes.SortCriteria.write(value:to:))
+    }
+}
+
+extension SendObjectMalwareScanInput {
+
+    static func write(value: SendObjectMalwareScanInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Object"].write(value.s3Object, with: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan.write(value:to:))
     }
 }
 
@@ -13631,6 +13685,13 @@ extension ListTrustedEntitySetsOutput {
         value.nextToken = try reader["nextToken"].readIfPresent()
         value.trustedEntitySetIds = try reader["trustedEntitySetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension SendObjectMalwareScanOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SendObjectMalwareScanOutput {
+        return SendObjectMalwareScanOutput()
     }
 }
 
@@ -14778,6 +14839,22 @@ enum ListTrustedEntitySetsOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SendObjectMalwareScanOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
             case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -17820,6 +17897,16 @@ extension GuardDutyClientTypes.CoverageSortCriteria {
         guard let value else { return }
         try writer["attributeName"].write(value.attributeName)
         try writer["orderBy"].write(value.orderBy)
+    }
+}
+
+extension GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan {
+
+    static func write(value: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+        try writer["versionId"].write(value.versionId)
     }
 }
 

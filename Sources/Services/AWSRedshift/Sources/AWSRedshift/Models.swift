@@ -11566,6 +11566,82 @@ extension GetClusterCredentialsWithIAMOutput: Swift.CustomDebugStringConvertible
         "GetClusterCredentialsWithIAMOutput(dbUser: \(Swift.String(describing: dbUser)), expiration: \(Swift.String(describing: expiration)), nextRefreshTime: \(Swift.String(describing: nextRefreshTime)), dbPassword: \"CONTENT_REDACTED\")"}
 }
 
+/// The request contains one or more invalid parameters. This error occurs when required parameters are missing, parameter values are outside acceptable ranges, or parameter formats are incorrect.
+public struct RedshiftInvalidParameterFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RedshiftInvalidParameter" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request parameters for GetIdentityCenterAuthToken.
+public struct GetIdentityCenterAuthTokenInput: Swift.Sendable {
+    /// A list of cluster identifiers that the generated token can be used with. The token will be scoped to only allow authentication to the specified clusters. Constraints:
+    ///
+    /// * ClusterIds must contain at least 1 cluster identifier.
+    ///
+    /// * ClusterIds can hold a maximum of 20 cluster identifiers.
+    ///
+    /// * Cluster identifiers must be 1 to 63 characters in length.
+    ///
+    /// * The characters accepted for cluster identifiers are the following:
+    ///
+    /// * Alphanumeric characters
+    ///
+    /// * Hyphens
+    ///
+    ///
+    ///
+    ///
+    /// * Cluster identifiers must start with a letter.
+    ///
+    /// * Cluster identifiers can't end with a hyphen or contain two consecutive hyphens.
+    /// This member is required.
+    public var clusterIds: [Swift.String]?
+
+    public init(
+        clusterIds: [Swift.String]? = nil
+    ) {
+        self.clusterIds = clusterIds
+    }
+}
+
+/// The response from GetIdentityCenterAuthToken containing the encrypted authentication token and expiration time.
+public struct GetIdentityCenterAuthTokenOutput: Swift.Sendable {
+    /// The time (UTC) when the token expires. After this timestamp, the token will no longer be valid for authentication.
+    public var expirationTime: Foundation.Date?
+    /// The encrypted authentication token containing the caller's Amazon Web Services IAM Identity Center identity information. This token is encrypted using Key Management Service and can only be decrypted by the specified Amazon Redshift clusters. Use this token with Amazon Redshift drivers to authenticate using your Amazon Web Services IAM Identity Center identity.
+    public var token: Swift.String?
+
+    public init(
+        expirationTime: Foundation.Date? = nil,
+        token: Swift.String? = nil
+    ) {
+        self.expirationTime = expirationTime
+        self.token = token
+    }
+}
+
+extension GetIdentityCenterAuthTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetIdentityCenterAuthTokenOutput(expirationTime: \(Swift.String(describing: expirationTime)), token: \"CONTENT_REDACTED\")"}
+}
+
 extension RedshiftClientTypes {
 
     public enum ReservedNodeExchangeActionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -14580,6 +14656,13 @@ extension GetClusterCredentialsWithIAMInput {
     }
 }
 
+extension GetIdentityCenterAuthTokenInput {
+
+    static func urlPathProvider(_ value: GetIdentityCenterAuthTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension GetReservedNodeExchangeConfigurationOptionsInput {
 
     static func urlPathProvider(_ value: GetReservedNodeExchangeConfigurationOptionsInput) -> Swift.String? {
@@ -16144,6 +16227,16 @@ extension GetClusterCredentialsWithIAMInput {
         try writer["DbName"].write(value.dbName)
         try writer["DurationSeconds"].write(value.durationSeconds)
         try writer["Action"].write("GetClusterCredentialsWithIAM")
+        try writer["Version"].write("2012-12-01")
+    }
+}
+
+extension GetIdentityCenterAuthTokenInput {
+
+    static func write(value: GetIdentityCenterAuthTokenInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ClusterIds"].writeList(value.clusterIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "ClusterIdentifier", isFlattened: false)
+        try writer["Action"].write("GetIdentityCenterAuthToken")
         try writer["Version"].write("2012-12-01")
     }
 }
@@ -17996,6 +18089,19 @@ extension GetClusterCredentialsWithIAMOutput {
         value.dbUser = try reader["DbUser"].readIfPresent()
         value.expiration = try reader["Expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.nextRefreshTime = try reader["NextRefreshTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension GetIdentityCenterAuthTokenOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetIdentityCenterAuthTokenOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["GetIdentityCenterAuthTokenResult"]
+        var value = GetIdentityCenterAuthTokenOutput()
+        value.expirationTime = try reader["ExpirationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.token = try reader["Token"].readIfPresent()
         return value
     }
 }
@@ -20164,6 +20270,23 @@ enum GetClusterCredentialsWithIAMOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetIdentityCenterAuthTokenOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSQueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ClusterNotFound": return try ClusterNotFoundFault.makeError(baseError: baseError)
+            case "InvalidClusterState": return try InvalidClusterStateFault.makeError(baseError: baseError)
+            case "RedshiftInvalidParameter": return try RedshiftInvalidParameterFault.makeError(baseError: baseError)
             case "UnsupportedOperation": return try UnsupportedOperationFault.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -22548,6 +22671,19 @@ extension UnknownSnapshotCopyRegionFault {
     static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> UnknownSnapshotCopyRegionFault {
         let reader = baseError.errorBodyReader
         var value = UnknownSnapshotCopyRegionFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension RedshiftInvalidParameterFault {
+
+    static func makeError(baseError: AWSClientRuntime.AWSQueryError) throws -> RedshiftInvalidParameterFault {
+        let reader = baseError.errorBodyReader
+        var value = RedshiftInvalidParameterFault()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID

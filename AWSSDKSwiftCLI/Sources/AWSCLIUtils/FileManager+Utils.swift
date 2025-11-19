@@ -16,7 +16,7 @@ public extension FileManager {
         }
         log("Changed working directory to: \(FileManager.default.currentDirectoryPath)")
     }
-    
+
     /// Returns the contents of a file located at the provied path.
     func loadContents(atPath path: String) throws -> Data {
         guard let fileContents = FileManager.default.contents(atPath: path) else {
@@ -24,7 +24,7 @@ public extension FileManager {
         }
         return fileContents
     }
-    
+
     /// Returns the list of enabled services.
     /// A service is considered enabled if it was generated successfully and therefore a folder for the service and its contents, exists within `Sources/Services`
     ///
