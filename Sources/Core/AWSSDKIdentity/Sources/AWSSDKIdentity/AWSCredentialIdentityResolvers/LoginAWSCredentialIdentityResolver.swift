@@ -309,6 +309,8 @@ struct AccessToken: Codable {
     HEADER & PAYLOAD STRUCTS FOR DPOP GENERATION
  */
 
+// swiftlint:disable unused_declaration
+
 struct JWTHeader: Encodable {
     let typ = "dpop+jwt"
     let alg = "ES256"
@@ -328,6 +330,8 @@ struct JWTPayload: Encodable {
     let htu: String
     let iat: Int
 }
+
+// swiftlint:enable unused_declaration
 
 /*
     INTERCEPTOR TO CALCULATE & INJECT DPoP HEADER TO REQUEST
