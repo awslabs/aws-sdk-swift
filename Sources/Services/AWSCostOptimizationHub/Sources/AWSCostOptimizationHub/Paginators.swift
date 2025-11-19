@@ -11,6 +11,40 @@ import protocol ClientRuntime.PaginateToken
 import struct ClientRuntime.PaginatorSequence
 
 extension CostOptimizationHubClient {
+    /// Paginate over `[ListEfficiencyMetricsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEfficiencyMetricsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEfficiencyMetricsOutput`
+    public func listEfficiencyMetricsPaginated(input: ListEfficiencyMetricsInput) -> ClientRuntime.PaginatorSequence<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEfficiencyMetricsInput, ListEfficiencyMetricsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEfficiencyMetrics(input:))
+    }
+}
+
+extension ListEfficiencyMetricsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEfficiencyMetricsInput {
+        return ListEfficiencyMetricsInput(
+            granularity: self.granularity,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            nextToken: token,
+            orderBy: self.orderBy,
+            timePeriod: self.timePeriod
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEfficiencyMetricsInput, OperationStackOutput == ListEfficiencyMetricsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEfficiencyMetricsPaginated`
+    /// to access the nested member `[CostOptimizationHubClientTypes.EfficiencyMetricsByGroup]`
+    /// - Returns: `[CostOptimizationHubClientTypes.EfficiencyMetricsByGroup]`
+    public func efficiencyMetricsByGroup() async throws -> [CostOptimizationHubClientTypes.EfficiencyMetricsByGroup] {
+        return try await self.asyncCompactMap { item in item.efficiencyMetricsByGroup }
+    }
+}
+extension CostOptimizationHubClient {
     /// Paginate over `[ListEnrollmentStatusesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

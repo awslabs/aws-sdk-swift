@@ -1616,6 +1616,26 @@ extension FSxClientTypes {
 
 extension FSxClientTypes {
 
+    /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. When FSRM is enabled, you can manage and monitor storage quotas, file screening, storage reports, and file classification.
+    public struct WindowsFsrmConfiguration: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) for the destination of the FSRM event logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehose delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
+        public var eventLogDestination: Swift.String?
+        /// Specifies whether FSRM is enabled or disabled on the file system. When TRUE, the FSRM service is enabled and monitor file operations according to configured policies. When FALSE or omitted, FSRM is disabled. The default value is FALSE.
+        /// This member is required.
+        public var fsrmServiceEnabled: Swift.Bool?
+
+        public init(
+            eventLogDestination: Swift.String? = nil,
+            fsrmServiceEnabled: Swift.Bool? = nil
+        ) {
+            self.eventLogDestination = eventLogDestination
+            self.fsrmServiceEnabled = fsrmServiceEnabled
+        }
+    }
+}
+
+extension FSxClientTypes {
+
     /// An enumeration specifying the currently ongoing maintenance operation.
     public enum FileSystemMaintenanceOperation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case backingUp
@@ -1708,6 +1728,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.WindowsDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public var fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration?
         /// The list of maintenance operations in progress for this file system.
         public var maintenanceOperationsInProgress: [FSxClientTypes.FileSystemMaintenanceOperation]?
         /// For MULTI_AZ_1 deployment types, the IPv4 address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that are not joined to a Microsoft Active Directory. Applicable for all Windows file system deployment types. This IPv4 address is temporarily unavailable when the file system is undergoing maintenance. For Linux and Windows SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see [Accessing data using file shares](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-file-shares.html).
@@ -1734,6 +1756,7 @@ extension FSxClientTypes {
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             deploymentType: FSxClientTypes.WindowsDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration? = nil,
             maintenanceOperationsInProgress: [FSxClientTypes.FileSystemMaintenanceOperation]? = nil,
             preferredFileServerIp: Swift.String? = nil,
             preferredFileServerIpv6: Swift.String? = nil,
@@ -1751,6 +1774,7 @@ extension FSxClientTypes {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
             self.preferredFileServerIp = preferredFileServerIp
             self.preferredFileServerIpv6 = preferredFileServerIpv6
@@ -5891,6 +5915,8 @@ extension FSxClientTypes {
         public var deploymentType: FSxClientTypes.WindowsDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public var fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located. For in-Amazon Web Services applications, we recommend that you launch your clients in the same Availability Zone (AZ) as your preferred file server to reduce cross-AZ data transfer costs and minimize latency.
         public var preferredSubnetId: Swift.String?
         /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing FSx for ONTAP SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
@@ -5910,6 +5936,7 @@ extension FSxClientTypes {
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             deploymentType: FSxClientTypes.WindowsDeploymentType? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration? = nil,
             preferredSubnetId: Swift.String? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfiguration? = nil,
             throughputCapacity: Swift.Int? = nil,
@@ -5923,6 +5950,7 @@ extension FSxClientTypes {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.preferredSubnetId = preferredSubnetId
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
@@ -9011,6 +9039,8 @@ extension FSxClientTypes {
         public var dailyAutomaticBackupStartTime: Swift.String?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public var diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public var fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration?
         /// The configuration Amazon FSx uses to join the Windows File Server instance to the self-managed Microsoft AD directory. You cannot make a self-managed Microsoft AD update request if there is an existing self-managed Microsoft AD update request in progress.
         public var selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates?
         /// Sets the target value for a file system's throughput capacity, in MB/s, that you are updating the file system to. Valid values are 8, 16, 32, 64, 128, 256, 512, 1024, 2048. You cannot make a throughput capacity update request if there is an existing throughput capacity update request in progress. For more information, see [Managing Throughput Capacity](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-throughput-capacity.html).
@@ -9023,6 +9053,7 @@ extension FSxClientTypes {
             automaticBackupRetentionDays: Swift.Int? = nil,
             dailyAutomaticBackupStartTime: Swift.String? = nil,
             diskIopsConfiguration: FSxClientTypes.DiskIopsConfiguration? = nil,
+            fsrmConfiguration: FSxClientTypes.WindowsFsrmConfiguration? = nil,
             selfManagedActiveDirectoryConfiguration: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates? = nil,
             throughputCapacity: Swift.Int? = nil,
             weeklyMaintenanceStartTime: Swift.String? = nil
@@ -9031,6 +9062,7 @@ extension FSxClientTypes {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -13427,6 +13459,24 @@ extension FSxClientTypes.WindowsFileSystemConfiguration {
         value.auditLogConfiguration = try reader["AuditLogConfiguration"].readIfPresent(with: FSxClientTypes.WindowsAuditLogConfiguration.read(from:))
         value.diskIopsConfiguration = try reader["DiskIopsConfiguration"].readIfPresent(with: FSxClientTypes.DiskIopsConfiguration.read(from:))
         value.preferredFileServerIpv6 = try reader["PreferredFileServerIpv6"].readIfPresent()
+        value.fsrmConfiguration = try reader["FsrmConfiguration"].readIfPresent(with: FSxClientTypes.WindowsFsrmConfiguration.read(from:))
+        return value
+    }
+}
+
+extension FSxClientTypes.WindowsFsrmConfiguration {
+
+    static func write(value: FSxClientTypes.WindowsFsrmConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventLogDestination"].write(value.eventLogDestination)
+        try writer["FsrmServiceEnabled"].write(value.fsrmServiceEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FSxClientTypes.WindowsFsrmConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FSxClientTypes.WindowsFsrmConfiguration()
+        value.fsrmServiceEnabled = try reader["FsrmServiceEnabled"].readIfPresent() ?? false
+        value.eventLogDestination = try reader["EventLogDestination"].readIfPresent()
         return value
     }
 }
@@ -14142,6 +14192,7 @@ extension FSxClientTypes.CreateFileSystemWindowsConfiguration {
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DeploymentType"].write(value.deploymentType)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["FsrmConfiguration"].write(value.fsrmConfiguration, with: FSxClientTypes.WindowsFsrmConfiguration.write(value:to:))
         try writer["PreferredSubnetId"].write(value.preferredSubnetId)
         try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfiguration.write(value:to:))
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
@@ -14463,6 +14514,7 @@ extension FSxClientTypes.UpdateFileSystemWindowsConfiguration {
         try writer["AutomaticBackupRetentionDays"].write(value.automaticBackupRetentionDays)
         try writer["DailyAutomaticBackupStartTime"].write(value.dailyAutomaticBackupStartTime)
         try writer["DiskIopsConfiguration"].write(value.diskIopsConfiguration, with: FSxClientTypes.DiskIopsConfiguration.write(value:to:))
+        try writer["FsrmConfiguration"].write(value.fsrmConfiguration, with: FSxClientTypes.WindowsFsrmConfiguration.write(value:to:))
         try writer["SelfManagedActiveDirectoryConfiguration"].write(value.selfManagedActiveDirectoryConfiguration, with: FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates.write(value:to:))
         try writer["ThroughputCapacity"].write(value.throughputCapacity)
         try writer["WeeklyMaintenanceStartTime"].write(value.weeklyMaintenanceStartTime)

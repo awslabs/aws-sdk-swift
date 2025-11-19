@@ -17,6 +17,8 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.ReadingClosures
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listReadingClosure
+@_spi(SmithyReadWrite) import func SmithyReadWrite.listWritingClosure
 @_spi(SmithyReadWrite) import func SmithyReadWrite.mapReadingClosure
 import protocol AWSClientRuntime.AWSServiceError
 import protocol ClientRuntime.HTTPError
@@ -1692,6 +1694,38 @@ public struct CancelStepsOutput: Swift.Sendable {
 
 extension EMRClientTypes {
 
+    /// Holds CloudWatch log configuration settings and metadata that specify settings like log files to monitor and where to send them.
+    public struct CloudWatchLogConfiguration: Swift.Sendable {
+        /// Specifies if CloudWatch logging is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool?
+        /// The ARN of the encryption key used to encrypt the logs.
+        public var encryptionKeyArn: Swift.String?
+        /// The name of the CloudWatch log group where logs are published.
+        public var logGroupName: Swift.String?
+        /// The prefix of the log stream name.
+        public var logStreamNamePrefix: Swift.String?
+        /// A map of log types to file names for publishing logs to the standard output or standard error streams for CloudWatch. Valid log types include STEP_LOGS, SPARK_DRIVER, and SPARK_EXECUTOR. Valid file names for each type include STDOUT and STDERR.
+        public var logTypes: [Swift.String: [Swift.String]]?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            encryptionKeyArn: Swift.String? = nil,
+            logGroupName: Swift.String? = nil,
+            logStreamNamePrefix: Swift.String? = nil,
+            logTypes: [Swift.String: [Swift.String]]? = nil
+        ) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logGroupName = logGroupName
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logTypes = logTypes
+        }
+    }
+}
+
+extension EMRClientTypes {
+
     /// Provides information about the Amazon EC2 instances in a cluster grouped by category. For example, key name, subnet ID, IAM instance profile, and so on.
     public struct Ec2InstanceAttributes: Swift.Sendable {
         /// A list of additional Amazon EC2 security group IDs for the master node.
@@ -1803,6 +1837,21 @@ extension EMRClientTypes {
             self.crossRealmTrustPrincipalPassword = crossRealmTrustPrincipalPassword
             self.kdcAdminPassword = kdcAdminPassword
             self.realm = realm
+        }
+    }
+}
+
+extension EMRClientTypes {
+
+    /// Contains CloudWatch log configuration metadata and settings.
+    public struct MonitoringConfiguration: Swift.Sendable {
+        /// CloudWatch log configuration settings and metadata that specify settings like log files to monitor and where to send them.
+        public var cloudWatchLogConfiguration: EMRClientTypes.CloudWatchLogConfiguration?
+
+        public init(
+            cloudWatchLogConfiguration: EMRClientTypes.CloudWatchLogConfiguration? = nil
+        ) {
+            self.cloudWatchLogConfiguration = cloudWatchLogConfiguration
         }
     }
 }
@@ -2808,7 +2857,7 @@ extension EMRClientTypes {
 
     /// Detailed information about an instance group.
     public struct InstanceGroupDetail: Swift.Sendable {
-        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
+        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public var bidPrice: Swift.String?
         /// The date/time the instance group was created.
         /// This member is required.
@@ -6241,6 +6290,8 @@ extension EMRClientTypes {
         public var logUri: Swift.String?
         /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
         public var masterPublicDnsName: Swift.String?
+        /// Contains Cloudwatch log configuration metadata and settings.
+        public var monitoringConfiguration: EMRClientTypes.MonitoringConfiguration?
         /// The name of the cluster. This parameter can't contain the characters <, >, $, |, or ` (backtick).
         public var name: Swift.String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an Amazon EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
@@ -6296,6 +6347,7 @@ extension EMRClientTypes {
             logEncryptionKmsKeyId: Swift.String? = nil,
             logUri: Swift.String? = nil,
             masterPublicDnsName: Swift.String? = nil,
+            monitoringConfiguration: EMRClientTypes.MonitoringConfiguration? = nil,
             name: Swift.String? = nil,
             normalizedInstanceHours: Swift.Int? = nil,
             osReleaseLabel: Swift.String? = nil,
@@ -6332,6 +6384,7 @@ extension EMRClientTypes {
             self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.masterPublicDnsName = masterPublicDnsName
+            self.monitoringConfiguration = monitoringConfiguration
             self.name = name
             self.normalizedInstanceHours = normalizedInstanceHours
             self.osReleaseLabel = osReleaseLabel
@@ -6360,7 +6413,7 @@ extension EMRClientTypes {
     public struct InstanceGroupConfig: Swift.Sendable {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates Amazon EC2 instances in response to the value of a CloudWatch metric. See [PutAutoScalingPolicy].
         public var autoScalingPolicy: EMRClientTypes.AutoScalingPolicy?
-        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
+        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public var bidPrice: Swift.String?
         /// Amazon EMR releases 4.x or later. The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public var configurations: [EMRClientTypes.Configuration]?
@@ -6492,7 +6545,7 @@ extension EMRClientTypes {
 
     /// The configuration specification for each instance type in an instance fleet. The instance fleet configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions.
     public struct InstanceTypeSpecification: Swift.Sendable {
-        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD.
+        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public var bidPrice: Swift.String?
         /// The bid price, as a percentage of On-Demand price, for each Amazon EC2 Spot Instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%).
         public var bidPriceAsPercentageOfOnDemandPrice: Swift.Double?
@@ -6755,7 +6808,7 @@ extension EMRClientTypes {
     public struct InstanceGroup: Swift.Sendable {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates Amazon EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public var autoScalingPolicy: EMRClientTypes.AutoScalingPolicyDescription?
-        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
+        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public var bidPrice: Swift.String?
         /// Amazon EMR releases 4.x or later. The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public var configurations: [EMRClientTypes.Configuration]?
@@ -7019,6 +7072,8 @@ public struct RunJobFlowInput: Swift.Sendable {
     public var logUri: Swift.String?
     /// The specified managed scaling policy for an Amazon EMR cluster.
     public var managedScalingPolicy: EMRClientTypes.ManagedScalingPolicy?
+    /// Contains CloudWatch log configuration metadata and settings.
+    public var monitoringConfiguration: EMRClientTypes.MonitoringConfiguration?
     /// The name of the job flow.
     /// This member is required.
     public var name: Swift.String?
@@ -7088,6 +7143,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         logEncryptionKmsKeyId: Swift.String? = nil,
         logUri: Swift.String? = nil,
         managedScalingPolicy: EMRClientTypes.ManagedScalingPolicy? = nil,
+        monitoringConfiguration: EMRClientTypes.MonitoringConfiguration? = nil,
         name: Swift.String? = nil,
         newSupportedProducts: [EMRClientTypes.SupportedProductConfig]? = nil,
         osReleaseLabel: Swift.String? = nil,
@@ -7121,6 +7177,7 @@ public struct RunJobFlowInput: Swift.Sendable {
         self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
         self.logUri = logUri
         self.managedScalingPolicy = managedScalingPolicy
+        self.monitoringConfiguration = monitoringConfiguration
         self.name = name
         self.newSupportedProducts = newSupportedProducts
         self.osReleaseLabel = osReleaseLabel
@@ -8068,6 +8125,7 @@ extension RunJobFlowInput {
         try writer["LogEncryptionKmsKeyId"].write(value.logEncryptionKmsKeyId)
         try writer["LogUri"].write(value.logUri)
         try writer["ManagedScalingPolicy"].write(value.managedScalingPolicy, with: EMRClientTypes.ManagedScalingPolicy.write(value:to:))
+        try writer["MonitoringConfiguration"].write(value.monitoringConfiguration, with: EMRClientTypes.MonitoringConfiguration.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["NewSupportedProducts"].writeList(value.newSupportedProducts, memberWritingClosure: EMRClientTypes.SupportedProductConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OSReleaseLabel"].write(value.osReleaseLabel)
@@ -9788,6 +9846,45 @@ extension EMRClientTypes.Cluster {
         value.ebsRootVolumeIops = try reader["EbsRootVolumeIops"].readIfPresent()
         value.ebsRootVolumeThroughput = try reader["EbsRootVolumeThroughput"].readIfPresent()
         value.extendedSupport = try reader["ExtendedSupport"].readIfPresent()
+        value.monitoringConfiguration = try reader["MonitoringConfiguration"].readIfPresent(with: EMRClientTypes.MonitoringConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRClientTypes.MonitoringConfiguration {
+
+    static func write(value: EMRClientTypes.MonitoringConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchLogConfiguration"].write(value.cloudWatchLogConfiguration, with: EMRClientTypes.CloudWatchLogConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.MonitoringConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRClientTypes.MonitoringConfiguration()
+        value.cloudWatchLogConfiguration = try reader["CloudWatchLogConfiguration"].readIfPresent(with: EMRClientTypes.CloudWatchLogConfiguration.read(from:))
+        return value
+    }
+}
+
+extension EMRClientTypes.CloudWatchLogConfiguration {
+
+    static func write(value: EMRClientTypes.CloudWatchLogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["EncryptionKeyArn"].write(value.encryptionKeyArn)
+        try writer["LogGroupName"].write(value.logGroupName)
+        try writer["LogStreamNamePrefix"].write(value.logStreamNamePrefix)
+        try writer["LogTypes"].writeMap(value.logTypes, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EMRClientTypes.CloudWatchLogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EMRClientTypes.CloudWatchLogConfiguration()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.logGroupName = try reader["LogGroupName"].readIfPresent()
+        value.logStreamNamePrefix = try reader["LogStreamNamePrefix"].readIfPresent()
+        value.encryptionKeyArn = try reader["EncryptionKeyArn"].readIfPresent()
+        value.logTypes = try reader["LogTypes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

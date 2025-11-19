@@ -3235,7 +3235,7 @@ extension Inspector2Client {
 
     /// Performs the `ListAccountPermissions` operation on the `Inspector2` service.
     ///
-    /// Lists the permissions an account has to configure Amazon Inspector.
+    /// Lists the permissions an account has to configure Amazon Inspector. If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListAccountPermissionsInput`)
     ///
