@@ -1,4 +1,4 @@
-# ``AWSSDKForSwift``
+# ``SDKForSwift``
 
 A pure-Swift SDK for accessing all published AWS services.
 
